@@ -12,7 +12,6 @@
     </thead>
     <tbody>
         @if(count($products) > 0)
-
           @foreach ($products as $product)
           <tr>
             <td>
@@ -28,8 +27,8 @@
                 ?>
               </div>
               <div class="d-flex flex-column justify-content-center">
-                <h6 class="mb-0 text-sm" style="color:#f81e3b ">
-                  {{ $product->ITEM_CODE}}
+                <h6 class="mb-0 text-sm">
+                  <span class="btn btn-link text-danger text-gradient px-3 mb-0">{{ $product->ITEM_CODE}}</span>
                 </h6>
               </div>
               </div></a>
@@ -41,7 +40,6 @@
             <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ number_format($product->RATE)}}</span> </td>
           </tr>
           @endforeach
-
         @ELSE
           <tr>
             <td colspan="6" style=" text-align: center;">NO DATA.</td>

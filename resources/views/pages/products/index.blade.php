@@ -59,8 +59,7 @@
                               </thead>
                               <tbody>
                                   @foreach ($products as $product)
-
-                                  <tr >
+                                  <tr>
                                       <td>
                                         <a href="{{ route('products.index') .'/'. $product->ITEM_CODE }} ">
                                           <div class="d-flex px-2 py-1">
@@ -73,27 +72,21 @@
                                                     echo '<img src="/img/products/coming_soon.jpg" class="avatar avatar-sm me-3" alt="user1">';
                                                 }
                                                ?>
-
                                              </div>
                                           <div class="d-flex flex-column justify-content-center">
                                             <h6 class="mb-0 text-sm">
                                               <span class="btn btn-link text-danger text-gradient px-3 mb-0">{{ $product->ITEM_CODE}}</span>
-
                                             </h6>
                                           </div>
                                         </div>
                                       </a>
-
                                       </td>
-                                      <td><a href="{{ route('products.index') .'/'. $product->ITEM_CODE }} "> <p class="text-xs font-weight-bold mb-0">{{ $product->ITEM_NAME}}</p> </a></td>
-                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->ITEM_UOM_CODE}}</span> </td>
-                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->ITEM_STATUS}}</span> </td>
-                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->NEW_ITEM}}</span> </td>
-                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ number_format($product->RATE)}}</span> </td>
-
-
+                                      <td><a href="{{ route('products.index') .'/'. $product->ITEM_CODE }} "> <p class="text-xs font-weight-bold mb-0">{{ $product->ITEM_NAME}}</p></a></td>
+                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->ITEM_UOM_CODE}}</span></td>
+                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->ITEM_STATUS}}</span></td>
+                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->NEW_ITEM}}</span></td>
+                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ number_format($product->RATE)}}</span></td>
                                   </tr>
-
                                   @endforeach
                               </tbody>
                           </table>
