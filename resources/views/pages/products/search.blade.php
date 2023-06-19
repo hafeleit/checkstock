@@ -16,19 +16,25 @@
           @foreach ($products as $product)
           <tr>
             <td>
-              <div class="d-flex px-2 py-1"> <div>
+              <a href="{{ route('products.index') .'/'. $product->ITEM_CODE }} ">
+              <div class="d-flex px-2 py-1"><div>
                 <?php
-                $image = '/img/products/' . $product->ITEM_CODE . '.jpg';
-                if (file_exists( public_path() . $image )) {
-                    echo '<img src="/img/products/'.$product->ITEM_CODE.'.jpg" class="avatar avatar-sm me-3" alt="user1">';
-                } else {
-                    echo '<img src="/img/products/coming_soon.jpg" class="avatar avatar-sm me-3" alt="user1">';
-                }
-                 ?>
-              </div> <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm"><a href="{{ route('products.index') .'/'. $product->ITEM_CODE }} ">{{ $product->ITEM_CODE}}</a></h6> </div> </div>
+                  $image = '/img/products/' . $product->ITEM_CODE . '.jpg';
+                  if (file_exists( public_path() . $image )) {
+                      echo '<img src="/img/products/'.$product->ITEM_CODE.'.jpg" class="avatar avatar-sm me-3" alt="user1">';
+                  } else {
+                      echo '<img src="/img/products/coming_soon.jpg" class="avatar avatar-sm me-3" alt="user1">';
+                  }
+                ?>
+              </div>
+              <div class="d-flex flex-column justify-content-center">
+                <h6 class="mb-0 text-sm" style="color:#f81e3b ">
+                  {{ $product->ITEM_CODE}}
+                </h6>
+              </div>
+              </div></a>
             </td>
-            <td> <p class="text-xs font-weight-bold mb-0">{{ $product->ITEM_NAME}}</p> </td>
+            <td><a href="{{ route('products.index') .'/'. $product->ITEM_CODE }} "> <p class="text-xs font-weight-bold mb-0">{{ $product->ITEM_NAME}}</p> </a></td>
             <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->ITEM_UOM_CODE}}</span> </td>
             <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->ITEM_STATUS}}</span> </td>
             <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->NEW_ITEM}}</span> </td>
@@ -38,7 +44,7 @@
 
         @ELSE
           <tr>
-            <td colspan="6" style=" text-align: center;">NO DATA</td>
+            <td colspan="6" style=" text-align: center;">NO DATA.</td>
           </tr>
         @ENDIF
     </tbody>
