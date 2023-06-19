@@ -18,15 +18,18 @@ class ProductController extends Controller
       $paginate = 20;
       $query = new Product();
 
-      if($request->search != ''){
+      if(isset($request->search)){
+        dd(1);
         $query = $query->where('item_code','like','%'.$request->search.'%');
         $query = $query->orWhere('item_name','like','%'.$request->search.'%');
-        $products = $query->paginate($paginate);
+        //$products = $query->paginate($paginate);
+        $products = $query->limit(100)->get();
         return view('pages.products.search',compact('products'))
                     ->with('i', (request()->input('page', 1) - 1) * $paginate);
       }
 
-      $products = $query->paginate($paginate);
+      //$products = $query->paginate($paginate);
+      $products = $query->limit(100)->get();
       return view('pages.products.index',compact('products'))
                   ->with('i', (request()->input('page', 1) - 1) * $paginate);
 
@@ -42,12 +45,16 @@ class ProductController extends Controller
 
     public function search_ajax(Request $request)
     {
-      if ($request->search != '') {
-          $products = Product::where('item_code', 'like', '%' . $request->search . '%')->paginate(20);
-      } else {
-          $products = Product::latest()->paginate(20);
-      }
-      return view('pages.products.search')->with('products', $products);
+      
+        $query = new Product();
+
+        $query = $query->where('item_code','like','%'.$request->search.'%');
+        $query = $query->orWhere('item_name','like','%'.$request->search.'%');
+        //$products = $query->paginate($paginate);
+        $products = $query->limit(100)->get();
+        return view('pages.products.search',compact('products'));
+
+
     }
 
     public function import()

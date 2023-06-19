@@ -59,26 +59,32 @@
                               </thead>
                               <tbody>
                                   @foreach ($products as $product)
-                                  <tr>
+
+                                  <tr >
                                       <td>
-                                        <div class="d-flex px-2 py-1">
-                                          <div>
-                                            <?php
-                                            $image = '/img/products/' . $product->ITEM_CODE . '.jpg';
-                                            if (file_exists( public_path() . $image )) {
-                                                echo '<img src="/img/products/'.$product->ITEM_CODE.'.jpg" class="avatar avatar-sm me-3" alt="user1">';
-                                            } else {
-                                                echo '<img src="/img/products/coming_soon.jpg" class="avatar avatar-sm me-3" alt="user1">';
-                                            }
-                                             ?>
+                                        <a href="{{ route('products.index') .'/'. $product->ITEM_CODE }} ">
+                                          <div class="d-flex px-2 py-1">
+                                            <div>
+                                              <?php
+                                                $image = '/img/products/' . $product->ITEM_CODE . '.jpg';
+                                                if (file_exists( public_path() . $image )) {
+                                                    echo '<img src="/img/products/'.$product->ITEM_CODE.'.jpg" class="avatar avatar-sm me-3" alt="user1">';
+                                                } else {
+                                                    echo '<img src="/img/products/coming_soon.jpg" class="avatar avatar-sm me-3" alt="user1">';
+                                                }
+                                               ?>
 
+                                             </div>
+                                          <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-sm" style="color:#f81e3b ">
+                                                {{ $product->ITEM_CODE}}
+                                            </h6>
                                           </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                          <h6 class="mb-0 text-sm"><a style="color: #f81e3b;" href="{{ route('products.index') .'/'. $product->ITEM_CODE }} ">{{ $product->ITEM_CODE}}</a></h6> </div> </div>
-
+                                        </div>
+                                      </a>
 
                                       </td>
-                                      <td> <p class="text-xs font-weight-bold mb-0">{{ $product->ITEM_NAME}}</p> </td>
+                                      <td><a href="{{ route('products.index') .'/'. $product->ITEM_CODE }} "> <p class="text-xs font-weight-bold mb-0">{{ $product->ITEM_NAME}}</p> </a></td>
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->ITEM_UOM_CODE}}</span> </td>
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->ITEM_STATUS}}</span> </td>
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->NEW_ITEM}}</span> </td>
@@ -86,14 +92,15 @@
 
 
                                   </tr>
+
                                   @endforeach
                               </tbody>
                           </table>
-
+                          <?php  /*
                           <div class="card-footer pb-0">
                             {!! $products->links('pagination::bootstrap-4') !!}
-                          </div>
-
+                          </div>*/
+                          ?>
 
                         </div>
                     </div>
@@ -106,10 +113,10 @@
 
             $( "#search" ).on( "keyup", function() {
               let search = $(this).val();
-              if(search != ''){
+
                 $.ajax({
                   method: "GET",
-                  url: "{{ route('products.index') }}",
+                  url: "{{ route('products.search-ajax') }}",
                   data: {
                     _token: '{{csrf_token()}}',
                     search: search,
@@ -118,7 +125,7 @@
                     //console.log(msg);
                   $('#get-products').html( msg );
                 });
-              }
+
             });
 
           });

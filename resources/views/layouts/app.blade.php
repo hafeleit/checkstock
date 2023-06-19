@@ -4,10 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="../img/apple-icon.png">
-    <link rel="icon" type="../image/png" href="/img/favicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="../img/hafele_logo.png">
+    <link rel="icon" type="../image/png" href="/img/hafele_logo.png">
     <title>
-        HAFELE APP
+        HAFELE CHECK STOCK
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -65,7 +65,7 @@
     <!-- Github buttons -->
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/argon-dashboard.js"></script>
-  
+
 </body>
 
 </html>

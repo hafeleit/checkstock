@@ -15,7 +15,6 @@
                       echo '<img src="/img/products/coming_soon.jpg" alt="Image placeholder" class="card-img-top">';
                   }
                    ?>
-                    <img src="/img/products/{{ $product->ITEM_CODE }}.jpg" alt="Image placeholder" class="card-img-top">
                     <div class="card-body pt-0">
                     </div>
                 </div>
@@ -76,7 +75,11 @@
                                 </div>
                             </li>
                             <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-
+                              <div class="d-flex flex-column">
+                                <h6 class="mb-3 text-sm">Catalog</h6>
+                                <span class="mb-2 text-sm">Comming soon
+                                </span>
+                              </div>
                             </li>
 
                         </ul>
