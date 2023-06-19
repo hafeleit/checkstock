@@ -47,7 +47,7 @@
                           <table class="table align-items-center mb-0">
                               <thead>
                                   <tr>
-                                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="padding-left: 70px;">ITEM CODE</th>
+                                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="padding-left: 90px;">ITEM CODE</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ITEM NAME</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ITEM UOM CODE</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ITEM STATUS</th>
@@ -76,8 +76,9 @@
 
                                              </div>
                                           <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm" style="color:#f81e3b ">
-                                                {{ $product->ITEM_CODE}}
+                                            <h6 class="mb-0 text-sm">
+                                              <span class="btn btn-link text-danger text-gradient px-3 mb-0">{{ $product->ITEM_CODE}}</span>
+
                                             </h6>
                                           </div>
                                         </div>
