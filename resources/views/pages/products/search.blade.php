@@ -14,7 +14,7 @@
         @foreach ($products as $product)
         <tr>
           <td>
-            <div class="d-flex px-2 py-1"> <div> <img src="/img/products/495.60.072.jpg" class="avatar avatar-sm me-3" alt="user1"> </div> <div class="d-flex flex-column justify-content-center">
+            <div class="d-flex px-2 py-1"> <div> <img src="/img/products/{{ $product->ITEM_CODE }}.jpg" class="avatar avatar-sm me-3" alt="user1"> </div> <div class="d-flex flex-column justify-content-center">
                       <h6 class="mb-0 text-sm"><a href="{{ route('products.index') .'/'. $product->ITEM_CODE }} ">{{ $product->ITEM_CODE}}</a></h6> </div> </div>
           </td>
           <td> <p class="text-xs font-weight-bold mb-0">{{ $product->ITEM_NAME}}</p> </td>

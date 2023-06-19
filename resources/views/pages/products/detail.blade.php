@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-md-4 mt-4">
                 <div class="card">
-                    <img src="/img/products/coming_soon.jpg" alt="Image placeholder" class="card-img-top">
+                    <img src="/img/products/{{ $product->ITEM_CODE }}.jpg" alt="Image placeholder" class="card-img-top">
                     <div class="card-body pt-0">
                     </div>
                 </div>
