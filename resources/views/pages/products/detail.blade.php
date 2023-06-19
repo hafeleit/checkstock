@@ -7,6 +7,14 @@
         <div class="row">
             <div class="col-md-4 mt-4">
                 <div class="card">
+                  <?php
+                  $image = '/img/products/' . $product->ITEM_CODE . '.jpg';
+                  if (file_exists( public_path() . $image )) {
+                      echo '<img src="/img/products/'.$product->ITEM_CODE.'.jpg" alt="Image placeholder" class="card-img-top">';
+                  } else {
+                      echo '<img src="/img/products/coming_soon.jpg" alt="Image placeholder" class="card-img-top">';
+                  }
+                   ?>
                     <img src="/img/products/{{ $product->ITEM_CODE }}.jpg" alt="Image placeholder" class="card-img-top">
                     <div class="card-body pt-0">
                     </div>
