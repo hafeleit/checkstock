@@ -16,12 +16,14 @@
                               <h6 class="mb-0">Check Stock  </h6>
 
                           </div>
-                          <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Update Date: {{ $products[0]->created_at }}</p>
+
                           @IF(request()->input('admin') == 'admin')
                           <div class="col-6 text-end">
                               <a class="btn bg-gradient-dark mb-0" href="{{ route('products.create') }}"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add Product</a>
                           </div>
                           @ENDIF
+
+                          <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Update Date: {{ $products[0]->created_at ?? '' }}</p>
                       </div>
                   </div>
                   <div class="card-body p-3">
