@@ -51,21 +51,20 @@
                                     <span class="mb-2 text-sm">ITEM UOM CODE:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product['ITEM_UOM_CODE'] }}</span>
                                     </span>
-                                    <span class="mb-2 text-sm">PACK CONV FACTOR:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PACK_CONV_FACTOR'] }}</span>
+
+                                    <span class="mb-2 text-sm">STOCK IN HAND:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['STOCK_IN_HAND'] }}</span>
                                     </span>
-                                    <span class="mb-2 text-sm">PACK PARENT UOM CODE:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PACK_PARENT_UOM_CODE'] }}</span>
+                                    <span class="mb-2 text-sm">AVAILABLE STOCK:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['AVAILABLE_STOCK'] }}</span>
                                     </span>
-                                    <span class="mb-2 text-sm">LOCN CODE:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['LOCN_CODE'] }}</span>
+                                    <span class="mb-2 text-sm">PENDING SO:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PENDING_SO'] }}</span>
                                     </span>
-                                    <span class="mb-2 text-sm">LOCN NAME:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['LOCN_NAME'] }}</span>
+                                    <span class="mb-2 text-sm">PROJECT ITEM:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PROJECT_ITEM'] }}</span>
                                     </span>
-                                    <span class="mb-2 text-sm">FREESTOCK:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['FREESTOCK'] }}</span>
-                                    </span>
+
                                     <span class="mb-2 text-sm">RATE:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product['RATE'] }}</span>
                                     </span>

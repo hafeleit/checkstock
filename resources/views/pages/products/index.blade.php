@@ -51,10 +51,11 @@
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ITEM NAME</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ITEM UOM CODE</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ITEM STATUS</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STOCK IN HAND</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PENDING SO</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ABALABLE STOCK</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NEW ITEM</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">RATE</th>
-
-
                                   </tr>
                               </thead>
                               <tbody>
@@ -84,8 +85,11 @@
                                       <td><a href="{{ route('products.index') .'/'. $product->ITEM_CODE }} "> <p class="text-xs font-weight-bold mb-0">{{ $product->ITEM_NAME}}</p></a></td>
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->ITEM_UOM_CODE}}</span></td>
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->ITEM_STATUS}}</span></td>
+                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->STOCK_IN_HAND}}</span></td>
+                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->PENDING_SO}}</span></td>
+                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->AVAILABLE_STOCK}}</span></td>
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->NEW_ITEM}}</span></td>
-                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ number_format($product->RATE)}}</span></td>
+                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ ($product->RATE != '' ? number_format($product->RATE) : '')}}</span></td>
                                   </tr>
                                   @endforeach
                               </tbody>

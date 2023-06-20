@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -17,21 +18,60 @@ class ProductController extends Controller
     {
       $paginate = 20;
       $query = new Product();
-
-      if(isset($request->search)){
-        dd(1);
-        $query = $query->where('item_code','like','%'.$request->search.'%');
-        $query = $query->orWhere('item_name','like','%'.$request->search.'%');
-        //$products = $query->paginate($paginate);
-        $products = $query->limit(100)->get();
-        return view('pages.products.search',compact('products'))
-                    ->with('i', (request()->input('page', 1) - 1) * $paginate);
-      }
-
-      //$products = $query->paginate($paginate);
-      $products = $query->limit(100)->get();
+      $products = $query->inRandomOrder()->limit(100)->get();
       return view('pages.products.index',compact('products'))
                   ->with('i', (request()->input('page', 1) - 1) * $paginate);
+
+    }
+
+    public function sync_products(){
+      exit;
+      ini_set('max_execution_time', 0); // 0 = Unlimited
+      try {
+
+        $filename = storage_path('/csv/ONLINE_PRODUCT.csv');
+        $file = fopen($filename, "r");
+        $all_data = array();
+        $num = 0;
+
+        while ( ($data = fgetcsv($file, 200, ",")) !==FALSE ) {
+
+            if($num == 0){
+                $num++;
+            }
+            else{
+                $all_data[] =
+                  [
+                    'ITEM_CODE' => $data[0],
+                    'ITEM_NAME' => $data[1],
+                    'ITEM_STATUS' => $data[2],
+                    'ITEM_INVENTORY_CODE' => $data[3],
+                    'ITEM_REPL_TIME' => $data[4],
+                    'ITEM_GRADE_CODE_1' => $data[5],
+                    'ITEM_UOM_CODE' => $data[6],
+                    'STOCK_IN_HAND' => $data[7],
+                    'AVAILABLE_STOCK' => $data[8],
+                    'PENDING_SO' => $data[9],
+                    'PROJECT_ITEM' => $data[10],
+                    'RATE' => $data[11],
+                    'NEW_ITEM' => $data[12],
+                  ];
+            }
+        }
+
+        DB::beginTransaction();
+
+        Product::query()->delete();
+        Product::insert($all_data);
+
+        DB::commit();
+
+        return "Success";
+
+      } catch (\Exception $e) {
+          DB::rollback();
+          return $e->getMessage();
+      }
 
     }
 
@@ -45,7 +85,7 @@ class ProductController extends Controller
 
     public function search_ajax(Request $request)
     {
-      
+
         $query = new Product();
 
         $query = $query->where('item_code','like','%'.$request->search.'%');

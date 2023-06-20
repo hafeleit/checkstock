@@ -20,11 +20,10 @@ return new class extends Migration
             $table->string('ITEM_REPL_TIME')->nullable();
             $table->string('ITEM_GRADE_CODE_1')->nullable();
             $table->string('ITEM_UOM_CODE')->nullable();
-            $table->string('PACK_CONV_FACTOR')->nullable();
-            $table->string('PACK_PARENT_UOM_CODE')->nullable();
-            $table->string('LOCN_CODE')->nullable();
-            $table->string('LOCN_NAME')->nullable();
-            $table->string('FREESTOCK')->nullable();
+            $table->string('STOCK_IN_HAND')->nullable();
+            $table->string('AVAILABLE_STOCK')->nullable();
+            $table->string('PENDING_SO')->nullable();
+            $table->string('PROJECT_ITEM')->nullable();
             $table->string('RATE')->nullable();
             $table->string('NEW_ITEM')->nullable();
             $table->integer('STATUS')->default(1);

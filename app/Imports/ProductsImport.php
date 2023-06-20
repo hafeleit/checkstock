@@ -34,13 +34,13 @@ class ProductsImport implements ToModel, WithStartRow
           'ITEM_REPL_TIME' => $row[4] ?? '',
           'ITEM_GRADE_CODE_1' => $row[5] ?? '',
           'ITEM_UOM_CODE' => $row[6] ?? '',
-          'PACK_CONV_FACTOR' => $row[7] ?? '',
-          'PACK_PARENT_UOM_CODE' => $row[8] ?? '',
-          'LOCN_CODE' => $row[9] ?? '',
-          'LOCN_NAME' => $row[10] ?? '',
-          'FREESTOCK' => $row[11] ?? '',
-          'RATE' => $row[12] ?? '',
-          'NEW_ITEM' => $row[13] ?? '',
+
+          'STOCK_IN_HAND' => $row[7] ?? '',
+          'AVAILABLE_STOCK' => $row[8] ?? '',
+          'PENDING_SO' => $row[9] ?? '',
+          'PROJECT_ITEM' => $row[10] ?? '',
+          'RATE' => $row[11] ?? '',
+          'NEW_ITEM' => $row[12] ?? '',
       ]);
 
 
