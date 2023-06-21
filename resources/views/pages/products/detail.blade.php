@@ -31,7 +31,7 @@
                                 <div class="d-flex flex-column">
                                     <h6 class="mb-3 text-sm">Product Information</h6>
                                     <span class="mb-2 text-sm">ITEM CODE:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['ITEM_CODE'] }}</span>
+                                      <span class="text-danger font-weight-bold ms-sm-2">{{ $product['ITEM_CODE'] }}</span>
                                     </span>
                                     <span class="mb-2 text-sm">ITEM NAME:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product['ITEM_NAME'] }}</span>
@@ -43,7 +43,7 @@
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product['ITEM_INVENTORY_CODE'] }}</span>
                                     </span>
                                     <span class="mb-2 text-sm">ITEM REPL TIME:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['ITEM_REPL_TIME'] }}</span>
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['ITEM_REPL_TIME'] }}</span> (DAY)
                                     </span>
                                     <span class="mb-2 text-sm">ITEM GRADE CODE 1:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product['ITEM_GRADE_CODE_1'] }}</span>
@@ -65,8 +65,12 @@
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PROJECT_ITEM'] }}</span>
                                     </span>
 
-                                    <span class="mb-2 text-sm">RATE:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['RATE'] }}</span>
+                                    <span class="mb-2 text-sm">LIST PRICE INCLUDE VAT:
+                                      <span class="text-danger font-weight-bolder ms-sm-2">{{ ($product->RATE7 != '' ? number_format($product->RATE7, 2) : '')}}</span>
+
+                                      @if(request()->input('admin') == 'admin')
+                                      {{ ' / '. $product['CURRWAC'] }}
+                                      @endif
                                     </span>
                                     <span class="mb-2 text-sm">NEW ITEM:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product['NEW_ITEM'] }}</span>
