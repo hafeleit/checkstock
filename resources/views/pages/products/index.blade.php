@@ -66,11 +66,11 @@
                                           <div class="d-flex px-2 py-1">
                                             <div>
                                               <?php
-                                                $image = '/img/products/' . $product->ITEM_CODE . '.jpg';
+                                                $image = '/storage/img/products/' . $product->ITEM_CODE . '.jpg';
                                                 if (file_exists( public_path() . $image )) {
-                                                    echo '<img src="/img/products/'.$product->ITEM_CODE.'.jpg" class="avatar avatar-sm me-3" alt="user1">';
+                                                    echo '<img src="/storage/img/products/'.$product->ITEM_CODE.'.jpg" class="avatar avatar-sm me-3" alt="user1">';
                                                 } else {
-                                                    echo '<img src="/img/products/coming_soon.jpg" class="avatar avatar-sm me-3" alt="user1">';
+                                                    echo '<img src="/storage/img/coming_soon.jpg" class="avatar avatar-sm me-3" alt="user1">';
                                                 }
                                                ?>
                                              </div>
