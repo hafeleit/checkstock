@@ -26,8 +26,7 @@ use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\ProductController;
 
-Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
-
+Route::get('/', function () {return redirect('/products');});
   Route::resource('products', ProductController::class);
   Route::post('products-import', [ProductController::class, 'import'])->name('products.import');
   Route::get('products-search-ajax', [ProductController::class, 'search_ajax'])->name('products.search-ajax');
