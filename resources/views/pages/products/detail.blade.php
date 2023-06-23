@@ -80,7 +80,7 @@
                             <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
                               <div class="d-flex flex-column">
                                 <h6 class="mb-3 text-sm">Catalog</h6>
-                                <span class="mb-2 text-sm">Comming soon
+                                <span class="mb-2 text-sm">Coming soon
                                 </span>
                               </div>
                             </li>
