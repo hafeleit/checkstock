@@ -1,7 +1,5 @@
 @extends('layouts.appguest', ['class' => 'g-sidenav-show bg-gray-100'])
-<div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
-    <span class="mask bg-primary opacity-6"></span>
-</div>
+
 @section('content')
     @include('layouts.navbars.guest.topnav', ['title' => 'Products'])
     <div class="container-fluid py-4">
@@ -55,7 +53,7 @@
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PENDING SO</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ABALABLE STOCK</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NEW ITEM</th>
-                                      <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRICE (VAT)</th>
+                                      <th class="text-end text-secondary text-xxs font-weight-bolder opacity-7">PRICE (Incl.VAT)</th>
                                   </tr>
                               </thead>
                               <tbody>
