@@ -22,6 +22,7 @@
                           @ENDIF
 
                           <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Update Date: {{ $products[0]->created_at ?? '' }}</p>
+                          <span class="text-danger text-sm">ก่อนทำการสั่งซื้อกรุณาตรวจสอบข้อมูลกับพนักงานขายอีกครั้ง (Kindly contact the salesperson before ordering.)</span>
                       </div>
                   </div>
                   <div class="card-body p-3">
@@ -30,6 +31,7 @@
                             <input id="search" name="search" type="text" class="form-control" placeholder="Search by item code or item name">
                           </div>
                       </div>
+
                   </div>
               </div>
           </div>

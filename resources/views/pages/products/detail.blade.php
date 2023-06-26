@@ -75,6 +75,7 @@
                                     <span class="mb-2 text-sm">NEW ITEM:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product['NEW_ITEM'] }}</span>
                                     </span>
+                                    <span class="text-danger text-lg">ก่อนทำการสั่งซื้อกรุณาตรวจสอบข้อมูลกับพนักงานขายอีกครั้ง (Kindly contact the salesperson before ordering.)</span>
                                 </div>
                             </li>
                             <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
