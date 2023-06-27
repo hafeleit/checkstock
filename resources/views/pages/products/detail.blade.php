@@ -64,7 +64,9 @@
                                     <span class="mb-2 text-sm">PROJECT ITEM:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PROJECT_ITEM'] }}</span>
                                     </span>
-
+                                    <span class="mb-2 text-sm">LIST PRICE EXCLUDE VAT:
+                                      <span class="text-danger font-weight-bolder ms-sm-2">{{ ($product->RATE != '' ? number_format($product->RATE, 2) : '')}}</span>
+                                    </span>
                                     <span class="mb-2 text-sm">LIST PRICE INCLUDE VAT:
                                       <span class="text-danger font-weight-bolder ms-sm-2">{{ ($product->RATE7 != '' ? number_format($product->RATE7, 2) : '')}}</span>
 
