@@ -23,7 +23,7 @@
             <div class="col-md-8 mt-4">
                 <div class="card">
                     <div class="card-header pb-0 px-3">
-                        <a class="opacity-9 text-white" href="{{ route('products.index') }}"><button type="button" class="btn btn-primary">Back</button></a>
+                        <a class="opacity-9 text-white" href="{{ route('products.index') .'?view='.request()->input('view') }}"><button type="button" class="btn btn-primary">Back</button></a>
                     </div>
                     <div class="card-body pt-4 p-3">
                         <ul class="list-group">
@@ -33,7 +33,7 @@
                                     <span class="mb-2 text-sm">ITEM CODE:
                                       <span class="text-danger font-weight-bold ms-sm-2">{{ $product['ITEM_CODE'] }}</span>
                                     </span>
-                                    <span class="mb-2 text-sm">ITEM NAME:
+                                    <span class="mb-2 text-sm">ITEM NAME EN:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product['ITEM_NAME'] }}</span>
                                     </span>
                                     <span class="mb-2 text-sm">ITEM STATUS:
@@ -80,6 +80,49 @@
                                     <span class="text-danger text-lg">ก่อนทำการสั่งซื้อกรุณาตรวจสอบข้อมูลกับพนักงานขายอีกครั้ง (Kindly contact the salesperson before ordering.)</span>
                                 </div>
                             </li>
+                            @if(request()->input('view') == 'sales')
+                            <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                                <div class="d-flex flex-column">
+                                    <h6 class="mb-3 text-sm">More specific details</h6>
+                                    <span class="mb-2 text-sm">ITEM NAME TH:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['ITEM_NAME_TH'] }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">ITEM BRAND:
+                                      <span class="text-danger font-weight-bold ms-sm-2">{{ $product[' ITEM_BRAND'] }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">ITEM GRADE CODE 2:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['ITEM_GRADE_CODE_2'] }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">PRODUCT CATEGORY:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PRODUCT_CATEGORY'] }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">PRODUCT GROUP:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PRODUCT_GROUP'] }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">PRODUCT AIS:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PRODUCT_AIS'] }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">SAI SA SUPP CODE:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['SAI_SA_SUPP_CODE'] }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">PURCHASER NAME:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PURCHASER_NAME'] }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">PM NAME:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PM_NAME'] }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">SALES CATEGORY:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['SALES_CATEGORY'] }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">PRICE LIST UOM:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PRICE_LIST_UOM'] }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">PACK CONV FACTOR:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PACK_CONV_FACTOR'] }}</span>
+                                    </span>
+                                </div>
+                            </li>
+                            @endif
                             <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
                               <div class="d-flex flex-column">
                                 <h6 class="mb-3 text-sm">Catalog</h6>

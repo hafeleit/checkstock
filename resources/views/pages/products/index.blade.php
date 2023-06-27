@@ -2,8 +2,9 @@
 
 @section('content')
     @include('layouts.navbars.guest.topnav', ['title' => 'Products'])
-    <div class="container-fluid py-4">
 
+    <div class="container-fluid py-4">
+555<input type="text" name="test" value="{{request()->input('test')}}">
       <div class="row">
         <div class="col-12">
           <div class="col-md-12 mb-lg-0 mb-4">
@@ -62,7 +63,7 @@
                                   @foreach ($products as $product)
                                   <tr>
                                       <td>
-                                        <a href="{{ route('products.index') .'/'. $product->ITEM_CODE }} ">
+                                        <a href="{{ route('products.index') .'/'. $product->ITEM_CODE .'?view='.request()->input('view') }} ">
                                           <div class="d-flex px-2 py-1">
                                             <div>
                                               <?php
@@ -82,7 +83,7 @@
                                         </div>
                                       </a>
                                       </td>
-                                      <td><a href="{{ route('products.index') .'/'. $product->ITEM_CODE }} "> <p class="text-xs font-weight-bold mb-0">{{ $product->ITEM_NAME}}</p></a></td>
+                                      <td><a href="{{ route('products.index') .'/'. $product->ITEM_CODE .'?view='.request()->input('view') }} "> <p class="text-xs font-weight-bold mb-0">{{ $product->ITEM_NAME}}</p></a></td>
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->ITEM_UOM_CODE}}</span></td>
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->ITEM_STATUS}}</span></td>
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->STOCK_IN_HAND}}</span></td>
