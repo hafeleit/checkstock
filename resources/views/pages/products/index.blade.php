@@ -4,7 +4,7 @@
     @include('layouts.navbars.guest.topnav', ['title' => 'Products'])
 
     <div class="container-fluid py-4">
-555<input type="text" name="test" value="{{request()->input('test')}}">
+      <input type="hidden" name="view" id="view" value="{{request()->input('view')}}">
       <div class="row">
         <div class="col-12">
           <div class="col-md-12 mb-lg-0 mb-4">
@@ -112,6 +112,7 @@
 
             $( "#search" ).on( "keyup", function() {
               let search = $(this).val();
+              let view = $('#view').val();
 
                 $.ajax({
                   method: "GET",
@@ -119,6 +120,7 @@
                   data: {
                     _token: '{{csrf_token()}}',
                     search: search,
+                    view: view,
                   }
                 }).done(function( msg ) {
                     //console.log(msg);
