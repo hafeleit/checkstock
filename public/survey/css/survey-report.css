@@ -1,0 +1,235 @@
+/* * CSS for the survey-report.html web page.
+ *  @author Sanket Rajgarhia
+ *  @date   09/04/2022 (dd/mm/yyyy)
+ *  @version 1.0
+ * */
+
+/*****************************************************************************/
+/* HEADER TAGS - <h1> <h2> and <h3>                                          */
+/*****************************************************************************/
+
+h1 {
+    background-color: #F1F1F1;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 20px;
+    padding: 15px;
+    text-align: center;
+}
+
+h2 {
+    background-color: #F1F1F1;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 0;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    text-align: center;
+}
+
+h3 {
+    background-color: #F1F1F1;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    margin: 0 !important;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    text-align: center;
+}
+
+
+/*****************************************************************************/
+/* <p> TAGS                                                                  */
+/*****************************************************************************/
+
+p {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: calc(10px + (11 - 10) * ((100vw - 500px) / (1200 - 300))) !important;
+    word-break: break-word;
+}
+
+/*****************************************************************************/
+/* MENU LINKS                                                                */
+/*****************************************************************************/
+
+#report-print:hover,
+#report-download:hover{
+    color: darkblue !important;
+    background-color: lightskyblue;
+}
+
+.report-link {
+    background-color: #F1F1F1;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+    padding: 5px !important;
+    margin-right: 5px;
+    font-family: 'Noto Sans JP', sans-serif !important;
+    font-size: 1rem;
+    color: black !important;
+    min-width: 100px;
+    text-align: center;
+}
+
+@media screen and (max-width: 992px) {
+    .report-link {
+        border: none;
+        font-size: 1.4rem;
+        padding: 10px !important;
+        margin-bottom: 5px;
+        max-width: 150px;
+        text-align: start;
+    }
+}
+
+/*****************************************************************************/
+/* SURVEY HEADING <div>                                                      */
+/*****************************************************************************/
+
+/* survey-report-heading page heading <div> */
+#survey-report-heading {
+    padding: 0 ! important;
+}
+
+/*****************************************************************************/
+/* STATUS MESSAGE (ERROR) DISPLAY <div> AND ASSOCIATED CLASSES               */
+/*****************************************************************************/
+
+/* Status div */
+#status {
+    position: relative;
+}
+
+.status-message {
+    text-align: center;
+}
+
+/* Severity of status (error) message */
+.high-severity {
+    color: rgb(236, 11, 22);
+}
+
+.normal-severity {
+    color: black;
+}
+
+.low-severity {
+    color: grey;
+}
+
+/* Hide and Display the status (error) message display <div> */
+.status-hidden {
+    max-height: 0;
+    opacity: 0;
+    transition: opacity 3000ms, max-height 4000ms ease-out;
+}
+
+.status-displayed {
+    margin-top: 2rem;
+    max-height: 1000px;
+    opacity: 1;
+    transition: max-height 3000ms ease-in, opacity 4000ms;
+}
+
+/*****************************************************************************/
+/* SURVEY REPORT HEADER <div>                                                */
+/*****************************************************************************/
+
+.report-title {
+    border: 1px dotted #c0bdbd;
+}
+
+/* The customer and sales person detail columns */
+.header-detail {
+    border-left: 1px dotted #c0bdbd;
+    border-bottom: 1px dotted #c0bdbd;
+    /* flex: 1; */
+    padding-top: 1rem;
+}
+
+#sales-person-details {
+    border-right: 1px dotted #c0bdbd;
+}
+
+/* Ensure field labels are bold */
+.field-label {
+    font-weight: 700;
+}
+
+/* Styling the flex cards - on screen sizes 768px and less */
+@media screen and (max-width: 768px) {
+
+    /* Ensure that the right border for the customer section comes up if
+    th sales section is below it */
+    #customer-details {
+        border-right: 1px dotted #c0bdbd;
+    }
+
+}
+
+/*****************************************************************************/
+/* SURVEY REPORT BODY <div>                                                  */
+/*****************************************************************************/
+
+/* The report enclosing <div> */
+#report-body {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+#survey-report-body-section {
+    border-left: 1px dotted #c0bdbd;
+    border-right: 1px dotted #c0bdbd;
+    border-bottom: 1px dotted #c0bdbd;
+}
+
+#door-lock-details {
+    padding-top: 1rem;
+}
+
+.warning {
+    color: rgb(236, 11, 22);
+    font-weight: 400 ! important;
+}
+
+.caution {
+    color: rgb(100, 96, 96);
+    font-weight: 400 ! important;
+}
+
+/*****************************************************************************/
+/* PRINT RELATED CSS                                                         */
+/*****************************************************************************/
+
+/* CSS Formatting for printing the page */
+@media print {
+
+    html,
+    body {
+        background-color: #fff !important;
+        -webkit-print-color-adjust: exact;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* Hide the following <div> tags when printing */
+    #page-header,
+    #home-icon,
+    #hafele-header-logo,
+    #survey-report-heading,
+    #page-footer {
+        display: none !important;
+    }
+
+}
+
+/* Leave one inch at the top for letter head */
+@page {
+    margin-top: 1in;
+}
+
+/*****************************************************************************/
+/* END OF FILE                                                               */
+/*****************************************************************************/

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta label="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <!-- Bootstrap v 4.6.0 Style Sheet -->
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous">
+
+    <!-- Custom Styles CSS -->
+    <link rel="stylesheet" type="text/css" href="./../css/global.css">
+    <link rel="stylesheet" type="text/css" href="./../css/survey-report.css">
+
+    <!-- Font Awesome Kit -->
+    <script src="https://kit.fontawesome.com/94f1334f9a.js"
+      crossorigin="anonymous"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&display=swap"
+      rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/ico"
+      href="./../favicon/favicon.ico" />
+
+    <!-- Page Title -->
+    <title></title>
+
+  </head>
+
+  <body class="page-fade-in">
+
+    <!-- Page Header -->
+    <div id="page-header" class="container-fluid d-flex">
+      <div id="home-icon" class="align-self-center">
+        <a href="index.html">
+          <i class="fa-solid fa-house"></i>
+        </a>
+      </div>
+      <div id="hafele-header-logo" class="align-self-center">
+        <img id="header-image" src="./../assets/images/maxresdefault.jpg"
+          alt="hafele logo">
+      </div>
+      <div id="language" class="align-self-center">
+        <a id="lang-en" class="selected-language"
+          href="javascript: changeLanguage('EN');">EN</a> |
+        <a id="lang-th" href="javascript: changeLanguage('ไทย');">ไทย</a>
+      </div>
+    </div>
+    <!-- End Page Header -->
+
+    <!-- Page Heading -->
+    <div id="survey-report-heading" class="container-fluid">
+
+      <h1 id="page-heading-h1"></h1>
+
+      <!-- Start Status Message -->
+      <div id="status" class="status-hidden">
+        <p class="normal-severity status-message">Placeholder text</p>
+      </div>
+      <!-- End Status Message -->
+
+    </div>
+    <!-- End Page Heading -->
+
+    <!-- Main container -->
+    <div class="container">
+
+      <!-- Report Menu -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light pl-0 mt-2">
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navBarMenu" aria-controls="navBarMenu"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mt-2" id="navBarMenu">
+          <div class="navbar-nav">
+            <a id="report-print" class="nav-item nav-link active report-link"
+              href="javascript:window.print();"></a>
+            <a id="report-download" class="nav-item nav-link active report-link"
+              href="javascript:createPDF()"></a>
+          </div>
+        </div>
+      </nav>
+      <!-- End Report Menu -->
+
+      <!-- Report Body -->
+      <div id="report-body">
+
+        <!-- Report Title -->
+        <h2 id="report-title" class="report-title"></h2>
+        <!-- End Report Title -->
+
+        <!-- Survey Report Header Section -->
+        <div id="survey-report-header-section" class="container-fluid">
+
+          <!-- Customer Details -->
+          <div class="row">
+
+            <div id="customer-details" class="header-detail col-sm-12 col-md-6">
+
+              <!-- Customer Field Name -->
+              <div id="customer-field" class="data-box container-fluid">
+                <div id="customerName" class="row"></div>
+                <div id="customerMobile" class="row"></div>
+                <div id="customerAddress" class="row"></div>
+                <div id="customerInformation" class="row"></div>
+              </div>
+              <!-- End Customer Field Name -->
+
+            </div>
+            <!-- End Customer Details -->
+
+            <!-- Sales Person Details -->
+            <div id="sales-person-details"
+              class="header-detail col-sm-12 col-md-6">
+
+              <!-- Sales Person Field Name -->
+              <div id="sales-person-field" class="data-box container-fluid">
+                <div id="salesPersonID" class="row"></div>
+                <div id="salesPersonName" class="row"></div>
+                <div id="salesPersonLocation" class="row"></div>
+              </div>
+              <!-- End Sales Person Field Name -->
+
+            </div>
+            <!-- End Sales Person Details -->
+
+          </div>
+
+        </div>
+        <!-- Survey Report Header Section -->
+
+        <!-- Survey Report Body Section -->
+        <div id="survey-report-body-section">
+
+          <div id="survey-details"></div>
+
+          <!-- Door and Lock details section -->
+          <div id="door-lock-details" class="container-fluid">
+
+            <div id="lockModel" class="row"></div>
+            <div id="installationLocation" class="row"></div>
+            <div id="installationLocationMessage" class="row"></div>
+            <div id="doorCondition" class="row"></div>
+            <div id="doorConditionMessage" class="row"></div>
+            <div id="existingDoorRetrofit" class="row"></div>
+            <div id="existingDoorRetrofitMessage" class="row"></div>
+            <div id="existingDoorRetrofitCaution" class="row"></div>
+            <div id="doorType" class="row"></div>
+            <div id="doorTypeMessage" class="row"></div>
+            <div id="swingDoorType" class="row"></div>
+            <div id="swingDoorTypeMessage" class="row"></div>
+            <div id="swingDoorJamb" class="row"></div>
+            <div id="swingDoorJambMessage" class="row"></div>
+            <div id="swingDoorJambCaution" class="row"></div>
+            <div id="doorThickness" class="row"></div>
+            <div id="doorThicknessMessage" class="row"></div>
+            <div id="doorThicknessInput" class="row"></div>
+            <div id="doorThicknessInputMessage" class="row"></div>
+            <div id="doorMaterial" class="row"></div>
+            <div id="doorMaterialMessage" class="row"></div>
+            <div id="doorLeaf" class="row"></div>
+            <div id="doorLeafMessage" class="row"></div>
+
+          </div>
+          <!-- End Door and Lock details section -->
+
+        </div>
+        <!-- End Survey Report Body Section -->
+
+      </div>
+      <!-- End Report Body -->
+
+    </div>
+    <!-- End Main container -->
+
+    <!-- Spacer div -->
+    <div id="spacer">
+      <!-- A <div> having the same heigh as the <footer> tag to prevent contents of <body>
+        from going under the absolutely positioned <footer> tag when screen resizes. -->
+    </div>
+    <!-- End div -->
+
+    <!-- Page Footer -->
+    <footer id="page-footer" class="container-fluid" text-center>
+      <p class="copyright">Copyright © Hafele 2022</p>
+    </footer>
+    <!-- End Page Footer -->
+
+    <!-- Bootstrap v 4.6.0 javascript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous">
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous">
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+      integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Information Capture Javascript -->
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js">
+    </script>
+
+    <script src="./../js/controller/global.js" type="text/javascript"></script>
+
+    <script src="./../js/controller/survey-report.js" type="text/javascript">
+    </script>
+
+  </body>
+
+</html>

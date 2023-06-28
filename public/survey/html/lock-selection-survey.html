@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap v 4.6.0 Style Sheet -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+
+    <!-- Custom Styles CSS -->
+    <link rel="stylesheet" type="text/css" href="./../css/global.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./../css/lock-selection-survey.css"
+    />
+
+    <!-- Font Awesome Kit -->
+    <script
+      src="https://kit.fontawesome.com/94f1334f9a.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="shortcut icon"
+      type="image/ico"
+      href="./../favicon/favicon.ico"
+    />
+
+    <!-- Page Title -->
+    <title></title>
+  </head>
+
+  <body class="page-fade-in">
+    <!-- Page Header -->
+    <div id="page-header" class="container-fluid d-flex">
+      <div id="home-icon" class="align-self-center">
+        <a href="index.html">
+          <i class="fa-solid fa-house"></i>
+        </a>
+      </div>
+      <div id="hafele-header-logo" class="align-self-center">
+        <img
+          id="header-image"
+          src="./../assets/images/maxresdefault.jpg"
+          alt="hafele logo"
+        />
+      </div>
+      <div id="language" class="align-self-center">
+        <a
+          id="lang-en"
+          class="selected-language"
+          href="javascript: changeLanguage('EN');"
+          >EN</a
+        >
+        |
+        <a id="lang-th" href="javascript: changeLanguage('ไทย');">ไทย</a>
+      </div>
+    </div>
+    <!-- End Page Header -->
+
+    <!-- Page Heading -->
+    <div id="survey-heading" class="container-fluid">
+      <h1 id="page-heading-h1"></h1>
+
+      <!-- Start Status Message -->
+      <div id="status" class="status-hidden">
+        <p class="normal-severity status-message">Placeholder text</p>
+      </div>
+      <!-- End Status Message -->
+    </div>
+    <!-- End Page Heading -->
+
+    <!-- Main container -->
+    <div class="container">
+      <!-- Page Body -->
+      <div id="survey-body">
+        <!-- Capture Lock and Door Details -->
+        <div id="lock-information-capture" class="flex-component card-fade-in">
+          <!-- Card 1 -->
+          <div id="card-1" class="bg-white rounded-lg shadow">
+            <!-- Card Heading -->
+            <div class="card-heading">
+              <h3 id="door-lock-card-heading"></h3>
+            </div>
+            <!-- End Card Heading -->
+
+            <!-- Card Body -->
+            <div class="card-body">
+              <!-- Lock Model Selection Field -->
+              <div id="lock-model-selection-div" class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fa-solid fa-lock"></i
+                    ></span>
+                  </div>
+
+                  <select
+                    id="lock-model-group"
+                    class="custom-select custom-select-extended"
+                  >
+                    <optgroup>
+                      <option id="label-lock-model" value="" selected></option>
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+              <!-- End Lock Model Selection Field -->
+
+              <!-- Installation Location Selection Field -->
+              <div id="installation-location-selection-div" class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fa-solid fa-door-open"></i
+                    ></span>
+                  </div>
+
+                  <select
+                    id="installation-location-group"
+                    class="custom-select custom-select-extended"
+                  >
+                    <option
+                      id="label-installation-location"
+                      value=""
+                      selected
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Icons for selection -->
+                <div class="icon"></div>
+                <!-- End Icons for selection -->
+
+                <!-- Message -->
+                <div class="field-info">
+                  <label
+                    id="message-installation-location"
+                    class="high-severity message fade-out hide"
+                  ></label>
+                </div>
+                <!-- End Message -->
+              </div>
+              <!-- End Installation Location Selection Field -->
+
+              <!-- Door Condition Selection Field -->
+              <div id="door-condition-selection-div" class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fas fa-ribbon"></i
+                    ></span>
+                  </div>
+
+                  <select
+                    id="door-condition-group"
+                    class="custom-select custom-select-extended"
+                  >
+                    <option
+                      id="label-door-condition"
+                      value=""
+                      selected
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Icons for selection -->
+                <div class="icon"></div>
+                <!-- End Icons for selection -->
+
+                <!-- Message -->
+                <div class="field-info">
+                  <label
+                    id="message-door-condition"
+                    class="high-severity message fade-out hide"
+                  ></label>
+                </div>
+                <!-- End Message -->
+              </div>
+              <!-- End Door Condition Selection Field -->
+
+              <!-- Existing Door Retrofit Selection Field -->
+              <div
+                id="existing-door-retrofit-selection-div"
+                class="form-group fade-out hide"
+              >
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fa-solid fa-grip-vertical"></i
+                    ></span>
+                  </div>
+
+                  <select
+                    id="existing-door-retrofit-group"
+                    class="custom-select custom-select-extended"
+                  >
+                    <option
+                      id="label-existing-door-retrofit"
+                      value=""
+                      selected
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Icons for selection -->
+                <div class="icon"></div>
+                <!-- End Icons for selection -->
+
+                <!-- Message -->
+                <div class="field-info">
+                  <label
+                    id="message-existing-door-retrofit"
+                    class="high-severity message fade-out hide"
+                  ></label>
+                </div>
+                <!-- End Message -->
+
+                <!-- Caution -->
+                <div class="field-caution">
+                  <label
+                    id="caution-existing-door-retrofit"
+                    class="low-severity caution fade-out hide"
+                  ></label>
+                </div>
+                <!-- End Caution -->
+              </div>
+              <!-- End Existing Door Retrofit Selection Field -->
+
+              <!-- Door Type Selection Field -->
+              <div id="door-type-selection-div" class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fas fa-door-closed"></i
+                    ></span>
+                  </div>
+
+                  <select
+                    id="door-type-group"
+                    class="custom-select custom-select-extended"
+                  >
+                    <option id="label-door-type" value="" selected></option>
+                  </select>
+                </div>
+
+                <!-- Icons for selection -->
+                <div class="icon"></div>
+                <!-- End Icons for selection -->
+
+                <!-- Message -->
+                <div class="field-info">
+                  <label
+                    id="message-door-type"
+                    class="high-severity message fade-out hide"
+                  ></label>
+                </div>
+                <!-- End Message -->
+              </div>
+              <!-- End Door Type Selection Field -->
+
+              <!-- Swing Door Type Selection Field -->
+              <div
+                id="swing-door-type-selection-div"
+                class="form-group fade-out hide"
+              >
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fas fa-door-closed"></i
+                    ></span>
+                  </div>
+
+                  <select
+                    id="swing-door-type-group"
+                    class="custom-select custom-select-extended"
+                  >
+                    <option
+                      id="label-swing-door-type"
+                      value=""
+                      selected
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Icons for selection -->
+                <div class="icon"></div>
+                <!-- End Icons for selection -->
+
+                <!-- Message -->
+                <div class="field-info">
+                  <label
+                    id="message-swing-door-type"
+                    class="high-severity message fade-out hide"
+                  ></label>
+                </div>
+                <!-- End Message -->
+              </div>
+              <!-- End Swing Door Type Selection Field -->
+
+              <!-- Swing Door Jamb Selection Field -->
+              <div
+                id="swing-door-jamb-selection-div"
+                class="form-group fade-out hide"
+              >
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fas fa-columns"></i
+                    ></span>
+                  </div>
+
+                  <select
+                    id="swing-door-jamb-group"
+                    class="custom-select custom-select-extended"
+                  >
+                    <option
+                      id="label-swing-door-jamb"
+                      value=""
+                      selected
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Icons for selection -->
+                <div class="icon"></div>
+                <!-- End Icons for selection -->
+
+                <!-- Message -->
+                <div class="field-info">
+                  <label
+                    id="message-swing-door-jamb"
+                    class="high-severity message fade-out hide"
+                  ></label>
+                </div>
+                <!-- End Message -->
+
+                <!-- Caution -->
+                <div class="field-caution">
+                  <label
+                    id="caution-swing-door-jamb"
+                    class="low-severity caution fade-out hide"
+                  ></label>
+                </div>
+                <!-- End Caution -->
+              </div>
+              <!-- End Swing Door Jamb Selection Field -->
+
+              <!-- Door Thickness Selection Field -->
+              <div id="door-thickness-selection-div" class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fas fa-cube"></i
+                    ></span>
+                  </div>
+
+                  <select
+                    id="door-thickness-group"
+                    class="custom-select custom-select-extended"
+                  >
+                    <option
+                      id="label-door-thickness"
+                      value=""
+                      selected
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Message -->
+                <div class="field-info">
+                  <label
+                    id="message-door-thickness"
+                    class="high-severity message fade-out hide"
+                  ></label>
+                </div>
+                <!-- End Message -->
+              </div>
+              <!-- End Door Thickness Selection Field -->
+
+              <!-- Door Thickness Input Field -->
+              <div
+                id="door-thickness-input-div"
+                class="form-group fade-out hide"
+              >
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fas fa-cube"></i
+                    ></span>
+                  </div>
+
+                  <input
+                    id="input-door-thickness"
+                    type="number"
+                    min="1"
+                    class="form-control"
+                    placeholder=""
+                    required
+                  />
+                </div>
+
+                <!-- Message -->
+                <div class="field-info">
+                  <label
+                    id="message-door-thickness-input"
+                    class="high-severity message fade-out hide"
+                  ></label>
+                </div>
+                <!-- End Message -->
+              </div>
+              <!-- End Door Thickness Input Field -->
+
+              <!-- Door Material Selection Field -->
+              <div id="door-material-selection-div" class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fab fa-hive"></i
+                    ></span>
+                  </div>
+
+                  <select
+                    id="door-material-group"
+                    class="custom-select custom-select-extended"
+                  >
+                    <option id="label-door-material" value="" selected></option>
+                  </select>
+                </div>
+
+                <!-- Message -->
+                <div class="field-info">
+                  <label
+                    id="message-door-material"
+                    class="high-severity message fade-out hide"
+                  ></label>
+                </div>
+                <!-- End Message -->
+              </div>
+              <!-- End Door Material Selection Field -->
+
+              <!-- Door Leaf Selection Field -->
+              <div id="door-leaf-selection-div" class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fas fa-border-all"></i
+                    ></span>
+                  </div>
+
+                  <select
+                    id="door-leaf-group"
+                    class="custom-select custom-select-extended"
+                  >
+                    <optgroup>
+                      <option
+                        id="label-door-leaf"
+                        value=""
+                        data-door-type=""
+                        selected
+                      ></option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <!-- Icons for selection -->
+                <div class="icon"></div>
+                <!-- End Icons for selection -->
+
+                <!-- Message -->
+                <div class="field-info">
+                  <label
+                    id="message-door-leaf"
+                    class="high-severity message fade-out hide"
+                  ></label>
+                </div>
+                <!-- End Message -->
+              </div>
+              <!-- End Door Leaf Selection Field -->
+            </div>
+            <!-- End Card Body -->
+
+            <!-- Card Footer -->
+            <div class="card-footer text-center">
+              <input
+                id="lock-selection-previous"
+                class="btn btn-primary"
+                type="submit"
+                value=""
+              />
+              <input
+                id="lock-selection-next"
+                class="btn btn-success"
+                type="submit"
+                value=""
+              />
+            </div>
+            <!-- End Card Footer -->
+          </div>
+          <!-- End Card 1 -->
+        </div>
+        <!-- End Capture Lock and Door Details -->
+
+        <!-- Capture Customer Details -->
+        <div
+          id="customer-information-capture"
+          class="flex-component card-fade-out"
+        >
+          <!-- Card 1 -->
+          <div id="card-1" class="bg-white rounded-lg shadow">
+            <!-- Card Heading -->
+            <div class="card-heading">
+              <h3 id="customer-card-heading"></h3>
+            </div>
+            <!-- End Card Heading -->
+
+            <!-- Card Body -->
+            <div class="card-body">
+              <!-- Customer Name Field -->
+              <div id="customer-name-div" class="input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fas fa-user"></i
+                  ></span>
+                </div>
+                <input
+                  id="input-customer-name"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  required
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <!-- End Customer Name Field -->
+
+              <!-- Customer Mobile No. -->
+              <div id="customer-mobile-div" class="input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fas fa-mobile"></i
+                  ></span>
+                </div>
+                <input
+                  id="input-customer-mobile"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  required
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <!-- End Customer Mobile No. -->
+
+              <!-- Customer Address - Line 1 -->
+              <div id="customer-address1-div" class="input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fas fa-building"></i
+                  ></span>
+                </div>
+                <input
+                  id="input-customer-address1"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  required
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <!-- End Customer Address - Line 1 -->
+
+              <!-- Customer Address - Line 2 -->
+              <div
+                id="customer-address2-div"
+                class="input-group form-group optional"
+              >
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fas fa-building"></i
+                  ></span>
+                </div>
+                <input
+                  id="input-customer-address2"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <!-- End Customer Address - Line 2 -->
+
+              <!-- Customer Address - Line 3 -->
+              <div
+                id="customer-address3-div"
+                class="input-group form-group optional"
+              >
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fas fa-building"></i
+                  ></span>
+                </div>
+                <input
+                  id="input-customer-address3"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <!-- End Customer Address - Line 3 -->
+
+              <!-- Customer Additional Information -->
+              <div
+                id="customer-info-div"
+                class="input-group form-group optional"
+              >
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fa fa-info"></i
+                  ></span>
+                </div>
+                <textarea
+                  id="input-customer-info"
+                  class="form-control"
+                  placeholder=""
+                  rows="5"
+                  cols="50"
+                ></textarea>
+                <div class="invalid-feedback"></div>
+              </div>
+              <!-- End Customer Additional Information -->
+            </div>
+            <!-- End Card Body -->
+
+            <!-- Card Footer -->
+            <div class="card-footer text-center">
+              <input
+                id="customer-previous"
+                class="btn btn-primary"
+                type="button"
+                value=""
+              />
+              <input
+                id="customer-next"
+                class="btn btn-success"
+                type="button"
+                value=""
+              />
+            </div>
+            <!-- End Card Footer -->
+          </div>
+          <!-- End Card 1 -->
+        </div>
+        <!-- End Capture Customer Details -->
+
+        <!-- Capture Sales Person Details -->
+        <div
+          id="sale-person-information-capture"
+          class="flex-component card-fade-out"
+        >
+          <!-- Card 1 -->
+          <div id="card-1" class="bg-white rounded-lg shadow">
+            <!-- Card Heading -->
+            <div class="card-heading">
+              <h3 id="sales-person-card-heading"></h3>
+            </div>
+            <!-- End Card Heading -->
+
+            <!-- Card Body -->
+            <div class="card-body">
+              <!-- Sales Person ID Field -->
+              <div id="sales-person-id-div" class="input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fa-solid fa-id-badge"></i
+                  ></span>
+                </div>
+                <input
+                  id="input-sales-person-id"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  required
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <!-- End Sales Person ID Field -->
+
+              <!-- Sales Person Name Field -->
+              <div id="sales-person-name-div" class="input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fas fa-user"></i
+                  ></span>
+                </div>
+                <input
+                  id="input-sales-person-name"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  required
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <!-- End Sales Person Name Field -->
+
+              <!-- Sales Person Location Information -->
+              <div
+                id="sales-person-location-div"
+                class="input-group form-group optional"
+              >
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fa-solid fa-location-dot"></i
+                  ></span>
+                </div>
+                <textarea
+                  id="input-sales-person-info"
+                  class="form-control"
+                  placeholder=""
+                  rows="3"
+                  cols="50"
+                ></textarea>
+                <div class="invalid-feedback"></div>
+              </div>
+              <!-- End Sales Person Location Information -->
+            </div>
+            <!-- End Card Body -->
+
+            <!-- Card Footer -->
+            <div class="card-footer text-center">
+              <input
+                id="sales-person-previous"
+                class="btn btn-primary"
+                type="button"
+                value=""
+              />
+              <input
+                id="sales-person-next"
+                class="btn btn-success"
+                type="button"
+                value=""
+              />
+            </div>
+            <!-- End Card Footer -->
+          </div>
+          <!-- End Card 1 -->
+        </div>
+        <!-- End Capture Sales Person Details -->
+      </div>
+      <!-- End Page Body -->
+    </div>
+    <!-- End Main container -->
+
+    <!-- Spacer div -->
+    <div id="spacer">
+      <!-- A <div> having the same heigh as the <footer> tag to prevent contents of <body>
+        from going under the absolutely positioned <footer> tag when screen resizes. -->
+    </div>
+    <!-- End div -->
+
+    <!-- Page Footer -->
+    <footer id="page-footer" class="container-fluid" text-center>
+      <p class="copyright">Copyright © Hafele 2022</p>
+    </footer>
+    <!-- End Page Footer -->
+
+    <!-- Bootstrap v 4.6.0 javascript -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+      integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Information Capture Javascript -->
+    <script src="https://apis.google.com/js/api.js"></script>
+
+    <script src="./../js/controller/global.js" type="text/javascript"></script>
+
+    <script
+      src="./../js/controller/lock-selection-survey-global.js"
+      type="text/javascript"
+    ></script>
+    <script
+      src="./../js/controller/lock-selection-survey-customer-card.js"
+      type="text/javascript"
+    ></script>
+    <script
+      src="./../js/controller/lock-selection-survey-sales-person-card.js"
+      type="text/javascript"
+    ></script>
+    <script
+      src="./../js/controller/lock-compatibility.js"
+      type="text/javascript"
+    ></script>
+    <script
+      src="./../js/controller/lock-selection-survey-lock-card.js"
+      type="text/javascript"
+    ></script>
+  </body>
+</html>

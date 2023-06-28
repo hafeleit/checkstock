@@ -1,0 +1,99 @@
+/* * CSS for the file index.html
+ *  @author Sanket Rajgarhia
+ *  @date   03/04/2022 (dd/mm/yyyy)
+ *  @version 1.0
+ * */
+
+/*****************************************************************************/
+/* HTML TAGS                                                                 */
+/*****************************************************************************/
+
+h5 {
+    font-size: 1rem;
+}
+
+/*****************************************************************************/
+/* HAFELE LOGO - <div> and containing <img> tag                              */
+/*****************************************************************************/
+
+/* Ensure that the <div> stretches across the full width of the screen */
+#hafele-logo {
+    background-color: white;
+    text-align: center;
+    width: 100vw;
+}
+
+/* Ensure that the Hafele logo image fills the container <div> */
+#hafele-logo-img {
+    border: 1px solid white;
+    width: 60vw;
+    object-fit: fill;
+}
+
+/*****************************************************************************/
+/* page-body - CONTAINER DIV                                                 */
+/*****************************************************************************/
+
+/* Provide spacing to the body from the Hafele Logo section */
+#page-body {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: calc(10px + (14 - 10) * ((100vw - 500px) / (1200 - 300))) !important;
+    padding-top: 5%;
+}
+
+/*****************************************************************************/
+/* GENERAL CARDS STYLING                                                     */
+/*****************************************************************************/
+
+/* Provides the top and bottom margin for all columns (cards) being laid out in
+the layout grid. This is important when the cards collapse for smaller screens and
+stack vertically. */
+.col-margin {
+    margin-top: 0.8%;
+    margin-bottom: 0.8%;
+}
+
+/* Styling the card header */
+.card-header-extended {
+    background-color: rgb(41, 39, 39);
+    color: white;
+}
+
+/* Styling the card footer */
+.card-footer-extended {
+    border-top: 0px;
+}
+
+.custom-select-extended {
+    font-size: calc(10px + (14 - 10) * ((100vw - 500px) / (1200 - 300))) !important;
+}
+
+/*****************************************************************************/
+/* LOCK SELECTION STYLING                                                    */
+/*****************************************************************************/
+
+/* Hide the suggestion message - but ensure that it occupies space on the 
+page */
+.hide-suggestion {
+    visibility: hidden;
+}
+
+#suitability-message {
+    color: #343131b8;
+}
+
+p>.field-name {
+    color: red;
+}
+
+/*****************************************************************************/
+/* DOOR SPECIFICATION STYLING                                                */
+/*****************************************************************************/
+
+.highlight-text {
+    color: red;
+}
+
+/*****************************************************************************/
+/* END OF FILE                                                               */
+/*****************************************************************************/

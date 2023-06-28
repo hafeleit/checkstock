@@ -1,0 +1,290 @@
+/* * CSS for all web pages.
+ *  @author Sanket Rajgarhia
+ *  @date   03/04/2022 (dd/mm/yyyy)
+ *  @version 1.0
+ * */
+
+/*****************************************************************************/
+/* TOP LEVEL TAGS - <html> <header> and <body>                               */
+/*****************************************************************************/
+
+/* <html>, <header> and <body> tags */
+html,
+header,
+body {
+    background-color: #F9F9F9;
+    font-size: 1rem;
+    font-weight: 400;
+    min-height: 100vh;
+    min-width: 100vw;
+    padding: 0;
+}
+
+/* <body> needs to be relatively positioned to accommodate the absolutely
+positioned footer tag */
+body {
+    position: relative;
+}
+
+/*****************************************************************************/
+/* HEADER AND FOOTER SECTION                                                 */
+/*****************************************************************************/
+
+/* The page header */
+#page-header {
+    background-color: black;
+    min-height: 10vh;
+}
+
+#language {
+    min-width: 60px;
+    color: white;
+}
+
+#lang-en {
+    text-decoration: none;
+    color: white;
+}
+
+#lang-en:hover {
+    color: #007bff !important;
+}
+
+#lang-th {
+    text-decoration: none;
+    color: white;
+}
+
+#lang-th:hover {
+    color: #007bff !important;
+}
+
+.selected-language {
+    color: red !important;
+}
+
+#home-icon>a {
+    text-decoration: none;
+}
+
+#home-icon>a>i {
+    color: rgba(223, 216, 216, 0.922);
+    font-size: 1.5rem;
+}
+
+#home-icon>a:hover>i {
+    color: red;
+}
+
+#hafele-header-logo {
+    text-align: center;
+    width: 100%;
+}
+
+#header-image {
+    max-height: 50px;
+    padding-bottom: 0;
+    margin-bottom: 0 !important;
+}
+
+/* The spacer div has the same minimum height as that of the absolutely
+positioned page footer to prevent contents of the body div from going
+under the absolutely positioned footer div - when screen resizes */
+#spacer {
+    min-height: 5vh;
+}
+
+/* The page footer */
+#page-footer {
+    background-color: black;
+    color: white;
+
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+
+    position: absolute;
+    bottom: 0;
+    max-height: 5vh;
+}
+
+/* Copy right information in the footer */
+.copyright {
+    font-size: 0.7rem;
+}
+
+/*****************************************************************************/
+/* HIDE CARD                                                                 */
+/*****************************************************************************/
+
+.hide {
+    display: none;
+}
+
+/*****************************************************************************/
+/* ANIMATE FADE OUT AND FADE IN                                                                */
+/*****************************************************************************/
+
+
+.page-fade-in {
+    animation: fadeIn ease 3s;
+    -webkit-animation: fadeIn ease 3s;
+    -moz-animation: fadeIn ease 3s;
+    -o-animation: fadeIn ease 3s;
+    -ms-animation: fadeIn ease 3s;
+}
+
+.card-fade-in {
+    flex-basis: 50%;
+    opacity: 1;
+    overflow: hidden;
+    transition: flex-basis 1s, opacity 3000ms;
+}
+
+/* Styling the flex cards - on screen sizes 768px and less */
+@media screen and (max-width: 768px) {
+
+    .card-fade-in {
+        flex-basis: 100%;
+
+        opacity: 1;
+        overflow: hidden;
+        transition: flex-basis 1s, opacity 3000ms;
+    }
+
+}
+
+.fade-in {
+    animation: fadeIn ease 1s;
+    -webkit-animation: fadeIn ease 1s;
+    -moz-animation: fadeIn ease 1s;
+    -o-animation: fadeIn ease 1s;
+    -ms-animation: fadeIn ease 1s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.page-fade-out {
+    animation: fadeIn ease 3s;
+    -webkit-animation: fadeIn ease 3s;
+    -moz-animation: fadeIn ease 3s;
+    -o-animation: fadeIn ease 3s;
+    -ms-animation: fadeIn ease 3s;
+}
+
+.card-fade-out {
+    flex-basis: 0px !important;
+    opacity: 0;
+    overflow: hidden;
+    max-height: 0;
+}
+
+.fade-out {
+    animation: fadeOut ease 1s;
+    -webkit-animation: fadeOut ease 1s;
+    -moz-animation: fadeOut ease 1s;
+    -o-animation: fadeOut ease 1s;
+    -ms-animation: fadeOut ease 1s;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@-moz-keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@-o-keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@-ms-keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/*****************************************************************************/
+/* END OF FILE                                                               */
+/*****************************************************************************/

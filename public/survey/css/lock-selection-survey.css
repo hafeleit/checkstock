@@ -1,0 +1,191 @@
+/* * CSS for the file lock-selection-survey.html
+ *  @author Sanket Rajgarhia
+ *  @date   31/03/2022 (dd/mm/yyyy)
+ *  @version 1.0
+ * */
+
+/*****************************************************************************/
+/* HEADER TAGS - <h1> <h2> and <H3>                                          */
+/*****************************************************************************/
+
+h1 {
+  background-color: #f1f1f1;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 20px;
+  padding: 15px;
+  text-align: center;
+}
+
+h2 {
+  color: #080e64;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 18px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  text-align: center;
+}
+
+h3 {
+  color: rgb(182, 21, 21);
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  text-align: center;
+}
+
+/*****************************************************************************/
+/* INPUT TAGS - <input>                                                      */
+/*****************************************************************************/
+
+input,
+textarea,
+label {
+  font-size: calc(
+    10px + (14 - 10) * ((100vw - 500px) / (1200 - 300))
+  ) !important;
+}
+
+/*****************************************************************************/
+/* SURVEY HEADING <div>                                                      */
+/*****************************************************************************/
+
+/* survey-heading page heading <div> */
+
+#survey-heading {
+  padding: 0 !important;
+}
+
+/*****************************************************************************/
+/* STATUS MESSAGE (ERROR) DISPLAY <div> AND ASSOCIATED CLASSES               */
+/*****************************************************************************/
+
+/* Status div */
+
+#status {
+  position: relative;
+}
+
+.status-message {
+  text-align: center;
+}
+
+/* Severity of status (error) message */
+
+.high-severity {
+  color: rgb(236, 11, 22);
+}
+
+.normal-severity {
+  color: black;
+}
+
+.low-severity {
+  color: grey;
+}
+
+/* Hide and Display the status (error) message display <div> */
+
+.status-hidden {
+  max-height: 0;
+  opacity: 0;
+  transition: opacity 3000ms, max-height 4000ms ease-out;
+}
+
+.status-displayed {
+  margin-top: 2rem;
+  max-height: 1000px;
+  opacity: 1;
+  transition: max-height 3000ms ease-in, opacity 4000ms;
+}
+
+/*****************************************************************************/
+/* SURVEY BODY <div> AND ASSOCIATED CLASSES                                  */
+/*****************************************************************************/
+
+/* survey-body page body <div> */
+
+#survey-body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+/* Flex component to layout the cards inside the survey-body <div> */
+
+.flex-component {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+/*****************************************************************************/
+/* ICONS STYLING                                                             */
+/*****************************************************************************/
+
+.icon > img {
+  border: 1px dotted pink;
+  display: inline;
+  max-height: 100px !important;
+  padding: 10px;
+  margin: 10px;
+}
+
+/*****************************************************************************/
+/* INPUT VALIDATION - AND ASSOCIATED CLASSES                                 */
+/*****************************************************************************/
+
+.prepend-invalid {
+  background-color: red;
+}
+
+.prepend-valid {
+  background-color: green;
+}
+
+.prepend-invalid-combo {
+  background-color: #f57b83;
+  border: 1px solid red !important;
+}
+
+.prepend-valid-combo {
+  background-color: #7ab67e;
+  border: 1px solid green !important;
+}
+
+/*****************************************************************************/
+
+/* INPUT PREPEND GROUP TRANSPARENCY CONTROL - AND ASSOCIATED CLASSES         */
+
+/*****************************************************************************/
+
+.input-group-text-transparent {
+  opacity: 0.5;
+}
+
+.input-group-text-opaque {
+  opacity: 1;
+}
+
+/*****************************************************************************/
+/* GENERAL CARDS STYLING                                                     */
+/*****************************************************************************/
+
+.custom-select-extended {
+  font-size: calc(
+    10px + (14 - 10) * ((100vw - 500px) / (1200 - 300))
+  ) !important;
+}
+
+.message,
+.caution {
+  margin-top: 10px;
+  box-shadow: none !important;
+  font-size: 0.8rem;
+}
+
+/*****************************************************************************/
+/* END OF FILE                                                               */
+/*****************************************************************************/
