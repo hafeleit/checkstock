@@ -102,9 +102,6 @@
                                     <span class="mb-2 text-sm">PRODUCT AIS:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PRODUCT_AIS'] }}</span>
                                     </span>
-                                    <span class="mb-2 text-sm">SAI SA SUPP CODE:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product['SAI_SA_SUPP_CODE'] }}</span>
-                                    </span>
                                     <span class="mb-2 text-sm">PURCHASER NAME:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product['PURCHASER_NAME'] }}</span>
                                     </span>
