@@ -27,6 +27,11 @@ use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {return redirect('/products');});
+
+  Route::get('warranty', function(){
+    $url = 'https://www.hafelethailand.com/downloads-support/online-warranty-registration/';
+    return Redirect::to($url);
+  });
   Route::resource('products', ProductController::class);
   Route::post('products-import', [ProductController::class, 'import'])->name('products.import');
   Route::get('products-search-ajax', [ProductController::class, 'search_ajax'])->name('products.search-ajax');
