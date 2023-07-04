@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\api\ProductController as APIProductController;
-
+use App\Http\Controllers\api\GetOrderController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('sync_products', [ProductController::class, 'sync_products']);
 Route::resource('products', APIProductController::class);
+Route::resource('getorder', GetOrderController::class);
