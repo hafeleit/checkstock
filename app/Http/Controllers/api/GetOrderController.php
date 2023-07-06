@@ -216,7 +216,13 @@ class GetOrderController extends Controller
             }
 
             $data_excel[$l][] = 'DIS_PROMO';
-            $data_excel[$l][] = (string)$order->sellerdiscount;//sellerdiscount
+
+            if($i+1 == $list_cnt){ //sellerdiscount
+              $data_excel[$l][] = '0';
+            }else{
+              $data_excel[$l][] = (string)$order->sellerdiscount;
+            }
+
             $data_excel[$l][] = $order->customerphone ?? '';
             $data_excel[$l][] = $order->customerphone ?? '';
 
@@ -279,9 +285,9 @@ class GetOrderController extends Controller
         }
 
         if($excel){
-          //$this->sendLine("Total number of orders: " . $new_order_count);
+          $this->sendLine("Total number of orders: " . $new_order_count);
         }else{
-          //$this->sendLine("Total number of orders: 0");
+          $this->sendLine("Total number of orders: 0");
         }
 
         return "Total number of orders: " . $new_order_count;

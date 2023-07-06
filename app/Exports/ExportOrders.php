@@ -7,14 +7,20 @@ use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class ExportOrders implements FromArray, WithColumnFormatting, WithColumnWidths
+class ExportOrders implements FromArray, WithColumnFormatting, WithColumnWidths, WithTitle
 {
     protected $invoices;
 
     public function __construct(array $data)
     {
         $this->data = $data;
+    }
+
+    public function title(): string
+    {
+        return 'Sheet1';
     }
 
     public function columnWidths(): array
