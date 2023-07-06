@@ -242,19 +242,21 @@ class GetOrderController extends Controller
                 break;
             }
 
-            if(Str::contains($order->shippingchannel, 'KERRY')){
+            $shipchan = strtoupper($order->shippingchannel);
+
+            if(Str::contains($shipchan, 'KERRY')){
               $data_excel[$l][] = '0111_KER';
-            }elseif(Str::contains($order->shippingchannel, 'NINJA')){
+            }elseif(Str::contains($shipchan, 'NINJA')){
               $data_excel[$l][] = '0114_NINJA';
-            }elseif(Str::contains($order->shippingchannel, 'J&T')){
+            }elseif(Str::contains($shipchan, 'J&T')){
               $data_excel[$l][] = '0116_J&t';
-            }elseif(Str::contains($order->shippingchannel, 'LEX')){
+            }elseif(Str::contains($shipchan, 'LEX')){
               $data_excel[$l][] = '0117_LEX';
-            }elseif(Str::contains($order->shippingchannel, 'SHOPEE')){
+            }elseif(Str::contains($shipchan, 'SHOPEE')){
               $data_excel[$l][] = '0118_SHOPEE';
-            }elseif(Str::contains($order->shippingchannel, 'DHL')){
+            }elseif(Str::contains($shipchan, 'DHL')){
               $data_excel[$l][] = '0119_DHL';
-            }elseif(Str::contains($order->shippingchannel, 'BI')){
+            }elseif(Str::contains($shipchan, 'BI')){
               $data_excel[$l][] = '0121_BI';
             }else{
               $data_excel[$l][] = $order->shippingchannel;
@@ -277,9 +279,9 @@ class GetOrderController extends Controller
         }
 
         if($excel){
-          $this->sendLine("Total number of orders: " . $new_order_count);
+          //$this->sendLine("Total number of orders: " . $new_order_count);
         }else{
-          $this->sendLine("Total number of orders: 0");
+          //$this->sendLine("Total number of orders: 0");
         }
 
         return "Total number of orders: " . $new_order_count;
