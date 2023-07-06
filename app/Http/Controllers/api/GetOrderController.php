@@ -17,12 +17,10 @@ class GetOrderController extends Controller
      */
     public function sendLine($messages = 'Hi Apirak'){
 
-      /*if($request->msg != ''){
-        $messages = $request->msg;
-      }*/
-      //$to = 'U69527e0c55f3d0c39ea5903b8e11094c'; //userid
-      $to = 'C62baaa9fee015c1bd510b1933b0c0ba9'; //groupid from web hook
       //web hook https://webhook.site/#!/4711aed3-29c3-4283-b2da-31280d3d295b/d440c9e9-7cc4-4ce6-955e-e19b451f3d85/1
+      //$to = 'U69527e0c55f3d0c39ea5903b8e11094c'; //userid
+
+      $to = 'C62baaa9fee015c1bd510b1933b0c0ba9'; //groupid from web hook
       $line_access_token = 'XukptniGPQZgjcusCfxa7FUMhwiBKnyiBjFsISFTe8+y3mgI/xdE9xcl/aNNrNzTcBn3fm4EsmdPHX0EM4EWwdTWGefp47HwH0mW7bWE41hKSnKw2h4imQDmcB1H87Sng8/5CYQafuFbknsRta4b/gdB04t89/1O/w1cDnyilFU=';
       $curl = curl_init();
       $postfields = '{
@@ -78,18 +76,17 @@ class GetOrderController extends Controller
 
     public function index()
     {
-      //$this->sendLine("Good morning Teacher");
-
-      //$excel = $this->exportExcel();
-      //return $excel;
 
       try {
 
         $storename = "hthecommerce@hafele.co.th";
         $apikey = "9mVH8tWzYxQ6CeAfY6jX3XxW4AJcnOJ6DtacDQpAmac=";
         $apisecret = "zPUa1VHcXo8hppy6M8zu7ANem61Yj82ckBReShjXycY=";
-        $order_status = 3;
-        $endpoint = '/Order/GetOrders?status='.$order_status.'&limit=100';
+
+        $order_status = 0;
+        $start_date = '2023-07-01';
+        $today = date('Y-m-d');
+        $endpoint = '/Order/GetOrders?updatedafter='.$start_date.'&updatedbefore='.$today.'&limit=100&status='.$order_status;
         $url = "https://open-api.zortout.com/v4" . $endpoint;
 
         $curl = curl_init();

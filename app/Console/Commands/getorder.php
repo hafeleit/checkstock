@@ -36,8 +36,11 @@ class getorder extends Command
         $storename = "hthecommerce@hafele.co.th";
         $apikey = "9mVH8tWzYxQ6CeAfY6jX3XxW4AJcnOJ6DtacDQpAmac=";
         $apisecret = "zPUa1VHcXo8hppy6M8zu7ANem61Yj82ckBReShjXycY=";
-        $order_status = 3;
-        $endpoint = '/Order/GetOrders?status='.$order_status.'&limit=100';
+        
+        $order_status = 0;
+        $start_date = '2023-07-01';
+        $today = date('Y-m-d');
+        $endpoint = '/Order/GetOrders?updatedafter='.$start_date.'&updatedbefore='.$today.'&limit=100&status='.$order_status;
         $url = "https://open-api.zortout.com/v4" . $endpoint;
 
         $curl = curl_init();
