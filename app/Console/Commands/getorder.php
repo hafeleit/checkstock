@@ -36,7 +36,7 @@ class getorder extends Command
         $storename = "hthecommerce@hafele.co.th";
         $apikey = "9mVH8tWzYxQ6CeAfY6jX3XxW4AJcnOJ6DtacDQpAmac=";
         $apisecret = "zPUa1VHcXo8hppy6M8zu7ANem61Yj82ckBReShjXycY=";
-        
+
         $order_status = 0;
         $start_date = '2023-07-01';
         $today = date('Y-m-d');
@@ -196,19 +196,21 @@ class getorder extends Command
                 break;
             }
 
-            if(Str::contains($order->shippingchannel, 'KERRY')){
+            $shipchan = strtoupper($order->shippingchannel);
+
+            if(Str::contains($shipchan, 'KERRY')){
               $data_excel[$l][] = '0111_KER';
-            }elseif(Str::contains($order->shippingchannel, 'NINJA')){
+            }elseif(Str::contains($shipchan, 'NINJA')){
               $data_excel[$l][] = '0114_NINJA';
-            }elseif(Str::contains($order->shippingchannel, 'J&T')){
+            }elseif(Str::contains($shipchan, 'J&T')){
               $data_excel[$l][] = '0116_J&t';
-            }elseif(Str::contains($order->shippingchannel, 'LEX')){
+            }elseif(Str::contains($shipchan, 'LEX')){
               $data_excel[$l][] = '0117_LEX';
-            }elseif(Str::contains($order->shippingchannel, 'SHOPEE')){
+            }elseif(Str::contains($shipchan, 'SHOPEE')){
               $data_excel[$l][] = '0118_SHOPEE';
-            }elseif(Str::contains($order->shippingchannel, 'DHL')){
+            }elseif(Str::contains($shipchan, 'DHL')){
               $data_excel[$l][] = '0119_DHL';
-            }elseif(Str::contains($order->shippingchannel, 'BI')){
+            }elseif(Str::contains($shipchan, 'BI')){
               $data_excel[$l][] = '0121_BI';
             }else{
               $data_excel[$l][] = $order->shippingchannel;
