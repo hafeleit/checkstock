@@ -293,9 +293,9 @@ class GetOrderController extends Controller
         }
 
         if($excel){
-          //$this->sendLine("Total number of orders: " . $new_order_count);
+          $this->sendLine("Total number of orders: " . $new_order_count);
         }else{
-          //$this->sendLine("Total number of orders: 0");
+          $this->sendLine("Total number of orders: 0");
         }
 
         return "Total number of orders: " . $new_order_count;
