@@ -114,7 +114,7 @@ class getorder extends Command
             if(strtoupper($order->saleschannel) == 'LAZADA'){
               $data_excel[$l][] = 'LEX';
             }else{
-              $data_excel[$l][] = $order->shippingchannel;
+              $data_excel[$l][] = $order->shippingchannel; // Annotation
             }
             $data_excel[$l][] = ($i+1 == $list_cnt) ? (string)'605' : (string)$order->list[$i]->sku; //sku
             $data_excel[$l][] = '';
@@ -215,6 +215,9 @@ class getorder extends Command
             }
 
             $shipchan = strtoupper($order->shippingchannel);
+            if(strtoupper($order->saleschannel) == 'LAZADA'){
+              $shipchan = 'LEX';
+            }
 
             if(Str::contains($shipchan, 'KERRY')){
               $data_excel[$l][] = '0111_KER';
