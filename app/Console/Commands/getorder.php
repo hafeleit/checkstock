@@ -40,7 +40,7 @@ class getorder extends Command
         $order_status = 0;
         $start_date = '2023-07-01';
         $today = date('Y-m-d');
-        $endpoint = '/Order/GetOrders?updatedafter='.$start_date.'&updatedbefore='.$today.'&limit=100&status='.$order_status;
+        $endpoint = '/Order/GetOrders?updatedafter='.$start_date.'&updatedbefore='.$today.'&limit=2000&status='.$order_status;
         $url = "https://open-api.zortout.com/v4" . $endpoint;
 
         $curl = curl_init();
