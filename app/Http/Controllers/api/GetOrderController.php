@@ -126,6 +126,7 @@ class GetOrderController extends Controller
         $new_order_count = count($new_order);
         $l = 0;
         $file_name = date('dmy')."_".date('His').".xlsx";
+
         foreach ($new_order as $key2 => $order) {
           $insert_order[] = [
             'order_number' => $order->number,
@@ -156,7 +157,7 @@ class GetOrderController extends Controller
             $data_excel[$l][] = 'EX WORKS';
             $data_excel[$l][] = 'BANGKOK';
             $data_excel[$l][] = 'N';
-            $data_excel[$l][] = $order->shippingchannel ?? '';
+            $data_excel[$l][] = $order->shippingchannel;
             $data_excel[$l][] = ($i+1 == $list_cnt) ? (string)'605' : (string)$order->list[$i]->sku; //sku
             $data_excel[$l][] = '';
             $data_excel[$l][] = '';
@@ -165,11 +166,11 @@ class GetOrderController extends Controller
             $data_excel[$l][] = '';
             if($i+1 == $list_cnt){
 
-              $shipam = $order->shippingamount . '.00';
+              $shipam = $order->shippingamount;
               //dd($order->shippingamount);
               $data_excel[$l][] = (string)$shipam; //rate shippingamount
             }else{
-              $data_excel[$l][] = (string)$order->list[0]->totalprice; //rate price
+              $data_excel[$l][] = (string)$order->list[$i]->pricepernumber; //rate price
             }
             $data_excel[$l][] = 'WEB_CONSUMER';
             $data_excel[$l][] = (string)'9999999999999';
@@ -220,7 +221,8 @@ class GetOrderController extends Controller
             if($i+1 == $list_cnt){ //sellerdiscount
               $data_excel[$l][] = '0';
             }else{
-              $data_excel[$l][] = (string)$order->sellerdiscount;
+              //$disc[] = $order->list[$i]->discount;
+              $data_excel[$l][] = (float)$order->list[$i]->discount; //Discount Amount
             }
 
             $data_excel[$l][] = $order->customerphone ?? '';
@@ -285,9 +287,9 @@ class GetOrderController extends Controller
         }
 
         if($excel){
-          $this->sendLine("Total number of orders: " . $new_order_count);
+          //$this->sendLine("Total number of orders: " . $new_order_count);
         }else{
-          $this->sendLine("Total number of orders: 0");
+          //$this->sendLine("Total number of orders: 0");
         }
 
         return "Total number of orders: " . $new_order_count;

@@ -80,6 +80,7 @@ class getorder extends Command
         $new_order_count = count($new_order);
         $l = 0;
         $file_name = date('dmy')."_".date('His').".xlsx";
+
         foreach ($new_order as $key2 => $order) {
           $insert_order[] = [
             'order_number' => $order->number,
@@ -110,7 +111,7 @@ class getorder extends Command
             $data_excel[$l][] = 'EX WORKS';
             $data_excel[$l][] = 'BANGKOK';
             $data_excel[$l][] = 'N';
-            $data_excel[$l][] = $order->shippingchannel ?? '';
+            $data_excel[$l][] = $order->shippingchannel;
             $data_excel[$l][] = ($i+1 == $list_cnt) ? (string)'605' : (string)$order->list[$i]->sku; //sku
             $data_excel[$l][] = '';
             $data_excel[$l][] = '';
@@ -119,11 +120,11 @@ class getorder extends Command
             $data_excel[$l][] = '';
             if($i+1 == $list_cnt){
 
-              $shipam = $order->shippingamount . '.00';
+              $shipam = $order->shippingamount;
               //dd($order->shippingamount);
               $data_excel[$l][] = (string)$shipam; //rate shippingamount
             }else{
-              $data_excel[$l][] = (string)$order->list[0]->totalprice; //rate price
+              $data_excel[$l][] = (string)$order->list[$i]->pricepernumber; //rate price
             }
             $data_excel[$l][] = 'WEB_CONSUMER';
             $data_excel[$l][] = (string)'9999999999999';
@@ -170,11 +171,14 @@ class getorder extends Command
             }
 
             $data_excel[$l][] = 'DIS_PROMO';
+
             if($i+1 == $list_cnt){ //sellerdiscount
               $data_excel[$l][] = '0';
             }else{
-              $data_excel[$l][] = (string)$order->sellerdiscount;
+              //$disc[] = $order->list[$i]->discount;
+              $data_excel[$l][] = (float)$order->list[$i]->discount; //Discount Amount
             }
+
             $data_excel[$l][] = $order->customerphone ?? '';
             $data_excel[$l][] = $order->customerphone ?? '';
 
