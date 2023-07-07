@@ -124,7 +124,7 @@ class getorder extends Command
               //dd($order->shippingamount);
               $data_excel[$l][] = (string)$shipam.' '; //rate shippingamount
             }else{
-              $data_excel[$l][] = (string)$order->list[$i]->pricepernumber.' '; //rate price
+              $data_excel[$l][] = (string)$order->list[$i]->totalprice.' '; //rate price
             }
             $data_excel[$l][] = 'WEB_CONSUMER';
             $data_excel[$l][] = (string)'9999999999999 ';
@@ -177,8 +177,8 @@ class getorder extends Command
             }else{
               //$disc[] = $order->list[$i]->discount;
               $discnt = '';
-              if($order->list[$i]->discount != ''){
-                $discnt = $order->list[$i]->discount;
+              if($order->discount != ''){
+                $discnt = $order->sellerdiscount;
               }else{
                 $discnt = '0';
               }
