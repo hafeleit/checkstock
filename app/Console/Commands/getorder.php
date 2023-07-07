@@ -185,8 +185,8 @@ class getorder extends Command
               $data_excel[$l][] = (string)$discnt.' '; //Discount Amount
             }
 
-            $data_excel[$l][] = $order->customerphone ?? '';
-            $data_excel[$l][] = $order->customerphone ?? '';
+            $data_excel[$l][] = $order->shippingphone ?? '';
+            $data_excel[$l][] = $order->shippingphone ?? '';
 
             switch ($sale_channel) { //bank code
               case 'SHOPEE':
