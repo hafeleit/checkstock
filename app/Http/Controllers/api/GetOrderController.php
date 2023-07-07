@@ -174,7 +174,8 @@ class GetOrderController extends Controller
               //dd($order->shippingamount);
               $data_excel[$l][] = (string)$shipam.' '; //rate shippingamount
             }else{
-              $data_excel[$l][] = (string)$order->list[$i]->totalprice.' '; //rate price
+              $rate = $order->list[$i]->totalprice / $order->list[$i]->number;
+              $data_excel[$l][] = (string)$rate.' '; //rate price
             }
             $data_excel[$l][] = 'WEB_CONSUMER';
             $data_excel[$l][] = (string)'9999999999999 ';
