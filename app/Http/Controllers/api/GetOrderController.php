@@ -280,8 +280,10 @@ class GetOrderController extends Controller
               $data_excel[$l][] = '0119_DHL';
             }elseif(Str::contains($shipchan, 'BI')){
               $data_excel[$l][] = '0121_BI';
-            }elseif(Str::contains($shipchan, 'Fleet')){
+            }elseif(Str::contains($shipchan, 'FLEET')){
               $data_excel[$l][] = 'WH02_64';
+            }elseif(Str::contains($shipchan, 'FLASH')){
+              $data_excel[$l][] = '0118_SHOPEE';
             }else{
               $data_excel[$l][] = $order->shippingchannel;
             }
