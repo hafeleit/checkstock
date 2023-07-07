@@ -157,7 +157,13 @@ class GetOrderController extends Controller
             $data_excel[$l][] = 'EX WORKS';
             $data_excel[$l][] = 'BANGKOK';
             $data_excel[$l][] = 'N';
-            $data_excel[$l][] = $order->shippingchannel;
+
+            if(strtoupper($order->saleschannel) == 'LAZADA'){
+              $data_excel[$l][] = 'LEX';
+            }else{
+              $data_excel[$l][] = $order->shippingchannel;
+            }
+
             $data_excel[$l][] = ($i+1 == $list_cnt) ? (string)'605' : (string)$order->list[$i]->sku; //sku
             $data_excel[$l][] = '';
             $data_excel[$l][] = '';
