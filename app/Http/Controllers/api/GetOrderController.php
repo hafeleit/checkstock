@@ -265,7 +265,7 @@ class GetOrderController extends Controller
             if(strtoupper($order->saleschannel) == 'LAZADA'){
               $shipchan = 'LEX';
             }
-
+            //Carrier code
             if(Str::contains($shipchan, 'KERRY')){
               $data_excel[$l][] = '0111_KER';
             }elseif(Str::contains($shipchan, 'NINJA')){
@@ -280,6 +280,8 @@ class GetOrderController extends Controller
               $data_excel[$l][] = '0119_DHL';
             }elseif(Str::contains($shipchan, 'BI')){
               $data_excel[$l][] = '0121_BI';
+            }elseif(Str::contains($shipchan, 'Fleet')){
+              $data_excel[$l][] = 'WH02_64';
             }else{
               $data_excel[$l][] = $order->shippingchannel;
             }
