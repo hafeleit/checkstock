@@ -56,6 +56,7 @@
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PENDING SO</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ABALABLE STOCK</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NEW ITEM</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRICE LIST UOM</th>
                                       <th class="text-end text-secondary text-xxs font-weight-bolder opacity-7">PRICE (Incl.VAT)</th>
                                   </tr>
                               </thead>
@@ -90,7 +91,8 @@
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->PENDING_SO}}</span></td>
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->AVAILABLE_STOCK}}</span></td>
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->NEW_ITEM}}</span></td>
-                                      <td class="align-middle text-end" style="    padding-right: 20px;"> <span class="text-xs font-weight-bold">{{ ($product->RATE7 != '' ? number_format($product->RATE7, 2) : '')}}</span></td>
+                                      <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->PRICE_LIST_UOM}}</span></td>
+                                      <td class="align-middle text-end" style="padding-right: 20px;"> <span class="text-xs font-weight-bold">{{ ($product->RATE7 != '' ? number_format($product->RATE7, 2) : '')}}</span></td>
                                   </tr>
                                   @endforeach
                               </tbody>
