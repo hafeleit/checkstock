@@ -119,7 +119,7 @@ class ProductController extends Controller
      */
     public function show($product)
     {
-        $product = Product::where('item_code',$product)->first();
+        $product = Product::where('item_code',$product)->get();
         return view('pages.products.detail',compact('product'));
     }
 
