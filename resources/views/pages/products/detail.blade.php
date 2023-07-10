@@ -131,7 +131,7 @@
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['ITEM_NAME_TH'] }}</span>
                                     </span>
                                     <span class="mb-2 text-sm">ITEM BRAND:
-                                      <span class="text-danger font-weight-bold ms-sm-2">{{ $product[0][' ITEM_BRAND'] }}</span>
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['ITEM_BRAND'] }}</span>
                                     </span>
                                     <span class="mb-2 text-sm">ITEM GRADE CODE 2:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['ITEM_GRADE_CODE_2'] }}</span>
