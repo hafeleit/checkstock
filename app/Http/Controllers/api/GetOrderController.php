@@ -80,8 +80,8 @@ class GetOrderController extends Controller
       try {
 
         $storename = "hthecommerce@hafele.co.th";
-        $apikey = "9mVH8tWzYxQ6CeAfY6jX3XxW4AJcnOJ6DtacDQpAmac=";
-        $apisecret = "zPUa1VHcXo8hppy6M8zu7ANem61Yj82ckBReShjXycY=";
+        $apikey = "by3oFDNKYKNb8PHSRTM/k5IxHuuHT2RKTaPqyqWwuE=";
+        $apisecret = "NOnFem169tqnU1VzMbFcd0YqrStaIb65ofmyHN3IQDs=";
 
         $order_status = 0;
         $start_date = '2023-07-01';
