@@ -90,13 +90,13 @@ class getorder extends Command
           for ($i=0; $i < $list_cnt; $i++) {
             $data_excel[$l][] = 'HTH';
             $data_excel[$l][] = (string)date('d/m/y');
-            $data_excel[$l][] = (string)'1 ';
-            $data_excel[$l][] = (string)'2 ';
+            $data_excel[$l][] = (string)'1';
+            $data_excel[$l][] = (string)'2';
             $data_excel[$l][] = 'SO_WEB';
-            $data_excel[$l][] = (string)$order->number.' ';
+            $data_excel[$l][] = (string)$order->number;
             $data_excel[$l][] = (string)'2 ';
-            $data_excel[$l][] = (string)'157019 ';
-            $data_excel[$l][] = '157019-201';
+            $data_excel[$l][] = (string)'157019';
+            $data_excel[$l][] = '157019-101';
             $data_excel[$l][] = $order->customername ?? '';
             $data_excel[$l][] = $order->shippingaddress ?? '';
             $data_excel[$l][] = '';
@@ -107,7 +107,7 @@ class getorder extends Command
             $data_excel[$l][] = 'THB';
             $data_excel[$l][] = (string)date('d/m/y');
             $data_excel[$l][] = 'BY 3PL';
-            $data_excel[$l][] = (string)'3040 ';
+            $data_excel[$l][] = (string)'3040';
             $data_excel[$l][] = 'EX WORKS';
             $data_excel[$l][] = 'BANGKOK';
             $data_excel[$l][] = 'N';
@@ -120,7 +120,7 @@ class getorder extends Command
             $data_excel[$l][] = '';
             $data_excel[$l][] = '';
             $data_excel[$l][] = '';
-            $data_excel[$l][] = ($i+1 == $list_cnt) ? (string)'1 ' : (string)$order->list[$i]->number.' '; //number
+            $data_excel[$l][] = ($i+1 == $list_cnt) ? (string)'1' : (string)$order->list[$i]->number.' '; //number
             $data_excel[$l][] = '';
             if($i+1 == $list_cnt){
 
@@ -242,7 +242,7 @@ class getorder extends Command
               $data_excel[$l][] = $order->shippingchannel;
             }
 
-            $data_excel[$l][] = (string)'1 ';
+            $data_excel[$l][] = (string)'1';
             $data_excel[$l][] = (string)$order->customerpostcode;
             $data_excel[$l][] = '';
 
