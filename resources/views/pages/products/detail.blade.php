@@ -43,7 +43,7 @@
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['ITEM_INVENTORY_CODE'] }}</span>
                                     </span>
                                     <span class="mb-2 text-sm">ITEM REPL TIME:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['ITEM_REPL_TIME'] }}</span> (DAY)
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['ITEM_REPL_TIME'] }}</span> (Days)
                                     </span>
                                     <span class="mb-2 text-sm">ITEM GRADE CODE 1:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['ITEM_GRADE_CODE_1'] }}</span>
@@ -52,17 +52,11 @@
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['ITEM_UOM_CODE'] }}</span>
                                     </span>
 
-                                    <span class="mb-2 text-sm">STOCK IN HAND:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['STOCK_IN_HAND'] }}</span>
-                                    </span>
-                                    <span class="mb-2 text-sm">AVAILABLE STOCK:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['AVAILABLE_STOCK'] }}</span>
-                                    </span>
-                                    <span class="mb-2 text-sm">PENDING SO:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['PENDING_SO'] }}</span>
+                                    <span class="mb-2 text-sm">FREE STOCK:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ ($product[0]['STOCK_IN_HAND'] != '') ? number_format($product[0]['STOCK_IN_HAND']) : 0 }}</span>
                                     </span>
                                     <span class="mb-2 text-sm">PROJECT ITEM:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['PROJECT_ITEM'] }}</span>
+                                      <a href="{{ route('products.index').'/'.$product[0]['PROJECT_ITEM'].'?view='.request()->view }}"><span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['PROJECT_ITEM'] }}</span></a>
                                     </span>
                                     <span class="mb-2 text-sm">PRICE LIST UOM:
                                       <span class="text-success font-weight-bold ms-sm-2">{{ $product[0]['PRICE_LIST_UOM'] }}</span>
@@ -81,7 +75,7 @@
                                       @endif
                                     </span>
                                     <span class="mb-2 text-sm">NEW ITEM:
-                                      <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['NEW_ITEM'] }}</span>
+                                      <a href="{{ route('products.index').'/'.$product[0]['NEW_ITEM'].'?view='.request()->view }}"><span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['NEW_ITEM'] }}</span></a>
                                     </span>
 
                                     <span class="text-danger text-lg">ก่อนทำการสั่งซื้อกรุณาตรวจสอบข้อมูลกับพนักงานขายอีกครั้ง (Kindly contact the salesperson before ordering.)</span>
@@ -132,6 +126,12 @@
                                     </span>
                                     <span class="mb-2 text-sm">ITEM BRAND:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['ITEM_BRAND'] }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">PENDING SO:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ ($product[0]['PENDING_SO'] != '') ? number_format($product[0]['PENDING_SO']) : 0 }}</span>
+                                    </span>
+                                    <span class="mb-2 text-sm">AVAILABLE STOCK:
+                                      <span class="text-dark font-weight-bold ms-sm-2">{{ ($product[0]['AVAILABLE_STOCK'] != '') ? number_format($product[0]['AVAILABLE_STOCK']) : 0 }}</span>
                                     </span>
                                     <span class="mb-2 text-sm">ITEM GRADE CODE 2:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['ITEM_GRADE_CODE_2'] }}</span>
