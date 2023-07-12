@@ -45,6 +45,8 @@ class ExportOrders implements FromArray, WithColumnFormatting, WithColumnWidths,
             'AO' => NumberFormat::FORMAT_NUMBER,
             'AN' => NumberFormat::FORMAT_NUMBER,
             'AG' => NumberFormat::FORMAT_NUMBER,
+            'AE' => NumberFormat::FORMAT_TEXT,
+            'AM' => NumberFormat::FORMAT_TEXT,
 
             /*'F' => NumberFormat::FORMAT_NUMBER,
             'Y' => NumberFormat::FORMAT_TEXT,

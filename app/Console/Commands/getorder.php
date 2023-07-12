@@ -125,11 +125,10 @@ class getorder extends Command
             if($i+1 == $list_cnt){
 
               $shipam = $order->shippingamount;
-              echo $shipam . ' ';
-              $data_excel[$l][] = (string)$shipam; //rate shippingamount
+              $data_excel[$l][] = (string)$shipam.' '; //rate shippingamount
             }else{
               $rate = $order->list[$i]->totalprice / $order->list[$i]->number;
-              $data_excel[$l][] = $rate; //rate price
+              $data_excel[$l][] = $rate.' '; //rate price
             }
             $data_excel[$l][] = 'WEB_CONSUMER';
             $data_excel[$l][] = (string)'9999999999999';
@@ -178,16 +177,16 @@ class getorder extends Command
             $data_excel[$l][] = 'DIS_PROMO';
 
             if($i+1 == $list_cnt){ //sellerdiscount
-              $data_excel[$l][] = '0';
+              $data_excel[$l][] = '0 ';
             }else{
               //$disc[] = $order->list[$i]->discount;
               $discnt = '';
               if($order->discount != ''){
-                $discnt = $order->sellerdiscount;
+                $discnt = $order->sellerdiscount.' ';
               }else{
-                $discnt = '0';
+                $discnt = '0 ';
               }
-              $data_excel[$l][] = $discnt; //Discount Amount
+              $data_excel[$l][] = $discnt.' '; //Discount Amount
             }
 
             $data_excel[$l][] = $order->shippingphone ?? '';

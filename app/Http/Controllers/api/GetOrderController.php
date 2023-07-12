@@ -171,11 +171,10 @@ class GetOrderController extends Controller
             if($i+1 == $list_cnt){
 
               $shipam = $order->shippingamount;
-              echo $shipam . ' ';
-              $data_excel[$l][] = (string)$shipam; //rate shippingamount
+              $data_excel[$l][] = (string)$shipam.' '; //rate shippingamount
             }else{
               $rate = $order->list[$i]->totalprice / $order->list[$i]->number;
-              $data_excel[$l][] = $rate; //rate price
+              $data_excel[$l][] = $rate.' '; //rate price
             }
             $data_excel[$l][] = 'WEB_CONSUMER';
             $data_excel[$l][] = (string)'9999999999999';
@@ -224,16 +223,16 @@ class GetOrderController extends Controller
             $data_excel[$l][] = 'DIS_PROMO';
 
             if($i+1 == $list_cnt){ //sellerdiscount
-              $data_excel[$l][] = '0';
+              $data_excel[$l][] = '0 ';
             }else{
               //$disc[] = $order->list[$i]->discount;
               $discnt = '';
               if($order->discount != ''){
-                $discnt = $order->sellerdiscount;
+                $discnt = $order->sellerdiscount.' ';
               }else{
-                $discnt = '0';
+                $discnt = '0 ';
               }
-              $data_excel[$l][] = $discnt; //Discount Amount
+              $data_excel[$l][] = $discnt.' '; //Discount Amount
             }
 
             $data_excel[$l][] = $order->shippingphone ?? '';
@@ -297,7 +296,7 @@ class GetOrderController extends Controller
         }
 
         if(count($insert_order) > 0){
-          //Order::insert($insert_order);
+          Order::insert($insert_order);
         }
         $excel = false;
         if(count($data_excel) > 0){
@@ -305,9 +304,9 @@ class GetOrderController extends Controller
         }
 
         if($excel){
-          //$this->sendLine("Total number of orders: " . $new_order_count);
+          $this->sendLine("Total number of orders: " . $new_order_count);
         }else{
-          //$this->sendLine("Total number of orders: 0");
+          $this->sendLine("Total number of orders: 0");
         }
 
         return "Total number of orders: " . $new_order_count;
