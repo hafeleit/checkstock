@@ -182,9 +182,9 @@ class getorder extends Command
               //$disc[] = $order->list[$i]->discount;
               $discnt = '';
               if($order->discount != ''){
-                $discnt = $order->sellerdiscount.' ';
+                $discnt = $order->sellerdiscount;
               }else{
-                $discnt = '0 ';
+                $discnt = '0';
               }
               $data_excel[$l][] = $discnt.' '; //Discount Amount
             }
