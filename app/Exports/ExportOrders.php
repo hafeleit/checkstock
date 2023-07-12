@@ -40,14 +40,18 @@ class ExportOrders implements FromArray, WithColumnFormatting, WithColumnWidths,
     public function columnFormats(): array
     {
         return [
-            'A' => NumberFormat::FORMAT_NUMBER,
-
             'F' => NumberFormat::FORMAT_NUMBER,
+            'Y' => NumberFormat::FORMAT_TEXT,
+            'AO' => NumberFormat::FORMAT_NUMBER,
+            'AN' => NumberFormat::FORMAT_NUMBER,
+            'AG' => NumberFormat::FORMAT_NUMBER,
+
+            /*'F' => NumberFormat::FORMAT_NUMBER,
             'Y' => NumberFormat::FORMAT_TEXT,
             'AG' => NumberFormat::FORMAT_NUMBER,
             'AN' => NumberFormat::FORMAT_NUMBER,
             'AO' => NumberFormat::FORMAT_NUMBER,
-            //'AE' => NumberFormat::FORMAT_NUMBER_00,
+            'AE' => NumberFormat::FORMAT_TEXT,*/
             //'AM' => NumberFormat::FORMAT_NUMBER_00,
             //'AG' => NumberFormat::FORMAT_TEXT,
         ];

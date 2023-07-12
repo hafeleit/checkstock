@@ -69,7 +69,7 @@ class GetOrderController extends Controller
       $data_export[] = $header;
       $data_export[] = $data_excel;
       $export = new ExportOrders($data_export);
-      $file_name = date('dmy')."_".date('His').".xlsx";
+      $file_name = date('dmy')."_".date('His').".xls";
       return Excel::store($export, $file_name, 'path_export');
 
     }
@@ -125,7 +125,7 @@ class GetOrderController extends Controller
         }
         $new_order_count = count($new_order);
         $l = 0;
-        $file_name = date('dmy')."_".date('His').".xlsx";
+        $file_name = date('dmy')."_".date('His').".xls";
 
         foreach ($new_order as $key2 => $order) {
           $insert_order[] = [
@@ -135,25 +135,25 @@ class GetOrderController extends Controller
           $list_cnt = count($order->list) + 1;
           for ($i=0; $i < $list_cnt; $i++) {
             $data_excel[$l][] = 'HTH';
-            $data_excel[$l][] = (string)date('d/m/y');
-            $data_excel[$l][] = (string)'1';
-            $data_excel[$l][] = (string)'2';
+            $data_excel[$l][] = date('d/m/y');
+            $data_excel[$l][] = strval(1);
+            $data_excel[$l][] = '2';
             $data_excel[$l][] = 'SO_WEB';
-            $data_excel[$l][] = (string)$order->number;
-            $data_excel[$l][] = (string)'2 ';
-            $data_excel[$l][] = (string)'157019';
-            $data_excel[$l][] = '157019-101';
+            $data_excel[$l][] = $order->number;
+            $data_excel[$l][] = '2';
+            $data_excel[$l][] = '157019';
+            $data_excel[$l][] = '157019-201';
             $data_excel[$l][] = $order->customername ?? '';
             $data_excel[$l][] = $order->shippingaddress ?? '';
             $data_excel[$l][] = '';
             $data_excel[$l][] = $order->customername ?? '';
-            $data_excel[$l][] = '157019-10';
+            $data_excel[$l][] = '157019-101';
             $data_excel[$l][] = $order->shippingaddress ?? '';
             $data_excel[$l][] = '';
             $data_excel[$l][] = 'THB';
-            $data_excel[$l][] = (string)date('d/m/y');
+            $data_excel[$l][] = date('d/m/y');
             $data_excel[$l][] = 'BY 3PL';
-            $data_excel[$l][] = (string)'3040';
+            $data_excel[$l][] = '3040';
             $data_excel[$l][] = 'EX WORKS';
             $data_excel[$l][] = 'BANGKOK';
             $data_excel[$l][] = 'N';
@@ -162,26 +162,26 @@ class GetOrderController extends Controller
             }else{
               $data_excel[$l][] = $order->shippingchannel; // Annotation
             }
-            $data_excel[$l][] = ($i+1 == $list_cnt) ? (string)'605' : (string)$order->list[$i]->sku; //sku
+            $data_excel[$l][] = ($i+1 == $list_cnt) ? '605' : $order->list[$i]->sku; //sku
             $data_excel[$l][] = '';
             $data_excel[$l][] = '';
             $data_excel[$l][] = '';
-            $data_excel[$l][] = ($i+1 == $list_cnt) ? (string)'1' : (string)$order->list[$i]->number.' '; //number
+            $data_excel[$l][] = ($i+1 == $list_cnt) ? '1' : $order->list[$i]->number; //number
             $data_excel[$l][] = '';
             if($i+1 == $list_cnt){
 
               $shipam = $order->shippingamount;
-              //dd($order->shippingamount);
-              $data_excel[$l][] = (string)$shipam.' '; //rate shippingamount
+              echo $shipam . ' ';
+              $data_excel[$l][] = (string)$shipam; //rate shippingamount
             }else{
               $rate = $order->list[$i]->totalprice / $order->list[$i]->number;
-              $data_excel[$l][] = (string)$rate.' '; //rate price
+              $data_excel[$l][] = $rate; //rate price
             }
             $data_excel[$l][] = 'WEB_CONSUMER';
-            $data_excel[$l][] = (string)'9999999999999 ';
-            $data_excel[$l][] = (string)'00000 ';
+            $data_excel[$l][] = (string)'9999999999999';
+            $data_excel[$l][] = '00000';
             $data_excel[$l][] = '';
-            $data_excel[$l][] = (string)'200 ';
+            $data_excel[$l][] = '200';
 
             $sale_channel = strtoupper($order->saleschannel); //Project Code
             switch ($sale_channel) {
@@ -224,7 +224,7 @@ class GetOrderController extends Controller
             $data_excel[$l][] = 'DIS_PROMO';
 
             if($i+1 == $list_cnt){ //sellerdiscount
-              $data_excel[$l][] = '0 ';
+              $data_excel[$l][] = '0';
             }else{
               //$disc[] = $order->list[$i]->discount;
               $discnt = '';
@@ -233,7 +233,7 @@ class GetOrderController extends Controller
               }else{
                 $discnt = '0';
               }
-              $data_excel[$l][] = (string)$discnt.' '; //Discount Amount
+              $data_excel[$l][] = $discnt; //Discount Amount
             }
 
             $data_excel[$l][] = $order->shippingphone ?? '';
@@ -288,8 +288,8 @@ class GetOrderController extends Controller
               $data_excel[$l][] = $order->shippingchannel;
             }
 
-            $data_excel[$l][] = (string)'1';
-            $data_excel[$l][] = (string)$order->customerpostcode;
+            $data_excel[$l][] = '1';
+            $data_excel[$l][] = $order->customerpostcode;
             $data_excel[$l][] = '';
 
             $l++;
@@ -297,7 +297,7 @@ class GetOrderController extends Controller
         }
 
         if(count($insert_order) > 0){
-          Order::insert($insert_order);
+          //Order::insert($insert_order);
         }
         $excel = false;
         if(count($data_excel) > 0){
@@ -305,9 +305,9 @@ class GetOrderController extends Controller
         }
 
         if($excel){
-          $this->sendLine("Total number of orders: " . $new_order_count);
+          //$this->sendLine("Total number of orders: " . $new_order_count);
         }else{
-          $this->sendLine("Total number of orders: 0");
+          //$this->sendLine("Total number of orders: 0");
         }
 
         return "Total number of orders: " . $new_order_count;
