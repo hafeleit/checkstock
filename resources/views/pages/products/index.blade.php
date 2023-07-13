@@ -69,8 +69,11 @@
                                             <div>
                                               <?php
                                                 $image = '/storage/img/products/' . $product->ITEM_CODE . '.jpg';
+                                                $image2 = '/storage/img/products/' . $product->ITEM_CODE . '.JPG';
                                                 if (file_exists( public_path() . $image )) {
-                                                    echo '<img src="/storage/img/products/'.$product->ITEM_CODE.'.jpg" class="avatar avatar-sm me-3" alt="user1">';
+                                                    echo '<img src="'.$image.'" class="avatar avatar-sm me-3" alt="user1">';
+                                                }elseif(file_exists( public_path() . $image2 )){
+                                                    echo '<img src="'.$image2.'" class="avatar avatar-sm me-3" alt="user1">';
                                                 } else {
                                                     echo '<img src="/storage/img/coming_soon.jpg" class="avatar avatar-sm me-3" alt="user1">';
                                                 }
