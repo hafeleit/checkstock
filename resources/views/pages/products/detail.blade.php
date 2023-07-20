@@ -8,14 +8,14 @@
             <div class="col-md-4 mt-4">
                 <div class="card">
                   <?php
-                    $image = '/storage/img/products/' . $product[0]['ITEM_CODE'] . '.jpg';
-                    $image2 = '/storage/img/products/' . $product[0]['ITEM_CODE'] . '.JPG';
+                    $image = '/storage/img/products/' . $product[0]->ITEM_CODE . '.jpg';
+                    $image2 = '/storage/img/products/' . $product[0]->ITEM_CODE . '.JPG';
                     if (file_exists( public_path() . $image )) {
-                        echo '<img src="'.$image.'" class="avatar avatar-sm me-3" alt="user1">';
+                        echo '<img src="'.$image.'" alt="Image placeholder" class="card-img-top">';
                     }elseif(file_exists( public_path() . $image2 )){
-                        echo '<img src="'.$image2.'" class="avatar avatar-sm me-3" alt="user1">';
+                        echo '<img src="'.$image2.'" alt="Image placeholder" class="card-img-top">';
                     } else {
-                        echo '<img src="/storage/img/coming_soon.jpg" class="avatar avatar-sm me-3" alt="user1">';
+                        echo '<img src="/storage/img/products/coming_soon.jpg" alt="Image placeholder" class="card-img-top">';
                     }
                    ?>
                     <div class="card-body pt-0">
