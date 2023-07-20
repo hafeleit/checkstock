@@ -8,8 +8,8 @@
             <div class="col-md-4 mt-4">
                 <div class="card">
                   <?php
-                    $image = '/storage/img/products/' . $product->ITEM_CODE . '.jpg';
-                    $image2 = '/storage/img/products/' . $product->ITEM_CODE . '.JPG';
+                    $image = '/storage/img/products/' . $product[0]->ITEM_CODE . '.jpg';
+                    $image2 = '/storage/img/products/' . $product[0]->ITEM_CODE . '.JPG';
                     if (file_exists( public_path() . $image )) {
                         echo '<img src="'.$image.'" class="avatar avatar-sm me-3" alt="user1">';
                     }elseif(file_exists( public_path() . $image2 )){
