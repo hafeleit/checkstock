@@ -237,6 +237,8 @@ class getorder extends Command
               $data_excel[$l][] = 'WH02_64';
             }elseif(Str::contains($shipchan, 'FLASH')){
               $data_excel[$l][] = '0118_SHOPEE';
+            }elseif(Str::contains($shipchan, 'IDEA')){
+              $data_excel[$l][] = '0121_BI';
             }else{
               $data_excel[$l][] = $order->shippingchannel;
             }
