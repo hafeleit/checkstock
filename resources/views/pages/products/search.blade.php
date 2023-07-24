@@ -12,10 +12,10 @@
           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRICE LIST UOM</th>
           <th class="text-end text-secondary text-xxs font-weight-bolder opacity-7">PRICE (Incl.VAT)</th>
           @IF(request()->input('view') == 'sales')
-
+            <?php /*
             <th class="text-end text-secondary text-xxs font-weight-bolder opacity-7">PRICE CLR (Incl.VAT)</th>
             <th class="text-end text-secondary text-xxs font-weight-bolder opacity-7">STOCK CLR</th>
-
+            */ ?>
           @ENDIF
       </tr>
     </thead>
@@ -57,10 +57,10 @@
             <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->PRICE_LIST_UOM}}</span></td>
             <td class="align-middle text-end" style="padding-right: 20px;"> <span class="text-xs font-weight-bold">{{ ($product->RATE7 != '' ? number_format($product->RATE7, 2) : '')}}</span></td>
             @IF(request()->input('view') == 'sales')
-
-              <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->PRICE_CLR}}</span></td>
-              <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->STOCK_CLR}}</span></td>
-
+              <?php /*
+              <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ ($product->PRICE_CLR != '' ? number_format($product->PRICE_CLR) : '')}}</span></td>
+              <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ ($product->STOCK_CLR != '' ? number_format($product->STOCK_CLR) : '')}}</span></td>
+              */ ?>
             @ENDIF
         </tr>
         @endforeach
