@@ -45,6 +45,7 @@ Route::get('/', function () {return redirect('/products');});
 	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 	Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
+	Route::get('/clr_dashboard', [HomeController::class, 'clr_dashboard'])->name('clr_dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
 
