@@ -307,7 +307,7 @@
                                     <td class="w-30">
                                         <div class="d-flex px-2 py-1 align-items-center">
                                             <div>
-                                                <img src="./img/icons/clr/pos.png" alt="Country flag" width="40px">
+                                                <img src="./img/icons/clr/orion.png" alt="Country flag" width="40px">
                                             </div>
                                             <div class="ms-4">
                                                 <p class="text-xs font-weight-bold mb-0">Type</p>
@@ -326,7 +326,7 @@
                                     <td class="w-30">
                                         <div class="d-flex px-2 py-1 align-items-center">
                                             <div>
-                                                <img src="./img/icons/clr/orion.png" alt="Country flag" width="40px">
+                                                <img src="./img/icons/clr/pos.png" alt="Country flag" width="40px">
                                             </div>
                                             <div class="ms-4">
                                                 <p class="text-xs font-weight-bold mb-0">Type</p>
