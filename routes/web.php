@@ -34,6 +34,7 @@ Route::get('/', function () {return redirect('/products');});
     return Redirect::to($url);
   });
   Route::resource('register-warranty', WarrantyController::class);
+  Route::get('check-warranty', [WarrantyController::class, 'check_warranty'])->name('check_warranty');
   Route::resource('products', ProductController::class);
   Route::post('products-import', [ProductController::class, 'import'])->name('products.import');
   Route::get('products-search-ajax', [ProductController::class, 'search_ajax'])->name('products.search-ajax');

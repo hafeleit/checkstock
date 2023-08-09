@@ -15,12 +15,17 @@ class WarrantyController extends Controller
         return view('pages.warranty.index');
     }
 
+    public function check_warranty()
+    {
+        return view('pages.warranty.check');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -28,7 +33,17 @@ class WarrantyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        if($request->file('file')) {
+
+          $file = $request->file('file');
+          $fileName = $request->order_number . '.'. $file->getClientOriginalExtension();
+          $destinationPath = 'uploads';
+          $file->move($destinationPath,$fileName);
+          
+        }
+
+        dd($request->all());
     }
 
     /**

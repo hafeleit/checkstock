@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('warranties', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('addr');
+            $table->string('tel');
+            $table->string('serial_no');
+            $table->string('order_channel');
+            $table->string('order_number');
+            $table->string('file_name');
             $table->timestamps();
         });
     }

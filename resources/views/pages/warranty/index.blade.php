@@ -11,36 +11,72 @@
     </div>
     <div class="container">
         <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
-            <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+            <div class="col-xl-5 col-lg-5 col-md-7 mx-auto">
+
                 <div class="card z-index-0">
+                  <div class="text-center">
+                      <a href="{{route('check_warranty')}}"><button type="button" class="btn bg-gradient-success w-50 my-4 mb-2">Check Warranty</button></a>
+                  </div>
+
                     <div class="card-header text-center pt-4">
-                        <h5>Warranty registration</h5>
+                        <h3>Warranty registration</h3>
                     </div>
+                    <hr class="horizontal dark mt-0">
 
                     <div class="card-body">
-                        <form role="form">
+                      @if ($message = Session::get('success'))
+                          <div class="alert alert-success">
+                              <p>{{ $message }}</p>
+                          </div>
+                      @endif
+                      @if ($errors->any())
+                          <div class="alert alert-danger">
+                              <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                              <ul>
+                                  @foreach ($errors->all() as $error)
+                                      <li>{{ $error }}</li>
+                                  @endforeach
+                              </ul>
+                          </div>
+                      @endif
+                        <form role="form" action="{{route('register-warranty.store')}}" method="POST" enctype="multipart/form-data">
+                            @csrf
                             <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="Name" aria-label="Name">
+                                <label class="text-sm">ชื่อ - สกุล (Name - Surname)<span class="text-danger">*</span></label>
+                                <input name="name" type="text" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล (Please fill in)">
                             </div>
                             <div class="mb-3">
-                                <input type="email" class="form-control" placeholder="Email" aria-label="Email">
+                                <label class="text-sm">ที่อยู่จัดส่งสินค้า (Delivery address)<span class="text-danger">*</span></label>
+                                <textarea name="addr" class="form-control" rows="3" placeholder="กรุณากรอกที่อยู่จัดส่งสินค้า (Please fill in)"></textarea>
                             </div>
                             <div class="mb-3">
-                                <input type="password" class="form-control" placeholder="Password"
-                                    aria-label="Password">
+                                <label class="text-sm">เบอร์โทรศัพท์ที่ติดต่อได้ (Contact number)<span class="text-danger">*</span></label>
+                                <input name="tel" type="number" class="form-control" placeholder="กรุณากรอกเบอร์โทรศัพท์ (Please fill in)">
                             </div>
-                            <div class="form-check form-check-info text-start">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and
-                                        Conditions</a>
-                                </label>
+                            <div class="mb-3">
+                                <label class="text-sm">Serial no. (16-20 หลัก)<span class="text-danger">*</span></label>
+                                <input name="serial_no" type="text" class="form-control" placeholder="กรุณากรอก Serial no. (Please fill in)">
                             </div>
+                            <div class="mb-3">
+                                <label class="text-sm">ช่องทางการสั่งซื้อ (Order channel)<span class="text-danger">*</span></label>
+                                <input name="order_channel" type="text" class="form-control" placeholder="กรุณากรอกช่องทางการสั่งซื้อ (Please fill in)">
+                            </div>
+                            <div class="mb-3">
+                                <label class="text-sm">หมายเลขคำสั่งซื้อ (Order number)<span class="text-danger">*</span></label>
+                                <input name="order_number" type="text" class="form-control" placeholder="กรุณากรอกหมายเลขคำสั่งซื้อ (Please fill in)">
+                            </div>
+                            <div class="mb-3">
+                                <label class="text-sm">แนบรูปใบเสร็จ หรือ serial no. (Attach file)<span class="text-danger">*</span></label>
+                                <input name="file" type="file" class="form-control" placeholder="Attach file" aria-label="Attach file">
+                            </div>
+                            <p class="text-danger text-sm">*แนบไฟลได้เฉพาะ ไฟล์ pdf และ jpg ไฟล์ขนาดสูงสุดไม่เกิน 5MB (Only pdf and jpg files with a maximum file size of 5MB.)</p>
+                            <p class="text-sm">บริษัท เฮเฟเล่ (ประเทศไทย) จำกัด ("เฮเฟเล่") จะเก็บ รวบรวม ใช้ เปิดเผยข้อมูลส่วนบุคคลของท่านเพื่อติดต่อ นำเสนอ และประชาสัมพันธ์ผลิตภัณฑ์และบริการที่ท่านสนใจโปรดศึกษารายละเอียดและสิทธิใน <a target="_blank" href="https://www.hafelethailand.com/policy/">นโยบายคุ้มครองข้อมูลส่วนบุคคล (Privacy Policy) ของเฮเฟเล่</a></p>
+                            <p class="text-sm">* In order to reach out to you, offer, and promote goods and services you might find interesting, Häfele (Thailand) Co., Ltd. gathers, uses, and discloses your personal information. Please review the
+                              <a target="_blank" href="https://www.hafelethailand.com/policy/">privacy protection policy's details and rights.</a></p>
                             <div class="text-center">
-                                <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
+                                <button type="submit" class="btn bg-gradient-danger w-100 my-4 mb-2">Register</button>
                             </div>
-                            <p class="text-sm mt-3 mb-0">Already have an account? <a href="javascript:;"
-                                    class="text-dark font-weight-bolder">Sign in</a></p>
+
                         </form>
                     </div>
                 </div>
@@ -48,58 +84,5 @@
         </div>
     </div>
 </main>
-<!-- -------- START FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
-<footer class="footer py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mb-4 mx-auto text-center">
-                <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                    Company
-                </a>
-                <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                    About Us
-                </a>
-                <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                    Team
-                </a>
-                <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                    Products
-                </a>
-                <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                    Blog
-                </a>
-                <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                    Pricing
-                </a>
-            </div>
-            <div class="col-lg-8 mx-auto text-center mb-4 mt-2">
-                <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                    <span class="text-lg fab fa-dribbble"></span>
-                </a>
-                <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                    <span class="text-lg fab fa-twitter"></span>
-                </a>
-                <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                    <span class="text-lg fab fa-instagram"></span>
-                </a>
-                <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                    <span class="text-lg fab fa-pinterest"></span>
-                </a>
-                <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                    <span class="text-lg fab fa-github"></span>
-                </a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-8 mx-auto text-center mt-1">
-                <p class="mb-0 text-secondary">
-                    Copyright ©
-                    <script>
-                        document.write(new Date().getFullYear())
-                    </script> Soft by Creative Tim.
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
+
 @endsection
