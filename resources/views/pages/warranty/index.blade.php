@@ -30,7 +30,7 @@
                           </div>
                       @endif
                       @if ($errors->any())
-                          <div class="alert alert-danger">
+                          <div class="alert alert-warning">
                               <strong>Whoops!</strong> There were some problems with your input.<br><br>
                               <ul>
                                   @foreach ($errors->all() as $error)

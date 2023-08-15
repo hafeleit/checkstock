@@ -34,16 +34,33 @@ class WarrantyController extends Controller
     public function store(Request $request)
     {
 
+        $request->validate([
+           'file' => 'required|mimes:jpg,jpeg,png|max:2048',
+           'name' => 'required',
+           'addr' => 'required',
+           'tel' => 'required',
+           'serial_no' => 'required',
+           'order_channel' => 'required',
+           'order_number' => 'required',
+        ]);
+
         if($request->file('file')) {
 
           $file = $request->file('file');
-          $fileName = $request->order_number . '.'. $file->getClientOriginalExtension();
-          $destinationPath = 'uploads';
-          $file->move($destinationPath,$fileName);
-          
+          $fileName = $request->serial_no . '.'. $file->getClientOriginalExtension();
+          $destinationPath = 'public';
+          $file->move(storage_path('app/uploads'),$fileName);
+
         }
 
-        dd($request->all());
+        $wanranty = $request->all();
+        $wanranty['file_name'] = $fileName;
+        unset($wanranty['_token']);
+        unset($wanranty['file']);
+
+        Warranty::insert($wanranty);
+
+        return back()->with('success','You have successfully applied for a warranty.');
     }
 
     /**
