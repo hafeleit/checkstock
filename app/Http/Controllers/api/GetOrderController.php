@@ -270,7 +270,7 @@ class GetOrderController extends Controller
             }elseif(Str::contains($shipchan, 'NINJA')){
               $data_excel[$l][] = '0114_NINJA';
             }elseif(Str::contains($shipchan, 'J&T')){
-              $data_excel[$l][] = '0116_J&t';
+              $data_excel[$l][] = '0116_J&T';
             }elseif(Str::contains($shipchan, 'LEX')){
               $data_excel[$l][] = '0117_LEX';
             }elseif(Str::contains($shipchan, 'SHOPEE')){
