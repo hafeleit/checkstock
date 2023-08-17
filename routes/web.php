@@ -33,8 +33,11 @@ Route::get('/', function () {return redirect('/products');});
     $url = 'https://www.hafelethailand.com/downloads-support/online-warranty-registration/';
     return Redirect::to($url);
   });
+
   Route::resource('register-warranty', WarrantyController::class);
   Route::get('check-warranty', [WarrantyController::class, 'check_warranty'])->name('check_warranty');
+  Route::get('warranty-search-ajax', [WarrantyController::class, 'search_warranty'])->name('warranty.search_warranty');
+
   Route::resource('products', ProductController::class);
   Route::post('products-import', [ProductController::class, 'import'])->name('products.import');
   Route::get('products-search-ajax', [ProductController::class, 'search_ajax'])->name('products.search-ajax');

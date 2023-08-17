@@ -10,7 +10,7 @@
       <span class="mask bg-primary opacity-6" style=""></span>
     </div>
     <div class="container">
-        <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+        <div class="row mt-lg-n12 mt-md-n11 mt-n10 justify-content-center">
             <div class="col-xl-5 col-lg-5 col-md-7 mx-auto">
 
                 <div class="card z-index-0">
@@ -43,31 +43,31 @@
                             @csrf
                             <div class="mb-3">
                                 <label class="text-sm">ชื่อ - สกุล (Name - Surname)<span class="text-danger">*</span></label>
-                                <input name="name" type="text" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล (Please fill in)">
+                                <input name="name" type="text" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล (Please fill in)" required>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">ที่อยู่จัดส่งสินค้า (Delivery address)<span class="text-danger">*</span></label>
-                                <textarea name="addr" class="form-control" rows="3" placeholder="กรุณากรอกที่อยู่จัดส่งสินค้า (Please fill in)"></textarea>
+                                <textarea name="addr" class="form-control" rows="3" placeholder="กรุณากรอกที่อยู่จัดส่งสินค้า (Please fill in)" required></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">เบอร์โทรศัพท์ที่ติดต่อได้ (Contact number)<span class="text-danger">*</span></label>
-                                <input name="tel" type="number" class="form-control" placeholder="กรุณากรอกเบอร์โทรศัพท์ (Please fill in)">
+                                <input name="tel" type="number" class="form-control" placeholder="กรุณากรอกเบอร์โทรศัพท์ (Please fill in)" required>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">Serial no. (16-20 หลัก)<span class="text-danger">*</span></label>
-                                <input name="serial_no" type="text" class="form-control" placeholder="กรุณากรอก Serial no. (Please fill in)">
+                                <input name="serial_no" type="text" class="form-control" placeholder="กรุณากรอก Serial no. (Please fill in)" required>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">ช่องทางการสั่งซื้อ (Order channel)<span class="text-danger">*</span></label>
-                                <input name="order_channel" type="text" class="form-control" placeholder="กรุณากรอกช่องทางการสั่งซื้อ (Please fill in)">
+                                <input name="order_channel" type="text" class="form-control" placeholder="กรุณากรอกช่องทางการสั่งซื้อ (Please fill in)" required>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">หมายเลขคำสั่งซื้อ (Order number)<span class="text-danger">*</span></label>
-                                <input name="order_number" type="text" class="form-control" placeholder="กรุณากรอกหมายเลขคำสั่งซื้อ (Please fill in)">
+                                <input name="order_number" type="text" class="form-control" placeholder="กรุณากรอกหมายเลขคำสั่งซื้อ (Please fill in)" required>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">แนบรูปใบเสร็จ หรือ serial no. (Attach file)<span class="text-danger">*</span></label>
-                                <input name="file" type="file" class="form-control" placeholder="Attach file" aria-label="Attach file">
+                                <input name="file" type="file" class="form-control" placeholder="Attach file" aria-label="Attach file" required>
                             </div>
                             <p class="text-danger text-sm">*แนบไฟลได้เฉพาะ ไฟล์ pdf และ jpg ไฟล์ขนาดสูงสุดไม่เกิน 5MB (Only pdf and jpg files with a maximum file size of 5MB.)</p>
                             <p class="text-sm">บริษัท เฮเฟเล่ (ประเทศไทย) จำกัด ("เฮเฟเล่") จะเก็บ รวบรวม ใช้ เปิดเผยข้อมูลส่วนบุคคลของท่านเพื่อติดต่อ นำเสนอ และประชาสัมพันธ์ผลิตภัณฑ์และบริการที่ท่านสนใจโปรดศึกษารายละเอียดและสิทธิใน <a target="_blank" href="https://www.hafelethailand.com/policy/">นโยบายคุ้มครองข้อมูลส่วนบุคคล (Privacy Policy) ของเฮเฟเล่</a></p>

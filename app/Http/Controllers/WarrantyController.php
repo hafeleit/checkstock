@@ -20,6 +20,17 @@ class WarrantyController extends Controller
         return view('pages.warranty.check');
     }
 
+    public function search_warranty(Request $request)
+    {
+        if($request->search != ''){
+          $query = Warranty::where('serial_no', $request->search);
+          $count = $query->count();
+          $data = $query->first();
+          return view('pages.warranty.search',['data' => $data, 'count'=>$count]);
+        }
+
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -49,12 +60,13 @@ class WarrantyController extends Controller
           $file = $request->file('file');
           $fileName = $request->serial_no . '.'. $file->getClientOriginalExtension();
           $destinationPath = 'public';
-          $file->move(storage_path('app/uploads'),$fileName);
+          $file->move(public_path('storage/img/warranty'),$fileName);
 
         }
 
         $wanranty = $request->all();
         $wanranty['file_name'] = $fileName;
+        $wanranty['created_at'] = date('Y-m-d H:i:s');
         unset($wanranty['_token']);
         unset($wanranty['file']);
 
