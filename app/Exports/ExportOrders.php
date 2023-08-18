@@ -56,7 +56,7 @@ class ExportOrders extends DefaultValueBinder implements FromArray, WithColumnFo
     public function columnFormats(): array
     {
         return [
-            //'F' => NumberFormat::FORMAT_TEXT,
+            'F' => NumberFormat::FORMAT_TEXT,
             'Y' => NumberFormat::FORMAT_TEXT,
             'AO' => NumberFormat::FORMAT_NUMBER,
             'AN' => NumberFormat::FORMAT_NUMBER,
