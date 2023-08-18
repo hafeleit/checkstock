@@ -8,8 +8,12 @@ use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
+use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 
-class ExportOrders implements FromArray, WithColumnFormatting, WithColumnWidths, WithTitle
+class ExportOrders extends DefaultValueBinder implements FromArray, WithColumnFormatting, WithColumnWidths, WithTitle, WithCustomValueBinder
 {
     protected $invoices;
 
@@ -23,11 +27,23 @@ class ExportOrders implements FromArray, WithColumnFormatting, WithColumnWidths,
         return 'Sheet1';
     }
 
+    public function bindValue(Cell $cell, $value)
+    {
+        if ($cell->getColumn() == 'F') {
+            $cell->setValueExplicit($value, DataType::TYPE_STRING);
+
+            return true;
+        }
+
+        // else return default behavior
+        return parent::bindValue($cell, $value);
+    }
+
     public function columnWidths(): array
     {
         return [
             'B' => 13,
-            'F' => 17,
+            'F' => 22,
             'I' => 12,
             'X' => 15,
             'Y' => 11,
@@ -40,7 +56,7 @@ class ExportOrders implements FromArray, WithColumnFormatting, WithColumnWidths,
     public function columnFormats(): array
     {
         return [
-            'F' => NumberFormat::FORMAT_NUMBER,
+            //'F' => NumberFormat::FORMAT_TEXT,
             'Y' => NumberFormat::FORMAT_TEXT,
             'AO' => NumberFormat::FORMAT_NUMBER,
             'AN' => NumberFormat::FORMAT_NUMBER,
