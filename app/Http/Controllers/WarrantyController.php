@@ -46,7 +46,7 @@ class WarrantyController extends Controller
     {
 
         $request->validate([
-           'file' => 'required|mimes:jpg,jpeg,png|max:2048',
+           'file' => 'required|mimes:jpg,jpeg,png',
            'name' => 'required',
            'addr' => 'required',
            'tel' => 'required',
