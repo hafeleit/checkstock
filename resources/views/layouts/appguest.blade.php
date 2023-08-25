@@ -7,7 +7,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ env('APP_URL') }}/img/hafele_logo.png">
     <link rel="icon" type="../image/png" href="{{ env('APP_URL') }}/img/hafele_logo.png">
     <title>
-        HAFELE CHECK STOCK
+        HAFELE APPLICATION
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
