@@ -22,7 +22,7 @@
                           </div>
                           @ENDIF
 
-                          <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Update Date: {{ $products[0]->created_at ?? '' }}</p>
+                          <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LAST UPDATE: {{ $products[0]->created_at ?? '' }}</p>
                           <span class="text-danger text-sm">ก่อนทำการสั่งซื้อกรุณาตรวจสอบข้อมูลกับพนักงานขายอีกครั้ง (Kindly contact the salesperson before ordering.)</span>
                       </div>
                   </div>
@@ -60,10 +60,8 @@
                                       <th class="text-end text-secondary text-xxs font-weight-bolder opacity-7">PRICE (Incl.VAT)</th>
 
                                       @IF(request()->input('view') == 'sales')
-                                        <?php /*
                                         <th class="text-end text-secondary text-xxs font-weight-bolder opacity-7">PRICE CLR (Incl.VAT)</th>
                                         <th class="text-end text-secondary text-xxs font-weight-bolder opacity-7">STOCK CLR</th>
-                                        */ ?>
                                       @ENDIF
                                   </tr>
                               </thead>
@@ -104,10 +102,8 @@
                                       <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ $product->PRICE_LIST_UOM}}</span></td>
                                       <td class="align-middle text-end" style="padding-right: 20px;"> <span class="text-xs font-weight-bold">{{ ($product->RATE7 != '' ? number_format($product->RATE7, 2) : '')}}</span></td>
                                       @IF(request()->input('view') == 'sales')
-                                        <?php /*
                                         <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ ($product->PRICE_CLR != '' ? number_format($product->PRICE_CLR) : '')}}</span></td>
                                         <td class="align-middle text-center"> <span class="text-xs font-weight-bold">{{ ($product->STOCK_CLR != '' ? number_format($product->STOCK_CLR) : '')}}</span></td>
-                                        */ ?>
                                       @ENDIF
                                   </tr>
                                   @endforeach

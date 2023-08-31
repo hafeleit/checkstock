@@ -160,14 +160,12 @@
                                     <span class="mb-2 text-sm">PACK CONV FACTOR:
                                       <span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['PACK_CONV_FACTOR'] }}</span>
                                     </span>
-                                    <?php /*
                                     <span class="mb-2 text-sm">PRICE CLR(Incl.VAT):
                                       <span class="text-danger font-weight-bolder ms-sm-2">{{ ($product[0]['PRICE_CLR'] != '') ? number_format($product[0]['PRICE_CLR']) : 0 }}</span>
                                     </span>
                                     <span class="mb-2 text-sm">STOCK CLR:
                                       <span class="text-danger font-weight-bolder ms-sm-2">{{ ($product[0]['STOCK_CLR'] != '') ? number_format($product[0]['STOCK_CLR']) : 0 }}</span>
                                     </span>
-                                    */ ?>
                                 </div>
                             </li>
                             @endif
