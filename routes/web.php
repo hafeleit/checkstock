@@ -26,8 +26,11 @@ use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarrantyController;
+use App\Http\Controllers\MailController;
 
-Route::get('/', function () {return redirect('/products');});
+  Route::get('/', function () {return redirect('/products');});
+
+  Route::get('send-mail', [MailController::class, 'index']);
 
   Route::get('warranty', function(){
     $url = 'https://www.hafelethailand.com/downloads-support/online-warranty-registration/';
