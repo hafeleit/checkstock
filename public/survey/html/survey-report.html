@@ -90,6 +90,8 @@
               href="javascript:window.print();"></a>
             <a id="report-download" class="nav-item nav-link active report-link"
               href="javascript:createPDF()"></a>
+            <a id="send-mail" class="nav-item nav-link active report-link" href="#" onclick="sendMail()">ส่งเมล์</a>
+            <input id="mailto" name="mailto" type="text" class="form-control" placeholder="" required="">
           </div>
         </div>
       </nav>
@@ -195,7 +197,7 @@
 
     <!-- Page Footer -->
     <footer id="page-footer" class="container-fluid" text-center>
-      <p class="copyright">Copyright © Hafele 2022</p>
+      <p class="copyright">Copyright © Hafele 2023</p>
     </footer>
     <!-- End Page Footer -->
 
@@ -229,3 +231,81 @@
   </body>
 
 </html>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+  let customerData = sessionStorage.getItem("customerData");
+  let salesPersonData = sessionStorage.getItem("salesPersonData");
+  let lockAndDoorData = sessionStorage.getItem("lockAndDoorData");
+  lockAndDoorData = JSON.parse(lockAndDoorData);
+  console.log(lockAndDoorData);
+
+  function sendMail(){
+
+    let mailto = $('#mailto').val();
+    if(mailto == ''){
+      alert('กรุณากรอกอีเมล์');
+      $('#mailto').focus();
+      return false;
+    }
+
+    $('#send-mail').css('pointer-events','none');
+
+    let customerData = sessionStorage.getItem("customerData");
+    let salesPersonData = sessionStorage.getItem("salesPersonData");
+    let lockAndDoorData = sessionStorage.getItem("lockAndDoorData");
+
+    customerData = JSON.parse(customerData);
+    salesPersonData = JSON.parse(salesPersonData);
+    lockAndDoorData = JSON.parse(lockAndDoorData);
+
+
+    let endpoint = "{{ env('APP_URL')}}";
+    $.ajax({
+      method: "GET",
+      url: "/api/survey-mail",
+      data: {
+        to: mailto,
+        customerName: customerData.customerName,
+        customerMobile: customerData.customerMobile,
+        customerAddress: customerData.customerAddress1 + customerData.customerAddress2 + customerData.customerAddress3,
+        customerInformation: customerData.customerInformation,
+
+        salesPersonID: salesPersonData.salesPersonID,
+        salesPersonName: salesPersonData.salesPersonName,
+        salesPersonLocation: salesPersonData.salesPersonLocation,
+
+        lockModel: lockAndDoorData.lockModel,
+        installationLocation: lockAndDoorData.installationLocation,
+        installationLocationMessage: lockAndDoorData.installationLocationMessage,
+        doorCondition: lockAndDoorData.doorCondition,
+        doorConditionMessage: lockAndDoorData.doorConditionMessage,
+        doorCondition: lockAndDoorData.doorCondition,
+        existingDoorRetrofit: lockAndDoorData.existingDoorRetrofit,
+        existingDoorRetrofitMessage: lockAndDoorData.existingDoorRetrofitMessage,
+        existingDoorRetrofitCaution: lockAndDoorData.existingDoorRetrofitCaution,
+        doorType: lockAndDoorData.doorType,
+        doorTypeMessage: lockAndDoorData.doorTypeMessage,
+        swingDoorType: lockAndDoorData.swingDoorType,
+        swingDoorTypeMessage: lockAndDoorData.swingDoorTypeMessage,
+        swingDoorJamb: lockAndDoorData.swingDoorJamb,
+        swingDoorJambMessage: lockAndDoorData.swingDoorJambMessage,
+        swingDoorJambCaution: lockAndDoorData.swingDoorJambCaution,
+        doorThicknessInput: lockAndDoorData.doorThicknessInput,
+        doorThickness: lockAndDoorData.doorThickness,
+        doorThicknessMessage: lockAndDoorData.doorThicknessMessage,
+        doorMaterial: lockAndDoorData.doorMaterial,
+        doorMaterialMessage: lockAndDoorData.doorMaterialMessage,
+        doorLeaf: lockAndDoorData.doorLeaf,
+        doorLeafMessage: lockAndDoorData.doorLeafMessage,
+      }
+    })
+    .done(function( msg ) {
+      alert('ส่งเมล์เรียบร้อย');
+      $('#send-mail').css('pointer-events','unset');
+
+    });
+
+  }
+
+
+</script>

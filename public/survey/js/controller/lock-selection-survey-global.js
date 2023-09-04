@@ -11,8 +11,8 @@
 /* GLOBAL CONSTANTS                                                          */
 /*****************************************************************************/
 
-// A constant value to be used as a css class name for determining if an input 
-// control received an invalid input which it is holding in its placeholder 
+// A constant value to be used as a css class name for determining if an input
+// control received an invalid input which it is holding in its placeholder
 // property
 const SWAP_VALUE = "swapValue";
 
@@ -65,9 +65,9 @@ document.onreadystatechange = function (event) {
 /* WINDOWS ONLOAD                                                            */
 /*****************************************************************************/
 
-/* Anonymous function fired on window load. 
- * @param    
- * @return   
+/* Anonymous function fired on window load.
+ * @param
+ * @return
  * */
 window.onload = function (event) {
 
@@ -142,10 +142,10 @@ window.onload = function (event) {
 /* HELPER FUNCTIONS                                                          */
 /*****************************************************************************/
 
-/* Helper function to provide the invalidate style for the input control. 
+/* Helper function to provide the invalidate style for the input control.
  * @param   {HTMLElement}   prependDiv   <div class="input-group-prepend">
  * @param   {HTMLElement}   inputGroupTextDiv  <span class="input-group-text">
- * @return   
+ * @return
  * */
 const invalidateInputControl = (prependDiv, inputGroupTextDiv) => {
 
@@ -159,10 +159,10 @@ const invalidateInputControl = (prependDiv, inputGroupTextDiv) => {
 
 }
 
-/* Helper function to provide the validate style for input the control. 
+/* Helper function to provide the validate style for input the control.
  * @param   {HTMLElement}   prependDiv   <div class="input-group-prepend">
  * @param   {HTMLElement}   inputGroupTextDiv  <span class="input-group-text">
- * @return   
+ * @return
  * */
 const validateInputControl = (prependDiv, inputGroupTextDiv) => {
 
@@ -176,19 +176,19 @@ const validateInputControl = (prependDiv, inputGroupTextDiv) => {
 
 }
 
-/* Helper function to remove the validate and invalidate style for 
+/* Helper function to remove the validate and invalidate style for
  * the input control.
  * @param   {HTMLElement}   prependDiv   <div class="input-group-prepend">
  * @param   {HTMLElement}   inputGroupTextDiv  <span class="input-group-text">
- * @return   
+ * @return
  * */
 const resetValidation = (prependDiv, inputGroupTextDiv) => {
 
     // Remove the class - prepend-invalid to the customer name prepend div
     // if present
     prependDiv.classList.remove("prepend-invalid");
-    // Remove the class - prepend-invalid to the customer name prepend div 
-    // if present 
+    // Remove the class - prepend-invalid to the customer name prepend div
+    // if present
     prependDiv.classList.remove("prepend-valid");
 
     // Make the input-group-text <div> opaque
@@ -197,10 +197,10 @@ const resetValidation = (prependDiv, inputGroupTextDiv) => {
 
 }
 
-/* Helper function to provide the invalidate style for the select control. 
+/* Helper function to provide the invalidate style for the select control.
  * @param   {HTMLElement}   selectionGroup   Top Field selection <div>
  * @param   {HTMLElement}   selectionDiv     <div class="input-group-prepend">
- * @return   
+ * @return
  * */
 const invalidateSelectControl = (selectionGroup, selectionDiv) => {
 
@@ -210,10 +210,10 @@ const invalidateSelectControl = (selectionGroup, selectionDiv) => {
 
 }
 
-/* Helper function to provide the validate style for the select control. 
+/* Helper function to provide the validate style for the select control.
  * @param   {HTMLElement}   selectionGroup   Top Field selection <div>
  * @param   {HTMLElement}   selectionDiv     <div class="input-group-prepend">
- * @return   
+ * @return
  * */
 const validateSelectControl = (selectionGroup, selectionDiv) => {
 
@@ -228,7 +228,7 @@ const validateSelectControl = (selectionGroup, selectionDiv) => {
  * for the select control.
  * @param   {HTMLElement}   selectionGroup   Top Field selection <div>
  * @param   {HTMLElement}   selectionDiv     <div class="input-group-prepend">
- * @return   
+ * @return
  * */
 const resetSelectControl = (selectionGroup, selectionDiv) => {
 
@@ -245,7 +245,7 @@ const resetSelectControl = (selectionGroup, selectionDiv) => {
  *                               else the status message is hidden
  * @param   {cssClassName} severity  low-severity/normal-severity/high-severity
  * @ param  {String} message The message to be displayed
- * @return   
+ * @return
  * */
 const invalidStatusMessageDisplay = (display, severity = "low-severity", message = "") => {
 
@@ -280,7 +280,7 @@ const invalidStatusMessageDisplay = (display, severity = "low-severity", message
 
 /* Helper function to check if all input fields are validated.
  * @param  {HTMLElement} topLevelDivId for each card section
- * @return {boolean}    true if all fields are validated - false otherwise  
+ * @return {boolean}    true if all fields are validated - false otherwise
  * */
 const allInputsAreValidated = (topLevelDivId) => {
 
@@ -293,7 +293,7 @@ const allInputsAreValidated = (topLevelDivId) => {
     let allInputContainerDivElements = topLevelDiv
         .getElementsByClassName("input-group");
 
-    // Iterate over all the div elements 
+    // Iterate over all the div elements
     for (let containerDiv of allInputContainerDivElements) {
 
         // Get the div element with the class "input-group-prepend"
@@ -354,8 +354,8 @@ const allInputsAreValidated = (topLevelDivId) => {
 }
 
 /* Helper function to initialize all the lock selection card fields.
- * @param  
- * @return 
+ * @param
+ * @return
  * */
 const initializeLockCardControls = () => {
 
@@ -692,10 +692,10 @@ const initializeLockCardControls = () => {
         doorLeafSelectionGroup.value = lockAndDoorData.doorLeaf;
         doorLeafSelectionGroup.dispatchEvent(new Event("change"));
 
-    } // Check if the user has selected a lock in the index.html file 
+    } // Check if the user has selected a lock in the index.html file
     else {
 
-        // If the user has selected a lock in the index.html file 
+        // If the user has selected a lock in the index.html file
         let lockModel = sessionStorage.getItem("lockModelSelected");
         if (lockModel !== null) {
 
@@ -741,8 +741,8 @@ const initializeLockCardControls = () => {
 }
 
 /* Helper function to initialize all the customer card fields.
- * @param  
- * @return 
+ * @param
+ * @return
  * */
 const initializeCustomerCardControls = () => {
 
@@ -797,7 +797,7 @@ const initializeCustomerCardControls = () => {
     let navNextButton = document.getElementById("customer-next");
     navNextButton.setAttribute("value", NAVIGATION_BUTTONS.LOCK_NEXT_BUTTON);
 
-    // Check if the customer data has been captured - if found then 
+    // Check if the customer data has been captured - if found then
     // initialize the customer fields with the previously captured data
     let customerData = sessionStorage.getItem("customerData");
     if (customerData !== null) {
@@ -837,8 +837,8 @@ const initializeCustomerCardControls = () => {
 }
 
 /* Helper function to initialize all the sales person card fields.
- * @param  
- * @return 
+ * @param
+ * @return
  * */
 const initializeSalesPersonCardControls = () => {
 
@@ -873,7 +873,7 @@ const initializeSalesPersonCardControls = () => {
     let navNextButton = document.getElementById("sales-person-next");
     navNextButton.setAttribute("value", NAVIGATION_BUTTONS.LOCK_NEXT_BUTTON);
 
-    // Check if the sales person data has been captured - if found then 
+    // Check if the sales person data has been captured - if found then
     // initialize the sales person fields with the previously captured data
     let salesPersonData = sessionStorage.getItem("salesPersonData");
     if (salesPersonData !== null) {
