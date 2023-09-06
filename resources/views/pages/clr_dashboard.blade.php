@@ -815,11 +815,11 @@
         new Chart(ctx2, {
          type: 'bar',
          data: {
-           labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+           labels: ['Counter 1', 'Counter 2', 'Counter 3', 'Counter 4', 'Counter 5', 'Counter 6', 'Counter 7', 'Counter 8', 'Counter 9'],
            datasets: [
              {
                label: 'POS',
-               data: [1152, 1044, 955, 758, 698, 955, 1204, 1104, 750],
+               data: [{{ $pos_today[0]->CNT_IN_VAT ?? 0 }}, {{ $pos_today[1]->CNT_IN_VAT ?? 0 }}, {{ $pos_today[2]->CNT_IN_VAT ?? 0 }}, {{ $pos_today[3]->CNT_IN_VAT ?? 0 }}, {{ $pos_today[4]->CNT_IN_VAT ?? 0 }}, {{ $pos_today[5]->CNT_IN_VAT ?? 0 }}, {{ $pos_today[6]->CNT_IN_VAT ?? 0 }}, {{ $pos_today[7]->CNT_IN_VAT ?? 0 }}, {{ $pos_today[8]->CNT_IN_VAT ?? 0 }}],
                backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
               ],borderColor: [
@@ -828,7 +828,7 @@
             },
             {
               label: 'ORION(IN_CLR)',
-              data: [985, 999, 896, 698, 659, 758, 1001, 998, 889],
+              data: [{{ $clr_today[0]->CNT_IN_VAT ?? 0 }}, {{ $clr_today[1]->CNT_IN_VAT ?? 0 }}, {{ $clr_today[2]->CNT_IN_VAT ?? 0 }}, {{ $clr_today[3]->CNT_IN_VAT ?? 0 }}, {{ $clr_today[4]->CNT_IN_VAT ?? 0 }}, {{ $clr_today[5]->CNT_IN_VAT ?? 0 }}, {{ $clr_today[6]->CNT_IN_VAT ?? 0 }}, {{ $clr_today[7]->CNT_IN_VAT ?? 0 }}, {{ $clr_today[8]->CNT_IN_VAT ?? 0 }}],
               backgroundColor: [
               'rgba(255, 205, 86, 0.2)',
              ],borderColor: [
@@ -837,7 +837,7 @@
            },
            {
              label: 'ORION(SO_PRI)',
-             data: [789, 895, 798, 999, 1050, 1100, 966, 948, 826],
+             data: [{{ $pri_today[0]->CNT_IN_VAT ?? 0 }}, {{ $pri_today[1]->CNT_IN_VAT ?? 0 }}, {{ $pri_today[2]->CNT_IN_VAT ?? 0 }}, {{ $pri_today[3]->CNT_IN_VAT ?? 0 }}, {{ $pri_today[4]->CNT_IN_VAT ?? 0 }}, {{ $pri_today[5]->CNT_IN_VAT ?? 0 }}, {{ $pri_today[6]->CNT_IN_VAT ?? 0 }}, {{ $pri_today[7]->CNT_IN_VAT ?? 0 }}, {{ $pri_today[8]->CNT_IN_VAT ?? 0 }}],
              backgroundColor: [
               'rgba(153, 102, 255, 0.2)',
 
