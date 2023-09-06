@@ -172,6 +172,87 @@
             </div>
         </div>
         <div class="row mt-4">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="card z-index-2 h-100">
+                    <div class="card-body p-3">
+                        <h6 class="text-capitalize">TOTAL</h6>
+                        <div class="chart">
+                            <canvas id="BarChart" class="chart-canvas" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="card z-index-2 h-100">
+                    <div class="card-body p-3">
+                        <h6 class="text-capitalize">TRANSACTIONS</h6>
+                        <div class="chart">
+                            <canvas id="BarChart2" class="chart-canvas" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-4 mb-lg-0 mb-4">
+                <div class="card z-index-2 h-100">
+                    <div class="card-body p-3">
+                        <div class="progress-info" style="display: flex;margin-bottom: 0.5rem;align-items: center;justify-content: space-between;">
+                          <div class="progress-label">
+                            <span>Target Mission 1</span>
+                          </div>
+                          <div class="progress-percentage">
+                            <span>60%</span>
+                          </div>
+                        </div>
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-lg-0 mb-4">
+                <div class="card z-index-2 h-100">
+                    <div class="card-body p-3">
+                        <div class="progress-info" style="display: flex;margin-bottom: 0.5rem;align-items: center;justify-content: space-between;">
+                          <div class="progress-label">
+                            <span>Target Mission 2</span>
+                          </div>
+                          <div class="progress-percentage">
+                            <span>50%</span>
+                          </div>
+                        </div>
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-lg-0 mb-4">
+                <div class="card z-index-2 h-100">
+                    <div class="card-body p-3">
+                        <div class="progress-info" style="display: flex;margin-bottom: 0.5rem;align-items: center;justify-content: space-between;">
+                          <div class="progress-label">
+                            <span>Target Mission 3</span>
+                          </div>
+                          <div class="progress-percentage">
+                            <span>30%</span>
+                          </div>
+                        </div>
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
             <div class="col-lg-7 mb-lg-0 mb-4">
                 <div class="card ">
                     <div class="card-header pb-0 p-3">
@@ -477,6 +558,99 @@
                     },
                 },
             },
+        });
+
+        /* Bar chart */
+        const ctx = document.getElementById('BarChart');
+
+        new Chart(ctx, {
+         type: 'bar',
+         data: {
+           labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+           datasets: [
+             {
+               label: 'POS',
+               data: [170000, 100000, 250000, 50000, 70000, 100000, 100000, 180000, 280000],
+               backgroundColor: [
+                'rgba(255, 159, 64, 0.2)',
+              ],borderColor: [
+                'rgb(255, 99, 132)',
+              ],borderWidth: 1
+            },
+            {
+              label: 'ORION(IN_CLR)',
+              data: [170000, 100000, 250000, 50000, 70000, 100000, 100000, 180000, 280000],
+              backgroundColor: [
+              'rgba(75, 192, 192, 0.2)',
+             ],borderColor: [
+               'rgb(75, 192, 192)',
+             ],borderWidth: 1
+           },
+           {
+             label: 'ORION(SO_PRI)',
+             data: [170000, 100000, 250000, 50000, 70000, 100000, 100000, 180000, 280000],
+             backgroundColor: [
+              'rgba(54, 162, 235, 0.2)',
+
+            ],borderColor: [
+              'rgb(54, 162, 235)',
+            ],borderWidth: 1
+          }
+         ]
+         },
+         options: {
+           scales: {
+             y: {
+               beginAtZero: true
+             }
+           }
+         }
+        });
+
+        const ctx2 = document.getElementById('BarChart2');
+
+        new Chart(ctx2, {
+         type: 'bar',
+         data: {
+           labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+           datasets: [
+             {
+               label: 'POS',
+               data: [1152, 1044, 955, 758, 698, 955, 1204, 1104, 750],
+               backgroundColor: [
+                'rgba(255, 159, 64, 0.2)',
+              ],borderColor: [
+                'rgb(255, 99, 132)',
+              ],borderWidth: 1
+            },
+            {
+              label: 'ORION(IN_CLR)',
+              data: [985, 999, 896, 698, 659, 758, 1001, 998, 889],
+              backgroundColor: [
+              'rgba(75, 192, 192, 0.2)',
+             ],borderColor: [
+               'rgb(75, 192, 192)',
+             ],borderWidth: 1
+           },
+           {
+             label: 'ORION(SO_PRI)',
+             data: [789, 895, 798, 999, 1050, 1100, 966, 948, 826],
+             backgroundColor: [
+              'rgba(54, 162, 235, 0.2)',
+
+            ],borderColor: [
+              'rgb(54, 162, 235)',
+            ],borderWidth: 1
+          }
+         ]
+         },
+         options: {
+           scales: {
+             y: {
+               beginAtZero: true
+             }
+           }
+         }
         });
     </script>
 @endpush

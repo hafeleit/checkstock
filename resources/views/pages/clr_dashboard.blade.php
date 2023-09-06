@@ -19,7 +19,7 @@
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 1</p>
                                     <h2 class="font-weight-bolder">
-                                        ฿{{ number_format($clr_total['day1_total']) }}
+                                        {{ number_format($clr_total['day1_total']) }}
                                     </h2>
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 2</p>
                                     <h2 class="font-weight-bolder">
-                                        ฿{{ number_format($clr_total['day2_total']) }}
+                                        {{ number_format($clr_total['day2_total']) }}
                                     </h2>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 3</p>
                                     <h2 class="font-weight-bolder">
-                                        ฿{{ number_format($clr_total['day3_total']) }}
+                                        {{ number_format($clr_total['day3_total']) }}
                                     </h2>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Grand Total</p>
                                     <h2 class="font-weight-bolder">
-                                        ฿{{ number_format($clr_total['day_total']) }}
+                                        {{ number_format($clr_total['day_total']) }}
                                     </h2>
                                 </div>
                             </div>
@@ -97,10 +97,23 @@
             </div>
         </div>
         <div class="row mt-4">
+
             <div class="col-lg-6 mb-lg-0 mb-4">
                 <div class="card z-index-2 h-100">
                     <div class="card-header pb-0 pt-3 bg-transparent">
-                        <h6 class="text-capitalize">Sales overview</h6>
+                        <h6 class="text-capitalize">Turnover All</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="chart">
+                            <canvas id="chart-line2" class="chart-canvas" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="card z-index-2 h-100">
+                    <div class="card-header pb-0 pt-3 bg-transparent">
+                        <h6 class="text-capitalize">Turnover All (POS,ORION)</h6>
                     </div>
                     <div class="card-body p-3">
                         <div class="chart">
@@ -109,13 +122,112 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="card z-index-2 h-100">
+                    <div class="card-body p-3">
+                        <h6 class="text-capitalize">Summary (Today)</h6>
+                        <div class="chart">
+                            <canvas id="BarChart" class="chart-canvas" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="card z-index-2 h-100">
+                    <div class="card-body p-3">
+                        <h6 class="text-capitalize">Transaction (Today)</h6>
+                        <div class="chart">
+                            <canvas id="BarChart2" class="chart-canvas" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
 
+            <div class="col-lg-12 mb-lg-0 mb-4">
+                <div class="card z-index-2 h-100">
+                    <div class="card-body p-3">
+                        <div class="progress-info" style="display: flex;margin-bottom: 0.5rem;align-items: center;justify-content: space-between;">
+                          <div class="progress-label">
+                            <span>Target Mission</span>
+                          </div>
+                          <div class="progress-percentage">
+                            <span>90%</span>
+                          </div>
+                        </div>
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-lg-6 mb-lg-0 mb-4">
+              <div class="card " style="height: 100%;">
+                  <div class="card-header pb-0 p-3">
+                      <div class="d-flex justify-content-between">
+                          <h6 class="mb-2">Summary All (POS,ORION)</h6>
+                      </div>
+                  </div>
+                  <div class="table-responsive">
+                      <table class="table align-items-center ">
+                          <tbody>
+                              <tr>
+                                  <td class="w-30">
+                                      <div class="d-flex px-2 py-1 align-items-center">
+                                          <div>
+                                              <img src="./img/icons/clr/orion.png" alt="Country flag" width="40px">
+                                          </div>
+                                          <div class="ms-4">
+                                              <p class="text-xs font-weight-bold mb-0">Type</p>
+                                              <h6 class="text-sm mb-0">ORION</h6>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="text-center">
+                                          <p class="text-xs font-weight-bold mb-0">Total</p>
+                                          <h3 class="mb-0">{{ number_format($clr_total['orion_total']) }}</h3>
+                                      </div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td class="w-30">
+                                      <div class="d-flex px-2 py-1 align-items-center">
+                                          <div>
+                                              <img src="./img/icons/clr/pos.png" alt="Country flag" width="40px">
+                                          </div>
+                                          <div class="ms-4">
+                                              <p class="text-xs font-weight-bold mb-0">Type</p>
+                                              <h6 class="text-sm mb-0">POS</h6>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="text-center">
+                                          <p class="text-xs font-weight-bold mb-0">Total</p>
+                                          <h3 class="mb-0">{{ number_format($clr_total['pos_total']) }}</h3>
+                                      </div>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+            <div class="col-lg-6">
                 <div class="card card-carousel overflow-hidden h-100 p-0 ">
                     <div class="table-responsive">
                         <div class="card-header pb-0 p-3">
                             <div class="d-flex justify-content-between">
-                                <h6 class="mb-2">SUMMARY</h6>
+                                <h6 class="mb-2">Summary All</h6>
                             </div>
                         </div>
                         <table class="table align-items-center ">
@@ -135,19 +247,19 @@
                                     <td>
                                         <div class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">DAY1</p>
-                                            <h3 class="mb-0 text-primary">฿{{ number_format($clr_total['day1_pos']) }}</h3>
+                                            <h3 class="mb-0 text-primary">{{ number_format($clr_total['day1_pos']) }}</h3>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">DAY2</p>
-                                            <h3 class="mb-0 text-primary">฿{{ number_format($clr_total['day2_pos']) }}</h3>
+                                            <h3 class="mb-0 text-primary">{{ number_format($clr_total['day2_pos']) }}</h3>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">DAY3</p>
-                                            <h3 class="mb-0 text-primary">฿{{ number_format($clr_total['day3_pos']) }}</h3>
+                                            <h3 class="mb-0 text-primary">{{ number_format($clr_total['day3_pos']) }}</h3>
                                         </div>
                                     </td>
                                 </tr>
@@ -166,19 +278,19 @@
                                     <td>
                                         <div class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">DAY1</p>
-                                            <h3 class="mb-0 text-success">฿{{ number_format($clr_total['day1_orion_in_clr']) }}</h3>
+                                            <h3 class="mb-0 text-success">{{ number_format($clr_total['day1_orion_in_clr']) }}</h3>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">DAY2</p>
-                                            <h3 class="mb-0 text-success">฿{{ number_format($clr_total['day2_orion_in_clr']) }}</h3></h3>
+                                            <h3 class="mb-0 text-success">{{ number_format($clr_total['day2_orion_in_clr']) }}</h3></h3>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">DAY3</p>
-                                            <h3 class="mb-0 text-success">฿{{ number_format($clr_total['day3_orion_in_clr']) }}</h3></h3>
+                                            <h3 class="mb-0 text-success">{{ number_format($clr_total['day3_orion_in_clr']) }}</h3></h3>
                                         </div>
                                     </td>
                                 </tr>
@@ -197,19 +309,19 @@
                                     <td>
                                         <div class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">DAY1</p>
-                                            <h3 class="mb-0 text-info">฿{{ number_format($clr_total['day1_orion_so_pri']) }}</h3>
+                                            <h3 class="mb-0 text-info">{{ number_format($clr_total['day1_orion_so_pri']) }}</h3>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">DAY2</p>
-                                            <h3 class="mb-0 text-info">฿{{ number_format($clr_total['day2_orion_so_pri']) }}</h3></h3>
+                                            <h3 class="mb-0 text-info">{{ number_format($clr_total['day2_orion_so_pri']) }}</h3></h3>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">DAY3</p>
-                                            <h3 class="mb-0 text-info">฿{{ number_format($clr_total['day3_orion_so_pri']) }}</h3></h3>
+                                            <h3 class="mb-0 text-info">{{ number_format($clr_total['day3_orion_so_pri']) }}</h3></h3>
                                         </div>
                                     </td>
                                 </tr>
@@ -228,19 +340,19 @@
                                     <td>
                                         <div class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">DAY1</p>
-                                            <h3 class="mb-0 text-secondary">฿{{ number_format($clr_total['day1_orion_in_dep']) }}</h3>
+                                            <h3 class="mb-0 text-secondary">{{ number_format($clr_total['day1_orion_in_dep']) }}</h3>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">DAY2</p>
-                                            <h3 class="mb-0 text-secondary">฿{{ number_format($clr_total['day2_orion_in_dep']) }}</h3></h3>
+                                            <h3 class="mb-0 text-secondary">{{ number_format($clr_total['day2_orion_in_dep']) }}</h3></h3>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">DAY3</p>
-                                            <h3 class="mb-0 text-secondary">฿{{ number_format($clr_total['day3_orion_in_dep']) }}</h3></h3>
+                                            <h3 class="mb-0 text-secondary">{{ number_format($clr_total['day3_orion_in_dep']) }}</h3></h3>
                                         </div>
                                     </td>
                                 </tr>
@@ -255,7 +367,7 @@
               <div class="card ">
                   <div class="card-header pb-0 p-3">
                       <div class="d-flex justify-content-between">
-                          <h6 class="mb-2">TODAY TOTAL</h6>
+                          <h6 class="mb-2">Summary (Today)</h6>
                       </div>
                   </div>
                   <div class="table-responsive">
@@ -276,55 +388,55 @@
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pos_today[0]->BY_CUST }}) #1</p>
-                                          <h6 class="mb-0">฿{{ number_format($pos_today[0]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[0]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pos_today[0]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[0]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pos_today[1]->BY_CUST }}) #2</p>
-                                          <h6 class="mb-0">฿{{ number_format($pos_today[1]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[1]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pos_today[1]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[1]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pos_today[2]->BY_CUST }}) #3</p>
-                                          <h6 class="mb-0">฿{{ number_format($pos_today[2]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[2]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pos_today[2]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[2]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pos_today[3]->BY_CUST }}) #4</p>
-                                          <h6 class="mb-0">฿{{ number_format($pos_today[3]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[3]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pos_today[3]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[3]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pos_today[4]->BY_CUST }}) #5</p>
-                                          <h6 class="mb-0">฿{{ number_format($pos_today[4]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[4]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pos_today[4]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[4]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pos_today[5]->BY_CUST }}) #6</p>
-                                          <h6 class="mb-0">฿{{ number_format($pos_today[5]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[5]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pos_today[5]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[5]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pos_today[6]->BY_CUST }}) #7</p>
-                                          <h6 class="mb-0">฿{{ number_format($pos_today[6]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[6]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pos_today[6]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[6]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pos_today[7]->BY_CUST }}) #8</p>
-                                          <h6 class="mb-0">฿{{ number_format($pos_today[7]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[7]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pos_today[7]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[7]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pos_today[8]->BY_CUST }}) #9</p>
-                                          <h6 class="mb-0">฿{{ number_format($pos_today[8]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[8]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pos_today[8]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[8]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                               </tr>
@@ -343,49 +455,49 @@
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pri_today[0]->BY_CUST }}) #1</p>
-                                          <h6 class="mb-0">฿{{ number_format($pri_today[0]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[0]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pri_today[0]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[0]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pri_today[1]->BY_CUST }}) #2</p>
-                                          <h6 class="mb-0">฿{{ number_format($pri_today[1]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[1]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pri_today[1]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[1]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pri_today[2]->BY_CUST }}) #3</p>
-                                          <h6 class="mb-0">฿{{ number_format($pri_today[2]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[2]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pri_today[2]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[2]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pri_today[3]->BY_CUST }}) #4</p>
-                                          <h6 class="mb-0">฿{{ number_format($pri_today[3]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[3]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pri_today[3]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[3]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pri_today[4]->BY_CUST }}) #5</p>
-                                          <h6 class="mb-0">฿{{ number_format($pri_today[4]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[4]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pri_today[4]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[4]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pri_today[5]->BY_CUST }}) #6</p>
-                                          <h6 class="mb-0">฿{{ number_format($pri_today[5]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[5]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pri_today[5]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[5]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pri_today[6]->BY_CUST }}) #7</p>
-                                          <h6 class="mb-0">฿{{ number_format($pri_today[6]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[6]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pri_today[6]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[6]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $pri_today[7]->BY_CUST }}) #8</p>
-                                          <h6 class="mb-0">฿{{ number_format($pri_today[7]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[7]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($pri_today[7]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[7]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                               </tr>
@@ -404,55 +516,55 @@
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $clr_today[0]->BY_CUST }}) #1</p>
-                                          <h6 class="mb-0">฿{{ number_format($clr_today[0]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[0]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($clr_today[0]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[0]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $clr_today[1]->BY_CUST }}) #2</p>
-                                          <h6 class="mb-0">฿{{ number_format($clr_today[1]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[1]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($clr_today[1]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[1]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $clr_today[2]->BY_CUST }}) #3</p>
-                                          <h6 class="mb-0">฿{{ number_format($clr_today[2]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[2]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($clr_today[2]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[2]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $clr_today[3]->BY_CUST }}) #4</p>
-                                          <h6 class="mb-0">฿{{ number_format($clr_today[3]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[3]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($clr_today[3]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[3]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $clr_today[4]->BY_CUST }}) #5</p>
-                                          <h6 class="mb-0">฿{{ number_format($clr_today[4]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[4]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($clr_today[4]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[4]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $clr_today[5]->BY_CUST }}) #6</p>
-                                          <h6 class="mb-0">฿{{ number_format($clr_today[5]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[5]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($clr_today[5]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[5]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $clr_today[6]->BY_CUST }}) #7</p>
-                                          <h6 class="mb-0">฿{{ number_format($clr_today[6]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[6]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($clr_today[6]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[6]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $clr_today[7]->BY_CUST }}) #8</p>
-                                          <h6 class="mb-0">฿{{ number_format($clr_today[7]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[7]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($clr_today[7]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[7]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">({{ $clr_today[8]->BY_CUST }}) #9</p>
-                                          <h6 class="mb-0">฿{{ number_format($clr_today[8]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[8]->CNT_IN_VAT ?? 0) }}</h6>
+                                          <h6 class="mb-0">{{ number_format($clr_today[8]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[8]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                               </tr>
@@ -462,154 +574,20 @@
               </div>
             </div>
         </div>
-        <div class="row mt-4">
-            <div class="col-lg-7 mb-lg-0 mb-4">
-                <div class="card ">
-                    <div class="card-header pb-0 p-3">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="mb-2">POS / ORION TOTAL</h6>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table align-items-center ">
-                            <tbody>
-                                <tr>
-                                    <td class="w-30">
-                                        <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="./img/icons/clr/orion.png" alt="Country flag" width="40px">
-                                            </div>
-                                            <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Type</p>
-                                                <h6 class="text-sm mb-0">ORION</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Total</p>
-                                            <h3 class="mb-0">฿{{ number_format($clr_total['orion_total']) }}</h3>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="w-30">
-                                        <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="./img/icons/clr/pos.png" alt="Country flag" width="40px">
-                                            </div>
-                                            <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Type</p>
-                                                <h6 class="text-sm mb-0">POS</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Total</p>
-                                            <h3 class="mb-0">฿{{ number_format($clr_total['pos_total']) }}</h3>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <?php /*<div class="col-lg-5">
-                <div class="card">
-                    <div class="card-header pb-0 p-3">
-                        <h6 class="mb-0">Categories</h6>
-                    </div>
-                    <div class="card-body p-3">
-                        <ul class="list-group">
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-mobile-button text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Devices</h6>
-                                        <span class="text-xs">250 in stock, <span class="font-weight-bold">346+
-                                                sold</span></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button
-                                        class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                            class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-tag text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Tickets</h6>
-                                        <span class="text-xs">123 closed, <span class="font-weight-bold">15
-                                                open</span></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button
-                                        class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                            class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-box-2 text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Error logs</h6>
-                                        <span class="text-xs">1 is active, <span class="font-weight-bold">40
-                                                closed</span></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button
-                                        class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                            class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div> */ ?>
-        </div>
+
     </div>
 @endsection
 
 @push('js')
     <script src="{{ env('APP_URL') }}/assets/js/plugins/chartjs.min.js"></script>
     <script>
+
         var ctx1 = document.getElementById("chart-line").getContext("2d");
-
         var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
-
         gradientStroke1.addColorStop(1, 'rgba(251, 99, 64, 0.2)');
         gradientStroke1.addColorStop(0.2, 'rgba(251, 99, 64, 0.0)');
         gradientStroke1.addColorStop(0, 'rgba(251, 99, 64, 0)');
 
-        var gradientStroke2 = ctx1.createLinearGradient(0, 230, 0, 50);
-
-        gradientStroke2.addColorStop(1, 'rgba(45, 206, 204, 0.2)');
-        gradientStroke2.addColorStop(0.2, 'rgba(45, 206, 204, 0.0)');
-        gradientStroke2.addColorStop(0, 'rgba(45, 206, 204, 0)');
-
-        var gradientStroke3 = ctx1.createLinearGradient(0, 230, 0, 50);
-
-        gradientStroke2.addColorStop(1, 'rgba(17, 205, 238, 0.2)');
-        gradientStroke2.addColorStop(0.2, 'rgba(17, 205, 238, 0.0)');
-        gradientStroke2.addColorStop(0, 'rgba(17, 205, 238, 0)');
-
-        var gradientStroke4 = ctx1.createLinearGradient(0, 230, 0, 50);
-
-        gradientStroke2.addColorStop(1, 'rgba(131, 146, 171, 0.2)');
-        gradientStroke2.addColorStop(0.2, 'rgba(131, 146, 171, 0.0)');
-        gradientStroke2.addColorStop(0, 'rgba(131, 146, 171, 0)');
         new Chart(ctx1, {
             type: "line",
             data: {
@@ -628,7 +606,7 @@
 
                 },
                 {
-                    label: "ORION_IN_CLR",
+                    label: "ORION",
                     tension: 0.4,
                     borderWidth: 0,
                     pointRadius: 0,
@@ -636,33 +614,11 @@
                     backgroundColor: gradientStroke1,
                     borderWidth: 3,
                     fill: true,
-                    data: [{{ $clr_total['day1_orion_in_clr'] }}, {{ $clr_total['day2_orion_in_clr'] }}, {{ $clr_total['day3_orion_in_clr'] }}],
-                    maxBarThickness: 6
-
-                },
-                {
-                    label: "ORION_SO_PRI",
-                    tension: 0.4,
-                    borderWidth: 0,
-                    pointRadius: 0,
-                    borderColor: "#11cdef",
-                    backgroundColor: gradientStroke1,
-                    borderWidth: 3,
-                    fill: true,
-                    data: [{{ $clr_total['day1_orion_so_pri'] }}, {{ $clr_total['day2_orion_so_pri'] }}, {{ $clr_total['day3_orion_so_pri'] }}],
-                    maxBarThickness: 6
-
-                },
-                {
-                    label: "ORION_IN_DEP",
-                    tension: 0.4,
-                    borderWidth: 0,
-                    pointRadius: 0,
-                    borderColor: "#8392ab",
-                    backgroundColor: gradientStroke1,
-                    borderWidth: 3,
-                    fill: true,
-                    data: [{{ $clr_total['day1_orion_in_dep'] }}, {{ $clr_total['day2_orion_in_dep'] }}, {{ $clr_total['day3_orion_in_dep'] }}],
+                    data: [
+                      {{ $clr_total['day1_orion_in_clr'] + $clr_total['day1_orion_so_pri'] + $clr_total['day1_orion_in_dep'] }},
+                      {{ $clr_total['day2_orion_in_clr'] + $clr_total['day2_orion_so_pri'] + $clr_total['day2_orion_in_dep'] }},
+                      {{ $clr_total['day3_orion_in_clr'] + $clr_total['day3_orion_so_pri'] + $clr_total['day3_orion_in_dep'] }},
+                    ],
                     maxBarThickness: 6
 
                 }],
@@ -673,7 +629,7 @@
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        display: false,
+                        display: true,
                     }
                 },
                 interaction: {
@@ -692,7 +648,7 @@
                         ticks: {
                             display: true,
                             padding: 10,
-                            color: '#fbfbfb',
+                            color: '#69707b',
                             font: {
                                 size: 11,
                                 family: "Open Sans",
@@ -723,6 +679,181 @@
                     },
                 },
             },
+        });
+
+        var ctx_2 = document.getElementById("chart-line2").getContext("2d");
+        var gradientStroke_2 = ctx_2.createLinearGradient(0, 230, 0, 50);
+        gradientStroke1.addColorStop(1, 'rgba(251, 99, 64, 0.2)');
+        gradientStroke1.addColorStop(0.2, 'rgba(251, 99, 64, 0.0)');
+        gradientStroke1.addColorStop(0, 'rgba(251, 99, 64, 0)');
+
+        new Chart(ctx_2, {
+            type: "line",
+            data: {
+                labels: ["Day1", "Day2", "Day3"],
+                datasets: [{
+                    label: "TOTAL",
+                    tension: 0.4,
+                    borderWidth: 0,
+                    pointRadius: 0,
+                    borderColor: "#fb6340",
+                    backgroundColor: gradientStroke_2,
+                    borderWidth: 3,
+                    fill: true,
+                    data: [{{ $clr_total['day1_total'] }}, {{ $clr_total['day2_total'] }}, {{ $clr_total['day3_total'] }}],
+                    maxBarThickness: 6
+
+                }],
+
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                scales: {
+                    y: {
+                        grid: {
+                            drawBorder: false,
+                            display: true,
+                            drawOnChartArea: true,
+                            drawTicks: false,
+                            borderDash: [5, 5]
+                        },
+                        ticks: {
+                            display: true,
+                            padding: 10,
+                            color: '#69707b',
+                            font: {
+                                size: 11,
+                                family: "Open Sans",
+                                style: 'normal',
+                                lineHeight: 2
+                            },
+                        }
+                    },
+                    x: {
+                        grid: {
+                            drawBorder: false,
+                            display: false,
+                            drawOnChartArea: false,
+                            drawTicks: false,
+                            borderDash: [5, 5]
+                        },
+                        ticks: {
+                            display: true,
+                            color: '#ccc',
+                            padding: 20,
+                            font: {
+                                size: 11,
+                                family: "Open Sans",
+                                style: 'normal',
+                                lineHeight: 2
+                            },
+                        }
+                    },
+                },
+            },
+        });
+
+        /* Bar chart */
+        const ctx = document.getElementById('BarChart');
+
+        new Chart(ctx, {
+         type: 'bar',
+         data: {
+           labels: ['Counter 1', 'Counter 2', 'Counter 3', 'Counter 4', 'Counter 5', 'Counter 6', 'Counter 7', 'Counter 8', 'Counter 9'],
+           datasets: [
+             {
+               label: 'POS',
+               data: [{{$pos_today[0]->SUM_IN_VAT ?? 0}}, {{$pos_today[1]->SUM_IN_VAT ?? 0}}, {{$pos_today[2]->SUM_IN_VAT ?? 0}}, {{$pos_today[3]->SUM_IN_VAT ?? 0}}, {{$pos_today[4]->SUM_IN_VAT ?? 0}}, {{$pos_today[5]->SUM_IN_VAT ?? 0}}, {{$pos_today[6]->SUM_IN_VAT ?? 0}}, {{$pos_today[7]->SUM_IN_VAT ?? 0}}, {{$pos_today[8]->SUM_IN_VAT ?? 0}}],
+               backgroundColor: [
+                'rgba(255, 159, 64, 0.2)',
+              ],borderColor: [
+                'rgb(255, 99, 132)',
+              ],borderWidth: 1
+            },
+            {
+              label: 'ORION(IN_CLR)',
+              data: [{{$clr_today[0]->SUM_IN_VAT ?? 0}}, {{$clr_today[1]->SUM_IN_VAT ?? 0}}, {{$clr_today[2]->SUM_IN_VAT ?? 0}}, {{$clr_today[3]->SUM_IN_VAT ?? 0}}, {{$clr_today[4]->SUM_IN_VAT ?? 0}}, {{$clr_today[5]->SUM_IN_VAT ?? 0}}, {{$clr_today[6]->SUM_IN_VAT ?? 0}}, {{$clr_today[7]->SUM_IN_VAT ?? 0}}, {{$clr_today[8]->SUM_IN_VAT ?? 0}}],
+              backgroundColor: [
+              'rgba(75, 192, 192, 0.2)',
+             ],borderColor: [
+               'rgb(75, 192, 192)',
+             ],borderWidth: 1
+           },
+           {
+             label: 'ORION(SO_PRI)',
+             data: [{{$pri_today[0]->SUM_IN_VAT ?? 0}}, {{$pri_today[1]->SUM_IN_VAT ?? 0}}, {{$pri_today[2]->SUM_IN_VAT ?? 0}}, {{$pri_today[3]->SUM_IN_VAT ?? 0}}, {{$pri_today[4]->SUM_IN_VAT ?? 0}}, {{$pri_today[5]->SUM_IN_VAT ?? 0}}, {{$pri_today[6]->SUM_IN_VAT ?? 0}}, {{$pri_today[7]->SUM_IN_VAT ?? 0}}, {{$pri_today[8]->SUM_IN_VAT ?? 0}}],
+             backgroundColor: [
+              'rgba(54, 162, 235, 0.2)',
+
+            ],borderColor: [
+              'rgb(54, 162, 235)',
+            ],borderWidth: 1
+          }
+         ]
+         },
+         options: {
+           scales: {
+             y: {
+               beginAtZero: true
+             }
+           }
+         }
+        });
+
+        const ctx2 = document.getElementById('BarChart2');
+
+        new Chart(ctx2, {
+         type: 'bar',
+         data: {
+           labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+           datasets: [
+             {
+               label: 'POS',
+               data: [1152, 1044, 955, 758, 698, 955, 1204, 1104, 750],
+               backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+              ],borderColor: [
+                'rgb(255, 99, 132)',
+              ],borderWidth: 1
+            },
+            {
+              label: 'ORION(IN_CLR)',
+              data: [985, 999, 896, 698, 659, 758, 1001, 998, 889],
+              backgroundColor: [
+              'rgba(255, 205, 86, 0.2)',
+             ],borderColor: [
+               'rgb(255, 205, 86)',
+             ],borderWidth: 1
+           },
+           {
+             label: 'ORION(SO_PRI)',
+             data: [789, 895, 798, 999, 1050, 1100, 966, 948, 826],
+             backgroundColor: [
+              'rgba(153, 102, 255, 0.2)',
+
+            ],borderColor: [
+              'rgb(153, 102, 255)',
+            ],borderWidth: 1
+          }
+         ]
+         },
+         options: {
+           scales: {
+             y: {
+               beginAtZero: true
+             }
+           }
+         }
         });
     </script>
 @endpush
