@@ -33,8 +33,7 @@ use App\Http\Controllers\MailController;
   Route::get('send-mail', [MailController::class, 'index']);
 
   Route::get('warranty', function(){
-    $url = 'https://www.hafelethailand.com/downloads-support/online-warranty-registration/';
-    return Redirect::to($url);
+    return Redirect::to(route('register-warranty.index'));
   });
 
   Route::resource('register-warranty', WarrantyController::class);
