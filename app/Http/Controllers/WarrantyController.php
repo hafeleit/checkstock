@@ -50,9 +50,11 @@ class WarrantyController extends Controller
            'name' => 'required',
            'addr' => 'required',
            'tel' => 'required',
-           'serial_no' => 'required',
+           'serial_no' => 'required|unique:warranties,serial_no',
            'order_channel' => 'required',
            'order_number' => 'required',
+        ],[
+          'unique' => 'หมายเลขซีเรียลได้ถูกนำไปใช้แล้ว'
         ]);
 
         if($request->file('file')) {
