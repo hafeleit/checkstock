@@ -12,7 +12,15 @@
         </div>
         <div class="d-flex align-items-center text-sm">
             <div class="btn btn-link">
-              <img class="img" src="../storage/img/warranty/{{ $data->file_name }}" alt="" width="100">
+              <?php
+                $image = '/storage/img/warranty/' . $data->file_name;
+                $image2 = $data->file_name;
+                if (file_exists( public_path() . $image )) {
+                    echo '<img src="'.$image.'" class="img" alt="" width="100">';
+                }else{
+                    echo '<img src="'.$image2.'" class="img" alt="" width="100">';
+                }
+               ?>
             </div>
         </div>
     </li>
