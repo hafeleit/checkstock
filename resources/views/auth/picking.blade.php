@@ -58,13 +58,13 @@
                                   <li class="nav-item">
                                       <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center "
                                           data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                          <span class="ms-2">PRODUCT</span>
+                                          <span class="ms-2">Menu2</span>
                                       </a>
                                   </li>
                                   <li class="nav-item">
                                       <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center "
                                           data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                          <span class="ms-2">Settings</span>
+                                          <span class="ms-2">Menu3</span>
                                       </a>
                                   </li>
                               </ul>
@@ -129,7 +129,7 @@
         $('#tab-login').css('display','none');
         $('#tab-picking').css('display','');
         $('.moving-tab').css('width','35%');
-        //$('#ticket').focus();
+        $('#ticket').focus();
       });
 
       $('#btn-save').on('click', function(){

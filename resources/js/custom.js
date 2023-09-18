@@ -543,13 +543,13 @@ window.addEventListener('resize', function(event) {
   if (window.innerWidth < 991) {
     total.forEach(function(item, i) {
       if (!item.classList.contains('flex-column')) {
-        item.classList.add('flex-column', 'on-resize');
+        //item.classList.add('flex-column', 'on-resize');
       }
     });
   } else {
     total.forEach(function(item, i) {
       if (item.classList.contains('on-resize')) {
-        item.classList.remove('flex-column', 'on-resize');
+        //item.classList.remove('flex-column', 'on-resize');
       }
     })
   }
