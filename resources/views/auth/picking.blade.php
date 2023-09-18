@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div id="tab-picking" class="col-xl-3 col-lg-5 col-md-7 mx-lg-0" style="border: 1px solid; display:none">
+                        <div id="tab-picking" class="col-xl-3 col-lg-5 col-md-7 mx-lg-0" style=" display:none">
                             <div class="card card-plain">
 				<div class="card-header pb-0 text-start">
                                     <h5 class="font-weight-bolder">PICKING</h5>
