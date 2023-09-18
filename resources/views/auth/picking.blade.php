@@ -11,7 +11,7 @@
 
                 <div class="container">
                     <div class="row">
-                        <div id="tab-login" class="col-xl-4 col-lg-5 col-md-7 mx-lg-0" style="">
+                        <div id="tab-login" class="col-xl-5 col-lg-5 col-md-7 mx-lg-0" style="">
                             <div class="card card-plain">
                                 <div class="card-header pb-0 text-start">
                                     <h5 class="font-weight-bolder">LOGIN</h5>
@@ -20,7 +20,7 @@
                                   <table>
                                     <tr>
                                       <td class="input-sm" align="right">Username:</td>
-                                      <td><input type="text" name="" class="input-sm" size="15"></td>
+                                      <td><input type="text" name="username" id="username" class="input-sm" size="15"></td>
                                     </tr>
                                     <tr>
                                       <td class="input-sm" align="right">Password:</td>
@@ -117,6 +117,7 @@
 
     <script type="text/javascript">
     $(function(){
+
       $('#btn-next').on('click', function(){
         $('#tab-login').css('display','none');
         $('#tab-picking').css('display','');
@@ -125,6 +126,10 @@
 
       $('#btn-save').on('click', function(){
         alert(0);
+      });
+
+      $('#username').on('keyup', function(){
+        alert($(this).val());
       });
     });
     window.addEventListener('keydown',e => {
