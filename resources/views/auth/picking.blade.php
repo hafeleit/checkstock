@@ -58,13 +58,13 @@
                                   <li class="nav-item">
                                       <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center "
                                           data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                          <span class="ms-2">Menu2</span>
+                                          <span class="ms-2">SYNC</span>
                                       </a>
                                   </li>
                                   <li class="nav-item">
                                       <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center "
                                           data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                          <span class="ms-2">Menu3</span>
+                                          <span class="ms-2">POWER</span>
                                       </a>
                                   </li>
                               </ul>
