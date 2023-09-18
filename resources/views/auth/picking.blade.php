@@ -71,7 +71,7 @@
                                 <table>
                                   <tr>
                                     <td class="input-sm" align="right">Ticket:</td>
-                                    <td align="right"><input type="text" name="" class="input-sm" size="15"><i class="ni ni-app"></i></td>
+                                    <td align="right"><input type="text" name="" id="ticket" class="input-sm" size="15"><i class="ni ni-app"></i></td>
                                   </tr>
                                   <tr>
                                     <td class="input-sm" align="right">Position: </td>
@@ -117,11 +117,13 @@
 
     <script type="text/javascript">
     $(function(){
-
+      $('#username').focus();
+      //click next button
       $('#btn-next').on('click', function(){
         $('#tab-login').css('display','none');
         $('#tab-picking').css('display','');
         $('.moving-tab').css('width','35%');
+        $('#ticket').focus();
       });
 
       $('#btn-save').on('click', function(){
@@ -129,9 +131,21 @@
       });
 
       $('#username').on('keyup', function(){
-        alert($(this).val());
+
+        $.ajax({
+          method: "GET",
+          url: "https://app.hafele.co.th/products",
+          data: {
+            search: 0,
+          }
+        }).done(function( msg ) {
+          alert(9);
+        });
+
       });
+
     });
+
     window.addEventListener('keydown',e => {
       var code = e.keyCode || e.which;
       //alert(code);
