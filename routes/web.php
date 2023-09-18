@@ -31,6 +31,7 @@ use App\Http\Controllers\MailController;
   Route::get('/', function () {return redirect('/products');});
 
   Route::get('send-mail', [MailController::class, 'index']);
+  Route::get('picking', [LoginController::class, 'picking']);
 
   Route::get('warranty', function(){
     return Redirect::to(route('register-warranty.index'));

@@ -19,6 +19,11 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+    public function picking()
+    {
+        return view('auth.picking');
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->validate([
