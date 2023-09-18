@@ -37,7 +37,7 @@
                                   </table>
 
                                   <div class="text-center">
-                                      <button id="btn-next" type="button" class="btn btn-sm btn-primary btn-sm w-40 mt-4 mb-0">Next</button>
+                                      <button id="btn-next" type="button" class="btn btn-sm btn-primary btn-sm w-50 mt-4 mb-0">Next</button>
                                   </div>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@
                                 </table>
 
                                 <div class="text-center">
-                                    <button id="btn-save" type="button" class="btn btn-sm btn-primary btn-sm w-40 mt-4 mb-0">Save</button>
+                                    <button id="btn-save" type="button" class="btn btn-sm btn-primary btn-sm w-50 mt-4 mb-0">Save</button>
                                 </div>
                               </div>
                           </div>
@@ -120,7 +120,7 @@
       $('#btn-next').on('click', function(){
         $('#tab-login').css('display','none');
         $('#tab-picking').css('display','');
-        $('.moving-tab').css('width','143px');
+        $('.moving-tab').css('width','35%');
       });
 
       $('#btn-save').on('click', function(){
