@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div id="tab-picking" class="row" style="display: none;">
-                        <div class="col-xl-4 col-lg-5 col-md-7 mx-lg-0">
+                        <div class="col-xl-5 col-lg-5 col-md-7 mx-lg-0">
 
                           <div class="nav-wrapper position-relative end-0">
                               <ul class="nav nav-pills nav-fill p-1" role="tablist">
