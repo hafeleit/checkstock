@@ -71,35 +71,35 @@
                                 <table>
                                   <tr>
                                     <td class="input-sm" align="right">Ticket:</td>
-                                    <td align="right"><input type="text" name="" id="ticket" class="input-sm" size="15"><i class="ni ni-app"></i></td>
+                                    <td align="right"><input type="text" name="ticket" id="ticket" class="input-sm" size="15"><i class="ni ni-app"></i></td>
                                   </tr>
                                   <tr>
                                     <td class="input-sm" align="right">Position: </td>
-                                    <td><input type="text" name="" class="input-sm" size="15"></td>
+                                    <td><input type="text" name="position" id="position" class="input-sm" size="15"></td>
                                   </tr>
                                   <tr>
                                     <td class="input-sm" align="right">Item/G1/G2: </td>
-                                    <td><input type="text" name="" class="input-sm" size="15"></td>
+                                    <td><input type="text" name="itemg1g2" id="itemg1g2" class="input-sm" size="15"></td>
                                   </tr>
                                   <tr>
                                     <td class="input-sm" align="right">Item Desc: </td>
-                                    <td><input type="text" name="" class="input-sm" size="15"></td>
+                                    <td><input type="text" name="item_desc" id="item_desc" class="input-sm" size="15"></td>
                                   </tr>
                                   <tr>
                                     <td class="input-sm" align="right">Batch/Serial:</td>
-                                    <td><input type="text" name="" class="input-sm" size="15"><i class="ni ni-air-baloon"></i></td>
+                                    <td><input type="text" name="serial" id="serial" class="input-sm" size="15"><i class="ni ni-air-baloon"></i></td>
                                   </tr>
                                   <tr>
                                     <td class="input-sm" align="right">Pack Code: </td>
-                                    <td><input type="text" name="" class="input-sm" size="15"></td>
+                                    <td><input type="text" name="pack_code" id="pack_code" class="input-sm" size="15"></td>
                                   </tr>
                                   <tr>
                                     <td class="input-sm" align="right">Pack Qty.: </td>
-                                    <td><input type="text" name="" class="input-sm" size="6"><input type="text" name="" class="input-sm" size="6"></td>
+                                    <td><input type="text" name="pack_qty" id="pack_qty1" class="input-sm" size="6"><input type="text" name="" id="pack_qty2" class="input-sm" size="6"></td>
                                   </tr>
                                   <tr>
                                     <td class="input-sm" align="right">Base Qty.: </td>
-                                    <td><input type="text" name="" class="input-sm" size="15" readonly></td>
+                                    <td><input type="text" name="base_qty" id="base_qty" class="input-sm" size="15" readonly></td>
                                   </tr>
                                 </table>
 
@@ -127,19 +127,26 @@
       });
 
       $('#btn-save').on('click', function(){
-        alert(0);
+        alert('Successfuly');
       });
 
-      $('#username').on('keyup', function(){
-
+      $('#ticket').on('keyup', function(){
+        let ticket = $(this).val();
         $.ajax({
           method: "GET",
           url: "https://app.hafele.co.th/products",
           data: {
-            search: 0,
+            ticket: ticket,
           }
         }).done(function( msg ) {
-          alert(9);
+          $('#itemg1g2').val('G8854851');
+          $('#item_desc').val('DESC885123');
+          $('#pack_code').val('PC985444');
+          $('#pack_qty1').val('5');
+          $('#pack_qty2').val('9');
+          $('#base_qty').val('98');
+
+          $('#position').focus();
         });
 
       });
