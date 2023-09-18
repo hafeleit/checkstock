@@ -10,27 +10,27 @@
         <section>
                 <div class="container">
                     <div class="row">
-                        <div id="tab-login" class="col-xl-3 col-lg-5 col-md-7 mx-lg-0" style="border: 1px solid;">
+                        <div id="tab-login" class="col-xl-3 col-lg-5 col-md-7 mx-lg-0" style="">
                             <div class="card card-plain">
                                 <div class="card-header pb-0 text-start">
-                                    <h5 class="font-weight-bolder">PICKING</h5>
+                                    <h5 class="font-weight-bolder">LOGIN</h5>
                                 </div>
                                 <div class="card-body">
                                   <table>
                                     <tr>
-                                      <td class="input-sm" align="right">USER:</td>
+                                      <td class="input-sm" align="right">Username:</td>
                                       <td><input type="text" name="" class="input-sm" size="15"></td>
                                     </tr>
                                     <tr>
-                                      <td class="input-sm" align="right">PASS:</td>
+                                      <td class="input-sm" align="right">Password:</td>
                                       <td><input type="text" name="" class="input-sm" size="15"></td>
                                     </tr>
                                     <tr>
-                                      <td class="input-sm" align="right">WH:</td>
+                                      <td class="input-sm" align="right">WH Code:</td>
                                       <td><input type="text" name="" class="input-sm" size="15"></td>
                                     </tr>
                                     <tr>
-                                      <td class="input-sm" align="right">LOC:</td>
+                                      <td class="input-sm" align="right">Location:</td>
                                       <td><input type="text" name="" class="input-sm" size="15"></td>
                                     </tr>
                                   </table>
