@@ -77,7 +77,7 @@
                                 <table>
                                   <tr>
                                     <td class="input-sm" align="right">Ticket:</td>
-                                    <td align="right"><input type="text" name="ticket" id="ticket" class="input-sm" size="15"><i class="ni ni-app"></i></td>
+                                    <td><input type="text" name="ticket" id="ticket" class="input-sm" size="15"><i class="ni ni-app"></i></td>
                                   </tr>
                                   <tr>
                                     <td class="input-sm" align="right">Position: </td>
@@ -94,6 +94,18 @@
                                   <tr>
                                     <td class="input-sm" align="right">Batch/Serial:</td>
                                     <td><input type="text" name="serial" id="serial" class="input-sm" size="15"><i class="ni ni-air-baloon"></i></td>
+                                  </tr>
+                                  <tr id="other_serial" style="display: none">
+                                    <td></td>
+                                    <td>
+                                      <select class="input-sm" id="">
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                      </select>
+                                    </td>
                                   </tr>
                                   <tr>
                                     <td class="input-sm" align="right">Pack Code: </td>
@@ -154,6 +166,12 @@
 
           $('#position').focus();
         });
+
+      });
+
+      $('#serial').on('keyup', function(){
+
+        $('#other_serial').css('display','revert');
 
       });
 
