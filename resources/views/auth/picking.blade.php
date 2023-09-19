@@ -45,8 +45,7 @@
                     </div>
 
                     <div id="tab-picking" class="row" style="display: none;">
-
-                      <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                        <div class="col-xl-4 col-lg-5 col-md-7 mx-lg-0">
                           <div class="nav-wrapper position-relative end-0">
                               <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                   <li class="nav-item">
@@ -69,9 +68,6 @@
                                   </li>
                               </ul>
                           </div>
-                      </div>
-
-                        <div class="col-xl-4 col-lg-5 col-md-7 mx-lg-0">
                           <div class="card card-plain">
                               <div class="card-body">
                                 <table>
@@ -188,7 +184,7 @@
         if($('#serial').val() != ''){
           $('#other_serial').css('display','revert');
         }
-        
+
         $('#serial').val('');
 
       });
