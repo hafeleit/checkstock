@@ -181,12 +181,15 @@
 
       $('#position').on('keyup', function(){
         $('#serial').focus();
-
       });
 
       $('#serial').on('keyup', function(){
+
+        if($('#serial').val() != ''){
+          $('#other_serial').css('display','revert');
+        }
+        
         $('#serial').val('');
-        $('#other_serial').css('display','revert');
 
       });
 
