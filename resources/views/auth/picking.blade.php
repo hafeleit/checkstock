@@ -179,6 +179,11 @@
 
       });
 
+      $('#position').on('keyup', function(){
+        $('#serial').focus();
+
+      });
+
       $('#serial').on('keyup', function(){
         $('#serial').val('');
         $('#other_serial').css('display','revert');
