@@ -104,6 +104,16 @@
                                         <option>15648595412546854621</option>
                                         <option>15648595412546854621</option>
                                         <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
+                                        <option>15648595412546854621</option>
                                       </select>
                                     </td>
                                   </tr>
@@ -170,7 +180,7 @@
       });
 
       $('#serial').on('keyup', function(){
-
+        $('#serial').val('');
         $('#other_serial').css('display','revert');
 
       });
