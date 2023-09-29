@@ -387,55 +387,55 @@
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[0]->BY_CUST }}) #1</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[0]->BY_CUST ?? 0 }}) #1</p>
                                           <h6 class="mb-0">{{ number_format($pos_today[0]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[0]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[1]->BY_CUST }}) #2</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[1]->BY_CUST ?? 0 }}) #2</p>
                                           <h6 class="mb-0">{{ number_format($pos_today[1]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[1]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[2]->BY_CUST }}) #3</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[2]->BY_CUST ?? 0 }}) #3</p>
                                           <h6 class="mb-0">{{ number_format($pos_today[2]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[2]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[3]->BY_CUST }}) #4</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[3]->BY_CUST ?? 0 }}) #4</p>
                                           <h6 class="mb-0">{{ number_format($pos_today[3]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[3]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[4]->BY_CUST }}) #5</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[4]->BY_CUST ?? 0 }}) #5</p>
                                           <h6 class="mb-0">{{ number_format($pos_today[4]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[4]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[5]->BY_CUST }}) #6</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[5]->BY_CUST ?? 0 }}) #6</p>
                                           <h6 class="mb-0">{{ number_format($pos_today[5]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[5]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[6]->BY_CUST }}) #7</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[6]->BY_CUST ?? 0 }}) #7</p>
                                           <h6 class="mb-0">{{ number_format($pos_today[6]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[6]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[7]->BY_CUST }}) #8</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[7]->BY_CUST ?? 0 }}) #8</p>
                                           <h6 class="mb-0">{{ number_format($pos_today[7]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[7]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[8]->BY_CUST }}) #9</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[8]->BY_CUST ?? 0 }}) #9</p>
                                           <h6 class="mb-0">{{ number_format($pos_today[8]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[8]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
@@ -478,25 +478,25 @@
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[4]->BY_CUST }}) #5</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[4]->BY_CUST ?? 0 }}) #5</p>
                                           <h6 class="mb-0">{{ number_format($pri_today[4]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[4]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[5]->BY_CUST }}) #6</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[5]->BY_CUST ?? 0 }}) #6</p>
                                           <h6 class="mb-0">{{ number_format($pri_today[5]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[5]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[6]->BY_CUST }}) #7</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[6]->BY_CUST ?? 0 }}) #7</p>
                                           <h6 class="mb-0">{{ number_format($pri_today[6]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[6]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
                                   <td>
                                       <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[7]->BY_CUST }}) #8</p>
+                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[7]->BY_CUST ?? 0 }}) #8</p>
                                           <h6 class="mb-0">{{ number_format($pri_today[7]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[7]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
