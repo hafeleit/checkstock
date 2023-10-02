@@ -125,6 +125,7 @@ class ProductController extends Controller
                     ->leftJoin('transaction_clr', function($join){
                       $join->on('transaction_clr.ITEM_CODE','products.ITEM_CODE');
                       $join->on('transaction_clr.UOM','products.PRICE_LIST_UOM');
+                      $join->where('transaction_clr.SOURCE','POS');
                     })
                     ->groupBy('transaction_clr.ITEM_CODE','transaction_clr.UOM')
                     ->get();
