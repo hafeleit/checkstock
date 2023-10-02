@@ -164,7 +164,7 @@
                                       <span class="text-danger font-weight-bolder ms-sm-2">{{ ($product[0]['PRICE_CLR'] != '') ? number_format($product[0]['PRICE_CLR']) : 0 }}</span>
                                     </span>
                                     <span class="mb-2 text-sm">STOCK CLR:
-                                      <span class="text-danger font-weight-bolder ms-sm-2">{{ ($product[0]['STOCK_CLR'] != '') ? number_format($product[0]['STOCK_CLR']) : 0 }}</span>
+                                      <span class="text-danger font-weight-bolder ms-sm-2">{{ ($product[0]['STOCK_CLR'] != '') ? number_format($product[0]['STOCK_CLR_CAL']) : 0 }}</span>
                                     </span>
                                 </div>
                             </li>
