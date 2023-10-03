@@ -35,6 +35,12 @@ class ExportOrders extends DefaultValueBinder implements FromArray, WithColumnFo
             return true;
         }
 
+		if ($cell->getColumn() == 'AN') {
+            $cell->setValueExplicit($value, DataType::TYPE_STRING);
+
+            return true;
+        }
+
         // else return default behavior
         return parent::bindValue($cell, $value);
     }
@@ -59,7 +65,7 @@ class ExportOrders extends DefaultValueBinder implements FromArray, WithColumnFo
             'F' => NumberFormat::FORMAT_TEXT,
             'Y' => NumberFormat::FORMAT_TEXT,
             'AO' => NumberFormat::FORMAT_NUMBER,
-            'AN' => NumberFormat::FORMAT_NUMBER,
+            'AN' => NumberFormat::FORMAT_TEXT,
             'AG' => NumberFormat::FORMAT_NUMBER,
             'AE' => NumberFormat::FORMAT_TEXT,
             'AM' => NumberFormat::FORMAT_TEXT,
