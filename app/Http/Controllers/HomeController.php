@@ -29,9 +29,9 @@ class HomeController extends Controller
 
     public function clr_dashboard()
     {
-        $day1 = '2022-10-06';
-        $day2 = '2022-10-07';
-        $day3 = '2022-10-08';
+        $day1 = '2023-10-05';
+        $day2 = '2023-10-06';
+        $day3 = '2023-10-07';
 
         $query = DB::select("
           SELECT
@@ -94,7 +94,23 @@ class HomeController extends Controller
           GROUP BY a.BY_CUST
           ORDER BY FIELD(a.BY_CUST,".$clr.")
         ");
+
         $day1_orion_in_dep = 0;
+        $day2_orion_in_dep = 0;
+        $day3_orion_in_dep = 0;
+        $day1_orion_in_clr = 0;
+        $day2_orion_in_clr = 0;
+        $day3_orion_in_clr = 0;
+        $day1_orion_so_pri = 0;
+        $day2_orion_so_pri = 0;
+        $day3_orion_so_pri = 0;
+        $day1_pos = 0;
+        $day2_pos = 0;
+        $day3_pos = 0;
+        $sum_day1 = [];
+        $sum_day2 = [];
+        $sum_day3 = [];
+
         foreach ($query as $key => $value) {
 
           $sum_day1[] = ($value->CAST_IN_DATE == $day1) ? $value->SUM_IN_VAT : 0;

@@ -121,7 +121,7 @@ class ProductController extends Controller
     {
         //$product = Product::where('item_code',$product)->get();
         $product = Product::where('products.ITEM_CODE',$product)
-                    ->select(DB::raw('products.*, products.STOCK_CLR - SUM(transaction_clr.QTY) as STOCK_CLR_CAL'))
+                    ->select(DB::raw('products.*, products.STOCK_CLR - COALESCE(SUM(transaction_clr.QTY),0) as STOCK_CLR_CAL'))
                     ->leftJoin('transaction_clr', function($join){
                       $join->on('transaction_clr.ITEM_CODE','products.ITEM_CODE');
                       $join->on('transaction_clr.UOM','products.PRICE_LIST_UOM');
