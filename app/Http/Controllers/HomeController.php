@@ -60,7 +60,7 @@ class HomeController extends Controller
             ,SUM(a.TO_IN_VAT) AS 'SUM_IN_VAT'
             ,COUNT(a.TO_IN_VAT) AS 'CNT_IN_VAT'
           FROM transaction_clr a
-          WHERE CAST(a.INV_DATE AS DATE) = '2022-10-08'
+          WHERE CAST(a.INV_DATE AS DATE) = '".date('Y-m-d')."'
           AND a.SOURCE = 'POS'
           AND a.BY_CUST IN (".$pos.")
           GROUP BY a.BY_CUST
@@ -74,7 +74,7 @@ class HomeController extends Controller
             ,SUM(a.TO_IN_VAT) AS 'SUM_IN_VAT'
             ,COUNT(a.TO_IN_VAT) AS 'CNT_IN_VAT'
           FROM transaction_clr a
-          WHERE CAST(a.INV_DATE AS DATE) = '2022-10-08'
+          WHERE CAST(a.INV_DATE AS DATE) = '".date('Y-m-d')."'
           AND a.SOURCE = 'ORION_SO_PRI'
           AND a.BY_CUST IN (".$pri.")
           GROUP BY a.BY_CUST
@@ -88,7 +88,7 @@ class HomeController extends Controller
             ,SUM(a.TO_IN_VAT) AS 'SUM_IN_VAT'
             ,COUNT(a.TO_IN_VAT) AS 'CNT_IN_VAT'
           FROM transaction_clr a
-          WHERE CAST(a.INV_DATE AS DATE) = '2022-10-08'
+          WHERE CAST(a.INV_DATE AS DATE) = '".date('Y-m-d')."'
           AND a.SOURCE = 'ORION_IN_CLR'
           AND a.BY_CUST IN (".$clr.")
           GROUP BY a.BY_CUST
