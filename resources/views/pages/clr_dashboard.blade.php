@@ -582,7 +582,9 @@
 @push('js')
     <script src="{{ env('APP_URL') }}/assets/js/plugins/chartjs.min.js"></script>
     <script>
-
+       setTimeout(function(){
+           window.location.reload();
+       }, 600000);
         var ctx1 = document.getElementById("chart-line").getContext("2d");
         var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
         gradientStroke1.addColorStop(1, 'rgba(251, 99, 64, 0.2)');
