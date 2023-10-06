@@ -31,7 +31,7 @@
         </div>
         @else
           @if (in_array(request()->route()->getName(), ['clr_dashboard']))
-          <div class="min-height-500 bg-primary position-absolute w-100"></div>
+          <div class="min-height-600 bg-primary position-absolute w-100"></div>
           @endif
         @endif
 
