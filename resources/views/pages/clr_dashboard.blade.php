@@ -534,42 +534,6 @@
                                           <h6 class="mb-0">{{ number_format($clr_today[2]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[2]->CNT_IN_VAT ?? 0) }}</h6>
                                       </div>
                                   </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $clr_today[3]->BY_CUST ?? 0 }}) #4</p>
-                                          <h6 class="mb-0">{{ number_format($clr_today[3]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[3]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $clr_today[4]->BY_CUST ?? 0 }}) #5</p>
-                                          <h6 class="mb-0">{{ number_format($clr_today[4]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[4]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $clr_today[5]->BY_CUST ?? 0 }}) #6</p>
-                                          <h6 class="mb-0">{{ number_format($clr_today[5]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[5]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $clr_today[6]->BY_CUST ?? 0 }}) #7</p>
-                                          <h6 class="mb-0">{{ number_format($clr_today[6]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[6]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $clr_today[7]->BY_CUST ?? 0 }}) #8</p>
-                                          <h6 class="mb-0">{{ number_format($clr_today[7]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[7]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $clr_today[8]->BY_CUST ?? 0 }}) #9</p>
-                                          <h6 class="mb-0">{{ number_format($clr_today[8]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[8]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
                               </tr>
                             </tbody>
                         </table>
