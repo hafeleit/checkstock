@@ -64,7 +64,7 @@
                                     <h2 class="font-weight-bolder">
                                         {{ ($clr_total['day3_total'] > 0) ? number_format($clr_total['day3_total']) : '-' }}
                                     </h2>
-                                    <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 10:00</p>
+                                    <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 11:00</p>
                                 </div>
                             </div>
                             <div class="col-4 text-end">
@@ -101,25 +101,25 @@
         <div class="row mt-4">
 
             <div class="col-lg-6 mb-lg-0 mb-4">
-                <div class="card z-index-2 h-100">
+                <div class="card z-index-2 h-80">
                     <div class="card-header pb-0 pt-3 bg-transparent">
                         <h6 class="text-capitalize">Turnover All</h6>
                     </div>
                     <div class="card-body p-3">
                         <div class="chart">
-                            <canvas id="chart-line2" class="chart-canvas" height="300"></canvas>
+                            <canvas id="chart-line2" class="chart-canvas" height="250"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 mb-lg-0 mb-4">
-                <div class="card z-index-2 h-100">
+                <div class="card z-index-2 h-80">
                     <div class="card-header pb-0 pt-3 bg-transparent">
                         <h6 class="text-capitalize">Turnover All (POS,ORION)</h6>
                     </div>
                     <div class="card-body p-3">
                         <div class="chart">
-                            <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+                            <canvas id="chart-line" class="chart-canvas" height="250"></canvas>
                         </div>
                     </div>
                 </div>
