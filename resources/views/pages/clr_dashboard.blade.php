@@ -173,7 +173,7 @@
         <?php */ ?>
         <div class="row mt-4">
           <div class="col-lg-6 mb-lg-0 mb-4">
-              <div class="card " style="height: 70%;">
+              <div class="card " style="height: 100%;">
                   <div class="card-header pb-0 p-3">
                       <div class="d-flex justify-content-between">
                           <h6 class="mb-2">Summary All (POS,ORION)</h6>
