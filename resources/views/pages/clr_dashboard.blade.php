@@ -597,7 +597,7 @@
             type: "line",
             data: {
                 //labels: ["Day1", "Day2", "Day3"],
-                labels: ["zero", "Day1", "Day2"],
+                labels: ["zero", "Day1", "Day2", "Day3"],
                 datasets: [{
                     label: "POS",
                     tension: 0.4,
@@ -608,7 +608,7 @@
                     borderWidth: 3,
                     fill: true,
                     //data: [{{ $clr_total['day1_pos'] }}, {{ $clr_total['day2_pos'] }}, {{ $clr_total['day3_pos'] }}],
-                    data: [ 0, {{ $clr_total['day1_pos'] }}, {{ $clr_total['day2_pos'] }}],
+                    data: [ 0, {{ $clr_total['day1_pos'] }}, {{ $clr_total['day2_pos'] }}, {{ $clr_total['day3_pos'] }}],
                     maxBarThickness: 6
 
                 },
@@ -625,7 +625,7 @@
                       0 ,
                       {{ $clr_total['day1_orion_in_clr'] + $clr_total['day1_orion_so_pri'] + $clr_total['day1_orion_in_dep'] }},
                       {{ $clr_total['day2_orion_in_clr'] + $clr_total['day2_orion_so_pri'] + $clr_total['day2_orion_in_dep'] }},
-                      //{{ $clr_total['day3_orion_in_clr'] + $clr_total['day3_orion_so_pri'] + $clr_total['day3_orion_in_dep'] }},
+                      {{ $clr_total['day3_orion_in_clr'] + $clr_total['day3_orion_so_pri'] + $clr_total['day3_orion_in_dep'] }},
                     ],
                     maxBarThickness: 6
 
@@ -699,7 +699,7 @@
             type: "line",
             data: {
                 //labels: ["Day1", "Day2", "Day3"],
-                labels: ["zero","Day1", "Day2"],
+                labels: ["zero","Day1", "Day2", "Day3"],
                 datasets: [{
                     label: "TOTAL",
                     tension: 0.4,
@@ -710,7 +710,7 @@
                     borderWidth: 3,
                     fill: true,
                     //data: [{{ $clr_total['day1_total'] }}, {{ $clr_total['day2_total'] }}, {{ $clr_total['day3_total'] }}],
-                    data: [ 0, {{ $clr_total['day1_total'] }}, {{ $clr_total['day2_total'] }}],
+                    data: [ 0, {{ $clr_total['day1_total'] }}, {{ $clr_total['day2_total'] }}, {{ $clr_total['day3_total'] }}],
                     maxBarThickness: 6
 
                 }],
