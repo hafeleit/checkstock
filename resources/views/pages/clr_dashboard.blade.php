@@ -131,7 +131,7 @@
                     <div class="card-body p-3">
                         <h6 class="text-capitalize">Summary (Today)</h6>
                         <div class="chart">
-                            <canvas id="BarChart" class="chart-canvas" height="150"></canvas>
+                            <canvas id="BarChart" class="chart-canvas" height="70"></canvas>
                         </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                     <div class="card-body p-3">
                         <h6 class="text-capitalize">Transaction (Today)</h6>
                         <div class="chart">
-                            <canvas id="BarChart2" class="chart-canvas" height="150"></canvas>
+                            <canvas id="BarChart2" class="chart-canvas" height="70"></canvas>
                         </div>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
         <?php */ ?>
         <div class="row mt-4">
           <div class="col-lg-6 mb-lg-0 mb-4">
-              <div class="card " style="height: 100%;">
+              <div class="card " style="height: 70%;">
                   <div class="card-header pb-0 p-3">
                       <div class="d-flex justify-content-between">
                           <h6 class="mb-2">Summary All (POS,ORION)</h6>
@@ -792,7 +792,7 @@
             },
             {
               label: 'ORION(IN_CLR)',
-              data: [{{$clr_today[0]->SUM_IN_VAT ?? 0}}, {{$clr_today[1]->SUM_IN_VAT ?? 0}}, {{$clr_today[2]->SUM_IN_VAT ?? 0}}, {{$clr_today[3]->SUM_IN_VAT ?? 0}}, {{$clr_today[4]->SUM_IN_VAT ?? 0}}, {{$clr_today[5]->SUM_IN_VAT ?? 0}}, {{$clr_today[6]->SUM_IN_VAT ?? 0}}, {{$clr_today[7]->SUM_IN_VAT ?? 0}}, {{$clr_today[8]->SUM_IN_VAT ?? 0}}],
+              data: [{{$clr_today[0]->SUM_IN_VAT ?? 0}}, {{$clr_today[1]->SUM_IN_VAT ?? 0}}, {{$clr_today[2]->SUM_IN_VAT ?? 0}}, {{$clr_today[3]->SUM_IN_VAT ?? 0}}, {{$clr_today[4]->SUM_IN_VAT ?? 0}}, {{$clr_today[5]->SUM_IN_VAT ?? 0}}, {{$clr_today[6]->SUM_IN_VAT ?? 0}}, {{$clr_today[7]->SUM_IN_VAT ?? 0}}],
               backgroundColor: [
               'rgba(75, 192, 192, 0.2)',
              ],borderColor: [
