@@ -30,6 +30,7 @@ class HomeController extends Controller
     public function test_db(){
       $users = DB::connection('remote_mysql')
       ->table('users')
+      ->where('user_name','HTH7213')
       ->first();
       dd($users);
       return "s";
