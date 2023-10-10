@@ -27,6 +27,14 @@ class HomeController extends Controller
         return view('pages.dashboard');
     }
 
+    public function test_db(){
+      $users = DB::connection('remote_mysql')
+      ->table('users')
+      ->first();
+      dd($users);
+      return "s";
+    }
+
     public function clr_dashboard()
     {
         $day1 = '2023-10-05';
@@ -60,7 +68,7 @@ class HomeController extends Controller
             ,SUM(a.TO_IN_VAT) AS 'SUM_IN_VAT'
             ,COUNT(a.TO_IN_VAT) AS 'CNT_IN_VAT'
           FROM transaction_clr a
-          WHERE CAST(a.INV_DATE AS DATE) = '".date('Y-m-d')."'
+          WHERE CAST(a.INV_DATE AS DATE) between '".$day1."' and '".$day3."'
           AND a.SOURCE = 'POS'
           AND a.BY_CUST IN (".$pos.")
           GROUP BY a.BY_CUST
@@ -74,7 +82,7 @@ class HomeController extends Controller
             ,SUM(a.TO_IN_VAT) AS 'SUM_IN_VAT'
             ,COUNT(a.TO_IN_VAT) AS 'CNT_IN_VAT'
           FROM transaction_clr a
-          WHERE CAST(a.INV_DATE AS DATE) = '".date('Y-m-d')."'
+          WHERE CAST(a.INV_DATE AS DATE) between '".$day1."' and '".$day3."'
           AND a.SOURCE = 'ORION_SO_PRI'
           AND a.BY_CUST IN (".$pri.")
           GROUP BY a.BY_CUST
@@ -88,7 +96,7 @@ class HomeController extends Controller
             ,SUM(a.TO_IN_VAT) AS 'SUM_IN_VAT'
             ,COUNT(a.TO_IN_VAT) AS 'CNT_IN_VAT'
           FROM transaction_clr a
-          WHERE CAST(a.INV_DATE AS DATE) = '".date('Y-m-d')."'
+          WHERE CAST(a.INV_DATE AS DATE) between '".$day1."' and '".$day3."'
           AND a.SOURCE = 'ORION_IN_CLR'
           AND a.BY_CUST IN (".$clr.")
           GROUP BY a.BY_CUST

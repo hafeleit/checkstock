@@ -29,13 +29,14 @@ use App\Http\Controllers\WarrantyController;
 use App\Http\Controllers\MailController;
 
   Route::get('/', function () {return redirect('/products');});
-
   Route::get('send-mail', [MailController::class, 'index']);
   Route::get('picking', [LoginController::class, 'picking']);
 
   Route::get('warranty', function(){
     return Redirect::to(route('register-warranty.index'));
   });
+
+  Route::get('test', [HomeController::class, 'test_db']);
 
   Route::resource('register-warranty', WarrantyController::class);
   Route::get('check-warranty', [WarrantyController::class, 'check_warranty'])->name('check_warranty');

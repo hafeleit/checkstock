@@ -93,6 +93,15 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'remote_mysql' => [
+            'driver' => 'mysql',
+            'host' => 'localhost',
+            'port' => '3309',
+            'database' => 'scrm7_pd',
+            'username' => 'hthadmin',
+            'password' => 'Hafele@2023',
+            // ...
+        ],
     ],
 
     /*
