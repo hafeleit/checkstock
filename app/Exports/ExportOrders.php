@@ -34,6 +34,26 @@ class ExportOrders extends DefaultValueBinder implements FromArray, WithColumnFo
             return true;
         }
 
+        if ($cell->getColumn() == 'H') {
+            $cell->setValueExplicit($value, DataType::TYPE_STRING);
+            return true;
+        }
+
+        if ($cell->getColumn() == 'T') {
+            $cell->setValueExplicit($value, DataType::TYPE_STRING);
+            return true;
+        }
+
+        if ($cell->getColumn() == 'AC') {
+            $cell->setValueExplicit($value, DataType::TYPE_STRING);
+            return true;
+        }
+
+        if ($cell->getColumn() == 'AG') {
+            $cell->setValueExplicit($value, DataType::TYPE_STRING);
+            return true;
+        }
+
     		if ($cell->getColumn() == 'AN') {
             $cell->setValueExplicit($value, DataType::TYPE_STRING);
             return true;
@@ -66,11 +86,16 @@ class ExportOrders extends DefaultValueBinder implements FromArray, WithColumnFo
     {
         return [
             'F' => NumberFormat::FORMAT_TEXT,
+
+            'H' => NumberFormat::FORMAT_TEXT,
+            'T' => NumberFormat::FORMAT_TEXT,
+            'AC' => NumberFormat::FORMAT_TEXT,
+            'AG' => NumberFormat::FORMAT_TEXT,
+
             'Y' => NumberFormat::FORMAT_TEXT,
             'AO' => NumberFormat::FORMAT_NUMBER,
             'AN' => NumberFormat::FORMAT_TEXT,
             'AQ' => NumberFormat::FORMAT_TEXT,
-            'AG' => NumberFormat::FORMAT_NUMBER,
             'AE' => NumberFormat::FORMAT_TEXT,
             'AM' => NumberFormat::FORMAT_TEXT,
 
