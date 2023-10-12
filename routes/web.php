@@ -37,6 +37,7 @@ use App\Http\Controllers\MailController;
   });
 
   Route::get('test', [HomeController::class, 'test_db']);
+  Route::get('ass_dashboard', [HomeController::class, 'ass_dashboard']);
 
   Route::resource('register-warranty', WarrantyController::class);
   Route::get('check-warranty', [WarrantyController::class, 'check_warranty'])->name('check_warranty');

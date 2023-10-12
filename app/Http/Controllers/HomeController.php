@@ -27,6 +27,10 @@ class HomeController extends Controller
         return view('pages.dashboard');
     }
 
+    public function ass_dashboard(){
+        return view('pages.ass_dashboard');
+    }
+
     public function test_db(){
       $users = DB::connection('remote_mysql')
       ->table('users')
