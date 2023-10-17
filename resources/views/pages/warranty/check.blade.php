@@ -45,8 +45,8 @@
                     <div class="card-body">
                         <form role="form">
                             <div class="mb-3">
-                                <label class="img text-sm">Search serial no.<span class="text-danger"></span></label>
-                                <input id="search" name="search" type="text" class="form-control" placeholder="serial no 16 - 20 digit">
+                                <label class="img text-sm">Search serial no or phone number<span class="text-danger"></span></label>
+                                <input id="search" name="search" type="text" class="form-control" placeholder="serial no or phone number">
                             </div>
                             <div class="card-body p-0 pb-0" id="get_warranty">
 
