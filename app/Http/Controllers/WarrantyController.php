@@ -23,9 +23,10 @@ class WarrantyController extends Controller
     public function search_warranty(Request $request)
     {
         if($request->search != ''){
-          $query = Warranty::where('serial_no', $request->search);
+          $query = Warranty::where('serial_no', $request->search)
+                    ->orWhere('tel', $request->search);
           $count = $query->count();
-          $data = $query->first();
+          $data = $query->get();
           return view('pages.warranty.search',['data' => $data, 'count'=>$count]);
         }
 

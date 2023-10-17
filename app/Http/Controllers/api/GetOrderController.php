@@ -229,6 +229,9 @@ class GetOrderController extends Controller
               $discnt = '';
               if($order->discount != ''){
                 $discnt = $order->sellerdiscount;
+                if($sale_channel == 'NOC NOC'){
+                  $discnt = $order->discountamount;
+                }
               }else{
                 $discnt = '0';
               }
