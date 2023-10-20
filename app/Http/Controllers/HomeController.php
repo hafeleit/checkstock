@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +29,141 @@ class HomeController extends Controller
     }
 
     public function ass_dashboard(){
-        return view('pages.ass_dashboard');
+
+      $end = new Carbon;
+      $lastday = $end->endOfMonth()->format('d');
+
+      $query = DB::connection('remote_mysql')->select("
+        SELECT
+          b.user_name,
+          DATE(CONVERT_TZ(a.booking,'+00:00','+07:00')) AS booking_date,
+          COUNT(*) AS cnt
+
+        FROM hthcm_after_sale_ticket a
+        INNER JOIN users b ON b.id = a.assigned_user_id
+        WHERE
+          DATE(CONVERT_TZ(a.booking,'+00:00','+07:00')) BETWEEN '2023-10-01' AND '2023-10-31'
+        GROUP BY booking_date, b.user_name
+        ORDER BY booking_date, b.user_name asc
+      ");
+
+      $data_all = $query;
+
+      $northeastern_ar = ['HTH8851','HTHASC9','HTHASC25','HTHASC28','HTHASC2','HTHASC6','HTHASC35','HTHASC47'];
+      $south_ar = ['HTH8831','HTH8834','HTHASC3','HTHASC33','HTHASC44','HTHASC46','HTHASC52','HTHASC53'];
+      $central_ar = ['HTHASC5','HTHASC20','HTHASC21','HTHASC22','HTHASC23','HTHASC29','HTHASC30','HTHASC31','HTHASC32','HTHASC34','HTHASC36','HTHASC49','HTHASC51'];
+
+      $hth = [];
+
+      $HTH8851[0] = 'HTH8851'; $HTHASC9[0] = 'HTHASC9'; $HTHASC25[0] = 'HTHASC25'; $HTHASC28[0] = 'HTHASC28'; $HTHASC2[0] = 'HTHASC2'; $HTHASC6[0] = 'HTHASC6'; $HTHASC35[0] = 'HTHASC35'; $HTHASC47[0] = 'HTHASC47';
+      $HTH8831[0] = 'HTH8831'; $HTH8834[0] = 'HTH8834';$HTHASC3[0] = 'HTHASC3';$HTHASC33[0] = 'HTHASC33';$HTHASC44[0] = 'HTHASC44';$HTHASC46[0] = 'HTHASC46';$HTHASC52[0] = 'HTHASC52';$HTHASC53[0] = 'HTHASC53';
+
+      $HTHASC5[0] = 'HTHASC5';
+      $HTHASC20[0] = 'HTHASC20';
+      $HTHASC21[0] = 'HTHASC21';
+      $HTHASC22[0] = 'HTHASC22';
+      $HTHASC23[0] = 'HTHASC23';
+      $HTHASC29[0] = 'HTHASC29';
+      $HTHASC30[0] = 'HTHASC30';
+      $HTHASC31[0] = 'HTHASC31';
+      $HTHASC32[0] = 'HTHASC32';
+      $HTHASC34[0] = 'HTHASC34';
+      $HTHASC36[0] = 'HTHASC36';
+      $HTHASC49[0] = 'HTHASC49';
+      $HTHASC51[0] = 'HTHASC51';
+
+      $HTH8805[0] = 'HTH8805';
+      $HTH8810[0] = 'HTH8810';
+      $HTH8811[0] = 'HTH8811';
+      $HTH8812[0] = 'HTH8812';
+      $HTH8815[0] = 'HTH8815';
+      $HTH8817[0] = 'HTH8817';
+      $HTH8818[0] = 'HTH8818';
+      $HTH8819[0] = 'HTH8819';
+      $HTH8821[0] = 'HTH8821';
+      $HTH8822[0] = 'HTH8822';
+      $HTH8824[0] = 'HTH8824';
+      $HTH8825[0] = 'HTH8825';
+      $HTH8828[0] = 'HTH8828';
+      $HTH8871[0] = 'HTH8871';
+      $HTH8872[0] = 'HTH8872';
+
+      foreach ($data_all as $key => $value) {
+
+        if($value->user_name == 'HTH8851'){ $HTH8851[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC9'){ $HTHASC9[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC25'){ $HTHASC25[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC28'){ $HTHASC28[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC2'){ $HTHASC2[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC6'){ $HTHASC6[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC35'){ $HTHASC35[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC47'){ $HTHASC47[(int)substr($value->booking_date,-2)] = $value->cnt; }
+
+        if($value->user_name == 'HTH8831'){ $HTH8831[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8834'){ $HTH8834[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC3'){ $HTHASC3[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC33'){ $HTHASC33[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC44'){ $HTHASC44[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC46'){ $HTHASC46[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC52'){ $HTHASC52[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC53'){ $HTHASC53[(int)substr($value->booking_date,-2)] = $value->cnt; }
+
+        if($value->user_name == 'HTHASC5'){ $HTHASC5[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC20'){ $HTHASC20[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC21'){ $HTHASC21[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC22'){ $HTHASC22[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC23'){ $HTHASC23[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC29'){ $HTHASC29[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC30'){ $HTHASC30[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC31'){ $HTHASC31[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC32'){ $HTHASC32[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC34'){ $HTHASC34[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC36'){ $HTHASC36[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC49'){ $HTHASC49[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTHASC51'){ $HTHASC51[(int)substr($value->booking_date,-2)] = $value->cnt; }
+
+        if($value->user_name == 'HTH8805'){ $HTH8805[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8810'){ $HTH8810[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8811'){ $HTH8811[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8812'){ $HTH8812[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8815'){ $HTH8815[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8817'){ $HTH8817[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8818'){ $HTH8818[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8819'){ $HTH8819[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8821'){ $HTH8821[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8822'){ $HTH8822[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8824'){ $HTH8824[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8825'){ $HTH8825[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8828'){ $HTH8828[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8871'){ $HTH8871[(int)substr($value->booking_date,-2)] = $value->cnt; }
+        if($value->user_name == 'HTH8872'){ $HTH8872[(int)substr($value->booking_date,-2)] = $value->cnt; }
+
+      }
+
+      $northeastern[] = $HTH8851;$northeastern[] = $HTHASC9;$northeastern[] = $HTHASC25;$northeastern[] = $HTHASC28;$northeastern[] = $HTHASC2;$northeastern[] = $HTHASC6;$northeastern[] = $HTHASC35;$northeastern[] = $HTHASC47;
+
+      $south[] = $HTH8831;$south[] = $HTH8834;$south[] = $HTHASC3;$south[] = $HTHASC33;$south[] = $HTHASC44;$south[] = $HTHASC46;$south[] = $HTHASC52;$south[] = $HTHASC53;
+
+      $central[] = $HTHASC5;$central[] = $HTHASC20;$central[] = $HTHASC21;$central[] = $HTHASC22;$central[] = $HTHASC23;$central[] = $HTHASC29;$central[] = $HTHASC30;$central[] = $HTHASC31;
+      $central[] = $HTHASC32;$central[] = $HTHASC34;$central[] = $HTHASC36;$central[] = $HTHASC49;$central[] = $HTHASC51;
+
+      $hth[] = $HTH8805;
+      $hth[] = $HTH8810;
+      $hth[] = $HTH8811;
+      $hth[] = $HTH8812;
+      $hth[] = $HTH8815;
+      $hth[] = $HTH8817;
+      $hth[] = $HTH8818;
+      $hth[] = $HTH8819;
+      $hth[] = $HTH8821;
+      $hth[] = $HTH8822;
+      $hth[] = $HTH8824;
+      $hth[] = $HTH8825;
+      $hth[] = $HTH8828;
+      $hth[] = $HTH8871;
+      $hth[] = $HTH8872;
+
+      return view('pages.ass_dashboard',['northeastern' => $northeastern, 'south' => $south, 'central' => $central, 'hth' => $hth, 'lastday' => $lastday]);
     }
 
     public function test_db(){
