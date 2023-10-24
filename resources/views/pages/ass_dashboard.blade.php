@@ -55,11 +55,15 @@
 <body class="{{ $class ?? '' }}">
 
 
-  <div class="position-absolute w-100" style="height:100%; background: linear-gradient(80deg, #b00017 , #e9a6b2 );"></div>
+  <div class="position-absolute w-100" style="height:65%; background: linear-gradient(0deg, #fafafa , #ad001e );"></div>
     <div class="container-fluid py-4">
         <div class="row">
           <div class="col-12" style="z-index: 9;text-align: center;margin-bottom: 14px;">
             <h3 class="font-weight-bolder text-white mb-0">Dashboard Tecnicial Capacity</h3>
+            <h3 class="font-weight-bolder text-white mb-0">
+              <a href="{{ route('ass_dashboard') . '?from_date=' . $pre_month}}" style="color:#f29090"><&nbsp&nbsp&nbsp</a>
+              {{ $curr_date }}
+              <a href="{{ route('ass_dashboard') . '?from_date=' . $next_month}}" style="color:#f29090">&nbsp&nbsp&nbsp></a></h3>
           </div>
         </div>
         <div class="row mt-4">
@@ -71,7 +75,10 @@
                     <table class="">
                       <thead>
                         <tr>
-                          <th>&nbsp</th>
+                          <th rowspan="2" style="background: brown;"></th>
+                          <th colspan="{{$lastday+1}}">DAY</th>
+                        </tr>
+                        <tr>
                           @for($i=0;$i<$lastday;$i++)
                           <th>{{ $i+1 }}</th>
                           @endfor
@@ -104,7 +111,10 @@
                     <table>
                       <thead>
                         <tr>
-                          <th>&nbsp</th>
+                          <th rowspan="2" style="background: brown;"></th>
+                          <th colspan="{{$lastday+1}}">DAY</th>
+                        </tr>
+                        <tr>
                           @for($i=0;$i<$lastday;$i++)
                           <th>{{ $i+1 }}</th>
                           @endfor
@@ -140,7 +150,10 @@
                     <table>
                       <thead>
                         <tr>
-                          <th>&nbsp</th>
+                          <th rowspan="2" style="background: brown;"></th>
+                          <th colspan="{{$lastday+1}}">DAY</th>
+                        </tr>
+                        <tr>
                           @for($i=0;$i<$lastday;$i++)
                           <th>{{ $i+1 }}</th>
                           @endfor
@@ -173,7 +186,10 @@
                     <table>
                       <thead>
                         <tr>
-                          <th>&nbsp</th>
+                          <th rowspan="2" style="background: brown;"></th>
+                          <th colspan="{{$lastday+1}}">DAY</th>
+                        </tr>
+                        <tr>
                           @for($i=0;$i<$lastday;$i++)
                           <th>{{ $i+1 }}</th>
                           @endfor

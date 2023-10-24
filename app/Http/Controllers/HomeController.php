@@ -28,10 +28,19 @@ class HomeController extends Controller
         return view('pages.dashboard');
     }
 
-    public function ass_dashboard(){
+    public function ass_dashboard(Request $request){
 
-      $end = new Carbon;
-      $lastday = $end->endOfMonth()->format('d');
+      $date = new Carbon;
+
+      $from_date = $request->from_date ?? date('Y-m-d');
+      $lastday = Carbon::parse($from_date)->endOfMonth()->format('d');
+      $start_date = date('Y-m-01', strtotime($from_date));
+      $end_date = date('Y-m-', strtotime($from_date)).$lastday;
+      $curr_date = date('F Y', strtotime($from_date));
+
+      $next_month = Carbon::parse($from_date)->addMonth()->format('Y-m-d');
+      $pre_month = Carbon::parse($from_date)->addMonth(-1)->format('Y-m-d');
+
 
       $query = DB::connection('remote_mysql')->select("
         SELECT
@@ -42,7 +51,7 @@ class HomeController extends Controller
         FROM hthcm_after_sale_ticket a
         INNER JOIN users b ON b.id = a.assigned_user_id
         WHERE
-          DATE(CONVERT_TZ(a.booking,'+00:00','+07:00')) BETWEEN '2023-10-01' AND '2023-10-31'
+          DATE(CONVERT_TZ(a.booking,'+00:00','+07:00')) BETWEEN '".$start_date."' AND '".$end_date."'
         GROUP BY booking_date, b.user_name
         ORDER BY booking_date, b.user_name asc
       ");
@@ -163,7 +172,16 @@ class HomeController extends Controller
       $hth[] = $HTH8871;
       $hth[] = $HTH8872;
 
-      return view('pages.ass_dashboard',['northeastern' => $northeastern, 'south' => $south, 'central' => $central, 'hth' => $hth, 'lastday' => $lastday]);
+      return view('pages.ass_dashboard',[
+        'northeastern' => $northeastern,
+        'south' => $south,
+        'central' => $central,
+        'hth' => $hth,
+        'lastday' => $lastday,
+        'curr_date' => $curr_date,
+        'next_month' => $next_month,
+        'pre_month' => $pre_month,
+      ]);
     }
 
     public function test_db(){
