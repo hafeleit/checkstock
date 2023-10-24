@@ -84,7 +84,7 @@
                         </tr>
                         <tr>
                           @for($i=0;$i<$lastday;$i++)
-                          <th>{{ $i+1 }}</th>
+                          <th>{{ str_pad($i+1,2,"0",STR_PAD_LEFT) }}</th>
                           @endfor
                         </tr>
                       </thead>
@@ -128,7 +128,7 @@
                         </tr>
                         <tr>
                           @for($i=0;$i<$lastday;$i++)
-                          <th>{{ $i+1 }}</th>
+                          <th>{{ str_pad($i+1,2,"0",STR_PAD_LEFT) }}</th>
                           @endfor
                         </tr>
                       </thead>
@@ -175,7 +175,7 @@
                         </tr>
                         <tr>
                           @for($i=0;$i<$lastday;$i++)
-                          <th>{{ $i+1 }}</th>
+                          <th>{{ str_pad($i+1,2,"0",STR_PAD_LEFT) }}</th>
                           @endfor
                         </tr>
                       </thead>
@@ -219,7 +219,7 @@
                         </tr>
                         <tr>
                           @for($i=0;$i<$lastday;$i++)
-                          <th>{{ $i+1 }}</th>
+                          <th>{{ str_pad($i+1,2,"0",STR_PAD_LEFT) }}</th>
                           @endfor
                         </tr>
                       </thead>
