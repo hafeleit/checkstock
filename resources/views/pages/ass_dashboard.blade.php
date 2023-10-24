@@ -49,6 +49,10 @@
       .color-crimson{
         color: crimson;
       }
+
+      .curr_day{
+        background-color: #ffe2e2;
+      }
     </style>
 </head>
 
@@ -90,9 +94,17 @@
                           <?php
                           for ($i=0; $i <= $lastday; $i++) {
                             if(isset($value[$i])){
-                              echo '<td>'.$value[$i].'</td>';
+                              if(date('d') == $i){
+                                echo '<td class="curr_day">'.$value[$i].'</td>';
+                              }else{
+                                echo '<td>'.$value[$i].'</td>';
+                              }
                             }else{
-                              echo '<td>0</td>';
+                              if(date('d') == $i){
+                                echo '<td class="curr_day">0</td>';
+                              }else{
+                                echo '<td>0</td>';
+                              }
                             }
                           }
                           ?>
@@ -126,9 +138,17 @@
                           <?php
                           for ($i=0; $i <= $lastday; $i++) {
                             if(isset($value[$i])){
-                              echo '<td>'.$value[$i].'</td>';
+                              if(date('d') == $i){
+                                echo '<td class="curr_day">'.$value[$i].'</td>';
+                              }else{
+                                echo '<td>'.$value[$i].'</td>';
+                              }
                             }else{
-                              echo '<td>0</td>';
+                              if(date('d') == $i){
+                                echo '<td class="curr_day">0</td>';
+                              }else{
+                                echo '<td>0</td>';
+                              }
                             }
                           }
                           ?>
@@ -165,9 +185,17 @@
                           <?php
                           for ($i=0; $i <= $lastday; $i++) {
                             if(isset($value[$i])){
-                              echo '<td>'.$value[$i].'</td>';
+                              if(date('d') == $i){
+                                echo '<td class="curr_day">'.$value[$i].'</td>';
+                              }else{
+                                echo '<td>'.$value[$i].'</td>';
+                              }
                             }else{
-                              echo '<td>0</td>';
+                              if(date('d') == $i){
+                                echo '<td class="curr_day">0</td>';
+                              }else{
+                                echo '<td>0</td>';
+                              }
                             }
                           }
                           ?>
@@ -201,9 +229,17 @@
                           <?php
                           for ($i=0; $i <= $lastday; $i++) {
                             if(isset($value[$i])){
-                              echo '<td>'.$value[$i].'</td>';
+                              if(date('d') == $i){
+                                echo '<td class="curr_day">'.$value[$i].'</td>';
+                              }else{
+                                echo '<td>'.$value[$i].'</td>';
+                              }
                             }else{
-                              echo '<td>0</td>';
+                              if(date('d') == $i){
+                                echo '<td class="curr_day">0</td>';
+                              }else{
+                                echo '<td>0</td>';
+                              }
                             }
                           }
                           ?>
