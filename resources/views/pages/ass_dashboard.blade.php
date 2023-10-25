@@ -101,9 +101,9 @@
                               }
                             }else{
                               if(date('d') == $i){
-                                echo '<td class="curr_day">0</td>';
+                                echo '<td class="curr_day"></td>';
                               }else{
-                                echo '<td>0</td>';
+                                echo '<td></td>';
                               }
                             }
                           }
@@ -145,9 +145,9 @@
                               }
                             }else{
                               if(date('d') == $i){
-                                echo '<td class="curr_day">0</td>';
+                                echo '<td class="curr_day"></td>';
                               }else{
-                                echo '<td>0</td>';
+                                echo '<td></td>';
                               }
                             }
                           }
@@ -192,9 +192,9 @@
                               }
                             }else{
                               if(date('d') == $i){
-                                echo '<td class="curr_day">0</td>';
+                                echo '<td class="curr_day"></td>';
                               }else{
-                                echo '<td>0</td>';
+                                echo '<td></td>';
                               }
                             }
                           }
@@ -204,6 +204,8 @@
 
                       </tbody>
                     </table>
+                  <br>
+                    <label for="">LAST UPDATE {{ DATE('d/m/Y H:i:s')}}</label>
                 </div>
             </div>
             <div class="col-lg-6 mb-lg-0 mb-4">
@@ -236,9 +238,9 @@
                               }
                             }else{
                               if(date('d') == $i){
-                                echo '<td class="curr_day">0</td>';
+                                echo '<td class="curr_day"></td>';
                               }else{
-                                echo '<td>0</td>';
+                                echo '<td></td>';
                               }
                             }
                           }
@@ -254,3 +256,9 @@
     </div>
 
 </body>
+<script type="text/javascript">
+let time_refresh = 1000 * 60 * 60;
+setTimeout(function(){
+    window.location.reload();
+}, time_refresh);
+</script>

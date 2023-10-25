@@ -144,18 +144,19 @@ class HomeController extends Controller
       $south[] = $HTHASC53;
 
       $central[] = $HTHASC5;
-      $central[] = $HTHASC20
-      ;$central[] = $HTHASC21;
+      $central[] = $HTHASC20;
+      $central[] = $HTHASC21;
       $central[] = $HTHASC22;
+      $central[] = $HTHASC32;
+      $central[] = $HTHASC34;
+      $central[] = $HTHASC49;
+      $central[] = $HTHASC51;
+
+      $central[] = $HTHASC36;
       $central[] = $HTHASC23;
       $central[] = $HTHASC29;
       $central[] = $HTHASC30;
       $central[] = $HTHASC31;
-      $central[] = $HTHASC32
-      ;$central[] = $HTHASC34;
-      $central[] = $HTHASC36;
-      $central[] = $HTHASC49;
-      $central[] = $HTHASC51;
 
       $hth[] = $HTH8805;
       $hth[] = $HTH8810;
