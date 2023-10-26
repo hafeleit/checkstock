@@ -27,25 +27,43 @@ use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarrantyController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\SoStatusController;
 
   Route::get('/', function () {return redirect('/products');});
-  Route::get('send-mail', [MailController::class, 'index']);
-  Route::get('picking', [LoginController::class, 'picking']);
 
-  Route::get('warranty', function(){
-    return Redirect::to(route('register-warranty.index'));
-  });
 
-  Route::get('test', [HomeController::class, 'test_db']);
-  Route::get('ass_dashboard', [HomeController::class, 'ass_dashboard'])->name('ass_dashboard');
-
+  //warranty
+  Route::get('warranty', function(){ return Redirect::to(route('register-warranty.index')); });
   Route::resource('register-warranty', WarrantyController::class);
   Route::get('check-warranty', [WarrantyController::class, 'check_warranty'])->name('check_warranty');
   Route::get('warranty-search-ajax', [WarrantyController::class, 'search_warranty'])->name('warranty.search_warranty');
 
+  //dashboard
+  Route::get('ass_dashboard', [HomeController::class, 'ass_dashboard'])->name('ass_dashboard');
+  Route::get('clr_dashboard', [HomeController::class, 'clr_dashboard'])->name('clr_dashboard');
+
+  //check stock
   Route::resource('products', ProductController::class);
   Route::post('products-import', [ProductController::class, 'import'])->name('products.import');
   Route::get('products-search-ajax', [ProductController::class, 'search_ajax'])->name('products.search-ajax');
+
+  //test
+  Route::get('send-mail', [MailController::class, 'index']);
+  Route::get('picking', [LoginController::class, 'picking']);
+  Route::get('test_db_crm', [HomeController::class, 'test_db']);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
@@ -56,7 +74,7 @@ use App\Http\Controllers\MailController;
 	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 	Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
-	Route::get('/clr_dashboard', [HomeController::class, 'clr_dashboard'])->name('clr_dashboard');
+
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -67,7 +85,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
 	Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
 	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
-	Route::get('/{page}', [PageController::class, 'index'])->name('page');
+	//Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 });
