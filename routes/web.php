@@ -31,7 +31,6 @@ use App\Http\Controllers\SoStatusController;
 
   Route::get('/', function () {return redirect('/products');});
 
-
   //warranty
   Route::get('warranty', function(){ return Redirect::to(route('register-warranty.index')); });
   Route::resource('register-warranty', WarrantyController::class);
@@ -46,6 +45,9 @@ use App\Http\Controllers\SoStatusController;
   Route::resource('products', ProductController::class);
   Route::post('products-import', [ProductController::class, 'import'])->name('products.import');
   Route::get('products-search-ajax', [ProductController::class, 'search_ajax'])->name('products.search-ajax');
+
+  //so status
+  Route::resource('so-status', SoStatusController::class);
 
   //test
   Route::get('send-mail', [MailController::class, 'index']);
@@ -85,7 +87,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
 	Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
 	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
-	//Route::get('/{page}', [PageController::class, 'index'])->name('page');
+	Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 });
