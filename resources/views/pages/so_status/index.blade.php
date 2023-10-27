@@ -95,8 +95,6 @@
                           <table class="table align-items-center mb-0">
                               <thead>
                                   <tr>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">POD STATUS</th>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">WAVE STATUS</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH TXN CODE</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH NO</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOI ITEM_CODE</th>
@@ -107,6 +105,8 @@
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SOH CUST NAME</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH SM CODE</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SM NAME</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">POD STATUS</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">WAVE STATUS</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -114,8 +114,7 @@
                                     @if(count($data))
                                       @foreach ($data as $value)
                                       <tr>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['POD_STATUS']}}</span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['WAVE_STS']}}</span></td>
+
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_TXN_CODE']}}</span></td>
                                         <td class="align-middle text-center">
                                           <a onclick="get_sodetail({{$value->id}})">
@@ -134,6 +133,8 @@
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_CUST_NAME']}}</span></td>
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_SM_CODE']}}</span></td>
                                         <td><span class="text-xs font-weight-bold">{{$value['SM_NAME']}}</span></td>
+                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['POD_STATUS']}}</span></td>
+                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['WAVE_STS']}}</span></td>
                                       </tr>
                                       @endforeach
                                     @else
