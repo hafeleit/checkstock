@@ -20,6 +20,9 @@ class SoStatusController extends Controller
       $soh_code = $request->soh_code ?? '';
       $sm_name = $request->sm_name ?? '';
 
+      $last_upd =so_status::first();
+      $last_upd = $last_upd->created_at;
+
       $q = so_status::query();
       if($soh_cust_name != ''){ $q->orWhere('SOH_NO',$soh_cust_name); }
       if($soh_no != ''){ $q->orWhere('SOH_NO',$soh_no); }
@@ -28,7 +31,6 @@ class SoStatusController extends Controller
       if($soh_code != ''){ $q->orWhere('SOH_NO',$soh_code); }
       if($sm_name != ''){ $q->orWhere('SOH_NO',$sm_name); }
       $sostatus = $q->paginate(5);
-      $last_upd = date('d-m-Y H:i:s', strtotime($sostatus[0]->created_at));
       return view('pages.so_status.index',['data' => $sostatus, 'last_upd' => $last_upd]);
     }
 
