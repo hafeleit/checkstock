@@ -26,10 +26,10 @@ class SoStatusController extends Controller
       $q = so_status::query();
       if($soh_cust_name != ''){ $q->orWhere('SOH_NO',$soh_cust_name); }
       if($soh_no != ''){ $q->orWhere('SOH_NO',$soh_no); }
-      if($soh_cust_code != ''){ $q->orWhere('SOH_NO',$soh_cust_code); }
-      if($soh_cust_name != ''){ $q->orWhere('SOH_NO',$soh_cust_name); }
-      if($soh_code != ''){ $q->orWhere('SOH_NO',$soh_code); }
-      if($sm_name != ''){ $q->orWhere('SOH_NO',$sm_name); }
+      if($soh_cust_code != ''){ $q->orWhere('SOH_CUST_CODE',$soh_cust_code); }
+      if($soh_cust_name != ''){ $q->orWhere('SOH_CUST_NAME',$soh_cust_name); }
+      if($soh_code != ''){ $q->orWhere('SOH_CODE',$soh_code); }
+      if($sm_name != ''){ $q->orWhere('SOH_NAME',$sm_name); }
       $sostatus = $q->paginate(5);
       return view('pages.so_status.index',['data' => $sostatus, 'last_upd' => $last_upd]);
     }
