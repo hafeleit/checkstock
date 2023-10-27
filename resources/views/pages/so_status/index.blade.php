@@ -97,8 +97,6 @@
                                   <tr>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH TXN CODE</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH NO</th>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOI ITEM_CODE</th>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOI ITEM_DESC</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH DT</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH LPO_NO</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH CUST CODE</th>
@@ -107,6 +105,8 @@
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SM NAME</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">POD STATUS</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">WAVE STATUS</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOI ITEM_CODE</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOI ITEM_DESC</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -125,8 +125,6 @@
                                             </div>
                                           </a>
                                         </td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOI_ITEM_CODE']}}</span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOI_ITEM_DESC']}}</span></td>
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_DT']}}</span></td>
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_LPO_NO']}}</span></td>
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_CUST_CODE']}}</span></td>
@@ -135,6 +133,8 @@
                                         <td><span class="text-xs font-weight-bold">{{$value['SM_NAME']}}</span></td>
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['POD_STATUS']}}</span></td>
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['WAVE_STS']}}</span></td>
+                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOI_ITEM_CODE']}}</span></td>
+                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOI_ITEM_DESC']}}</span></td>
                                       </tr>
                                       @endforeach
                                     @else
