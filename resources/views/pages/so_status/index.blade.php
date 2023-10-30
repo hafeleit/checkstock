@@ -135,19 +135,19 @@
                                       @endforeach
                                     @else
                                     <tr>
-                                      <td>NO DATA.</td>
+                                      <td></td>
                                     </tr>
                                     @endif
                                   @endif
                               </tbody>
                           </table>
 
-                          <div class="card-footer pb-0">
+                          <?php /* ?><div class="card-footer pb-0">
                             {!! $data->appends(Request::except('page'))->links('pagination::bootstrap-4') !!}
                           </div>
                           <div class="card-footer pb-0">
                             <p class="small text-muted"> Showing {{ 5*$data->currentpage()-5+1 }} to {{ 5*$data->currentpage() }} of {{ $data->total() }} results </p>
-                          </div>
+                          </div> <?php */ ?>
                         </div>
                     </div>
                 </div>

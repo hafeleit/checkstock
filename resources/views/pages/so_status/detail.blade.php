@@ -69,7 +69,9 @@
                                           <tr>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ITEM CODE</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ITEM DESC</th>
-                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">QTY</th>
+                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SOI QTY</th>
+                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">PENDING</th>
+                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DO QTY</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">WAVE DATE</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">WAVE STATUS</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DELIVERY NUMBER</th>
@@ -80,10 +82,30 @@
                                           </tr>
                                       </thead>
                                       <tbody>
+                                        <?php $chk_dup_item = []; ?>
                                           @foreach($data as $value)
+
                                           <tr>
-                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->SOI_ITEM_CODE}}</p></td>
-                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->SOI_ITEM_DESC}}</p></td>
+                                              <td><p class="text-secondary text-xs font-weight-bold">
+                                                  @if(!in_array($value->SOI_ITEM_CODE ,$chk_dup_item))
+                                                    {{ $value->SOI_ITEM_CODE }}
+                                                  @endif
+                                              </p></td>
+                                              <td><p class="text-secondary text-xs font-weight-bold">
+                                                @if(!in_array($value->SOI_ITEM_CODE ,$chk_dup_item))
+                                                  {{$value->SOI_ITEM_DESC}}
+                                                @endif
+                                              </p></td>
+                                              <td><p class="text-secondary text-xs font-weight-bold">
+                                                @if(!in_array($value->SOI_ITEM_CODE ,$chk_dup_item))
+                                                  {{$value->SOI_QTY}}
+                                                @endif
+                                              </p></td>
+                                              <td><p class="text-secondary text-xs font-weight-bold">
+                                                @if(!in_array($value->SOI_ITEM_CODE ,$chk_dup_item))
+                                                  {{$value->SOI_QTY - array_sum($kl[$value->SOI_ITEM_CODE]) }}
+                                                @endif
+                                              </p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->INV_QTY}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->WWH_DT}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->WAVE_STS}}</p></td>
@@ -93,6 +115,7 @@
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->INV_DT}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->POD_DT}}</p></td>
                                           </tr>
+                                          {{ $chk_dup_item[] = $value->SOI_ITEM_CODE }}
                                           @endforeach
                                       </tbody>
                                   </table>

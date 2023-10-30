@@ -24,6 +24,10 @@ class SoStatusController extends Controller
       $last_upd =so_status::first();
       $last_upd = $last_upd->created_at;
 
+      if($soh_txn_code == '' && $soh_no == '' && $soh_cust_code == '' && $soh_cust_name == '' && $soh_sm_code == '' && $sm_name ==''){
+        return view('pages.so_status.index',['data' => [], 'last_upd' => $last_upd]);
+      }
+
       $q = so_status::query();
       if($soh_cust_name != ''){ $q->Where('SOH_NO',$soh_cust_name); }
       if($soh_no != ''){
@@ -34,7 +38,7 @@ class SoStatusController extends Controller
       if($soh_sm_code != ''){ $q->Where('SOH_SM_CODE',$soh_sm_code); }
       if($sm_name != ''){ $q->Where('SM_NAME',$sm_name); }
       $q->groupBy('SOH_NO','POD_STATUS')->orderBy('SOH_NO','DESC');
-      $sostatus = $q->paginate(5);
+      $sostatus = $q->get();
       return view('pages.so_status.index',['data' => $sostatus, 'last_upd' => $last_upd]);
     }
 
@@ -61,9 +65,16 @@ class SoStatusController extends Controller
     {
       $soh_no = $request->SOH_NO ?? '';
       $pos_status = $request->POD_STATUS ?? '';
+
+      $kl = [];
       if($soh_no != ''){
         $q = so_status::where('SOH_NO', $soh_no)->where('POD_STATUS',$pos_status)->get();
-        return view('pages.so_status.detail',['data'=>$q]);
+
+        foreach ($q as $key => $value) {
+          $kl[$value->SOI_ITEM_CODE][] = $value->INV_QTY;
+
+        }
+        return view('pages.so_status.detail',['data'=>$q, 'kl' => $kl]);
       }
 
       return abort(404);
