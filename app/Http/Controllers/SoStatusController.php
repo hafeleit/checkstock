@@ -13,23 +13,27 @@ class SoStatusController extends Controller
      */
     public function index(Request $request)
     {
-      $soh_cust_name = $request->soh_cust_name ?? '';
+      //$request->session()->flush();
+      $soh_txn_code = $request->soh_txn_code ?? '';
       $soh_no = $request->soh_no ?? '';
       $soh_cust_code = $request->soh_cust_code ?? '';
       $soh_cust_name = $request->soh_cust_name ?? '';
-      $soh_code = $request->soh_code ?? '';
+      $soh_sm_code = $request->soh_sm_code ?? '';
       $sm_name = $request->sm_name ?? '';
 
       $last_upd =so_status::first();
       $last_upd = $last_upd->created_at;
 
       $q = so_status::query();
-      if($soh_cust_name != ''){ $q->orWhere('SOH_NO',$soh_cust_name); }
-      if($soh_no != ''){ $q->orWhere('SOH_NO',$soh_no); }
-      if($soh_cust_code != ''){ $q->orWhere('SOH_CUST_CODE',$soh_cust_code); }
-      if($soh_cust_name != ''){ $q->orWhere('SOH_CUST_NAME',$soh_cust_name); }
-      if($soh_code != ''){ $q->orWhere('SOH_CODE',$soh_code); }
-      if($sm_name != ''){ $q->orWhere('SOH_NAME',$sm_name); }
+      if($soh_cust_name != ''){ $q->Where('SOH_NO',$soh_cust_name); }
+      if($soh_no != ''){
+        $q->Where('SOH_NO',$soh_no);
+      }
+      if($soh_cust_code != ''){ $q->Where('SOH_CUST_CODE',$soh_cust_code); }
+      if($soh_cust_name != ''){ $q->Where('SOH_CUST_NAME',$soh_cust_name); }
+      if($soh_sm_code != ''){ $q->Where('SOH_SM_CODE',$soh_sm_code); }
+      if($sm_name != ''){ $q->Where('SM_NAME',$sm_name); }
+      $q->groupBy('SOH_NO','POD_STATUS')->orderBy('SOH_NO','DESC');
       $sostatus = $q->paginate(5);
       return view('pages.so_status.index',['data' => $sostatus, 'last_upd' => $last_upd]);
     }
@@ -53,13 +57,19 @@ class SoStatusController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(so_status $so_status)
+    public function show(Request $request)
     {
+      if($request->soh_no_m != ''){
+        $q = so_status::where('SOH_NO', $request->soh_no_m)->where('POD_STATUS',$request->pod_status_m)->get();
+        return view('pages.so_status.detail',['data'=>$q]);
+      }
 
-        return response()->json([
+      return abort(404);
+
+        /*return response()->json([
           'status' => true,
           'data' => $so_status,
-        ]);
+        ]);*/
     }
 
     /**

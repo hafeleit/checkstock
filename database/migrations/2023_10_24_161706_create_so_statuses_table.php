@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('SOI_ITEM_CODE'); //4
             $table->string('SOI_ITEM_DESC'); //00483973
             $table->integer('SOI_QTY'); //45195
+            $table->integer('INV_QTY'); //45195
             $table->string('WAVE_ID'); //Pigeonhole Confirmed
             $table->string('WWH_DT'); //DO_EXP-2300000845
             $table->string('WAVE_STS'); //26/09/2023

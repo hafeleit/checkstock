@@ -21,7 +21,7 @@
                       <div class="row">
                         <div class="form-group row">
                           <div class="col-sm-1">
-                          <span class="text-xs font-weight-bold">SOH TXN CODE</span>
+                          <span class="text-xs font-weight-bold">Trans Code</span>
                           </div>
                           <div class="col-sm-3">
                             <select class="form-control" id="soh_txn_code" name="soh_txn_code" style="-webkit-appearance:auto">
@@ -32,13 +32,13 @@
                             </select>
                           </div>
                           <div class="col-sm-1">
-                          <span class="text-xs font-weight-bold">SOH NO</span>
+                          <span class="text-xs font-weight-bold">Trans Number</span>
                           </div>
                           <div class="col-sm-3">
                             <input type="text" class="form-control" id="soh_no" name="soh_no" value="{{Request::input('soh_no') ?? ''}}">
                           </div>
                           <div class="col-sm-1">
-                          <span class="text-xs font-weight-bold">SOH CUST CODE</span>
+                          <span class="text-xs font-weight-bold">Customer Code</span>
                           </div>
                           <div class="col-sm-3">
                             <input type="text" class="form-control" id="soh_cust_code" name="soh_cust_code" value="{{Request::input('soh_cust_code') ?? ''}}">
@@ -48,19 +48,19 @@
                       <div class="row">
                         <div class="form-group row">
                           <div class="col-sm-1">
-                          <span class="text-xs font-weight-bold">SOH CUST NAME</span>
+                          <span class="text-xs font-weight-bold">Customer Name</span>
                           </div>
                           <div class="col-sm-3">
                             <input type="text" class="form-control" id="soh_cust_name" name="soh_cust_name" value="{{Request::input('soh_cust_name') ?? ''}}">
                           </div>
                           <div class="col-sm-1">
-                          <span class="text-xs font-weight-bold">SOH SM CODE</span>
+                          <span class="text-xs font-weight-bold">Sales Code</span>
                           </div>
                           <div class="col-sm-3">
-                            <input type="text" class="form-control" id="soh_code" name="soh_sm_code" value="{{Request::input('soh_sm_code') ?? ''}}">
+                            <input type="text" class="form-control" id="soh_sm_code" name="soh_sm_code" value="{{Request::input('soh_sm_code') ?? ''}}">
                           </div>
                           <div class="col-sm-1">
-                          <span class="text-xs font-weight-bold">SM NAME</span>
+                          <span class="text-xs font-weight-bold">Sales Name</span>
                           </div>
                           <div class="col-sm-3">
                             <input type="text" class="form-control" id="sm_name" name="sm_name" value="{{Request::input('sm_name') ?? ''}}">
@@ -95,18 +95,23 @@
                           <table class="table align-items-center mb-0">
                               <thead>
                                   <tr>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH TXN CODE</th>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH NO</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CODE</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Number</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH DT</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH LPO_NO</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH CUST CODE</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SOH CUST NAME</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH SM CODE</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SM NAME</th>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">POD STATUS</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">WAVE STATUS</th>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOI ITEM_CODE</th>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOI ITEM_DESC</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">POD STATUS</th>
+
+                                      <?php
+                                        $all_param = '';
+                                        foreach (Request::input() as $key => $value) {
+                                          $all_param .= '&'.$key.'='.$value;
+                                        }
+                                      ?>
                                   </tr>
                               </thead>
                               <tbody>
@@ -115,9 +120,11 @@
                                       @foreach ($data as $value)
                                       <tr>
 
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_TXN_CODE']}}</span></td>
                                         <td class="align-middle text-center">
-                                          <a onclick="get_sodetail({{$value->id}})">
+                                          <span class="text-xs font-weight-bold">{{$value['SOH_TXN_CODE']}}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                          <a href="{{ ROUTE('so-status.show',$value['id']) . '?pod_status_m=' . $value['POD_STATUS'] . '&soh_no_m=' . $value['SOH_NO'] . $all_param}}">
                                             <div class="d-flex flex-column justify-content-center">
                                               <h6 class="mb-0 text-sm">
                                                 <span class="btn btn-link text-danger text-gradient px-3 mb-0">{{$value['SOH_NO']}}</span>
@@ -131,10 +138,8 @@
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_CUST_NAME']}}</span></td>
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_SM_CODE']}}</span></td>
                                         <td><span class="text-xs font-weight-bold">{{$value['SM_NAME']}}</span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['POD_STATUS']}}</span></td>
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['WAVE_STS']}}</span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOI_ITEM_CODE']}}</span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOI_ITEM_DESC']}}</span></td>
+                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['POD_STATUS']}}</span></td>
                                       </tr>
                                       @endforeach
                                     @else
@@ -147,10 +152,11 @@
                           </table>
 
                           <div class="card-footer pb-0">
-                            {!! $data->appends(Request::except('page'))->links('pagination::bootstrap-5') !!}
+                            {!! $data->appends(Request::except('page'))->links('pagination::bootstrap-4') !!}
                           </div>
-
-
+                          <div class="card-footer pb-0">
+                            <p class="small text-muted"> Showing {{ 5*$data->currentpage()-5+1 }} to {{ 5*$data->currentpage() }} of {{ $data->total() }} results </p>
+                          </div>
                         </div>
                     </div>
                 </div>
@@ -158,7 +164,7 @@
         </div>
       <!-- Modal -->
           <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="modal-title"></h5>
@@ -181,19 +187,43 @@
                                           <span class="text-xs">SOH_CUST_NAME: <span class="text-dark ms-sm-2 font-weight-bold" id="SOH_CUST_NAME"></span></span>
                                           <span class="text-xs">SOH_SM_CODE: <span class="text-dark ms-sm-2 font-weight-bold" id="SOH_SM_CODE"></span></span>
                                           <span class="text-xs">SM_NAME: <span class="text-dark ms-sm-2 font-weight-bold" id="SM_NAME"></span></span>
-                                          <span class="text-xs">SOI_ITEM_CODE: <span class="text-dark ms-sm-2 font-weight-bold" id="SOI_ITEM_CODE"></span></span>
-                                          <span class="text-xs">SOI_ITEM_DESC: <span class="text-dark ms-sm-2 font-weight-bold" id="SOI_ITEM_DESC"></span></span>
-                                          <span class="text-xs">SOI_QTY: <span class="text-dark ms-sm-2 font-weight-bold" id="SOI_QTY"></span></span>
-                                          <span class="text-xs">WAVE_ID: <span class="text-dark ms-sm-2 font-weight-bold" id="WAVE_ID"></span></span>
-                                          <span class="text-xs">WWH_DT: <span class="text-dark ms-sm-2 font-weight-bold" id="WWH_DT"></span></span>
-                                          <span class="text-xs">WAVE_STS: <span class="text-dark ms-sm-2 font-weight-bold" id="WAVE_STS"></span></span>
-                                          <span class="text-xs">DO_NO: <span class="text-dark ms-sm-2 font-weight-bold" id="DO_NO"></span></span>
-                                          <span class="text-xs">DO_DT: <span class="text-dark ms-sm-2 font-weight-bold" id="DO_DT"></span></span>
-                                          <span class="text-xs">INV_NO: <span class="text-dark ms-sm-2 font-weight-bold" id="INV_NO"></span></span>
-                                          <span class="text-xs">INV_DT: <span class="text-dark ms-sm-2 font-weight-bold" id="INV_DT"></span></span>
                                           <span class="text-xs">POD_STATUS: <span class="text-dark ms-sm-2 font-weight-bold" id="POD_STATUS"></span></span>
-                                          <span class="text-xs">POD_DT: <span class="text-dark ms-sm-2 font-weight-bold" id="POD_DT"></span></span>
-                                          <span class="text-xs">CREATED_DT: <span class="text-dark ms-sm-2 font-weight-bold" id="CREATED_DT"></span></span>
+
+                                          <div class="table-responsive p-0">
+                                              <table class="table align-items-center mb-0">
+                                                  <thead>
+                                                      <tr>
+                                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
+                                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
+                                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employed</th>
+                                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
+                                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
+                                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employed</th>
+                                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
+                                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
+                                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                      <tr>
+                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
+                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
+                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
+                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
+                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
+                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
+                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
+                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
+                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
+                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
+                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
+                                                      </tr>
+
+                                                  </tbody>
+                                              </table>
+                                          </div>
                                       </div>
                                   </li>
                               </ul>
