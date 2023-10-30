@@ -8,27 +8,26 @@
                 <div class="card">
                     <div class="card-header pb-0">
                       <?php
-                        $all_param = '?';
-                        foreach (Request::input() as $key => $value) {
-                          $all_param .= $key.'='.$value.'&';
-                        }
+                      $param_search = '?';
+                      $param_search .= (session()->has('soh_txn_code')) ? 'soh_txn_code=' . Session::get('soh_txn_code') .'&' : '';
+                      $param_search .= (session()->has('soh_no')) ? 'soh_no=' . Session::get('soh_no') .'&' : '';
+                      $param_search .= (session()->has('soh_cust_code')) ? 'soh_cust_code=' . Session::get('soh_cust_code') .'&' : '';
+                      $param_search .= (session()->has('soh_cust_name')) ? 'soh_cust_name=' . Session::get('soh_cust_name') .'&' : '';
+                      $param_search .= (session()->has('soh_sm_code')) ? 'soh_sm_code=' . Session::get('soh_sm_code') .'&' : '';
+                      $param_search .= (session()->has('sm_name')) ? 'sm_name=' . Session::get('sm_name') .'&' : '';
+                      $param_search .= (session()->has('po_number')) ? 'po_number=' . Session::get('po_number') .'&' : '';
                       ?>
-                      <a href="{{ ROUTE('so-status.index') . $all_param }}">
+                      <a href="{{ ROUTE('so-status.index') . $param_search}}">
                         <div class="">
                             <button class="btn btn-primary btn-sm ms-auto">BACK</button>
                         </div>
                       </a>
                     </div>
                     <div class="card-body">
-                        <h4 class="text-uppercase text-sm">SO NUMBER:<span class="text-info"> {{$data[0]['SOH_NO']}}</span></h4>
+                        <h4 class="text-uppercase text-sm">SO NUMBER:<span class="text-info"> {{$data[0]['SOH_TXN_CODE'].'-'.$data[0]['SOH_NO']}}</span></h4>
                         <h4 class="text-uppercase text-sm">PLO STATUS:<span class="text-danger"> {{$data[0]['POD_STATUS']}}</span></h4>
                         <hr class="horizontal dark">
                         <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-xs">TRANS CODE: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SOH_TXN_CODE']}}</span></span>
-                                </div>
-                            </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <span class="mb-2 text-xs">TRANS DATE: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SOH_DT']}}</span></span>
@@ -36,26 +35,16 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <span class="mb-2 text-xs">CUSTOMER CODE: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SOH_CUST_CODE']}}</span></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <span class="mb-2 text-xs">CUSTOMER NAME: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SOH_CUST_NAME']}}</span></span>
+                                    <span class="mb-2 text-xs">CUSTOMER: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SOH_CUST_CODE'] .'-' .$data[0]['SOH_CUST_NAME']}}</span></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <span class="mb-2 text-xs">SALES CODE: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SOH_SM_CODE']}}</span></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <span class="mb-2 text-xs">SALES NAME: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SM_NAME']}}</span></span>
+                                    <span class="mb-2 text-xs">SALES CODE: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SOH_SM_CODE'].'-'.$data[0]['SM_NAME']}}</span></span>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +104,9 @@
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->INV_DT}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->POD_DT}}</p></td>
                                           </tr>
-                                          {{ $chk_dup_item[] = $value->SOI_ITEM_CODE }}
+                                          <?php
+                                            $chk_dup_item[] = $value->SOI_ITEM_CODE;
+                                           ?>
                                           @endforeach
                                       </tbody>
                                   </table>
