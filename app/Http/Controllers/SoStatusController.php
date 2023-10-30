@@ -59,8 +59,10 @@ class SoStatusController extends Controller
      */
     public function show(Request $request)
     {
-      if($request->soh_no_m != ''){
-        $q = so_status::where('SOH_NO', $request->soh_no_m)->where('POD_STATUS',$request->pod_status_m)->get();
+      $soh_no = $request->SOH_NO ?? '';
+      $pos_status = $request->POD_STATUS ?? '';
+      if($soh_no != ''){
+        $q = so_status::where('SOH_NO', $soh_no)->where('POD_STATUS',$pos_status)->get();
         return view('pages.so_status.detail',['data'=>$q]);
       }
 

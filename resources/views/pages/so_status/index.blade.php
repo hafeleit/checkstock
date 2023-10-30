@@ -105,13 +105,6 @@
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SM NAME</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">WAVE STATUS</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">POD STATUS</th>
-
-                                      <?php
-                                        $all_param = '';
-                                        foreach (Request::input() as $key => $value) {
-                                          $all_param .= '&'.$key.'='.$value;
-                                        }
-                                      ?>
                                   </tr>
                               </thead>
                               <tbody>
@@ -120,11 +113,9 @@
                                       @foreach ($data as $value)
                                       <tr>
 
+                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_TXN_CODE']}}</span></td>
                                         <td class="align-middle text-center">
-                                          <span class="text-xs font-weight-bold">{{$value['SOH_TXN_CODE']}}</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                          <a href="{{ ROUTE('so-status.show',$value['id']) . '?pod_status_m=' . $value['POD_STATUS'] . '&soh_no_m=' . $value['SOH_NO'] . $all_param}}">
+                                          <a href="{{ ROUTE('so-status.show',$value['id']) . '?SOH_NO=' . $value['SOH_NO'] . '&POD_STATUS=' . $value['POD_STATUS'] }}">
                                             <div class="d-flex flex-column justify-content-center">
                                               <h6 class="mb-0 text-sm">
                                                 <span class="btn btn-link text-danger text-gradient px-3 mb-0">{{$value['SOH_NO']}}</span>
