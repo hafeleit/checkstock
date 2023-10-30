@@ -25,7 +25,8 @@
                     </div>
                     <div class="card-body">
                         <h4 class="text-uppercase text-sm">SO NUMBER:<span class="text-info"> {{$data[0]['SOH_TXN_CODE'].'-'.$data[0]['SOH_NO']}}</span></h4>
-                        <h4 class="text-uppercase text-sm">PLO STATUS:<span class="text-danger"> {{$data[0]['POD_STATUS']}}</span></h4>
+                        <h4 class="text-uppercase text-sm">PLO STATUS:<span class="text-danger"> {{ Request()->input('POD_STATUS')}}</span></h4>
+                        <h4 class="text-uppercase text-sm">WAVE STATUS:<span class="text-danger"> {{ Request()->input('WAVE_STATUS')}}</span></h4>
                         <hr class="horizontal dark">
                         <div class="row">
                             <div class="col-md-2">
@@ -61,7 +62,7 @@
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SOI QTY</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">PENDING</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DO QTY</th>
-                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">WAVE STATUS</th>
+                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">WAVE DATE</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DELIVERY NUMBER</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DELIVERY DATE</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">INVOICE NUMBER</th>
@@ -90,11 +91,18 @@
                                                   {{$value->SOI_QTY}}
                                                 @endif
                                               </p></td>
-                                              <td><p class="text-secondary text-xs font-weight-bold">
+                                              <td>
                                                 @if(!in_array($value->SOI_ITEM_CODE ,$chk_dup_item))
-                                                  {{$value->SOI_QTY - array_sum($kl[$value->SOI_ITEM_CODE]) }}
+                                                  <?php
+                                                    $res = $value->SOI_QTY - array_sum($kl[$value->SOI_ITEM_CODE]);
+                                                    if($res > 0){ ?>
+                                                      <p class="text-danger text-xs font-weight-bold">{{ $res }}</p>
+                                                    <?php }else{ ?>
+                                                      <p class="text-secondary text-xs font-weight-bold">{{ $res }}</p>
+                                                    <?php }
+                                                   ?>
                                                 @endif
-                                              </p></td>
+                                              </td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->INV_QTY}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->WWH_DT}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->DO_NO}}</p></td>
