@@ -61,13 +61,13 @@
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SOI QTY</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">PENDING</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DO QTY</th>
-                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">WAVE DATE</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">WAVE STATUS</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DELIVERY NUMBER</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DELIVERY DATE</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">INVOICE NUMBER</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">INVOICE DATE</th>
-                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">POD DT</th>
+                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">WAVE STATUS</th>
+                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">POD STATUS</th>
                                           </tr>
                                       </thead>
                                       <tbody>
@@ -97,12 +97,12 @@
                                               </p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->INV_QTY}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->WWH_DT}}</p></td>
-                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->WAVE_STS}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->DO_NO}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->DO_DT}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->INV_NO}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->INV_DT}}</p></td>
-                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->POD_DT}}</p></td>
+                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->WAVE_STS}}</p></td>
+                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->POD_STATUS}}</p></td>
                                           </tr>
                                           <?php
                                             $chk_dup_item[] = $value->SOI_ITEM_CODE;

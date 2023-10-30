@@ -40,7 +40,17 @@ class SoStatusController extends Controller
       if($sm_name != ''){ $q->Where('SM_NAME','like','%'.$sm_name.'%',); Session::put('sm_name', $sm_name);}
       $q->groupBy('SOH_NO','POD_STATUS')->orderBy('SOH_NO','DESC');
       $sostatus = $q->limit(10)->get();
-      return view('pages.so_status.index',['data' => $sostatus, 'last_upd' => $last_upd]);
+
+      $kl = [];
+      $kp = [];
+      foreach ($sostatus as $key => $value) {
+        $kl[$value->SOH_NO][] = $value->POD_STATUS;
+      }
+
+      foreach ($sostatus as $key => $value) {
+        $kp[$value->SOH_NO][] = $value->WAVE_STS;
+      }
+      return view('pages.so_status.index',['data' => $sostatus, 'last_upd' => $last_upd, 'kl' => $kl, 'kp' => $kp]);
     }
 
     /**
@@ -65,11 +75,10 @@ class SoStatusController extends Controller
     public function show(Request $request)
     {
       $soh_no = $request->SOH_NO ?? '';
-      $pos_status = $request->POD_STATUS ?? '';
 
       $kl = [];
       if($soh_no != ''){
-        $q = so_status::where('SOH_NO', $soh_no)->where('POD_STATUS',$pos_status)->get();
+        $q = so_status::where('SOH_NO', $soh_no)->get();
 
         foreach ($q as $key => $value) {
           $kl[$value->SOI_ITEM_CODE][] = $value->INV_QTY;

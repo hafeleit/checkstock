@@ -114,9 +114,11 @@
                                   </tr>
                               </thead>
                               <tbody>
+                                <?php $chk_dup_item = []; ?>
                                   @if(isset($data))
                                     @if(count($data))
                                       @foreach ($data as $value)
+                                      @if(!in_array($value->SOH_NO ,$chk_dup_item))
                                       <tr>
                                         <td>
                                           <a href="{{ ROUTE('so-status.show',$value['id']) . '?SOH_NO=' . $value['SOH_NO'] . '&POD_STATUS=' . $value['POD_STATUS'] }}">
@@ -132,9 +134,36 @@
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_LPO_NO']}}</span></td>
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_CUST_CODE'] . '-' . $value['SOH_CUST_NAME']}}</span></td>
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_SM_CODE'].'-'.$value['SM_NAME']}}</span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['WAVE_STS']}}</span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['POD_STATUS']}}</span></td>
+                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">
+
+                                          <?php
+                                            $is_wave = 'COMPLETE';
+                                            foreach ($kp[$value['SOH_NO']] as $i => $r) {
+                                              if($r != 'Pigeonhole Confirmed'){
+                                                $is_wave = 'NOT COMPLETE';
+                                                break;
+                                              }
+                                            }
+                                            echo $is_wave;
+                                           ?>
+                                        </span></td>
+                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">
+                                        <?php
+                                          $is_deliver = 'COMPLETE';
+                                          foreach ($kl[$value['SOH_NO']] as $i => $r) {
+                                            if($r != 'Delivered'){
+                                              $is_deliver = 'NOT COMPLETE';
+                                              break;
+                                            }
+                                          }
+                                          echo $is_deliver;
+                                         ?>
+                                        </span></td>
+                                        @endif
                                       </tr>
+                                      <?php
+                                        $chk_dup_item[] = $value->SOH_NO;
+                                       ?>
                                       @endforeach
                                     @else
                                     <tr>
