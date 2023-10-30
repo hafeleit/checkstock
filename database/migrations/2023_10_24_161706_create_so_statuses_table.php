@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('INV_DT'); //26/09/2023
             $table->string('POD_STATUS'); //26/09/2023
             $table->string('POD_DT');
+            $table->string('OVERALL_STATUS');
             $table->date('CREATED_DT');
             $table->timestamp('created_at')->useCurrent();
         });

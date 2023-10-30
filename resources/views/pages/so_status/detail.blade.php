@@ -34,7 +34,7 @@
                         <div class="row">
                           <div class="col-md-2">
                               <div class="form-group">
-                                  <span class="mb-2 text-xs">POD STATUS: <span class="text-danger font-weight-bold ms-sm-2">{{ Request()->input('POD_STATUS')}}</span></span>
+                                  <span class="mb-2 text-xs">POD STATUS: <span class="text-danger font-weight-bold ms-sm-2">{{$data[0]['OVERALL_STATUS']}}</span></span>
                               </div>
                           </div>
                             <div class="col-md-6">
@@ -44,11 +44,6 @@
                             </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-2">
-                              <div class="form-group">
-                                  <span class="mb-2 text-xs">WAVE STATUS: <span class="text-danger font-weight-bold ms-sm-2">{{ Request()->input('WAVE_STATUS')}}</span></span>
-                              </div>
-                          </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <span class="mb-2 text-xs">SALES CODE: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SOH_SM_CODE'].'-'.$data[0]['SM_NAME']}}</span></span>

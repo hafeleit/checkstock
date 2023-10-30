@@ -109,8 +109,7 @@
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH LPO_NO</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">CUSTOMER NAME</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SALES NAME</th>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">WAVE STATUS</th>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">POD STATUS</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -152,12 +151,7 @@
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_LPO_NO']}}</span></td>
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_CUST_CODE'] . '-' . $value['SOH_CUST_NAME']}}</span></td>
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_SM_CODE'].'-'.$value['SM_NAME']}}</span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">
-                                           {{ $is_wave}}
-                                        </span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">
-                                          {{ $is_deliver}}
-                                        </span></td>
+                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['OVERALL_STATUS']}}</span></td>
                                         @endif
                                       </tr>
                                       <?php
