@@ -138,7 +138,8 @@
                                        ?>
                                       <tr>
                                         <td>
-                                          <a href="{{ ROUTE('so-status.show',$value['id']) . '?SOH_NO=' . $value['SOH_NO'] . '&POD_STATUS=' . $is_deliver . '&WAVE_STATUS=' . $is_wave }}">
+                                          <!--<a href="{{ ROUTE('so-status.show',$value['id']) . '?SOH_NO=' . $value['SOH_NO'] . '&POD_STATUS=' . $is_deliver . '&WAVE_STATUS=' . $is_wave }}">-->
+                                          <a href="#sostatus-detail" onclick="get_sodetail({{$value['id']}} , {{$value['SOH_NO']}})">
                                             <div class="d-flex flex-column justify-content-center">
                                               <h6 class="mb-0 text-sm">
                                                 <span class="btn btn-link text-danger text-gradient px-3 mb-0">{{$value['SOH_TXN_CODE'].'-'.$value['SOH_NO']}}</span>
@@ -183,122 +184,26 @@
                 </div>
             </div>
         </div>
-      <!-- Modal -->
-          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="modal-title"></h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                      <div class="col-md-12">
-                          <div class="card">
-                              <ul class="list-group">
-                                  <li class="list-group-item border-0 d-flex p-4 mb-2 border-radius-lg">
-                                      <div class="d-flex flex-column">
-                                          <span class="text-xs">SOH_TXN_CODE: <span class="text-dark ms-sm-2 font-weight-bold" id="SOH_TXN_CODE"></span></span>
-                                          <span class="text-xs">SOH_NO: <span class="text-dark ms-sm-2 font-weight-bold" id="SOH_NO"></span></span>
-                                          <span class="text-xs">SOH_DT: <span class="text-dark ms-sm-2 font-weight-bold" id="SOH_DT"></span></span>
-                                          <span class="text-xs">SOH_LPO_NO: <span class="text-dark ms-sm-2 font-weight-bold" id="SOH_LPO_NO"></span></span>
-                                          <span class="text-xs">SOH_CUST_CODE: <span class="text-dark ms-sm-2 font-weight-bold" id="SOH_CUST_CODE"></span></span>
-                                          <span class="text-xs">SOH_CUST_NAME: <span class="text-dark ms-sm-2 font-weight-bold" id="SOH_CUST_NAME"></span></span>
-                                          <span class="text-xs">SOH_SM_CODE: <span class="text-dark ms-sm-2 font-weight-bold" id="SOH_SM_CODE"></span></span>
-                                          <span class="text-xs">SM_NAME: <span class="text-dark ms-sm-2 font-weight-bold" id="SM_NAME"></span></span>
-                                          <span class="text-xs">POD_STATUS: <span class="text-dark ms-sm-2 font-weight-bold" id="POD_STATUS"></span></span>
+        <div class="row sostatus-detail">
 
-                                          <div class="table-responsive p-0">
-                                              <table class="table align-items-center mb-0">
-                                                  <thead>
-                                                      <tr>
-                                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
-                                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
-                                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employed</th>
-                                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
-                                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
-                                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employed</th>
-                                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
-                                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
-                                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                                      </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                      <tr>
-                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
-                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
-                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
-                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
-                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
-                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
-                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
-                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
-                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
-                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
-                                                          <td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">23/04/18</span> </td>
-                                                      </tr>
-
-                                                  </tbody>
-                                              </table>
-                                          </div>
-                                      </div>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
         </div>
 
         <script type="text/javascript">
           $(function(){
             //$('#myModal').modal('show');
-
           });
 
-          function get_sodetail(id){
-            let url = "{{ config('app.url').'/so-status/' }}" + id;
+          function get_sodetail(id,soh_no){
+
+            let url = "{{ config('app.url').'/so-status/' }}" + id +'?SOH_NO=' + soh_no;
             $.ajax({
               method: "GET",
               url: url,
               data: {
               }
             }).done(function( msg ) {
-              $('#modal-title').html(msg['data']['SOH_NO']);
-
-              $('#SOH_TXN_CODE').html(msg['data']['SOH_TXN_CODE']);
-              $('#SOH_NO').html(msg['data']['SOH_NO']);
-              $('#SOH_DT').html(msg['data']['SOH_DT']);
-              $('#SOH_LPO_NO').html(msg['data']['SOH_LPO_NO']);
-              $('#SOH_CUST_CODE').html(msg['data']['SOH_CUST_CODE']);
-              $('#SOH_CUST_NAME').html(msg['data']['SOH_CUST_NAME']);
-              $('#SOH_SM_CODE').html(msg['data']['SOH_SM_CODE']);
-              $('#SM_NAME').html(msg['data']['SM_NAME']);
-              $('#SOI_ITEM_CODE').html(msg['data']['SOI_ITEM_CODE']);
-              $('#SOI_ITEM_DESC').html(msg['data']['SOI_ITEM_DESC']);
-              $('#SOI_QTY').html(msg['data']['SOI_QTY']);
-              $('#WAVE_ID').html(msg['data']['WAVE_ID']);
-              $('#WWH_DT').html(msg['data']['WWH_DT']);
-              $('#WAVE_STS').html(msg['data']['WAVE_STS']);
-              $('#DO_NO').html(msg['data']['DO_NO']);
-              $('#DO_DT').html(msg['data']['DO_DT']);
-              $('#INV_NO').html(msg['data']['INV_NO']);
-              $('#INV_DT').html(msg['data']['INV_DT']);
-              $('#POD_STATUS').html(msg['data']['POD_STATUS']);
-              $('#POD_DT').html(msg['data']['POD_DT']);
-              $('#CREATED_DT').html(msg['data']['CREATED_DT']);
-
-              $('#myModal').modal('show');
+              $('.sostatus-detail').html(msg);
               console.log(msg);
             });
           }

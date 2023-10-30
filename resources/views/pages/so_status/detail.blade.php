@@ -1,14 +1,9 @@
-@extends('layouts.appguest', ['class' => 'g-sidenav-show bg-gray-100'])
-
-@section('content')
-
-    <div class="container-fluid py-4">
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card mb-4">
                     <div class="card-header pb-0">
                       <?php
-                      $param_search = '?';
+                      /*$param_search = '?';
                       $param_search .= (session()->has('soh_txn_code')) ? 'soh_txn_code=' . Session::get('soh_txn_code') .'&' : '';
                       $param_search .= (session()->has('soh_no')) ? 'soh_no=' . Session::get('soh_no') .'&' : '';
                       $param_search .= (session()->has('soh_cust_code')) ? 'soh_cust_code=' . Session::get('soh_cust_code') .'&' : '';
@@ -21,21 +16,27 @@
                         <div class="">
                             <button class="btn btn-primary btn-sm ms-auto">BACK</button>
                         </div>
-                      </a>
+                      </a> <?php */ ?>
                     </div>
                     <div class="card-body">
-                        <h4 class="text-uppercase text-sm">SO NUMBER:<span class="text-info"> {{$data[0]['SOH_TXN_CODE'].'-'.$data[0]['SOH_NO']}}</span></h4>
-                        <h4 class="text-uppercase text-sm">PLO STATUS:<span class="text-danger"> {{ Request()->input('POD_STATUS')}}</span></h4>
-                        <h4 class="text-uppercase text-sm">WAVE STATUS:<span class="text-danger"> {{ Request()->input('WAVE_STATUS')}}</span></h4>
-                        <hr class="horizontal dark">
-                        <div class="row">
+                      <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-xs">TRANS DATE: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SOH_DT']}}</span></span>
+                                    <span class="mb-2 text-xs">SO NUMBER: <span class="text-danger font-weight-bold ms-sm-2">{{$data[0]['SOH_TXN_CODE'].'-'.$data[0]['SOH_NO']}}</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-xs">SO DATE: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SOH_DT']}}</span></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <span class="mb-2 text-xs">POD STATUS: <span class="text-danger font-weight-bold ms-sm-2">{{ Request()->input('POD_STATUS')}}</span></span>
+                              </div>
+                          </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <span class="mb-2 text-xs">CUSTOMER: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SOH_CUST_CODE'] .'-' .$data[0]['SOH_CUST_NAME']}}</span></span>
@@ -43,16 +44,23 @@
                             </div>
                         </div>
                         <div class="row">
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <span class="mb-2 text-xs">WAVE STATUS: <span class="text-danger font-weight-bold ms-sm-2">{{ Request()->input('WAVE_STATUS')}}</span></span>
+                              </div>
+                          </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <span class="mb-2 text-xs">SALES CODE: <span class="text-dark font-weight-bold ms-sm-2">{{$data[0]['SOH_SM_CODE'].'-'.$data[0]['SM_NAME']}}</span></span>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4">
                         <hr class="horizontal dark">
-                        <p class="text-uppercase text-sm">Detail</p>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
+                              <h6>Detail</h6>
                               <div class="table-responsive p-0">
                                   <table class="table align-items-center mb-0">
                                       <thead>
@@ -124,7 +132,4 @@
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-@endsection
