@@ -105,8 +105,7 @@
                                   <tr>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SO NUMBER</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">PO NUMBER</th>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH DT</th>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SOH LPO_NO</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SO DATE</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">CUSTOMER NAME</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SALES NAME</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS</th>
@@ -118,26 +117,9 @@
                                     @if(count($data))
                                       @foreach ($data as $value)
                                       @if(!in_array($value->SOH_NO ,$chk_dup_item))
-                                      <?php
-                                        $is_wave = 'COMPLETE';
-                                        foreach ($kp[$value['SOH_NO']] as $i => $r) {
-                                          if($r != 'Pigeonhole Confirmed'){
-                                            $is_wave = 'NOT COMPLETE';
-                                            break;
-                                          }
-                                        }
 
-                                        $is_deliver = 'COMPLETE';
-                                        foreach ($kl[$value['SOH_NO']] as $i => $r) {
-                                          if($r != 'Delivered'){
-                                            $is_deliver = 'NOT COMPLETE';
-                                            break;
-                                          }
-                                        }
-                                       ?>
                                       <tr>
                                         <td>
-                                          <!--<a href="{{ ROUTE('so-status.show',$value['id']) . '?SOH_NO=' . $value['SOH_NO'] . '&POD_STATUS=' . $is_deliver . '&WAVE_STATUS=' . $is_wave }}">-->
                                           <a href="#sostatus-detail" onclick="get_sodetail({{$value['id']}} , {{$value['SOH_NO']}})">
                                             <div class="d-flex flex-column justify-content-center">
                                               <h6 class="mb-0 text-sm">
@@ -148,10 +130,15 @@
                                         </td>
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_LPO_NO']}}</span></td>
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_DT']}}</span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_LPO_NO']}}</span></td>
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_CUST_CODE'] . '-' . $value['SOH_CUST_NAME']}}</span></td>
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_SM_CODE'].'-'.$value['SM_NAME']}}</span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['OVERALL_STATUS']}}</span></td>
+                                        <td class="align-middle text-center text-sm">
+                                          @if($value['OVERALL_STATUS'] == 'Completed')
+                                          <span class="badge badge-sm bg-gradient-faded-success">{{$value['OVERALL_STATUS']}}</span>
+                                          @else
+                                          <span class="badge badge-sm bg-gradient-faded-dark-vertical">{{$value['OVERALL_STATUS']}}</span>
+                                          @endif
+                                        </td>
                                         @endif
                                       </tr>
                                       <?php
