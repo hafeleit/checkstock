@@ -29,9 +29,9 @@
                                 <div class="form-group">
                                   <span class="mb-2 text-xs">SO STATUS:
                                   @if($data[0]['OVERALL_STATUS'] == 'Completed')
-                                  <span class="badge badge-sm bg-gradient-faded-success">{{$data[0]['OVERALL_STATUS']}}</span>
+                                  <span class="badge badge-sm text-xs bg-gradient-faded-success">{{$data[0]['OVERALL_STATUS']}}</span>
                                   @else
-                                  <span class="badge badge-sm bg-gradient-faded-dark-vertical">{{$data[0]['OVERALL_STATUS']}}</span>
+                                  <span class="badge badge-sm text-xs bg-gradient-faded-dark-vertical">{{$data[0]['OVERALL_STATUS']}}</span>
                                   @endif
                                   </span>
                                 </div>

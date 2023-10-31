@@ -134,9 +134,9 @@
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_SM_CODE'].'-'.$value['SM_NAME']}}</span></td>
                                         <td class="align-middle text-center text-sm">
                                           @if($value['OVERALL_STATUS'] == 'Completed')
-                                          <span class="badge badge-sm bg-gradient-faded-success">{{$value['OVERALL_STATUS']}}</span>
+                                          <span class="badge badge-sm text-xs bg-gradient-faded-success">{{$value['OVERALL_STATUS']}}</span>
                                           @else
-                                          <span class="badge badge-sm bg-gradient-faded-dark-vertical">{{$value['OVERALL_STATUS']}}</span>
+                                          <span class="badge badge-sm text-xs bg-gradient-faded-dark-vertical">{{$value['OVERALL_STATUS']}}</span>
                                           @endif
                                         </td>
                                         @endif
