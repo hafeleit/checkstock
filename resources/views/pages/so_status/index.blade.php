@@ -84,7 +84,6 @@
                           $('#btn-reset').click(function(){
                              $('input[type="text"]').val('');
                              $("#soh_txn_code").prop('selectedIndex', 0);
-                             //document.getElementById("soh_txn_code").options.length = 0;
                           });
                         });
                       </script>
@@ -121,7 +120,7 @@
 
                                       <tr>
                                         <td>
-                                          <a href="#sostatus-detail" onclick="get_sodetail({{$value['id']}} , {{$value['SOH_NO']}})">
+                                          <a onclick="get_sodetail({{$value['id']}} , {{$value['SOH_NO']}})">
                                             <div class="d-flex flex-column justify-content-center">
                                               <h6 class="mb-0 text-sm">
                                                 <span class="btn btn-link text-danger text-gradient px-3 mb-0">{{$value['SOH_TXN_CODE'].'-'.$value['SOH_NO']}}</span>
@@ -166,12 +165,12 @@
                 </div>
             </div>
         </div>
-        <div class="row sostatus-detail">
-
-        </div>
+        <div class="row sostatus-detail"></div>
+        <div id="load_detail"></div>
         </div>
 
         <script type="text/javascript">
+
           $(function(){
             //$('#myModal').modal('show');
           });
@@ -186,8 +185,10 @@
               }
             }).done(function( msg ) {
               $('.sostatus-detail').html(msg);
-              console.log(msg);
+              $('html,body').animate({ scrollTop: 9999 }, 'fast');
+              //console.log(msg);
             });
+
           }
         </script>
 
