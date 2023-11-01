@@ -16,11 +16,10 @@ class ProductController extends Controller
      */
     public function index(Request $request) : View
     {
-      $paginate = 20;
+      /*$paginate = 20;
       $query = new Product();
-      $products = $query->inRandomOrder()->limit(100)->get();
-      return view('pages.products.index',compact('products'))
-                  ->with('i', (request()->input('page', 1) - 1) * $paginate);
+      $products = $query->inRandomOrder()->limit(10)->get();*/
+      return view('pages.products.index',['products' => []]);
 
     }
 
@@ -86,14 +85,17 @@ class ProductController extends Controller
     public function search_ajax(Request $request)
     {
 
-        $query = new Product();
+        $products = [];
 
-        $query = $query->where('item_code','like','%'.$request->search.'%');
-        $query = $query->orWhere('item_name','like','%'.$request->search.'%');
-        //$products = $query->paginate($paginate);
-        $products = $query->limit(100)->get();
-        return view('pages.products.search',compact('products'));
+        if($request->search != ''){
+          $query = new Product();
+          $query = $query->where('item_code','like','%'.$request->search.'%');
+          $query = $query->orWhere('item_name','like','%'.$request->search.'%');
+          //$products = $query->paginate($paginate);
+          $products = $query->limit(5)->get();
+        }
 
+        return view('pages.products.search',['products' => $products]);
 
     }
 

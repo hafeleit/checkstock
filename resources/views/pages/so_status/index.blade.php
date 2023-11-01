@@ -3,7 +3,7 @@
 @section('content')
     @include('layouts.navbars.guest.topnav', ['title' => 'Products'])
 
-    <div class="container-fluid py-4">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-12">
           <div class="col-md-12 mb-lg-0 mb-4">
