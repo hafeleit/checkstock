@@ -20,10 +20,10 @@
                     <form action="{{ ROUTE('so-status.index')}}" method="GET">
                       <div class="row">
                         <div class="form-group row">
-                          <div class="col-sm-1">
+                          <div class="col-sm-2">
                           <span class="text-xs font-weight-bold">TRANSACTION CODE</span>
                           </div>
-                          <div class="col-sm-1">
+                          <div class="col-sm-2">
                             <select class="form-control" id="soh_txn_code" name="soh_txn_code" style="-webkit-appearance:auto">
                               <option value=''>ALL</option>
                               <option value='SO_EXP' {{ (Request::input('soh_txn_code')) == 'SO_EXP' ? 'selected' : ''}}>SO_EXP</option>
@@ -34,13 +34,13 @@
                           <div class="col-sm-1">
                           <span class="text-xs font-weight-bold">SO NUMBER</span>
                           </div>
-                          <div class="col-sm-1">
+                          <div class="col-sm-2">
                             <input type="text" class="form-control" id="soh_no" name="soh_no" value="{{Request::input('soh_no') ?? ''}}">
                           </div>
                           <div class="col-sm-1">
                             <span class="text-xs font-weight-bold">PO NUMBER</span>
                           </div>
-                          <div class="col-sm-1">
+                          <div class="col-sm-2">
                             <input type="text" class="form-control" id="po_number" name="po_number" value="{{Request::input('po_number') ?? ''}}">
                           </div>
 
@@ -48,13 +48,13 @@
                       </div>
                       <div class="row">
                         <div class="form-group row">
-                          <div class="col-sm-1">
+                          <div class="col-sm-2">
                           <span class="text-xs font-weight-bold">CUSTOMER CODE</span>
                           </div>
                           <div class="col-sm-1">
                             <input type="text" class="form-control" id="soh_cust_code" name="soh_cust_code" value="{{Request::input('soh_cust_code') ?? ''}}">
                           </div>
-                          <div class="col-sm-1">
+                          <div class="col-sm-2">
                           <span class="text-xs font-weight-bold">CUSTOMER NAME</span>
                           </div>
                           <div class="col-sm-2">
@@ -104,11 +104,11 @@
                               <thead>
                                   <tr>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SO NUMBER</th>
+                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">PO NUMBER</th>
                                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SO DATE</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">CUSTOMER NAME</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SALES NAME</th>
-                                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -129,10 +129,6 @@
                                             </div>
                                           </a>
                                         </td>
-                                        <td><span class="text-xs font-weight-bold">{{$value['SOH_LPO_NO']}}</span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_DT']}}</span></td>
-                                        <td><span class="text-xs font-weight-bold">{{$value['SOH_CUST_CODE'] . '-' . $value['SOH_CUST_NAME']}}</span></td>
-                                        <td><span class="text-xs font-weight-bold">{{$value['SOH_SM_CODE'].'-'.$value['SM_NAME']}}</span></td>
                                         <td class="align-middle text-center text-sm">
                                           @if($value['OVERALL_STATUS'] == 'Completed')
                                           <span class="badge badge-sm text-xs bg-gradient-faded-success">{{$value['OVERALL_STATUS']}}</span>
@@ -140,6 +136,11 @@
                                           <span class="badge badge-sm text-xs bg-gradient-faded-dark-vertical">{{$value['OVERALL_STATUS']}}</span>
                                           @endif
                                         </td>
+                                        <td><span class="text-xs font-weight-bold">{{$value['SOH_LPO_NO']}}</span></td>
+                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_DT']}}</span></td>
+                                        <td><span class="text-xs font-weight-bold">{{$value['SOH_CUST_CODE'] . '-' . $value['SOH_CUST_NAME']}}</span></td>
+                                        <td><span class="text-xs font-weight-bold">{{$value['SOH_SM_CODE'].'-'.$value['SM_NAME']}}</span></td>
+
                                         @endif
                                       </tr>
                                       <?php
@@ -166,7 +167,7 @@
                 </div>
             </div>
         </div>
-        <div class="row sostatus-detail"></div>
+        <div class="sostatus-detail"></div>
         <div id="load_detail"></div>
         </div>
 
