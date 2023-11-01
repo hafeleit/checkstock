@@ -112,15 +112,13 @@
                                   </tr>
                               </thead>
                               <tbody>
-                                <?php $chk_dup_item = []; ?>
                                   @if(isset($data))
                                     @if(count($data))
                                       @foreach ($data as $value)
-                                      @if(!in_array($value->SOH_NO ,$chk_dup_item))
 
                                       <tr>
                                         <td>
-                                          <a onclick="get_sodetail({{$value['id']}} , {{$value['SOH_NO']}})">
+                                          <a onclick="get_sodetail('{{$value['id']}}' , '{{$value['SOH_NO']}}', '{{$value['SOH_TXN_CODE']}}')">
                                             <div class="d-flex flex-column justify-content-center">
                                               <h6 class="mb-0 text-sm">
                                                 <input type="hidden" name="search" id="search" value="1">
@@ -141,11 +139,8 @@
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_CUST_CODE'] . '-' . $value['SOH_CUST_NAME']}}</span></td>
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_SM_CODE'].'-'.$value['SM_NAME']}}</span></td>
 
-                                        @endif
                                       </tr>
-                                      <?php
-                                        $chk_dup_item[] = $value->SOH_NO;
-                                       ?>
+
                                       @endforeach
                                     @else
                                     <tr>
@@ -184,9 +179,9 @@
             $('html,body').animate({ scrollTop: 9999 }, 'fast');
           }
 
-          function get_sodetail(id,soh_no){
+          function get_sodetail(id,soh_no,soh_txn_code){
 
-            let url = "{{ config('app.url').'/so-status/' }}" + id +'?SOH_NO=' + soh_no;
+            let url = "{{ config('app.url').'/so-status/' }}" + id +'?SOH_NO=' + soh_no +'&SOH_TXN_CODE=' + soh_txn_code;
             $.ajax({
               method: "GET",
               url: url,

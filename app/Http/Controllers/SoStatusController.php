@@ -39,17 +39,8 @@ class SoStatusController extends Controller
       if($soh_sm_code != ''){ $q->Where('SOH_SM_CODE',$soh_sm_code);}
       if($sm_name != ''){ $q->Where('SM_NAME','like','%'.$sm_name.'%',); }
 
-      /*
-      if($soh_txn_code != ''){ $q->Where('SOH_TXN_CODE',$soh_txn_code); Session::put('soh_txn_code', $soh_txn_code);}
-      if($soh_no != ''){ $q->Where('SOH_NO',$soh_no); Session::put('soh_no', $soh_no); }
-      if($po_number != ''){ $q->Where('SOH_LPO_NO',$po_number); Session::put('po_number', $po_number); }
-      if($soh_cust_code != ''){ $q->Where('SOH_CUST_CODE',$soh_cust_code); Session::put('soh_cust_code', $soh_cust_code);}
-      if($soh_cust_name != ''){ $q->Where('SOH_CUST_NAME','like','%'.$soh_cust_name.'%'); Session::put('soh_cust_name', $soh_cust_name);}
-      if($soh_sm_code != ''){ $q->Where('SOH_SM_CODE',$soh_sm_code); Session::put('soh_sm_code', $soh_sm_code);}
-      if($sm_name != ''){ $q->Where('SM_NAME','like','%'.$sm_name.'%',); Session::put('sm_name', $sm_name);}
-      */
-      $q->groupBy('SOH_NO','POD_STATUS')->orderBy('SOH_NO','DESC');
-      $sostatus = $q->limit(10)->get();
+      $q->groupBy('SOH_NO','SOH_TXN_CODE')->orderBy('SOH_NO','DESC');
+      $sostatus = $q->limit(5)->get();
 
       $kl = [];
       $kp = [];
@@ -84,11 +75,12 @@ class SoStatusController extends Controller
      */
     public function show(Request $request)
     {
-      $soh_no = $request->SOH_NO ?? '';
+      $SOH_NO = $request->SOH_NO ?? '';
+      $SOH_TXN_CODE = $request->SOH_TXN_CODE ?? '';
 
       $kl = [];
-      if($soh_no != ''){
-        $q = so_status::where('SOH_NO', $soh_no)->get();
+      if($SOH_NO != ''){
+        $q = so_status::where('SOH_NO', $SOH_NO)->where('SOH_TXN_CODE',$SOH_TXN_CODE)->get();
 
         foreach ($q as $key => $value) {
           $kl[$value->SOI_ITEM_CODE][] = $value->INV_QTY;
