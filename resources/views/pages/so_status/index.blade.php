@@ -2,8 +2,29 @@
 
 @section('content')
     @include('layouts.navbars.guest.topnav', ['title' => 'Products'])
+    <style>
+    .loader {
+        width: 48px;
+        height: 48px;
+        border: 5px solid #FFF;
+        border-bottom-color: #FF3D00;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+        }
 
-    <div class="container-fluid">
+        @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+        }
+</style>
+
+    <div class="container-fluid" >
       <div class="row">
         <div class="col-12">
           <div class="col-md-12 mb-lg-0 mb-4">
@@ -20,24 +41,14 @@
                     <form action="{{ ROUTE('so-status.index')}}" method="GET">
                       <div class="row">
                         <div class="form-group row">
+
                           <div class="col-sm-2">
-                          <span class="text-xs font-weight-bold">TRANSACTION CODE</span>
-                          </div>
-                          <div class="col-sm-2">
-                            <select class="form-control" id="soh_txn_code" name="soh_txn_code" style="-webkit-appearance:auto">
-                              <option value=''>ALL</option>
-                              <option value='SO_EXP' {{ (Request::input('soh_txn_code')) == 'SO_EXP' ? 'selected' : ''}}>SO_EXP</option>
-                              <option value='SO_GEN' {{ (Request::input('soh_txn_code')) == 'SO_GEN' ? 'selected' : ''}}>SO_GEN</option>
-                              <option value='SO_PRI' {{ (Request::input('soh_txn_code')) == 'SO_PRI' ? 'selected' : ''}}>SO_PRI</option>
-                            </select>
-                          </div>
-                          <div class="col-sm-1">
                           <span class="text-xs font-weight-bold">SO NUMBER</span>
                           </div>
                           <div class="col-sm-2">
                             <input type="text" class="form-control" id="soh_no" name="soh_no" value="{{Request::input('soh_no') ?? ''}}">
                           </div>
-                          <div class="col-sm-1">
+                          <div class="col-sm-2">
                             <span class="text-xs font-weight-bold">PO NUMBER</span>
                           </div>
                           <div class="col-sm-2">
@@ -76,7 +87,9 @@
                         </div>
                       </div>
                       <div class="align-items-center">
-                          <button type="submit" class="btn btn-primary btn-sm ms-auto text-uppercase text-xxs">SEARCH</button> &nbsp
+                          <button type="submit" class="btn btn-primary btn-sm ms-auto text-uppercase text-xxs" onclick="onload_data()">SEARCH</button>
+
+                          &nbsp
                           <button type="button" id='btn-reset' class="btn btn-light btn-sm ms-auto text-uppercase text-secondary text-xxs">CLEAR</button>
                       </div>
                       <script type="text/javascript">
@@ -141,7 +154,7 @@
                                       @endforeach
                                     @else
                                     <tr>
-                                      <td></td>
+                                      <td colspan="6" class="text-center"><span class="" id="onload_data"></span></td>
                                     </tr>
                                     @endif
                                   @endif
@@ -173,12 +186,16 @@
             }
           });
 
+          function onload_data(){
+            $('#onload_data').addClass('loader');
+          }
+
           function load_buttom(){
             $('html,body').animate({ scrollTop: 9999 }, 'fast');
           }
 
           function get_sodetail(id,soh_no,soh_txn_code){
-
+            $('.sostatus-detail').addClass('loader');
             let url = "{{ config('app.url').'/so-status/' }}" + id +'?SOH_NO=' + soh_no +'&SOH_TXN_CODE=' + soh_txn_code;
             $.ajax({
               method: "GET",
@@ -186,6 +203,7 @@
               data: {
               }
             }).done(function( msg ) {
+              $('.sostatus-detail').removeClass('loader');
               $('.sostatus-detail').html(msg);
               load_buttom();
               //console.log(msg);
