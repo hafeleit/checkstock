@@ -115,7 +115,6 @@
                                   @if(isset($data))
                                     @if(count($data))
                                       @foreach ($data as $value)
-
                                       <tr>
                                         <td>
                                           <a onclick="get_sodetail('{{$value['id']}}' , '{{$value['SOH_NO']}}', '{{$value['SOH_TXN_CODE']}}')">
@@ -138,9 +137,7 @@
                                         <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_DT']}}</span></td>
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_CUST_CODE'] . '-' . $value['SOH_CUST_NAME']}}</span></td>
                                         <td><span class="text-xs font-weight-bold">{{$value['SOH_SM_CODE'].'-'.$value['SM_NAME']}}</span></td>
-
                                       </tr>
-
                                       @endforeach
                                     @else
                                     <tr>
@@ -150,13 +147,14 @@
                                   @endif
                               </tbody>
                           </table>
-
-                          <?php /* ?><div class="card-footer pb-0">
+                          @if(count($data))
+                          <div class="card-footer pb-0">
                             {!! $data->appends(Request::except('page'))->links('pagination::bootstrap-4') !!}
                           </div>
                           <div class="card-footer pb-0">
                             <p class="small text-muted"> Showing {{ 5*$data->currentpage()-5+1 }} to {{ 5*$data->currentpage() }} of {{ $data->total() }} results </p>
-                          </div> <?php */ ?>
+                          </div>
+                          @endif
                         </div>
                     </div>
                 </div>

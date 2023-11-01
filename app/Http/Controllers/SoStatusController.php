@@ -40,7 +40,8 @@ class SoStatusController extends Controller
       if($sm_name != ''){ $q->Where('SM_NAME','like','%'.$sm_name.'%',); }
 
       $q->groupBy('SOH_NO','SOH_TXN_CODE')->orderBy('SOH_NO','DESC');
-      $sostatus = $q->limit(5)->get();
+      //$sostatus = $q->limit(5)->get();
+      $sostatus = $q->paginate(10);
 
       $kl = [];
       $kp = [];
