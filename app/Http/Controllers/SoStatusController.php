@@ -22,7 +22,7 @@ class SoStatusController extends Controller
       $soh_sm_code = $request->soh_sm_code ?? '';
       $sm_name = $request->sm_name ?? '';
       $po_number = $request->po_number ?? '';
-
+      $page = 5;
       $last_upd =so_status::first();
       $last_upd = $last_upd->created_at;
 
@@ -41,7 +41,7 @@ class SoStatusController extends Controller
 
       $q->groupBy('SOH_NO','SOH_TXN_CODE')->orderBy('SOH_NO','DESC');
       //$sostatus = $q->limit(5)->get();
-      $sostatus = $q->paginate(10);
+      $sostatus = $q->paginate($page);
 
       $kl = [];
       $kp = [];
@@ -52,7 +52,7 @@ class SoStatusController extends Controller
       foreach ($sostatus as $key => $value) {
         $kp[$value->SOH_NO][] = $value->WAVE_STS;
       }
-      return view('pages.so_status.index',['data' => $sostatus, 'last_upd' => $last_upd, 'kl' => $kl, 'kp' => $kp]);
+      return view('pages.so_status.index',['data' => $sostatus, 'last_upd' => $last_upd, 'kl' => $kl, 'kp' => $kp,'page' => $page]);
     }
 
     /**

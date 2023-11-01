@@ -152,7 +152,7 @@
                             {!! $data->appends(Request::except('page'))->links('pagination::bootstrap-4') !!}
                           </div>
                           <div class="card-footer pb-0">
-                            <p class="small text-muted"> Showing {{ 5*$data->currentpage()-5+1 }} to {{ 5*$data->currentpage() }} of {{ $data->total() }} results </p>
+                            <p class="small text-muted"> Showing {{ $page*$data->currentpage()-$page+1 }} to {{ $page*$data->currentpage() }} of {{ $data->total() }} results </p>
                           </div>
                           @endif
                         </div>
