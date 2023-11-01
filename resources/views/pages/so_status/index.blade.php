@@ -83,7 +83,8 @@
                         $(function(){
                           $('#btn-reset').click(function(){
                              $('input[type="text"]').val('');
-                             document.getElementById("soh_txn_code").options.length = 0;
+                             $("#soh_txn_code").prop('selectedIndex', 0);
+                             //document.getElementById("soh_txn_code").options.length = 0;
                           });
                         });
                       </script>
