@@ -123,6 +123,7 @@
                                           <a onclick="get_sodetail({{$value['id']}} , {{$value['SOH_NO']}})">
                                             <div class="d-flex flex-column justify-content-center">
                                               <h6 class="mb-0 text-sm">
+                                                <input type="hidden" name="search" id="search" value="1">
                                                 <span class="btn btn-link text-danger text-gradient px-3 mb-0">{{$value['SOH_TXN_CODE'].'-'.$value['SOH_NO']}}</span>
                                               </h6>
                                             </div>
@@ -173,7 +174,14 @@
 
           $(function(){
             //$('#myModal').modal('show');
+            if($('#search').val() == 1){
+              load_buttom();
+            }
           });
+
+          function load_buttom(){
+            $('html,body').animate({ scrollTop: 9999 }, 'fast');
+          }
 
           function get_sodetail(id,soh_no){
 
@@ -185,7 +193,7 @@
               }
             }).done(function( msg ) {
               $('.sostatus-detail').html(msg);
-              $('html,body').animate({ scrollTop: 9999 }, 'fast');
+              load_buttom();
               //console.log(msg);
             });
 
