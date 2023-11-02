@@ -3,25 +3,38 @@
 @section('content')
     @include('layouts.navbars.guest.topnav', ['title' => 'Products'])
     <style>
-    .loader {
-        width: 48px;
-        height: 48px;
-        border: 5px solid #FFF;
-        border-bottom-color: #FF3D00;
-        border-radius: 50%;
-        display: inline-block;
-        box-sizing: border-box;
-        animation: rotation 1s linear infinite;
-        }
+    .loader{
+      display: block;
+      position: relative;
+      height: 12px;
+      width: 100%;
+      border: 1px solid #fff;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .loader::after {
+      content: '';
+      width: 40%;
+      height: 100%;
+      background: #FF3D00;
+      position: absolute;
+      top: 0;
+      left: 0;
+      box-sizing: border-box;
+      animation: animloader 2s linear infinite;
+    }
 
-        @keyframes rotation {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-        }
+    @keyframes animloader {
+      0% {
+        left: 0;
+        transform: translateX(-100%);
+      }
+      100% {
+        left: 100%;
+        transform: translateX(0%);
+      }
+    }
+
 </style>
 
     <div class="container-fluid" >
@@ -87,7 +100,7 @@
                         </div>
                       </div>
                       <div class="align-items-center">
-                          <button type="submit" class="btn btn-primary btn-sm ms-auto text-uppercase text-xxs" onclick="onload_data()">SEARCH</button>
+                          <button type="submit" class="btn btn-primary btn-sm ms-auto text-uppercase text-xxs btn-submit" onclick="loader_data()">SEARCH</button>
 
                           &nbsp
                           <button type="button" id='btn-reset' class="btn btn-light btn-sm ms-auto text-uppercase text-secondary text-xxs">CLEAR</button>
@@ -101,7 +114,9 @@
                         });
                       </script>
                       </form>
+                      <span class="" id="loader_data"></span>
                   </div>
+
               </div>
           </div>
         </div>
@@ -125,6 +140,7 @@
                                   </tr>
                               </thead>
                               <tbody>
+
                                   @if(isset($data))
                                     @if(count($data))
                                       @foreach ($data as $value)
@@ -154,7 +170,7 @@
                                       @endforeach
                                     @else
                                     <tr>
-                                      <td colspan="6" class="text-center"><span class="" id="onload_data"></span></td>
+                                      <td colspan="6" class="text-center"></td>
                                     </tr>
                                     @endif
                                   @endif
@@ -166,13 +182,16 @@
                           </div>
                           <div class="card-footer pb-0">
                             <p class="small text-muted"> Showing {{ $page*$data->currentpage()-$page+1 }} to {{ $page*$data->currentpage() }} of {{ $data->total() }} results </p>
+                            <span class="" id="loader_detail"></span>
                           </div>
                           @endif
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="sostatus-detail"></div>
         <div id="load_detail"></div>
         </div>
@@ -186,8 +205,11 @@
             }
           });
 
-          function onload_data(){
-            $('#onload_data').addClass('loader');
+          function loader_data(){
+            $('#loader_data').addClass('loader');
+            //$('.btn-submit').prop('disabled',true);
+            $('.btn-submit').attr('disabled', 'disabled');
+            $('.btn-submit').parents('form').submit();
           }
 
           function load_buttom(){
@@ -195,7 +217,7 @@
           }
 
           function get_sodetail(id,soh_no,soh_txn_code){
-            $('.sostatus-detail').addClass('loader');
+            $('#loader_detail').addClass('loader');
             let url = "{{ config('app.url').'/so-status/' }}" + id +'?SOH_NO=' + soh_no +'&SOH_TXN_CODE=' + soh_txn_code;
             $.ajax({
               method: "GET",
@@ -203,7 +225,7 @@
               data: {
               }
             }).done(function( msg ) {
-              $('.sostatus-detail').removeClass('loader');
+              $('#loader_detail').removeClass('loader');
               $('.sostatus-detail').html(msg);
               load_buttom();
               //console.log(msg);
