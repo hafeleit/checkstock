@@ -22,7 +22,7 @@
                           </div>
                           @ENDIF
 
-                          <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LAST UPDATE: {{ $products[0]->created_at ?? '' }}</p>
+                          <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LAST UPDATE: {{ $last_upd ?? '' }}</p>
                           <span class="text-danger text-sm">ก่อนทำการสั่งซื้อกรุณาตรวจสอบข้อมูลกับพนักงานขายอีกครั้ง (Kindly contact the salesperson before ordering.)</span>
                       </div>
                   </div>

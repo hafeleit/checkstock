@@ -19,7 +19,8 @@ class ProductController extends Controller
       /*$paginate = 20;
       $query = new Product();
       $products = $query->inRandomOrder()->limit(10)->get();*/
-      return view('pages.products.index',['products' => []]);
+      $last_upd = Product::first();
+      return view('pages.products.index',['products' => [], 'last_upd' => $last_upd->created_at]);
 
     }
 
