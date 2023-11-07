@@ -21,6 +21,19 @@ class PageController extends Controller
         return abort(404);
     }
 
+    public function user_management()
+    {
+        return view("pages.user-management");
+    }
+    public function tables()
+    {
+        return view("pages.tables");
+    }
+    public function billing()
+    {
+        return view("pages.billing");
+    }
+
     public function vr()
     {
         return view("pages.virtual-reality");

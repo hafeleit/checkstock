@@ -63,7 +63,7 @@
     <div class="container-fluid py-4">
         <div class="row">
           <div class="col-12" style="z-index: 9;text-align: center;margin-bottom: 14px;">
-            <h3 class="font-weight-bolder text-white mb-0">Dashboard Tecnicial Capacity</h3>
+            <h3 class="font-weight-bolder text-white mb-0">Dashboard Technicain Capacity</h3>
             <h3 class="font-weight-bolder text-white mb-0">
               <a href="{{ route('ass_dashboard') . '?from_date=' . $pre_month}}" style="color:#f29090"><&nbsp&nbsp&nbsp</a>
               {{ $curr_date }}
@@ -74,7 +74,7 @@
             <div class="col-lg-6 mb-lg-0 mb-4">
                 <div class="card z-index-2 h-80">
                     <div class="card-header pb-0 pt-3 bg-transparent">
-                        <h5 class="text-capitalize color-crimson">Northeastern region / ภาคอีสานเหนือ</h5>
+                        <h5 class="text-capitalize color-crimson">North / ภาคเหนือ</h5>
                     </div>
                     <table class="">
                       <thead>
@@ -165,7 +165,7 @@
             <div class="col-lg-6 mb-lg-0 mb-4">
                 <div class="card z-index-2 h-80">
                     <div class="card-header pb-0 pt-3 bg-transparent">
-                        <h5 class="text-capitalize color-crimson">Central region / ภาคกลาง</h5>
+                        <h5 class="text-capitalize color-crimson">Central / ภาคกลาง</h5>
                     </div>
                     <table>
                       <thead>

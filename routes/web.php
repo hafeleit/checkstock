@@ -28,6 +28,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarrantyController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\SoStatusController;
+use App\Http\Controllers\SalesUSIController;
 
   Route::get('/', function () {return redirect('/products');});
 
@@ -49,6 +50,8 @@ use App\Http\Controllers\SoStatusController;
   //so status
   Route::resource('so-status', SoStatusController::class);
 
+  //sales usi
+  Route::resource('sales-usi', SalesUSIController::class);
   //test
   Route::get('send-mail', [MailController::class, 'index']);
   Route::get('picking', [LoginController::class, 'picking']);
@@ -87,7 +90,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
 	Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
 	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
-	Route::get('/{page}', [PageController::class, 'index'])->name('page');
+	//Route::get('/{page}', [PageController::class, 'index'])->name('page');
+  Route::get('/user-management', [PageController::class, 'user_management'])->name('user-management');
+  Route::get('/tables', [PageController::class, 'tables'])->name('tables');
+  Route::get('/billing', [PageController::class, 'billing'])->name('billing');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 });
