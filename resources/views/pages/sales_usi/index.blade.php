@@ -1,10 +1,14 @@
 @extends('layouts.appguest', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-
-    <div class="container-fluid py-4">
+<style media="screen">
+  .border-usi{
+    border-left: 1px solid #e9ecef !important;
+  }
+</style>
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-9 mt-4">
+            <div class="col-md-10 mt-4">
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
@@ -15,121 +19,201 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Item Code</label>
+                                    <span class="mb-2 text-sm">Item Code: </span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" style="position: relative;">
                                     <input class="form-control" type="text" value="589.34.244">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Item Desc</label>
-                                    <input class="form-control" type="text" value="HANDSHOWER ABS CHR.POL.3 FUNC.">
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Grade1</label>
-                                    <input class="form-control" type="text" value="STD">
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Grade2</label>
-                                    <input class="form-control" type="text" value="G2">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Purchaser</label>
-                                    <input class="form-control" type="text" value="HATHAIPAT BU">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Cust Item Code</label>
-                                    <input class="form-control" type="text" value="">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">PM Contact</label>
-                                    <input class="form-control" type="text" value="TASSANEE KILL">
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Uom</label>
-                                    <input class="form-control" type="text" value="PC">
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Pack Code</label>
-                                    <input class="form-control" type="text" value="BOX">
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">PC</label>
-                                    <input class="form-control" type="text" value="30">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">New Item</label>
-                                    <input class="form-control" type="text" value="">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Weight-Volume</label>
-                                    <input class="form-control" type="text" value="16.800">
+                                    <a href="javascript:;" data-bs-toggle="tooltip" data-bs-original-title="Preview product">
+                                      <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 5%;">
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <hr class="horizontal dark">
-                        <p class="text-uppercase text-sm">Contact Information</p>
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Address</label>
-                                    <input class="form-control" type="text"
-                                        value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
-                                </div>
-                            </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">City</label>
-                                    <input class="form-control" type="text" value="New York">
+                                    <span class="mb-2 text-sm">Item Desc: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">HANDSHOWER ABS CHR.POL.3 FUNC.</span></span>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Grade1/Grade2: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">DIY | G2</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Purchaser: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">HATHAIPAT BU</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                  <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    </div>
+                                    <h6 class="mb-0 text-dark font-weight-bold text-sm">P</h6>
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Country</label>
-                                    <input class="form-control" type="text" value="United States">
+                                    <span class="mb-2 text-sm">Cust Item Code: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">095512</span></span>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">PM Contact: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">TASSANEE KILL</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Uom: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">PC</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                  <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    </div>
+                                    <h6 class="mb-0 text-dark font-weight-bold text-sm">C</h6>
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Postal code</label>
-                                    <input class="form-control" type="text" value="437300">
+                                    <span class="mb-2 text-sm">Pack Code: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">BOX</span></span>
                                 </div>
                             </div>
-                        </div>
-                        <hr class="horizontal dark">
-                        <p class="text-uppercase text-sm">About me</p>
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">About me</label>
-                                    <input class="form-control" type="text"
-                                        value="A beautiful Dashboard for Bootstrap 5. It is Free and Open Source.">
+                                    <span class="mb-2 text-sm">PC: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">30</span></span>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">New Item: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light"></span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                  <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    </div>
+                                    <h6 class="mb-0 text-dark font-weight-bold text-sm">P/P</h6>
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Weight-Volume: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">16.800</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">RepL Time: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">90</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">VAT %: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">7</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                  <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                    </div>
+                                    <h6 class="mb-0 text-dark font-weight-bold text-sm">DIY</h6>
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Sales MOQ: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light"></span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Promotion Text: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light"></span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Purchase MOQ: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">100</span></span>
+                                </div>
+                            </div>
+
+                          </div>
+                          <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Project Item: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light"></span></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Supplier Item Code: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">H04023+KR110</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Item ABC/XYZ Class: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">C / Z</span></span>
+                                </div>
+                            </div>
+
+                          </div>
+                          <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">LSP: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.0000</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">LSP Date: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.0000</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Last Disc %: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.00000</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">CG %: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.00000</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Pick Qty at 1: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">0</span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Free Stk at 1: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">10 0</span></span>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 mt-4">
+            <div class="col-md-2 mt-4">
                 <div class="card card-profile ">
                     <img src="/storage/img/products/coming_soon.jpg" alt="Image placeholder" class="card-img-top">
 
@@ -139,223 +223,347 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-lg-7 mb-lg-0 mb-4">
+          <div class="col-lg-12 mb-lg-0">
+              <div class="card ">
+                  <div class="table-responsive">
+                      <table class="table align-items-center ">
+                          <thead>
+                              <tr>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 "> UOM</th>
+                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Conv Fact</th>
+                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Max Loose</th>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 "> Price List</th>
+                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Price</th>
+                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Discount</th>
+                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Net Value</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                                <td><p class="text-xs font-weight-bold mb-0 px-3">PC</p></td>
+                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">1</p></td>
+                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td><p class="text-xs font-weight-bold mb-0 px-3">999999</p></td>
+                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">205.0000</p></td>
+                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">.0000</p></td>
+                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">205.0000</p></td>
+                            </tr>
+                            <tr>
+                                <td><p class="text-xs font-weight-bold mb-0 px-3">BOX</p></td>
+                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">12</p></td>
+                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">11</p></td>
+                                <td><p class="text-xs font-weight-bold mb-0 px-3">999999</p></td>
+                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">.0000</p></td>
+                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">.0000</p></td>
+                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">.0000</p></td>
+                            </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-lg-6 mb-lg-0">
+              <div class="card ">
+                  <div class="table-responsive">
+                      <table class="table align-items-center ">
+                          <thead>
+                              <tr>
+                                  <th class="text-secondary opacity-7"></th>
+                                  <th colspan="2" class="border-usi text-center text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Tot. Qty</th>
+                                  <th colspan="2" class="border-usi text-center text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Sold Qty.</th>
+                                  <th class="border-usi text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Inv Count</th>
+                                  <th class="border-usi text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Cust</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                                <td><p class="text-end text-xs font-weight-bold mb-0">Nov-23</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">196</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">195</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">23</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">10</p></td>
+                            </tr>
+                            <tr>
+                                <td><p class="text-end text-xs font-weight-bold mb-0">Nov-23</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">196</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">195</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">23</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">10</p></td>
+                            </tr>
+                            <tr>
+                                <td><p class="text-end text-xs font-weight-bold mb-0">Nov-23</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">196</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">195</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">23</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">10</p></td>
+                            </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-6 mb-lg-0">
+              <div class="card ">
+                  <div class="table-responsive">
+                      <table class="table align-items-center ">
+                          <thead>
+                              <tr>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Week</th>
+                                  <th colspan="2" class="text-center border-usi text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Inbound</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Status</th>
+                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Outbound</th>
+                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Avaliable</th>
+                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Received</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> +/</th>
+                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Forecast</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                                <td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">23/4</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3"></p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">1509</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">+</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">1509</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                            </tr>
+                            <tr>
+                                <td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">23/4</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3"></p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">1509</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">+</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">1509</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                            </tr>
+                            <tr>
+                                <td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">23/4</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3"></p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">1509</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">+</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">1509</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
+                            </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-lg-6 mb-lg-0">
+              <div class="card ">
+                  <div class="card-header pb-0">
+                      <h6>PO Detail</h6>
+                  </div>
+                  <div class="table-responsive">
+                      <table class="table align-items-center ">
+                          <thead>
+                              <tr>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Document</th>
+                                  <th class="border-usi text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Document Date</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> UOM</th>
+                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Qty</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Mode of Ship</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Locn Code</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> ETS</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> ETA</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Status</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                                <td><p class="text-start text-xs font-weight-bold mb-0 px-3">PO_IMP-2023070552</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">27/07/2023</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">PC</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">900</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">SF FCL 20'</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3"></p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">06/11/2023</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">21/11/2023</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">S</p></td>
+
+                            </tr>
+                            <tr>
+                                <td><p class="text-start text-xs font-weight-bold mb-0 px-3">PO_IMP-2023070552</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">27/07/2023</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">PC</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">900</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">SF FCL 20'</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3"></p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">06/11/2023</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">21/11/2023</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">S</p></td>
+
+                            </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-6 mb-lg-0">
                 <div class="card ">
-                    <div class="card-header pb-0 p-3">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="mb-2">Sales by Country</h6>
-                        </div>
+                    <div class="card-header pb-0">
+                        <h6>SO Detail</h6>
                     </div>
                     <div class="table-responsive">
                         <table class="table align-items-center ">
+                            <thead>
+                                <tr>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> SO Detail</th>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> SO Date</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Uom</th>
+                                  <th colspan="2" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Order Qty</th>
+                                  <th colspan="2" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Resv Qty</th>
+                                  <th colspan="2" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Delivered</th>
+                                  <th colspan="2" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Invoiced</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Delivery Date</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Del Locn</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Current</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Rate</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Value</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Admin</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Rep</th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                <tr>
-                                    <td class="w-30">
-                                        <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="./img/icons/flags/US.png" alt="Country flag">
-                                            </div>
-                                            <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                                <h6 class="text-sm mb-0">United States</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                            <h6 class="text-sm mb-0">2500</h6>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                            <h6 class="text-sm mb-0">$230,900</h6>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-sm">
-                                        <div class="col text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                            <h6 class="text-sm mb-0">29.9%</h6>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="w-30">
-                                        <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="./img/icons/flags/DE.png" alt="Country flag">
-                                            </div>
-                                            <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                                <h6 class="text-sm mb-0">Germany</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                            <h6 class="text-sm mb-0">3.900</h6>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                            <h6 class="text-sm mb-0">$440,000</h6>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-sm">
-                                        <div class="col text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                            <h6 class="text-sm mb-0">40.22%</h6>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="w-30">
-                                        <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="./img/icons/flags/GB.png" alt="Country flag">
-                                            </div>
-                                            <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                                <h6 class="text-sm mb-0">Great Britain</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                            <h6 class="text-sm mb-0">1.400</h6>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                            <h6 class="text-sm mb-0">$190,700</h6>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-sm">
-                                        <div class="col text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                            <h6 class="text-sm mb-0">23.44%</h6>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="w-30">
-                                        <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="./img/icons/flags/BR.png" alt="Country flag">
-                                            </div>
-                                            <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                                <h6 class="text-sm mb-0">Brasil</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                            <h6 class="text-sm mb-0">562</h6>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                            <h6 class="text-sm mb-0">$143,960</h6>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-sm">
-                                        <div class="col text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                            <h6 class="text-sm mb-0">32.14%</h6>
-                                        </div>
-                                    </td>
-                                </tr>
+                              <tr>
+                                <td><p class="text-start text-xs font-weight-bold mb-0 px-3">SO_GEN-230016545</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">08/11/2023</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">PC</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">8</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">08/11/2023</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">1</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">THB</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">92.1000</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">736.8</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">HTH1192</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">3344</p></td>
+                              </tr>
+                              <tr>
+                                <td><p class="text-start text-xs font-weight-bold mb-0 px-3">SO_GEN-230016545</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">08/11/2023</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">PC</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">8</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">08/11/2023</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">1</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">THB</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">92.1000</p></td>
+                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">736.8</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">HTH1192</p></td>
+                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">3344</p></td>
+                              </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+              </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-lg-6 mb-lg-0">
+              <div class="card ">
+                  <div class="card-header pb-0">
+                      <h6>Top 20 Customer Last 3 Months</h6>
+                  </div>
+                  <div class="table-responsive">
+                      <table class="table align-items-center ">
+                          <thead>
+                              <tr>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Customer Code</th>
+                                  <th class="border-usi text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Customer Name</th>
+                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Order Qty</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Value</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> GC</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><p class="text-start text-xs font-weight-bold mb-0 px-3">104262</p></td>
+                              <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">HOME PRODUCT CENTER PLC., (WANGNOI)</p></td>
+                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">423</p></td>
+                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">39.958.30</p></td>
+                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">52.47</p></td>
+                            </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
             </div>
-            <div class="col-lg-5">
-                <div class="card">
-                    <div class="card-header pb-0 p-3">
-                        <h6 class="mb-0">Categories</h6>
+            <div class="col-lg-6 mb-lg-0">
+                <div class="card ">
+                    <div class="card-header pb-0">
+                        <h6>Top 20 Customer Last 12 Months</h6>
                     </div>
-                    <div class="card-body p-3">
-                        <ul class="list-group">
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-mobile-button text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Devices</h6>
-                                        <span class="text-xs">250 in stock, <span class="font-weight-bold">346+
-                                                sold</span></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button
-                                        class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                            class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-tag text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Tickets</h6>
-                                        <span class="text-xs">123 closed, <span class="font-weight-bold">15
-                                                open</span></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button
-                                        class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                            class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-box-2 text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Error logs</h6>
-                                        <span class="text-xs">1 is active, <span class="font-weight-bold">40
-                                                closed</span></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button
-                                        class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                            class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                        <i class="ni ni-satisfied text-white opacity-10"></i>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">Happy users</h6>
-                                        <span class="text-xs font-weight-bold">+ 430</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button
-                                        class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                            class="ni ni-bold-right" aria-hidden="true"></i></button>
-                                </div>
-                            </li>
-                        </ul>
+                    <div class="table-responsive">
+                        <table class="table align-items-center ">
+                          <thead>
+                              <tr>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Customer Code</th>
+                                  <th class="border-usi text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Customer Name</th>
+                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Order Qty</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Value</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> GC</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><p class="text-start text-xs font-weight-bold mb-0 px-3">104262</p></td>
+                              <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">HOME PRODUCT CENTER PLC., (WANGNOI)</p></td>
+                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">423</p></td>
+                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
+                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">39.958.30</p></td>
+                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">52.47</p></td>
+                            </tr>
+                          </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
+              </div>
         </div>
     </div>
 @endsection
