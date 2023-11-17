@@ -18,197 +18,363 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <div class="form-group">
+                                <div class="form-group ">
                                     <span class="mb-2 text-sm">Item Code: </span>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group" style="position: relative;">
                                     <input class="form-control" type="text" value="589.34.244">
-                                    <a href="javascript:;" data-bs-toggle="tooltip" data-bs-original-title="Preview product">
+                                    <a href="javascript:;">
                                       <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 5%;">
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Item Desc: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">HANDSHOWER ABS CHR.POL.3 FUNC.</span></span>
+                                    <span class="mb-2 text-sm">Item Desc: </span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Grade1/Grade2: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">DIY | G2</span></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">HANDSHOWER ABS CHR.POL.3 FUNC.</span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                          </div>
+                          <div class="row">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Purchaser: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">HATHAIPAT BU</span></span>
+                                    <span class="mb-2 text-sm">Grade1/Grade2:</span>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                  <div class="d-flex align-items-center">
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    </div>
-                                    <h6 class="mb-0 text-dark font-weight-bold text-sm">P</h6>
-                                  </div>
+                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">DIY / G2</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Purchaser:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">HATHAIPAT BU</span>
                                 </div>
                             </div>
                           </div>
 
                           <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Cust Item Code: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">095512</span></span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">PM Contact: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">TASSANEE KILL</span></span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Uom: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">PC</span></span>
+                                    <span class="mb-2 text-sm">Cust Item Code: </span>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                  <div class="d-flex align-items-center">
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    </div>
-                                    <h6 class="mb-0 text-dark font-weight-bold text-sm">C</h6>
-                                  </div>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Pack Code: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">BOX</span></span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">PC: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">30</span></span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">New Item: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light"></span></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">095512</span>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                  <div class="d-flex align-items-center">
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    </div>
-                                    <h6 class="mb-0 text-dark font-weight-bold text-sm">P/P</h6>
-                                  </div>
+                                    <span class="mb-2 text-sm">PM Contact:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">TASSANEE KILL</span>
                                 </div>
                             </div>
                           </div>
                           <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Weight-Volume: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">16.800</span></span>
+                                    <span class="mb-2 text-sm">Uom:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">PC</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Pack Code:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">CTN</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">60</span>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">New Item:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">123.12.123</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Weight-Volume:</span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">RepL Time: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">90</span></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">6.130 KG</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">22.9 Dm 3</span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                          </div>
+                          <div class="row">
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">RepL Time:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">90</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <span class="mb-2 text-sm">VAT %: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">7</span></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                  <div class="d-flex align-items-center">
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
-                                    </div>
-                                    <h6 class="mb-0 text-dark font-weight-bold text-sm">DIY</h6>
+                                    <span class="mb-2 text-sm">Sales MOQ:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">123</span>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Promotion Text:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">WWWWWWWWWWWWWW</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Purchase MOQ:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">100</span>
+                                </div>
+                            </div>
+
+                          </div>
+                          <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Project Item:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">123.12.123</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Supplier Item Code:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">H04023+KR110</span>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Item ABC/XYZ Class:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">C / Z</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">LSP:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.0000</span>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">LSP Date:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.0000</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Last Disc %:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.00000</span>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">CG %:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.00000</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Pick Qty at 1:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">7</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">0</span>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Free Stk at 1:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">1502</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">0</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Free Stk at Others:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">251</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">0</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Exclusivity Remark:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">12</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                          <div class="col-md-1">
+                              <div class="form-group">
+                                <div class="d-flex align-items-center">
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
                                   </div>
+                                  <h6 class="mb-0 text-dark font-weight-bold text-sm">P</h6>
                                 </div>
-                            </div>
+                              </div>
                           </div>
-                          <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Sales MOQ: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light"></span></span>
+                          <div class="col-md-1">
+                              <div class="form-group">
+                                <div class="d-flex align-items-center">
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                  </div>
+                                  <h6 class="mb-0 text-dark font-weight-bold text-sm">C</h6>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Promotion Text: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light"></span></span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Purchase MOQ: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">100</span></span>
-                                </div>
-                            </div>
-
+                              </div>
                           </div>
-                          <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Project Item: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light"></span></span>
+                          <div class="col-md-1">
+                              <div class="form-group">
+                                <div class="d-flex align-items-center">
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                  </div>
+                                  <h6 class="mb-0 text-dark font-weight-bold text-sm">P/P</h6>
                                 </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Supplier Item Code: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">H04023+KR110</span></span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Item ABC/XYZ Class: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">C / Z</span></span>
-                                </div>
-                            </div>
-
+                              </div>
                           </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">LSP: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.0000</span></span>
+                          <div class="col-md-1">
+                              <div class="form-group">
+                                <div class="d-flex align-items-center">
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                  </div>
+                                  <h6 class="mb-0 text-dark font-weight-bold text-sm">DIY</h6>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">LSP Date: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.0000</span></span>
+                              </div>
+                          </div>
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                <div class="d-flex align-items-center">
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                  </div>
+                                  <h6 class="mb-0 text-dark font-weight-bold text-sm">Expand All</h6>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Last Disc %: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.00000</span></span>
+                              </div>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                <div class="d-flex align-items-center">
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                  </div>
+                                  <h6 class="mb-0 text-dark font-weight-bold text-sm">Add Mth Stk to Free Stk</h6>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">CG %: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.00000</span></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Pick Qty at 1: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">0</span></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Free Stk at 1: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">10 0</span></span>
-                                </div>
-                            </div>
-
+                              </div>
+                          </div>
                         </div>
                     </div>
                 </div>
