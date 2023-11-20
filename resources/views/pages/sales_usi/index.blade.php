@@ -64,6 +64,17 @@
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">HATHAIPAT BU</span>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Total Qty:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">12449</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">0</span>
+                                </div>
+                            </div>
                           </div>
 
                           <div class="row">
@@ -87,6 +98,17 @@
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">TASSANEE KILL</span>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Avg Mth Qty:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">1037</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">0</span>
+                                </div>
+                            </div>
                           </div>
                           <div class="row">
                             <div class="col-md-2">
@@ -108,6 +130,16 @@
                                 <div class="form-group">
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">CTN</span>
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">60</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Avg Mth Qty:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">14</span>
                                 </div>
                             </div>
                           </div>
@@ -134,6 +166,11 @@
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">22.9 Dm 3</span>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Item Status:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light">ACTIVE</span></span>
+                                </div>
+                            </div>
                           </div>
                           <div class="row">
 
@@ -152,14 +189,14 @@
                                     <span class="mb-2 text-sm">VAT %: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">7</span></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Sales MOQ:</span>
+                                    <span class="mb-2 text-sm">Sales MOQ:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light">123</span></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">123</span>
+                                    <span class="mb-2 text-sm">TIS Status: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">NOT NEEDED</span></span>
                                 </div>
                             </div>
                           </div>
@@ -175,14 +212,14 @@
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">WWWWWWWWWWWWWW</span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Purchase MOQ:</span>
+                                    <span class="mb-2 text-sm">Purchase MOQ:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light">100</span></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">100</span>
+                                    <span class="mb-2 text-sm">Inventory Code:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light">STOCK ITEN</span></span>
                                 </div>
                             </div>
 
@@ -209,6 +246,16 @@
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">H04023+KR110</span>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Item Lock Code:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">FREE</span>
+                                </div>
+                            </div>
                           </div>
                           <div class="row">
                             <div class="col-md-2">
@@ -229,6 +276,16 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.0000</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Item Brand:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">HAFELE</span>
                                 </div>
                             </div>
                           </div>
