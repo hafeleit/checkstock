@@ -52,6 +52,9 @@ use App\Http\Controllers\SalesUSIController;
 
   //sales usi
   Route::resource('sales-usi', SalesUSIController::class);
+  Route::get('search-usi', [SalesUSIController::class,'search_usi'])->name('search_usi');
+  Route::get('search-usi-inbound', [SalesUSIController::class,'inbound'])->name('search_inbound');
+  Route::get('search-usi-outbound', [SalesUSIController::class,'outbound'])->name('search_outbound');
   //test
   Route::get('send-mail', [MailController::class, 'index']);
   Route::get('picking', [LoginController::class, 'picking']);

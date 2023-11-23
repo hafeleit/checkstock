@@ -24,8 +24,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group" style="position: relative;">
-                                    <input class="form-control" type="text" value="589.34.244">
-                                    <a href="javascript:;">
+                                    <input class="form-control" id="item_code" name="item_code" type="text" value="940.99.961">
+                                    <a href="javascript:;" onclick="search_usi()">
                                       <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 5%;">
                                     </a>
                                 </div>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">HANDSHOWER ABS CHR.POL.3 FUNC.</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_desc"></span>
                                 </div>
                             </div>
                           </div>
@@ -51,7 +51,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">DIY / G2</span>
+                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light grade1"></span>
+                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light grade2"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -61,18 +62,18 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">HATHAIPAT BU</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light purchaser"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="form-group">
+                                <div class="form-group text-end">
                                     <span class="mb-2 text-sm">Total Qty:</span>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">12449</span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">0</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light total_qty1"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light total_qty2"></span>
                                 </div>
                             </div>
                           </div>
@@ -85,7 +86,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">095512</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light cust_item_code"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -95,18 +96,18 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">TASSANEE KILL</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pm_contact"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="form-group">
+                                <div class="form-group text-end">
                                     <span class="mb-2 text-sm">Avg Mth Qty:</span>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">1037</span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">0</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_qty1"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_qty2"></span>
                                 </div>
                             </div>
                           </div>
@@ -118,7 +119,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">PC</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light uom"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -128,18 +129,18 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">CTN</span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">60</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pack_code1"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pack_code2"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group text-end">
+                                    <span class="mb-2 text-sm">Avg Mth Cust:</span>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Avg Mth Qty:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">14</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_cust"></span>
                                 </div>
                             </div>
                           </div>
@@ -152,7 +153,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">123.12.123</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light new_item"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -162,13 +163,13 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">6.130 KG</span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">22.9 Dm 3</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light weight_volume1"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light weight_volume2"></span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Item Status:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light">ACTIVE</span></span>
+                                    <span class="mb-2 text-sm">Item Status:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_status"></span></span>
                                 </div>
                             </div>
                           </div>
@@ -181,22 +182,22 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">90</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light repl_time"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">VAT %: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">7</span></span>
+                                    <span class="mb-2 text-sm">VAT %: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light vat7"></span></span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Sales MOQ:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light">123</span></span>
+                                    <span class="mb-2 text-sm">Sales MOQ:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light sales_moq"></span></span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">TIS Status: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">NOT NEEDED</span></span>
+                                    <span class="mb-2 text-sm">TIS Status: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light tis_status"></span></span>
                                 </div>
                             </div>
                           </div>
@@ -209,17 +210,17 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">WWWWWWWWWWWWWW</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light promotion_text"></span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Purchase MOQ:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light">100</span></span>
+                                    <span class="mb-2 text-sm">Purchase MOQ:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light purchase_moq"></span></span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Inventory Code:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light">STOCK ITEN</span></span>
+                                    <span class="mb-2 text-sm">Inventory Code:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light inventory_code"></span></span>
                                 </div>
                             </div>
 
@@ -232,7 +233,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">123.12.123</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light project_item"></span>
                                 </div>
                             </div>
 
@@ -243,7 +244,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">H04023+KR110</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light supplier_item_code"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -253,7 +254,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">FREE</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_lock_code"></span>
                                 </div>
                             </div>
                           </div>
@@ -265,7 +266,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">C / Z</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_abc_xyz_class"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -275,7 +276,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.0000</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light lsp"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -285,7 +286,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">HAFELE</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_brand"></span>
                                 </div>
                             </div>
                           </div>
@@ -297,7 +298,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.0000</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light lsp_date"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -307,7 +308,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.00000</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light last_disc"></span>
                                 </div>
                             </div>
                           </div>
@@ -315,12 +316,12 @@
 
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">CG %:</span>
+                                    <span class="mb-2 text-sm">GC %:</span>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">.00000</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light gc"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -330,8 +331,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">7</span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">0</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pick_qty_at1"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pick_qty_at2"></span>
                                 </div>
                             </div>
                           </div>
@@ -344,8 +345,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">1502</span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">0</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at1"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at2"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -355,8 +356,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">251</span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">0</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at_others1"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at_others2"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -366,7 +367,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light">12</span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light exclusivity_remark"></span>
                                 </div>
                             </div>
 
@@ -376,7 +377,7 @@
                               <div class="form-group">
                                 <div class="d-flex align-items-center">
                                   <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                    <input class="form-check-input" type="checkbox" value="" id="p">
                                   </div>
                                   <h6 class="mb-0 text-dark font-weight-bold text-sm">P</h6>
                                 </div>
@@ -386,7 +387,7 @@
                               <div class="form-group">
                                 <div class="d-flex align-items-center">
                                   <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                    <input class="form-check-input" type="checkbox" value="" id="c">
                                   </div>
                                   <h6 class="mb-0 text-dark font-weight-bold text-sm">C</h6>
                                 </div>
@@ -396,7 +397,7 @@
                               <div class="form-group">
                                 <div class="d-flex align-items-center">
                                   <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                    <input class="form-check-input" type="checkbox" value="" id="pp">
                                   </div>
                                   <h6 class="mb-0 text-dark font-weight-bold text-sm">P/P</h6>
                                 </div>
@@ -406,7 +407,7 @@
                               <div class="form-group">
                                 <div class="d-flex align-items-center">
                                   <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                    <input class="form-check-input" type="checkbox" value="" id="diy">
                                   </div>
                                   <h6 class="mb-0 text-dark font-weight-bold text-sm">DIY</h6>
                                 </div>
@@ -416,19 +417,9 @@
                               <div class="form-group">
                                 <div class="d-flex align-items-center">
                                   <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                    <input class="form-check-input" type="checkbox" value="" id="expand_all">
                                   </div>
                                   <h6 class="mb-0 text-dark font-weight-bold text-sm">Expand All</h6>
-                                </div>
-                              </div>
-                          </div>
-                          <div class="col-md-3">
-                              <div class="form-group">
-                                <div class="d-flex align-items-center">
-                                  <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
-                                  </div>
-                                  <h6 class="mb-0 text-dark font-weight-bold text-sm">Add Mth Stk to Free Stk</h6>
                                 </div>
                               </div>
                           </div>
@@ -449,7 +440,7 @@
           <div class="col-lg-12 mb-lg-0">
               <div class="card ">
                   <div class="table-responsive">
-                      <table class="table align-items-center ">
+                      <table id="uom_table" class="table align-items-center ">
                           <thead>
                               <tr>
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 "> UOM</th>
@@ -462,24 +453,6 @@
                               </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                                <td><p class="text-xs font-weight-bold mb-0 px-3">PC</p></td>
-                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">1</p></td>
-                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td><p class="text-xs font-weight-bold mb-0 px-3">999999</p></td>
-                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">205.0000</p></td>
-                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">.0000</p></td>
-                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">205.0000</p></td>
-                            </tr>
-                            <tr>
-                                <td><p class="text-xs font-weight-bold mb-0 px-3">BOX</p></td>
-                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">12</p></td>
-                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">11</p></td>
-                                <td><p class="text-xs font-weight-bold mb-0 px-3">999999</p></td>
-                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">.0000</p></td>
-                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">.0000</p></td>
-                                <td><p class="text-end text-xs font-weight-bold mb-0 px-3">.0000</p></td>
-                            </tr>
                           </tbody>
                       </table>
                   </div>
@@ -488,9 +461,9 @@
         </div>
         <div class="row mt-4">
           <div class="col-lg-6 mb-lg-0">
-              <div class="card ">
+              <div class="card " style="height: 470px;">
                   <div class="table-responsive">
-                      <table class="table align-items-center ">
+                      <table id="mss_table" class="table align-items-center ">
                           <thead>
                               <tr>
                                   <th class="text-secondary opacity-7"></th>
@@ -501,42 +474,15 @@
                               </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                                <td><p class="text-end text-xs font-weight-bold mb-0">Nov-23</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">196</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">195</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">23</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">10</p></td>
-                            </tr>
-                            <tr>
-                                <td><p class="text-end text-xs font-weight-bold mb-0">Nov-23</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">196</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">195</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">23</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">10</p></td>
-                            </tr>
-                            <tr>
-                                <td><p class="text-end text-xs font-weight-bold mb-0">Nov-23</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">196</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">195</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">23</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">10</p></td>
-                            </tr>
                           </tbody>
                       </table>
                   </div>
               </div>
           </div>
           <div class="col-lg-6 mb-lg-0">
-              <div class="card ">
+              <div class="card" style="height: 470px;">
                   <div class="table-responsive">
-                      <table class="table align-items-center ">
+                      <table id="wss_table" class="table align-items-center ">
                           <thead>
                               <tr>
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Week</th>
@@ -550,51 +496,6 @@
                               </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                                <td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">23/4</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3"></p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">1509</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">+</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">1509</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                            </tr>
-                            <tr>
-                                <td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">23/4</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3"></p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">1509</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">+</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">1509</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                            </tr>
-                            <tr>
-                                <td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">23/4</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3"></p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">1509</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">+</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">1509</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">0</p></td>
-                            </tr>
                           </tbody>
                       </table>
                   </div>
@@ -603,12 +504,12 @@
         </div>
         <div class="row mt-4">
           <div class="col-lg-6 mb-lg-0">
-              <div class="card ">
+              <div class="card " style="height: 270px;">
                   <div class="card-header pb-0">
                       <h6>PO Detail</h6>
                   </div>
                   <div class="table-responsive">
-                      <table class="table align-items-center ">
+                      <table id="po_table" class="table align-items-center ">
                           <thead>
                               <tr>
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Document</th>
@@ -623,44 +524,18 @@
                               </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                                <td><p class="text-start text-xs font-weight-bold mb-0 px-3">PO_IMP-2023070552</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">27/07/2023</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">PC</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">900</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">SF FCL 20'</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3"></p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">06/11/2023</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">21/11/2023</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">S</p></td>
-
-                            </tr>
-                            <tr>
-                                <td><p class="text-start text-xs font-weight-bold mb-0 px-3">PO_IMP-2023070552</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">27/07/2023</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">PC</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">900</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">SF FCL 20'</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3"></p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">06/11/2023</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">21/11/2023</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">S</p></td>
-
-                            </tr>
                           </tbody>
                       </table>
                   </div>
               </div>
             </div>
             <div class="col-lg-6 mb-lg-0">
-                <div class="card ">
+                <div class="card " style="height: 270px;">
                     <div class="card-header pb-0">
                         <h6>SO Detail</h6>
                     </div>
                     <div class="table-responsive">
-                        <table class="table align-items-center ">
+                        <table id="so_table" class="table align-items-center ">
                             <thead>
                                 <tr>
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> SO Detail</th>
@@ -680,46 +555,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td><p class="text-start text-xs font-weight-bold mb-0 px-3">SO_GEN-230016545</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">08/11/2023</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">PC</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">8</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">08/11/2023</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">1</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">THB</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">92.1000</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">736.8</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">HTH1192</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">3344</p></td>
-                              </tr>
-                              <tr>
-                                <td><p class="text-start text-xs font-weight-bold mb-0 px-3">SO_GEN-230016545</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">08/11/2023</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">PC</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">8</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">08/11/2023</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">1</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">THB</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">92.1000</p></td>
-                                <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">736.8</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">HTH1192</p></td>
-                                <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">3344</p></td>
-                              </tr>
                             </tbody>
                         </table>
                     </div>
@@ -728,12 +563,12 @@
         </div>
         <div class="row mt-4">
           <div class="col-lg-6 mb-lg-0">
-              <div class="card ">
+              <div class="card " style="height: 470px;">
                   <div class="card-header pb-0">
                       <h6>Top 20 Customer Last 3 Months</h6>
                   </div>
                   <div class="table-responsive">
-                      <table class="table align-items-center ">
+                      <table id="t20_3_table" class="table align-items-center ">
                           <thead>
                               <tr>
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Customer Code</th>
@@ -744,26 +579,18 @@
                               </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td><p class="text-start text-xs font-weight-bold mb-0 px-3">104262</p></td>
-                              <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">HOME PRODUCT CENTER PLC., (WANGNOI)</p></td>
-                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">423</p></td>
-                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">39.958.30</p></td>
-                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">52.47</p></td>
-                            </tr>
                           </tbody>
                       </table>
                   </div>
               </div>
             </div>
             <div class="col-lg-6 mb-lg-0">
-                <div class="card ">
+                <div class="card " style="height: 470px;">
                     <div class="card-header pb-0">
                         <h6>Top 20 Customer Last 12 Months</h6>
                     </div>
                     <div class="table-responsive">
-                        <table class="table align-items-center ">
+                        <table id="t20_12_table" class="table align-items-center ">
                           <thead>
                               <tr>
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Customer Code</th>
@@ -774,14 +601,6 @@
                               </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td><p class="text-start text-xs font-weight-bold mb-0 px-3">104262</p></td>
-                              <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">HOME PRODUCT CENTER PLC., (WANGNOI)</p></td>
-                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">423</p></td>
-                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">0</p></td>
-                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">39.958.30</p></td>
-                              <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">52.47</p></td>
-                            </tr>
                           </tbody>
                         </table>
                     </div>
@@ -789,4 +608,183 @@
               </div>
         </div>
     </div>
+
+<script type="text/javascript">
+  function search_usi(){
+    let item_code = $('#item_code').val();
+    $.ajax({
+      method: 'GET',
+      url: '{{ ROUTE('search_usi')}}',
+      data:{
+        item_code: item_code
+      }
+    }).done(function(res){
+      console.log(res);
+      if(res['count'] == 0){
+        return false;
+      }
+      $('.item_desc').html(res['data']['NSU_ITEM_NAME']);
+      $('.grade1').html(res['data']['NSU_GRADE_CODE_1']);
+      $('.grade2').html(res['data']['NSU_GRADE_CODE_2']);
+      $('.purchaser').html(res['data']['NSU_PURCHASER']);
+      $('.total_qty1').html(res['data']['NSU_TOT_QTY']);
+      $('.total_qty2').html(res['data']['NSU_TOT_QTY_LS']);
+      $('.cust_item_code').html(res['data']['NSU_CUST_ITEM_CODE']);
+      $('.pm_contact').html(res['data']['NSU_CUST_ITEM_CODE']);
+      $('.avg_mth_qty1').html(res['data']['NSU_AVG_MTH_QTY']);
+      $('.avg_mth_qty2').html(res['data']['NSU_AVG_MTH_QTY_LS']);
+      $('.uom').html(res['data']['NSU_ITEM_UOM_CODE']);
+      $('.pack_code1').html(res['data']['NSU_PACK_UOM_CODE']);
+      $('.pack_code2').html(res['data']['NSU_CONV_BASE_UOM'] + ' ' + res['data']['NSU_ITEM_UOM_CODE']);
+      $('.avg_mth_cust').html(res['data']['NSU_AVG_MTH_CUST']);
+      $('.new_item').html(res['data']['NSU_NEW_ITEM_CODE']);
+      $('.weight_volume1').html(res['data']['NSU_PACK_WEIGHT'] + 'KG');
+      $('.weight_volume2').html(res['data']['NSU_PACK_VOLUME'] + 'Dm 3');
+      $('.item_status').html(res['data']['NSU_ITEM_STATUS']);
+      $('.repl_time').html(res['data']['NSU_SUPP_REPL_TIME']);
+      $('.vat7').html(res['data']['NSU_VAT_PERC']);
+      $('.sales_moq').html(res['data']['NSU_SALE_MOQ']);
+      $('.sales_moq').html(res['data']['NSU_SALE_MOQ']);
+      $('.tis_status').html(res['data']['NSU_TIS_STATUS']);
+      $('.tis_status').html(res['data']['NSU_TIS_STATUS']);
+      $('.purchase_moq').html(res['data']['NSU_PURC_MOQ']);
+      $('.inventory_code').html(res['data']['NSU_ITEM_INV_CODE']);
+      $('.promotion_text').html(res['data']['NSU_PROM_TEXT']);
+      $('.supplier_item_code').html(res['data']['NSU_SUPP_ITEM_CODE']);
+      $('.item_lock_code').html(res['data']['NSU_ITEM_LOCK_CODE']);
+      $('.item_abc_xyz_class').html(res['data']['NSU_ABC_XYZ_ITEM']);
+      $('.lsp').html(res['data']['NSU_LSP_VAL']);
+      $('.lsp_date').html(res['data']['NSU_LSP_DT']);
+      $('.item_brand').html(res['data']['NSU_ITEM_BRAND']);
+      $('.last_disc').html(res['data']['NSU_LAST_DISC_PERC']);
+      $('.last_disc').html(res['data']['NSU_LAST_DISC_PERC']);
+      $('.gc').html(res['data']['NSU_GC_PERC']);
+      $('.pick_qty_at1').html(res['data']['NSU_PICK_QTY']);
+      $('.pick_qty_at2').html(res['data']['NSU_PICK_QTY_LS']);
+      $('.free_stk_at1').html(res['data']['NSU_FREE_STK_QTY']);
+      $('.free_stk_at2').html(res['data']['NSU_FREE_STK_QTY_LS']);
+      $('.free_stk_at_others1').html(res['data']['NSU_FREE_STK_OTH']);
+      $('.free_stk_at_others2').html(res['data']['NSU_FREE_STK_OTH_LS']);
+      $('.exclusivity_remark').html(res['data']['NSU_EXCL_REMARK']);
+      $('.pm_contact').html(res['data']['NSU_PROD_MGR']);
+
+      ( res['data']['NSU_PAR_ITEM_YN'] === 'Y' ) ? $('#p').prop('checked', true) : $('#p').prop('checked', false);
+      ( res['data']['NSU_CHD_ITEM_YN'] == 'Y' ) ? $('#c').prop('checked', true) : $('#c').prop('checked', false);
+      ( res['data']['NSU_PP_ITEM_YN'] == 'Y' ) ? $('#pp').prop('checked', true) : $('#pp').prop('checked', false);
+      ( res['data']['NSU_BAR_ITEM_YN'] == 'Y' ) ? $('#diy').prop('checked', true) : $('#diy').prop('checked', false);
+
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      var d = new Date();
+      $("#uom_table > tbody").html("");
+      $("#mss_table > tbody").html("");
+      $("#wss_table > tbody").html("");
+      $("#t20_3_table > tbody").html("");
+      $("#t20_12_table > tbody").html("");
+
+      $.each(res['mss']['cust'], function(key, val) {
+        var cust = val;
+        var inv = res['mss']['cust'][key];
+        var tot_qty = res['mss']['tot']['qty'][key];
+        var tot_qty_ls = res['mss']['tot']['ls'][key];
+        var sold_qty = res['mss']['sold']['qty'][key];
+        var sold_qty_ls = res['mss']['sold']['ls'][key];
+        var seq_month = d.getMonth() - key;
+        var seq_year = d.getFullYear().toString().substr(-2);
+        if(seq_month < 0){
+          seq_month = (12 - key) + d.getMonth();
+          seq_year = seq_year - 1;
+        }
+        var date = monthNames[seq_month] + '-' + seq_year;
+        if(key == 12){
+          date = '';
+        }
+        let tbody = '<tr><td><p class="text-end text-xs font-weight-bold mb-0">'+date+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+tot_qty+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+tot_qty_ls+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+sold_qty+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+sold_qty_ls+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+inv+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+cust+'</p></td></tr>';
+
+        $('#mss_table').append(tbody);
+      });
+
+      $.each(res['wss'], function(key, val) {
+        let wss = val["WSS_WEEK_NO"].split(" ").join("");
+        let week_no = "'" + wss.split("/").join("") + "'";
+        let text_danger_in = '';
+        let text_danger_out = '';
+        if(val["WSS_INCOMING_QTY"] > 0){
+          text_danger_in = 'text-danger';
+        }
+        if(val["WSS_RES_QTY"] > 0){
+          text_danger_out = 'text-danger';
+        }
+        //alert(week_no);
+        let tbody = '<tr><td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">'+val["WSS_WEEK_NO"]+'</p></td><td class="border-usi"><p onclick="search_usi_inbound('+week_no+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_STATUS"]+'</p></td><td class="border-usi"><p onclick="search_usi_outbound('+week_no+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_AVAIL_QTY"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_AVAIL_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RCV_QTY"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_RCV_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">'+val["WSS_PLUSMINUS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_FREE_QTY"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_FREE_QTY_LS"]+'</p></td></tr>';
+        $('#wss_table').append(tbody);
+      });
+
+      $.each(res['uom'], function(key, val) {
+        let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_CONV_FACTOR"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_MAX_LOOSE"]+'</p></td><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE_LIST"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_DISC_PRICE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_NET_PRICE"]+'</p></td></tr>';
+        $('#uom_table').append(tbody);
+      });
+
+      $.each(res['t20_3'], function(key, val) {
+        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LTC_CUST_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LTC_CUST_NAME"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LTC_ORD_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LTC_ORD_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LTC_ORD_VAL"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LTC_GC_PERC"]+'</p></td></tr>';
+        $('#t20_3_table').append(tbody);
+      });
+
+      $.each(res['t20_12'], function(key, val) {
+        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LT_CUST_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LT_CUST_NAME"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LT_ORD_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LT_ORD_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LT_ORD_VAL"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LT_GC_PERC"]+'</p></td></tr>';
+        $('#t20_12_table').append(tbody);
+      });
+    });
+  }
+
+  function search_usi_inbound(week_no){
+    $("#po_table > tbody").html("");
+    $.ajax({
+      method: 'GET',
+      url: '{{ ROUTE('search_inbound') }}',
+      data: {
+        item_code: $('#item_code').val(),
+        ipd_week_no: week_no,
+      }
+    }).done(function(res){
+      console.log(res);
+      if(res['count'] == 0){ return false; }
+      $.each(res['data'], function(key, val) {
+        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_DOC_NO"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_DOC_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_UOM_CODE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_MODE_OF_SHIP"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_DEL_LOCN_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETS"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETA"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_STATUS"]+'</p></td></tr>';
+        $('#po_table').append(tbody);
+      });
+
+    });
+  }
+
+  function search_usi_outbound(week_no){
+    $("#so_table > tbody").html("");
+    $.ajax({
+      method: 'GET',
+      url: '{{ ROUTE('search_outbound') }}',
+      data: {
+        item_code: $('#item_code').val(),
+        ipd_week_no: week_no,
+      }
+    }).done(function(res){
+      console.log(res);
+      if(res['count'] == 0){ return false; }
+      $.each(res['data'], function(key, val) {
+        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DOC_NO"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DOC_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_UOM_CODE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_ORD_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_ORD_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_RESV_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_RESV_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_INV_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_INV_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_LOCN_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_CURR_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_RATE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_VALUE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_ADMIN"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_REP"]+'</p></td></tr>';
+        $('#so_table').append(tbody);
+      });
+
+    });
+  }
+
+  $(function(){
+
+
+    //$('#p').prop('checked', true);
+    //var d = new Date();
+    //var month = d.getMonth()+1;
+    //console.log(monthNames[d.getMonth()-1]);
+  });
+
+</script>
 @endsection
