@@ -19,14 +19,14 @@ class SalesUSIController extends Controller
 
       // NEW SALES USI //
       $item_code = $request->item_code ?? '494.02.483';
-      $usi = DB::table('ow_new_sales_usi_web_hafl')
+      $usi = DB::table('OW_NEW_SALES_USI_WEB_HAFL')
                 ->where('NSU_ITEM_CODE', $item_code);
       $count = $usi->count();
       $usis = $usi->first();
       // END NEW SALES USI //
 
       // MONTH //
-      $monthwise = DB::table('ow_monthwise_stk_sum_web_hafl')->where('MSS_ITEM_CODE', $item_code)->first();
+      $monthwise = DB::table('OW_MONTHWISE_STK_SUM_WEB_HAFL')->where('MSS_ITEM_CODE', $item_code)->first();
       $mss = [];
       $tot = [];
       $tot_qty_fields = 'MSS_TOT_QTY_';
@@ -58,10 +58,10 @@ class SalesUSIController extends Controller
       $mss['sold'] = $sold;
       // END MONTH //
 
-      $wss = DB::table('ow_weekwise_stk_sum_web_hafl')->where('WSS_ITEM_CODE', $item_code)->get();
-      $uom = DB::table('ow_item_uom_web_hafl')->where('IUW_ITEM_CODE', $item_code)->get();
-      $t20_3 = DB::table('ow_last3mon_t20_cust_web_hafl')->where('LTC_ITEM_CODE', $item_code)->get();
-      $t20_12 = DB::table('ow_last12mon_t20_cust_web_hafl')->where('LT_ITEM_CODE', $item_code)->get();
+      $wss = DB::table('OW_WEEKWISE_STK_SUM_WEB_HAFL')->where('WSS_ITEM_CODE', $item_code)->get();
+      $uom = DB::table('OW_ITEM_UOM_WEB_HAFL')->where('IUW_ITEM_CODE', $item_code)->get();
+      $t20_3 = DB::table('OW_LAST3MON_T20_CUST_WEB_HAFL')->where('LTC_ITEM_CODE', $item_code)->get();
+      $t20_12 = DB::table('OW_LAST12MON_T20_CUST_WEB_HAFL')->where('LT_ITEM_CODE', $item_code)->get();
 
       return response()->json([
         'status' => true,
@@ -80,7 +80,7 @@ class SalesUSIController extends Controller
       $item_code = $request->item_code ?? '940.99.961';
       $ipd_week_no = $request->ipd_week_no ?? '2346';
 
-      $query = DB::table('ow_itemwise_po_dtls_web_hafl')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
+      $query = DB::table('OW_ITEMWISE_PO_DTLS_WEB_HAFL')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
       $count = $query->count();
       $inbound = $query->get();
       //dd($inbound);
@@ -95,7 +95,7 @@ class SalesUSIController extends Controller
       $item_code = $request->item_code ?? '940.99.961';
       $ipd_week_no = $request->ipd_week_no ?? '2346';
 
-      $query = DB::table('ow_itemwise_so_dtls_web_hafl')->where('ISD_ITEM_CODE', $item_code)->where('ISD_WEEK_NO', $ipd_week_no);
+      $query = DB::table('OW_ITEMWISE_SO_DTLS_WEB_HAFL')->where('ISD_ITEM_CODE', $item_code)->where('ISD_WEEK_NO', $ipd_week_no);
       $count = $query->count();
       $outbound = $query->get();
       //dd($inbound);
