@@ -24,7 +24,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group" style="position: relative;">
-                                    <input class="form-control" id="item_code" name="item_code" type="text" value="940.99.961">
+                                    <input class="form-control" id="item_code" name="item_code" type="text" value="483.02.581">
                                     <a href="javascript:;" onclick="search_usi()">
                                       <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 5%;">
                                     </a>
@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="form-group text-end">
+                                <div class="form-group">
                                     <span class="mb-2 text-sm">Total Qty:</span>
                                 </div>
                             </div>
@@ -81,16 +81,6 @@
                           <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Cust Item Code: </span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light cust_item_code"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
                                     <span class="mb-2 text-sm">PM Contact:</span>
                                 </div>
                             </div>
@@ -100,7 +90,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="form-group text-end">
+                                <div class="form-group">
                                     <span class="mb-2 text-sm">Avg Mth Qty:</span>
                                 </div>
                             </div>
@@ -108,6 +98,16 @@
                                 <div class="form-group">
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_qty1"></span>
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_qty2"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Avg Mth Cust:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_cust"></span>
                                 </div>
                             </div>
                           </div>
@@ -134,13 +134,13 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="form-group text-end">
-                                    <span class="mb-2 text-sm">Avg Mth Cust:</span>
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Item Status:</span>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_cust"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_status"></span>
                                 </div>
                             </div>
                           </div>
@@ -161,17 +161,23 @@
                                     <span class="mb-2 text-sm">Weight-Volume:</span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light weight_volume1"></span>
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light weight_volume2"></span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Item Status:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_status"></span></span>
+                                    <span class="mb-2 text-sm">TIS Status:</span>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light tis_status"></span>
+                                </div>
+                            </div>
+
                           </div>
                           <div class="row">
 
@@ -187,40 +193,47 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">VAT %: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light vat7"></span></span>
+                                    <span class="mb-2 text-sm">VAT %:</span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Sales MOQ:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light sales_moq"></span></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light vat7"></span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">TIS Status: <span class="text-dark ms-sm-2 font-weight-bold badge btn-light tis_status"></span></span>
+                                    <span class="mb-2 text-sm">Sales MOQ:</span>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light sales_moq"></span>
+                                </div>
+                            </div>
+
                           </div>
                           <div class="row">
 
+
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Promotion Text:</span>
+                                    <span class="mb-2 text-sm">Purchase MOQ:</span>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light promotion_text"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light purchase_moq"></span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Purchase MOQ:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light purchase_moq"></span></span>
+                                    <span class="mb-2 text-sm">Inventory Code:</span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Inventory Code:<span class="text-dark ms-sm-2 font-weight-bold badge btn-light inventory_code"></span></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light inventory_code"></span>
                                 </div>
                             </div>
 
@@ -311,31 +324,18 @@
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light last_disc"></span>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Exclusivity Remark:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light exclusivity_remark"></span>
+                                </div>
+                            </div>
                           </div>
-                          <div class="row">
 
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">GC %:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light gc"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Pick Qty at 1:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pick_qty_at1"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pick_qty_at2"></span>
-                                </div>
-                            </div>
-                          </div>
                           <div class="row">
 
                             <div class="col-md-2">
@@ -362,22 +362,45 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Exclusivity Remark:</span>
+                                    <span class="mb-2 text-sm">Pick Qty at 1:</span>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light exclusivity_remark"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pick_qty_at1"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pick_qty_at2"></span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
 
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <span class="mb-2 text-sm">GC %:</span>
+                              </div>
+                          </div>
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light gc"></span>
+                              </div>
+                          </div>
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <span class="mb-2 text-sm">Promotion Text:</span>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light promotion_text"></span>
+                              </div>
+                          </div>
                         </div>
                         <div class="row">
                           <div class="col-md-1">
                               <div class="form-group">
                                 <div class="d-flex align-items-center">
                                   <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="p">
+                                    <input class="form-check-input" type="checkbox" value="" id="p" onclick="return false;">
                                   </div>
                                   <h6 class="mb-0 text-dark font-weight-bold text-sm">P</h6>
                                 </div>
@@ -387,7 +410,7 @@
                               <div class="form-group">
                                 <div class="d-flex align-items-center">
                                   <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="c">
+                                    <input class="form-check-input" type="checkbox" value="" id="c" onclick="return false;">
                                   </div>
                                   <h6 class="mb-0 text-dark font-weight-bold text-sm">C</h6>
                                 </div>
@@ -397,7 +420,7 @@
                               <div class="form-group">
                                 <div class="d-flex align-items-center">
                                   <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="pp">
+                                    <input class="form-check-input" type="checkbox" value="" id="pp" onclick="return false;">
                                   </div>
                                   <h6 class="mb-0 text-dark font-weight-bold text-sm">P/P</h6>
                                 </div>
@@ -407,19 +430,9 @@
                               <div class="form-group">
                                 <div class="d-flex align-items-center">
                                   <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="diy">
+                                    <input class="form-check-input" type="checkbox" value="" id="diy" onclick="return false;">
                                   </div>
                                   <h6 class="mb-0 text-dark font-weight-bold text-sm">DIY</h6>
-                                </div>
-                              </div>
-                          </div>
-                          <div class="col-md-2">
-                              <div class="form-group">
-                                <div class="d-flex align-items-center">
-                                  <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="expand_all">
-                                  </div>
-                                  <h6 class="mb-0 text-dark font-weight-bold text-sm">Expand All</h6>
                                 </div>
                               </div>
                           </div>
@@ -437,7 +450,7 @@
             </div>
         </div>
         <div class="row mt-4">
-          <div class="col-lg-12 mb-lg-0">
+          <div class="col-lg-10 mb-lg-0">
               <div class="card ">
                   <div class="table-responsive">
                       <table id="uom_table" class="table align-items-center ">
@@ -638,8 +651,8 @@
       $('.pack_code2').html(res['data']['NSU_CONV_BASE_UOM'] + ' ' + res['data']['NSU_ITEM_UOM_CODE']);
       $('.avg_mth_cust').html(res['data']['NSU_AVG_MTH_CUST']);
       $('.new_item').html(res['data']['NSU_NEW_ITEM_CODE']);
-      $('.weight_volume1').html(res['data']['NSU_PACK_WEIGHT'] + 'KG');
-      $('.weight_volume2').html(res['data']['NSU_PACK_VOLUME'] + 'Dm 3');
+      $('.weight_volume1').html(res['data']['NSU_PACK_WEIGHT'] + ' KG');
+      $('.weight_volume2').html(res['data']['NSU_PACK_VOLUME'] + ' Dm 3');
       $('.item_status').html(res['data']['NSU_ITEM_STATUS']);
       $('.repl_time').html(res['data']['NSU_SUPP_REPL_TIME']);
       $('.vat7').html(res['data']['NSU_VAT_PERC']);
@@ -684,7 +697,7 @@
 
       $.each(res['mss']['cust'], function(key, val) {
         var cust = val;
-        var inv = res['mss']['cust'][key];
+        var inv = res['mss']['inv'][key];
         var tot_qty = res['mss']['tot']['qty'][key];
         var tot_qty_ls = res['mss']['tot']['ls'][key];
         var sold_qty = res['mss']['sold']['qty'][key];
