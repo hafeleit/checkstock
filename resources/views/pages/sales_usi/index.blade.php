@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group" style="position: relative;">
-                                    <input class="form-control" id="item_code" name="item_code" type="text" value="483.02.581">
+                                    <input class="form-control" id="item_code" name="item_code" type="text" value="">
                                     <a href="javascript:;" onclick="search_usi()">
                                       <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 5%;">
                                     </a>
@@ -771,6 +771,10 @@
         $('#po_table').append(tbody);
       });
 
+      $('html, body').animate({
+          scrollTop: $("#po_table").offset().top
+      }, 500);
+
     });
   }
 
@@ -790,6 +794,10 @@
         let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DOC_NO"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DOC_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_UOM_CODE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_ORD_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_ORD_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_RESV_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_RESV_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_INV_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_INV_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_LOCN_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_CURR_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_RATE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_VALUE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_ADMIN"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_REP"]+'</p></td></tr>';
         $('#so_table').append(tbody);
       });
+
+      $('html, body').animate({
+          scrollTop: $("#so_table").offset().top
+      }, 500);
 
     });
   }
