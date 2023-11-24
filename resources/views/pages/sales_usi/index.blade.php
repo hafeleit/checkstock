@@ -40,7 +40,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_desc"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_desc text-input"></span>
                                 </div>
                             </div>
                           </div>
@@ -52,8 +52,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light grade1"></span>
-                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light grade2"></span>
+                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light grade1 text-input"></span>
+                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light grade2 text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -63,7 +63,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light purchaser"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light purchaser text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -73,8 +73,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light total_qty1"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light total_qty2"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light total_qty1 text-input"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light total_qty2 text-input"></span>
                                 </div>
                             </div>
                           </div>
@@ -87,7 +87,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pm_contact"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pm_contact text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -97,8 +97,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_qty1"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_qty2"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_qty1 text-input"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_qty2 text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -108,7 +108,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_cust"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_cust text-input"></span>
                                 </div>
                             </div>
                           </div>
@@ -120,7 +120,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light uom"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light uom text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -130,8 +130,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pack_code1"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pack_code2"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pack_code1 text-input"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pack_code2 text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -141,7 +141,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_status"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_status text-input"></span>
                                 </div>
                             </div>
                           </div>
@@ -154,7 +154,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light new_item"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light new_item text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -164,8 +164,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light weight_volume1"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light weight_volume2"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light weight_volume1 text-input"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light weight_volume2 text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -175,7 +175,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light tis_status"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light tis_status text-input"></span>
                                 </div>
                             </div>
 
@@ -189,7 +189,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light repl_time"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light repl_time text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -199,7 +199,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light vat7"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light vat7 text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -209,7 +209,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light sales_moq"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light sales_moq text-input"></span>
                                 </div>
                             </div>
 
@@ -224,7 +224,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light purchase_moq"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light purchase_moq text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -234,7 +234,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light inventory_code"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light inventory_code text-input"></span>
                                 </div>
                             </div>
 
@@ -247,7 +247,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light project_item"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light project_item text-input"></span>
                                 </div>
                             </div>
 
@@ -258,7 +258,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light supplier_item_code"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light supplier_item_code text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -268,7 +268,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_lock_code"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_lock_code text-input"></span>
                                 </div>
                             </div>
                           </div>
@@ -280,7 +280,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_abc_xyz_class"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_abc_xyz_class text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -290,7 +290,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light lsp"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light lsp text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -300,7 +300,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_brand"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_brand text-input"></span>
                                 </div>
                             </div>
                           </div>
@@ -312,7 +312,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light lsp_date"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light lsp_date text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -322,7 +322,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light last_disc"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light last_disc text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -332,7 +332,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light exclusivity_remark"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light exclusivity_remark text-input"></span>
                                 </div>
                             </div>
                           </div>
@@ -346,8 +346,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at1"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at2"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at1 text-input"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at2 text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -357,8 +357,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at_others1"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at_others2"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at_others1 text-input"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at_others2 text-input"></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -368,8 +368,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pick_qty_at1"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pick_qty_at2"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pick_qty_at1 text-input"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pick_qty_at2 text-input"></span>
                                 </div>
                             </div>
                         </div>
@@ -382,7 +382,7 @@
                           </div>
                           <div class="col-md-2">
                               <div class="form-group">
-                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light gc"></span>
+                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light gc text-input"></span>
                               </div>
                           </div>
                           <div class="col-md-2">
@@ -392,7 +392,7 @@
                           </div>
                           <div class="col-md-4">
                               <div class="form-group">
-                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light promotion_text"></span>
+                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light promotion_text text-input"></span>
                               </div>
                           </div>
                         </div>
@@ -623,6 +623,23 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+          </div>
+          <div class="modal-body">
+            No item code information found.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger error-close" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 <script type="text/javascript">
   function search_usi(){
     let item_code = $('#item_code').val();
@@ -635,6 +652,15 @@
     }).done(function(res){
       console.log(res);
       if(res['count'] == 0){
+        $('.text-input').html('');
+        $(':checkbox').prop('checked', false);
+        $("#uom_table > tbody").html("");
+        $("#mss_table > tbody").html("");
+        $("#wss_table > tbody").html("");
+        $("#t20_3_table > tbody").html("");
+        $("#t20_12_table > tbody").html("");
+        $('#errorModal').modal('show');
+        $('#product_img').attr('src','/storage/img/products/coming_soon.jpg');
         return false;
       }
       $('.item_desc').html(res['data']['NSU_ITEM_NAME']);
@@ -805,6 +831,9 @@
   $(function(){
 
 
+    $( ".error-close" ).on( "click", function() {
+      $("#errorModal").modal('hide');
+    } );
     //$('#p').prop('checked', true);
     //var d = new Date();
     //var month = d.getMonth()+1;

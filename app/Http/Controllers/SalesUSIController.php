@@ -18,15 +18,22 @@ class SalesUSIController extends Controller
     public function search_usi(Request $request){
 
       // NEW SALES USI //
-      $item_code = $request->item_code ?? '494.02.483';
-      $usi = DB::table('OW_NEW_SALES_USI_WEB_HAFL')
-                ->where('NSU_ITEM_CODE', $item_code);
+      $item_code = $request->item_code ?? '';
+      $usi = DB::table('OW_NEW_SALES_USI_WEB_HAFL')->where('NSU_ITEM_CODE', $item_code);
       $count = $usi->count();
+
+      if($count == 0){
+        return response()->json([
+          'status' => false,
+          'count' => $count,
+        ]);
+      }
       $usis = $usi->first();
       // END NEW SALES USI //
 
       // MONTH //
-      $monthwise = DB::table('OW_MONTHWISE_STK_SUM_WEB_HAFL')->where('MSS_ITEM_CODE', $item_code)->first();
+      $query = DB::table('OW_MONTHWISE_STK_SUM_WEB_HAFL')->where('MSS_ITEM_CODE', $item_code);
+      $monthwise = $query->first();
       $mss = [];
       $tot = [];
       $tot_qty_fields = 'MSS_TOT_QTY_';
