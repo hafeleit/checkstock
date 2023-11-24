@@ -5,6 +5,7 @@
   .border-usi{
     border-left: 1px solid #e9ecef !important;
   }
+
 </style>
     <div class="container-fluid">
         <div class="row">
@@ -474,7 +475,7 @@
         </div>
         <div class="row mt-4">
           <div class="col-lg-6 mb-lg-0">
-              <div class="card " style="height: 470px;">
+              <div class="card " style="height: 475px;">
                   <div class="table-responsive">
                       <table id="mss_table" class="table align-items-center ">
                           <thead>
@@ -493,7 +494,7 @@
               </div>
           </div>
           <div class="col-lg-6 mb-lg-0">
-              <div class="card" style="height: 470px;">
+              <div class="card" style="height: 475px;">
                   <div class="table-responsive">
                       <table id="wss_table" class="table align-items-center ">
                           <thead>
@@ -580,7 +581,7 @@
                   <div class="card-header pb-0">
                       <h6>Top 20 Customer Last 3 Months</h6>
                   </div>
-                  <div class="table-responsive">
+                  <div class="table-responsive tableFixHead">
                       <table id="t20_3_table" class="table align-items-center ">
                           <thead>
                               <tr>
