@@ -443,7 +443,7 @@
             </div>
             <div class="col-md-2 mt-4">
                 <div class="card card-profile ">
-                    <img src="/storage/img/products/coming_soon.jpg" alt="Image placeholder" class="card-img-top">
+                    <img id="product_img" src="/storage/img/products/coming_soon.jpg" alt="Image placeholder" class="card-img-top">
 
                     <div class="card-body pt-0">
                     </div>
@@ -686,6 +686,9 @@
       ( res['data']['NSU_CHD_ITEM_YN'] == 'Y' ) ? $('#c').prop('checked', true) : $('#c').prop('checked', false);
       ( res['data']['NSU_PP_ITEM_YN'] == 'Y' ) ? $('#pp').prop('checked', true) : $('#pp').prop('checked', false);
       ( res['data']['NSU_BAR_ITEM_YN'] == 'Y' ) ? $('#diy').prop('checked', true) : $('#diy').prop('checked', false);
+
+      let path_img = '/storage/img/products/' + item_code + '.jpg';
+      $('#product_img').attr('src',path_img);
 
       const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
