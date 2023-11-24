@@ -450,8 +450,8 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-4">
-          <div class="col-lg-10 mb-lg-0">
+        <div class="row">
+          <div class="col-lg-10 mb-lg-0 mt-4">
               <div class="card ">
                   <div class="table-responsive">
                       <table id="uom_table" class="table align-items-center ">
@@ -473,8 +473,8 @@
               </div>
           </div>
         </div>
-        <div class="row mt-4">
-          <div class="col-lg-6 mb-lg-0">
+        <div class="row">
+          <div class="col-lg-6 mb-lg-0 mt-4">
               <div class="card " style="height: 475px;">
                   <div class="table-responsive">
                       <table id="mss_table" class="table align-items-center ">
@@ -493,7 +493,7 @@
                   </div>
               </div>
           </div>
-          <div class="col-lg-6 mb-lg-0">
+          <div class="col-lg-6 mb-lg-0 mt-4">
               <div class="card" style="height: 475px;">
                   <div class="table-responsive">
                       <table id="wss_table" class="table align-items-center ">
@@ -516,8 +516,8 @@
               </div>
           </div>
         </div>
-        <div class="row mt-4">
-          <div class="col-lg-6 mb-lg-0">
+        <div class="row">
+          <div class="col-lg-6 mb-lg-0 mt-4">
               <div class="card " style="height: 270px;">
                   <div class="card-header pb-0">
                       <h6>PO Detail</h6>
@@ -543,7 +543,7 @@
                   </div>
               </div>
             </div>
-            <div class="col-lg-6 mb-lg-0">
+            <div class="col-lg-6 mb-lg-0 mt-4">
                 <div class="card " style="height: 270px;">
                     <div class="card-header pb-0">
                         <h6>SO Detail</h6>
@@ -575,8 +575,8 @@
                 </div>
               </div>
         </div>
-        <div class="row mt-4">
-          <div class="col-lg-6 mb-lg-0">
+        <div class="row">
+          <div class="col-lg-6 mb-lg-0 mt-4">
               <div class="card " style="height: 470px;">
                   <div class="card-header pb-0">
                       <h6>Top 20 Customer Last 3 Months</h6>
@@ -598,7 +598,7 @@
                   </div>
               </div>
             </div>
-            <div class="col-lg-6 mb-lg-0">
+            <div class="col-lg-6 mb-lg-0 mt-4">
                 <div class="card " style="height: 470px;">
                     <div class="card-header pb-0">
                         <h6>Top 20 Customer Last 12 Months</h6>
