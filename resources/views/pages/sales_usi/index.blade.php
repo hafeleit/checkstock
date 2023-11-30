@@ -250,17 +250,6 @@
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light project_item text-input"></span>
                                 </div>
                             </div>
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Supplier Item Code:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light supplier_item_code text-input"></span>
-                                </div>
-                            </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <span class="mb-2 text-sm">Item Lock Code:</span>
