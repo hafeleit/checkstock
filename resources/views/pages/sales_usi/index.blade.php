@@ -332,7 +332,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light exclusivity_remark text-input"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light exclusivity_remark text-input" style="text-wrap: wrap;text-align: left;"></span>
                                 </div>
                             </div>
                           </div>
@@ -641,6 +641,19 @@
     </div>
 
 <script type="text/javascript">
+  function addCommas(nStr)
+  {
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+  }
+
   function search_usi(){
     let item_code = $('#item_code').val();
     $.ajax({
@@ -656,6 +669,8 @@
         $(':checkbox').prop('checked', false);
         $("#uom_table > tbody").html("");
         $("#mss_table > tbody").html("");
+        $("#po_table > tbody").html("");
+        $("#so_table > tbody").html("");
         $("#wss_table > tbody").html("");
         $("#t20_3_table > tbody").html("");
         $("#t20_12_table > tbody").html("");
@@ -667,7 +682,7 @@
       $('.grade1').html(res['data']['NSU_GRADE_CODE_1']);
       $('.grade2').html(res['data']['NSU_GRADE_CODE_2']);
       $('.purchaser').html(res['data']['NSU_PURCHASER']);
-      $('.total_qty1').html(res['data']['NSU_TOT_QTY']);
+      $('.total_qty1').html(addCommas(res['data']['NSU_TOT_QTY']));
       $('.total_qty2').html(res['data']['NSU_TOT_QTY_LS']);
       $('.cust_item_code').html(res['data']['NSU_CUST_ITEM_CODE']);
       $('.pm_contact').html(res['data']['NSU_CUST_ITEM_CODE']);
@@ -687,7 +702,7 @@
       $('.sales_moq').html(res['data']['NSU_SALE_MOQ']);
       $('.tis_status').html(res['data']['NSU_TIS_STATUS']);
       $('.tis_status').html(res['data']['NSU_TIS_STATUS']);
-      $('.purchase_moq').html(res['data']['NSU_PURC_MOQ']);
+      $('.purchase_moq').html(addCommas(res['data']['NSU_PURC_MOQ']));
       $('.inventory_code').html(res['data']['NSU_ITEM_INV_CODE']);
       $('.promotion_text').html(res['data']['NSU_PROM_TEXT']);
       $('.supplier_item_code').html(res['data']['NSU_SUPP_ITEM_CODE']);
@@ -701,9 +716,9 @@
       $('.gc').html(res['data']['NSU_GC_PERC']);
       $('.pick_qty_at1').html(res['data']['NSU_PICK_QTY']);
       $('.pick_qty_at2').html(res['data']['NSU_PICK_QTY_LS']);
-      $('.free_stk_at1').html(res['data']['NSU_FREE_STK_QTY']);
+      $('.free_stk_at1').html(addCommas(res['data']['NSU_FREE_STK_QTY']));
       $('.free_stk_at2').html(res['data']['NSU_FREE_STK_QTY_LS']);
-      $('.free_stk_at_others1').html(res['data']['NSU_FREE_STK_OTH']);
+      $('.free_stk_at_others1').html(addCommas(res['data']['NSU_FREE_STK_OTH']));
       $('.free_stk_at_others2').html(res['data']['NSU_FREE_STK_OTH_LS']);
       $('.exclusivity_remark').html(res['data']['NSU_EXCL_REMARK']);
       $('.pm_contact').html(res['data']['NSU_PROD_MGR']);
@@ -742,7 +757,7 @@
         if(key == 12){
           date = '';
         }
-        let tbody = '<tr><td><p class="text-end text-xs font-weight-bold mb-0">'+date+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+tot_qty+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+tot_qty_ls+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+sold_qty+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+sold_qty_ls+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+inv+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+cust+'</p></td></tr>';
+        let tbody = '<tr><td><p class="text-end text-xs font-weight-bold mb-0">'+date+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(tot_qty)+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(tot_qty_ls)+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(sold_qty)+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(sold_qty_ls)+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+inv+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+cust+'</p></td></tr>';
 
         $('#mss_table').append(tbody);
       });
@@ -759,22 +774,22 @@
           text_danger_out = 'text-danger';
         }
         //alert(week_no);
-        let tbody = '<tr><td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">'+val["WSS_WEEK_NO"]+'</p></td><td class="border-usi"><p onclick="search_usi_inbound('+week_no+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_STATUS"]+'</p></td><td class="border-usi"><p onclick="search_usi_outbound('+week_no+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_AVAIL_QTY"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_AVAIL_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RCV_QTY"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_RCV_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">'+val["WSS_PLUSMINUS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_FREE_QTY"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_FREE_QTY_LS"]+'</p></td></tr>';
+        let tbody = '<tr><td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">'+val["WSS_WEEK_NO"]+'</p></td><td class="border-usi"><p onclick="search_usi_inbound('+week_no+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_INCOMING_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_INCOMING_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_STATUS"]+'</p></td><td class="border-usi"><p onclick="search_usi_outbound('+week_no+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RES_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RES_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_AVAIL_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_AVAIL_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RCV_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RCV_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">'+val["WSS_PLUSMINUS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_FREE_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_FREE_QTY_LS"])+'</p></td></tr>';
         $('#wss_table').append(tbody);
       });
 
       $.each(res['uom'], function(key, val) {
-        let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_CONV_FACTOR"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_MAX_LOOSE"]+'</p></td><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE_LIST"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_DISC_PRICE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_NET_PRICE"]+'</p></td></tr>';
+        let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_CONV_FACTOR"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_MAX_LOOSE"])+'</p></td><td><p class="text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_PRICE_LIST"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_PRICE"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_DISC_PRICE"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_NET_PRICE"])+'</p></td></tr>';
         $('#uom_table').append(tbody);
       });
 
       $.each(res['t20_3'], function(key, val) {
-        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LTC_CUST_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LTC_CUST_NAME"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LTC_ORD_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LTC_ORD_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LTC_ORD_VAL"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LTC_GC_PERC"]+'</p></td></tr>';
+        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LTC_CUST_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LTC_CUST_NAME"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LTC_ORD_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LTC_ORD_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LTC_ORD_VAL"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LTC_GC_PERC"])+'</p></td></tr>';
         $('#t20_3_table').append(tbody);
       });
 
       $.each(res['t20_12'], function(key, val) {
-        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LT_CUST_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LT_CUST_NAME"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LT_ORD_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LT_ORD_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LT_ORD_VAL"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["LT_GC_PERC"]+'</p></td></tr>';
+        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LT_CUST_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LT_CUST_NAME"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LT_ORD_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LT_ORD_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LT_ORD_VAL"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LT_GC_PERC"])+'</p></td></tr>';
         $('#t20_12_table').append(tbody);
       });
     });
@@ -793,7 +808,7 @@
       console.log(res);
       if(res['count'] == 0){ return false; }
       $.each(res['data'], function(key, val) {
-        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_DOC_NO"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_DOC_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_UOM_CODE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_MODE_OF_SHIP"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_DEL_LOCN_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETS"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETA"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_STATUS"]+'</p></td></tr>';
+        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_DOC_NO"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_DOC_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_UOM_CODE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IPD_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IPD_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_MODE_OF_SHIP"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_DEL_LOCN_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETS"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETA"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_STATUS"]+'</p></td></tr>';
         $('#po_table').append(tbody);
       });
 
@@ -817,7 +832,7 @@
       console.log(res);
       if(res['count'] == 0){ return false; }
       $.each(res['data'], function(key, val) {
-        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DOC_NO"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DOC_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_UOM_CODE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_ORD_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_ORD_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_RESV_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_RESV_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_INV_QTY"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_INV_QTY_LS"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_LOCN_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_CURR_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_RATE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["ISD_VALUE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_ADMIN"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_REP"]+'</p></td></tr>';
+        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DOC_NO"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DOC_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_UOM_CODE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_ORD_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_ORD_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_RESV_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_RESV_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_DEL_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_DEL_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_INV_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_INV_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_LOCN_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_CURR_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_RATE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_VALUE"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_ADMIN"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_REP"]+'</p></td></tr>';
         $('#so_table').append(tbody);
       });
 
