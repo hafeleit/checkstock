@@ -644,6 +644,22 @@
     return x1 + x2;
   }
 
+  function addCommasD2(nStr)
+  {
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    res = x1 + x2;
+    res = parseFloat(res).toFixed(2);
+
+    return res;
+  }
+
   function search_usi(){
     let item_code = $('#item_code').val();
     $.ajax({
@@ -769,7 +785,7 @@
       });
 
       $.each(res['uom'], function(key, val) {
-        let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_CONV_FACTOR"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_MAX_LOOSE"])+'</p></td><td><p class="text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_PRICE_LIST"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_PRICE"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_DISC_PRICE"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_NET_PRICE"])+'</p></td></tr>';
+        let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_CONV_FACTOR"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_MAX_LOOSE"])+'</p></td><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE_LIST"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommasD2(val["IUW_PRICE"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommasD2(val["IUW_DISC_PRICE"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommasD2(val["IUW_NET_PRICE"])+'</p></td></tr>';
         $('#uom_table').append(tbody);
       });
 
