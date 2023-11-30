@@ -47,18 +47,18 @@ class SalesUSIController extends Controller
 
       for ($i=1; $i <= 13; $i++) {
         $seq = str_pad($i, 2, "0", STR_PAD_LEFT);
-        $tot_qty = $tot_qty_fields.$seq;
-        $tot_qty_ls = $tot_qty_ls_fields.$seq;
-        $inv = $inv_fields.$seq;
-        $cust = $cust_fields.$seq;
-        $tot['qty'][] = $monthwise->$tot_qty;
-        $tot['ls'][] = $monthwise->$tot_qty_ls;
-        $sold_qty = $sold_qty_fields.$seq;
-        $sold_qty_ls = $sold_qty_ls_fields.$seq;
-        $sold['qty'][] = $monthwise->$sold_qty;
-        $sold['ls'][] = $monthwise->$sold_qty_ls;
-        $mss['inv'][] = $monthwise->$inv;
-        $mss['cust'][] = $monthwise->$cust;
+        $tot_qty = $tot_qty_fields.$seq ?? '';
+        $tot_qty_ls = $tot_qty_ls_fields.$seq ?? '';
+        $inv = $inv_fields.$seq ?? '';
+        $cust = $cust_fields.$seq ?? '';
+        $tot['qty'][] = $monthwise->$tot_qty ?? '';
+        $tot['ls'][] = $monthwise->$tot_qty_ls ?? '';
+        $sold_qty = $sold_qty_fields.$seq ?? '';
+        $sold_qty_ls = $sold_qty_ls_fields.$seq ?? '';
+        $sold['qty'][] = $monthwise->$sold_qty ?? '';
+        $sold['ls'][] = $monthwise->$sold_qty_ls ?? '';
+        $mss['inv'][] = $monthwise->$inv ?? '';
+        $mss['cust'][] = $monthwise->$cust ?? '';
       }
 
       $mss['tot'] = $tot;
