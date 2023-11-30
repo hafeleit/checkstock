@@ -68,20 +68,6 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Total Qty:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light total_qty1 text-input"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light total_qty2 text-input"></span>
-                                </div>
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
                                     <span class="mb-2 text-sm">PM Contact:</span>
                                 </div>
                             </div>
@@ -90,6 +76,21 @@
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pm_contact text-input"></span>
                                 </div>
                             </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">Total Annual Qty:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light total_qty1 text-input"></span>
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light total_qty2 text-input"></span>
+                                </div>
+                            </div>
+
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <span class="mb-2 text-sm">Avg Mth Qty:</span>
@@ -674,7 +675,7 @@
       $('.total_qty1').html(addCommas(res['data']['NSU_TOT_QTY']));
       $('.total_qty2').html(res['data']['NSU_TOT_QTY_LS']);
       $('.cust_item_code').html(res['data']['NSU_CUST_ITEM_CODE']);
-      $('.pm_contact').html(res['data']['NSU_CUST_ITEM_CODE']);
+      $('.pm_contact').html(res['data']['NSU_PROD_MGR']);
       $('.avg_mth_qty1').html(res['data']['NSU_AVG_MTH_QTY']);
       $('.avg_mth_qty2').html(res['data']['NSU_AVG_MTH_QTY_LS']);
       $('.uom').html(res['data']['NSU_ITEM_UOM_CODE']);
