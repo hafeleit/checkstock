@@ -12,7 +12,9 @@ class SalesUSIController extends Controller
      */
     public function index()
     {
-        return view('pages.sales_usi.index');
+        $q = DB::table('OW_NEW_SALES_USI_WEB_HAFL')->select('created_at')->first();
+        $created_at = $q->created_at;
+        return view('pages.sales_usi.index',['created_at' => $created_at]);
     }
 
     public function search_usi(Request $request){

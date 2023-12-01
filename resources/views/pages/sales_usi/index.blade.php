@@ -15,8 +15,10 @@
                         <div class="d-flex align-items-center">
                             <h6 class="mb-0">SALES USI</h6>
                         </div>
+                        <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LAST UPDATE: {{ $created_at ?? '' }}</p>
                     </div>
-                    <div class="card-body">
+
+                    <div class="card-body" style="padding-top: 0px">
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group ">
