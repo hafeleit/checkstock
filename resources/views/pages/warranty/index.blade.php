@@ -53,6 +53,10 @@
                                 <input name="tel" type="number" class="form-control" placeholder="กรุณากรอกเบอร์โทรศัพท์ (Please fill in)" required>
                             </div>
                             <div class="mb-3">
+                                <label class="text-sm">Article no. (xxx.xx.xxx)<span class="text-danger">*</span></label>
+                                <input name="article_no" id="article_no" type="text" class="form-control" placeholder="กรุณากรอก Article no. (Please fill in)" required>
+                            </div>
+                            <div class="mb-3">
                                 <label class="text-sm">Serial no. (16-20 หลัก)<span class="text-danger">*</span></label>
                                 <input name="serial_no" type="text" class="form-control" placeholder="กรุณากรอก Serial no. (Please fill in)" required>
                             </div>
@@ -83,5 +87,9 @@
         </div>
     </div>
 </main>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous">
+</script>
+<script>
+    $('#article_no').mask('000.00.000');
+</script>
 @endsection
