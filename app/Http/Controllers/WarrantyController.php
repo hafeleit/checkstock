@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Warranty;
 use Illuminate\Http\Request;
+use Image;
 
 class WarrantyController extends Controller
 {
@@ -47,7 +48,7 @@ class WarrantyController extends Controller
     {
 
         $request->validate([
-           'file' => 'required|mimes:jpg,jpeg,png',
+           'file' => 'required|image|mimes:jpeg,png,jpg|max:10048',
            'name' => 'required',
            'addr' => 'required',
            'tel' => 'required',
@@ -60,10 +61,11 @@ class WarrantyController extends Controller
 
         if($request->file('file')) {
 
-          $file = $request->file('file');
-          $fileName = $request->serial_no . '.'. $file->getClientOriginalExtension();
-          $destinationPath = 'public';
-          $file->move(public_path('storage/img/warranty'),$fileName);
+          $image  = $request->file('file');
+          $fileName = $request->serial_no . '.'. $image->getClientOriginalExtension();
+          $resize_image = Image::make($image->getRealPath());
+          $resize_image->resize(1000, 1900);
+          $resize_image->save( 'storage/img/warranty/'.$fileName ,60, 'jpg');
 
         }
 
