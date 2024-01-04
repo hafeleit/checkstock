@@ -212,7 +212,10 @@ class GetOrderController extends Controller
                 $data_excel[$l][] = 'W1000009';
                 break;
               case 'INTERNAL SALE':
-                $data_excel[$l][] = 'W10000010';
+                $data_excel[$l][] = 'W1000010';
+                break;
+              case 'TIKTOK':
+                $data_excel[$l][] = 'W1000011';
                 break;
 
               default:
