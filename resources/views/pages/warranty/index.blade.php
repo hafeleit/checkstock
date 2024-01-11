@@ -79,6 +79,9 @@
                             <div class="text-center">
                                 <button type="submit" class="btn bg-gradient-danger w-100 my-4 mb-2">Register</button>
                             </div>
+							<div class="text-center">
+								<a class="btn bg-gradient-secondary w-100 mb-0" href="https://www.hafelethailand.com/downloads-support/warranty-conditions/" target=”_blank”>อ่านเงื่อนไขการรับประกันสินค้า คลิก</a>
+                            </div>
 
                         </form>
                     </div>
