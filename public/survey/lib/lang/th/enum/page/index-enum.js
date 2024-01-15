@@ -18,7 +18,7 @@ const INDEX = {
 
 // Lock selection card
 const LOCK_SELECTION_CARD = {
-    HEADER: "กรุณเลือกล็อคที่ท่านต้องการ",
+    HEADER: "กรุณาเลือกล็อคที่ท่านต้องการ",
     LABEL_LOCK_MODEL: "ค้นหาล็อคที่ต้องการจากแถบเมนูนี้",
     SUITABILITY_MESSAGE: "ล็อคนี้เหมาะสำหรับประเภทประตูต่อไปนี้",
     LABEL_DOOR_TYPE: "ประเภทประตู : ",
