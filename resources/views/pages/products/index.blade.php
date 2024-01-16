@@ -115,6 +115,8 @@
         <script type="text/javascript">
           $(function(){
 
+            $('#search').focus();
+
             $( "#search" ).on( "keyup", function() {
               let search = $(this).val();
               let view = $('#view').val();
