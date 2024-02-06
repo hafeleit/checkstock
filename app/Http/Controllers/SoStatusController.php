@@ -24,7 +24,7 @@ class SoStatusController extends Controller
       $po_number = $request->po_number ?? '';
       $page = 5;
       $last_upd =so_status::first();
-      $last_upd = $last_upd->created_at;
+      $last_upd = $last_upd->created_at ?? '';
 
       if($soh_txn_code == '' && $soh_no == '' && $soh_cust_code == '' && $soh_cust_name == '' && $soh_sm_code == '' && $sm_name =='' && $po_number ==''){
         return view('pages.so_status.index',['data' => [], 'last_upd' => $last_upd]);

@@ -20,7 +20,7 @@ class ProductController extends Controller
       $query = new Product();
       $products = $query->inRandomOrder()->limit(10)->get();*/
       $last_upd = Product::first();
-      return view('pages.products.index',['products' => [], 'last_upd' => $last_upd->created_at]);
+      return view('pages.products.index',['products' => [], 'last_upd' => $last_upd->created_at ?? '']);
 
     }
 
@@ -123,6 +123,7 @@ class ProductController extends Controller
     public function show($product)
     {
         //$product = Product::where('item_code',$product)->get();
+        $item_other = substr($product, 0,-1);
         $product = Product::where('products.ITEM_CODE',$product)
                     ->select(DB::raw('products.*, products.STOCK_CLR - COALESCE(SUM(transaction_clr.QTY),0) as STOCK_CLR_CAL'))
                     ->leftJoin('transaction_clr', function($join){
@@ -132,7 +133,10 @@ class ProductController extends Controller
                     })
                     ->groupBy('transaction_clr.ITEM_CODE','transaction_clr.UOM')
                     ->get();
-        return view('pages.products.detail',compact('product'));
+
+        $orther_product = Product::where('ITEM_CODE','LIKE', $item_other.'%')->get();
+        return view('pages.products.detail',['product' => $product, 'orther_product' => $orther_product]);
+        //return view('pages.products.detail',compact('product'));
     }
 
     /**
