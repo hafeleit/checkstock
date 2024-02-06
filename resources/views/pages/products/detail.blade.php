@@ -251,7 +251,12 @@
                             ?>
                             <div class="row mt-4">
                                 <div class="col-lg-5">
-                                    <button type="button" class="btn btn-outline-primary btn-sm mb-0" onclick="show_user_manual()">View User Manual</button>
+                                    <a href="{{ $user_manual }}">
+                                      <button type="button" class="btn btn-outline-primary btn-sm mb-0" onclick="show_user_manual()">View User Manual</button>
+                                    </a>
+                                    <a href="{{ $user_manual }}" target="_blank">
+                                      <button type="button" class="btn btn-outline-primary btn-sm mb-0" onclick="show_user_manual()">View User Manual</button>
+                                    </a>
                                 </div>
                             </div>
                             <?php
@@ -385,7 +390,7 @@
 <script>
 
   function show_user_manual(){
-    $('#modal-user-manual').modal('show');
+    //$('#modal-user-manual').modal('show');
   }
 
   $(function(){
