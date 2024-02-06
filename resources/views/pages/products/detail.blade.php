@@ -361,35 +361,8 @@
         </div>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="modal-user-manual" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content" style="width: auto;left: 50%; transform: translate(-50%, 0%);">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <span class="text-secondary" aria-hidden="true">x</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <object data="{{$user_manual}}" type="application/pdf" width="800" height="500">
-          <p>It appears you don't have a PDF plugin for this browser.
-           No biggie... you can <a href="{{$user_manual}}" target="_blank"><label class="text-danger" for="">Click Here</label> to
-          download the PDF file.</a></p>
-        </object>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 <script>
-
-  function show_user_manual(){
-    //$('#modal-user-manual').modal('show');
-  }
-
   $(function(){
     //$('#modal-user-manual').modal('show');
   });
