@@ -30,7 +30,11 @@
                           <?php
                             $image = '/storage/img/products/' . $product[0]->ITEM_CODE . '.jpg';
                             $image2 = '/storage/img/products/' . $product[0]->ITEM_CODE . '.JPG';
-                            $user_manual = '/storage/img/products/home.pdf';
+                            $img_d = '/storage/img/products/' . $product[0]->ITEM_CODE . '_D.jpg';
+                            $img_f = '/storage/img/products/' . $product[0]->ITEM_CODE . '_F.jpg';
+                            $img_l = '/storage/img/products/' . $product[0]->ITEM_CODE . '_L.jpg';
+                            $img_p = '/storage/img/products/' . $product[0]->ITEM_CODE . '_P.jpg';
+                            $img_s = '/storage/img/products/' . $product[0]->ITEM_CODE . '_S.jpg';
                             if (file_exists( public_path() . $image )) {
                                 $img = $image;
                                 echo '<img src="'.$image.'" alt="Image placeholder" class="w-100 border-radius-lg shadow-lg mx-auto">';
@@ -48,11 +52,41 @@
                                         <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow" src="{{ $img }}" alt="Image description">
                                     </a>
                                 </figure>
+                                @if (file_exists( public_path() . $img_d ))
                                 <figure class="ms-2 me-3" itemprop="associatedMedia" itemscope="" itemtype="">
-                                    <a href="{{ $img }}" itemprop="contentUrl" data-size="500x600">
-                                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow" src="{{ $img }}" alt="Image description">
+                                    <a href="{{ $img_d }}" itemprop="contentUrl" data-size="500x600">
+                                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow" src="{{ $img_d }}" alt="Image description">
                                     </a>
                                 </figure>
+                                @endif
+                                @if (file_exists( public_path() . $img_f ))
+                                <figure class="ms-2 me-3" itemprop="associatedMedia" itemscope="" itemtype="">
+                                    <a href="{{ $img_f }}" itemprop="contentUrl" data-size="500x600">
+                                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow" src="{{ $img_f }}" alt="Image description">
+                                    </a>
+                                </figure>
+                                @endif
+                                @if (file_exists( public_path() . $img_l ))
+                                <figure class="ms-2 me-3" itemprop="associatedMedia" itemscope="" itemtype="">
+                                    <a href="{{ $img_l }}" itemprop="contentUrl" data-size="500x600">
+                                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow" src="{{ $img_l }}" alt="Image description">
+                                    </a>
+                                </figure>
+                                @endif
+                                @if (file_exists( public_path() . $img_p ))
+                                <figure class="ms-2 me-3" itemprop="associatedMedia" itemscope="" itemtype="">
+                                    <a href="{{ $img_p }}" itemprop="contentUrl" data-size="500x600">
+                                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow" src="{{ $img_p }}" alt="Image description">
+                                    </a>
+                                </figure>
+                                @endif
+                                @if (file_exists( public_path() . $img_s ))
+                                <figure class="ms-2 me-3" itemprop="associatedMedia" itemscope="" itemtype="">
+                                    <a href="{{ $img_s }}" itemprop="contentUrl" data-size="500x600">
+                                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow" src="{{ $img_s }}" alt="Image description">
+                                    </a>
+                                </figure>
+                                @endif
                             </div>
 
                             <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
