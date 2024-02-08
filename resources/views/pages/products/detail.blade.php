@@ -286,7 +286,10 @@
                             <div class="row mt-4">
                                 <div class="col-lg-5">
                                     <a href="{{ $user_manual }}" target="_blank">
-                                      <button type="button" class="btn btn-outline-primary btn-sm mb-0" onclick="show_user_manual()">View User Manual</button>
+                                        <button class="btn btn-icon btn-outline-primary ms-2 export" data-type="csv" type="button" onclick="show_user_manual()">
+                                          <span class="btn-inner--icon"><i class="ni ni-archive-2"></i></span>
+                                          <span class="btn-inner--text">User Manual (PDF)</span>
+                                        </button>
                                     </a>
                                 </div>
                             </div>
