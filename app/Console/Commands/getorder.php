@@ -268,12 +268,12 @@ class getorder extends Command
         }
 
         if($excel){
-          $this->sendLine("Total number of orders: " . $new_order_count);
+          $this->sendLine("Total Orders: " . $new_order_count);
         }else{
-          $this->sendLine("Total number of orders: 0");
+          $this->sendLine("Total Orders: 0");
         }
 
-        return "Total number of orders: " . $new_order_count;
+        return "Total orders: " . $new_order_count;
 
       } catch (\Exception $e) {
         return response()->json([
