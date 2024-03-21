@@ -57,6 +57,7 @@ let swingDoorJambCautionLabel = document.getElementById(
     "caution-swing-door-jamb");
 let existingDoorRetrofitCautionLabel = document.getElementById(
     "caution-existing-door-retrofit");
+let doorMaterialCautionLabel = document.getElementById("caution-steel");
 
 // Reference to the associated control <div> elements
 let lockModelSelectionDiv = document.getElementById(
@@ -327,17 +328,17 @@ const existingDoorRetrofitSelectionChange = (event) => {
         // Error messages and caution messages for various locks and 
         // existing door retrofit selection
         let lockModelsUnsuitableForDoorWithLeverHandleSet = [
-            LOCK_MODEL.DH2000, LOCK_MODEL.DL6500, LOCK_MODEL.DL6600,
+            LOCK_MODEL.DH2000, LOCK_MODEL.DH2100, LOCK_MODEL.DL6500, LOCK_MODEL.DL6600,
             LOCK_MODEL.DL7000, LOCK_MODEL.DL7900
         ];
         let lockModelUnsuitableForDoorWithKnobLockSet = [LOCK_MODEL.DC1000,
         LOCK_MODEL.DL6600
         ];
         let lockModelUnsuitableForDoorWithGripHandle = [LOCK_MODEL.DC1000,
-        LOCK_MODEL.DH2000, LOCK_MODEL.DL6500, LOCK_MODEL.DL6600,
+        LOCK_MODEL.DH2000, LOCK_MODEL.DH2100, LOCK_MODEL.DL6500, LOCK_MODEL.DL6600,
         LOCK_MODEL.DL7000, LOCK_MODEL.DL7100, LOCK_MODEL.DL7600,
         LOCK_MODEL.DL7900, LOCK_MODEL.EL6000, LOCK_MODEL.EL7200,
-        LOCK_MODEL.EL7500, LOCK_MODEL.PP8100, LOCK_MODEL.PP9000
+        LOCK_MODEL.EL7500, LOCK_MODEL.PP8100, LOCK_MODEL.PP9000, LOCK_MODEL.PP9100
         ];
 
         let lockModelSelectedValue = lockModelSelectionGroup.value;
@@ -472,6 +473,7 @@ const doorTypeSelectionChange = (event) => {
     messageLabelShow(swingDoorJambMessageLabel, false, "");
     messageLabelShow(swingDoorJambCautionLabel, false, "");
     messageLabelShow(doorLeafMessageLabel, false, "");
+    messageLabelShow(doorMaterialCautionLabel, false, "");
 
     resetSelectControl(swingDoorTypeSelectionGroup,
         swingDoorTypePrependDiv);
@@ -598,6 +600,7 @@ const doorTypeSelectionChange = (event) => {
                 case LOCK_MODEL.DC1000:
                     break;
                 case LOCK_MODEL.DH2000:
+                case LOCK_MODEL.DH2100:
                 case LOCK_MODEL.DL6500:
                 case LOCK_MODEL.DL7000:
                 case LOCK_MODEL.DL7100:
@@ -636,6 +639,7 @@ const doorTypeSelectionChange = (event) => {
                 case LOCK_MODEL.DL7900:
                 case LOCK_MODEL.PP8100:
                 case LOCK_MODEL.PP9000:
+                case LOCK_MODEL.PP9100:
                     showOptions = [SWING_DOOR_LEAF.PLAIN_LEAF,
                     SWING_DOOR_LEAF.DOOR_LEAF_WITH_MULLION_LESS_THAN_130_MM,
                     SWING_DOOR_LEAF.DOOR_LEAF_WITH_MULLION_EQUAL_OR_MORE_THAN_130_MM,
@@ -991,6 +995,7 @@ const doorMaterialSelectionChange = (event) => {
     let selectedValue = doorMaterialSelectionGroup.value;
 
     messageLabelShow(doorMaterialMessageLabel, false, "");
+    messageLabelShow(doorMaterialCautionLabel, false, "");
 
     // In case of de-selection hide any warning message displayed
     if (doorMaterialSelectionGroup.selectedIndex === 0) {
@@ -1015,7 +1020,7 @@ const doorMaterialSelectionChange = (event) => {
 
             let suitableLockModels = [LOCK_MODEL.ER4900,
             LOCK_MODEL.ER5100, LOCK_MODEL.ER5200,
-            LOCK_MODEL.DH2000, LOCK_MODEL.DL6500
+            LOCK_MODEL.DH2000, LOCK_MODEL.DH2100, LOCK_MODEL.DL6500
             ]
 
             if (suitableLockModels.includes(selectedLockModel) === true) {
@@ -1034,6 +1039,12 @@ const doorMaterialSelectionChange = (event) => {
         validateSelectControl(doorMaterialSelectionGroup,
             doorMaterialPrependDiv);
 
+    }
+    if (selectedValue == DOOR_MATERIAL.STEEL){
+        messageLabelShow(doorMaterialCautionLabel, true, CAUTION.DOOR_MATERIAL_CAUTION);
+    }
+    else{
+        messageLabelShow(doorMaterialCautionLabel, false, "");
     }
 
 }
@@ -1151,6 +1162,7 @@ const doorLeafSelectionChange = (event) => {
                         }
                         break;
                     case LOCK_MODEL.DH2000:
+                    case LOCK_MODEL.DH2100:
                     case LOCK_MODEL.DL6500:
                     case LOCK_MODEL.DL7000:
                     case LOCK_MODEL.DL7100:
@@ -1225,6 +1237,7 @@ const doorLeafSelectionChange = (event) => {
                     case LOCK_MODEL.DL7900:
                     case LOCK_MODEL.PP8100:
                     case LOCK_MODEL.PP9000:
+                    case LOCK_MODEL.PP9100:
                         if (doorType.toUpperCase() === DOOR_TYPE.SLIDING_DOOR) {
                             messageLabelShow(doorLeafMessageLabel, true,
                                 MESSAGE.MESSAGE_DOOR_LEAF_AND_DOOR_TYPE_MISMATCH);
@@ -1414,6 +1427,7 @@ const lockCardNextButtonClick = (event) => {
             doorThicknessInputMessage: doorThicknessInputMessageLabel.innerHTML,
             doorMaterial: doorMaterialSelectionGroup.value,
             doorMaterialMessage: doorMaterialMessageLabel.innerHTML,
+            doorMaterialCaution: doorMaterialCautionLabel.innerHTML,
             doorLeaf: doorLeafSelectionGroup.value,
             doorLeafMessage: doorLeafMessageLabel.innerHTML
 

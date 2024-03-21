@@ -11,12 +11,12 @@
 /* <html>, <header> and <body> tags */
 html,
 header,
-body {
+body {    
+    font-family: 'Kanit', sans-serif;
     background-color: #F9F9F9;
     font-size: 1rem;
     font-weight: 400;
     min-height: 100vh;
-    min-width: 100vw;
     padding: 0;
 }
 
@@ -98,19 +98,16 @@ under the absolutely positioned footer div - when screen resizes */
 #page-footer {
     background-color: black;
     color: white;
-
     text-align: center;
     vertical-align: middle;
     line-height: 40px;
-
     position: absolute;
     bottom: 0;
-    max-height: 5vh;
 }
 
 /* Copy right information in the footer */
 .copyright {
-    font-size: 0.7rem;
+    margin-bottom: 0;
 }
 
 /*****************************************************************************/

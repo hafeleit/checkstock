@@ -9,7 +9,7 @@
 /*****************************************************************************/
 
 h5 {
-    font-size: 1rem;
+    margin-bottom: 0;
 }
 
 /*****************************************************************************/
@@ -17,17 +17,22 @@ h5 {
 /*****************************************************************************/
 
 /* Ensure that the <div> stretches across the full width of the screen */
-#hafele-logo {
+/* #hafele-logo {
     background-color: white;
     text-align: center;
     width: 100vw;
-}
+} */
 
 /* Ensure that the Hafele logo image fills the container <div> */
-#hafele-logo-img {
+/* #hafele-logo-img {
     border: 1px solid white;
     width: 60vw;
     object-fit: fill;
+} */
+
+#hafele-header-lock-logo {
+    text-align: center;
+    width: 100%;
 }
 
 /*****************************************************************************/
@@ -36,9 +41,9 @@ h5 {
 
 /* Provide spacing to the body from the Hafele Logo section */
 #page-body {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: calc(10px + (14 - 10) * ((100vw - 500px) / (1200 - 300))) !important;
-    padding-top: 5%;
+    font-size: 16px;
+    padding-top: 2%;
+    padding-bottom: 2%;
 }
 
 /*****************************************************************************/
@@ -49,8 +54,8 @@ h5 {
 the layout grid. This is important when the cards collapse for smaller screens and
 stack vertically. */
 .col-margin {
-    margin-top: 0.8%;
-    margin-bottom: 0.8%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 /* Styling the card header */
@@ -65,7 +70,7 @@ stack vertically. */
 }
 
 .custom-select-extended {
-    font-size: calc(10px + (14 - 10) * ((100vw - 500px) / (1200 - 300))) !important;
+    font-size: 16px;
 }
 
 /*****************************************************************************/
@@ -97,3 +102,9 @@ p>.field-name {
 /*****************************************************************************/
 /* END OF FILE                                                               */
 /*****************************************************************************/
+
+@media (max-width:768px) {
+    #page-body {padding: 4% auto;font-size: 14px;}
+    .custom-select-extended{font-size:14px;}
+    h5{font-size: 1rem;}
+}

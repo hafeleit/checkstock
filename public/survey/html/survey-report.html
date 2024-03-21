@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta label="viewport"
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+      content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap v 4.6.0 Style Sheet -->
     <link rel="stylesheet"
@@ -27,9 +27,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Kanit&display=swap"
       rel="stylesheet">
-
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap"
+      rel="stylesheet">
+      
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/ico"
       href="./../favicon/favicon.ico" />
@@ -42,20 +45,18 @@
   <body class="page-fade-in">
 
     <!-- Page Header -->
-    <div id="page-header" class="container-fluid d-flex">
+    <div id="page-header" class="container-fluid d-flex justify-content-end">
       <div id="home-icon" class="align-self-center">
         <a href="index.html">
           <i class="fa-solid fa-house"></i>
         </a>
       </div>
       <div id="hafele-header-logo" class="align-self-center">
-        <img id="header-image" src="./../assets/images/maxresdefault.jpg"
-          alt="hafele logo">
-      </div>
-      <div id="language" class="align-self-center">
-        <a id="lang-en" class="selected-language"
-          href="javascript: changeLanguage('EN');">EN</a> |
-        <a id="lang-th" href="javascript: changeLanguage('ไทย');">ไทย</a>
+          <img id="header-image" src="./../assets/images/Hafele-Logo-white.png" alt="hafele logo"/>
+          <div id="language" class="align-self-center float-right">
+            <a id="lang-en" class="selected-language" href="javascript: changeLanguage('EN');">EN</a> |
+            <a id="lang-th" href="javascript: changeLanguage('ไทย');">ไทย</a>
+          </div>
       </div>
     </div>
     <!-- End Page Header -->
@@ -90,8 +91,8 @@
               href="javascript:window.print();"></a>
             <a id="report-download" class="nav-item nav-link active report-link"
               href="javascript:createPDF()"></a>
-            <a id="send-mail" class="nav-item nav-link active report-link" href="#" onclick="sendMail()">ส่งเมล์</a>
-            <input id="mailto" name="mailto" type="text" class="form-control" placeholder="" required="">
+            <a id="send-mail" class="nav-item nav-link active report-link" href="#" onclick="sendMail()"></a>
+            <input id="mailto" name="mailto" type="text" class="form-control" placeholder="กรุณากรอก (Please fill in)" required="">
           </div>
         </div>
       </nav>
@@ -173,6 +174,7 @@
             <div id="doorThicknessInputMessage" class="row"></div>
             <div id="doorMaterial" class="row"></div>
             <div id="doorMaterialMessage" class="row"></div>
+            <div id="doorMaterialCaution" class="row"></div>
             <div id="doorLeaf" class="row"></div>
             <div id="doorLeafMessage" class="row"></div>
 
@@ -196,8 +198,8 @@
     <!-- End div -->
 
     <!-- Page Footer -->
-    <footer id="page-footer" class="container-fluid" text-center>
-      <p class="copyright">Copyright © Hafele 2023</p>
+    <footer id="page-footer" class="container-fluid mt-4 text-center">
+      <p class="copyright">Copyright © Hafele (Thailand) Ltd.</p>
     </footer>
     <!-- End Page Footer -->
 

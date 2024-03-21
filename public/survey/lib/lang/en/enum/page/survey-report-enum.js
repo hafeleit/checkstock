@@ -17,7 +17,8 @@ const SURVEY_REPORT = {
     REPORT_TITLE: "HAFELE LOCK SELECTION REPORT",
 
     PRINT_BUTTON: "  Print  <span class=\"sr-only\">(current)</span>",
-    DOWNLOAD_BUTTON: "Download "
+    DOWNLOAD_BUTTON: "Download ",
+    EMAIL_BUTTON : "Email"
 
 };
 
@@ -60,6 +61,7 @@ const REPORT_FIELD = {
     LOCK_THICKNESS_MM: "mm",
     LOCK_DOOR_MATERIAL: "Door Material",
     LOCK_DOOR_MATERIAL_MESSAGE: "",
+    LOCK_DOOR_MATERIAL_CAUTION: "",
     LOCK_DOOR_LEAF: "Door Leaf",
     LOCK_DOOR_LEAF_MESSAGE: ""
 };

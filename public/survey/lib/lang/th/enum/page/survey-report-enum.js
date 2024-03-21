@@ -18,7 +18,8 @@ const SURVEY_REPORT = {
     REPORT_TITLE: "ข้อมูลลูกค้าและข้อมูลพนักงานขาย",
 
     PRINT_BUTTON: "  พิมพ์  <span class=\"sr-only\">(current)</span>",
-    DOWNLOAD_BUTTON: "ดาวน์โหลด "
+    DOWNLOAD_BUTTON: "ดาวน์โหลด ",
+    EMAIL_BUTTON : "ส่งเมล์"
 
 };
 
@@ -61,6 +62,7 @@ const REPORT_FIELD = {
     LOCK_THICKNESS_MM: "มม.",
     LOCK_DOOR_MATERIAL: "วัสดุของประตู",
     LOCK_DOOR_MATERIAL_MESSAGE: "",
+    LOCK_DOOR_MATERIAL_CAUTION: "",
     LOCK_DOOR_LEAF: "ชนิดบานประตูและความกว้างกรอบบาน",
     LOCK_DOOR_LEAF_MESSAGE: ""
 };

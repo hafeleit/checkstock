@@ -10,7 +10,6 @@
 
 h1 {
     background-color: #F1F1F1;
-    font-family: 'Noto Sans JP', sans-serif;
     font-size: 20px;
     padding: 15px;
     text-align: center;
@@ -18,7 +17,6 @@ h1 {
 
 h2 {
     background-color: #F1F1F1;
-    font-family: 'Noto Sans JP', sans-serif;
     font-size: 18px;
     font-weight: 900;
     margin-bottom: 0;
@@ -29,7 +27,6 @@ h2 {
 
 h3 {
     background-color: #F1F1F1;
-    font-family: 'Noto Sans JP', sans-serif;
     font-size: 16px;
     font-weight: 900;
     margin: 0 !important;
@@ -44,7 +41,7 @@ h3 {
 /*****************************************************************************/
 
 p {
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Sarabun', sans-serif!important;
     font-size: calc(10px + (11 - 10) * ((100vw - 500px) / (1200 - 300))) !important;
     word-break: break-word;
 }
@@ -60,15 +57,14 @@ p {
 }
 
 .report-link {
-    background-color: #F1F1F1;
+    background-color: #607D8B;
     border: 1px solid lightgray;
     border-radius: 5px;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
     padding: 5px !important;
     margin-right: 5px;
-    font-family: 'Noto Sans JP', sans-serif !important;
     font-size: 1rem;
-    color: black !important;
+    color: #ffffff !important;
     min-width: 100px;
     text-align: center;
 }
@@ -78,9 +74,8 @@ p {
         border: none;
         font-size: 1.4rem;
         padding: 10px !important;
-        margin-bottom: 5px;
-        max-width: 150px;
-        text-align: start;
+        margin-bottom: 10px;
+        max-width: 100%;
     }
 }
 

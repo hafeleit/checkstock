@@ -43,7 +43,9 @@ const CAUTION = {
     SWING_DOOR_JAMB_CAUTION: "CAUTION: \n" +
         "Installer may need to cut or engrave where to install the " +
         "striking plate at the door jam, in order to make the door " +
-        "lock work properly. "
+        "lock work properly. ",
+    DOOR_MATERIAL_CAUTION: "CAUTION: \n" +
+        "The steel door MUST be supplied with all metal cut-outs and drills specifically for our lock. The installer will only handle the assembling and system settings."
 }
 
 /*****************************************************************************/

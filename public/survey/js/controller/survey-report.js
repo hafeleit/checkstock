@@ -101,6 +101,8 @@ window.onload = function(event) {
         reportPrint.innerHTML = SURVEY_REPORT.PRINT_BUTTON;
         let reportDownload = document.getElementById("report-download");
         reportDownload.innerHTML = SURVEY_REPORT.DOWNLOAD_BUTTON;
+        let reportEmail = document.getElementById("send-mail");
+        reportEmail.innerHTML = SURVEY_REPORT.EMAIL_BUTTON;
 
         let customerData = sessionStorage.getItem("customerData");
         if (customerData !== null) {
@@ -268,6 +270,11 @@ window.onload = function(event) {
                 formatReportFields("doorMaterialMessage",
                     REPORT_FIELD.LOCK_DOOR_MATERIAL_MESSAGE.toUpperCase(),
                     lockAndDoorData.doorMaterialMessage, WARNING);
+            }
+            if (lockAndDoorData.doorMaterialCaution.trim().length > 0) {
+                formatReportFields("doorMaterialCaution",
+                    REPORT_FIELD.LOCK_DOOR_MATERIAL_CAUTION.toUpperCase(),
+                    lockAndDoorData.doorMaterialCaution, CAUTION);
             }
 
             formatReportFields("doorLeaf",

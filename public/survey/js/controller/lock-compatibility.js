@@ -35,6 +35,7 @@ const lockCompatibility = (lockModel) => {
             };
 
         case LOCK_MODEL.DH2000:
+        case LOCK_MODEL.DH2100:
             return {
                 doorType: DOOR_TYPE.SWING_DOOR,
                     doorThickness: DOOR_THICKNESS_IN_MM.MM_32_TO_50
@@ -55,6 +56,7 @@ const lockCompatibility = (lockModel) => {
         case LOCK_MODEL.DL7600:
         case LOCK_MODEL.PP8100:
         case LOCK_MODEL.PP9000:
+        case LOCK_MODEL.PP9100:
             return {
                 doorType: DOOR_TYPE.SWING_DOOR,
                     doorThickness: DOOR_THICKNESS_IN_MM.MM_35_TO_60
