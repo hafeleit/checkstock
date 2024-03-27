@@ -91,10 +91,10 @@ class getorder extends Command
             $data_excel[$l][] = 'HTH';
             $data_excel[$l][] = date('d/m/y');
             $data_excel[$l][] = strval(1);
-            $data_excel[$l][] = '2';
+            $data_excel[$l][] = '1';
             $data_excel[$l][] = 'SO_WEB';
             $data_excel[$l][] = $order->number;
-            $data_excel[$l][] = '2';
+            $data_excel[$l][] = '1';
             $data_excel[$l][] = '157019';
             $data_excel[$l][] = '157019-201';
             $data_excel[$l][] = $order->customername ?? '';
@@ -247,6 +247,8 @@ class getorder extends Command
               $data_excel[$l][] = '0121_BI';
             }elseif(Str::contains($shipchan, 'SPX')){
               $data_excel[$l][] = '0118_SHOPEE';
+            }elseif(Str::contains($shipchan, 'NOCNOC')){
+              $data_excel[$l][] = '0119_DHL';
             }else{
               $data_excel[$l][] = $order->shippingchannel;
             }
