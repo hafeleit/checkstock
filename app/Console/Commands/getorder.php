@@ -268,9 +268,9 @@ class getorder extends Command
         }
 
         if($excel){
-          $this->sendLine("Total Orders: " . $new_order_count);
+          $this->sendLine("Orders: " . $new_order_count);
         }else{
-          $this->sendLine("Total Orders: 0");
+          $this->sendLine("Orders: 0");
         }
 
         return "Total orders: " . $new_order_count;
