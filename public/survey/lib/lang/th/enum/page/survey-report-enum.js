@@ -14,12 +14,12 @@
 // Report title (TH)
 const SURVEY_REPORT = {
     TITLE: "Lock Selection Survey Report",
-    PAGE_HEADING: "แบบสำรวจการเลือกรุ่นล็อคและสเปคประตูของลูกค้า",
+    PAGE_HEADING: "แบบสำรวจการเลือกรุ่นล็อกและสเปคประตูของลูกค้า",
     REPORT_TITLE: "ข้อมูลลูกค้าและข้อมูลพนักงานขาย",
 
     PRINT_BUTTON: "  พิมพ์  <span class=\"sr-only\">(current)</span>",
     DOWNLOAD_BUTTON: "ดาวน์โหลด ",
-    EMAIL_BUTTON : "ส่งเมล์"
+    EMAIL_BUTTON : "ส่งเมล"
 
 };
 
@@ -36,11 +36,11 @@ const REPORT_FIELD = {
 
     SALES_PERSON_ID: "รหัสพนักงานขาย",
     SALES_PERSON_NAME: "ชื่อพนักงานขาย",
-    SALES_PERSON_LOCATION: "สถานที่,ห้างร้าน - สาขาที่ขายล็อค",
+    SALES_PERSON_LOCATION: "สถานที่,ห้างร้าน - สาขาที่ขายล็อก",
 
-    SURVEY_DETAILS: "ข้อมูลประตูและล็อคที่จะติดตั้ง",
+    SURVEY_DETAILS: "ข้อมูลประตูและล็อกที่จะติดตั้ง",
 
-    LOCK_MODEL: "รุ่นโมเดลล็อค",
+    LOCK_MODEL: "รุ่นโมเดลล็อก",
     LOCK_INSTALLATION_LOCATION: "สภาพแวดล้อมที่จะติดตั้ง",
     LOCK_INSTALLATION_LOCATION_MESSAGE: "",
     LOCK_DOOR_CONDITION: "ประตูที่จะติดตั้ง",

@@ -67,9 +67,9 @@ const SWING_DOOR_JAMB = {
 
 /* Door Retrofit */
 const DOOR_RETROFIT = {
-    LEVER_HANDLE: "ติดตั้งชุดล็อคระบบมอทิส",
-    KNOB: "ติดตั้งชุดล็อคลูกบิดหรือลูกบิดก้านโยก",
-    GRIP: "ติดตั้งชุดล็อค Grip Handle"
+    LEVER_HANDLE: "ติดตั้งชุดล็อกระบบมอทิส",
+    KNOB: "ติดตั้งชุดล็อกลูกบิดหรือลูกบิดก้านโยก",
+    GRIP: "ติดตั้งชุดล็อก Grip Handle"
 }
 
 /* Swing Door Leaf Types */

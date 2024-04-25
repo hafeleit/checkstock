@@ -13,24 +13,24 @@
 
 // index page title (TH)
 const INDEX = {
-    TITLE: "แบบสำรวจการเลือกรุ่นล็อคและสเปคประตูของลูกค้า",
+    TITLE: "แบบสำรวจการเลือกรุ่นล็อกและสเปคประตูของลูกค้า",
 };
 
 // Lock selection card
 const LOCK_SELECTION_CARD = {
-    HEADER: "กรุณาเลือกล็อคที่ท่านต้องการ",
-    LABEL_LOCK_MODEL: "ค้นหาล็อคที่ต้องการจากแถบเมนูนี้",
-    SUITABILITY_MESSAGE: "ล็อคนี้เหมาะสำหรับประเภทประตูต่อไปนี้",
+    HEADER: "กรุณาเลือกล็อกที่ท่านต้องการ",
+    LABEL_LOCK_MODEL: "ค้นหาล็อกที่ต้องการจากแถบเมนูนี้",
+    SUITABILITY_MESSAGE: "ล็อกนี้เหมาะสำหรับประเภทประตูต่อไปนี้",
     LABEL_DOOR_TYPE: "ประเภทประตู : ",
     LABEL_DOOR_THICKNESS: "ช่วงความหนาของประตู : ",
 };
 
 // Door specification card
 const DOOR_SPECIFICATION_CARD = {
-    HEADER: "เลือกขนาดประตู และรุ่นล็อคด้วยตนเอง",
+    HEADER: "เลือกขนาดประตู และรุ่นล็อกด้วยตนเอง",
     PROCEED_MESSAGE: `คลิกที่ปุ่ม ` +
         `<span id="label-next" class="highlight-text"></span> ` +
-        `และระบุข้อกำหนดของประตูเพื่อตรวจสอบความเหมาะสมของรุ่นล็อคกับประตูของท่าน`,
+        `และระบุข้อกำหนดของประตูเพื่อตรวจสอบความเหมาะสมของรุ่นล็อกกับประตูของท่าน`,
 
     LABEL_NEXT: "ถัดไป",
 };
