@@ -23,6 +23,14 @@ class ProductController extends Controller
         ]);
     }
 
+    public function get_redirect(Request $request){
+
+      return response()->json([
+        'status' => true,
+        'response' => $request->all(),
+      ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

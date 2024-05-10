@@ -26,3 +26,5 @@ Route::resource('products', APIProductController::class);
 Route::resource('getorder', GetOrderController::class);
 Route::get('hafeleline', [GetOrderController::class,'sendLine']);
 Route::get('survey-mail', [MailController::class, 'survey']);
+
+Route::get('get_redirect', [APIProductController::class, 'get_redirect']);
