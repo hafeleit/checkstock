@@ -69,7 +69,7 @@
                           <input type="hidden" name="task_assign_id" value="{{$data['task_assign_id']}}">
                         <div class="">
 
-                          <div class="rate" style="transform: translate(-18%, -16%);">
+                          <div class="rate" style="transform: translate(-15%, -16%);">
                               <input type="radio" id="star5" name="rating" value="5" checked />
                               <label for="star5" title="text">5 stars</label>
                               <input type="radio" id="star4" name="rating" value="4" />
