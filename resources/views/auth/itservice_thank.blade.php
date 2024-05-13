@@ -2,48 +2,7 @@
 
 @section('content')
     @include('layouts.navbars.guest.navbar')
-      <style media="screen">
-
-      .rate {
-          float: left;
-          height: 80px;
-          padding: 0 10px;
-      }
-      .rate:not(:checked) > input {
-          position:absolute;
-          top:-9999px;
-      }
-      .rate:not(:checked) > label {
-          float:right;
-          width:1em;
-          overflow:hidden;
-          white-space:nowrap;
-          cursor:pointer;
-          font-size:58px;
-          color:#ccc;
-      }
-      .rate:not(:checked) > label:before {
-          content: '★ ';
-      }
-      .rate > input:checked ~ label {
-          color: #ffc700;
-      }
-      .rate:not(:checked) > label:hover,
-      .rate:not(:checked) > label:hover ~ label {
-          color: #deb217;
-      }
-      .rate > input:checked + label:hover,
-      .rate > input:checked + label:hover ~ label,
-      .rate > input:checked ~ label:hover,
-      .rate > input:checked ~ label:hover ~ label,
-      .rate > label:hover ~ input:checked ~ label {
-          color: #c59b08;
-      }
-
-      /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
-
-
-    </style>
+  
     <main class="main-content  mt-0">
         <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
             style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
