@@ -4,13 +4,25 @@
     @include('layouts.navbars.guest.navbar')
       <style media="screen">
 
+      @media (min-width: 992px) {
+          .rate_cus {
+              transform: translate(-15%, -16%) !important;
+          }
+      }
+
+      .rate_cus {
+          transform: translate(-18%, -16%);
+      }
+
+
       .rate {
           height: 80px;
           padding: 0 10px;
       }
       .rate:not(:checked) > input {
           position:absolute;
-          top:-9999px;
+          bottom: -226px;
+          left: -1105px;
       }
       .rate:not(:checked) > label {
           float:right;
@@ -69,7 +81,7 @@
                           <input type="hidden" name="task_assign_id" value="{{$data['task_assign_id']}}">
                         <div class="">
 
-                          <div class="rate" style="transform: translate(-15%, -16%);">
+                          <div class="rate rate_cus" style="">
                               <input type="radio" id="star5" name="rating" value="5" checked />
                               <label for="star5" title="text">5 stars</label>
                               <input type="radio" id="star4" name="rating" value="4" />
@@ -91,7 +103,7 @@
                         </div>
                         <div class="card-body">
                           <div class="flex flex-col mb-3">
-                              <textarea class="form-control" id="exampleFormControlTextarea1" name="comment_text" rows="3"></textarea>
+                              <textarea class="form-control" id="comment_text" name="comment_text" rows="3"></textarea>
                           </div>
 
                           <div class="text-center">
