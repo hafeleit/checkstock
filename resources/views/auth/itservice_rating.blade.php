@@ -14,6 +14,7 @@
           top:-9999px;
       }
       .rate:not(:checked) > label {
+          float: right;
           width:1em;
           overflow:hidden;
           white-space:nowrap;
