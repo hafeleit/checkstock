@@ -18,7 +18,7 @@
           overflow:hidden;
           white-space:nowrap;
           cursor:pointer;
-          font-size:50px;
+          font-size:40px;
           color:#ccc;
       }
       .rate:not(:checked) > label:before {
