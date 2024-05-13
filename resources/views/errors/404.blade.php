@@ -59,7 +59,6 @@
 
     <p>the page you are looking for not avaible!</p>
 
-    <a href="{{ URL::to('/') }}" class="link_404">Go to Home</a>
   </div>
     </div>
     </div>

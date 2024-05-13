@@ -70,8 +70,8 @@ use App\Http\Controllers\SalesUSIController;
 
 
 
-
-
+  Route::get('/itservice-rating/{task_id}', [RegisterController::class, 'itservice_rating'])->middleware('guest')->name('itservice-rating');
+  Route::post('/itservice-rating/{task_id}', [RegisterController::class, 'save_itservice_rating'])->middleware('guest')->name('save-itservice-rating');
 
 	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
