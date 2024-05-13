@@ -61,6 +61,9 @@ class RegisterController extends Controller
         $field_id = '9c2dd406-7d3f-4843-88ae-666064ab480a'; //rating field id (get by Get Accessible Custom Fields api)
         $this->set_custom_field($task_id, $field_id, $rating);
 
+        $field_id = 'ed3c67b5-d5c4-4568-bbb2-92ec1b73911e'; //rating field id (get by Get Accessible Custom Fields api)
+        $this->set_custom_field($task_id, $field_id, $comment_text);
+
         $this->create_task_comment($task_id, $comment_text, $task_assign_id);
 
         return view('auth.itservice_thank');
