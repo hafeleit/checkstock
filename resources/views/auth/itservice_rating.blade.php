@@ -14,12 +14,12 @@
           top:-9999px;
       }
       .rate:not(:checked) > label {
-          float: right;
+          float:right;
           width:1em;
           overflow:hidden;
           white-space:nowrap;
           cursor:pointer;
-          font-size:40px;
+          font-size:58px;
           color:#ccc;
       }
       .rate:not(:checked) > label:before {
@@ -70,7 +70,7 @@
                           <input type="hidden" name="task_assign_id" value="{{$data['task_assign_id']}}">
                         <div class="row px-xl-5 px-sm-4">
 
-                          <div class="rate text-center">
+                          <div class="rate">
                               <input type="radio" id="star5" name="rating" value="5" checked />
                               <label for="star5" title="text">5 stars</label>
                               <input type="radio" id="star4" name="rating" value="4" />
