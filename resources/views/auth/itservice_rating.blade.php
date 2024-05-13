@@ -5,7 +5,6 @@
       <style media="screen">
 
       .rate {
-          float: left;
           height: 80px;
           padding: 0 10px;
       }
@@ -19,7 +18,7 @@
           overflow:hidden;
           white-space:nowrap;
           cursor:pointer;
-          font-size:58px;
+          font-size:40px;
           color:#ccc;
       }
       .rate:not(:checked) > label:before {
@@ -68,9 +67,9 @@
                         <form method="POST" action="{{ route('save-itservice-rating',$data['task_id']) }}">
                           @csrf
                           <input type="hidden" name="task_assign_id" value="{{$data['task_assign_id']}}">
-                        <div class="row px-xl-5 px-sm-4">
+                        <div class="">
 
-                          <div class="rate">
+                          <div class="rate" style="transform: translate(-18%, -16%);">
                               <input type="radio" id="star5" name="rating" value="5" checked />
                               <label for="star5" title="text">5 stars</label>
                               <input type="radio" id="star4" name="rating" value="4" />
