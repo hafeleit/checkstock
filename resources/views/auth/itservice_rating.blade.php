@@ -18,7 +18,7 @@
 
       @media (min-width: 375px) {
         .rate_cus {
-            margin-right: 13% !important;
+            margin-right: 14% !important;
         }
       }
 
