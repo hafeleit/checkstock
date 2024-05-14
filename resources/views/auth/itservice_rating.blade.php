@@ -10,9 +10,21 @@
         }
       }
 
+      @media (min-width: 360px) {
+        .rate_cus {
+            margin-right: 10% !important;
+        }
+      }
+
       @media (min-width: 375px) {
         .rate_cus {
             margin-right: 13% !important;
+        }
+      }
+
+      @media (min-width: 412px) {
+        .rate_cus {
+            margin-right: 16% !important;
         }
       }
 
