@@ -4,14 +4,50 @@
     @include('layouts.navbars.guest.navbar')
       <style media="screen">
 
-      @media (min-width: 992px) {
-          .rate_cus {
-              transform: translate(-15%, -16%) !important;
-          }
+      @media (min-width: 320px) {
+        .rate_cus {
+            margin-right: 5% !important;
+        }
+      }
+
+      @media (min-width: 375px) {
+        .rate_cus {
+            margin-right: 13% !important;
+        }
+      }
+
+      @media (min-width: 425px) {
+        .rate_cus {
+            margin-right: 17% !important;
+        }
+      }
+
+      @media (min-width: 576px) {
+        .rate_cus {
+            margin-right: 25% !important;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .rate_cus {
+            margin-right: 16% !important;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .rate_cus {
+            margin-right: 15% !important;
+        }
+      }
+
+      @media (min-width: 1440px) {
+        .rate_cus {
+            margin-right: 20% !important;
+        }
       }
 
       .rate_cus {
-          transform: translate(-18%, -16%);
+          margin-right: 13%;
       }
 
 
@@ -94,12 +130,13 @@
                               <label for="star1" title="text">1 star</label>
                             </div>
 
-                            <div class="mt-2 position-relative text-center">
-                                <p
-                                    class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
-                                    Comment
-                                </p>
-                            </div>
+
+                        </div>
+                        <div class="mt-2 position-relative text-center">
+                            <p
+                                class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
+                                Comment
+                            </p>
                         </div>
                         <div class="card-body">
                           <div class="flex flex-col mb-3">
