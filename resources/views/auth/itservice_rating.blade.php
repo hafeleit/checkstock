@@ -152,7 +152,7 @@
                         </div>
                         <div class="card-body">
                           <div class="flex flex-col mb-3">
-                              <textarea class="form-control" id="comment_text" name="comment_text" rows="3"></textarea>
+                              <textarea class="form-control" id="comment_text" name="comment_text" rows="3" placeholder="แสดงความคิดเห็น"></textarea>
                           </div>
 
                           <div class="text-center">
