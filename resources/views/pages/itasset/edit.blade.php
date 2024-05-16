@@ -1,0 +1,275 @@
+@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
+
+@section('content')
+    @include('layouts.navbars.auth.topnav', ['title' => 'Edit Asset'])
+    <div class="container-fluid py-4">
+      @if ($message = Session::get('success'))
+      <div class="alert alert-success">
+          <p>{{ $message }}</p>
+      </div>
+      @endif
+      <form action="{{ route('itasset.update',$itasset->id) }}" method="post" >
+        @csrf
+        @method('PUT')
+      <div class="row">
+        <div class="col-lg-6" style="z-index: 1;">
+          <h4 class="text-white">Make the changes below</h4>
+        </div>
+        <div class="col-lg-6 text-end" style="z-index: 1;">
+          <a href="{{ route('itasset.index') }}" type="button" class="btn btn-dark mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
+          <button type="submit" class="btn btn-outline-white mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-lg-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="font-weight-bolder">Asset Image</h5>
+              <div class="row">
+                <div class="col-12">
+                  @switch($itasset->type)
+                    @case('NOTEBOOK')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="product_image">
+                    @break
+                    @case('PRINTER')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/printer-fuji.jpg" alt="product_image">
+                    @break
+                    @case('PC')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="product_image">
+                    @break
+                    @default
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
+                  @endswitch
+
+                </div>
+                <div class="col-12 mt-5">
+                  <div class="d-flex">
+                    <button class="btn btn-primary btn-sm mb-0 me-2" type="button" name="button">Edit</button>
+                    <button class="btn btn-outline-dark btn-sm mb-0" type="button" name="button">Remove</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8 mt-lg-0 mt-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="font-weight-bolder">Asset Information</h5>
+              <div class="row">
+                <div class="col-12 col-sm-6">
+                  <label>Computer Name <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="computer_name" value="{{$itasset->computer_name}}">
+                </div>
+                <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                  <label>Serial Number</label>
+                  <input class="form-control" type="text" name="serial_number" value="{{$itasset->serial_number}}">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3">
+                  <label class="mt-4">Type <span class="text-danger">*</span></label>
+                  <select class="form-control" name="type">
+                    <option value="NOTEBOOK" {{ $itasset->type == 'NOTEBOOK' ? 'selected' : '' }}>NOTEBOOK</option>
+                    <option value="PC" {{ $itasset->type == 'PC' ? 'selected' : '' }}>PC</option>
+                    <option value="PRINTER" {{ $itasset->type == 'PRINTER' ? 'selected' : '' }}>PRINTER</option>
+                    <option value="SERVER" {{ $itasset->type == 'SERVER' ? 'selected' : '' }}>SERVER</option>
+                  </select>
+                </div>
+                <div class="col-3">
+                  <label class="mt-4">Color</label>
+                  <select class="form-control" name="color">
+                    <option value="GREEN" {{ $itasset->color == 'GREEN' ? 'selected' : '' }}>GREEN</option>
+                    <option value="BLUE" {{ $itasset->color == 'BLUE' ? 'selected' : '' }}>BLUE</option>
+                    <option value="RED" {{ $itasset->color == 'RED' ? 'selected' : '' }}>RED</option>
+                  </select>
+                </div>
+                <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                  <label class="mt-4">Model <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="model" value="{{$itasset->model}}">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-6">
+                  <label class="mt-4">Fixed Asset No.</label>
+                  <input class="form-control" type="text" name="fixed_asset_no" value="{{$itasset->fixed_asset_no}}">
+                </div>
+                <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                  <label class="mt-4">Purchase Date</label>
+                  <input class="form-control datepicker" id="pdate" name="purchase_date" value="{{$itasset->purchase_date}}" type="text" >
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-6">
+                  <label class="mt-4">Warranty</label>
+                  <select class="form-control" name="warranty">
+                    <option value="1 Years" {{ $itasset->warranty == '1 Years' ? 'selected' : '' }}>1 Years</option>
+                    <option value="2 Years" {{ $itasset->warranty == '2 Years' ? 'selected' : '' }}>2 Years</option>
+                    <option value="3 Years" {{ $itasset->warranty == '3 Years' ? 'selected' : '' }}>3 Years</option>
+                    <option value="4 Years" {{ $itasset->warranty == '4 Years' ? 'selected' : '' }}>4 Years</option>
+                    <option value="5 Years" {{ $itasset->warranty == '5 Years' ? 'selected' : '' }}>5 Years</option>
+                  </select>
+                </div>
+                <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                  <label class="mt-4">Expire Date</label>
+                  <input class="form-control" type="text" value="" readonly>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-6">
+                  <label class="mt-4">Status <span class="text-danger">*</span></label>
+                  <select class="form-control" name="status">
+                    <option value="ACTIVE" {{ $itasset->status == 'ACTIVE' ? 'selected' : '' }}>ACTIVE</option>
+                    <option value="BROKEN" {{ $itasset->status == 'BROKEN' ? 'selected' : '' }}>BROKEN</option>
+                    <option value="SPARE" {{ $itasset->status == 'SPARE' ? 'selected' : '' }}>SPARE</option>
+                  </select>
+                </div>
+                <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                  <label class="mt-4">Location</label>
+                  <select class="form-control" name="location">
+                    <option value="HTH 64" {{ $itasset->location == 'HTH 64' ? 'selected' : '' }}>HTH 64</option>
+                    <option value="HTH DC" {{ $itasset->location == 'HTH DC' ? 'selected' : '' }}>HTH DC</option>
+                    <option value="HTH SALES" {{ $itasset->location == 'HTH SALES' ? 'selected' : '' }}>HTH SALES</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-6">
+                  <label class="mt-4">Create By</label>
+                  <input class="form-control" type="text" name="create_by" value="{{$itasset->create_by}}" readonly>
+                </div>
+                <div class="col-12 col-sm-6 mt-sm-0">
+                  <label class="mt-4">Create Date</label>
+                  <input class="form-control" type="text" value="{{$itasset->created_at}}" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="font-weight-bolder">Spec</h5>
+              <label class="">Cpu</label>
+              <input class="form-control" type="text" name="cpu" value="{{$itassetspec->cpu ?? 'n/a'}}" placeholder="INTEL 9">
+              <label class="mt-3">Ram</label>
+              <input class="form-control" type="text" name="ram" value="{{$itassetspec->ram ?? 'n/a'}}" placeholder="16GB">
+              <label class="mt-3">Storage</label>
+              <input class="form-control" type="text" name="storage" value="{{$itassetspec->storage ?? 'n/a'}}" placeholder="1TB">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-8 mt-sm-0 mt-4">
+          <div class="card">
+            <div class="card-body">
+
+              <div class="row">
+                <h5 class="font-weight-bolder">Owner</h5>
+                <div class="col-2">
+                  <label>User</label>
+                  <input class="form-control" type="text" name="user[]" value="{{ $itassetown[0]->user ?? 'n/a' }}" placeholder="7213">
+                </div>
+                <div class="col-4">
+                  <label>Department</label>
+                  <input class="form-control" type="text" value="{{ 'n/a' }}" readonly>
+                </div>
+                <div class="col-2">
+                  <label>Main</label>
+                  <?php
+
+                    $itassetown0 = ( isset($itassetown[0]->main) ) ? $itassetown[0]->main : '';
+                    $itassetown1 = ( isset($itassetown[1]->main) ) ? $itassetown[1]->main : '';
+                    $itassetown2 = ( isset($itassetown[2]->main) ) ? $itassetown[2]->main : '';
+
+                   ?>
+                  <select class="form-control" name="own_main[]">
+                    <option value="N" {{ $itassetown0 == 'N' ? 'selected' : '' }}>No</option>
+                    <option value="Y" {{ $itassetown0 == 'Y' ? 'selected' : '' }}>Yes</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-2">
+                  <label>User</label>
+                  <input class="form-control" type="text" name="user[]" value="{{ $itassetown[1]->user ?? 'n/a' }}" placeholder="7213">
+                </div>
+                <div class="col-4">
+                  <label>Department</label>
+                  <input class="form-control" type="text" value="{{ 'n/a' }}" readonly>
+                </div>
+                <div class="col-2">
+                  <label>Main</label>
+                  <select class="form-control" name="own_main[]">
+                    <option value="N" {{ $itassetown1 == 'N' ? 'selected' : '' }}>No</option>
+                    <option value="Y" {{ $itassetown1 == 'Y' ? 'selected' : '' }}>Yes</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-2">
+                  <label>User</label>
+                  <input class="form-control" type="text" name="user[]" value="{{ $itassetown[2]->user ?? 'n/a' }}" placeholder="7213">
+                </div>
+                <div class="col-4">
+                  <label>Department</label>
+                  <input class="form-control" type="text" value="{{ 'n/a' }}" readonly>
+                </div>
+                <div class="col-2">
+                  <label>Main</label>
+                  <select class="form-control" name="own_main[]">
+                    <option value="N" {{ $itassetown2 == 'N' ? 'selected' : '' }}>No</option>
+                    <option value="Y" {{ $itassetown2 == 'Y' ? 'selected' : '' }}>Yes</option>
+                  </select>
+                </div>
+              </div>
+
+              </form>
+            </div>
+          </div>
+
+          <!-- delete modal -->
+          <div class="row mt-3">
+            <div class="col-12 text-end">
+                <button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import"> Delete </button>
+                <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog mt-lg-10">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="ModalLabel">Delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <form action="{{ route('itasset.destroy',$itasset->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                      <div class="modal-body text-start">
+                          <p>Are you sure you want to delete this item?</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-sm bg-gradient-secondary " data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-sm bg-gradient-danger" name="button">Confirm</button>
+                      </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <script type="text/javascript">
+      $(function(){
+        $("#pdate").flatpickr({
+          disableMobile: "true",
+        });
+      });
+    </script>
+
+@endsection

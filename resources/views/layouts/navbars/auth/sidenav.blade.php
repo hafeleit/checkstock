@@ -1,15 +1,14 @@
-<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 "
-    id="sidenav-main">
+<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href="{{ route('home') }}" target="_blank" style="text-align: center;">
-            <img src="../img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
+            <img src="{{ URL::to('/') }}/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
             <?php /*<span class="ms-1 font-weight-bold">Argon Dashboard 2 Laravel</span>*/ ?>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main" style="height: unset !important;">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'home' ? 'active' : '' }}" href="{{ route('home') }}">
@@ -20,12 +19,6 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item mt-3 d-flex align-items-center">
-                <div class="ps-4">
-                    <i class="fab fa-laravel" style="color: #f4645f;"></i>
-                </div>
-                <h6 class="ms-2 text-uppercase text-xs font-weight-bolder opacity-6 mb-0">Laravel Examples</h6>
-            </li>
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" href="{{ route('profile') }}">
                     <div
@@ -35,6 +28,31 @@
                     <span class="nav-link-text ms-1">Profile</span>
                 </a>
             </li>
+            <li class="nav-item ">
+              <a class="nav-link {{ substr(Route::currentRouteName(),0,7) == 'itasset' ? 'active' : '' }}" data-bs-toggle="collapse" aria-expanded="{{ substr(Route::currentRouteName(),0,7) == 'itasset' ? 'true' : 'false' }}" href="#productsExample">
+                <div
+                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-laptop text-dark text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">IT Asset</span>
+              </a>
+              <div class="collapse {{ substr(Route::currentRouteName(),0,7) == 'itasset' ? 'show' : '' }}" id="productsExample" style="">
+                <ul class="nav nav-sm flex-column">
+                  <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'itasset.create' ? 'active' : '' }}" href="{{ route('itasset.create') }}">
+                      <span class="sidenav-mini-icon text-xs"> N </span>
+                      <span class="sidenav-normal"> New Asset </span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'itasset.index' ? 'active' : '' }}" href="{{ route('itasset.index') }}">
+                      <span class="sidenav-mini-icon text-xs"> P </span>
+                      <span class="sidenav-normal"> Asset List </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
             <li class="nav-item">
                 <a class="nav-link {{ str_contains(request()->url(), 'user-management') == true ? 'active' : '' }}" href="{{ route('user-management') }}">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -42,9 +60,6 @@
                     </div>
                     <span class="nav-link-text ms-1">User Management</span>
                 </a>
-            </li>
-            <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Pages</h6>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ str_contains(request()->url(), 'products') == true ? 'active' : '' }}" href="{{ route('products.index') }}">
@@ -55,7 +70,7 @@
                     <span class="nav-link-text ms-1">Products</span>
                 </a>
             </li>
-            <li class="nav-item">
+            <?php /*<li class="nav-item">
                 <a class="nav-link {{ str_contains(request()->url(), 'tables') == true ? 'active' : '' }}" href="{{ route('tables') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -91,9 +106,6 @@
                     <span class="nav-link-text ms-1">RTL</span>
                 </a>
             </li>
-            <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
-            </li>
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'profile-static' ? 'active' : '' }}" href="{{ route('profile-static') }}">
                     <div
@@ -123,7 +135,7 @@
             </li>
         </ul>
     </div>
-    <?php /*<div class="sidenav-footer mx-3 ">
+    <div class="sidenav-footer mx-3 ">
         <div class="card card-plain shadow-none" id="sidenavCard">
             <img class="w-50 mx-auto" src="/img/illustrations/icon-documentation-warning.svg"
                 alt="sidebar_illustration">
