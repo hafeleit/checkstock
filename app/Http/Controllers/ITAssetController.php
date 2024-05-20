@@ -89,7 +89,7 @@ class ITAssetController extends Controller
     {
 
       $request->validate([
-          'computer_name' => 'required|unique:i_t_assets',
+          'computer_name' => 'required',
           'type' => 'required',
           'model' => 'required',
           'status' => 'required',

@@ -124,9 +124,48 @@
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                   <label class="mt-4">Location</label>
                   <select class="form-control" name="location">
+
                     <option value="HTH 64">HTH 64</option>
-                    <option value="HTH DC">HTH DC</option>
-                    <option value="HTH SALES">HTH SALES</option>
+                    <option value="HTH Chiangmai Showroom">HTH Chiangmai Showroom</option>
+                    <option value="HTH Huahin Showroom">HTH Huahin Showroom</option>
+                    <option value="HTH Pattaya Showroom">HTH Pattaya Showroom</option>
+                    <option value="HTH Phuket Showroom">HTH Phuket Showroom</option>
+                    <option value="HTH Warehouse Bangpho">HTH Warehouse Bangpho</option>
+                    <option value="HTH Warehouse Chiangmai">HTH Warehouse Chiangmai</option>
+                    <option value="HTH Warehouse Hunhin">HTH Warehouse Hunhin</option>
+                    <option value="HTH Warehouse Pattaya">HTH Warehouse Pattaya</option>
+                    <option value="HTH64_Admin">HTH64_Admin</option>
+                    <option value="HTH64_Bangkok Showroom">HTH64_Bangkok Showroom</option>
+                    <option value="HTH64_BKK Warehouse">HTH64_BKK Warehouse</option>
+                    <option value="HTH64_BROKEN">HTH64_BROKEN</option>
+                    <option value="HTH64_Customer Services">HTH64_Customer Services</option>
+                    <option value="HTH64_E-Commerce">HTH64_E-Commerce</option>
+                    <option value="HTH64_Finance">HTH64_Finance</option>
+                    <option value="HTH64_HR">HTH64_HR</option>
+                    <option value="HTH64_Inventory">HTH64_Inventory</option>
+                    <option value="HTH64_IT">HTH64_IT</option>
+                    <option value="HTH64_Marketing">HTH64_Marketing</option>
+                    <option value="HTH64_MD Office">HTH64_MD Office</option>
+                    <option value="HTH64_PM">HTH64_PM</option>
+                    <option value="HTH64_Purchase">HTH64_Purchase</option>
+                    <option value="HTH64_QA">HTH64_QA</option>
+                    <option value="HTH64_Sales">HTH64_Sales</option>
+                    <option value="HTH64_Site Management">HTH64_Site Management</option>
+                    <option value="HTH64_Smart Technology">HTH64_Smart Technology</option>
+                    <option value="HTH64_Spare">HTH64_Spare</option>
+                    <option value="HTH64_Supply Chain">HTH64_Supply Chain</option>
+                    <option value="HTHDC_Delivery">HTHDC_Delivery</option>
+                    <option value="HTHDC_Despatch">HTHDC_Despatch</option>
+                    <option value="HTHDC_Logistics">HTHDC_Logistics</option>
+                    <option value="HTHDC_Master Key">HTHDC_Master Key</option>
+                    <option value="HTHDC_Packing">HTHDC_Packing</option>
+                    <option value="HTHDC_Packing DIY">HTHDC_Packing DIY</option>
+                    <option value="HTHDC_Packing UPC">HTHDC_Packing UPC</option>
+                    <option value="HTHDC_Pool Function">HTHDC_Pool Function</option>
+                    <option value="HTHDC_Product Return">HTHDC_Product Return</option>
+                    <option value="HTHDC_Workshop">HTHDC_Workshop</option>
+                    <option value="HTHDC-Maintenance">HTHDC-Maintenance</option>
+
                   </select>
                 </div>
               </div>

@@ -69,7 +69,7 @@
               <div class="row">
                 <div class="col-12 col-sm-6">
                   <label>Computer Name <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="computer_name" value="{{$itasset->computer_name}}">
+                  <input class="form-control" type="text" name="computer_name" value="{{$itasset->computer_name}}" readonly>
                 </div>
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                   <label>Serial Number</label>
@@ -138,8 +138,46 @@
                   <label class="mt-4">Location</label>
                   <select class="form-control" name="location">
                     <option value="HTH 64" {{ $itasset->location == 'HTH 64' ? 'selected' : '' }}>HTH 64</option>
-                    <option value="HTH DC" {{ $itasset->location == 'HTH DC' ? 'selected' : '' }}>HTH DC</option>
-                    <option value="HTH SALES" {{ $itasset->location == 'HTH SALES' ? 'selected' : '' }}>HTH SALES</option>
+                    <option value="HTH Chiangmai Showroom" {{ $itasset->location == 'HTH Chiangmai Showroom' ? 'selected' : '' }}>HTH Chiangmai Showroom</option>
+                    <option value="HTH Huahin Showroom" {{ $itasset->location == 'HTH Huahin Showroom' ? 'selected' : '' }}>HTH Huahin Showroom</option>
+                    <option value="HTH Pattaya Showroom" {{ $itasset->location == 'HTH Pattaya Showroom' ? 'selected' : '' }}>HTH Pattaya Showroom</option>
+                    <option value="HTH Phuket Showroom" {{ $itasset->location == 'HTH Phuket Showroom' ? 'selected' : '' }}>HTH Phuket Showroom</option>
+                    <option value="HTH Warehouse Bangpho" {{ $itasset->location == 'HTH Warehouse Bangpho' ? 'selected' : '' }}>HTH Warehouse Bangpho</option>
+                    <option value="HTH Warehouse Chiangmai" {{ $itasset->location == 'HTH Warehouse Chiangmai' ? 'selected' : '' }}>HTH Warehouse Chiangmai</option>
+                    <option value="HTH Warehouse Hunhin" {{ $itasset->location == 'HTH Warehouse Hunhin' ? 'selected' : '' }}>HTH Warehouse Hunhin</option>
+                    <option value="HTH Warehouse Pattaya" {{ $itasset->location == 'HTH Warehouse Pattaya' ? 'selected' : '' }}>HTH Warehouse Pattaya</option>
+                    <option value="HTH64_Admin" {{ $itasset->location == 'HTH64_Admin' ? 'selected' : '' }}>HTH64_Admin</option>
+                    <option value="HTH64_Bangkok Showroom" {{ $itasset->location == 'HTH64_Bangkok Showroom' ? 'selected' : '' }}>HTH64_Bangkok Showroom</option>
+                    <option value="HTH64_BKK Warehouse" {{ $itasset->location == 'HTH64_BKK Warehouse' ? 'selected' : '' }}>HTH64_BKK Warehouse</option>
+                    <option value="HTH64_BROKEN" {{ $itasset->location == 'HTH64_BROKEN' ? 'selected' : '' }}>HTH64_BROKEN</option>
+                    <option value="HTH64_Customer Services" {{ $itasset->location == 'HTH64_Customer Services' ? 'selected' : '' }}>HTH64_Customer Services</option>
+                    <option value="HTH64_E-Commerce" {{ $itasset->location == 'HTH64_E-Commerce' ? 'selected' : '' }}>HTH64_E-Commerce</option>
+                    <option value="HTH64_Finance" {{ $itasset->location == 'HTH64_Finance' ? 'selected' : '' }}>HTH64_Finance</option>
+                    <option value="HTH64_HR" {{ $itasset->location == 'HTH64_HR' ? 'selected' : '' }}>HTH64_HR</option>
+                    <option value="HTH64_Inventory" {{ $itasset->location == 'HTH64_Inventory' ? 'selected' : '' }}>HTH64_Inventory</option>
+                    <option value="HTH64_IT" {{ $itasset->location == 'HTH64_IT' ? 'selected' : '' }}>HTH64_IT</option>
+                    <option value="HTH64_Marketing" {{ $itasset->location == 'HTH64_Marketing' ? 'selected' : '' }}>HTH64_Marketing</option>
+                    <option value="HTH64_MD Office" {{ $itasset->location == 'HTH64_MD Office' ? 'selected' : '' }}>HTH64_MD Office</option>
+                    <option value="HTH64_PM" {{ $itasset->location == 'HTH64_PM' ? 'selected' : '' }}>HTH64_PM</option>
+                    <option value="HTH64_Purchase" {{ $itasset->location == 'HTH64_Purchase' ? 'selected' : '' }}>HTH64_Purchase</option>
+                    <option value="HTH64_QA" {{ $itasset->location == 'HTH64_QA' ? 'selected' : '' }}>HTH64_QA</option>
+                    <option value="HTH64_Sales" {{ $itasset->location == 'HTH64_Sales' ? 'selected' : '' }}>HTH64_Sales</option>
+                    <option value="HTH64_Site Management" {{ $itasset->location == 'HTH64_Site Management' ? 'selected' : '' }}>HTH64_Site Management</option>
+                    <option value="HTH64_Smart Technology" {{ $itasset->location == 'HTH64_Smart Technology' ? 'selected' : '' }}>HTH64_Smart Technology</option>
+                    <option value="HTH64_Spare" {{ $itasset->location == 'HTH64_Spare' ? 'selected' : '' }}>HTH64_Spare</option>
+                    <option value="HTH64_Supply Chain" {{ $itasset->location == 'HTH64_Supply Chain' ? 'selected' : '' }}>HTH64_Supply Chain</option>
+                    <option value="HTHDC_Delivery" {{ $itasset->location == 'HTHDC_Delivery' ? 'selected' : '' }}>HTHDC_Delivery</option>
+                    <option value="HTHDC_Despatch" {{ $itasset->location == 'HTHDC_Despatch' ? 'selected' : '' }}>HTHDC_Despatch</option>
+                    <option value="HTHDC_Logistics" {{ $itasset->location == 'HTHDC_Logistics' ? 'selected' : '' }}>HTHDC_Logistics</option>
+                    <option value="HTHDC_Master Key" {{ $itasset->location == 'HTHDC_Master Key' ? 'selected' : '' }}>HTHDC_Master Key</option>
+                    <option value="HTHDC_Packing" {{ $itasset->location == 'HTHDC_Packing' ? 'selected' : '' }}>HTHDC_Packing</option>
+                    <option value="HTHDC_Packing DIY" {{ $itasset->location == 'HTHDC_Packing DIY' ? 'selected' : '' }}>HTHDC_Packing DIY</option>
+                    <option value="HTHDC_Packing UPC" {{ $itasset->location == 'HTHDC_Packing UPC' ? 'selected' : '' }}>HTHDC_Packing UPC</option>
+                    <option value="HTHDC_Pool Function" {{ $itasset->location == 'HTHDC_Pool Function' ? 'selected' : '' }}>HTHDC_Pool Function</option>
+                    <option value="HTHDC_Product Return" {{ $itasset->location == 'HTHDC_Product Return' ? 'selected' : '' }}>HTHDC_Product Return</option>
+                    <option value="HTHDC_Workshop" {{ $itasset->location == 'HTHDC_Workshop' ? 'selected' : '' }}>HTHDC_Workshop</option>
+                    <option value="HTHDC-Maintenance" {{ $itasset->location == 'HTHDC-Maintenance' ? 'selected' : '' }}>HTHDC-Maintenance</option>
+
                   </select>
                 </div>
               </div>
