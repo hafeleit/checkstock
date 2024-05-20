@@ -35,8 +35,8 @@ class ITAssetController extends Controller
     public function store(Request $request)
     {
 
-      $request->validate([
-          'computer_name' => 'required',
+      $validatedData = $request->validate([
+          'computer_name' => 'required|unique:i_t_assets',
           'type' => 'required',
           'model' => 'required',
           'status' => 'required',
@@ -89,7 +89,7 @@ class ITAssetController extends Controller
     {
 
       $request->validate([
-          'computer_name' => 'required',
+          'computer_name' => 'required|unique:i_t_assets',
           'type' => 'required',
           'model' => 'required',
           'status' => 'required',

@@ -3,11 +3,6 @@
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'New Asset'])
     <div class="container-fluid py-4">
-      @if ($message = Session::get('success'))
-      <div class="alert alert-success">
-          <p>{{ $message }}</p>
-      </div>
-      @endif
       <form action="{{ route('itasset.store') }}" method="post" >
         @csrf
       <div class="row">
@@ -42,6 +37,21 @@
         <div class="col-lg-8 mt-lg-0 mt-4">
           <div class="card">
             <div class="card-body">
+              @if ($message = Session::get('success'))
+              <div class="alert alert-success">
+                  <p>{{ $message }}</p>
+              </div>
+              @endif
+              @if ($errors->any())
+                <div class="alert alert-danger">
+                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+              @endif
               <h5 class="font-weight-bolder">Asset Information</h5>
               <div class="row">
                 <div class="col-12 col-sm-6">
