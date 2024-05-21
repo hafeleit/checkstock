@@ -7,6 +7,7 @@ use App\Models\ITAssetOwn;
 use App\Models\ITAssetSpec;
 use Illuminate\Http\Request;
 use Auth;
+use DB;
 use Carbon\Carbon;
 
 class ITAssetController extends Controller
@@ -17,7 +18,14 @@ class ITAssetController extends Controller
     public function index()
     {
 
-        $itassets = ITAsset::where('delete','0')->orderBy('id','desc')->get();
+        $itassets = ITAsset::where('i_t_assets.delete','0')
+                    ->leftjoin('i_t_asset_owns','i_t_assets.computer_name','i_t_asset_owns.computer_name')
+                    ->leftjoin('user_masters','i_t_asset_owns.user','user_masters.job_code')
+                    ->select(DB::raw("i_t_assets.*,i_t_asset_owns.user,user_masters.name_en"))
+                    ->orderBy('i_t_assets.id','desc')
+                    ->get();
+        //dd($itassets[0]->id);
+
         return view('pages.itasset.index',compact('itassets'));
     }
 
