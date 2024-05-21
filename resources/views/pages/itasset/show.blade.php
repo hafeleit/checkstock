@@ -12,11 +12,10 @@
         @csrf
       <div class="row">
         <div class="col-lg-6" style="z-index: 1;">
-          <h4 class="text-white">Make the changes below</h4>
-
+          <a href="{{ route('itasset.index') }}" type="button" class="btn btn-dark mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">All Asset</a>
         </div>
         <div class="col-lg-6 text-end" style="z-index: 1;">
-          <a href="{{ route('itasset.index') }}" type="button" class="btn btn-dark mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
+
           <a href="{{ route('itasset.edit',$itasset->id) }}" class="btn btn-outline-white mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Edit</a>
         </div>
       </div>
@@ -189,10 +188,16 @@
                     <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->user ?? 'n/a' }}</p>
                   </div>
                 </div>
+                <div class="col-3">
+                  <p>Name</p>
+                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->name_en ?? 'n/a' }}</p>
+                  </div>
+                </div>
                 <div class="col-4">
                   <p>Department</p>
                   <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ 'n/a' }}</p>
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->dept ?? 'n/a' }}</p>
                   </div>
                 </div>
                 <div class="col-2">
@@ -209,10 +214,16 @@
                     <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[1]->user ?? 'n/a' }}</p>
                   </div>
                 </div>
+                <div class="col-3">
+                  <p class="mt-3">Name</p>
+                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[1]->name_en ?? 'n/a' }}</p>
+                  </div>
+                </div>
                 <div class="col-4">
                   <p class="mt-3">Department</p>
                   <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ 'n/a' }}</p>
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[1]->dept ?? 'n/a' }}</p>
                   </div>
                 </div>
                 <div class="col-2">
@@ -229,10 +240,16 @@
                     <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[2]->user ?? 'n/a' }}</p>
                   </div>
                 </div>
+                <div class="col-3">
+                  <p class="mt-3">Name</p>
+                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[2]->name_en ?? 'n/a' }}</p>
+                  </div>
+                </div>
                 <div class="col-4">
                   <p class="mt-3">Department</p>
                   <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{'n/a'}}</p>
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[2]->dept ?? 'n/a' }}</p>
                   </div>
                 </div>
                 <div class="col-2">

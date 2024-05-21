@@ -11,7 +11,7 @@
           <h4 class="text-white">Make the changes below</h4>
         </div>
         <div class="col-lg-6 text-end" style="z-index: 1;">
-          <a href="{{ route('itasset.index') }}" type="button" class="btn btn-dark mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
+          <a href="{{ route('itasset.show',$itasset->id) }}" type="button" class="btn btn-dark mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
           <button type="submit" class="btn btn-outline-white mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
         </div>
       </div>
@@ -219,11 +219,7 @@
                 <h5 class="font-weight-bolder">Owner</h5>
                 <div class="col-2">
                   <label>User</label>
-                  <input class="form-control" type="text" name="user[]" value="{{ $itassetown[0]->user ?? 'n/a' }}" placeholder="7213">
-                </div>
-                <div class="col-4">
-                  <label>Department</label>
-                  <input class="form-control" type="text" value="{{ 'n/a' }}" readonly>
+                  <input class="form-control" type="text" name="user[]" value="{{ $itassetown[0]->user ?? '' }}" placeholder="7213">
                 </div>
                 <div class="col-2">
                   <label>Main</label>
@@ -242,15 +238,11 @@
               </div>
               <div class="row">
                 <div class="col-2">
-                  <label>User</label>
-                  <input class="form-control" type="text" name="user[]" value="{{ $itassetown[1]->user ?? 'n/a' }}" placeholder="7213">
-                </div>
-                <div class="col-4">
-                  <label>Department</label>
-                  <input class="form-control" type="text" value="{{ 'n/a' }}" readonly>
+                  <label class="mt-3" >User</label>
+                  <input class="form-control" type="text" name="user[]" value="{{ $itassetown[1]->user ?? '' }}" placeholder="7213">
                 </div>
                 <div class="col-2">
-                  <label>Main</label>
+                  <label class="mt-3">Main</label>
                   <select class="form-control" name="own_main[]">
                     <option value="N" {{ $itassetown1 == 'N' ? 'selected' : '' }}>No</option>
                     <option value="Y" {{ $itassetown1 == 'Y' ? 'selected' : '' }}>Yes</option>
@@ -259,15 +251,11 @@
               </div>
               <div class="row">
                 <div class="col-2">
-                  <label>User</label>
-                  <input class="form-control" type="text" name="user[]" value="{{ $itassetown[2]->user ?? 'n/a' }}" placeholder="7213">
-                </div>
-                <div class="col-4">
-                  <label>Department</label>
-                  <input class="form-control" type="text" value="{{ 'n/a' }}" readonly>
+                  <label class="mt-3">User</label>
+                  <input class="form-control" type="text" name="user[]" value="{{ $itassetown[2]->user ?? '' }}" placeholder="7213">
                 </div>
                 <div class="col-2">
-                  <label>Main</label>
+                  <label class="mt-3">Main</label>
                   <select class="form-control" name="own_main[]">
                     <option value="N" {{ $itassetown2 == 'N' ? 'selected' : '' }}>No</option>
                     <option value="Y" {{ $itassetown2 == 'Y' ? 'selected' : '' }}>Yes</option>

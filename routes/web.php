@@ -30,6 +30,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\SoStatusController;
 use App\Http\Controllers\SalesUSIController;
 use App\Http\Controllers\ITAssetController;
+use App\Http\Controllers\UserMasterController;
 
   Route::get('/', function () {return redirect('/products');});
 
@@ -87,6 +88,7 @@ use App\Http\Controllers\ITAssetController;
 
 Route::group(['middleware' => 'auth'], function () {
 
+  Route::post('usermaster-import', [UserMasterController::class,'import'])->name('usermaster-import');
   Route::resource('itasset', ITAssetController::class);
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');

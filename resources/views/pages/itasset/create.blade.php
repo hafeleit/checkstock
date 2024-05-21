@@ -209,10 +209,6 @@
                   <label>User</label>
                   <input class="form-control" name="user[]" type="text" placeholder="7213">
                 </div>
-                <div class="col-4">
-                  <label>Department</label>
-                  <input class="form-control" type="text" value="" readonly>
-                </div>
                 <div class="col-2">
                   <label>Main</label>
                   <select class="form-control" name="own_main[]">
@@ -226,10 +222,6 @@
                   <label>User</label>
                   <input class="form-control" name="user[]" type="text" placeholder="7213">
                 </div>
-                <div class="col-4">
-                  <label>Department</label>
-                  <input class="form-control" type="text" value="" readonly>
-                </div>
                 <div class="col-2">
                   <label>Main</label>
                   <select class="form-control" name="own_main[]">
@@ -242,10 +234,6 @@
                 <div class="col-2">
                   <label>User</label>
                   <input class="form-control" name="user[]" type="text" placeholder="7213">
-                </div>
-                <div class="col-4">
-                  <label>Department</label>
-                  <input class="form-control" type="text" value="" readonly>
                 </div>
                 <div class="col-2">
                   <label>Main</label>

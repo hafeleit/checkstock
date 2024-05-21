@@ -67,7 +67,8 @@ class ITAssetController extends Controller
     public function show(ITAsset $itasset)
     {
         $itassetspec = ITAssetSpec::where('computer_name',$itasset->computer_name)->first();
-        $itassetown = ITAssetOwn::where('computer_name',$itasset->computer_name)->get();
+        $itassetown = ITAssetOwn::where('computer_name',$itasset->computer_name)->leftJoin('user_masters','i_t_asset_owns.user','=','user_masters.job_code')->get();
+
         return view('pages.itasset.show',compact('itasset','itassetspec','itassetown'));
     }
 

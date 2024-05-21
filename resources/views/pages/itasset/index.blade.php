@@ -30,7 +30,8 @@
             <div class="ms-auto my-auto mt-lg-0 mt-4">
               <div class="ms-auto my-auto">
                 <a href="{{ route('itasset.create') }}" class="btn bg-gradient-primary btn-sm mb-0" target="_blank">+&nbsp; New Asset</a>
-                <button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import"> Import </button>
+                <!--<button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import"> Import </button>-->
+
                 <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">
                   <div class="modal-dialog mt-lg-10">
                     <div class="modal-content">
@@ -39,21 +40,22 @@
                         <i class="fas fa-upload ms-3" aria-hidden="true"></i>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
+                      <form action="{{ route('usermaster-import') }}" method="POST" enctype="multipart/form-data">
+                      @csrf
                       <div class="modal-body">
                         <p>You can browse your computer for a file.</p>
-                        <input type="file" placeholder="Browse file..." class="form-control mb-3" onfocus="focused(this)" onfocusout="defocused(this)">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="importCheck" checked="">
-                          <label class="custom-control-label" for="importCheck">I accept the terms and conditions</label>
-                        </div>
+                        <input type="file" placeholder="Browse file..." class="form-control mb-3" name="file">
+
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn bg-gradient-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn bg-gradient-primary btn-sm">Upload</button>
+                        <button type="submit" class="btn bg-gradient-primary btn-sm">Upload</button>
                       </div>
+                      </form>
                     </div>
                   </div>
                 </div>
+
                 <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv" type="button" name="button">Export</button>
               </div>
             </div>
@@ -112,13 +114,13 @@
                         <div class="d-flex">
                           @switch($itasset->type)
                             @case('NOTEBOOK')
-                              <img class="w-10 ms-3" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="hoodie">
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="hoodie">
                             @break
                             @case('PRINTER')
-                              <img class="w-10 ms-3" src="{{ URL::to('/') }}/img/itasset/printer-fuji.jpg" alt="hoodie">
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/printer-fuji.jpg" alt="hoodie">
                             @break
                             @case('PC')
-                              <img class="w-10 ms-3" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="hoodie">
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="hoodie">
                             @break
                             @default
                               <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
