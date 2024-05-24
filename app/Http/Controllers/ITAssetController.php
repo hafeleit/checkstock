@@ -109,11 +109,16 @@ class ITAssetController extends Controller
       $itasset->update($request->all());
 
       //update spec
-      ITAssetSpec::where('computer_name', $request->computer_name)->update([
-        'cpu' => $request->cpu,
-        'ram' => $request->ram,
-        'storage' => $request->storage
-      ]);
+      ITAssetSpec::updateOrCreate(
+          [
+            'computer_name' => $request->computer_name,
+          ],
+          [
+            'cpu' => $request->cpu,
+            'ram' => $request->ram,
+            'storage' => $request->storage,
+          ]
+      );
 
       //delete and new insert owner computer
       ITAssetOwn::where('computer_name', $request->computer_name)->delete();
