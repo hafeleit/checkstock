@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use Carbon\Carbon;
+use App\Exports\ITAssetExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ITAssetController extends Controller
 {
@@ -28,6 +30,11 @@ class ITAssetController extends Controller
         //dd($itassets[0]->id);
 
         return view('pages.itasset.index',compact('itassets'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new ITAssetExport, 'ITAsset.xlsx');
     }
 
     /**

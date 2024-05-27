@@ -89,6 +89,7 @@ use App\Http\Controllers\UserMasterController;
 Route::group(['middleware' => 'auth'], function () {
 
   Route::post('usermaster-import', [UserMasterController::class,'import'])->name('usermaster-import');
+  Route::get('itasset-export', [ITAssetController::class,'export'])->name('itasset-export');
   Route::resource('itasset', ITAssetController::class);
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');

@@ -56,7 +56,7 @@
                   </div>
                 </div>
 
-                <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv" type="button" name="button">Export</button>
+                <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" href="{{ route('itasset-export') }}">Export</a>
               </div>
             </div>
           </div>
