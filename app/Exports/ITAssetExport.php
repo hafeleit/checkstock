@@ -13,13 +13,18 @@ class ITAssetExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return ITAsset::all();
+        $res = ITAsset::leftJoin('i_t_asset_owns','i_t_assets.computer_name','i_t_asset_owns.computer_name')
+                          ->leftJoin('user_masters','i_t_asset_owns.user','user_masters.job_code')
+                          ->select('i_t_assets.*','user_masters.job_code','user_masters.name_en','user_masters.dept')
+                          ->get();
+
+        return $res;
     }
 
     public function headings(): array
     {
         return [
-            "id", 
+            "id",
             "computer_name",
             "serial_number",
             "type",
@@ -34,6 +39,9 @@ class ITAssetExport implements FromCollection, WithHeadings
             "delete",
             "created_at",
             "updated_at",
+            "job_code",
+            "user_name",
+            "dept",
           ];
     }
 }
