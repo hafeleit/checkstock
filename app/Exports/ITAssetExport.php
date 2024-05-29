@@ -15,7 +15,7 @@ class ITAssetExport implements FromCollection, WithHeadings
     {
         $res = ITAsset::leftJoin('i_t_asset_owns','i_t_assets.computer_name','i_t_asset_owns.computer_name')
                           ->leftJoin('user_masters','i_t_asset_owns.user','user_masters.job_code')
-                          ->select('i_t_assets.*','user_masters.job_code','user_masters.name_en','user_masters.dept')
+                          ->select('i_t_assets.*','i_t_asset_owns.user','user_masters.name_en','user_masters.dept')
                           ->groupBy('i_t_assets.computer_name')
                           ->get();
 
