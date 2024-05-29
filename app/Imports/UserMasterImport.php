@@ -34,7 +34,7 @@ class UserMasterImport implements ToModel, WithStartRow, WithMultipleSheets
             'job_code' => $row[1] ?? '',
             'name_en' => $row[2] ?? '',
             'name_th' => $row[3] ?? '',
-            'dept' => $row[4] ?? '',
+            'dept' => $row[5] ?? '',
             'position' => $row[6] ?? '',
             'location' => $row[10] ?? '',
             'email' => $row[13] ?? '',
