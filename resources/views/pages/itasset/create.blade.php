@@ -102,7 +102,7 @@
                   <select class="form-control" name="warranty">
                     <option value="1 Years">1 Years</option>
                     <option value="2 Years">2 Years</option>
-                    <option value="3 Years">3 Years</option>
+                    <option value="3 Years" selected>3 Years</option>
                     <option value="4 Years">4 Years</option>
                     <option value="5 Years">5 Years</option>
                   </select>
@@ -124,7 +124,7 @@
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                   <label class="mt-4">Location</label>
                   <select class="form-control" name="location">
-
+                    <option value=""></option>
                     <option value="HTH Chiangmai Showroom">HTH Chiangmai Showroom</option>
                     <option value="HTH Huahin Showroom">HTH Huahin Showroom</option>
                     <option value="HTH Pattaya Showroom">HTH Pattaya Showroom</option>
@@ -163,7 +163,7 @@
                     <option value="HTHDC_Pool Function">HTHDC_Pool Function</option>
                     <option value="HTHDC_Product Return">HTHDC_Product Return</option>
                     <option value="HTHDC_Workshop">HTHDC_Workshop</option>
-                    <option value="HTHDC-Maintenance">HTHDC-Maintenance</option>
+                    <option value="HTHDC_Maintenance">HTHDC_Maintenance</option>
 
                   </select>
                 </div>

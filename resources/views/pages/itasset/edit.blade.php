@@ -175,8 +175,8 @@
                     <option value="HTHDC_Pool Function" {{ $itasset->location == 'HTHDC_Pool Function' ? 'selected' : '' }}>HTHDC_Pool Function</option>
                     <option value="HTHDC_Product Return" {{ $itasset->location == 'HTHDC_Product Return' ? 'selected' : '' }}>HTHDC_Product Return</option>
                     <option value="HTHDC_Workshop" {{ $itasset->location == 'HTHDC_Workshop' ? 'selected' : '' }}>HTHDC_Workshop</option>
-                    <option value="HTHDC-Maintenance" {{ $itasset->location == 'HTHDC-Maintenance' ? 'selected' : '' }}>HTHDC-Maintenance</option>
-
+                    <option value="HTHDC-Maintenance" {{ $itasset->location == 'HTHDC_Maintenance' ? 'selected' : '' }}>HTHDC_Maintenance</option>
+                    <option value=""></option>
                   </select>
                 </div>
               </div>
