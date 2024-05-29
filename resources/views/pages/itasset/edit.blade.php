@@ -137,7 +137,6 @@
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                   <label class="mt-4">Location</label>
                   <select class="form-control" name="location">
-                    <option value="HTH 64" {{ $itasset->location == 'HTH 64' ? 'selected' : '' }}>HTH 64</option>
                     <option value="HTH Chiangmai Showroom" {{ $itasset->location == 'HTH Chiangmai Showroom' ? 'selected' : '' }}>HTH Chiangmai Showroom</option>
                     <option value="HTH Huahin Showroom" {{ $itasset->location == 'HTH Huahin Showroom' ? 'selected' : '' }}>HTH Huahin Showroom</option>
                     <option value="HTH Pattaya Showroom" {{ $itasset->location == 'HTH Pattaya Showroom' ? 'selected' : '' }}>HTH Pattaya Showroom</option>

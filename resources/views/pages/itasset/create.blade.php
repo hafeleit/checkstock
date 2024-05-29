@@ -125,7 +125,6 @@
                   <label class="mt-4">Location</label>
                   <select class="form-control" name="location">
 
-                    <option value="HTH 64">HTH 64</option>
                     <option value="HTH Chiangmai Showroom">HTH Chiangmai Showroom</option>
                     <option value="HTH Huahin Showroom">HTH Huahin Showroom</option>
                     <option value="HTH Pattaya Showroom">HTH Pattaya Showroom</option>
