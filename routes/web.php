@@ -31,6 +31,7 @@ use App\Http\Controllers\SoStatusController;
 use App\Http\Controllers\SalesUSIController;
 use App\Http\Controllers\ITAssetController;
 use App\Http\Controllers\UserMasterController;
+use App\Http\Controllers\OrderController;
 
   Route::get('/', function () {return redirect('/products');});
 
@@ -91,6 +92,8 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('usermaster-import', [UserMasterController::class,'import'])->name('usermaster-import');
   Route::get('itasset-export', [ITAssetController::class,'export'])->name('itasset-export');
   Route::resource('itasset', ITAssetController::class);
+  Route::resource('onlineorder', OrderController::class);
+  Route::get('onlineorder/download/{file}', [OrderController::class,'download'])->name('onlineorder-download');
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');

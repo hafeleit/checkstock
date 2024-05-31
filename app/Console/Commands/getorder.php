@@ -85,6 +85,7 @@ class getorder extends Command
           $insert_order[] = [
             'order_number' => $order->number,
             'filename' => $file_name,
+            'created_at' => date('Y-m-d H:i:s'),
           ];
           $list_cnt = count($order->list) + 1;
           for ($i=0; $i < $list_cnt; $i++) {

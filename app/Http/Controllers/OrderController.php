@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use File;
 
 class OrderController extends Controller
 {
@@ -12,7 +13,25 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+      $orders = Order::orderBy('id','desc')->limit(20)->get();
+
+      return view('pages.onlineorder.index',compact('orders'));
+    }
+
+    public function download($file){
+      //dd($file);
+      $res = $this->file_fetch($file);
+      return "NO such File Exists";
+      //return response()->download(storage_path('app/export/orders/'.$file));
+   }
+
+   public function file_fetch($file) {
+
+        $destinationPath = storage_path('app/export/orders/'.$file);
+
+        if(!File::exists($destinationPath) && !is_dir($destinationPath)){
+
+        }
     }
 
     /**
