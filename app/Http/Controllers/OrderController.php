@@ -13,7 +13,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-      $orders = Order::orderBy('id','desc')->limit(20)->get();
+      $orders = Order::groupBy('filename')->orderBy('id','desc')->limit(20)->get();
 
       return view('pages.onlineorder.index',compact('orders'));
     }
