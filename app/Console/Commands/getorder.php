@@ -342,7 +342,7 @@ class getorder extends Command
       $data_export[] = $header;
       $data_export[] = $data_excel;
       $export = new ExportOrders($data_export);
-      $file_name = date('dmy')."_".date('His').".xls";
+      $file_name = date('dmy')."_".date('His').".xlsx";
       return Excel::store($export, $file_name, 'path_export');
 
     }
