@@ -19,18 +19,25 @@ class OrderController extends Controller
     }
 
     public function download($file){
-      //dd($file);
+
       $res = $this->file_fetch($file);
-      return "NO such File Exists";
-      //return response()->download(storage_path('app/export/orders/'.$file));
+    	if($res){
+    		return response()->download(storage_path('app/export/orders/'.$file));
+    	}else{
+    		return "NO such File Exists";
+    	}
+      
    }
+
 
    public function file_fetch($file) {
 
         $destinationPath = storage_path('app/export/orders/'.$file);
 
         if(!File::exists($destinationPath) && !is_dir($destinationPath)){
-
+          return false;
+        }else{
+          return true;
         }
     }
 
