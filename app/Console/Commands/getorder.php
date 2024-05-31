@@ -79,7 +79,7 @@ class getorder extends Command
         }
         $new_order_count = count($new_order);
         $l = 0;
-        $file_name = date('dmy')."_".date('His').".xls";
+        $file_name = date('dmy')."_".date('His').".xlsx";
 
         foreach ($new_order as $key2 => $order) {
           $insert_order[] = [
