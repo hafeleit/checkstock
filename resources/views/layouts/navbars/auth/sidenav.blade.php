@@ -28,6 +28,7 @@
                     <span class="nav-link-text ms-1">Profile</span>
                 </a>
             </li>
+            @if(Auth::user()->username == '7231' || Auth::user()->username == 'admin' )
             <li class="nav-item ">
               <a class="nav-link {{ substr(Route::currentRouteName(),0,7) == 'itasset' ? 'active' : '' }}" data-bs-toggle="collapse" aria-expanded="{{ substr(Route::currentRouteName(),0,7) == 'itasset' ? 'true' : 'false' }}" href="#productsExample">
                 <div
@@ -53,6 +54,7 @@
                 </ul>
               </div>
             </li>
+            @endif
             <li class="nav-item">
                 <a class="nav-link {{ str_contains(request()->url(), 'user-management') == true ? 'active' : '' }}" href="{{ route('user-management') }}">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -76,7 +78,7 @@
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-basket text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Online Order</span>
+                    <span class="nav-link-text ms-1">Online Order </span>
                 </a>
             </li>
             <?php /*<li class="nav-item">
