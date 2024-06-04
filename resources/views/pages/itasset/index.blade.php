@@ -75,7 +75,7 @@
                         <a href="#" class="">COMPUTER NAME</a>
                       </th>
                       <th >
-                        <a href="#" class="">USER</a>
+                        <a href="#" class="">CURRENT USER</a>
                       </th>
                       <th >
                         <a href="#" class="">OLD USER</a>
