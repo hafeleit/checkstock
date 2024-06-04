@@ -196,7 +196,7 @@
       </div>
 
       <div class="row mt-4">
-        <div class="col-sm-4">
+        <div class="col-sm-2">
           <div class="card">
             <div class="card-body">
               <h5 class="font-weight-bolder">Spec</h5>
@@ -210,7 +210,7 @@
           </div>
         </div>
 
-        <div class="col-sm-8 mt-sm-0 mt-4">
+        <div class="col-sm-6 mt-sm-0 mt-4">
           <div class="card">
             <div class="card-body">
 
@@ -266,34 +266,59 @@
             </div>
           </div>
 
-          <!-- delete modal -->
-          <div class="row mt-3">
-            <div class="col-12 text-end">
-                <button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import"> Delete </button>
-                <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">
-                  <div class="modal-dialog mt-lg-10">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="ModalLabel">Delete</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <form action="{{ route('itasset.destroy',$itasset->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                      <div class="modal-body text-start">
-                          <p>Are you sure you want to delete this item?</p>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-sm bg-gradient-secondary " data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-sm bg-gradient-danger" name="button">Confirm</button>
-                      </div>
-                      </form>
-                    </div>
-                  </div>
+
+
+        </div>
+
+        <div class="col-sm-4 mt-sm-0 mt-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <h5 class="font-weight-bolder">Old Owner</h5>
+                <div class="col-3">
+                  <label>User</label>
+                  <input class="form-control" name="old_user" type="text" placeholder="7213" value="{{$itasset->old_user}}">
                 </div>
+                <div class="col-4">
+                  <label>Name</label>
+                  <input class="form-control" name="old_name" type="text" value="{{$itasset->old_name}}">
+                </div>
+                <div class="col-5">
+                  <label>Department</label>
+                  <input class="form-control" name="old_department" type="text" value="{{$itasset->old_department}}">
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
+      </div>
+
+      <!-- delete modal -->
+      <div class="row mt-3">
+        <div class="col-12 text-end">
+            <button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import"> Delete </button>
+            <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog mt-lg-10">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel">Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form action="{{ route('itasset.destroy',$itasset->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                  <div class="modal-body text-start">
+                      <p>Are you sure you want to delete this item?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-sm bg-gradient-secondary " data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-sm bg-gradient-danger" name="button">Confirm</button>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
 

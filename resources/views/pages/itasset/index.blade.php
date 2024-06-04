@@ -75,20 +75,18 @@
                         <a href="#" class="">COMPUTER NAME</a>
                       </th>
                       <th >
-                        <a href="#" class="">JOB CODE</a>
+                        <a href="#" class="">USER</a>
                       </th>
                       <th >
-                        <a href="#" class="">USER</a>
+                        <a href="#" class="">OLD USER</a>
                       </th>
                       <th >
                         <a href="#" class="">SERIAL NUMBER</a>
                       </th>
                       <th >
-                        <a href="#" class="">TYPE</a>
-                      </th>
-                      <th >
                         <a href="#" class="">FIX ASSET NO.</a>
                       </th>
+                      <!--
                       <th >
                         <a href="#" class="">PURCHASE DATE</a>
                       </th>
@@ -97,7 +95,7 @@
                       </th>
                       <th >
                         <a href="#" class="">EXPIRE DATE</a>
-                      </th>
+                      </th>-->
                       <th >
                         <a href="#" class="">STATUS</a>
                       </th>
@@ -128,19 +126,18 @@
                           <a href="{{ route('itasset.show',$itasset->id) }}"><h6 class="ms-3 my-auto">{{$itasset->computer_name}}</h6></a>
                         </div>
                       </td>
-                      <td class="text-sm">{{$itasset->user}}</td>
-                      <td class="text-sm">{{$itasset->name_en}}</td>
+                      <td class="text-sm">{{$itasset->user . ' ' .$itasset->name_en}}</td>
+                      <td class="text-sm">{{$itasset->old_user . ' ' .$itasset->old_name}}</td>
                       <td class="text-sm">{{$itasset->serial_number}}</td>
-                      <td class="text-sm">{{$itasset->type}}</td>
                       <td class="text-sm">{{$itasset->fixed_asset_no}}</td>
-                      <td class="text-sm">{{$itasset->purchase_date }}</td>
+                      <!--<td class="text-sm">{{$itasset->purchase_date }}</td>
                       <td class="text-sm">{{$itasset->warranty}}</td>
                       <td class="text-sm">
                           <?php
                             $wrt = '+' .substr($itasset->warranty,0,1).' year';
                             echo date('Y-m-d', strtotime($wrt, strtotime($itasset->purchase_date)));
                           ?>
-                        </td>
+                        </td>-->
                       <td>
                         @if($itasset->status == 'ACTIVE')
                         <span class="badge badge-success badge-sm">{{$itasset->status}}</span>

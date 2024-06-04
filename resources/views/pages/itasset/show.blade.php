@@ -156,7 +156,7 @@
       </div>
 
       <div class="row mt-4">
-        <div class="col-sm-4">
+        <div class="col-sm-2">
           <div class="card">
             <div class="card-body">
               <h5 class="font-weight-bolder">Spec</h5>
@@ -177,7 +177,7 @@
           </div>
         </div>
 
-        <div class="col-sm-8 mt-sm-0 mt-4">
+        <div class="col-sm-6 mt-sm-0 mt-4">
           <div class="card">
             <div class="card-body">
               <div class="row">
@@ -259,10 +259,38 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
+
+        <div class="col-sm-4 mt-sm-0 mt-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <h5 class="font-weight-bolder">Old Owner</h5>
+                <div class="col-3">
+                  <p class="mt-3">User</p>
+                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itasset->old_user ?? 'n/a' }}</p>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <p class="mt-3">Name</p>
+                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itasset->old_name ?? 'n/a' }}</p>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <p class="mt-3">Department</p>
+                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itasset->old_department ?? 'n/a' }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 

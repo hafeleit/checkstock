@@ -184,7 +184,7 @@
       </div>
 
       <div class="row mt-4">
-        <div class="col-sm-4">
+        <div class="col-sm-2">
           <div class="card">
             <div class="card-body">
               <h5 class="font-weight-bolder">Spec</h5>
@@ -198,7 +198,7 @@
           </div>
         </div>
 
-        <div class="col-sm-8 mt-sm-0 mt-4">
+        <div class="col-sm-6 mt-sm-0 mt-4">
           <div class="card">
             <div class="card-body">
 
@@ -246,6 +246,29 @@
             </div>
           </div>
         </div>
+
+        <div class="col-sm-4 mt-sm-0 mt-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <h5 class="font-weight-bolder">Old Owner</h5>
+                <div class="col-3">
+                  <label>User</label>
+                  <input class="form-control" name="old_user" type="text" placeholder="7213">
+                </div>
+                <div class="col-4">
+                  <label>Name</label>
+                  <input class="form-control" name="old_name" type="text" placeholder="">
+                </div>
+                <div class="col-5">
+                  <label>Department</label>
+                  <input class="form-control" name="old_department" type="text" placeholder="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
       </form>
     </div>

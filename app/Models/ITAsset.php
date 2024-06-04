@@ -20,6 +20,9 @@ class ITAsset extends Model
       'warranty',
       'expire_date',
       'status',
+      'old_user',
+      'old_name',
+      'old_department',
       'location',
       'create_by',
     ];

@@ -19,13 +19,18 @@
             </div>
             <ul class="navbar-nav  justify-content-end">
                 <li class="nav-item d-flex align-items-center">
+                    <a href="#" class="nav-link text-white font-weight-bold px-0">
+                        <i class="fa fa-user me-sm-1"></i>
+                        <span class="d-sm-inline d-none">{{ auth()->user()->username }}</span>
+                    </a>
+                </li>
+                <li class="nav-item d-flex align-items-center ps-3">
                     <form role="form" method="post" action="{{ route('logout') }}" id="logout-form">
                         @csrf
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                             class="nav-link text-white font-weight-bold px-0">
-                            <i class="fa fa-user me-sm-1"></i>
-                            <span class="d-sm-inline d-none">Log out</span>
+                            <i class="fa fa-sign-out me-sm-1"></i>
                         </a>
                     </form>
                 </li>
@@ -38,7 +43,7 @@
                         </div>
                     </a>
                 </li>
-                <li class="nav-item px-3 d-flex align-items-center">
+                <!--<li class="nav-item px-3 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white p-0">
                         <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
                     </a>
@@ -126,6 +131,7 @@
                         </li>
                     </ul>
                 </li>
+              -->
             </ul>
         </div>
     </div>
