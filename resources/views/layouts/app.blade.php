@@ -7,7 +7,7 @@
 <link rel="apple-touch-icon" sizes="76x76" href="/img/hafele_logo.png">
 <link rel="icon" type="image/png" href="/img/hafele_logo.png">
 <title>
-        Hafele Application
+        HAFELE APPLICATION
 </title>
 <!--     Fonts and icons     -->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />

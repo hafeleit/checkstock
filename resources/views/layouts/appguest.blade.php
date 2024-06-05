@@ -23,7 +23,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
-<body class="{{ $class ?? '' }}">
+<body class="{{ $class ?? '' }} g-sidenav-hidden">
     @guest
         @if (in_array(request()->route()->getName(), ['products.index','so-status.index','so-status.show','sales-usi.index']))
         <div class="position-absolute w-100 min-height-600 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
