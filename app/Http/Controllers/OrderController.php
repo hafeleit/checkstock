@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use File;
+use DB;
 
 class OrderController extends Controller
 {
@@ -13,7 +14,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-      $orders = Order::groupBy('filename')->orderBy('id','desc')->limit(20)->get();
+      $orders = Order::groupBy('filename')->orderBy('id','desc')->select(DB::raw("orders.*, COUNT(orders.filename) AS cnt"))->limit(20)->get();
 
       return view('pages.onlineorder.index',compact('orders'));
     }
@@ -26,7 +27,7 @@ class OrderController extends Controller
     	}else{
     		return "NO such File Exists";
     	}
-      
+
    }
 
 

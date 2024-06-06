@@ -32,11 +32,15 @@
                   <thead class="thead-light">
                     <tr>
                       <th >
+                        <a href="#" class="">Orders count</a>
+                      </th>
+                      <th >
                         <a href="#" class="">Date Time</a>
                       </th>
                       <th >
                         <a href="#" class="">File name</a>
                       </th>
+
                       <th >
                         <a href="#" class="">ACTION</a>
                       </th>
@@ -45,7 +49,7 @@
                   <tbody>
                     @foreach ($orders as $order)
                     <tr>
-
+                      <td class="text-sm">{{$order->cnt}}</td>
                       <td class="text-sm">{{$order->created_at}}</td>
                       <td class="text-sm">{{$order->filename}}</td>
 
