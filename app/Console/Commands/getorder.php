@@ -101,7 +101,7 @@ class getorder extends Command
             $data_excel[$l][] = $order->customername ?? '';
             $data_excel[$l][] = $order->shippingaddress ?? '';
             $data_excel[$l][] = '';
-            $data_excel[$l][] = $order->customername ?? '';
+            $data_excel[$l][] = $order->shippingname ?? '';
             $data_excel[$l][] = '157019-101';
             $data_excel[$l][] = $order->shippingaddress ?? '';
             $data_excel[$l][] = '';
@@ -132,7 +132,7 @@ class getorder extends Command
               $data_excel[$l][] = $rate.' '; //rate price
             }
             $data_excel[$l][] = 'WEB_CONSUMER';
-            $data_excel[$l][] = (string)'9999999999999';
+            $data_excel[$l][] = (string)'9999999999999';  //$order->customeridnumber
             $data_excel[$l][] = '00000';
             $data_excel[$l][] = '';
             $data_excel[$l][] = '200';
