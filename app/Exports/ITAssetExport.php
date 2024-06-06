@@ -17,6 +17,7 @@ class ITAssetExport implements FromCollection, WithHeadings
                           ->leftJoin('user_masters','i_t_asset_owns.user','user_masters.job_code')
                           ->select('i_t_assets.*','i_t_asset_owns.user','user_masters.name_en','user_masters.dept')
                           ->groupBy('i_t_assets.computer_name')
+                          ->where('i_t_assets.delete','0')
                           ->get();
 
         return $res;
