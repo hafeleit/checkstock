@@ -82,7 +82,7 @@
     $(document).ready(function () {
 
         $("#orders-list").DataTable({
-          order: [[0, 'desc']]
+          order: [[1, 'desc']]
         });
 
         $('.').addClass('dataTable-top');
