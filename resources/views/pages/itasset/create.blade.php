@@ -129,12 +129,13 @@
                     <option value="HTH Huahin Showroom">HTH Huahin Showroom</option>
                     <option value="HTH Pattaya Showroom">HTH Pattaya Showroom</option>
                     <option value="HTH Phuket Showroom">HTH Phuket Showroom</option>
+                    <option value="HTH Bangpho Showroom">HTH Bangpho Showroom</option>
+                    <option value="HTH64_Bangkok Showroom">HTH64_Bangkok Showroom</option>
                     <option value="HTH Warehouse Bangpho">HTH Warehouse Bangpho</option>
                     <option value="HTH Warehouse Chiangmai">HTH Warehouse Chiangmai</option>
                     <option value="HTH Warehouse Hunhin">HTH Warehouse Hunhin</option>
                     <option value="HTH Warehouse Pattaya">HTH Warehouse Pattaya</option>
                     <option value="HTH64_Admin">HTH64_Admin</option>
-                    <option value="HTH64_Bangkok Showroom">HTH64_Bangkok Showroom</option>
                     <option value="HTH64_BKK Warehouse">HTH64_BKK Warehouse</option>
                     <option value="HTH64_BROKEN">HTH64_BROKEN</option>
                     <option value="HTH64_Customer Services">HTH64_Customer Services</option>
