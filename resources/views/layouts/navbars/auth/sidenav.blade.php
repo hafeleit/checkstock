@@ -47,7 +47,7 @@
                   </li>
                   <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'itasset.index' ? 'active' : '' }}" href="{{ route('itasset.index') }}">
-                      <span class="sidenav-mini-icon text-xs"> P </span>
+                      <span class="sidenav-mini-icon text-xs"> A </span>
                       <span class="sidenav-normal"> Asset List </span>
                     </a>
                   </li>
