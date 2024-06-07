@@ -251,9 +251,9 @@ class getorder extends Command
               $data_excel[$l][] = '0121_BI';
             }elseif(Str::contains($shipchan, 'SPX')){
               $data_excel[$l][] = '0118_SHOPEE';
-            }elseif(Str::contains($shipchan, 'Standard delivery')){
+            }elseif(Str::contains($shipchan, 'STANDARD DELIVERY')){
               $data_excel[$l][] = 'OTHER';
-            }elseif(Str::contains($shipchan, 'Seller Own Fleet')){
+            }elseif(Str::contains($shipchan, 'SELLER OWN FLEET')){
               $data_excel[$l][] = 'OTHER';
             }else{
               $data_excel[$l][] = $order->shippingchannel;
