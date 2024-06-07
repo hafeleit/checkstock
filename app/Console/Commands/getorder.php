@@ -114,6 +114,8 @@ class getorder extends Command
             $data_excel[$l][] = 'N';
             if(strtoupper($order->saleschannel) == 'LAZADA'){
               $data_excel[$l][] = 'LEX';
+            }elseif(strtoupper($order->shippingchannel) == 'STANDARD DELIVERY'){
+              $data_excel[$l][] = 'NocNoc';
             }else{
               $data_excel[$l][] = $order->shippingchannel; // Annotation
             }
