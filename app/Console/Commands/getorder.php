@@ -225,6 +225,7 @@ class getorder extends Command
             if(strtoupper($order->saleschannel) == 'LAZADA'){
               $shipchan = 'LEX';
             }
+
             //Carrier code
             if(Str::contains($shipchan, 'KERRY')){
               $data_excel[$l][] = '0111_KER';
@@ -249,7 +250,9 @@ class getorder extends Command
             }elseif(Str::contains($shipchan, 'SPX')){
               $data_excel[$l][] = '0118_SHOPEE';
             }elseif(Str::contains($shipchan, 'Standard delivery')){
-              $data_excel[$l][] = '0119_DHL';
+              $data_excel[$l][] = 'OTHER';
+            }elseif(Str::contains($shipchan, 'Seller Own Fleet')){
+              $data_excel[$l][] = 'OTHER';
             }else{
               $data_excel[$l][] = $order->shippingchannel;
             }
