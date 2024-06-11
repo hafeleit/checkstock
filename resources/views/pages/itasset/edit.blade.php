@@ -147,6 +147,7 @@
                     <option value="HTH Warehouse Chiangmai" {{ $itasset->location == 'HTH Warehouse Chiangmai' ? 'selected' : '' }}>HTH Warehouse Chiangmai</option>
                     <option value="HTH Warehouse Hunhin" {{ $itasset->location == 'HTH Warehouse Hunhin' ? 'selected' : '' }}>HTH Warehouse Hunhin</option>
                     <option value="HTH Warehouse Pattaya" {{ $itasset->location == 'HTH Warehouse Pattaya' ? 'selected' : '' }}>HTH Warehouse Pattaya</option>
+                    <option value="HTH Warehouse Phuket" {{ $itasset->location == 'HTH Warehouse Phuket' ? 'selected' : '' }}>HTH Warehouse Phuket</option>
                     <option value="HTH64_Admin" {{ $itasset->location == 'HTH64_Admin' ? 'selected' : '' }}>HTH64_Admin</option>
                     <option value="HTH64_BKK Warehouse" {{ $itasset->location == 'HTH64_BKK Warehouse' ? 'selected' : '' }}>HTH64_BKK Warehouse</option>
                     <option value="HTH64_BROKEN" {{ $itasset->location == 'HTH64_BROKEN' ? 'selected' : '' }}>HTH64_BROKEN</option>
@@ -176,7 +177,8 @@
                     <option value="HTHDC_Pool Function" {{ $itasset->location == 'HTHDC_Pool Function' ? 'selected' : '' }}>HTHDC_Pool Function</option>
                     <option value="HTHDC_Product Return" {{ $itasset->location == 'HTHDC_Product Return' ? 'selected' : '' }}>HTHDC_Product Return</option>
                     <option value="HTHDC_Workshop" {{ $itasset->location == 'HTHDC_Workshop' ? 'selected' : '' }}>HTHDC_Workshop</option>
-                    <option value="HTHDC-Maintenance" {{ $itasset->location == 'HTHDC_Maintenance' ? 'selected' : '' }}>HTHDC_Maintenance</option>
+                    <option value="HTHDC_Maintenance" {{ $itasset->location == 'HTHDC_Maintenance' ? 'selected' : '' }}>HTHDC_Maintenance</option>
+                    <option value="HTHDC_E-Commerce Warehouse" {{ $itasset->location == 'HTHDC_E-Commerce Warehouse' ? 'selected' : '' }}>HTHDC_E-Commerce Warehouse</option>
                     <option value=""></option>
                   </select>
                 </div>

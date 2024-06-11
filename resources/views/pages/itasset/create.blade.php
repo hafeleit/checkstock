@@ -135,6 +135,7 @@
                     <option value="HTH Warehouse Chiangmai">HTH Warehouse Chiangmai</option>
                     <option value="HTH Warehouse Hunhin">HTH Warehouse Hunhin</option>
                     <option value="HTH Warehouse Pattaya">HTH Warehouse Pattaya</option>
+                    <option value="HTH Warehouse Phuket">HTH Warehouse Phuket</option>
                     <option value="HTH64_Admin">HTH64_Admin</option>
                     <option value="HTH64_BKK Warehouse">HTH64_BKK Warehouse</option>
                     <option value="HTH64_BROKEN">HTH64_BROKEN</option>
@@ -165,6 +166,7 @@
                     <option value="HTHDC_Product Return">HTHDC_Product Return</option>
                     <option value="HTHDC_Workshop">HTHDC_Workshop</option>
                     <option value="HTHDC_Maintenance">HTHDC_Maintenance</option>
+                    <option value="HTHDC_E-Commerce Warehouse">HTHDC_E-Commerce Warehouse</option>
 
                   </select>
                 </div>
