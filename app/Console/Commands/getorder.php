@@ -112,12 +112,13 @@ class getorder extends Command
             $data_excel[$l][] = 'EX WORKS';
             $data_excel[$l][] = 'BANGKOK';
             $data_excel[$l][] = 'N';
+            // Annotation
             if(strtoupper($order->saleschannel) == 'LAZADA'){
               $data_excel[$l][] = 'LEX';
             }elseif(strtoupper($order->shippingchannel) == 'STANDARD DELIVERY'){
               $data_excel[$l][] = 'NocNoc';
             }else{
-              $data_excel[$l][] = $order->shippingchannel; // Annotation
+              $data_excel[$l][] = $order->shippingchannel;
             }
             $data_excel[$l][] = ($i+1 == $list_cnt) ? '605' : $order->list[$i]->sku; //sku
             $data_excel[$l][] = '';
@@ -251,9 +252,9 @@ class getorder extends Command
               $data_excel[$l][] = '0121_BI';
             }elseif(Str::contains($shipchan, 'SPX')){
               $data_excel[$l][] = '0118_SHOPEE';
-            }elseif(Str::contains($shipchan, 'STANDARD DELIVERY')){
+            }elseif(strtoupper($order->shippingchannel) == 'STANDARD DELIVERY'){
               $data_excel[$l][] = 'OTHER';
-            }elseif(Str::contains($shipchan, 'SELLER OWN FLEET')){
+            }elseif(strtoupper($order->shippingchannel) == 'SELLER OWN FLEET'){
               $data_excel[$l][] = 'OTHER';
             }else{
               $data_excel[$l][] = $order->shippingchannel;
