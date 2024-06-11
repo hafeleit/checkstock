@@ -145,7 +145,12 @@ class ITAssetController extends Controller
      */
     public function destroy(ITAsset $itasset)
     {
-        ITAsset::where('id', $itasset->id)->update(['delete' => 1]);
-        return redirect()->route('itasset.index')->with('success','Asset deleted successfully');
+        //ITAsset::where('id', $itasset->id)->update(['delete' => 1]);
+        //return redirect()->route('itasset.index')->with('success','Asset deleted successfully');
+
+        $itasset->delete();
+
+        return redirect()->route('itasset.index')
+                        ->with('success','Asset deleted successfully');
     }
 }
