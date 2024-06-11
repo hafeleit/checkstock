@@ -163,7 +163,7 @@
                     <option value="HTH64_Purchase" {{ $itasset->location == 'HTH64_Purchase' ? 'selected' : '' }}>HTH64_Purchase</option>
                     <option value="HTH64_QA" {{ $itasset->location == 'HTH64_QA' ? 'selected' : '' }}>HTH64_QA</option>
                     <option value="HTH64_Sales" {{ $itasset->location == 'HTH64_Sales' ? 'selected' : '' }}>HTH64_Sales</option>
-                    <option value="HTH64_Site Management" {{ $itasset->location == 'HTH64_Site Management' ? 'selected' : '' }}>HTH64_Site Management</option>
+                    <option value="HTHDC_Site Management" {{ $itasset->location == 'HTHDC_Site Management' ? 'selected' : '' }}>HTHDC_Site Management</option>
                     <option value="HTH64_Smart Technology" {{ $itasset->location == 'HTH64_Smart Technology' ? 'selected' : '' }}>HTH64_Smart Technology</option>
                     <option value="HTH64_Spare" {{ $itasset->location == 'HTH64_Spare' ? 'selected' : '' }}>HTH64_Spare</option>
                     <option value="HTH64_Supply Chain" {{ $itasset->location == 'HTH64_Supply Chain' ? 'selected' : '' }}>HTH64_Supply Chain</option>
