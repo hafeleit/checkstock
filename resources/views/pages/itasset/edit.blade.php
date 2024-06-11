@@ -142,13 +142,13 @@
                     <option value="HTH Pattaya Showroom" {{ $itasset->location == 'HTH Pattaya Showroom' ? 'selected' : '' }}>HTH Pattaya Showroom</option>
                     <option value="HTH Phuket Showroom" {{ $itasset->location == 'HTH Phuket Showroom' ? 'selected' : '' }}>HTH Phuket Showroom</option>
                     <option value="HTH Bangpho Showroom" {{ $itasset->location == 'HTH Bangpho Showroom' ? 'selected' : '' }}>HTH Bangpho Showroom</option>
-                    <option value="HTH64_Bangkok Showroom" {{ $itasset->location == 'HTH64_Bangkok Showroom' ? 'selected' : '' }}>HTH64_Bangkok Showroom</option>
                     <option value="HTH Warehouse Bangpho" {{ $itasset->location == 'HTH Warehouse Bangpho' ? 'selected' : '' }}>HTH Warehouse Bangpho</option>
                     <option value="HTH Warehouse Chiangmai" {{ $itasset->location == 'HTH Warehouse Chiangmai' ? 'selected' : '' }}>HTH Warehouse Chiangmai</option>
                     <option value="HTH Warehouse Hunhin" {{ $itasset->location == 'HTH Warehouse Hunhin' ? 'selected' : '' }}>HTH Warehouse Hunhin</option>
                     <option value="HTH Warehouse Pattaya" {{ $itasset->location == 'HTH Warehouse Pattaya' ? 'selected' : '' }}>HTH Warehouse Pattaya</option>
                     <option value="HTH Warehouse Phuket" {{ $itasset->location == 'HTH Warehouse Phuket' ? 'selected' : '' }}>HTH Warehouse Phuket</option>
                     <option value="HTH64_Admin" {{ $itasset->location == 'HTH64_Admin' ? 'selected' : '' }}>HTH64_Admin</option>
+                    <option value="HTH64_Bangkok Showroom" {{ $itasset->location == 'HTH64_Bangkok Showroom' ? 'selected' : '' }}>HTH64_Bangkok Showroom</option>
                     <option value="HTH64_BKK Warehouse" {{ $itasset->location == 'HTH64_BKK Warehouse' ? 'selected' : '' }}>HTH64_BKK Warehouse</option>
                     <option value="HTH64_BROKEN" {{ $itasset->location == 'HTH64_BROKEN' ? 'selected' : '' }}>HTH64_BROKEN</option>
                     <option value="HTH64_Customer Services" {{ $itasset->location == 'HTH64_Customer Services' ? 'selected' : '' }}>HTH64_Customer Services</option>
