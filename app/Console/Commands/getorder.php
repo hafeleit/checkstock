@@ -88,6 +88,7 @@ class getorder extends Command
             'created_at' => date('Y-m-d H:i:s'),
           ];
           $list_cnt = count($order->list) + 1;
+
           for ($i=0; $i < $list_cnt; $i++) {
             $data_excel[$l][] = 'HTH';
             $data_excel[$l][] = date('d/m/y');
@@ -99,11 +100,11 @@ class getorder extends Command
             $data_excel[$l][] = '157019';
             $data_excel[$l][] = '157019-201';
             $data_excel[$l][] = $order->customername ?? '';
-            $data_excel[$l][] = $order->shippingaddress ?? '';
+            $data_excel[$l][] = $order->customeraddress ?? '';
             $data_excel[$l][] = '';
-            $data_excel[$l][] = $order->shippingname ?? '';
+            $data_excel[$l][] = $order->customername ?? '';
             $data_excel[$l][] = '157019-101';
-            $data_excel[$l][] = $order->shippingaddress ?? '';
+            $data_excel[$l][] = $order->customeraddress ?? '';
             $data_excel[$l][] = '';
             $data_excel[$l][] = 'THB';
             $data_excel[$l][] = date('d/m/y');
@@ -262,11 +263,14 @@ class getorder extends Command
 
             $data_excel[$l][] = '1';
             $data_excel[$l][] = $order->customerpostcode;
-            $data_excel[$l][] = '';
+            $data_excel[$l][] = $order->customeremail ?? '';
+            $data_excel[$l][] = $order->customeridnumber ?? '';
+            $data_excel[$l][] = $order->tag[0] ?? '';
 
             $l++;
           }
         }
+
 
         if(count($insert_order) > 0){
           Order::insert($insert_order);
@@ -343,7 +347,7 @@ class getorder extends Command
         'Shipment Mode','Sales Man','Delivery Terms','Inhouse Code','PartShip Y/N','Annotation','Item code',
         'Grade Code 1','Grade Code 2','Uom Code','Qty','Loose Qty','Rate','Price Code','Customer Tax Id',
         'Customer Branch Id','Form Code','Invoice Handling','Project Code','Discount Code','Discount Amount',
-        'Ship Phone','Bill Phone','Bank Code','Carrier Code','Priority','POST_CODE','SHIP_EMAIL_ID',
+        'Ship Phone','Bill Phone','Bank Code','Carrier Code','Priority','POST_CODE','SHIP_EMAIL_ID','Tax ID','Request INV.'
       ];
       $data_export[] = $header;
       $data_export[] = $data_excel;
