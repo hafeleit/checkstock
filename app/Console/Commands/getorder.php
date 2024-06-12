@@ -245,7 +245,7 @@ class getorder extends Command
             }elseif(Str::contains($shipchan, 'BI')){
               $data_excel[$l][] = '0121_BI';
             }elseif(Str::contains($shipchan, 'FLEET')){
-              $data_excel[$l][] = 'WH02_64';
+              $data_excel[$l][] = 'OTHER';
             }elseif(Str::contains($shipchan, 'FLASH')){
               $data_excel[$l][] = '0118_SHOPEE';
             }elseif(Str::contains($shipchan, 'IDEA')){
@@ -254,8 +254,8 @@ class getorder extends Command
               $data_excel[$l][] = '0118_SHOPEE';
             }elseif(strtoupper($order->shippingchannel) == 'STANDARD DELIVERY'){
               $data_excel[$l][] = 'OTHER';
-            }elseif(strtoupper($order->shippingchannel) == 'SELLER OWN FLEET'){
-              $data_excel[$l][] = 'OTHER';
+            //}elseif(strtoupper($order->shippingchannel) == 'SELLER OWN FLEET'){
+              //$data_excel[$l][] = 'OTHER';
             }else{
               $data_excel[$l][] = $order->shippingchannel;
             }
