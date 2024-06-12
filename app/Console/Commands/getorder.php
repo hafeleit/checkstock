@@ -266,6 +266,8 @@ class getorder extends Command
             $data_excel[$l][] = $order->customeremail ?? '';
             $data_excel[$l][] = $order->customeridnumber ?? '';
             $data_excel[$l][] = $order->tag[0] ?? '';
+            $data_excel[$l][] = $order->customerbrancename ?? '';
+            $data_excel[$l][] = $order->customerbranceno ?? '';
 
             $l++;
           }
@@ -347,7 +349,8 @@ class getorder extends Command
         'Shipment Mode','Sales Man','Delivery Terms','Inhouse Code','PartShip Y/N','Annotation','Item code',
         'Grade Code 1','Grade Code 2','Uom Code','Qty','Loose Qty','Rate','Price Code','Customer Tax Id',
         'Customer Branch Id','Form Code','Invoice Handling','Project Code','Discount Code','Discount Amount',
-        'Ship Phone','Bill Phone','Bank Code','Carrier Code','Priority','POST_CODE','SHIP_EMAIL_ID','Tax ID','Request INV.'
+        'Ship Phone','Bill Phone','Bank Code','Carrier Code','Priority','POST_CODE','SHIP_EMAIL_ID',
+        'Tax ID','Request INV.','Brance Name','Brance No.'
       ];
       $data_export[] = $header;
       $data_export[] = $data_excel;
