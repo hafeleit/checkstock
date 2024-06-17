@@ -28,7 +28,10 @@
                     <span class="nav-link-text ms-1">Profile</span>
                 </a>
             </li>
-            @if(Auth::user()->username == '7231' || Auth::user()->username == 'admin' )
+            <?php
+              $itsupport = ['admin', '7231', '7232', '7233', '7230'];
+             ?>
+            @if(in_array(Auth::user()->username,$itsupport))
             <li class="nav-item ">
               <a class="nav-link {{ substr(Route::currentRouteName(),0,7) == 'itasset' ? 'active' : '' }}" data-bs-toggle="collapse" aria-expanded="{{ substr(Route::currentRouteName(),0,7) == 'itasset' ? 'true' : 'false' }}" href="#productsExample">
                 <div
