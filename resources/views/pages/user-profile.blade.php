@@ -133,8 +133,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="d-flex align-items-center">
+                                    <a href="{{ route('change-password')}}" type="button" class="btn btn-dark btn-sm ms-auto">Change Password</a>
+                                </div>
+                            </div>
                         </div>
-                    </form>
+
                 </div>
             </div>
             <div class="col-md-4">
