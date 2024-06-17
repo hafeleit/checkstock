@@ -150,6 +150,20 @@
                   </div>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-12 col-sm-6">
+                  <p class="mt-3">Update By</p>
+                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{$itasset->update_by ?? 'n/a'}}</p>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 mt-sm-0">
+                  <p class="mt-3">Update Date</p>
+                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{$itasset->updated_at ?? 'n/a'}}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

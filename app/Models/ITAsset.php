@@ -25,5 +25,6 @@ class ITAsset extends Model
       'old_department',
       'location',
       'create_by',
+      'update_by',
     ];
 }

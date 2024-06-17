@@ -112,7 +112,10 @@ class ITAssetController extends Controller
           'status' => 'required',
       ]);
 
+      $user = Auth::user();
       $request['updated_at'] = date('Y-m-d H:i:s');
+      $request['update_by'] = $user->username;
+
       $itasset->update($request->all());
 
       //update spec
