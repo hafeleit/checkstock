@@ -99,12 +99,12 @@ class getorder extends Command
             $data_excel[$l][] = '1';
             $data_excel[$l][] = '157019';
             $data_excel[$l][] = '157019-201';
-            $data_excel[$l][] = $order->customername ?? '';
-            $data_excel[$l][] = $order->customeraddress ?? '';
+            $data_excel[$l][] = $order->customername ?? $order->shippingname;
+            $data_excel[$l][] = $order->customeraddress ?? $order->shippingaddress;
             $data_excel[$l][] = '';
-            $data_excel[$l][] = $order->customername ?? '';
+            $data_excel[$l][] = $order->customername ?? $order->shippingname;
             $data_excel[$l][] = '157019-101';
-            $data_excel[$l][] = $order->customeraddress ?? '';
+            $data_excel[$l][] = $order->customeraddress ?? $order->shippingaddress;
             $data_excel[$l][] = '';
             $data_excel[$l][] = 'THB';
             $data_excel[$l][] = date('d/m/y');
@@ -262,7 +262,7 @@ class getorder extends Command
             }
 
             $data_excel[$l][] = '1';
-            $data_excel[$l][] = $order->customerpostcode;
+            $data_excel[$l][] = $order->customerpostcode ?? $order->shippingpostcode;
             $data_excel[$l][] = $order->customeremail ?? '';
             $data_excel[$l][] = $order->customeridnumber ?? '';
             $data_excel[$l][] = $order->tag[0] ?? '';
