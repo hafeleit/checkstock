@@ -99,8 +99,8 @@ class getorder extends Command
             $data_excel[$l][] = '1';
             $data_excel[$l][] = '157019';
             $data_excel[$l][] = '157019-201';
-            $data_excel[$l][] = $order->customername ?? $order->shippingname;
-            $data_excel[$l][] = $order->customeraddress ?? $order->shippingaddress;
+            $data_excel[$l][] = $order->shippingname;
+            $data_excel[$l][] = $order->shippingaddress;
             $data_excel[$l][] = '';
             $data_excel[$l][] = $order->customername ?? $order->shippingname;
             $data_excel[$l][] = '157019-101';
