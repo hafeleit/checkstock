@@ -29,8 +29,7 @@
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
               <div class="ms-auto my-auto">
-                <a href="{{ route('onlineorder-manual-get') }}" class="btn bg-gradient-primary btn-sm mb-0" >Get Order</a>
-
+                <a href="{{ route('onlineorder-manual-get') }}" id="get_order" class="btn bg-gradient-primary btn-sm mb-0" >Get Order</a>
               </div>
             </div>
           </div>
@@ -97,6 +96,13 @@
         });
 
         $('.').addClass('dataTable-top');
+
+    });
+
+    $(function(){
+      $( "#get_order" ).on( "click", function() {
+        $(this).addClass('disabled');
+      } );
     });
 </script>
 
