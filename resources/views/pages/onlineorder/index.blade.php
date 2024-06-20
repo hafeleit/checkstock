@@ -18,9 +18,20 @@
 
       <div class="card">
         <div class="card-header pb-0">
+          @if (\Session::has('success'))
+              <div class="alert alert-success">
+                  Total orders: {!! \Session::get('success') !!}
+              </div>
+          @endif
           <div class="d-lg-flex">
             <div>
               <h5 class="mb-0">Online Orders</h5>
+            </div>
+            <div class="ms-auto my-auto mt-lg-0 mt-4">
+              <div class="ms-auto my-auto">
+                <a href="{{ route('onlineorder-manual-get') }}" class="btn bg-gradient-primary btn-sm mb-0" >Get Order</a>
+
+              </div>
             </div>
           </div>
         </div>

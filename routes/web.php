@@ -94,6 +94,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::resource('itasset', ITAssetController::class);
   Route::resource('onlineorder', OrderController::class);
   Route::get('onlineorder/download/{file}', [OrderController::class,'download'])->name('onlineorder-download');
+  Route::get('onlineorder-manual-get', [OrderController::class,'onlineorder_manual_get'])->name('onlineorder-manual-get');
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
