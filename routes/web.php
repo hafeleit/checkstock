@@ -32,6 +32,7 @@ use App\Http\Controllers\SalesUSIController;
 use App\Http\Controllers\ITAssetController;
 use App\Http\Controllers\UserMasterController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CheckStockController;
 
   Route::get('/', function () {return redirect('/products');});
 
@@ -93,6 +94,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('itasset-export', [ITAssetController::class,'export'])->name('itasset-export');
   Route::resource('itasset', ITAssetController::class);
   Route::resource('onlineorder', OrderController::class);
+  Route::resource('checkstock', CheckStockController::class);
   Route::get('onlineorder/download/{file}', [OrderController::class,'download'])->name('onlineorder-download');
   Route::get('onlineorder-manual-get', [OrderController::class,'onlineorder_manual_get'])->name('onlineorder-manual-get');
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
