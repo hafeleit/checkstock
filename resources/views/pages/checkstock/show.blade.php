@@ -188,36 +188,38 @@
                   <tbody>
                     @if(count($product_other) > 0)
                       @foreach($product_other as $product_item)
-                      <?php
-                        $image = '/storage/img/products/' . $product_item->ITEM_CODE . '.jpg';
-                        if (!file_exists( public_path() . $image )) {
-                          $image = "/storage/img/coming_soon.jpg";
-                        }
-                       ?>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{{ $image }}" class="avatar avatar-md me-3" alt="table image">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm"><a href="{{ route('checkstock.show',$product_item->id) }}">{{ $product_item->ITEM_NAME}}</a></h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-sm text-secondary mb-0">{{ $product_item->ITEM_CODE}}</p>
-                      </td>
-                      <td>
-                        <p class="text-sm text-secondary mb-0">{{ "฿".NUMBER_FORMAT($product_item->RATE, 2) ?? '' }}</p>
-                      </td>
-                      <td>
-                        <p class="text-sm text-secondary mb-0">{{ $product_item->ITEM_STATUS}}</p>
-                      </td>
-                      <td>
-                        <p class="text-sm text-secondary mb-0">{{ $product_item->ITEM_INVENTORY_CODE}}</p>
-                      </td>
-                    </tr>
+                        @if($product_item->ITEM_CODE != $product->ITEM_CODE)
+                          <?php
+                            $image = '/storage/img/products/' . $product_item->ITEM_CODE . '.jpg';
+                            if (!file_exists( public_path() . $image )) {
+                              $image = "/storage/img/coming_soon.jpg";
+                            }
+                           ?>
+                          <tr>
+                            <td>
+                              <div class="d-flex px-2 py-1">
+                                <div>
+                                  <img src="{{ $image }}" class="avatar avatar-md me-3" alt="table image">
+                                </div>
+                                <div class="d-flex flex-column justify-content-center">
+                                  <h6 class="mb-0 text-sm"><a href="{{ route('checkstock.show',$product_item->id) }}">{{ $product_item->ITEM_NAME}}</a></h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <p class="text-sm text-secondary mb-0">{{ $product_item->ITEM_CODE}}</p>
+                            </td>
+                            <td>
+                              <p class="text-sm text-secondary mb-0">{{ "฿".NUMBER_FORMAT($product_item->RATE, 2) ?? '' }}</p>
+                            </td>
+                            <td>
+                              <p class="text-sm text-secondary mb-0">{{ $product_item->ITEM_STATUS}}</p>
+                            </td>
+                            <td>
+                              <p class="text-sm text-secondary mb-0">{{ $product_item->ITEM_INVENTORY_CODE}}</p>
+                            </td>
+                          </tr>
+                        @endif
                       @endforeach
                     @endif
                   </tbody>
