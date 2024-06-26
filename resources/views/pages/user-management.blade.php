@@ -1,7 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'User Management'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'User Master'])
+    <style media="screen">
+      .dt-layout-row{
+        padding: 1.5rem;
+      }
+
+      .dt-layout-row.dt-layout-table{
+        padding: 0rem;
+      }
+    </style>
     <div class="row mt-4 mx-4">
         <div class="col-12">
 
@@ -9,7 +18,7 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                       <div>
-                        <h5 class="mb-0">User</h5>
+                        <h5 class="mb-0">User Master</h5>
                       </div>
                       <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
@@ -38,7 +47,6 @@
                             </div>
                           </div>
 
-                          <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv" type="button" name="button">Export</button>
                         </div>
                       </div>
                     </div>
@@ -46,94 +54,53 @@
 
 
                 <div class="card-body px-0 pb-0">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
+                  <div class="table-responsive">
+                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                      <div class="dataTable-container">
+                        <table class="table table-flush dataTable-table" id="products-list">
+                          <thead class="thead-light">
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Role
-                                    </th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Create Date</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Action</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">uuid</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">job code</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">name th</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">name en</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">dept</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">position</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">location</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">email</th>
+
                                 </tr>
                             </thead>
                             <tbody>
+                              @foreach($user_master as $row)
                                 <tr>
                                     <td>
-                                        <div class="d-flex px-3 py-1">
-                                            <div>
-                                                <img src="./img/team-1.jpg" class="avatar me-3" alt="image">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">Admin</h6>
-                                            </div>
-                                        </div>
+                                        <p class="text-sm font-weight-bold mb-0">{{ $row->uuid }}</p>
                                     </td>
                                     <td>
-                                        <p class="text-sm font-weight-bold mb-0">Admin</p>
+                                        <p class="text-sm font-weight-bold mb-0">{{ $row->job_code }}</p>
                                     </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <p class="text-sm font-weight-bold mb-0">22/03/2022</p>
+                                    <td>
+                                        <p class="text-sm font-weight-bold mb-0">{{ $row->name_th }}</p>
                                     </td>
-                                    <td class="align-middle text-end">
-                                        <div class="d-flex px-3 py-1 justify-content-center align-items-center">
-                                            <p class="text-sm font-weight-bold mb-0">Edit</p>
-                                            <p class="text-sm font-weight-bold mb-0 ps-2">Delete</p>
-                                        </div>
+                                    <td>
+                                        <p class="text-sm font-weight-bold mb-0">{{ $row->name_en }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-sm font-weight-bold mb-0">{{ $row->dept }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-sm font-weight-bold mb-0">{{ $row->position }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-sm font-weight-bold mb-0">{{ $row->location }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-sm font-weight-bold mb-0">{{ $row->email }}</p>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-3 py-1">
-                                            <div>
-                                                <img src="./img/team-2.jpg" class="avatar me-3" alt="image">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">Creator</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">Creator</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <p class="text-sm font-weight-bold mb-0">22/03/2022</p>
-                                    </td>
-                                    <td class="align-middle text-end">
-                                        <div class="d-flex px-3 py-1 justify-content-center align-items-center">
-                                            <p class="text-sm font-weight-bold mb-0">Edit</p>
-                                            <p class="text-sm font-weight-bold mb-0 ps-2">Delete</p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-3 py-1">
-                                            <div>
-                                                <img src="./img/team-3.jpg" class="avatar me-3" alt="image">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">Member</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">Member</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <p class="text-sm font-weight-bold mb-0">22/03/2022</p>
-                                    </td>
-                                    <td class="align-middle text-end">
-                                        <div class="d-flex px-3 py-1 justify-content-center align-items-center">
-                                            <p class="text-sm font-weight-bold mb-0 cursor-pointer">Edit</p>
-                                            <p class="text-sm font-weight-bold mb-0 ps-2 cursor-pointer">Delete</p>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -141,4 +108,18 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.datatables.net/2.0.6/js/dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.min.css" rel="stylesheet" />
+
+    <script>
+        $(document).ready(function () {
+
+            $("#products-list").DataTable({
+              order: [[1, 'asc']]
+            });
+
+            $('.').addClass('dataTable-top');
+        });
+    </script>
 @endsection

@@ -53,6 +53,10 @@
         </div>
       </li>
       @endif
+      <?php
+        $user_admin = ['admin'];
+      ?>
+      @if(in_array(Auth::user()->username,$user_admin))
       <li class="nav-item">
         <a class="nav-link {{ str_contains(request()->url(), 'user-management') == true ? 'active' : '' }}" href="{{ route('user-management') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -61,9 +65,12 @@
           <span class="nav-link-text ms-1">User Management</span>
         </a>
       </li>
-      <!--<li class="nav-item"><a class="nav-link {{ str_contains(request()->url(), 'products') == true ? 'active' : '' }}" href="{{ route('products.index') }}"><div
-
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center"><i class="ni ni-diamond text-dark text-sm opacity-10"></i></div><span class="nav-link-text ms-1">Products</span></a></li>-->
+      @endif
+      <!--<li class="nav-item"><a class="nav-link {{ str_contains(request()->url(), 'products') == true ? 'active' : '' }}" href="{{ route('products.index') }}"><div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center"><i class="ni ni-diamond text-dark text-sm opacity-10"></i></div><span class="nav-link-text ms-1">Products</span></a></li>-->
+      <?php
+        $user_ecom = ['admin','3043','3040','3044','3045','3047','3048','3029'];
+      ?>
+      @if(in_array(Auth::user()->username,$user_ecom))
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'onlineorder.index' ? 'active' : '' }}" href="{{ route('onlineorder.index') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -72,6 +79,11 @@
           <span class="nav-link-text ms-1">Online Order</span>
         </a>
       </li>
+      @endif
+      <?php
+        $user_hww = ['admin'];
+      ?>
+      @if(in_array(Auth::user()->username,$user_hww))
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'checkstock.index' ? 'active' : '' }}" href="{{ route('checkstock.index') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -79,7 +91,9 @@
           </div>
           <span class="nav-link-text ms-1">Check Stock</span>
         </a>
-      </li> <?php /*
+      </li>
+      @endif
+      <?php /*
 					<li class="nav-item">
 						<a class="nav-link {{ str_contains(request()->url(), 'tables') == true ? 'active' : '' }}" href="{{ route('tables') }}">
 							<div

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\UserMaster;
 
 class PageController extends Controller
 {
@@ -23,7 +24,8 @@ class PageController extends Controller
 
     public function user_management()
     {
-        return view("pages.user-management");
+        $user_master = UserMaster::all();
+        return view("pages.user-management", compact('user_master'));
     }
     public function tables()
     {

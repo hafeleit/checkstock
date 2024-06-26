@@ -28,8 +28,11 @@ class ITAssetController extends Controller
                     ->orderBy('i_t_assets.id','desc')
                     ->get();
         //dd($itassets[0]->id);
-
-        return view('pages.itasset.index',compact('itassets'));
+        $total_notebook = ITAsset::where('type','NOTEBOOK')->count();
+        $total_pc = ITAsset::where('type','PC')->count();
+        $total_spare = ITAsset::where('status','SPARE')->count();
+        $itassets_cnt = count($itassets);
+        return view('pages.itasset.index',compact('itassets','itassets_cnt','total_notebook','total_pc','total_spare'));
     }
 
     public function export()
