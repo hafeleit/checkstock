@@ -14,7 +14,7 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
     */
     public function collection()
     {
-        return Product::where(function($query){
+        $export_product = Product::where(function($query){
           $query->whereRaw("ITEM_STATUS IN ('8_PHASED OUT','9_OBSOLETE') AND (FREE_STOCK - PENDING_SO) > 0 ");
           $query->orWhereRaw("ITEM_STATUS NOT IN ('8_PHASED OUT','9_OBSOLETE')");
         })
@@ -43,6 +43,8 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
           	END AS Supplier_lead_time
           ")
           ->get();
+
+          return $export_product;
     }
 
     public function headings(): array
