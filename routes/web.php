@@ -74,8 +74,8 @@ use App\Http\Controllers\CheckStockController;
 
 
 
-  Route::get('/itservice-rating/{task_id}', [RegisterController::class, 'itservice_rating'])->middleware('guest')->name('itservice-rating');
-  Route::post('/itservice-rating/{task_id}', [RegisterController::class, 'save_itservice_rating'])->middleware('guest')->name('save-itservice-rating');
+  Route::get('/itservice-rating/{task_id}', [RegisterController::class, 'itservice_rating'])->name('itservice-rating');
+  Route::post('/itservice-rating/{task_id}', [RegisterController::class, 'save_itservice_rating'])->name('save-itservice-rating');
 
 	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
@@ -96,6 +96,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::resource('onlineorder', OrderController::class);
   Route::resource('checkstock', CheckStockController::class);
   Route::get('checkstockhww-export', [CheckStockController::class,'export'])->name('checkstockhww-export');
+  Route::post('product-new-price-list-import', [CheckStockController::class,'import'])->name('product-new-price-list-import');
   Route::get('onlineorder/download/{file}', [OrderController::class,'download'])->name('onlineorder-download');
   Route::get('onlineorder-manual-get', [OrderController::class,'onlineorder_manual_get'])->name('onlineorder-manual-get');
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');

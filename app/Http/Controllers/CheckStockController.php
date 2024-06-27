@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductPackCode;
+use App\Models\ProductNewPriceList;
 use Illuminate\Pagination\Paginator;
 use DB;
 use App\Exports\CheckStocHwwExport;
+use App\Imports\ProductNewPriceListImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CheckStockController extends Controller
@@ -33,6 +35,15 @@ class CheckStockController extends Controller
     public function export()
     {
         return Excel::download(new CheckStocHwwExport, 'CheckStockHWW.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+
+        ProductNewPriceList::truncate();
+        Excel::import(new ProductNewPriceListImport,request()->file('file'));
+
+        return back()->with('success','Import successfully');;
     }
 
     /**

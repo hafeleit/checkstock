@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.appform')
 
 @section('content')
     @include('layouts.navbars.guest.navbar')
