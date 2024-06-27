@@ -15,30 +15,35 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
     public function collection()
     {
         $export_product = Product::where(function($query){
-          $query->whereRaw("ITEM_STATUS IN ('8_PHASED OUT','9_OBSOLETE') AND (FREE_STOCK - PENDING_SO) > 0 ");
-          $query->orWhereRaw("ITEM_STATUS NOT IN ('8_PHASED OUT','9_OBSOLETE')");
-        })
+          $query->whereRaw("products.ITEM_STATUS IN ('8_PHASED OUT','9_OBSOLETE') AND (products.FREE_STOCK - products.PENDING_SO) > 0 ");
+          $query->orWhereRaw("products.ITEM_STATUS NOT IN ('8_PHASED OUT','9_OBSOLETE')");
+        })->leftJoin('product_new_price_lists','product_new_price_lists.ITEM_CODE','products.ITEM_CODE')
           ->selectRaw("
-            ITEM_CODE,
-          	ITEM_NAME,
+            products.ITEM_CODE,
+          	products.ITEM_NAME,
           	CASE
-          		WHEN ITEM_STATUS = '1_NEW' THEN 'Active'
-          		WHEN ITEM_STATUS = '2_ACTIVE' THEN 'Active'
-          		WHEN ITEM_STATUS = '3_INACTIVE' THEN 'Active'
+          		WHEN products.ITEM_STATUS = '1_NEW' THEN 'Active'
+          		WHEN products.ITEM_STATUS = '2_ACTIVE' THEN 'Active'
+          		WHEN products.ITEM_STATUS = '3_INACTIVE' THEN 'Active'
           		ELSE 'Discontinued'
           	END AS Material_Status,
           	CASE
-          		WHEN ITEM_INVENTORY_CODE = 'STOCK' THEN 'Stock'
+          		WHEN products.ITEM_INVENTORY_CODE = 'STOCK' THEN 'Stock'
           		ELSE 'Non-stock'
           	END AS Inventory_type,
-          	(FREE_STOCK - PENDING_SO) AS Free_stock,
-          	round(CURRWAC + ((CURRWAC / 100) * 12 ),2) AS Estimated_tranfer_price,
+          	(products.FREE_STOCK - products.PENDING_SO) AS Free_stock,
+
+            CASE
+          		WHEN product_new_price_lists.PRICE != '' THEN product_new_price_lists.PRICE
+          		ELSE products.CURRWAC + ((products.CURRWAC / 100) * 12 )
+          	END AS Estimated_tranfer_price,
+
           	CASE
-          		WHEN ITEM_TYPE = '0_NORMAL' THEN SUPP_NAME
+          		WHEN products.ITEM_TYPE = '0_NORMAL' THEN products.SUPP_NAME
           		ELSE 'INHOUSE'
           	END AS Supplier,
           	CASE
-          		WHEN ITEM_TYPE = '0_NORMAL' THEN ITEM_LEAD_TIME
+          		WHEN products.ITEM_TYPE = '0_NORMAL' THEN products.ITEM_LEAD_TIME
           		ELSE 'Check with HTH'
           	END AS Supplier_lead_time
           ")

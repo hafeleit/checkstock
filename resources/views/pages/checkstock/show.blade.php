@@ -110,13 +110,26 @@
                 }
                ?>
               <ul class="list-group">
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM CODE:</strong> &nbsp; <span class="text-primary">{{ $product['ITEM_CODE'] ?? '' }}</span></li>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM CODE:</strong> &nbsp;{{ $product['ITEM_CODE'] ?? '' }}</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM STATUS:</strong> &nbsp; {{ $product['ITEM_STATUS'] ?? '' }}</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM INVENTORY CODE:</strong> &nbsp; {{ $product['ITEM_INVENTORY_CODE'] ?? '' }}</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM GRADE CODE 1:</strong> &nbsp; {{ $product['ITEM_GRADE_CODE_1'] ?? '' }}</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM UOM CODE:</strong> &nbsp; {{ $product['ITEM_UOM_CODE'] ?? '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ESTIMATED TRANSFER PRICE:</strong> &nbsp; {{ ($product->CURRWAC != '') ? "฿".NUMBER_FORMAT($product->CURRWAC + (($product->CURRWAC / 100)*12),2) : 'Please check with HTH' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">MATERAIL STATUS:</strong> &nbsp; <?php
+                <?php
+                  $free_stock = (int)$product->FREE_STOCK - (int)$product->PENDING_SO;
+                  if($free_stock > 0){
+                    if($product->PRICE != ''){
+                      $e_price = "฿".NUMBER_FORMAT($product->PRICE,2);
+                    }else{
+                      $e_price = "฿".NUMBER_FORMAT($product->CURRWAC + (($product->CURRWAC / 100)*12),2);
+                    }
+                  }else{
+                    $e_price = 'Please check with HTH';
+                  }
+                 ?>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ESTIMATED TRANSFER PRICE:</strong> &nbsp; <span class="text-danger">{{ $e_price }}</span></li>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">MATERAIL STATUS:</strong> &nbsp;
+                  <?php
                   if( $product->ITEM_STATUS == '1_NEW' || $product->ITEM_STATUS == '2_ACTIVE' || $product->ITEM_STATUS == '3_INACTIVE' ){
                     $material_status = 'Active';
                     echo '<td class="text-sm"><span class="badge badge-success">Active</span></td>';
@@ -127,7 +140,7 @@
                  ?>
                 </li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">INVENTORY TYPE:</strong> &nbsp; {{ ( $product->ITEM_INVENTORY_CODE == 'STOCK') ? 'Stock' : 'Non-stock' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">FREE STOCK:</strong> &nbsp; {{ NUMBER_FORMAT( (int)$product->FREE_STOCK - (int)$product->PENDING_SO )}}</li>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">FREE STOCK:</strong> &nbsp; {{ NUMBER_FORMAT( $free_stock )}}</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">PACK CODE:</strong></li>
                 @foreach($ppc as $row)
                   <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</strong>{{$row->IP_PACK_UOM_CODE . ' : ' .$row->IP_CONV_FACTOR}}</li>

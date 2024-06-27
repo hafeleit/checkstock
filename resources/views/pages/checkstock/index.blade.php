@@ -25,6 +25,7 @@
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
               <div class="ms-auto my-auto">
+                @if(Auth::user()->username == 'admin')
                 <button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import"> Import </button>
 
                 <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">
@@ -49,7 +50,7 @@
                     </div>
                   </div>
                 </div>
-
+                @endif
                 <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" id="btn_export" href="{{ route('checkstockhww-export') }}">Export</a>
               </div>
             </div>

@@ -67,7 +67,7 @@ class CheckStockController extends Controller
      */
     public function show($id)
     {
-        $product = Product::where('id', $id)->first();
+        $product = Product::where('products.id', $id)->leftJoin('product_new_price_lists','products.ITEM_CODE','product_new_price_lists.ITEM_CODE')->first();
 
         //product orther
         $substr_item_code = substr($product->ITEM_CODE, 0,-1);
