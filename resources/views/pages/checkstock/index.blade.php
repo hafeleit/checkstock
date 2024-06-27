@@ -3,6 +3,12 @@
 @section('content')
 
 @include('layouts.navbars.auth.topnav', ['title' => 'Check Stock'])
+<style media="screen">
+  a.disabled {
+    pointer-events: none;
+    cursor: default;
+  }
+</style>
 <div class="container-fluid py-4">
   <div class="row">
     <div class="col-12">
@@ -14,7 +20,7 @@
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
               <div class="ms-auto my-auto">
-                <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" href="{{ route('checkstockhww-export') }}">Export</a>
+                <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" id="btn_export" href="{{ route('checkstockhww-export') }}">Export</a>
               </div>
             </div>
           </div>
@@ -131,6 +137,10 @@
     $( "#btn_search" ).on( "click", function() {
       $( "#form_search" ).trigger( "submit" );
     } );
+
+    /*$('#btn_export').on('click', function(){
+      $(this).addClass('disabled').html('Loading...');
+    });*/
 
   });
 
