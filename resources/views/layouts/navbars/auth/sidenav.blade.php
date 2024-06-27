@@ -81,7 +81,7 @@
       </li>
       @endif
       <?php
-        $user_hww = ['admin'];
+        $user_hww = ['admin','inventory'];
       ?>
       @if(in_array(Auth::user()->username,$user_hww))
       <li class="nav-item">
