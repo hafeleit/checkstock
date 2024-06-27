@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductPackCode;
+use Illuminate\Pagination\Paginator;
+use DB;
+use App\Exports\CheckStocHwwExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CheckStockController extends Controller
 {
@@ -15,10 +19,20 @@ class CheckStockController extends Controller
     {
         $search = $request->search ?? '';
         $paginate = $request->perpage ?? 5;
-        $q = Product::where('ITEM_CODE','like','%'.$search.'%')
-              ->orWhere('ITEM_NAME','like','%'.$search.'%');
+
+        $q = Product::where(function($query){
+          $query->whereRaw("ITEM_STATUS IN ('8_PHASED OUT','9_OBSOLETE') AND (FREE_STOCK - PENDING_SO) > 0 ");
+          $query->orWhereRaw("ITEM_STATUS NOT IN ('8_PHASED OUT','9_OBSOLETE')");
+        })->where('ITEM_CODE','like','%'.$search.'%');
+
         $products = $q->paginate($paginate);
+
         return view('pages.checkstock.index', compact('products'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new CheckStocHwwExport, 'CheckStockHWW.xlsx');
     }
 
     /**

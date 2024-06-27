@@ -98,15 +98,6 @@
             <div class="col-lg-4 col-xxl-6 mx-auto">
               <h3 class="mt-lg-0 mt-4">{{ $product->ITEM_NAME }}</h3>
 
-              <h6 class="mb-0 mt-3">Price</h6>
-              <h5>฿{{ NUMBER_FORMAT($product->RATE7,2) ?? '' }}</h5>
-
-              @if($product->STOCK_IN_HAND > 0)
-                <span class="badge badge-success">In Stock</span>
-              @else
-                <span class="badge badge-danger badge-sm">Out of Stock</span>
-              @endif
-
               <br>
               <br>
               <h5 class="mb-0">Description</h5>
@@ -119,34 +110,32 @@
                 }
                ?>
               <ul class="list-group">
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM CODE:</strong> &nbsp; {{ $product['ITEM_CODE'] ?? '' }}</li>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM CODE:</strong> &nbsp; <span class="text-primary">{{ $product['ITEM_CODE'] ?? '' }}</span></li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM STATUS:</strong> &nbsp; {{ $product['ITEM_STATUS'] ?? '' }}</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM INVENTORY CODE:</strong> &nbsp; {{ $product['ITEM_INVENTORY_CODE'] ?? '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM REPL TIME:</strong> &nbsp; {{ $product['ITEM_REPL_TIME'] ?? '' }} (Days)</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM GRADE CODE 1:</strong> &nbsp; {{ $product['ITEM_GRADE_CODE_1'] ?? '' }}</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM UOM CODE:</strong> &nbsp; {{ $product['ITEM_UOM_CODE'] ?? '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">FREE STOCK:</strong> &nbsp; {{ NUMBER_FORMAT($product['STOCK_IN_HAND']) ?? '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">PROJECT ITEM:</strong> &nbsp; {{ $product['PROJECT_ITEM'] ?? '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">PRICE LIST UOM:</strong> &nbsp; {{ $product['PRICE_LIST_UOM'] ?? '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">PACK CONV FACTOR:</strong> &nbsp; {{ $product['PACK_CONV_FACTOR'] ?? '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">LIST PRICE EXCLUDE VAT:</strong> &nbsp; {{ "฿".NUMBER_FORMAT($product->RATE, 2) ?? '' }}</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ESTIMATED TRANSFER PRICE:</strong> &nbsp; {{ ($product->CURRWAC != '') ? "฿".NUMBER_FORMAT($product->CURRWAC + (($product->CURRWAC / 100)*12),2) : 'Please check with HTH' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">CURRENT WAC:</strong> &nbsp; {{ ($product->CURRWAC != '') ? "฿".NUMBER_FORMAT($product->CURRWAC,2) : '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">NEW WAC:</strong> &nbsp; {{ ($product->NEWWAC != '') ? "฿".NUMBER_FORMAT($product->NEWWAC,2) : '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">NEW ITEM:</strong> &nbsp; {{ $product->NEW_ITEM ?? '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">MATERAIL STATUS:</strong> &nbsp; {{ $material_status }}</li>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">MATERAIL STATUS:</strong> &nbsp; <?php
+                  if( $product->ITEM_STATUS == '1_NEW' || $product->ITEM_STATUS == '2_ACTIVE' || $product->ITEM_STATUS == '3_INACTIVE' ){
+                    $material_status = 'Active';
+                    echo '<td class="text-sm"><span class="badge badge-success">Active</span></td>';
+                  }else{
+                    $material_status = 'Discontinued';
+                    echo '<td class="text-sm"><span class="badge badge-danger">Discontinued</span></td>';
+                  }
+                 ?>
+                </li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">INVENTORY TYPE:</strong> &nbsp; {{ ( $product->ITEM_INVENTORY_CODE == 'STOCK') ? 'Stock' : 'Non-stock' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">FREE STOCK:</strong> &nbsp; {{ $product->FREE_STOCK - $product->PENDING_SO }}</li>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">FREE STOCK:</strong> &nbsp; {{ NUMBER_FORMAT( (int)$product->FREE_STOCK - (int)$product->PENDING_SO )}}</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">PACK CODE:</strong></li>
                 @foreach($ppc as $row)
                   <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</strong>{{$row->IP_PACK_UOM_CODE . ' : ' .$row->IP_CONV_FACTOR}}</li>
                 @endforeach
-
-
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">SUPPLIER NAME:</strong> &nbsp; {{ ( $product->ITEM_TYPE == '0_NORMAL' ) ? $product->SUPP_NAME : 'INHOUSE' }}</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">SUPPLIER LEAD TIME:</strong> &nbsp; {{ ( $product->ITEM_TYPE == '0_NORMAL' ) ? $product->ITEM_LEAD_TIME . ' (Days)' : 'Check with HTH' }} </li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">MOQ:</strong> &nbsp; {{ ( $product->ITEM_TYPE == '0_NORMAL' ) ? $product->MOQ : 'Check with HTH' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM TYPE:</strong> &nbsp; {{ $product->ITEM_TYPE ?? '' }}</li>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">REMARK:</strong> &nbsp; {{ $product->ITEM_REMARK ?? '' }}</li>
               </ul>
 
               <?php
@@ -171,6 +160,7 @@
                ?>
             </div>
           </div>
+          <?php /* ?>
           <div class="row mt-5">
             <div class="col-12">
               <h5 class="ms-3">Other Products</h5>
@@ -227,6 +217,7 @@
               </div>
             </div>
           </div>
+        <?php */ ?>
         </div>
       </div>
     </div>

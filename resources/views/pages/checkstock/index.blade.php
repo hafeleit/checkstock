@@ -13,7 +13,9 @@
               <h5 class="mb-0">Products List</h5>
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
-
+              <div class="ms-auto my-auto">
+                <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" href="{{ route('checkstockhww-export') }}">Export</a>
+              </div>
             </div>
           </div>
         </div>
@@ -47,11 +49,9 @@
                     <tr>
                       <th class="">Product</th>
                       <th>Item code</th>
-                      <th>Price (Incl.VAT)</th>
                       <th>Inventory code</th>
-                      <th>Quantity</th>
-                      <th>Status</th>
-                      <th>Action</th>
+                      <th>FREE STOCK</th>
+                      <th>MATERAIL STATUS</th>
 
                     </tr>
                   </thead>
@@ -74,27 +74,18 @@
                             </div>
                           </td>
                           <td class="text-sm">{{ $product->ITEM_CODE ?? '' }}</td>
-                          <td class="text-sm">฿{{ NUMBER_FORMAT($product->RATE7,2) ?? '' }}</td>
                           <td class="text-sm">{{ $product->ITEM_INVENTORY_CODE ?? '' }}</td>
-                          <td class="text-sm">{{ ($product->STOCK_IN_HAND != '') ? NUMBER_FORMAT($product->STOCK_IN_HAND) : '0'  }}</td>
-                          <td>
-                            @if($product->STOCK_IN_HAND > 0)
-                              <span class="badge badge-success">In Stock</span>
-                            @else
-                              <span class="badge badge-danger badge-sm">Out of Stock</span>
-                            @endif
-                          </td>
-                          <td class="text-sm">
-                            <a href="javascript:;" data-bs-toggle="tooltip" data-bs-original-title="Preview product">
-                              <i class="fas fa-eye text-secondary" aria-hidden="true"></i>
-                            </a>
-                            <a href="javascript:;" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit product">
-                              <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
-                            </a>
-                            <a href="javascript:;" data-bs-toggle="tooltip" data-bs-original-title="Delete product">
-                              <i class="fas fa-trash text-secondary" aria-hidden="true"></i>
-                            </a>
-                          </td>
+                          <td class="text-sm">{{ NUMBER_FORMAT( (int)$product->FREE_STOCK - (int)$product->PENDING_SO ) }}</td>
+                          <?php
+                            if( $product->ITEM_STATUS == '1_NEW' || $product->ITEM_STATUS == '2_ACTIVE' || $product->ITEM_STATUS == '3_INACTIVE' ){
+                              $material_status = 'Active';
+                              echo '<td class="text-sm"><span class="badge badge-success">Active</span></td>';
+                            }else{
+                              $material_status = 'Discontinued';
+                              echo '<td class="text-sm"><span class="badge badge-danger">Discontinued</span></td>';
+                            }
+                           ?>
+
                         </tr>
                       @endforeach
 
