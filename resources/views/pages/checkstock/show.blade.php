@@ -29,7 +29,7 @@
 
           <div class="row">
 
-            <div class="col-xl-6 col-xxl-5 col-lg-6 text-center">
+            <div class="col-xl-5 col-xxl-5 col-lg-6 text-center">
 
               <?php
                 $image = '/storage/img/products/' . $product->ITEM_CODE . '.jpg';
@@ -95,7 +95,7 @@
               </div>
 
             </div>
-            <div class="col-lg-4 col-xxl-6 mx-auto">
+            <div class="col-xl-5 col-lg-4 col-xxl-6 mx-auto">
               <h3 class="mt-lg-0 mt-4">{{ $product->ITEM_NAME }}</h3>
 
               <br>
@@ -111,9 +111,6 @@
                ?>
               <ul class="list-group">
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM CODE:</strong> &nbsp;{{ $product['ITEM_CODE'] ?? '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM STATUS:</strong> &nbsp; {{ $product['ITEM_STATUS'] ?? '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM INVENTORY CODE:</strong> &nbsp; {{ $product['ITEM_INVENTORY_CODE'] ?? '' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM GRADE CODE 1:</strong> &nbsp; {{ $product['ITEM_GRADE_CODE_1'] ?? '' }}</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ITEM UOM CODE:</strong> &nbsp; {{ $product['ITEM_UOM_CODE'] ?? '' }}</li>
                 <?php
                   $free_stock = (int)$product->FREE_STOCK - (int)$product->PENDING_SO;

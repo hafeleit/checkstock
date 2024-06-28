@@ -1,3 +1,9 @@
+<?php
+  $user_admin = ['admin'];
+  $itsupport = ['admin', '7231', '7232', '7233', '7230'];
+  $user_ecom = ['admin','3043','3040','3044','3045','3047','3048','3029'];
+  $user_hww = ['admin','inventory'];
+?>
 <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -8,6 +14,7 @@
   <hr class="horizontal dark mt-0">
   <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main" style="height: unset !important;">
     <ul class="navbar-nav">
+      @if(in_array(Auth::user()->username,$user_admin))
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'home' ? 'active' : '' }}" href="{{ route('home') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -16,6 +23,7 @@
           <span class="nav-link-text ms-1">Dashboard</span>
         </a>
       </li>
+      @endif
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" href="{{ route('profile') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -24,9 +32,6 @@
           <span class="nav-link-text ms-1">Profile</span>
         </a>
       </li>
-      <?php
-        $itsupport = ['admin', '7231', '7232', '7233', '7230'];
-      ?>
       @if(in_array(Auth::user()->username,$itsupport))
       <li class="nav-item ">
         <a class="nav-link {{ Request::segment(1) == 'itasset' ? 'active' : '' }}" data-bs-toggle="collapse" aria-expanded="{{ Request::segment(1) == 'itasset' ? 'true' : 'false' }}" href="#productsExample">
@@ -53,9 +58,7 @@
         </div>
       </li>
       @endif
-      <?php
-        $user_admin = ['admin'];
-      ?>
+
       @if(in_array(Auth::user()->username,$user_admin))
       <li class="nav-item">
         <a class="nav-link {{ str_contains(request()->url(), 'user-management') == true ? 'active' : '' }}" href="{{ route('user-management') }}">
@@ -67,9 +70,6 @@
       </li>
       @endif
       <!--<li class="nav-item"><a class="nav-link {{ str_contains(request()->url(), 'products') == true ? 'active' : '' }}" href="{{ route('products.index') }}"><div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center"><i class="ni ni-diamond text-dark text-sm opacity-10"></i></div><span class="nav-link-text ms-1">Products</span></a></li>-->
-      <?php
-        $user_ecom = ['admin','3043','3040','3044','3045','3047','3048','3029'];
-      ?>
       @if(in_array(Auth::user()->username,$user_ecom))
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'onlineorder.index' ? 'active' : '' }}" href="{{ route('onlineorder.index') }}">
@@ -80,9 +80,7 @@
         </a>
       </li>
       @endif
-      <?php
-        $user_hww = ['admin','inventory'];
-      ?>
+
       @if(in_array(Auth::user()->username,$user_hww))
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'checkstock.index' ? 'active' : '' }}" href="{{ route('checkstock.index') }}">

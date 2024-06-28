@@ -86,7 +86,7 @@
                     <tr>
                       <th class="">Product</th>
                       <th>Item code</th>
-                      <th>Inventory code</th>
+                      <th>Inventory Type</th>
                       <th>FREE STOCK</th>
                       <th>MATERAIL STATUS</th>
 
