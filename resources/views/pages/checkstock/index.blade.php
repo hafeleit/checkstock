@@ -111,7 +111,7 @@
                             </div>
                           </td>
                           <td class="text-sm">{{ $product->ITEM_CODE ?? '' }}</td>
-                          <td class="text-sm">{{ $product->ITEM_INVENTORY_CODE ?? '' }}</td>
+                          <td class="text-sm">{{ ( $product->ITEM_INVENTORY_CODE == 'STOCK') ? 'Stock' : 'Non-stock' }}</td>
                           <td class="text-sm">{{ NUMBER_FORMAT( (int)$product->FREE_STOCK - (int)$product->PENDING_SO ) }}</td>
                           <?php
                             if( $product->ITEM_STATUS == '1_NEW' || $product->ITEM_STATUS == '2_ACTIVE' || $product->ITEM_STATUS == '3_INACTIVE' ){
