@@ -21,6 +21,7 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
           ->selectRaw("
             products.ITEM_CODE,
           	products.ITEM_NAME,
+          	products.ITEM_UOM_CODE,
           	CASE
           		WHEN products.ITEM_STATUS = '1_NEW' THEN 'Active'
           		WHEN products.ITEM_STATUS = '2_ACTIVE' THEN 'Active'
@@ -38,15 +39,15 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
               WHEN products.CURRWAC + ((products.CURRWAC / 100) * 12 ) > 0 THEN ROUND(products.CURRWAC + ((products.CURRWAC / 100) * 12 ),2)
 		          ELSE 'Please check with HTH'
           	END AS Estimated_tranfer_price,
-
-          	CASE
-          		WHEN products.ITEM_TYPE = '0_NORMAL' THEN products.SUPP_NAME
-          		ELSE 'INHOUSE'
-          	END AS Supplier,
           	CASE
           		WHEN products.ITEM_TYPE = '0_NORMAL' THEN products.ITEM_LEAD_TIME
           		ELSE 'Check with HTH'
-          	END AS Supplier_lead_time
+          	END AS Supplier_lead_time,
+            CASE
+          		WHEN products.ITEM_TYPE = '0_NORMAL' THEN products.MOQ
+          		ELSE 'Check with HTH'
+          	END AS Moq,
+          	products.ITEM_REMARK
           ")
           ->get();
 
@@ -58,12 +59,14 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
         return [
             "Mateiral No.",
             "Description",
+            "UOM",
             "Material Status",
             "Inventory Type",
             "Free Stock",
             "Estimated Transfer Price",
-            "Supplier",
             "Supplier Lead Time",
+            "MOQ",
+            "Remark",
           ];
     }
 
@@ -74,10 +77,10 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
             'B' => 30,
             'C' => 15,
             'D' => 15,
-            'E' => 12,
-            'F' => 27,
-            'G' => 11,
-            'H' => 22,
+            'E' => 15,
+            'F' => 13,
+            'G' => 25,
+            'H' => 18,
         ];
     }
 }
