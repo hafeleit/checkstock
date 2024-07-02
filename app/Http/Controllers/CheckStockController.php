@@ -25,6 +25,7 @@ class CheckStockController extends Controller
         $q = Product::where(function($query){
           $query->whereRaw("ITEM_STATUS IN ('8_PHASED OUT','9_OBSOLETE') AND (FREE_STOCK - PENDING_SO) > 0 ");
           $query->orWhereRaw("ITEM_STATUS NOT IN ('8_PHASED OUT','9_OBSOLETE')");
+          $query->where('ITEM_TYPE','!=','3_PICK&PACK');
         })->where('ITEM_CODE','like','%'.$search.'%');
 
         $products = $q->paginate($paginate);
