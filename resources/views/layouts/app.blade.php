@@ -34,11 +34,11 @@
             @yield('content')
         @else
             @if (!in_array(request()->route()->getName(), ['profile', 'profile-static']))
-<div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://images8.alphacoders.com/109/1092088.jpg'); background-position-y: 50%;">
+<div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://images8.alphacoders.com/109/1092088.jpg'); background-position-y: 30%; background-position-x: 30%;">
 <span class="mask bg-primary opacity-3"></span>
 </div>
             @elseif (in_array(request()->route()->getName(), ['profile-static', 'profile']))
-<div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://images8.alphacoders.com/109/1092088.jpg'); background-position-y: 50%;">
+<div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://images8.alphacoders.com/109/1092088.jpg'); background-position-y: 32%; background-position-x: 30%;">
 <span class="mask bg-primary opacity-2"></span>
 </div>
             @endif
