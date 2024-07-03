@@ -3,7 +3,7 @@
   $itsupport = ['admin', '7231', '7232', '7233', '7230'];
   $user_ecom = ['admin','3043','3040','3044','3045','3047','3048','3029'];
   $user_hww = ['admin','inventory','HongPhuc.Vo','lehoangdung.nguyen','josephine.ng','YipLing.Chow','Mayur.Jambhale','Nalin.Jayasundara',
-  'MingFoong.Wong','Iswahyuni.Iswahyuni','ganes.dinamariana','Leah.Ramos','Florian.Sergio','Natthanan.Lovrec','Joyce.Pan'];
+  'MingFoong.Wong','Iswahyuni.Iswahyuni','ganes.dinamariana','Leah.Ramos','Florian.Sergio','Natthanan.Lovrec','Joyce.Pan','Ayesha.Sandarenu'];
 ?>
 <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
   <div class="sidenav-header">
