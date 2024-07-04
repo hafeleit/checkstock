@@ -88,7 +88,8 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
             'E' => 15,
             'F' => 13,
             'G' => 25,
-            'H' => 18,
+            'H' => 25,
+            'I' => 20,
         ];
     }
 }
