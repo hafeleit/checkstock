@@ -11,6 +11,9 @@
         padding: 0rem;
       }
     </style>
+    <div id="alert">
+        @include('components.alert')
+    </div>
     <div class="row mt-4 mx-4">
         <div class="col-12">
 

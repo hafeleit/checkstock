@@ -24,7 +24,7 @@ class UserMasterController extends Controller
         UserMaster::truncate();
         Excel::import(new UserMasterImport,request()->file('file'));
 
-        return back()->with('success','Import successfully');;
+        return back()->with('succes','Import successfully');;
     }
 
     /**

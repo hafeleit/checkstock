@@ -36,14 +36,14 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
           	(products.FREE_STOCK - products.PENDING_SO) AS Free_stock,
 
             CASE
-          		WHEN product_new_price_lists.PRICE != '' THEN ROUND(product_new_price_lists.PRICE,2)
-              WHEN products.CURRWAC + ((products.CURRWAC / 100) * 12 ) > 0 THEN ROUND(products.CURRWAC + ((products.CURRWAC / 100) * 12 ),2)
+          		WHEN product_new_price_lists.PRICE != '' THEN ROUND(product_new_price_lists.PRICE,4)
+              WHEN products.CURRWAC + ((products.CURRWAC / 100) * 12 ) > 0 THEN ROUND(products.CURRWAC + ((products.CURRWAC / 100) * 12 ),4)
 		          ELSE 'Please check with HTH'
           	END AS Estimated_tranfer_price,
 
             CASE
-          		WHEN product_new_price_lists.PRICE != '' THEN ROUND((product_new_price_lists.PRICE/".env('USD', 0)."),2)
-              WHEN products.CURRWAC + ((products.CURRWAC / 100) * 12 ) > 0 THEN ROUND((products.CURRWAC + ((products.CURRWAC / 100) * 12 )/".env('USD', 0)."),2)
+          		WHEN product_new_price_lists.PRICE != '' THEN ROUND((product_new_price_lists.PRICE/".env('USD', 0)."),4)
+              WHEN products.CURRWAC + ((products.CURRWAC / 100) * 12 ) > 0 THEN ROUND((products.CURRWAC + ((products.CURRWAC / 100) * 12 )/".env('USD', 0)."),4)
 		          ELSE 'Please check with HTH'
           	END AS Estimated_tranfer_price_usd,
 

@@ -116,13 +116,13 @@
                   $free_stock = (int)$product->FREE_STOCK - (int)$product->PENDING_SO;
                   if($free_stock > 0){
                     if($product->PRICE != ''){
-                      $e_price = "฿".NUMBER_FORMAT($product->PRICE,2);
+                      $e_price = "฿".NUMBER_FORMAT($product->PRICE,4);
                       $th_price = $product->PRICE;
                     }else{
-                      $e_price = "฿".NUMBER_FORMAT($product->CURRWAC + (($product->CURRWAC / 100)*12),2);
+                      $e_price = "฿".NUMBER_FORMAT($product->CURRWAC + (($product->CURRWAC / 100)*12),4);
                       $th_price = $product->CURRWAC + (($product->CURRWAC / 100)*12);
                     }
-                    $usd_price = "$".NUMBER_FORMAT($th_price / env('USD', 0),2);
+                    $usd_price = "$".NUMBER_FORMAT($th_price / env('USD', 0),4);
                   }else{
                     $e_price = 'Please check with HTH';
                     $usd_price = 'Please check with HTH';
