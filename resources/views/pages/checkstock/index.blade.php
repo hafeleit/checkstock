@@ -9,12 +9,10 @@
     cursor: default;
   }
 </style>
+<div id="alert">
+    @include('components.alert')
+</div>
 <div class="container-fluid py-4">
-  @if ($message = Session::get('success'))
-  <div class="alert alert-success">
-      <p>{{ $message }}</p>
-  </div>
-  @endif
   <div class="row">
     <div class="col-12">
       <div class="card">

@@ -40,6 +40,13 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
               WHEN products.CURRWAC + ((products.CURRWAC / 100) * 12 ) > 0 THEN ROUND(products.CURRWAC + ((products.CURRWAC / 100) * 12 ),2)
 		          ELSE 'Please check with HTH'
           	END AS Estimated_tranfer_price,
+
+            CASE
+          		WHEN product_new_price_lists.PRICE != '' THEN ROUND((product_new_price_lists.PRICE/".env('USD', 0)."),2)
+              WHEN products.CURRWAC + ((products.CURRWAC / 100) * 12 ) > 0 THEN ROUND((products.CURRWAC + ((products.CURRWAC / 100) * 12 )/".env('USD', 0)."),2)
+		          ELSE 'Please check with HTH'
+          	END AS Estimated_tranfer_price_usd,
+
           	CASE
           		WHEN products.ITEM_TYPE = '0_NORMAL' THEN products.ITEM_LEAD_TIME
           		ELSE 'Check with HTH'
@@ -51,7 +58,6 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
           	products.ITEM_REMARK
           ")
           ->get();
-
           return $export_product;
     }
 
@@ -65,6 +71,7 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
             "Inventory Type",
             "Free Stock",
             "Estimated Transfer Price",
+            "Estimated Transfer Price(USD)",
             "Supplier Lead Time",
             "MOQ",
             "Remark",

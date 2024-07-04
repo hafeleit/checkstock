@@ -44,7 +44,7 @@ class CheckStockController extends Controller
         ProductNewPriceList::truncate();
         Excel::import(new ProductNewPriceListImport,request()->file('file'));
 
-        return back()->with('success','Import successfully');;
+        return back()->with('succes','Import successfully');;
     }
 
     /**
