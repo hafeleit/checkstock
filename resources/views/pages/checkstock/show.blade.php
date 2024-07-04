@@ -117,14 +117,21 @@
                   if($free_stock > 0){
                     if($product->PRICE != ''){
                       $e_price = "฿".NUMBER_FORMAT($product->PRICE,2);
+                      $th_price = $product->PRICE;
                     }else{
                       $e_price = "฿".NUMBER_FORMAT($product->CURRWAC + (($product->CURRWAC / 100)*12),2);
+                      $th_price = $product->CURRWAC + (($product->CURRWAC / 100)*12);
                     }
+                    $usd_price = "$".NUMBER_FORMAT($th_price / env('USD', 0),2);
                   }else{
                     $e_price = 'Please check with HTH';
+                    $usd_price = 'Please check with HTH';
                   }
+
+
                  ?>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ESTIMATED TRANSFER PRICE:</strong> &nbsp; <span class="text-danger">{{ $e_price }}</span></li>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ESTIMATED TRANSFER PRICE(USD):</strong> &nbsp; <span class="text-danger">{{ $usd_price }}</span></li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">MATERAIL STATUS:</strong> &nbsp;
                   <?php
                   if( $product->ITEM_STATUS == '1_NEW' || $product->ITEM_STATUS == '2_ACTIVE' || $product->ITEM_STATUS == '3_INACTIVE' ){
