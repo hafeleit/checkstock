@@ -116,10 +116,10 @@
                   $free_stock = (int)$product->FREE_STOCK - (int)$product->PENDING_SO;
                   if($free_stock > 0){
                     if($product->PRICE != ''){
-                      $e_price = "฿".NUMBER_FORMAT($product->PRICE,4);
+                      $e_price = "฿".NUMBER_FORMAT($product->PRICE,2);
                       $th_price = $product->PRICE;
                     }else{
-                      $e_price = "฿".NUMBER_FORMAT($product->CURRWAC + (($product->CURRWAC / 100)*12),4);
+                      $e_price = "฿".NUMBER_FORMAT($product->CURRWAC + (($product->CURRWAC / 100)*12),2);
                       $th_price = $product->CURRWAC + (($product->CURRWAC / 100)*12);
                     }
                     $usd_price = "$".NUMBER_FORMAT($th_price / env('USD', 0),4);
@@ -130,7 +130,7 @@
 
 
                  ?>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ESTIMATED TRANSFER PRICE:</strong> &nbsp; <span class="text-danger">{{ $e_price }}</span></li>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ESTIMATED TRANSFER PRICE(THB):</strong> &nbsp; <span class="text-danger">{{ $e_price }}</span></li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ESTIMATED TRANSFER PRICE(USD):</strong> &nbsp; <span class="text-danger">{{ $usd_price }}</span></li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">MATERAIL STATUS:</strong> &nbsp;
                   <?php

@@ -12,6 +12,21 @@
     padding: 0rem;
   }
 </style>
+<div class="card shadow-lg mx-4 card-profile-bottom">
+    <div class="card-body p-3">
+        <div class="row gx-4">
+            <div class="col-auto">
+            </div>
+            <div class="col-auto my-auto">
+                <div class="h-100">
+                    <p class="mb-0 font-weight-bold text-sm">
+                        Run orders automatically every <i class="ni ni-time-alarm"> </i><span class="text-danger"> 7:00, 10:00, 13:30, 16:30</span> 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container-fluid py-4">
   <div class="row">
     <div class="col-12">
