@@ -20,12 +20,16 @@
             <div class="col-auto my-auto">
                 <div class="h-100">
                     <p class="mb-0 font-weight-bold text-sm">
-                        Run orders automatically every <i class="ni ni-time-alarm"> </i><span class="text-danger"> 7:00, 10:00, 13:30, 16:30</span> 
+
+                        Run orders automatically every <i class="ni ni-time-alarm"> </i><span class="text-danger"> 7:00, 10:00, 13:30, 16:30</span>
                     </p>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div id="alert">
+    @include('components.alert')
 </div>
 <div class="container-fluid py-4">
   <div class="row">
@@ -33,11 +37,6 @@
 
       <div class="card">
         <div class="card-header pb-0">
-          @if (\Session::has('success'))
-              <div class="alert alert-success">
-                  Total orders: {!! \Session::get('success') !!}
-              </div>
-          @endif
           <div class="d-lg-flex">
             <div>
               <h5 class="mb-0">Online Orders</h5>
@@ -69,23 +68,32 @@
                       <th >
                         <a href="#" class="">ACTION</a>
                       </th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($orders as $order)
+                    @foreach ($orders as $index => $order)
                     <tr>
                       <td class="text-sm">{{$order->cnt}}</td>
                       <td class="text-sm">{{$order->created_at}}</td>
-                      <td class="text-sm">{{$order->filename}}</td>
+                      <td class="text-sm">{{$order->filename}} </td>
 
                       <td class="text-sm">
                         <a href={{route('onlineorder-download',$order->filename)}} data-bs-toggle="tooltip" data-bs-original-title="Download">
                           <i class="ni ni-archive-2 text-dark" aria-hidden="true"> Download</i>
                         </a>
+
                         <!--<a href="javascript:;" data-bs-toggle="tooltip" data-bs-original-title="Delete asset">
                           <i class="fas fa-trash text-secondary" aria-hidden="true"></i>
                         </a>-->
+
                       </td>
+                      <td class="text-start">
+                        @if($index == 0)
+                        <img src="/img/icons/new.gif" alt="profile_image" class="w-6 border-radius-lg">
+                        @endif
+                      </td>
+
                     </tr>
                     @endforeach
                   </tbody>

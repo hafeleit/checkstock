@@ -349,7 +349,7 @@ class OrderController extends Controller
         $this->sendLine("Orders: 0");
       }
 
-      return redirect()->back()->with('success', $new_order_count);
+      return redirect()->back()->with('succes', $new_order_count);
       //return "Total orders: " . $new_order_count;
 
     }
