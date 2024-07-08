@@ -90,7 +90,7 @@
                       </td>
                       <td class="text-start">
                         @if($index == 0)
-                        <img src="/img/icons/new.gif" alt="profile_image" class="w-6 border-radius-lg">
+                        <img src="/img/icons/new.gif" alt="profile_image" class="w-8 border-radius-lg">
                         @endif
                       </td>
 
