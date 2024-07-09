@@ -61,14 +61,13 @@
                 <div class="dataTable-dropdown">
                   <label>
                     <form id="form_search" class="" action="{{ route('checkstock.index' )}}" method="get">
-                      <?php /* ?>
                     <select class="dataTable-selector" id="perpage" name="perpage">
                       <option value="5" {{ (request()->perpage == '5' ? 'selected' : '') }}>5</option>
                       <option value="10" {{ (request()->perpage == '10' ? 'selected' : '') }}>10</option>
                       <option value="20" {{ (request()->perpage == '20' ? 'selected' : '') }}>20</option>
                       <option value="50" {{ (request()->perpage == '50' ? 'selected' : '') }}>50</option>
                       <option value="100" {{ (request()->perpage == '100' ? 'selected' : '') }}>100</option>
-                    </select> entries per page {{ request()->perpage }}</label> */ ?>
+                    </select> entries per page {{ request()->perpage }}</label>
                 </div>
 
                 <div class="dataTable-search">
@@ -106,7 +105,7 @@
                                 }
                                 echo '<img class="w-10" src="'.$image.'" >';
                                ?>
-                              <h6 class="my-auto ms-3"><a href="{{ route('checkstock.show',$product->ID) }}">{{ $product->ITEM_NAME ?? '' }}</a></h6>
+                              <h6 class="my-auto ms-3"><a href="{{ route('checkstock.show',$product->id) }}">{{ $product->ITEM_NAME ?? '' }}</a></h6>
                             </div>
                           </td>
                           <td class="text-sm">{{ $product->ITEM_CODE ?? '' }}</td>
@@ -134,12 +133,10 @@
                 </table>
 
               </div>
-              <?php /* ?>
               <div class="dataTable-bottom">
                 <div class="dataTable-info">{{ "Showing " .  $products->firstItem() . " to " . $products->lastItem() . " of " . $products->total() . " entries"}}</div>
                 {!! $products->withQueryString()->links('pagination::bootstrap-4') !!}
               </div>
-              */ ?>
             </div>
           </div>
         </div>
