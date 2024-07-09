@@ -15,7 +15,7 @@ class ITAssetExport implements FromCollection, WithHeadings
     {
         $res = ITAsset::leftJoin('i_t_asset_owns','i_t_assets.computer_name','i_t_asset_owns.computer_name')
                           ->leftJoin('user_masters','i_t_asset_owns.user','user_masters.job_code')
-                          ->select('i_t_assets.*','i_t_asset_owns.user','user_masters.name_en','user_masters.dept')
+                          ->select('i_t_assets.*','i_t_asset_owns.user','user_masters.name_en','user_masters.dept','user_masters.position')
                           ->groupBy('i_t_assets.computer_name')
                           ->where('i_t_assets.delete','0')
                           ->get();
@@ -41,9 +41,14 @@ class ITAssetExport implements FromCollection, WithHeadings
             "delete",
             "created_at",
             "updated_at",
+            "old_user",
+            "old_name",
+            "old_department",
+            "update_by",
             "job_code",
             "user_name",
             "dept",
+            "position",
           ];
     }
 }
