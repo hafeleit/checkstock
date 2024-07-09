@@ -48,7 +48,7 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
           	END AS Estimated_tranfer_price_usd,
 
           	CASE
-          		WHEN products.ITEM_TYPE = '0_NORMAL' THEN products.ITEM_LEAD_TIME
+          		WHEN products.ITEM_TYPE = '0_NORMAL' THEN products.ITEM_REPL_TIME
           		ELSE 'Check with HTH'
           	END AS Supplier_lead_time,
             CASE

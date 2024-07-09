@@ -150,7 +150,7 @@
                   <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</strong>{{$row->IP_PACK_UOM_CODE . ' : ' .$row->IP_CONV_FACTOR}}</li>
                 @endforeach
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">SUPPLIER NAME:</strong> &nbsp; {{ ( $product->ITEM_TYPE == '0_NORMAL' ) ? $product->SUPP_NAME : 'INHOUSE' }}</li>
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">SUPPLIER LEAD TIME:</strong> &nbsp; {{ ( $product->ITEM_TYPE == '0_NORMAL' ) ? $product->ITEM_LEAD_TIME . ' (Days)' : 'Check with HTH' }} </li>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">SUPPLIER LEAD TIME:</strong> &nbsp; {{ ( $product->ITEM_TYPE == '0_NORMAL' ) ? $product->ITEM_REPL_TIME . ' (Days)' : 'Check with HTH' }} </li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">MOQ:</strong> &nbsp; {{ ( $product->ITEM_TYPE == '0_NORMAL' ) ? $product->MOQ : 'Check with HTH' }}</li>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">REMARK:</strong> &nbsp; {{ $product->ITEM_REMARK ?? '' }}</li>
               </ul>
