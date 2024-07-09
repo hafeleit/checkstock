@@ -124,6 +124,7 @@
                     }
                     $usd_price = "$".NUMBER_FORMAT($th_price / env('USD', 0),4);
                   }else{
+                    $free_stock = 0;
                     $e_price = 'Please check with HTH';
                     $usd_price = 'Please check with HTH';
                   }
