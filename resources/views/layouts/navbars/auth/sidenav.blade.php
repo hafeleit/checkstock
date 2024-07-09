@@ -1,6 +1,6 @@
 <?php
   $user_admin = ['admin'];
-  $itsupport = ['admin', '7231', '7232', '7233', '7230'];
+  $itsupport = ['admin', '7231', '7232', '7233', '7230','7234'];
   $user_ecom = ['admin','3043','3040','3044','3045','3047','3048','3029'];
   $user_hww = ['admin','inventory','HongPhuc.Vo','lehoangdung.nguyen','josephine.ng','YipLing.Chow','Mayur.Jambhale','Nalin.Jayasundara',
   'MingFoong.Wong','Iswahyuni.Iswahyuni','ganes.dinamariana','Leah.Ramos','Florian.Sergio','Natthanan.Lovrec','Joyce.Pan','Ayesha.Sandarenu'];
