@@ -17,7 +17,7 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
         $export_product = Product::where(function($query){
           $query->whereRaw("products.ITEM_STATUS IN ('8_PHASED OUT','9_OBSOLETE') AND (products.FREE_STOCK - products.PENDING_SO) > 0 ");
           $query->orWhereRaw("products.ITEM_STATUS NOT IN ('8_PHASED OUT','9_OBSOLETE')");
-          $query->where('products.ITEM_TYPE','!=','3_PICK&PACK');
+          //$query->where('products.ITEM_TYPE','!=','3_PICK&PACK');
         })->leftJoin('product_new_price_lists','product_new_price_lists.ITEM_CODE','products.ITEM_CODE')
           ->selectRaw("
             products.ITEM_CODE,
@@ -57,6 +57,7 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
           	END AS Moq,
           	products.ITEM_REMARK
           ")
+          ->where('products.ITEM_TYPE','!=','3_PICK&PACK')
           ->get();
           return $export_product;
     }
