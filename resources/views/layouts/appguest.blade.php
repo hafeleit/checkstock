@@ -26,8 +26,8 @@
 <body class="{{ $class ?? '' }} g-sidenav-hidden">
     @guest
         @if (in_array(request()->route()->getName(), ['products.index','so-status.index','so-status.show','sales-usi.index']))
-        <div class="position-absolute w-100 min-height-600 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
-            <span class="mask bg-primary opacity-6"></span>
+        <div class="position-absolute w-100 min-height-600 top-0" style="background-image: url('/img/bg-bangkok.jpg'); background-position-y: 12%; background-position-x: 30%;">
+            <span class="mask bg-primary opacity-2"></span>
         </div>
         @else
           @if (in_array(request()->route()->getName(), ['clr_dashboard']))

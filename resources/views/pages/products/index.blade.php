@@ -41,9 +41,9 @@
 
         <div class="row">
             <div class="col-12 mt-4">
-                <div class="card mb-4">
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0" id="get-products">
+                <div class="card mb-4" >
+                    <div class="card-body px-0 pt-0 pb-2" id="card-product" style="display:none">
+                        <div class="table-responsive p-0" id="get-products" >
 
                           <table class="table align-items-center mb-0">
                               <thead>
@@ -121,6 +121,7 @@
               let search = $(this).val();
               let view = $('#view').val();
 
+              if(search != ''){
                 $.ajax({
                   method: "GET",
                   url: "{{ route('products.search-ajax') }}",
@@ -132,7 +133,12 @@
                 }).done(function( msg ) {
                     //console.log(msg);
                   $('#get-products').html( msg );
+                  $('#card-product').css('display','unset');
                 });
+              }else{
+                $('#card-product').css('display','none');
+              }
+
 
             });
 
