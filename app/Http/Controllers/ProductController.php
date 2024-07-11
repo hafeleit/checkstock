@@ -93,7 +93,7 @@ class ProductController extends Controller
           $query = $query->where('item_code','like','%'.$request->search.'%');
           $query = $query->orWhere('item_name','like','%'.$request->search.'%');
           //$products = $query->paginate($paginate);
-          $products = $query->limit(5)->get();
+          $products = $query->limit(20)->get();
         }
 
         return view('pages.products.search',['products' => $products]);
