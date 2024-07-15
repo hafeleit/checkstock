@@ -23,7 +23,7 @@
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
               <div class="ms-auto my-auto">
-                @can('import checkstockrsa')
+                @can('checkstockrsa import')
                 <button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import"> Import </button>
 
                 <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">

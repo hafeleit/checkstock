@@ -36,7 +36,6 @@ class UserRolePermissionSeeder extends Seeder
         Permission::create(['name' => 'checkstockrsa view']);
         Permission::create(['name' => 'checkstockrsa import']);
         Permission::create(['name' => 'hthemployee view']);
-        Permission::create(['name' => 'hthemployee import']);
         Permission::create(['name' => 'itasset view']);
         Permission::create(['name' => 'usermanagement view']);
         Permission::create(['name' => 'dashboard view']);
@@ -47,6 +46,11 @@ class UserRolePermissionSeeder extends Seeder
         $staffRole = Role::create(['name' => 'staff']);
         $userRole = Role::create(['name' => 'user']);
 
+        $itasset = Role::create(['name' => 'itasset']);
+        $hthemployee = Role::create(['name' => 'hthemployee']);
+        $onlineorder = Role::create(['name' => 'onlineorder']);
+        $checkstockrsa = Role::create(['name' => 'checkstockrsa']);
+
         // Lets give all permission to super-admin role.
         $allPermissionNames = Permission::pluck('name')->toArray();
 
@@ -56,6 +60,11 @@ class UserRolePermissionSeeder extends Seeder
         $adminRole->givePermissionTo(['role create', 'role view', 'role update']);
         $adminRole->givePermissionTo(['permission create', 'permission view']);
         $adminRole->givePermissionTo(['user create', 'user view', 'user update']);
+
+        $itasset->givePermissionTo(['itasset view']);
+        $hthemployee->givePermissionTo(['hthemployee view']);
+        $onlineorder->givePermissionTo(['onlineorder view']);
+        $checkstockrsa->givePermissionTo(['checkstockrsa view']);
 
 
         // Let's Create User and assign Role to it.
