@@ -16,6 +16,11 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
+     public function __construct()
+     {
+         $this->middleware('permission:onlineorder view', ['only' => ['index']]);
+     }
+
     public function index()
     {
       $orders = Order::groupBy('filename')->orderBy('id','desc')->select(DB::raw("orders.*, COUNT(orders.filename) AS cnt"))->limit(20)->get();

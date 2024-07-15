@@ -1,21 +1,21 @@
 <?php
-  $user_admin = ['admin'];
-  $itsupport = ['admin', '7231', '7232', '7233', '7230','7234'];
-  $user_ecom = ['admin','3043','3040','3044','3045','3047','3048','3029'];
-  $user_hww = ['admin','inventory','HongPhuc.Vo','lehoangdung.nguyen','josephine.ng','YipLing.Chow','Mayur.Jambhale','Nalin.Jayasundara',
+  $user_admin = ['admin','Super Admin'];
+  $itsupport = ['admin','Super Admin', '7231', '7232', '7233', '7230','7234'];
+  $user_ecom = ['admin','Super Admin','3043','3040','3044','3045','3047','3048','3029'];
+  $user_hww = ['admin','Super Admin','inventory','HongPhuc.Vo','lehoangdung.nguyen','josephine.ng','YipLing.Chow','Mayur.Jambhale','Nalin.Jayasundara',
   'MingFoong.Wong','Iswahyuni.Iswahyuni','ganes.dinamariana','Leah.Ramos','Florian.Sergio','Natthanan.Lovrec','Joyce.Pan','Ayesha.Sandarenu'];
 ?>
 <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-    <a class="navbar-brand m-0" href="{{ route('home') }}" target="_blank" style="text-align: center;">
+    <a class="navbar-brand m-0" href="{{ URL('/') }}" style="text-align: center;">
       <img src="{{ URL::to('/') }}/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo"> <?php /*
 				<span class="ms-1 font-weight-bold">Argon Dashboard 2 Laravel</span>*/ ?> </a>
   </div>
   <hr class="horizontal dark mt-0">
   <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main" style="height: unset !important;">
     <ul class="navbar-nav">
-      @if(in_array(Auth::user()->username,$user_admin))
+      @can('dashboard view')
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'home' ? 'active' : '' }}" href="{{ route('home') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -24,16 +24,42 @@
           <span class="nav-link-text ms-1">Dashboard</span>
         </a>
       </li>
-      @endif
-      <li class="nav-item">
-        <a class="nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" href="{{ route('profile') }}">
+      @endcan
+
+      @can('usermanagement view')
+      <li class="nav-item ">
+        <a class="nav-link {{ in_array(Request::segment(1), ['users','permissions','roles']) ? 'active' : '' }}" data-bs-toggle="collapse"
+            aria-expanded="{{ in_array(Request::segment(1), ['users','permissions','roles']) ? 'true' : 'false' }}" href="#usermanagment">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-single-02 {{ Route::currentRouteName() == 'profile' ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
+            <i class="ni ni-single-02 {{  in_array(Request::segment(1), ['users','permissions','roles']) ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
           </div>
-          <span class="nav-link-text ms-1">Profile</span>
+          <span class="nav-link-text ms-1">User Management</span>
         </a>
+        <div class="collapse {{ in_array(Request::segment(1), ['users','permissions','roles']) ? 'show' : '' }}" id="usermanagment" style="">
+          <ul class="nav nav-sm flex-column">
+            <li class="nav-item">
+              <a class="nav-link {{ Route::currentRouteName() == 'users.index' ? 'active' : '' }}" href="{{ url('users') }}">
+                <span class="sidenav-mini-icon text-xs"> U </span>
+                <span class="sidenav-normal"> Users </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ Route::currentRouteName() == 'permissions.index' ? 'active' : '' }}" href="{{ url('permissions') }}">
+                <span class="sidenav-mini-icon text-xs"> P </span>
+                <span class="sidenav-normal"> Permissions </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ Route::currentRouteName() == 'roles.index' ? 'active' : '' }}" href="{{ url('roles') }}">
+                <span class="sidenav-mini-icon text-xs"> R </span>
+                <span class="sidenav-normal"> Role </span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </li>
-      @if(in_array(Auth::user()->username,$itsupport))
+      @endcan
+      @can('itasset view')
       <li class="nav-item ">
         <a class="nav-link {{ Request::segment(1) == 'itasset' ? 'active' : '' }}" data-bs-toggle="collapse" aria-expanded="{{ Request::segment(1) == 'itasset' ? 'true' : 'false' }}" href="#productsExample">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -58,20 +84,19 @@
           </ul>
         </div>
       </li>
-      @endif
+      @endcan
 
-      @if(in_array(Auth::user()->username,$user_admin))
+      @can('hthemployee view')
       <li class="nav-item">
         <a class="nav-link {{ str_contains(request()->url(), 'user-management') == true ? 'active' : '' }}" href="{{ route('user-management') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-book-bookmark {{ str_contains(request()->url(), 'user-management') == true ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
           </div>
-          <span class="nav-link-text ms-1">User Management</span>
+          <span class="nav-link-text ms-1">HTH Employee</span>
         </a>
       </li>
-      @endif
-      <!--<li class="nav-item"><a class="nav-link {{ str_contains(request()->url(), 'products') == true ? 'active' : '' }}" href="{{ route('products.index') }}"><div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center"><i class="ni ni-diamond text-dark text-sm opacity-10"></i></div><span class="nav-link-text ms-1">Products</span></a></li>-->
-      @if(in_array(Auth::user()->username,$user_ecom))
+      @endcan
+      @can('onlineorder view')
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'onlineorder.index' ? 'active' : '' }}" href="{{ route('onlineorder.index') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -80,108 +105,16 @@
           <span class="nav-link-text ms-1">Online Order</span>
         </a>
       </li>
-      @endif
+      @endcan
 
-      @if(in_array(Auth::user()->username,$user_hww))
+      @can('checkstockrsa view')
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'checkstock.index' ? 'active' : '' }}" href="{{ route('checkstock.index') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-archive-2 {{ Request::segment(1) == 'checkstock' ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
           </div>
-          <span class="nav-link-text ms-1">Check Stock</span>
+          <span class="nav-link-text ms-1">Check Stock RSA</span>
         </a>
       </li>
-      @endif
-      <?php /*
-					<li class="nav-item">
-						<a class="nav-link {{ str_contains(request()->url(), 'tables') == true ? 'active' : '' }}" href="{{ route('tables') }}">
-							<div
-
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
-							</div>
-							<span class="nav-link-text ms-1">Tables</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link {{  str_contains(request()->url(), 'billing') == true ? 'active' : '' }}" href="{{ route('billing') }}">
-							<div
-
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="ni ni-credit-card text-success text-sm opacity-10"></i>
-							</div>
-							<span class="nav-link-text ms-1">Billing</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link {{ Route::currentRouteName() == 'virtual-reality' ? 'active' : '' }}" href="{{ route('virtual-reality') }}">
-							<div
-
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="ni ni-app text-info text-sm opacity-10"></i>
-							</div>
-							<span class="nav-link-text ms-1">Virtual Reality</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link {{ Route::currentRouteName() == 'rtl' ? 'active' : '' }}" href="{{ route('rtl') }}">
-							<div
-
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
-							</div>
-							<span class="nav-link-text ms-1">RTL</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link {{ Route::currentRouteName() == 'profile-static' ? 'active' : '' }}" href="{{ route('profile-static') }}">
-							<div
-
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-							</div>
-							<span class="nav-link-text ms-1">Profile</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link " href="{{ route('sign-in-static') }}">
-							<div
-
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
-							</div>
-							<span class="nav-link-text ms-1">Sign In</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link " href="{{ route('sign-up-static') }}">
-							<div
-
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="ni ni-collection text-info text-sm opacity-10"></i>
-							</div>
-							<span class="nav-link-text ms-1">Sign Up</span>
-						</a>
-					</li>
-				</ul>
-			</div>
-			<div class="sidenav-footer mx-3 ">
-				<div class="card card-plain shadow-none" id="sidenavCard">
-					<img class="w-50 mx-auto" src="/img/illustrations/icon-documentation-warning.svg"
-
-                alt="sidebar_illustration">
-						<div class="card-body text-center p-3 w-100 pt-0">
-							<div class="docs-info">
-								<h6 class="mb-0">Need help?</h6>
-								<p class="text-xs font-weight-bold mb-0">Please check our docs</p>
-							</div>
-						</div>
-					</div>
-					<a href="/docs/bootstrap/overview/argon-dashboard/index.html" target="_blank"
-
-            class="btn btn-dark btn-sm w-100 mb-3">Documentation</a>
-					<a class="btn btn-primary btn-sm mb-0 w-100"
-
-            href="https://www.creative-tim.com/product/argon-dashboard-pro-laravel" target="_blank" type="button">Upgrade to PRO</a>
-				</div> */ ?>
+      @endcan
 </aside>

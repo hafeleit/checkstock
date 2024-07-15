@@ -13,6 +13,7 @@ class PageController extends Controller
      * @param string $page
      * @return \Illuminate\View\View
      */
+
     public function index(string $page)
     {
         if (view()->exists("pages.{$page}")) {

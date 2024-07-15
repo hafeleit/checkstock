@@ -17,6 +17,11 @@ class CheckStockController extends Controller
     /**
      * Display a listing of the resource.
      */
+     public function __construct()
+     {
+         $this->middleware('permission:checkstockrsa view', ['only' => ['index']]);
+     }
+
     public function index(Request $request)
     {
         $search = $request->search ?? '';

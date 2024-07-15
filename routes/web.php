@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\RegisterController;
@@ -89,6 +90,18 @@ use App\Http\Controllers\CheckStockController;
 
 
 Route::group(['middleware' => 'auth'], function () {
+//Route::group(['middleware' => ['role:super-admin|admin|staff|supplier|user']], function() {
+
+  Route::resource('permissions',  App\Http\Controllers\PermissionController::class);
+  Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);
+
+  Route::resource('roles',  App\Http\Controllers\RoleController::class);
+  Route::get('roles/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy']);
+  Route::get('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'addPermissionToRole']);
+  Route::put('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'givePermissionToRole']);
+
+  Route::resource('users', App\Http\Controllers\UserController::class);
+  Route::get('users/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy']);
 
   Route::post('usermaster-import', [UserMasterController::class,'import'])->name('usermaster-import');
   Route::get('itasset-export', [ITAssetController::class,'export'])->name('itasset-export');
