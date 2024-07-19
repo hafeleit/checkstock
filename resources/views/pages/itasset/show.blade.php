@@ -12,11 +12,11 @@
         @csrf
       <div class="row">
         <div class="col-lg-6" style="z-index: 1;">
-          <a href="{{ route('itasset.index') }}" type="button" class="btn btn-dark mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">All Asset</a>
+          <a href="{{ route('itasset.index') }}" type="button" class="btn btn-dark mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Back</a>
         </div>
         <div class="col-lg-6 text-end" style="z-index: 1;">
 
-          <a href="{{ route('itasset.edit',$itasset->id) }}" class="btn btn-outline-white mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Edit</a>
+          <a href="{{ route('itasset.edit',$itasset->id) }}" class="btn btn-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Edit</a>
         </div>
       </div>
       <div class="row mt-4">

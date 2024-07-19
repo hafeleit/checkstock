@@ -11,8 +11,8 @@
           <h4 class="text-white">Make the changes below</h4>
         </div>
         <div class="col-lg-6 text-end" style="z-index: 1;">
-          <a href="{{ route('itasset.show',$itasset->id) }}" type="button" class="btn btn-dark mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
-          <button type="submit" class="btn btn-outline-white mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
+          <a href="{{ route('itasset.show',$itasset->id) }}" type="button" class="btn btn-secondary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
+          <button type="submit" class="btn btn-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
         </div>
       </div>
       <div class="row mt-4">
