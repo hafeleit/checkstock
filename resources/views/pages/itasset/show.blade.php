@@ -15,8 +15,9 @@
           <a href="{{ route('itasset.index') }}" type="button" class="btn btn-dark mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Back</a>
         </div>
         <div class="col-lg-6 text-end" style="z-index: 1;">
-
+          @can('itasset update')
           <a href="{{ route('itasset.edit',$itasset->id) }}" class="btn btn-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Edit</a>
+          @endcan
         </div>
       </div>
       <div class="row mt-4">
@@ -42,8 +43,9 @@
                 </div>
                 <div class="col-12 mt-5">
                   <div class="d-flex">
+                    <!--
                     <button class="btn btn-primary btn-sm mb-0 me-2" type="button" name="button">Edit</button>
-                    <button class="btn btn-outline-dark btn-sm mb-0" type="button" name="button">Remove</button>
+                    <button class="btn btn-outline-dark btn-sm mb-0" type="button" name="button">Remove</button>-->
                   </div>
                 </div>
               </div>

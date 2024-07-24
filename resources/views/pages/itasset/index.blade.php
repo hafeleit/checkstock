@@ -116,7 +116,9 @@
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
               <div class="ms-auto my-auto">
+                @can('itasset create')
                 <a href="{{ route('itasset.create') }}" class="btn bg-gradient-primary btn-sm mb-0" target="_blank">+&nbsp; New Asset</a>
+                @endcan
                 <!--<button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import"> Import </button>-->
 
                 <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">
@@ -236,9 +238,11 @@
                         <a  href="{{ route('itasset.show',$itasset->id) }}" data-bs-toggle="tooltip" data-bs-original-title="Preview asset">
                           <i class="fas fa-eye text-secondary" aria-hidden="true"></i>
                         </a>
+                        @can('itasset update')
                         <a href="{{ route('itasset.edit',$itasset->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit asset">
                           <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
                         </a>
+                        @endcan
                         <!--<a href="javascript:;" data-bs-toggle="tooltip" data-bs-original-title="Delete asset">
                           <i class="fas fa-trash text-secondary" aria-hidden="true"></i>
                         </a>-->

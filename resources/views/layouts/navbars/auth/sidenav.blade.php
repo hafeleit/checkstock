@@ -69,12 +69,14 @@
         </a>
         <div class="collapse {{ Request::segment(1) == 'itasset' ? 'show' : '' }}" id="productsExample" style="">
           <ul class="nav nav-sm flex-column">
+            @can('itasset create')
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'itasset.create' ? 'active' : '' }}" href="{{ route('itasset.create') }}">
                 <span class="sidenav-mini-icon text-xs"> N </span>
                 <span class="sidenav-normal"> New Asset </span>
               </a>
             </li>
+            @endcan
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'itasset.index' ? 'active' : '' }}" href="{{ route('itasset.index') }}">
                 <span class="sidenav-mini-icon text-xs"> A </span>

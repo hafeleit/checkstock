@@ -39,8 +39,9 @@
                 </div>
                 <div class="col-12 mt-5">
                   <div class="d-flex">
+                    <!--
                     <button class="btn btn-primary btn-sm mb-0 me-2" type="button" name="button">Edit</button>
-                    <button class="btn btn-outline-dark btn-sm mb-0" type="button" name="button">Remove</button>
+                    <button class="btn btn-outline-dark btn-sm mb-0" type="button" name="button">Remove</button>-->
                   </div>
                 </div>
               </div>
@@ -69,7 +70,7 @@
               <div class="row">
                 <div class="col-12 col-sm-6">
                   <label>Computer Name <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="computer_name" value="{{$itasset->computer_name}}" readonly>
+                  <input class="form-control" type="text" name="computer_name" value="{{$itasset->computer_name}}">
                 </div>
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                   <label>Serial Number</label>
@@ -300,7 +301,9 @@
       <!-- delete modal -->
       <div class="row mt-3">
         <div class="col-12 text-end">
+            @can('itasset delete')
             <button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import"> Delete </button>
+            @endcan
             <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog mt-lg-10">
                 <div class="modal-content">

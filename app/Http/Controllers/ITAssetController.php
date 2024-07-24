@@ -20,6 +20,9 @@ class ITAssetController extends Controller
     public function __construct()
     {
         $this->middleware('permission:itasset view', ['only' => ['index']]);
+        $this->middleware('permission:itasset create', ['only' => ['create','store']]);
+        $this->middleware('permission:itasset update', ['only' => ['update','edit']]);
+        $this->middleware('permission:itasset delete', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -114,7 +117,7 @@ class ITAssetController extends Controller
     {
 
       $request->validate([
-          'computer_name' => 'required',
+          'computer_name' => 'required|unique:i_t_assets,computer_name,'.$itasset->id,
           'type' => 'required',
           'model' => 'required',
           'status' => 'required',
