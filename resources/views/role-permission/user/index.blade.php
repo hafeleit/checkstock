@@ -40,7 +40,7 @@
                     </div>
                     <div class="card-body">
 
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-flush dataTable-table" id="products-list">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -83,4 +83,18 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.datatables.net/2.0.6/js/dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.min.css" rel="stylesheet" />
+
+    <script>
+        $(document).ready(function () {
+
+            $("#products-list").DataTable({
+              order: [[0, 'asc']]
+            });
+
+            $('.').addClass('dataTable-top');
+        });
+    </script>
 @endsection
