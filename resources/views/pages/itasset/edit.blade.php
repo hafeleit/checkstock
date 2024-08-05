@@ -72,7 +72,7 @@
               <h5 class="font-weight-bolder">Asset Information</h5>
               <div class="row">
                 <div class="col-12 col-sm-6">
-                  <label>Computer Name <span class="text-danger">*</span></label>
+                  <label>Device Name <span class="text-danger">*</span></label>
                   <input class="form-control" type="text" name="computer_name" value="{{$itasset->computer_name}}">
                 </div>
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
