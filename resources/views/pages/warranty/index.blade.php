@@ -10,7 +10,7 @@
       <span class="mask bg-primary opacity-6" style=""></span>
     </div>
     <div class="container">
-        <div class="row mt-lg-n12 mt-md-n11 mt-n10 justify-content-center">
+        <div class="row mt-md-n11 mt-n10 justify-content-center">
             <div class="col-xl-5 col-lg-5 col-md-7 mx-auto">
 
                 <div class="card z-index-0">
@@ -42,31 +42,31 @@
                             @csrf
                             <div class="mb-3">
                                 <label class="text-sm">ชื่อ - สกุล (Name - Surname)<span class="text-danger">*</span></label>
-                                <input name="name" type="text" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล (Please fill in)" required>
+                                <input name="name" type="text" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล (Please fill in)" value="{{ old('name') }}" required>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">ที่อยู่จัดส่งสินค้า (Delivery address)<span class="text-danger">*</span></label>
-                                <textarea name="addr" class="form-control" rows="3" placeholder="กรุณากรอกที่อยู่จัดส่งสินค้า (Please fill in)" required></textarea>
+                                <textarea name="addr" class="form-control" rows="3" placeholder="กรุณากรอกที่อยู่จัดส่งสินค้า (Please fill in)" required> {{ old('addr') }} </textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">เบอร์โทรศัพท์ที่ติดต่อได้ (Contact number)<span class="text-danger">*</span></label>
-                                <input name="tel" type="number" class="form-control" placeholder="กรุณากรอกเบอร์โทรศัพท์ (Please fill in)" required>
+                                <input name="tel" type="number" class="form-control" placeholder="กรุณากรอกเบอร์โทรศัพท์ (Please fill in)" value="{{ old('tel') }}" required>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">Article no. (xxx.xx.xxx)<span class="text-danger">*</span></label>
-                                <input name="article_no" id="article_no" type="text" class="form-control" placeholder="กรุณากรอก Article no. (Please fill in)" required>
+                                <input name="article_no" id="article_no" type="text" class="form-control" placeholder="กรุณากรอก Article no. (Please fill in)" value="{{ old('article_no') }}" required>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">Serial no. (16-20 หลัก)<span class="text-danger">*</span></label>
-                                <input name="serial_no" type="text" class="form-control" placeholder="กรุณากรอก Serial no. (Please fill in)" required>
+                                <input name="serial_no" type="text" class="form-control" placeholder="กรุณากรอก Serial no. (Please fill in)" value="{{ old('serial_no') }}" required>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">ช่องทางการสั่งซื้อ (Order channel)<span class="text-danger">*</span></label>
-                                <input name="order_channel" type="text" class="form-control" placeholder="กรุณากรอกช่องทางการสั่งซื้อ (Please fill in)" required>
+                                <input name="order_channel" type="text" class="form-control" placeholder="กรุณากรอกช่องทางการสั่งซื้อ (Please fill in)" value="{{ old('order_channel') }}" required>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">หมายเลขคำสั่งซื้อ (Order number)<span class="text-danger">*</span></label>
-                                <input name="order_number" type="text" class="form-control" placeholder="กรุณากรอกหมายเลขคำสั่งซื้อ (Please fill in)" required>
+                                <input name="order_number" type="text" class="form-control" placeholder="กรุณากรอกหมายเลขคำสั่งซื้อ (Please fill in)" value="{{ old('order_number') }}" required>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">แนบรูปใบเสร็จ หรือ serial no. (Attach file)<span class="text-danger">*</span></label>
