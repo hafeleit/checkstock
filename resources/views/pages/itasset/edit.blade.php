@@ -11,7 +11,7 @@
           <h4 class="text-white">Make the changes below</h4>
         </div>
         <div class="col-lg-6 text-end" style="z-index: 1;">
-          <a href="{{ route('itasset.show',$itasset->id) }}" type="button" class="btn btn-secondary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
+          <a href="{{ route('itasset.show',$itasset->id) }}" type="button" class="btn btn-outline-secondary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
           <button type="submit" class="btn btn-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
         </div>
       </div>
@@ -31,6 +31,9 @@
                     @break
                     @case('PC')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="product_image">
+                    @break
+                    @case('HEADSET')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/headset.jpg" alt="product_image">
                     @break
                     @default
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
@@ -85,6 +88,7 @@
                     <option value="PC" {{ $itasset->type == 'PC' ? 'selected' : '' }}>PC</option>
                     <option value="PRINTER" {{ $itasset->type == 'PRINTER' ? 'selected' : '' }}>PRINTER</option>
                     <option value="SERVER" {{ $itasset->type == 'SERVER' ? 'selected' : '' }}>SERVER</option>
+                    <option value="HEADSET" {{ $itasset->type == 'HEADSET' ? 'selected' : '' }}>HEADSET</option>
                   </select>
                 </div>
                 <div class="col-3">

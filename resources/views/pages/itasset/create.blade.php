@@ -11,8 +11,8 @@
 
         </div>
         <div class="col-lg-6 text-end" style="z-index: 1;">
-          <a href="{{ route('itasset.index') }}" type="button" class="btn btn-dark mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
-          <button type="submit" class="btn btn-outline-white mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
+          <a href="{{ route('itasset.index') }}" type="button" class="btn btn-outline-secondary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
+          <button type="submit" class="btn btn-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
         </div>
       </div>
       <div class="row mt-4">
@@ -55,7 +55,7 @@
               <h5 class="font-weight-bolder">Asset Information</h5>
               <div class="row">
                 <div class="col-12 col-sm-6">
-                  <label>Computer Name <span class="text-danger">*</span></label>
+                  <label>Device Name <span class="text-danger">*</span></label>
                   <input class="form-control" type="text" name="computer_name" placeholder="HTHBKKNB333" required>
                 </div>
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
@@ -71,6 +71,7 @@
                     <option value="PC">PC</option>
                     <option value="PRINTER">PRINTER</option>
                     <option value="SERVER">SERVER</option>
+                    <option value="HEADSET">HEADSET</option>
                   </select>
                 </div>
                 <div class="col-3">

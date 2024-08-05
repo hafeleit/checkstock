@@ -198,6 +198,7 @@
                     <tr>
                       <td>{{$itasset->id}}</td>
                       <td>
+                        <a href="{{ route('itasset.show',$itasset->id) }}">
                         <div class="d-flex">
                           @switch($itasset->type)
                             @case('NOTEBOOK')
@@ -209,11 +210,14 @@
                             @case('PC')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="hoodie">
                             @break
+                            @case('HEADSET')
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/headset.jpg" alt="headset">
+                            @break
                             @default
                               <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
                           @endswitch
-                          <a href="{{ route('itasset.show',$itasset->id) }}"><h6 class="ms-3 my-auto">{{$itasset->computer_name}}</h6></a>
-                        </div>
+                          <h6 class="ms-3 my-auto">{{$itasset->computer_name}}</h6>
+                        </div></a>
                       </td>
                       <td class="text-sm">{{$itasset->user . ' ' .$itasset->name_en}}</td>
                       <td class="text-sm">{{$itasset->old_user . ' ' .$itasset->old_name}}</td>

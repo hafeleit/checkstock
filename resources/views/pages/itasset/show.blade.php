@@ -37,6 +37,9 @@
                     @case('PC')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="product_image">
                     @break
+                    @case('HEADSET')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/headset.jpg" alt="product_image">
+                    @break
                     @default
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
                   @endswitch
