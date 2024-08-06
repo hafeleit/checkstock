@@ -69,9 +69,25 @@
                                 <input name="order_number" type="text" class="form-control" placeholder="กรุณากรอกหมายเลขคำสั่งซื้อ (Please fill in)" value="{{ old('order_number') }}" required>
                             </div>
                             <div class="mb-3">
+                              <div class="row">
                                 <label class="text-sm">แนบรูปใบเสร็จ หรือ serial no. (Attach file)<span class="text-danger">*</span></label>
-                                <input name="file" type="file" class="form-control" placeholder="Attach file" aria-label="Attach file" required>
+                                <div class="col-8">
+                                  <input name="file" type="file" class="form-control" placeholder="Attach file" aria-label="Attach file" required>
+                                  <input name="file2" type="file" class="form-control files" placeholder="Attach file" aria-label="Attach file" style="display: none">
+                                  <input name="file3" type="file" class="form-control files" placeholder="Attach file" aria-label="Attach file" style="display: none">
+                                  <input name="file4" type="file" class="form-control files" placeholder="Attach file" aria-label="Attach file" style="display: none">
+                                  <input name="file5" type="file" class="form-control files" placeholder="Attach file" aria-label="Attach file" style="display: none">
+                                </div>
+                                <div class="col-4">
+                                  <button class="btn btn-sm btn-outline-dark mb-0" type="button" onclick="add_more_upload()">Add</button>
+                                </div>
+                              </div>
                             </div>
+                            <script type="text/javascript">
+                              function add_more_upload(){
+                                $('.files').first().css('display','unset').removeClass('files');
+                              }
+                            </script>
                             <p class="text-danger text-sm">*แนบไฟลได้เฉพาะ ไฟล์ pdf และ jpg ไฟล์ขนาดสูงสุดไม่เกิน 5MB (Only pdf and jpg files with a maximum file size of 5MB.)</p>
                             <p class="text-sm">บริษัท เฮเฟเล่ (ประเทศไทย) จำกัด ("เฮเฟเล่") จะเก็บ รวบรวม ใช้ เปิดเผยข้อมูลส่วนบุคคลของท่านเพื่อติดต่อ นำเสนอ และประชาสัมพันธ์ผลิตภัณฑ์และบริการที่ท่านสนใจโปรดศึกษารายละเอียดและสิทธิใน <a target="_blank" href="https://www.hafelethailand.com/policy/">นโยบายคุ้มครองข้อมูลส่วนบุคคล (Privacy Policy) ของเฮเฟเล่</a></p>
                             <p class="text-sm">* In order to reach out to you, offer, and promote goods and services you might find interesting, Häfele (Thailand) Co., Ltd. gathers, uses, and discloses your personal information. Please review the
