@@ -57,6 +57,11 @@
                                 <input type="password" name="password" class="form-control" />
                             </div>
                             <div class="mb-3">
+                                <label for="">Supplier Code</label>
+                                <input type="text" name="supp_code" class="form-control" />
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="">Roles</label>
                                 <select name="roles[]" class="form-control" multiple>
                                     <option value="">Select Role</option>

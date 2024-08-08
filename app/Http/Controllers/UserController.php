@@ -41,6 +41,7 @@ class UserController extends Controller
                         'username' => $request->username,
                         'email' => $request->email,
                         'password' => $request->password,
+                        'supp_code' => $request->supp_code,
                     ]);
 
         $user->syncRoles($request->roles);
@@ -70,6 +71,7 @@ class UserController extends Controller
         $data = [
             'name' => $request->name,
             'email' => $request->email,
+            'supp_code' => $request->supp_code,
         ];
 
         if(!empty($request->password)){

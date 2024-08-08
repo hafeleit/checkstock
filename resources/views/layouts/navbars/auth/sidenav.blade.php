@@ -119,4 +119,25 @@
         </a>
       </li>
       @endcan
+
+      @can('consumerlabel view')
+      <li class="nav-item ">
+        <a class="nav-link {{ Request::segment(1) == 'product-items' ? 'active' : '' }}" data-bs-toggle="collapse" aria-expanded="{{ Request::segment(1) == 'product-items' ? 'true' : 'false' }}" href="#comsumerlabel">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-single-copy-04 {{ Request::segment(1) == 'product-items' ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Consumer Label</span>
+        </a>
+        <div class="collapse {{ Request::segment(1) == 'product-items' ? 'show' : '' }}" id="comsumerlabel" style="">
+          <ul class="nav nav-sm flex-column">
+            <li class="nav-item">
+              <a class="nav-link {{ Route::currentRouteName() == 'product-items.index' ? 'active' : '' }}" href="{{ route('product-items.index') }}">
+                <span class="sidenav-mini-icon text-xs"> P </span>
+                <span class="sidenav-normal"> Product Items</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      @endcan
 </aside>

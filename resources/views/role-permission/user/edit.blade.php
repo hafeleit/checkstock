@@ -53,11 +53,17 @@
                             <div class="mb-3">
                                 <label for="">Email</label>
                                 <input type="text" name="email" readonly value="{{ $user->email }}" class="form-control" />
+                                @error('email') <span class="text-danger">{{ $email }}</span> @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="">Password</label>
                                 <input type="password" name="password"  class="form-control" />
                                 @error('password') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="">Supplier Code</label>
+                                <input type="text" name="supp_code" value="{{ $user->supp_code }}" class="form-control" />
+                                @error('supp_code') <span class="text-danger">{{ $supp_code }}</span> @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="">Roles</label>

@@ -34,6 +34,7 @@ use App\Http\Controllers\ITAssetController;
 use App\Http\Controllers\UserMasterController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CheckStockController;
+use App\Http\Controllers\Consumerlabel\ProductItemsController;
 
   Route::get('/', function () {return redirect('/products');});
 
@@ -94,15 +95,12 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::resource('permissions',  App\Http\Controllers\PermissionController::class);
   Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);
-
   Route::resource('roles',  App\Http\Controllers\RoleController::class);
   Route::get('roles/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy']);
   Route::get('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'addPermissionToRole']);
   Route::put('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'givePermissionToRole']);
-
   Route::resource('users', App\Http\Controllers\UserController::class);
   Route::get('users/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy']);
-
   Route::post('usermaster-import', [UserMasterController::class,'import'])->name('usermaster-import');
   Route::get('itasset-export', [ITAssetController::class,'export'])->name('itasset-export');
   Route::resource('itasset', ITAssetController::class);
@@ -112,6 +110,11 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('product-new-price-list-import', [CheckStockController::class,'import'])->name('product-new-price-list-import');
   Route::get('onlineorder/download/{file}', [OrderController::class,'download'])->name('onlineorder-download');
   Route::get('onlineorder-manual-get', [OrderController::class,'onlineorder_manual_get'])->name('onlineorder-manual-get');
+
+  //Consumerlabel
+  Route::resource('product-items', ProductItemsController::class);
+
+  //routes template
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
