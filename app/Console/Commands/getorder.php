@@ -279,7 +279,7 @@ class getorder extends Command
         }
         $excel = false;
         if(count($data_excel) > 0){
-          $excel = $this->exportExcel($data_excel);
+          $excel = $this->exportExcel($data_excel, $file_name);
         }
 
         if($excel){
@@ -340,7 +340,7 @@ class getorder extends Command
 
     }
 
-    public function exportExcel($data_excel){
+    public function exportExcel($data_excel, $file_name){
 
       $header[] = [
         'Company Code','SO Date','Doc Src Locn Code','Sales Location Code','Transaction Code','LPO Number',
@@ -355,7 +355,6 @@ class getorder extends Command
       $data_export[] = $header;
       $data_export[] = $data_excel;
       $export = new ExportOrders($data_export);
-      $file_name = date('dmy')."_".date('His').".xlsx";
       return Excel::store($export, $file_name, 'path_export');
 
     }
