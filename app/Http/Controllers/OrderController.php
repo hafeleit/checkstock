@@ -99,7 +99,7 @@ class OrderController extends Controller
         //
     }
 
-    public function onlineorder_manual_get(){
+    public function get_order_api($page = 1){
 
       $storename = "hthecommerce@hafele.co.th";
       $apikey = "by3oFDNKYKNb8PHSRTM/k5IxHuuHT2RKTaPqyqWwuE=";
@@ -107,8 +107,10 @@ class OrderController extends Controller
 
       $order_status = 0;
       $start_date = '2023-07-01';
+      $start_date = date('Y-m-d', strtotime(NOW(). ' - 1 days'));
+
       $today = date('Y-m-d');
-      $endpoint = '/Order/GetOrders?updatedafter='.$start_date.'&updatedbefore='.$today.'&limit=2000&status='.$order_status;
+      $endpoint = '/Order/GetOrders?updatedafter='.$start_date.'&updatedbefore='.$today.'&limit=2000&status='.$order_status.'&page='.$page;
       $url = "https://open-api.zortout.com/v4" . $endpoint;
 
       $curl = curl_init();
@@ -133,18 +135,46 @@ class OrderController extends Controller
       curl_close($curl);
       $response = json_decode($response);
 
-      $orders_count = $response->count;
-      $orders = $response->list;
+      return $response;
+    }
+
+    public function onlineorder_manual_get(){
+
       $new_order = [];
       $insert_order = [];
       $data_excel = [];
+      $page = 1;
+      $order_total = 0;
+      $limit = 500;
 
+      $response = $this->get_order_api($page);
+      $order_total = $response->count; //for use while loop check
+      $orders = $response->list;
+      echo " Page = " . $page;
+      echo " Order total = " . $order_total;
       foreach ($orders as $key => $order) {
         $check_dup = Order::where('order_number', $order->number)->where('del', 0)->count();
         if($check_dup == 0){
           $new_order[] = $orders[$key];
         }
       }
+
+      while ($order_total > $limit) { //orders > 500
+
+        $page++;
+        $response = $this->get_order_api($page);
+        $order_total -= $limit;
+        echo " Page = " . $page;
+        echo " Order total = " . $order_total;
+        $orders = $response->list;
+        foreach ($orders as $key => $order) {
+          $check_dup = Order::where('order_number', $order->number)->where('del', 0)->count();
+          if($check_dup == 0){
+            $new_order[] = $orders[$key];
+          }
+        }
+      }
+
       $new_order_count = count($new_order);
       $l = 0;
       $file_name = date('dmy')."_".date('His').".xlsx";
@@ -351,7 +381,7 @@ class OrderController extends Controller
       if($excel){
         $this->sendLine($new_order_count);
       }else{
-        $this->sendLine("Orders: 0");
+        $this->sendLine("0");
       }
 
       return redirect()->back()->with('succes', $new_order_count);
