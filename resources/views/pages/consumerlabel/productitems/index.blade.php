@@ -100,22 +100,22 @@
                           <td class="text-sm">{{ $product->product_name ?? '' }}</td>
                           <td class="text-sm">{{ $product->made_by ?? '' }}</td>
                           <td class="text-sm">
-                            <a href="{{ route('product-items.edit',$product->id) }}" data-bs-toggle="tooltip" data-bs-original-title="Download Barcode">
+                            <a href="" data-bs-toggle="modal" data-bs-target="#modal-barcode" data-bs-original-title="Download Barcode" onclick="icon_barcode('{{$product->item_code}}')">
                               <i class="fas fa-barcode text-lg text-danger" aria-hidden="true"></i>
                             </a>
                           </td>
                           <td class="text-sm">
-                            <a href="{{ route('product-items.edit',$product->id) }}" data-bs-toggle="tooltip" data-bs-original-title="Download Barcode">
+                            <a href="" data-bs-toggle="tooltip" data-bs-original-title="Download Barcode">
                               <i class="fas fa-barcode text-lg text-info" aria-hidden="true"></i>
                             </a>
                           </td>
                           <td class="text-sm">
-                            <a href="{{ route('product-items.edit',$product->id) }}" data-bs-toggle="tooltip" data-bs-original-title="Download Barcode">
+                            <a href="" data-bs-toggle="tooltip" data-bs-original-title="Download Barcode">
                               <i class="fas fa-barcode text-lg text-secondary" aria-hidden="true"></i>
                             </a>
                           </td>
                           <td class="text-sm">
-                            <a  href="{{ route('product-items.show',$product->id) }}" data-bs-toggle="tooltip" data-bs-original-title="Preview Product">
+                            <a  href="" data-bs-toggle="tooltip" data-bs-original-title="Preview Product">
                               <i class="fas fa-eye text-secondary" aria-hidden="true"></i>
                             </a>
                             @can('consumerlabel update')
@@ -145,21 +145,61 @@
       </div>
     </div>
   </div>
-
 </div>
+
+<div class="modal fade" id="modal-barcode" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <form class="" action="{{ route('pdfbarcode')}}" method="get" target="_blank" onSubmit="return chkSkip()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Consumer Labelling</h6><span id="modal-item-code"></span>
+                <input type="hidden" name="item_code" id="item_code" value="">
+                <input type="hidden" name="barcode_type" id="barcode_type" value="">
+            </div>
+            <div class="modal-body">
+              <p>
+                <input class="form-control datepicker" id="pdate" name="man_date" placeholder="Please select manufacturing date if you need" type="text" >
+              </p>
+
+              <p class="text-danger text-xs">* Please select the production date, if no need please click "OK" for skip it</p>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='1pc';"><i class="fa fa-upload"></i> 1 Pc</button>
+                <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='a4';"><i class="fa fa-upload"></i> A4</button>
+                <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='a4_nob';"><i class="fa fa-upload"></i> A4 No border</button>
+                <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
 <script type="text/javascript">
+
+  function chkSkip(){
+    if($('#pdate').val() == ''){
+      return confirm('Please note that, the consumer label must have production date Are you sure skip the date?');
+    }
+  }
+
+  function icon_barcode(item_code){
+    let txt_item_code = 'Item code: '+ item_code;
+    $('#item_code').val(item_code);
+    $('#modal-item-code').html(txt_item_code);
+  }
 
   $(function(){
 
 
     $( "#perpage" ).on( "change", function() {
       $( "#form_search" ).trigger( "submit" );
-    } );
-
+    });
     $( "#btn_search" ).on( "click", function() {
       $( "#form_search" ).trigger( "submit" );
-    } );
-
+    });
+    $("#pdate").flatpickr({
+      disableMobile: "true",
+    });
   });
 
 </script>

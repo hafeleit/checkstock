@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductItem;
 use Auth;
+use PDF;
 class ProductItemsController extends Controller
 {
     /**
@@ -17,6 +18,36 @@ class ProductItemsController extends Controller
        $this->middleware('permission:consumerlabel create', ['only' => ['create','store']]);
        $this->middleware('permission:consumerlabel update', ['only' => ['update','edit']]);
        $this->middleware('permission:consumerlabel delete', ['only' => ['destroy']]);
+    }
+
+    public function pdfbarcode(Request $request){
+
+      $productItems = ProductItem::where('item_code', $request->item_code)->first();
+
+      if($request->man_date != ''){
+        $productItems['man_date'] = date('d/m/Y', strtotime($request->man_date));
+      }
+
+      switch ($request->barcode_type) {
+        case '1pc':
+          $pdf = PDF::loadView('pdf.barcode', ['productItems' => $productItems]);
+          break;
+        case 'a4':
+          $pdf = PDF::loadView('pdf.barcode_a4', ['productItems' => $productItems]);
+          break;
+        case 'a4_nob':
+          $pdf = PDF::loadView('pdf.barcode_a4_nob', ['productItems' => $productItems]);
+          break;
+        default:
+          break;
+      }
+
+      //$customPaper = array(0,0,360,360);
+      //$dompdf->setPaper($customPaper);
+      $pdf->setPaper('A4');
+      //return $pdf->download('barcode.pdf');
+      return $pdf->stream($request->item_code.".pdf");
+
     }
 
     public function index(Request $request)

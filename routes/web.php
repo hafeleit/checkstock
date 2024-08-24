@@ -113,7 +113,7 @@ Route::group(['middleware' => 'auth'], function () {
 
   //Consumerlabel
   Route::resource('product-items', ProductItemsController::class);
-
+  Route::get('consumerlabel-barcode', [ProductItemsController::class,'pdfbarcode'])->name('pdfbarcode');
   //routes template
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
