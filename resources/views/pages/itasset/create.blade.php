@@ -116,7 +116,7 @@
               <div class="row">
                 <div class="col-12 col-sm-6">
                   <label class="mt-4">Status <span class="text-danger">*</span></label>
-                  <select class="form-control" name="status" required>
+                  <select class="form-control" name="status" id="status" required>
                     <option value="ACTIVE">ACTIVE</option>
                     <option value="BROKEN">BROKEN</option>
                     <option value="SPARE">SPARE</option>
@@ -170,6 +170,12 @@
                     <option value="HTHDC_E-Commerce Warehouse">HTHDC_E-Commerce Warehouse</option>
 
                   </select>
+                </div>
+              </div>
+              <div class="row reason_broken" style="display: none">
+                <div class="col-12 col-sm-6">
+                  <label class="mt-4 text-danger">Reason Broken</label>
+                  <input class="form-control" type="text" name="reason_broken">
                 </div>
               </div>
               <div class="row">
@@ -282,6 +288,15 @@
         $("#pdate").flatpickr({
           disableMobile: "true",
         });
+
+        $('#status').on('change', function(){
+            if($(this).val() == 'BROKEN'){
+              $('.reason_broken').css('display','block');
+            }else{
+              $('.reason_broken').css('display','none');
+            }
+        });
+
       });
     </script>
 

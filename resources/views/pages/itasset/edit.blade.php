@@ -133,7 +133,7 @@
               <div class="row">
                 <div class="col-12 col-sm-6">
                   <label class="mt-4">Status <span class="text-danger">*</span></label>
-                  <select class="form-control" name="status">
+                  <select class="form-control" name="status" id="status" required>
                     <option value="ACTIVE" {{ $itasset->status == 'ACTIVE' ? 'selected' : '' }}>ACTIVE</option>
                     <option value="BROKEN" {{ $itasset->status == 'BROKEN' ? 'selected' : '' }}>BROKEN</option>
                     <option value="SPARE" {{ $itasset->status == 'SPARE' ? 'selected' : '' }}>SPARE</option>
@@ -186,6 +186,12 @@
                     <option value="HTHDC_E-Commerce Warehouse" {{ $itasset->location == 'HTHDC_E-Commerce Warehouse' ? 'selected' : '' }}>HTHDC_E-Commerce Warehouse</option>
                     <option value=""></option>
                   </select>
+                </div>
+              </div>
+              <div class="row reason_broken" style="display:{{ ($itasset->status == 'BROKEN') ? 'block' : 'none' }}">
+                <div class="col-12 col-sm-6">
+                  <label class="mt-4 text-danger">Reason Broken</label>
+                  <input class="form-control" type="text" name="reason_broken" id="reason_broken" value="{{$itasset->reason_broken}}">
                 </div>
               </div>
               <div class="row">
@@ -336,8 +342,18 @@
 
     <script type="text/javascript">
       $(function(){
+
         $("#pdate").flatpickr({
           disableMobile: "true",
+        });
+
+        $('#status').on('change', function(){
+            if($(this).val() == 'BROKEN'){
+              $('.reason_broken').css('display','block');
+            }else{
+              $('.reason_broken').css('display','none');
+              $('#reason_broken').val('');
+            }
         });
       });
     </script>

@@ -24,6 +24,7 @@ class ITAsset extends Model
       'old_name',
       'old_department',
       'location',
+      'reason_broken',
       'create_by',
       'update_by',
     ];

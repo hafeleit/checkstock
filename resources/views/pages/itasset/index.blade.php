@@ -233,9 +233,11 @@
                         </td>-->
                       <td>
                         @if($itasset->status == 'ACTIVE')
-                        <span class="badge badge-success badge-sm">{{$itasset->status}}</span>
+                          <span class="badge badge-success badge-md">{{$itasset->status}}</span>
+                        @elseif($itasset->status == 'SPARE')
+                          <span class="badge badge-info badge-md">{{$itasset->status}}</span>
                         @else
-                        <span class="badge badge-danger badge-sm">{{$itasset->status}}</span>
+                          <span class="badge badge-danger badge-md">{{$itasset->status}}</span>
                         @endif
                       </td>
                       <td class="text-sm">

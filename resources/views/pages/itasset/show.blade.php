@@ -129,9 +129,15 @@
                 <div class="col-12 col-sm-6">
                   <p class="mt-3">Status</p>
                   @if($itasset->status == 'ACTIVE')
-                    <span class="badge badge-success badge-md">ACTIVE</span>
+                    <span class="badge badge-success badge-md">{{$itasset->status}}</span>
+                  @elseif($itasset->status == 'SPARE')
+                    <span class="badge badge-info badge-md">{{$itasset->status}}</span>
                   @else
                     <span class="badge badge-danger badge-md">{{$itasset->status}}</span>
+                  @endif
+
+                  @if($itasset->reason_broken != '')
+                    <span class="text-sm">&nbsp Reason: </span> <span class="text-sm font-weight-bold my-auto ps-sm-2 text-danger">{{$itasset->reason_broken}}</span>
                   @endif
                 </div>
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
@@ -141,6 +147,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="col-12 col-sm-6">
                   <p class="mt-3">Create By</p>
