@@ -31,12 +31,20 @@ class ProductItemsController extends Controller
       switch ($request->barcode_type) {
         case '1pc':
           $pdf = PDF::loadView('pdf.barcode', ['productItems' => $productItems]);
+          $pdf->setPaper('A4');
           break;
         case 'a4':
           $pdf = PDF::loadView('pdf.barcode_a4', ['productItems' => $productItems]);
+          $pdf->setPaper('A4');
           break;
         case 'a4_nob':
           $pdf = PDF::loadView('pdf.barcode_a4_nob', ['productItems' => $productItems]);
+          $pdf->setPaper('A4');
+          break;
+        case 'tis':
+          $pdf = PDF::loadView('pdf.barcode_tis', ['productItems' => $productItems]);
+          $customPaper = array(0,0,439,304);
+          $pdf->setPaper($customPaper);
           break;
         default:
           break;
@@ -44,7 +52,7 @@ class ProductItemsController extends Controller
 
       //$customPaper = array(0,0,360,360);
       //$dompdf->setPaper($customPaper);
-      $pdf->setPaper('A4');
+      //$pdf->setPaper('A4');
       //return $pdf->download('barcode.pdf');
       return $pdf->stream($request->item_code.".pdf");
 

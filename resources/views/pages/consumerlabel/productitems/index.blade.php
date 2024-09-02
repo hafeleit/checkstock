@@ -84,9 +84,7 @@
                       <th>Item Desc</th>
                       <th>Product Name</th>
                       <th>Made by</th>
-                      <th>สคบ.</th>
-                      <th>TIS</th>
-                      <th>ITEM Barcode</th>
+                      <th>Barcode</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -102,16 +100,6 @@
                           <td class="text-sm">
                             <a href="" data-bs-toggle="modal" data-bs-target="#modal-barcode" data-bs-original-title="Download Barcode" onclick="icon_barcode('{{$product->item_code}}')">
                               <i class="fas fa-barcode text-lg text-danger" aria-hidden="true"></i>
-                            </a>
-                          </td>
-                          <td class="text-sm">
-                            <a href="" data-bs-toggle="tooltip" data-bs-original-title="Download Barcode">
-                              <i class="fas fa-barcode text-lg text-info" aria-hidden="true"></i>
-                            </a>
-                          </td>
-                          <td class="text-sm">
-                            <a href="" data-bs-toggle="tooltip" data-bs-original-title="Download Barcode">
-                              <i class="fas fa-barcode text-lg text-secondary" aria-hidden="true"></i>
                             </a>
                           </td>
                           <td class="text-sm">
@@ -167,6 +155,7 @@
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='1pc';"><i class="fa fa-upload"></i> 1 Pc</button>
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='a4';"><i class="fa fa-upload"></i> A4</button>
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='a4_nob';"><i class="fa fa-upload"></i> A4 No border</button>
+                <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='tis';"><i class="fa fa-upload"></i> TIS</button>
                 <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

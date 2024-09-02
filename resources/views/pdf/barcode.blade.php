@@ -491,8 +491,8 @@
             <td colspan=5>
               <table width="100%" cellpadding=0 cellspacing=0>
                 <tr>
-                  <td class="tr9 td4" valign="top" align="center" style="padding:0px 0px 0px 0px;line-height:10%;"> <?php echo '
-														<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="94" height="26.25" style="margin:-31px 0px 0px 90px;"   />'; ?>
+                  <td class="tr9 td4" valign="top" align="center" style="padding:0px 0px 0px 0px;line-height:10%;">
+                    <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="94" height="26.25" style="margin:-31px 0px 0px 90px;" />'; ?>
 											<p style="margin:1px 0px 2px 85px;">
                       <B>
                         {{$productItems["bar_code"][0]}}&nbsp;&nbsp; {{$productItems["bar_code"][1]}}
