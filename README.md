@@ -5,3 +5,4 @@
 5. php artisan migrate
 6. APP_URL=http://127.0.0.1:8000
 7. git push by command line first
+8. php artisan db:seed --class="UserRolePermissionSeeder"
