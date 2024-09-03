@@ -1,7 +1,6 @@
-git clone
-composer install
-compy .env.example .env
-php artisan key:generate
-php artisan migrate
-APP_URL=http://127.0.0.1:8000
-test
+1. git clone https://github.com/hafeleit/checkstock.git
+2. composer update --ignore-platform-req=ext-gd
+3. copy .env.example .env
+4. php artisan key:generate
+5. php artisan migrate
+6. APP_URL=http://127.0.0.1:8000
