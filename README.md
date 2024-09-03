@@ -4,3 +4,4 @@
 4. php artisan key:generate
 5. php artisan migrate
 6. APP_URL=http://127.0.0.1:8000
+7. git push by command line first
