@@ -35,6 +35,9 @@
                     @case('HEADSET')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/headset.jpg" alt="product_image">
                     @break
+                    @case('TELEPHONE_SIM')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/telephone_sim.jpg" alt="product_image">
+                    @break
                     @default
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
                   @endswitch
@@ -89,6 +92,7 @@
                     <option value="PRINTER" {{ $itasset->type == 'PRINTER' ? 'selected' : '' }}>PRINTER</option>
                     <option value="SERVER" {{ $itasset->type == 'SERVER' ? 'selected' : '' }}>SERVER</option>
                     <option value="HEADSET" {{ $itasset->type == 'HEADSET' ? 'selected' : '' }}>HEADSET</option>
+                    <option value="TELEPHONE_SIM" {{ $itasset->type == 'TELEPHONE_SIM' ? 'selected' : '' }}>TELEPHONE SIM</option>
                   </select>
                 </div>
                 <div class="col-3">

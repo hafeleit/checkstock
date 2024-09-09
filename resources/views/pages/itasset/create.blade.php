@@ -72,6 +72,7 @@
                     <option value="PRINTER">PRINTER</option>
                     <option value="SERVER">SERVER</option>
                     <option value="HEADSET">HEADSET</option>
+                    <option value="TELEPHONE_SIM">TELEPHONE SIM</option>
                   </select>
                 </div>
                 <div class="col-3">

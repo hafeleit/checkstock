@@ -202,16 +202,19 @@
                         <div class="d-flex">
                           @switch($itasset->type)
                             @case('NOTEBOOK')
-                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="hoodie">
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="notebook">
                             @break
                             @case('PRINTER')
-                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/printer-fuji.jpg" alt="hoodie">
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/printer-fuji.jpg" alt="printer">
                             @break
                             @case('PC')
-                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="hoodie">
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="pc">
                             @break
                             @case('HEADSET')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/headset.jpg" alt="headset">
+                            @break
+                            @case('TELEPHONE_SIM')
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/telephone_sim.jpg" alt="telephone_sim">
                             @break
                             @default
                               <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
