@@ -57,7 +57,7 @@ class CheckStocHwwExport implements FromCollection, WithHeadings, WithColumnWidt
           	END AS Moq,
           	products.ITEM_REMARK
           ")
-          ->where('products.ITEM_TYPE','!=','3_PICK&PACK')
+          //->where('products.ITEM_TYPE','!=','3_PICK&PACK')
           ->get();
           return $export_product;
     }
