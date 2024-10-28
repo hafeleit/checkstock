@@ -7,7 +7,7 @@
         <div class="row">
 
             <div class="col-12" style="z-index: 9;text-align: center;margin-bottom: 14px;">
-              <h3 class="font-weight-bolder text-white mb-0">Big Clearance Sale 2023</h3>
+              <h3 class="font-weight-bolder text-white mb-0">Big Clearance Sale 2024</h3>
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
 
@@ -365,6 +365,7 @@
                 </div>
             </div>
         </div>
+        <!--
         <div class="row mt-4">
             <div class="col-lg-12 mb-lg-0 mb-4">
               <div class="card ">
@@ -540,7 +541,7 @@
                     </div>
               </div>
             </div>
-        </div>
+        </div>-->
 
     </div>
 @endsection
