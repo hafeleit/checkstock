@@ -590,8 +590,8 @@ class getorder extends Command
 
       $new_order_count = count($new_order);
       $orion_excel = $this->generate_excel_orion($new_order, $file_name); //Orion Excel Exports
-      $sap_excel = $this->generate_excel_sap($new_order, $file_name); //SAP Excel Exports
-
+      //$sap_excel = $this->generate_excel_sap($new_order, $file_name); //SAP Excel Exports
+      echo "orion_excel".$orion_excel;
       if($orion_excel){
         if(count($insert_order) > 0){
           Order::insert($insert_order);
@@ -604,7 +604,7 @@ class getorder extends Command
         $this->sendLine("0");
       }
 
-      return redirect()->back()->with('succes', $new_order_count);
+      echo "success";
 
     }
 
