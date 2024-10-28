@@ -88,9 +88,13 @@
                         </a>
                       </td>
                       <td class="text-sm">
+                        @if(file_exists(storage_path('app/export/orders/'.'SAP_'.$order->filename)))
                         <a href={{route('onlineorder-download','SAP_'.$order->filename)}} data-bs-toggle="tooltip" data-bs-original-title="Download">
                           <i class="ni ni-archive-2 text-dark" aria-hidden="true"> Download</i>
                         </a>
+                        @else
+                         <a>-</a>
+                        @endif
                       </td>
                       <td class="text-sm">
                         @if(file_exists(storage_path('app/export/orders/'.'SAP_EX_'.$order->filename)))
