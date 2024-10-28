@@ -551,12 +551,6 @@ class getorder extends Command
         $excel = $this->exportExcel($data_excel, $file_name);
       }
 
-      if($excel){
-        $this->sendLine($new_order_count);
-      }else{
-        $this->sendLine("0");
-      }
-
       return $excel;
 
     }
@@ -602,6 +596,12 @@ class getorder extends Command
         if(count($insert_order) > 0){
           Order::insert($insert_order);
         }
+      }
+
+      if($orion_excel){
+        $this->sendLine($new_order_count);
+      }else{
+        $this->sendLine("0");
       }
 
       return redirect()->back()->with('succes', $new_order_count);
