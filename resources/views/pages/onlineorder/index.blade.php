@@ -64,11 +64,15 @@
                       <th >
                         <a href="#" class="">File name</a>
                       </th>
-
                       <th >
-                        <a href="#" class="">ACTION</a>
+                        <a href="#" class="">ORION</a>
                       </th>
-                      <th></th>
+                      <th >
+                        <a href="#" class="">SAP</a>
+                      </th>
+                      <th >
+                        <a href="#" class="">SAP EX</a>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -82,16 +86,21 @@
                         <a href={{route('onlineorder-download',$order->filename)}} data-bs-toggle="tooltip" data-bs-original-title="Download">
                           <i class="ni ni-archive-2 text-dark" aria-hidden="true"> Download</i>
                         </a>
-
-                        <!--<a href="javascript:;" data-bs-toggle="tooltip" data-bs-original-title="Delete asset">
-                          <i class="fas fa-trash text-secondary" aria-hidden="true"></i>
-                        </a>-->
-
                       </td>
-                      <td class="text-start">
-                        @if($index == 0)
-                        <img src="/img/icons/new.gif" alt="profile_image" class="w-8 border-radius-lg">
+                      <td class="text-sm">
+                        <a href={{route('onlineorder-download','SAP_'.$order->filename)}} data-bs-toggle="tooltip" data-bs-original-title="Download">
+                          <i class="ni ni-archive-2 text-dark" aria-hidden="true"> Download</i>
+                        </a>
+                      </td>
+                      <td class="text-sm">
+                        @if(file_exists(storage_path('app/export/orders/'.'SAP_EX_'.$order->filename)))
+                        <a href={{route('onlineorder-download','SAP_EX_'.$order->filename)}} data-bs-toggle="tooltip" data-bs-original-title="Download">
+                          <i class="ni ni-archive-2 text-dark" aria-hidden="true"> Download</i>
+                        </a>
+                        @else
+                         <a>-</a>
                         @endif
+
                       </td>
 
                     </tr>
