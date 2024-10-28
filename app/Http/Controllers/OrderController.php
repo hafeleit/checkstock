@@ -612,12 +612,6 @@ class OrderController extends Controller
         $excel = $this->exportExcel($data_excel, $file_name);
       }
 
-      if($excel){
-        $this->sendLine($new_order_count);
-      }else{
-        $this->sendLine("0");
-      }
-
       return $excel;
 
     }
@@ -663,6 +657,12 @@ class OrderController extends Controller
         if(count($insert_order) > 0){
           Order::insert($insert_order);
         }
+      }
+
+      if($orion_excel){
+        $this->sendLine($new_order_count);
+      }else{
+        $this->sendLine("0");
       }
 
       return redirect()->back()->with('succes', $new_order_count);
@@ -722,7 +722,6 @@ class OrderController extends Controller
       $data_export[] = $header;
       $data_export[] = $data_excel;
       $export = new ExportOrders($data_export);
-      $file_name = date('dmy')."_".date('His').".xlsx";
       return Excel::store($export, $file_name, 'path_export');
 
     }

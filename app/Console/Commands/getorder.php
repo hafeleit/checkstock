@@ -590,8 +590,8 @@ class getorder extends Command
 
       $new_order_count = count($new_order);
       $orion_excel = $this->generate_excel_orion($new_order, $file_name); //Orion Excel Exports
-      //$sap_excel = $this->generate_excel_sap($new_order, $file_name); //SAP Excel Exports
-      echo "orion_excel".$orion_excel;
+      $sap_excel = $this->generate_excel_sap($new_order, $file_name); //SAP Excel Exports
+      
       if($orion_excel){
         if(count($insert_order) > 0){
           Order::insert($insert_order);
@@ -661,7 +661,6 @@ class getorder extends Command
       $data_export[] = $header;
       $data_export[] = $data_excel;
       $export = new ExportOrders($data_export);
-      $file_name = date('dmy')."_".date('His').".xlsx";
       return Excel::store($export, $file_name, 'path_export');
 
     }
