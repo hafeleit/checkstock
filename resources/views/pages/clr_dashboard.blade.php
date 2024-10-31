@@ -20,7 +20,7 @@
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 1</p>
                                     <h2 class="font-weight-bolder">
                                         {{ ($clr_total['day1_total'] > 0) ? number_format($clr_total['day1_total']) : '-' }}
-                                        <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 13:40</p>
+                                        <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 16:00</p>
                                     </h2>
                                 </div>
                             </div>
