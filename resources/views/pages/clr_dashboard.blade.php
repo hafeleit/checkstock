@@ -41,7 +41,6 @@
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 2</p>
                                     <h2 class="font-weight-bolder">
                                         {{ ($clr_total['day2_total'] > 0) ? number_format($clr_total['day2_total']) : '-' }}
-                                        <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 20:00</p>
                                     </h2>
 
                                 </div>
@@ -64,6 +63,7 @@
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 3</p>
                                     <h2 class="font-weight-bolder">
                                         {{ ($clr_total['day3_total'] > 0) ? number_format($clr_total['day3_total']) : '-' }}
+                                        <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 10:00</p>
                                     </h2>
 
                                 </div>
