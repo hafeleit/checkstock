@@ -49,7 +49,7 @@ class ProductItemsController extends Controller
           break;
         case 'tis2':
           $pdf = PDF::loadView('pdf.barcode_tis2', ['productItems' => $productItems]);
-          $customPaper = array(0,0,304,370);
+          $customPaper = array(0,0,304,440);
           $pdf->setPaper($customPaper);
           break;
         default:
