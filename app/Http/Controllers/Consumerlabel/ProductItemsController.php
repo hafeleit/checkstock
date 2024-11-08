@@ -44,8 +44,12 @@ class ProductItemsController extends Controller
         case 'tis':
           //return view('pdf.barcode_tis', ['productItems' => $productItems]);
           $pdf = PDF::loadView('pdf.barcode_tis', ['productItems' => $productItems]);
-          //$customPaper = array(0,0,439,304);
           $customPaper = array(0,0,250,135);
+          $pdf->setPaper($customPaper);
+          break;
+        case 'tis2':
+          $pdf = PDF::loadView('pdf.barcode_tis2', ['productItems' => $productItems]);
+          $customPaper = array(0,0,304,370);
           $pdf->setPaper($customPaper);
           break;
         default:

@@ -152,12 +152,19 @@
               <p class="text-danger text-xs">* Please select the production date, if no need please click "OK" for skip it</p>
             </div>
             <div class="modal-footer">
+              <div class="" style="width: 100%; text-align: left;">
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='1pc';"><i class="fa fa-upload"></i> 1 Pc</button>
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='a4';"><i class="fa fa-upload"></i> A4</button>
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='a4_nob';"><i class="fa fa-upload"></i> A4 No border</button>
+
+              </div>
+              <div class="" style="width: 100%;">
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='tis';"><i class="fa fa-upload"></i> TIS</button>
-                <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">Close</button>
-            </div>
+                <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='tis2';"><i class="fa fa-upload"></i> TIS2</button>
+                <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal" style="float: right;">Close</button>
+
+              </div>
+                </div>
         </div>
         </form>
     </div>
