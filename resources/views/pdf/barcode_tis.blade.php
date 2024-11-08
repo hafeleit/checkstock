@@ -5,10 +5,19 @@
     <title></title>
   </head>
   <style media="screen">
+
+    @font-face {
+	font-family: 'AngsanaUPC';
+	font-style: normal;
+	font-weight: normal;
+	src: local('AngsanaUPC'),
+	src: url("{{ asset('fonts/AngsanaUPC.ttf')}}") format('truetype');
+    }
+
     body {
     	margin-top: -42px;margin-left: -42px;
     	font-family: 'AngsanaUPC'; height: 100%;
-      font-size: 12px;
+      font-size: 13px;
     }
     .container{
       position:absolute;
@@ -19,10 +28,10 @@
       height: 400px;
       width: 580px;
       z-index: -1;
-      padding: 1.5px 0px 0px 0px;
+      padding: 2px 0px 0px 0px;
     }
     tr {
-      line-height: 4px;
+      line-height: 5px;
     }
   </style>
 
