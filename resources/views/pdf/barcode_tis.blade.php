@@ -8,7 +8,7 @@
     body {
     	margin-top: -42px;margin-left: -42px;
     	font-family: 'AngsanaUPC'; height: 100%;
-      font-size: 13px;
+      font-size: 12px;
     }
     .container{
       position:absolute;
@@ -22,7 +22,7 @@
       padding: 1.5px 0px 0px 0px;
     }
     tr {
-      line-height: 5.5px;
+      line-height: 4px;
     }
   </style>
 
@@ -30,7 +30,7 @@
     <img src="img/logos/Logo-HAFELE-02.jpg" width="120" style="margin-top:2px">
   </div>-->
   <div class="" style="position:absolute; right:-20px;top:50px; text-align:center">
-    <img src="img/logos/LEAD.png" width="80" style="margin-bottom: -24px;"></br>
+    <img src="img/logos/LEAD.png" width="60" style="margin-bottom: -20px;"></br>
     <span style="text-align:center;font-weight:Bold">{{ $productItems["tis_1"] }}</span>
   </div>
   @if($productItems["qr_code"] != '')
@@ -65,7 +65,7 @@
           <td colspan="2">{{$productItems["product_name"]}}</td>
         </tr>
         <tr>
-          <td>รหัส:</td>
+          <td>รหัสรุ่น:</td>
           <td>{{$productItems["item_code"]}}</td>
         </tr>
         <tr>
