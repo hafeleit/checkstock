@@ -28,15 +28,15 @@
       height: 500px;
       width: 580px;
       z-index: -1;
-      padding: 10px 0px 0px 15px;
+      padding: 14px 0px 0px 15px;
     }
     tr {
       line-height: 10px;
     }
   </style>
 
-  <div class="" style="position:absolute;top:-26px;right:-30px; z-index: -1">
-    <img src="img/logos/Logo-HAFELE-02.jpg" width="120" style="margin-top:2px">
+  <div class="" style="position:absolute;top:-26px;right:0px; z-index: -1">
+    <img src="img/logos/Logo-HAFELE-02.jpg" width="110" style="margin-top:2px">
   </div>
   <div class="" style="position:absolute; right:60px;top:350px; text-align:center">
     <img src="img/logos/LEAD.png" width="60" style="margin-bottom: -20px;"></br>
@@ -102,8 +102,7 @@
           <td>{{$productItems["nominal_electricity"]}} แอมแปร์</td>
         </tr>
         <tr>
-          <td>ค่ากำลังไฟฟ้าสูงสุดของหลอดไฟฟ้า:</td>
-          <td>{{'-'}} วัตต์</td>
+          <td colspan="2">ค่ากำลังไฟฟ้าสูงสุดของหลอดไฟฟ้า: {{'-'}} วัตต์</td>
         </tr>
         <tr>
           <td>จำนวนเฟส:</td>
