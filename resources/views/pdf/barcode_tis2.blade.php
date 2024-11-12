@@ -34,6 +34,7 @@
       line-height: 10px;
     }
   </style>
+  <!DOCTYPE html>
 
   <div class="" style="position:absolute;top:-26px;right:0px; z-index: -1">
     <img src="img/logos/Logo-HAFELE-02.jpg" width="110" style="margin-top:2px">
@@ -47,10 +48,11 @@
     <?php echo '<img src="data:image/png;base64,' . DNS2D::getBarcodePNG($productItems["qr_code"], "QRCODE") . '" width="60" height="60"/>'; ?>
   </div>
   @endif
+
   @if($productItems["bar_code"] != '')
-  <div class="" style="position:absolute; left:270px; top:260px; line-height: 0px;">
-    <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="250" />'; ?>
-      <p style="font-size:30px; margin:20px 0px 0px 17px">
+  <div class="" style="position:absolute; left:170px; top:460px; line-height: 0px;">
+    <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="150" />'; ?>
+      <p style="font-size:15px; margin:20px 0px 0px 17px">
       <B>
         {{$productItems["bar_code"][0]}}&nbsp;&nbsp; {{$productItems["bar_code"][1]}}
         {{$productItems["bar_code"][2]}}
@@ -83,7 +85,24 @@
         </tr>
         <tr>
           <td>แบบการขจัดฝ้าน้ำแข็ง:</td>
-          <td>() ด้วยมือ () กึ่งอัตโนมัติ () อัตโนมัติ</td>
+          <?php
+            switch ($productItems["defrosting"]) {
+              case 'A':
+                $defrosting = "() ด้วยมือ () กึ่งอัตโนมัติ (X) อัตโนมัติ";
+                break;
+              case 'S':
+                $defrosting = "() ด้วยมือ (X) กึ่งอัตโนมัติ () อัตโนมัติ";
+                break;
+              case 'M':
+                $defrosting = "(X) ด้วยมือ () กึ่งอัตโนมัติ () อัตโนมัติ";
+                break;
+
+              default:
+                $defrosting = "() ด้วยมือ () กึ่งอัตโนมัติ () อัตโนมัติ";
+                break;
+            }
+           ?>
+          <td>{{$defrosting}}</td>
         </tr>
         <tr>
           <td>ปริมาตราภายในที่กำหนด:</td>
