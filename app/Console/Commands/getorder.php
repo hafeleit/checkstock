@@ -277,7 +277,7 @@ class getorder extends Command
           $data_excel[$l][] = '';
           $data_excel[$l][] = (string)'9999999999999';  //$order->customeridnumber
           $data_excel[$l][] = '00000';
-          $data_excel[$l][] = 'ZRM'; //Discount Code
+          $data_excel[$l][] = 'ZROL'; //Discount Code
           $discnt = '';
 
           if($order->discount != ''){
@@ -591,7 +591,7 @@ class getorder extends Command
       $new_order_count = count($new_order);
       $orion_excel = $this->generate_excel_orion($new_order, $file_name); //Orion Excel Exports
       $sap_excel = $this->generate_excel_sap($new_order, $file_name); //SAP Excel Exports
-      
+
       if($orion_excel){
         if(count($insert_order) > 0){
           Order::insert($insert_order);
