@@ -167,7 +167,7 @@
                         <a href="#" class="">CURRENT USER</a>
                       </th>
                       <th >
-                        <a href="#" class="">OLD USER</a>
+                        <a href="#" class="">SOFTWARE NAME</a>
                       </th>
                       <th >
                         <a href="#" class="">SERIAL NUMBER</a>
@@ -223,7 +223,7 @@
                         </div></a>
                       </td>
                       <td class="text-sm">{{$itasset->user . ' ' .$itasset->name_en}}</td>
-                      <td class="text-sm">{{$itasset->old_user . ' ' .$itasset->old_name}}</td>
+                      <td class="text-sm">{{$itasset->software_name}}</td>
                       <td class="text-sm">{{$itasset->serial_number}}</td>
                       <td class="text-sm">{{$itasset->fixed_asset_no}}</td>
                       <!--<td class="text-sm">{{$itasset->purchase_date }}</td>

@@ -32,7 +32,13 @@ class ITAssetController extends Controller
         $itassets = ITAsset::where('i_t_assets.delete','0')
                     ->leftjoin('i_t_asset_owns','i_t_assets.computer_name','i_t_asset_owns.computer_name')
                     ->leftjoin('user_masters','i_t_asset_owns.user','user_masters.job_code')
-                    ->select(DB::raw("i_t_assets.*,i_t_asset_owns.user,user_masters.name_en"))
+                    ->leftjoin('softwares','softwares.computer_name','i_t_assets.computer_name')
+                    ->select(DB::raw("
+                      i_t_assets.*,
+                      i_t_asset_owns.user,
+                      user_masters.name_en,
+                      GROUP_CONCAT(softwares.software_name ORDER BY softwares.software_name ASC SEPARATOR ', ') AS software_name
+                      "))
                     ->groupBy('i_t_assets.computer_name')
                     ->orderBy('i_t_assets.id','desc')
                     ->get();
