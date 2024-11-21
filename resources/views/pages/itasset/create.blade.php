@@ -218,9 +218,9 @@
                                   <div class="col-4">\
                                     <select class="form-control" name="software_name[]" required>\
                                       <option value=""></option>\
-                                      <option value="AutoCAD">AutoCAD</option>\
+                                      <option value="Auto_CAD_2024">Auto CAD 2024</option>\
                                       <option value="AutoCAD_LT">AutoCAD LT</option>\
-                                      <option value="Adobe_ Acrobat">Adobe Acrobat</option>\
+                                      <option value="Adobe_Creative_Cloud">Adobe Creative Cloud</option>\
                                       <option value="WinRAR">WinRAR</option>\
                                       <option value="TeamViewer">TeamViewer</option>\
                                       <option value="PDF_XChange_Editor">PDF XChange Editor</option>\

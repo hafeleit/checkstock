@@ -251,9 +251,9 @@
                 <div class="col-4">
                   <select class="form-control" name="software_name[]">
                     <option value=""></option>
-                    <option value="AutoCAD" {{ $value->software_name == 'AutoCAD' ? 'selected' : '' }} >AutoCAD</option>
+                    <option value="Auto_CAD_2024" {{ $value->software_name == 'Auto_CAD_2024' ? 'selected' : '' }} >Auto CAD 2024</option>
                     <option value="AutoCAD_LT" {{ $value->software_name == 'AutoCAD_LT' ? 'selected' : '' }}>AutoCAD LT</option>
-                    <option value="Adobe_ Acrobat" {{ $value->software_name == 'Acrobat' ? 'selected' : '' }}>Adobe Acrobat</option>
+                    <option value="Adobe_Creative_Cloud" {{ $value->software_name == 'Adobe_Creative_Cloud' ? 'selected' : '' }}>Adobe Creative Cloud</option>
                     <option value="WinRAR" {{ $value->software_name == 'WinRAR' ? 'selected' : '' }}>WinRAR</option>
                     <option value="TeamViewer" {{ $value->software_name == 'TeamViewer' ? 'selected' : '' }}>TeamViewer</option>
                     <option value="PDF_XChange_Editor" {{ $value->software_name == 'PDF_XChange_Editor' ? 'selected' : '' }}>PDF XChange Editor</option>
@@ -379,9 +379,9 @@
                             <div class="col-4">\
                               <select class="form-control" name="software_name[]">\
                                 <option value=""></option>\
-                                <option value="AutoCAD">AutoCAD</option>\
+                                <option value="Auto_CAD_2024">Auto CAD 2024</option>\
                                 <option value="AutoCAD_LT">AutoCAD LT</option>\
-                                <option value="Adobe_ Acrobat">Adobe Acrobat</option>\
+                                <option value="Adobe_Creative_Cloud">Adobe Creative Cloud</option>\
                                 <option value="WinRAR">WinRAR</option>\
                                 <option value="TeamViewer">TeamViewer</option>\
                                 <option value="PDF_XChange_Editor">PDF XChange Editor</option>\
