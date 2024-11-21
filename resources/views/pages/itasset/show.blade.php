@@ -206,95 +206,70 @@
           </div>
         </div>
 
-        <div class="col-sm-6 mt-sm-0 mt-4">
+        <div class="col-sm-5 mt-sm-0 mt-4">
           <div class="card">
             <div class="card-body">
               <div class="row">
-                <h5 class="font-weight-bolder">Owner</h5>
-                <div class="col-2">
-                  <p>User</p>
+                <h5 class="font-weight-bolder">Software</h5>
+                <div class="col-4">
+                  <label>Software Name</label>
+                </div>
+                <div class="col-3">
+                  <label>License Type</label>
+                </div>
+                <div class="col-4">
+                  <label>License expire date</label>
+                </div>
+              </div>
+              @foreach($softwares as $key => $value)
+              <div class="row mt-2">
+                <div class="col-4">
                   <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->user ?? 'n/a' }}</p>
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $value->software_name ?? ''}}</p>
                   </div>
                 </div>
                 <div class="col-3">
-                  <p>Name</p>
                   <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->name_en ?? 'n/a' }}</p>
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $value->license_type ?? ''}}</p>
                   </div>
                 </div>
                 <div class="col-4">
-                  <p>Department</p>
                   <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->dept ?? 'n/a' }}</p>
-                  </div>
-                </div>
-                <div class="col-2">
-                  <p>Main</p>
-                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->main ?? 'n/a' }}</p>
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $value->license_expire_date ?? ''}}</p>
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-2">
-                  <p class="mt-3">User</p>
-                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[1]->user ?? 'n/a' }}</p>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <p class="mt-3">Name</p>
-                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[1]->name_en ?? 'n/a' }}</p>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <p class="mt-3">Department</p>
-                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[1]->dept ?? 'n/a' }}</p>
-                  </div>
-                </div>
-                <div class="col-2">
-                  <p class="mt-3">Main</p>
-                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[1]->main ?? 'n/a' }}</p>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-2">
-                  <p class="mt-3">User</p>
-                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[2]->user ?? 'n/a' }}</p>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <p class="mt-3">Name</p>
-                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[2]->name_en ?? 'n/a' }}</p>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <p class="mt-3">Department</p>
-                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[2]->dept ?? 'n/a' }}</p>
-                  </div>
-                </div>
-                <div class="col-2">
-                  <p class="mt-3">Main</p>
-                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[2]->main ?? 'n/a' }}</p>
-                  </div>
-                </div>
-              </div>
+              @endforeach
+
             </div>
           </div>
         </div>
 
-        <div class="col-sm-4 mt-sm-0 mt-4">
+        <div class="col-sm-5 mt-sm-0 mt-4">
           <div class="card">
             <div class="card-body">
+              <div class="row">
+                <h5 class="font-weight-bolder">Owner</h5>
+                <div class="col-3">
+                  <p class="mt-3">User</p>
+                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->user ?? 'n/a' }}</p>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <p class="mt-3">Name</p>
+                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->name_en ?? 'n/a' }}</p>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <p class="mt-3">Department</p>
+                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->dept ?? 'n/a' }}</p>
+                  </div>
+                </div>
+              </div>
+              <p></p>
               <div class="row">
                 <h5 class="font-weight-bolder">Old Owner</h5>
                 <div class="col-3">

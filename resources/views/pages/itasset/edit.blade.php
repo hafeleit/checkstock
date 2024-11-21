@@ -228,69 +228,81 @@
           </div>
         </div>
 
-        <div class="col-sm-6 mt-sm-0 mt-4">
+        <div class="col-sm-5 mt-sm-0 mt-4">
           <div class="card">
             <div class="card-body">
-
               <div class="row">
-                <h5 class="font-weight-bolder">Owner</h5>
-                <div class="col-2">
-                  <label>User</label>
-                  <input class="form-control" type="text" name="user[]" value="{{ $itassetown[0]->user ?? '' }}" placeholder="7213">
+                <h5 class="font-weight-bolder">Software</h5>
+                <button id="addSoftwareBtn" class="btn btn-sm mb-0" type="button" style="position: absolute;width: 100px; right: 40px;">Add</button>
+
+                <div class="col-4">
+                  <label>Software Name</label>
                 </div>
                 <div class="col-2">
-                  <label>Main</label>
-                  <?php
-
-                    $itassetown0 = ( isset($itassetown[0]->main) ) ? $itassetown[0]->main : '';
-                    $itassetown1 = ( isset($itassetown[1]->main) ) ? $itassetown[1]->main : '';
-                    $itassetown2 = ( isset($itassetown[2]->main) ) ? $itassetown[2]->main : '';
-
-                   ?>
-                  <select class="form-control" name="own_main[]">
-                    <option value="N" {{ $itassetown0 == 'N' ? 'selected' : '' }}>No</option>
-                    <option value="Y" {{ $itassetown0 == 'Y' ? 'selected' : '' }}>Yes</option>
-                  </select>
+                  <label>License Type</label>
+                </div>
+                <div class="col-4">
+                  <label>License expire date</label>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-2">
-                  <label class="mt-3" >User</label>
-                  <input class="form-control" type="text" name="user[]" value="{{ $itassetown[1]->user ?? '' }}" placeholder="7213">
-                </div>
-                <div class="col-2">
-                  <label class="mt-3">Main</label>
-                  <select class="form-control" name="own_main[]">
-                    <option value="N" {{ $itassetown1 == 'N' ? 'selected' : '' }}>No</option>
-                    <option value="Y" {{ $itassetown1 == 'Y' ? 'selected' : '' }}>Yes</option>
+              @foreach($softwares as $key => $value)
+              <div class="row mt-2">
+
+                <div class="col-4">
+                  <select class="form-control" name="software_name[]">
+                    <option value=""></option>
+                    <option value="AutoCAD" {{ $value->software_name == 'AutoCAD' ? 'selected' : '' }} >AutoCAD</option>
+                    <option value="AutoCAD_LT" {{ $value->software_name == 'AutoCAD_LT' ? 'selected' : '' }}>AutoCAD LT</option>
+                    <option value="Adobe_ Acrobat" {{ $value->software_name == 'Acrobat' ? 'selected' : '' }}>Adobe Acrobat</option>
+                    <option value="WinRAR" {{ $value->software_name == 'WinRAR' ? 'selected' : '' }}>WinRAR</option>
+                    <option value="TeamViewer" {{ $value->software_name == 'TeamViewer' ? 'selected' : '' }}>TeamViewer</option>
+                    <option value="PDF_XChange_Editor" {{ $value->software_name == 'PDF_XChange_Editor' ? 'selected' : '' }}>PDF XChange Editor</option>
                   </select>
                 </div>
+                <div class="col-2">
+                  <select class="form-control" name="license_type[]">
+                    <option value=""></option>
+                    <option value="Yearly" {{ $value->license_type == 'Yearly' ? 'selected' : '' }}>Yearly</option>
+                    <option value="Permanent" {{ $value->license_type == 'Permanent' ? 'selected' : '' }}>Permanent</option>
+                  </select>
+                </div>
+                <div class="col-4">
+                  <input class="form-control datepicker" id="license_expiry_date" name="license_expiry_date[]" value="{{ $value->license_expire_date}}">
+                </div>
+
+                <div class="col-2">
+                  <button id="deleteBtn" class="btn mb-0 deleteBtn" type="button">-</button>
+                </div>
+
               </div>
-              <div class="row">
-                <div class="col-2">
-                  <label class="mt-3">User</label>
-                  <input class="form-control" type="text" name="user[]" value="{{ $itassetown[2]->user ?? '' }}" placeholder="7213">
-                </div>
-                <div class="col-2">
-                  <label class="mt-3">Main</label>
-                  <select class="form-control" name="own_main[]">
-                    <option value="N" {{ $itassetown2 == 'N' ? 'selected' : '' }}>No</option>
-                    <option value="Y" {{ $itassetown2 == 'Y' ? 'selected' : '' }}>Yes</option>
-                  </select>
-                </div>
+              @endforeach
+              <div id="add_software_name">
+
               </div>
 
-              </form>
             </div>
           </div>
-
-
-
         </div>
 
-        <div class="col-sm-4 mt-sm-0 mt-4">
+        <div class="col-sm-5 mt-sm-0 mt-4">
           <div class="card">
             <div class="card-body">
+              <div class="row">
+                <h5 class="font-weight-bolder">Current Owner</h5>
+                <div class="col-3">
+                  <label>User</label>
+                  <input class="form-control" name="user[]" type="text" placeholder="ex.7213" value="{{ $itassetown[0]->user ?? '' }}">
+                </div>
+                <div class="col-4">
+                  <label>Name</label>
+                  <input class="form-control" type="text" placeholder="Auto" readonly>
+                </div>
+                <div class="col-5">
+                  <label>Department</label>
+                  <input class="form-control" type="text" placeholder="Auto" readonly>
+                </div>
+              </div>
+              <p></p>
               <div class="row">
                 <h5 class="font-weight-bolder">Old Owner</h5>
                 <div class="col-3">
@@ -311,7 +323,7 @@
         </div>
 
       </div>
-
+      </form>
       <!-- delete modal -->
       <div class="row mt-3">
         <div class="col-12 text-end">
@@ -347,7 +359,7 @@
     <script type="text/javascript">
       $(function(){
 
-        $("#pdate").flatpickr({
+        $("#pdate, #license_expiry_date").flatpickr({
           disableMobile: "true",
         });
 
@@ -358,6 +370,46 @@
               $('.reason_broken').css('display','none');
               $('#reason_broken').val('');
             }
+        });
+
+        $("#addSoftwareBtn").click(function() {
+
+            let content = '<div class="row mt-2">\
+                            <div class="col-4">\
+                              <select class="form-control" name="software_name[]">\
+                                <option value=""></option>\
+                                <option value="AutoCAD">AutoCAD</option>\
+                                <option value="AutoCAD_LT">AutoCAD LT</option>\
+                                <option value="Adobe_ Acrobat">Adobe Acrobat</option>\
+                                <option value="WinRAR">WinRAR</option>\
+                                <option value="TeamViewer">TeamViewer</option>\
+                                <option value="PDF_XChange_Editor">PDF XChange Editor</option>\
+                              </select>\
+                            </div>\
+                            <div class="col-2">\
+                              <select class="form-control" name="license_type[]">\
+                                <option value=""></option>\
+                                <option value="Yearly">Yearly</option>\
+                                <option value="Permanent">Permanent</option>\
+                              </select>\
+                            </div>\
+                            <div class="col-4">\
+                              <input class="form-control datepicker" id="license_expiry_date" name="license_expiry_date[]">\
+                            </div>\
+                            <div class="col-2">\
+                              <button id="deleteBtn" class="btn mb-0 deleteBtn" type="button">-</button>\
+                            </div>\
+                          </div>';
+            $("#add_software_name").append(content);
+
+            $("#pdate, #license_expiry_date").flatpickr({
+              disableMobile: "true",
+            });
+        });
+
+        $(document).on('click', '.deleteBtn', function() {
+            // ลบองค์ประกอบที่มีปุ่มลบที่ถูกคลิก
+            $(this).parent().parent().remove();
         });
       });
     </script>

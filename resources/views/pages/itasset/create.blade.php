@@ -16,25 +16,8 @@
         </div>
       </div>
       <div class="row mt-4">
-        <div class="col-lg-4">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="font-weight-bolder">Asset Image</h5>
-              <div class="row">
-                <div class="col-12">
-                  <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/no-image.jpg" alt="product_image">
-                </div>
-                <div class="col-12 mt-5">
-                  <div class="d-flex">
-                    <button class="btn btn-primary btn-sm mb-0 me-2" type="button" name="button">Edit</button>
-                    <button class="btn btn-outline-dark btn-sm mb-0" type="button" name="button">Remove</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-8 mt-lg-0 mt-4">
+
+        <div class="col-lg-12 mt-lg-0 mt-4">
           <div class="card">
             <div class="card-body">
               @if ($message = Session::get('success'))
@@ -56,11 +39,11 @@
               <div class="row">
                 <div class="col-12 col-sm-6">
                   <label>Device Name <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="computer_name" placeholder="HTHBKKNB333" required>
+                  <input class="form-control" type="text" name="computer_name" placeholder="ex.HTHBKKNB333" value="{{ old('computer_name') }}" required>
                 </div>
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                   <label>Serial Number</label>
-                  <input class="form-control" type="text" name="serial_number" placeholder="SNTEST000001">
+                  <input class="form-control" type="text" name="serial_number" placeholder="ex.SNTEST000001" value="{{ old('serial_number') }}">
                 </div>
               </div>
               <div class="row">
@@ -85,17 +68,17 @@
                 </div>
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                   <label class="mt-4">Model <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="model" placeholder="DELL" required>
+                  <input class="form-control" type="text" name="model" placeholder="ex.DELL" value="{{ old('model') }}" required>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12 col-sm-6">
                   <label class="mt-4">Fixed Asset No.</label>
-                  <input class="form-control" type="text" name="fixed_asset_no" placeholder="RS8898569565">
+                  <input class="form-control" type="text" name="fixed_asset_no" placeholder="ex.RS8898569565" value="{{ old('fixed_asset_no') }}">
                 </div>
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                   <label class="mt-4">Purchase Date</label>
-                  <input class="form-control datepicker" id="pdate" name="purchase_date" placeholder="Please select date" type="text" >
+                  <input class="form-control datepicker" id="pdate" name="purchase_date" placeholder="Please select date" type="text" value="{{ old('purchase_date') }}" >
                 </div>
               </div>
               <div class="row">
@@ -200,80 +183,116 @@
             <div class="card-body">
               <h5 class="font-weight-bolder">Spec</h5>
               <label>Cpu</label>
-              <input class="form-control" type="text" name="cpu" value="" placeholder="INTEL 9">
+              <input class="form-control" type="text" name="cpu" placeholder="ex.INTEL 9" value="{{ old('cpu') }}">
               <label class="mt-3">Ram</label>
-              <input class="form-control" type="text" name="ram" value="" placeholder="16GB">
+              <input class="form-control" type="text" name="ram" placeholder="ex.16GB" value="{{ old('ram') }}">
               <label class="mt-3">Storage</label>
-              <input class="form-control" type="text" name="storage" value="" placeholder="1TB">
+              <input class="form-control" type="text" name="storage" placeholder="ex.1TB" value="{{ old('storage') }}">
             </div>
           </div>
         </div>
 
-        <div class="col-sm-6 mt-sm-0 mt-4">
+        <div class="col-sm-5 mt-sm-0 mt-4">
           <div class="card">
             <div class="card-body">
+              <div class="row">
+                <h5 class="font-weight-bolder">Software</h5>
+                <button id="addSoftwareBtn" class="btn btn-sm mb-0" type="button" style="position: absolute;width: 100px; right: 40px;">Add</button>
 
-              <div class="row">
-                <h5 class="font-weight-bolder">Owner</h5>
-                <div class="col-2">
-                  <label>User</label>
-                  <input class="form-control" name="user[]" type="text" placeholder="7213">
+                <div class="col-4">
+                  <label>Software Name</label>
                 </div>
                 <div class="col-2">
-                  <label>Main</label>
-                  <select class="form-control" name="own_main[]">
-                    <option value="N">No</option>
-                    <option value="Y">Yes</option>
-                  </select>
+                  <label>License Type</label>
+                </div>
+                <div class="col-4">
+                  <label>License expire date</label>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-2">
-                  <label>User</label>
-                  <input class="form-control" name="user[]" type="text" placeholder="7213">
-                </div>
-                <div class="col-2">
-                  <label>Main</label>
-                  <select class="form-control" name="own_main[]">
-                    <option value="N">No</option>
-                    <option value="Y">Yes</option>
-                  </select>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-2">
-                  <label>User</label>
-                  <input class="form-control" name="user[]" type="text" placeholder="7213">
-                </div>
-                <div class="col-2">
-                  <label>Main</label>
-                  <select class="form-control" name="own_main[]">
-                    <option value="N">No</option>
-                    <option value="Y">Yes</option>
-                  </select>
-                </div>
+
+
+              <script type="text/javascript">
+              $("#addSoftwareBtn").click(function() {
+
+                  let content = '<div class="row mt-2">\
+                                  <div class="col-4">\
+                                    <select class="form-control" name="software_name[]" required>\
+                                      <option value=""></option>\
+                                      <option value="AutoCAD">AutoCAD</option>\
+                                      <option value="AutoCAD_LT">AutoCAD LT</option>\
+                                      <option value="Adobe_ Acrobat">Adobe Acrobat</option>\
+                                      <option value="WinRAR">WinRAR</option>\
+                                      <option value="TeamViewer">TeamViewer</option>\
+                                      <option value="PDF_XChange_Editor">PDF XChange Editor</option>\
+                                    </select>\
+                                  </div>\
+                                  <div class="col-2">\
+                                    <select class="form-control" name="license_type[]" required>\
+                                      <option value=""></option>\
+                                      <option value="Yearly">Yearly</option>\
+                                      <option value="Permanent">Permanent</option>\
+                                    </select>\
+                                  </div>\
+                                  <div class="col-4">\
+                                    <input class="form-control datepicker" id="license_expiry_date" name="license_expiry_date[]">\
+                                  </div>\
+                                  <div class="col-2">\
+                                    <button id="deleteBtn" class="btn mb-0 deleteBtn" type="button">-</button>\
+                                  </div>\
+                                </div>';
+                  $("#add_software_name").append(content);
+
+                  $("#pdate, #license_expiry_date").flatpickr({
+                    disableMobile: "true",
+                  });
+              });
+
+              $(document).on('click', '.deleteBtn', function() {
+                  // ลบองค์ประกอบที่มีปุ่มลบที่ถูกคลิก
+                  $(this).parent().parent().remove();
+              });
+              </script>
+
+              <div id="add_software_name">
+
               </div>
 
             </div>
           </div>
         </div>
 
-        <div class="col-sm-4 mt-sm-0 mt-4">
+        <div class="col-sm-5 mt-sm-0 mt-4">
           <div class="card">
             <div class="card-body">
+              <div class="row">
+                <h5 class="font-weight-bolder">Current Owner</h5>
+                <div class="col-3">
+                  <label>User</label>
+                  <input class="form-control" name="user[]" type="text" placeholder="ex.7213" value="{{ old('user[0]') }}">
+                </div>
+                <div class="col-4">
+                  <label>Name</label>
+                  <input class="form-control" type="text" placeholder="Auto" readonly>
+                </div>
+                <div class="col-5">
+                  <label>Department</label>
+                  <input class="form-control" type="text" placeholder="Auto" readonly>
+                </div>
+              </div>
+              <p></p>
               <div class="row">
                 <h5 class="font-weight-bolder">Old Owner</h5>
                 <div class="col-3">
                   <label>User</label>
-                  <input class="form-control" name="old_user" type="text" placeholder="7213">
+                  <input class="form-control" name="old_user" type="text" placeholder="ex.7213" value="{{ old('old_user') }}">
                 </div>
                 <div class="col-4">
                   <label>Name</label>
-                  <input class="form-control" name="old_name" type="text" placeholder="">
+                  <input class="form-control" name="old_name" type="text" placeholder="" value="{{ old('old_name') }}">
                 </div>
                 <div class="col-5">
                   <label>Department</label>
-                  <input class="form-control" name="old_department" type="text" placeholder="">
+                  <input class="form-control" name="old_department" type="text" placeholder="" value="{{ old('old_department') }}">
                 </div>
               </div>
             </div>
@@ -286,7 +305,7 @@
 
     <script type="text/javascript">
       $(function(){
-        $("#pdate").flatpickr({
+        $("#pdate, #license_expiry_date").flatpickr({
           disableMobile: "true",
         });
 

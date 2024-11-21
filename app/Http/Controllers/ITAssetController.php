@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ITAsset;
 use App\Models\ITAssetOwn;
 use App\Models\ITAssetSpec;
+use App\Models\Softwares;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -61,30 +62,60 @@ class ITAssetController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
+        DB::beginTransaction();
 
-      $validatedData = $request->validate([
-          'computer_name' => 'required|unique:i_t_assets',
-          'type' => 'required',
-          'model' => 'required',
-          'status' => 'required',
-      ]);
+        try {
 
-      $user = Auth::user();
-      $request['create_by'] = $user->username;
+          $validatedData = $request->validate([
+              'computer_name' => 'required|unique:i_t_assets',
+              'type' => 'required',
+              'model' => 'required',
+              'status' => 'required',
+          ]);
 
-      ITAsset::create($request->all());
+          $user = Auth::user();
+          $request['create_by'] = $user->username;
 
-      // insert Owner computer
-      foreach ($request->user as $key => $value) {
-        $own[] = ['computer_name' => $request->computer_name, 'user' => $value, 'main' => $request->own_main[$key]];
+          ITAsset::create($request->all());
+
+          // insert Owner computer
+          if( $request->user[0] != '' ){
+            foreach ($request->user as $key => $value) {
+              $own[] = ['computer_name' => $request->computer_name, 'user' => $value, 'main' => 'Y'];
+            }
+            ITAssetOwn::insert($own);
+          }
+
+          //Softwares add
+          if( isset($request->software_name[0])){
+            if( $request->software_name[0] != '' ){
+              foreach ($request->software_name as $key => $value) {
+                $softwares[] = [
+                  'computer_name' => $request->computer_name,
+                  'software_name' => $value,
+                  'license_type' => $request->license_type[$key],
+                  'license_expire_date' => $request->license_expiry_date[$key],
+                ];
+              }
+              Softwares::insert($softwares);
+            }
+          }
+
+          //insert Spec computer
+          if($request->cpu != '' || $request->ram != '' || $request->storage != '' ){
+            $spec = ['computer_name' => $request->computer_name, 'cpu' => $request->cpu, 'ram' => $request->ram, 'storage' => $request->storage];
+            ITAssetSpec::create($spec);
+          }
+
+
+          DB::commit();
+          return redirect()->route('itasset.create')->with('success','Asset created successfully.');
+
+      } catch (Exception $e) {
+          DB::rollBack();
+          return response()->json(['message' => 'Error: ' . $e->getMessage()], 500);
       }
-      ITAssetOwn::insert($own);
-
-      //insert Spec computer
-      $spec = ['computer_name' => $request->computer_name, 'cpu' => $request->cpu, 'ram' => $request->ram, 'storage' => $request->storage];
-      ITAssetSpec::create($spec);
-
-      return redirect()->route('itasset.create')->with('success','Asset created successfully.');
 
     }
 
@@ -95,8 +126,8 @@ class ITAssetController extends Controller
     {
         $itassetspec = ITAssetSpec::where('computer_name',$itasset->computer_name)->first();
         $itassetown = ITAssetOwn::where('computer_name',$itasset->computer_name)->leftJoin('user_masters','i_t_asset_owns.user','=','user_masters.job_code')->get();
-
-        return view('pages.itasset.show',compact('itasset','itassetspec','itassetown'));
+        $softwares = Softwares::where('computer_name',$itasset->computer_name)->get();
+        return view('pages.itasset.show',compact('itasset','itassetspec','itassetown','softwares'));
     }
 
     /**
@@ -106,8 +137,8 @@ class ITAssetController extends Controller
     {
         $itassetspec = ITAssetSpec::where('computer_name',$itasset->computer_name)->first();
         $itassetown = ITAssetOwn::where('computer_name',$itasset->computer_name)->get();
-
-        return view('pages.itasset.edit',compact('itasset','itassetspec','itassetown'));
+        $softwares = Softwares::where('computer_name',$itasset->computer_name)->get();
+        return view('pages.itasset.edit',compact('itasset','itassetspec','itassetown','softwares'));
     }
 
     /**
@@ -116,41 +147,68 @@ class ITAssetController extends Controller
     public function update(Request $request, ITAsset $itasset)
     {
 
-      $request->validate([
-          'computer_name' => 'required|unique:i_t_assets,computer_name,'.$itasset->id,
-          'type' => 'required',
-          'model' => 'required',
-          'status' => 'required',
-      ]);
+      DB::beginTransaction();
 
-      $user = Auth::user();
-      $request['updated_at'] = date('Y-m-d H:i:s');
-      $request['update_by'] = $user->username;
+      try {
 
-      $itasset->update($request->all());
+        $request->validate([
+            'computer_name' => 'required|unique:i_t_assets,computer_name,'.$itasset->id,
+            'type' => 'required',
+            'model' => 'required',
+            'status' => 'required',
+        ]);
 
-      //update spec
-      ITAssetSpec::updateOrCreate(
-          [
-            'computer_name' => $request->computer_name,
-          ],
-          [
-            'cpu' => $request->cpu,
-            'ram' => $request->ram,
-            'storage' => $request->storage,
-          ]
-      );
+        $user = Auth::user();
+        $request['updated_at'] = date('Y-m-d H:i:s');
+        $request['update_by'] = $user->username;
 
-      //delete and new insert owner computer
-      ITAssetOwn::where('computer_name', $request->computer_name)->delete();
-      if(count($request->user) > 0){
-        foreach ($request->user as $key => $value) {
-          $own[] = ['computer_name' => $request->computer_name, 'user' => $value, 'main' => $request->own_main[$key]];
+        $itasset->update($request->all());
+
+        //update spec
+        ITAssetSpec::updateOrCreate(
+            [
+              'computer_name' => $request->computer_name,
+            ],
+            [
+              'cpu' => $request->cpu,
+              'ram' => $request->ram,
+              'storage' => $request->storage,
+            ]
+        );
+
+        //delete and new insert owner computer
+        ITAssetOwn::where('computer_name', $request->computer_name)->delete();
+        if( $request->user[0] != '' ){
+          foreach ($request->user as $key => $value) {
+            $own[] = ['computer_name' => $request->computer_name, 'user' => $value, 'main' => 'Y'];
+          }
+          ITAssetOwn::insert($own);
         }
-        ITAssetOwn::insert($own);
-      }
 
-      return redirect()->route('itasset.show',$itasset->id)->with('success','Asset updated successfully');
+        //Softwares delete and add new
+        Softwares::where('computer_name', $request->computer_name)->delete();
+        if( isset($request->software_name[0])){
+          if( $request->software_name[0] != '' ){
+            foreach ($request->software_name as $key => $value) {
+              $softwares[] = [
+                'computer_name' => $request->computer_name,
+                'software_name' => $value,
+                'license_type' => $request->license_type[$key],
+                'license_expire_date' => $request->license_expiry_date[$key],
+              ];
+            }
+            Softwares::insert($softwares);
+          }
+        }
+
+
+        DB::commit();
+        return redirect()->route('itasset.show',$itasset->id)->with('success','Asset updated successfully');
+
+      } catch (Exception $e) {
+          DB::rollBack();
+          return response()->json(['message' => 'Error: ' . $e->getMessage()], 500);
+      }
 
     }
 
