@@ -224,6 +224,7 @@
                                       <option value="WinRAR">WinRAR</option>\
                                       <option value="TeamViewer">TeamViewer</option>\
                                       <option value="PDF_XChange_Editor">PDF XChange Editor</option>\
+                                      <option value="SketchUp_Pro">SketchUp Pro</option>\
                                     </select>\
                                   </div>\
                                   <div class="col-2">\

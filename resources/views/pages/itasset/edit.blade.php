@@ -257,6 +257,7 @@
                     <option value="WinRAR" {{ $value->software_name == 'WinRAR' ? 'selected' : '' }}>WinRAR</option>
                     <option value="TeamViewer" {{ $value->software_name == 'TeamViewer' ? 'selected' : '' }}>TeamViewer</option>
                     <option value="PDF_XChange_Editor" {{ $value->software_name == 'PDF_XChange_Editor' ? 'selected' : '' }}>PDF XChange Editor</option>
+                    <option value="SketchUp_Pro" {{ $value->software_name == 'SketchUp_Pro' ? 'selected' : '' }}>SketchUp Pro</option>
                   </select>
                 </div>
                 <div class="col-2">
@@ -384,6 +385,7 @@
                                 <option value="WinRAR">WinRAR</option>\
                                 <option value="TeamViewer">TeamViewer</option>\
                                 <option value="PDF_XChange_Editor">PDF XChange Editor</option>\
+                                <option value="SketchUp_Pro">SketchUp Pro</option>\
                               </select>\
                             </div>\
                             <div class="col-2">\
