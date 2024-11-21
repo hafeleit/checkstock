@@ -225,7 +225,7 @@
               <div class="row mt-2">
                 <div class="col-4">
                   <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $value->software_name ?? ''}}</p>
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ str_replace('_',' ',$value->software_name) ?? ''}}</p>
                   </div>
                 </div>
                 <div class="col-3">
