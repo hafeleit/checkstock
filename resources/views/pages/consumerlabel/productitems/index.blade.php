@@ -49,7 +49,6 @@
                         const importForm = document.getElementById('import-form');
 
                         importForm.addEventListener('submit', function (event) {
-                            event.preventDefault(); // ป้องกันการ reload หน้า
 
                             const fileInput = document.getElementById('file-input');
                             const file = fileInput.files[0];
@@ -69,28 +68,6 @@
                                 }
                             });
 
-                            // สร้าง FormData เพื่อส่งไฟล์
-                            const formData = new FormData(importForm);
-
-                            // ส่งคำขอไปยังเซิร์ฟเวอร์
-                            fetch('/import-product-items', {
-                                method: 'POST',
-                                body: formData,
-                                headers: {
-
-                                }
-                            })
-                            .then(response => {
-                                if (response.ok) {
-                                    Swal.fire('Success', 'Import ข้อมูลสำเร็จ!', 'success');
-                                    $('#import').modal('hide');
-                                } else {
-                                    throw new Error('Import failed');
-                                }
-                            })
-                            .catch(error => {
-                                Swal.fire('Error', error.message, 'error'); // แสดงข้อผิดพลาด
-                            });
                         });
                     </script>
                     </div>
