@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Exports\ProductitemsExport;
+use App\Imports\ProductitemsImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -113,6 +116,19 @@ Route::group(['middleware' => 'auth'], function () {
 
   //Consumerlabel
   Route::resource('product-items', ProductItemsController::class);
+  Route::get('/export-product-items', function(){
+    return Excel::download(new ProductitemsExport, 'ProductItems.xlsx');
+  })->name('productitems_export');
+  Route::post('/import-product-items', function (Request $request) {
+      $request->validate([
+          'file' => 'required|mimes:xlsx,csv', // ตรวจสอบชนิดไฟล์
+      ]);
+
+      // Import ไฟล์
+      Excel::import(new ProductitemsImport, $request->file('file'));
+
+      return back()->with('succes', 'Import ข้อมูลสำเร็จ!');
+  })->name('productitems_import');
   Route::get('consumerlabel-barcode', [ProductItemsController::class,'pdfbarcode'])->name('pdfbarcode');
   //routes template
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');

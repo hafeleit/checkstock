@@ -3,6 +3,7 @@
 @section('content')
 
 @include('layouts.navbars.auth.topnav', ['title' => 'Customer Label'])
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style media="screen">
   a.disabled {
     pointer-events: none;
@@ -23,7 +24,7 @@
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
               <div class="ms-auto my-auto">
-                {{-- <button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import"> Import </button> --}}
+                <button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import"> Import </button>
 
                 <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">
                   <div class="modal-dialog mt-lg-10">
@@ -33,22 +34,115 @@
                         <i class="fas fa-upload ms-3" aria-hidden="true"></i>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <form action="{{ route('product-new-price-list-import') }}" method="POST" enctype="multipart/form-data">
+                      <form id="import-form" action="{{ route('productitems_import') }}" method="POST" enctype="multipart/form-data">
                       @csrf
                       <div class="modal-body">
                         <p>You can browse your computer for a file.</p>
-                        <input type="file" placeholder="Browse file..." class="form-control mb-3" name="file">
+                        <input type="file" placeholder="Browse file..." class="form-control mb-3" name="file" id="file-input">
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn bg-gradient-secondary btn-sm" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn bg-gradient-primary btn-sm">Upload</button>
                       </div>
                       </form>
+                      <script>
+                        const importForm = document.getElementById('import-form');
+
+                        importForm.addEventListener('submit', function (event) {
+                            event.preventDefault(); // ป้องกันการ reload หน้า
+
+                            const fileInput = document.getElementById('file-input');
+                            const file = fileInput.files[0];
+
+                            if (!file) {
+                                Swal.fire('Error', 'กรุณาเลือกไฟล์ก่อน!', 'error');
+                                return;
+                            }
+
+                            // แสดง Loading
+                            Swal.fire({
+                                title: 'Importing...',
+                                text: 'Please wait while the data is being imported.',
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+
+                            // สร้าง FormData เพื่อส่งไฟล์
+                            const formData = new FormData(importForm);
+
+                            // ส่งคำขอไปยังเซิร์ฟเวอร์
+                            fetch('/import-product-items', {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+
+                                }
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    Swal.fire('Success', 'Import ข้อมูลสำเร็จ!', 'success');
+                                    $('#import').modal('hide');
+                                } else {
+                                    throw new Error('Import failed');
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire('Error', error.message, 'error'); // แสดงข้อผิดพลาด
+                            });
+                        });
+                    </script>
                     </div>
                   </div>
                 </div>
 
-                {{-- <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" id="btn_export" href="{{ route('checkstockhww-export') }}">Export</a> --}}
+                <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" id="btn_export" href="{{ route('productitems_export') }}">Export</a>
+                <script>
+                  const exportLink = document.getElementById('btn_export');
+
+                  exportLink.addEventListener('click', function (event) {
+                      event.preventDefault(); // ป้องกันการทำงานปกติของลิงก์
+
+                      // แสดง Loading
+                      Swal.fire({
+                          title: 'Exporting...',
+                          text: 'Please wait while your file is being prepared.',
+                          allowOutsideClick: false,
+                          didOpen: () => {
+                              Swal.showLoading();
+                          }
+                      });
+
+                      // ส่งคำขอไปยังเซิร์ฟเวอร์
+                      fetch('/export-product-items', {
+                          method: 'GET',
+                          headers: {
+                              'X-Requested-With': 'XMLHttpRequest'
+                          }
+                      })
+                      .then(response => {
+                          if (response.ok) {
+                              Swal.close(); // ปิด Loading
+                              return response.blob();
+                          }
+                          throw new Error('Export failed');
+                      })
+                      .then(blob => {
+                          // ดาวน์โหลดไฟล์
+                          const url = window.URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = 'ProductItems.xlsx'; // ตั้งชื่อไฟล์
+                          document.body.appendChild(a);
+                          a.click();
+                          a.remove();
+                      })
+                      .catch(error => {
+                          Swal.fire('Error', error.message, 'error'); // แสดงข้อความข้อผิดพลาด
+                      });
+                  });
+              </script>
               </div>
             </div>
           </div>
