@@ -258,6 +258,8 @@
                     <option value="TeamViewer" {{ $value->software_name == 'TeamViewer' ? 'selected' : '' }}>TeamViewer</option>
                     <option value="PDF_XChange_Editor" {{ $value->software_name == 'PDF_XChange_Editor' ? 'selected' : '' }}>PDF XChange Editor</option>
                     <option value="SketchUp_Pro" {{ $value->software_name == 'SketchUp_Pro' ? 'selected' : '' }}>SketchUp Pro</option>
+                    <option value="FreeCAD" {{ $value->software_name == 'FreeCAD' ? 'selected' : '' }}>FreeCAD</option>
+                    <option value="DIALUX" {{ $value->software_name == 'DIALUX' ? 'selected' : '' }}>DIALUX</option>
                   </select>
                 </div>
                 <div class="col-2">
@@ -386,6 +388,8 @@
                                 <option value="TeamViewer">TeamViewer</option>\
                                 <option value="PDF_XChange_Editor">PDF XChange Editor</option>\
                                 <option value="SketchUp_Pro">SketchUp Pro</option>\
+                                <option value="FreeCAD">FreeCAD</option>\
+                                <option value="DIALUX">DIALUX</option>\
                               </select>\
                             </div>\
                             <div class="col-2">\

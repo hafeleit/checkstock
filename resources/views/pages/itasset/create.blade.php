@@ -225,6 +225,8 @@
                                       <option value="TeamViewer">TeamViewer</option>\
                                       <option value="PDF_XChange_Editor">PDF XChange Editor</option>\
                                       <option value="SketchUp_Pro">SketchUp Pro</option>\
+                                      <option value="FreeCAD">FreeCAD</option>\
+                                      <option value="DIALUX">DIALUX</option>\
                                     </select>\
                                   </div>\
                                   <div class="col-2">\
