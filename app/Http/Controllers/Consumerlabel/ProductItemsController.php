@@ -72,7 +72,7 @@ class ProductItemsController extends Controller
     {
         $supp_code = Auth::user()->supp_code ?? '';
         $search = $request->search ?? '';
-        $paginate = $request->perpage ?? 5;
+        $paginate = $request->perpage ?? 25;
         $q = ProductItem::where('item_code','like','%'.$search.'%');
         if($supp_code != ''){
           $q->join('supplier_items','product_items.item_code','supplier_items.sai_si_item_code')->where('sai_sa_supp_code',$supp_code);
