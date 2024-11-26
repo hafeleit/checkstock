@@ -254,7 +254,7 @@ for($i=1;$i<=12;$i++)
 
 								</td> -->
 								<td class="tr9 td4" valign="top" align="center" style="padding:0px 0px 0px 0px;line-height:10%;">
-
+									@if(strlen($productItems->bar_code) == 13)
 									<?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="94" height="26.25" style="margin:-32px 0px 0px 90px;"   />'; ?>
 									<p style="margin:-2px 0px 0px 85px;"><B>
 										{{$productItems["bar_code"][0]}}&nbsp;&nbsp;
@@ -270,6 +270,7 @@ for($i=1;$i<=12;$i++)
 										{{$productItems["bar_code"][10]}}
 										{{$productItems["bar_code"][11]}}
 										{{$productItems["bar_code"][12]}}</B></p>
+									@endif
 								</td>
 							</tr>
 					<!-- <TR>

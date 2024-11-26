@@ -377,7 +377,7 @@
               <P class="p4 ft2">ชื่อสินค้า</P>
             </TD>
             <TD colspan=4 class="tr0 td4">
-              <P class="p4 ft2" style="margin-left: -20px;">{{$productItems["product_name"]}}</P>
+              <P class="p4 ft2" style="margin-left: -20px;">{{ $productItems["product_name"]}}</P>
             </TD>
           </TR>
           <TR>
@@ -492,22 +492,32 @@
               <table width="100%" cellpadding=0 cellspacing=0>
                 <tr>
                   <td class="tr9 td4" valign="top" align="center" style="padding:0px 0px 0px 0px;line-height:10%;">
-                    <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="94" height="26.25" style="margin:-31px 0px 0px 90px;" />'; ?>
+
+                      @if(strlen($productItems->bar_code) == 13)
+
+                      <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="94" height="26.25" style="margin:-31px 0px 0px 90px;" />'; ?>
 											<p style="margin:1px 0px 2px 85px;">
+                        <B>
+                          {{$productItems["bar_code"][0]}}&nbsp;&nbsp; {{$productItems["bar_code"][1]}}
+                          {{$productItems["bar_code"][2]}}
+                          {{$productItems["bar_code"][3]}}
+                          {{$productItems["bar_code"][4]}}
+                          {{$productItems["bar_code"][5]}}
+                          {{$productItems["bar_code"][6]}}&nbsp;&nbsp; {{$productItems["bar_code"][7]}}
+                          {{$productItems["bar_code"][8]}}
+                          {{$productItems["bar_code"][9]}}
+                          {{$productItems["bar_code"][10]}}
+                          {{$productItems["bar_code"][11]}}
+                          {{$productItems["bar_code"][12]}}
+  											</B>
+                      </p>
+                    @else
+                    <p style="margin:1px 0px 2px 85px;">
                       <B>
-                        {{$productItems["bar_code"][0]}}&nbsp;&nbsp; {{$productItems["bar_code"][1]}}
-                        {{$productItems["bar_code"][2]}}
-                        {{$productItems["bar_code"][3]}}
-                        {{$productItems["bar_code"][4]}}
-                        {{$productItems["bar_code"][5]}}
-                        {{$productItems["bar_code"][6]}}&nbsp;&nbsp; {{$productItems["bar_code"][7]}}
-                        {{$productItems["bar_code"][8]}}
-                        {{$productItems["bar_code"][9]}}
-                        {{$productItems["bar_code"][10]}}
-                        {{$productItems["bar_code"][11]}}
-                        {{$productItems["bar_code"][12]}}
-											</B>
+                        NO BAR CODE
+                      </B>
                     </p>
+                    @endif
                   </td>
                 </tr>
               </table>

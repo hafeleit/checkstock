@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ProductItem;
 use Auth;
 use PDF;
+use DB;
 class ProductItemsController extends Controller
 {
     /**
@@ -22,7 +23,10 @@ class ProductItemsController extends Controller
 
     public function pdfbarcode(Request $request){
 
-      $productItems = ProductItem::where('item_code', $request->item_code)->first();
+      $limit_product_name = 25;
+      $productItems = ProductItem::where('item_code', $request->item_code)
+                      ->select(DB::raw("product_items.*, CONCAT(SUBSTRING(product_items.product_name, 1, $limit_product_name), '...') AS product_name"))
+                      ->first();
 
       if($request->man_date != ''){
         $productItems['man_date'] = date('d/m/Y', strtotime($request->man_date));

@@ -51,6 +51,7 @@
 
   @if($productItems["bar_code"] != '')
   <div class="" style="position:absolute; left:170px; top:460px; line-height: 0px;">
+    @if(strlen($productItems->bar_code) == 13)
     <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="150" />'; ?>
       <p style="font-size:15px; margin:20px 0px 0px 17px">
       <B>
@@ -66,6 +67,7 @@
         {{$productItems["bar_code"][11]}}
         {{$productItems["bar_code"][12]}}
       </B>
+      @endif
   </div>
   @endif
   <body>
@@ -106,7 +108,11 @@
         </tr>
         <tr>
           <td>ปริมาตราภายในที่กำหนด:</td>
-          <td>{{number_format($productItems["gross_int"],1)}} ลูกบาศก์เดซิเมตร</td>
+          <td>
+            @if($productItems->gross_int != '')
+            {{number_format($productItems["gross_int"],1)}} ลูกบาศก์เดซิเมตร
+            @endif
+          </td>
         </tr>
         <tr>
           <td>แรงดันไฟฟ้าที่กำหนด:</td>
@@ -168,7 +174,7 @@
         ?>
         <tr>
           <td>ประเทศ:</td>
-          <td>{{ $country_code[$productItems['country_code']] }} </td>
+          <td>{{ $productItems['country_code'] }} </td>
         </tr>
         <tr>
           <td colspan="2">นำเข้าและจัดจำหน่ายโดย: บริษัทเฮเฟเล่(ประเทศไทย)จำกัด</td>
@@ -194,54 +200,6 @@
           <td>ขนาด:</td>
           <td>{{''}}</td>
         </tr>
-        <!--
-        <tr>
-          <td>ประเภท:</td>
-          <td>{{$productItems["how_to_text"]}}</td>
-        </tr>
-        <tr>
-          <td>ชนิด:</td>
-          <td>{{$productItems["type"]}}</td>
-        </tr>
-        <tr>
-          <td>แบบ:</td>
-          <td>{{$productItems["format"]}}</td>
-        </tr>
-
-        <tr>
-          <td>วิธีใช้:</td>
-          <td>{{$productItems["suggest_text"]}}</td>
-        </tr>
-        <tr>
-          <td colspan="2">ข้อแนะนำ/คำเตือน: {{$productItems["warning_text"]}}</td>
-        </tr>
-        <tr>
-          <td colspan="2">วันที่ผลิต/นำเข้า: {{$productItems["man_date"]}}</td>
-        </tr>
-        <tr>
-          <td>ผลิตโดย:</td>
-          <td>{{$productItems["made_by"]}}</td>
-        </tr>
-        <?php
-          $country_code = ['CN - CHINA' => 'สาธารณรัฐประชาชนจีน', 'DE - GERMANY' => 'เยอรมนี'];
-        ?>
-        <tr>
-          <td>ประเทศ:</td>
-          <td>{{ $country_code[$productItems['country_code']] }} </td>
-        </tr>
-        <tr>
-          <td colspan="2">นำเข้าและจัดจำหน่ายโดย: บริษัทเฮเฟเล่(ประเทศไทย)จำกัด</td>
-        </tr>
-        <tr>
-          <td colspan="2"> 57 ซอยสุขุมวิท 64 ถนนสุขุมวิท แขวงพระโขนงใต้</td>
-        </tr>
-        <tr>
-          <td colspan="2"> เขตพระโขนง กรุงเทพมหานคร 10260 โทร 0-2741-7171</td>
-        </tr>
-        <tr>
-          <td colspan="2">ปริมาณบรรจุ: {{$productItems["item_amout"]}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ราคา: ระบุ ณ จุดขาย</td>
-        </tr>
-      -->
       </table>
     </div>
   </body>

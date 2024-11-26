@@ -49,6 +49,7 @@
   @endif
   @if($productItems["bar_code"] != '')
   <div class="" style="position:absolute; left:270px; top:260px; line-height: 0px;">
+    @if(strlen($productItems->bar_code) == 13)
     <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="250" />'; ?>
       <p style="font-size:30px; margin:20px 0px 0px 17px">
       <B>
@@ -64,6 +65,7 @@
         {{$productItems["bar_code"][11]}}
         {{$productItems["bar_code"][12]}}
       </B>
+    @endif
   </div>
   @endif
   <body>
@@ -112,7 +114,7 @@
         ?>
         <tr>
           <td>ประเทศ:</td>
-          <td>{{ $country_code[$productItems['country_code']] }} </td>
+          <td>{{ $productItems['country_code'] }} </td>
         </tr>
         <tr>
           <td colspan="2">นำเข้าและจัดจำหน่ายโดย: บริษัทเฮเฟเล่(ประเทศไทย)จำกัด</td>
