@@ -234,6 +234,7 @@
                                       <option value=""></option>\
                                       <option value="Yearly">Yearly</option>\
                                       <option value="Permanent">Permanent</option>\
+                                      <option value="Free">Free</option>\
                                     </select>\
                                   </div>\
                                   <div class="col-4">\

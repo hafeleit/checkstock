@@ -267,6 +267,7 @@
                     <option value=""></option>
                     <option value="Yearly" {{ $value->license_type == 'Yearly' ? 'selected' : '' }}>Yearly</option>
                     <option value="Permanent" {{ $value->license_type == 'Permanent' ? 'selected' : '' }}>Permanent</option>
+                    <option value="Free" {{ $value->license_type == 'Free' ? 'selected' : '' }}>Free</option>
                   </select>
                 </div>
                 <div class="col-4">
@@ -397,6 +398,7 @@
                                 <option value=""></option>\
                                 <option value="Yearly">Yearly</option>\
                                 <option value="Permanent">Permanent</option>\
+                                <option value="Free">Free</option>\
                               </select>\
                             </div>\
                             <div class="col-4">\
