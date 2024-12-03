@@ -49,17 +49,6 @@
                           <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Grade1/Grade2:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light grade1 text-input"></span>
-                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light grade2 text-input"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
                                     <span class="mb-2 text-sm">Purchaser:</span>
                                 </div>
                             </div>
@@ -149,17 +138,6 @@
                             </div>
                           </div>
                           <div class="row">
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">New Item:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light new_item text-input"></span>
-                                </div>
-                            </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <span class="mb-2 text-sm">Weight-Volume:</span>
@@ -203,16 +181,6 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light vat7 text-input"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Sales MOQ:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light sales_moq text-input"></span>
                                 </div>
                             </div>
 
@@ -267,26 +235,6 @@
                           <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <span class="mb-2 text-sm">Item ABC/XYZ Class:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_abc_xyz_class text-input"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">LSP:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light lsp text-input"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
                                     <span class="mb-2 text-sm">Item Brand:</span>
                                 </div>
                             </div>
@@ -297,26 +245,6 @@
                             </div>
                           </div>
                           <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">LSP Date:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light lsp_date text-input"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Last Disc %:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light last_disc text-input"></span>
-                                </div>
-                            </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <span class="mb-2 text-sm">Exclusivity Remark:</span>
@@ -353,82 +281,6 @@
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at_others2 text-input"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Pick Qty at 1:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pick_qty_at1 text-input"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pick_qty_at2 text-input"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-
-                          <div class="col-md-2">
-                              <div class="form-group">
-                                  <span class="mb-2 text-sm">GC %:</span>
-                              </div>
-                          </div>
-                          <div class="col-md-2">
-                              <div class="form-group">
-                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light gc text-input"></span>
-                              </div>
-                          </div>
-                          <div class="col-md-2">
-                              <div class="form-group">
-                                  <span class="mb-2 text-sm">Promotion Text:</span>
-                              </div>
-                          </div>
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <span class="text-dark ms-sm-2 font-weight-bold badge btn-light promotion_text text-input"></span>
-                              </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-1">
-                              <div class="form-group">
-                                <div class="d-flex align-items-center">
-                                  <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="p" onclick="return false;">
-                                  </div>
-                                  <h6 class="mb-0 text-dark font-weight-bold text-sm">P</h6>
-                                </div>
-                              </div>
-                          </div>
-                          <div class="col-md-1">
-                              <div class="form-group">
-                                <div class="d-flex align-items-center">
-                                  <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="c" onclick="return false;">
-                                  </div>
-                                  <h6 class="mb-0 text-dark font-weight-bold text-sm">C</h6>
-                                </div>
-                              </div>
-                          </div>
-                          <div class="col-md-1">
-                              <div class="form-group">
-                                <div class="d-flex align-items-center">
-                                  <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="pp" onclick="return false;">
-                                  </div>
-                                  <h6 class="mb-0 text-dark font-weight-bold text-sm">P/P</h6>
-                                </div>
-                              </div>
-                          </div>
-                          <div class="col-md-1">
-                              <div class="form-group">
-                                <div class="d-flex align-items-center">
-                                  <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="diy" onclick="return false;">
-                                  </div>
-                                  <h6 class="mb-0 text-dark font-weight-bold text-sm">DIY</h6>
-                                </div>
-                              </div>
-                          </div>
                         </div>
                     </div>
                 </div>
@@ -567,52 +419,7 @@
                 </div>
               </div>
         </div>
-        <div class="row">
-          <div class="col-lg-6 mb-lg-0 mt-4">
-              <div class="card " style="height: 470px;">
-                  <div class="card-header pb-0">
-                      <h6>Top 20 Customer Last 3 Months</h6>
-                  </div>
-                  <div class="table-responsive tableFixHead">
-                      <table id="t20_3_table" class="table align-items-center ">
-                          <thead>
-                              <tr>
-                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Customer Code</th>
-                                  <th class="border-usi text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Customer Name</th>
-                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Order Qty</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Value</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> GC</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-            </div>
-            <div class="col-lg-6 mb-lg-0 mt-4">
-                <div class="card " style="height: 470px;">
-                    <div class="card-header pb-0">
-                        <h6>Top 20 Customer Last 12 Months</h6>
-                    </div>
-                    <div class="table-responsive">
-                        <table id="t20_12_table" class="table align-items-center ">
-                          <thead>
-                              <tr>
-                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Customer Code</th>
-                                  <th class="border-usi text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Customer Name</th>
-                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Order Qty</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Value</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> GC</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                          </tbody>
-                        </table>
-                    </div>
-                </div>
-              </div>
-        </div>
+
     </div>
 
     <!-- Modal -->
@@ -687,8 +494,6 @@
         return false;
       }
       $('.item_desc').html(res['data']['NSU_ITEM_NAME']);
-      $('.grade1').html(res['data']['NSU_GRADE_CODE_1']);
-      $('.grade2').html(res['data']['NSU_GRADE_CODE_2']);
       $('.purchaser').html(res['data']['NSU_PURCHASER']);
       $('.total_qty1').html(addCommas(res['data']['NSU_TOT_QTY']));
       $('.total_qty2').html(res['data']['NSU_TOT_QTY_LS']);
@@ -700,41 +505,23 @@
       $('.pack_code1').html(res['data']['NSU_PACK_UOM_CODE']);
       $('.pack_code2').html(res['data']['NSU_CONV_BASE_UOM'] + ' ' + res['data']['NSU_ITEM_UOM_CODE']);
       $('.avg_mth_cust').html(res['data']['NSU_AVG_MTH_CUST']);
-      $('.new_item').html(res['data']['NSU_NEW_ITEM_CODE']);
       $('.weight_volume1').html(res['data']['NSU_PACK_WEIGHT'] + ' KG');
       $('.weight_volume2').html(res['data']['NSU_PACK_VOLUME'] + ' Dm 3');
       $('.item_status').html(res['data']['NSU_ITEM_STATUS']);
       $('.repl_time').html(res['data']['NSU_SUPP_REPL_TIME']);
       $('.vat7').html(res['data']['NSU_VAT_PERC']);
-      $('.sales_moq').html(res['data']['NSU_SALE_MOQ']);
-      $('.sales_moq').html(res['data']['NSU_SALE_MOQ']);
-      $('.tis_status').html(res['data']['NSU_TIS_STATUS']);
       $('.tis_status').html(res['data']['NSU_TIS_STATUS']);
       $('.purchase_moq').html(addCommas(res['data']['NSU_PURC_MOQ']));
       $('.inventory_code').html(res['data']['NSU_ITEM_INV_CODE']);
-      $('.promotion_text').html(res['data']['NSU_PROM_TEXT']);
       $('.supplier_item_code').html(res['data']['NSU_SUPP_ITEM_CODE']);
       $('.item_lock_code').html(res['data']['NSU_ITEM_LOCK_CODE']);
-      $('.item_abc_xyz_class').html(res['data']['NSU_ABC_XYZ_ITEM']);
-      $('.lsp').html(res['data']['NSU_LSP_VAL']);
-      $('.lsp_date').html(res['data']['NSU_LSP_DT']);
       $('.item_brand').html(res['data']['NSU_ITEM_BRAND']);
-      $('.last_disc').html(res['data']['NSU_LAST_DISC_PERC']);
-      $('.last_disc').html(res['data']['NSU_LAST_DISC_PERC']);
-      $('.gc').html(res['data']['NSU_GC_PERC']);
-      $('.pick_qty_at1').html(res['data']['NSU_PICK_QTY']);
-      $('.pick_qty_at2').html(res['data']['NSU_PICK_QTY_LS']);
       $('.free_stk_at1').html(addCommas(res['data']['NSU_FREE_STK_QTY']));
       $('.free_stk_at2').html(res['data']['NSU_FREE_STK_QTY_LS']);
       $('.free_stk_at_others1').html(addCommas(res['data']['NSU_FREE_STK_OTH']));
       $('.free_stk_at_others2').html(res['data']['NSU_FREE_STK_OTH_LS']);
       $('.exclusivity_remark').html(res['data']['NSU_EXCL_REMARK']);
       $('.pm_contact').html(res['data']['NSU_PROD_MGR']);
-
-      ( res['data']['NSU_PAR_ITEM_YN'] === 'Y' ) ? $('#p').prop('checked', true) : $('#p').prop('checked', false);
-      ( res['data']['NSU_CHD_ITEM_YN'] == 'Y' ) ? $('#c').prop('checked', true) : $('#c').prop('checked', false);
-      ( res['data']['NSU_PP_ITEM_YN'] == 'Y' ) ? $('#pp').prop('checked', true) : $('#pp').prop('checked', false);
-      ( res['data']['NSU_BAR_ITEM_YN'] == 'Y' ) ? $('#diy').prop('checked', true) : $('#diy').prop('checked', false);
 
       let path_img = '/storage/img/products/' + item_code + '.jpg';
       $('#product_img').attr('src',path_img);

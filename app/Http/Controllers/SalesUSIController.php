@@ -19,8 +19,9 @@ class SalesUSIController extends Controller
 
     public function search_usi(Request $request){
 
-      // NEW SALES USI //
       $item_code = $request->item_code ?? '';
+      // NEW SALES USI //
+      /*
       $usi = DB::table('OW_NEW_SALES_USI_WEB_HAFL')->where('NSU_ITEM_CODE', $item_code);
       $count = $usi->count();
 
@@ -30,7 +31,36 @@ class SalesUSIController extends Controller
           'count' => $count,
         ]);
       }
-      $usis = $usi->first();
+      $usis = $usi->first();*/
+      $query = DB::table('zhwwbcquerydir as m')
+        ->select([
+            'm.material as NSU_ITEM_CODE',
+            'm.kurztext as NSU_ITEM_NAME',
+            'm.bun',
+            'm.pgr',
+            'm.product_group_manager',
+            'm.su',
+            'm.numer',
+            'm.gross_weight',
+            'm.volume',
+            'm.st',
+            'm.lage',
+            'p.planned_deliv_time as aplfz',
+            'p.minimum_order_qty as minbm',
+            'p.vendor_material_number as zzhwwidnlf',
+            'i.unrestricted',
+            'mf.TDLINE',
+            'pm.certificate',
+        ])
+        ->distinct()
+        ->leftJoin('zhaamm_ifvmg as p', 'p.material', '=', 'm.material')
+        ->leftJoin('mb52 as i', 'i.material', '=', 'm.material')
+        ->leftJoin('fis_mpm_out as mf', 'mf.MATNR', '=', 'm.material')
+        ->leftJoin('zmm_matzert as pm', 'pm.material', '=', 'm.material')
+        ->where('m.material', '=', '000.07.815');
+        $usis = $query->first();
+        $count = $query->count();
+
       // END NEW SALES USI //
 
       // MONTH //
@@ -69,8 +99,8 @@ class SalesUSIController extends Controller
 
       $wss = DB::table('OW_WEEKWISE_STK_SUM_WEB_HAFL')->where('WSS_ITEM_CODE', $item_code)->get();
       $uom = DB::table('OW_ITEM_UOM_WEB_HAFL')->where('IUW_ITEM_CODE', $item_code)->orderBy('IUW_CONV_FACTOR','ASC')->get();
-      $t20_3 = DB::table('OW_LAST3MON_T20_CUST_WEB_HAFL')->where('LTC_ITEM_CODE', $item_code)->get();
-      $t20_12 = DB::table('OW_LAST12MON_T20_CUST_WEB_HAFL')->where('LT_ITEM_CODE', $item_code)->get();
+      //$t20_3 = DB::table('OW_LAST3MON_T20_CUST_WEB_HAFL')->where('LTC_ITEM_CODE', $item_code)->get();
+      //$t20_12 = DB::table('OW_LAST12MON_T20_CUST_WEB_HAFL')->where('LT_ITEM_CODE', $item_code)->get();
 
       return response()->json([
         'status' => true,
@@ -80,7 +110,7 @@ class SalesUSIController extends Controller
         'wss' => $wss,
         'uom' => $uom,
         't20_3' => $t20_3,
-        't20_12' => $t20_12,
+        //'t20_12' => $t20_12,
       ]);
 
     }

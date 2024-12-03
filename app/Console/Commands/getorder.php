@@ -326,7 +326,7 @@ class getorder extends Command
 
           $data_excel[$l][] = $order->customerpostcode ?? $order->shippingpostcode;
           $data_excel[$l][] = 'ZAF';
-          $data_excel[$l][] = '69';
+          $data_excel[$l][] = $order->shippingamount ?? '0';
 
           $l++;
         }
