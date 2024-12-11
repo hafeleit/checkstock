@@ -23,9 +23,9 @@ class ProductItemsController extends Controller
 
     public function pdfbarcode(Request $request){
 
-      $limit_product_name = 25;
+      $limit_product_name = 200;
       $productItems = ProductItem::where('item_code', $request->item_code)
-                      ->select(DB::raw("product_items.*, CONCAT(SUBSTRING(product_items.product_name, 1, $limit_product_name), '...') AS product_name"))
+                      //->select(DB::raw("product_items.*, CONCAT(SUBSTRING(product_items.product_name, 1, $limit_product_name), '...') AS product_name"))
                       ->first();
 
       if($request->man_date != ''){
@@ -48,7 +48,7 @@ class ProductItemsController extends Controller
         case 'tis':
           //return view('pdf.barcode_tis', ['productItems' => $productItems]);
           $pdf = PDF::loadView('pdf.barcode_tis', ['productItems' => $productItems]);
-          $customPaper = array(0,0,250,135);
+          $customPaper = array(0,0,304,230);
           $pdf->setPaper($customPaper);
           break;
         case 'tis2':

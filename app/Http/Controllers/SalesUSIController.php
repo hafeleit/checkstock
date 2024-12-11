@@ -109,7 +109,7 @@ class SalesUSIController extends Controller
         'mss' => $mss,
         'wss' => $wss,
         'uom' => $uom,
-        't20_3' => $t20_3,
+        //'t20_3' => $t20_3,
         //'t20_12' => $t20_12,
       ]);
 
