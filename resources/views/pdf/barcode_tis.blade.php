@@ -48,7 +48,7 @@
   </div>
   @endif
   @if($productItems["bar_code"] != '')
-  <div class="" style="position:absolute; left:185px; top:160px; line-height: 0px;">
+  <div class="" style="position:absolute; left:190px; top:145px; line-height: 0px;">
     @if(strlen($productItems->bar_code) == 13)
     <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="130" />'; ?>
       <p style="font-size:18px; margin:10px 0px 0px 12px">
