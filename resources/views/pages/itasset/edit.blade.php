@@ -24,19 +24,31 @@
                 <div class="col-12">
                   @switch($itasset->type)
                     @case('NOTEBOOK')
-                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="product_image">
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="macbook">
                     @break
                     @case('PRINTER')
-                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/printer-fuji.jpg" alt="product_image">
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/printer-fuji.jpg" alt="printer">
                     @break
                     @case('PC')
-                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="product_image">
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="pc">
                     @break
                     @case('HEADSET')
-                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/headset.jpg" alt="product_image">
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/headset.jpg" alt="headset">
                     @break
                     @case('TELEPHONE_SIM')
-                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/telephone_sim.jpg" alt="product_image">
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/telephone_sim.jpg" alt="telephone_sim">
+                    @break
+                    @case('TV')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/tv.png" alt="tv">
+                    @break
+                    @case('COPY_MACHINE')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/copy_machine.png" alt="copy_machine">
+                    @break
+                    @case('HANDHELD')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/handheld.png" alt="handheld">
+                    @break
+                    @case('MOBILE_PRINTER')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/mobile_printer.jpg" alt="mobile_printer">
                     @break
                     @default
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
@@ -93,6 +105,10 @@
                     <option value="SERVER" {{ $itasset->type == 'SERVER' ? 'selected' : '' }}>SERVER</option>
                     <option value="HEADSET" {{ $itasset->type == 'HEADSET' ? 'selected' : '' }}>HEADSET</option>
                     <option value="TELEPHONE_SIM" {{ $itasset->type == 'TELEPHONE_SIM' ? 'selected' : '' }}>TELEPHONE SIM</option>
+                    <option value="TV" {{ $itasset->type == 'TV' ? 'selected' : '' }}>TV</option>
+                    <option value="COPY_MACHINE" {{ $itasset->type == 'COPY MACHINE' ? 'selected' : '' }}>COPY MACHINE</option>
+                    <option value="HANDHELD" {{ $itasset->type == 'HANDHELD' ? 'selected' : '' }}>HANDHELD</option>
+                    <option value="MOBILE_PRINTER" {{ $itasset->type == 'MOBILE PRINTER' ? 'selected' : '' }}>MOBILE PRINTER</option>
                   </select>
                 </div>
                 <div class="col-3">

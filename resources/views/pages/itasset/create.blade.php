@@ -56,6 +56,10 @@
                     <option value="SERVER">SERVER</option>
                     <option value="HEADSET">HEADSET</option>
                     <option value="TELEPHONE_SIM">TELEPHONE SIM</option>
+                    <option value="TV">TV</option>
+                    <option value="COPY_MACHINE">COPY MACHINE</option>
+                    <option value="HANDHELD">HANDHELD</option>
+                    <option value="MOBILE_PRINTER">MOBILE PRINTER</option>
                   </select>
                 </div>
                 <div class="col-3">

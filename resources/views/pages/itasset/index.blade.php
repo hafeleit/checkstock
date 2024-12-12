@@ -216,8 +216,20 @@
                             @case('TELEPHONE_SIM')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/telephone_sim.jpg" alt="telephone_sim">
                             @break
+                            @case('TV')
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/tv.png" alt="tv">
+                            @break
+                            @case('COPY_MACHINE')
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/copy_machine.png" alt="copy_machine">
+                            @break
+                            @case('HANDHELD')
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/handheld.png" alt="handheld">
+                            @break
+                            @case('MOBILE_PRINTER')
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/mobile_printer.jpg" alt="mobile_printer">
+                            @break
                             @default
-                              <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
+                              <img class="w-10" src="" alt="product_image">
                           @endswitch
                           <h6 class="ms-3 my-auto">{{$itasset->computer_name}}</h6>
                         </div></a>
