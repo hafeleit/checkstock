@@ -68,42 +68,6 @@
                                 </div>
                             </div>
                           </div>
-
-                          <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Total Annual Qty:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light total_qty1 text-input"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light total_qty2 text-input"></span>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Avg Mth Qty:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_qty1 text-input"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_qty2 text-input"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Avg Mth Cust:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light avg_mth_cust text-input"></span>
-                                </div>
-                            </div>
-                          </div>
                           <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -149,16 +113,6 @@
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light weight_volume2 text-input"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">TIS Status:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light tis_status text-input"></span>
-                                </div>
-                            </div>
 
                           </div>
                           <div class="row">
@@ -173,17 +127,6 @@
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light repl_time text-input"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">VAT %:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light vat7 text-input"></span>
-                                </div>
-                            </div>
-
                           </div>
                           <div class="row">
 
@@ -221,16 +164,6 @@
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light project_item text-input"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Item Lock Code:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_lock_code text-input"></span>
-                                </div>
-                            </div>
                           </div>
                           <div class="row">
                             <div class="col-md-2">
@@ -241,6 +174,16 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_brand text-input"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="mb-2 text-sm">New Item Code:</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light new_item_code text-input"></span>
                                 </div>
                             </div>
                           </div>
@@ -258,27 +201,9 @@
                           </div>
 
                           <div class="row">
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Free Stk at 1:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at1 text-input"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at2 text-input"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Free Stk at Others:</span>
-                                </div>
-                            </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at_others1 text-input"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at_others2 text-input"></span>
                                 </div>
                             </div>
                         </div>
@@ -495,33 +420,20 @@
       }
       $('.item_desc').html(res['data']['NSU_ITEM_NAME']);
       $('.purchaser').html(res['data']['NSU_PURCHASER']);
-      $('.total_qty1').html(addCommas(res['data']['NSU_TOT_QTY']));
-      $('.total_qty2').html(res['data']['NSU_TOT_QTY_LS']);
-      $('.cust_item_code').html(res['data']['NSU_CUST_ITEM_CODE']);
       $('.pm_contact').html(res['data']['NSU_PROD_MGR']);
-      $('.avg_mth_qty1').html(res['data']['NSU_AVG_MTH_QTY']);
-      $('.avg_mth_qty2').html(res['data']['NSU_AVG_MTH_QTY_LS']);
       $('.uom').html(res['data']['NSU_ITEM_UOM_CODE']);
       $('.pack_code1').html(res['data']['NSU_PACK_UOM_CODE']);
       $('.pack_code2').html(res['data']['NSU_CONV_BASE_UOM'] + ' ' + res['data']['NSU_ITEM_UOM_CODE']);
-      $('.avg_mth_cust').html(res['data']['NSU_AVG_MTH_CUST']);
       $('.weight_volume1').html(res['data']['NSU_PACK_WEIGHT'] + ' KG');
       $('.weight_volume2').html(res['data']['NSU_PACK_VOLUME'] + ' Dm 3');
       $('.item_status').html(res['data']['NSU_ITEM_STATUS']);
       $('.repl_time').html(res['data']['NSU_SUPP_REPL_TIME']);
-      $('.vat7').html(res['data']['NSU_VAT_PERC']);
-      $('.tis_status').html(res['data']['NSU_TIS_STATUS']);
       $('.purchase_moq').html(addCommas(res['data']['NSU_PURC_MOQ']));
       $('.inventory_code').html(res['data']['NSU_ITEM_INV_CODE']);
       $('.supplier_item_code').html(res['data']['NSU_SUPP_ITEM_CODE']);
-      $('.item_lock_code').html(res['data']['NSU_ITEM_LOCK_CODE']);
       $('.item_brand').html(res['data']['NSU_ITEM_BRAND']);
-      $('.free_stk_at1').html(addCommas(res['data']['NSU_FREE_STK_QTY']));
-      $('.free_stk_at2').html(res['data']['NSU_FREE_STK_QTY_LS']);
-      $('.free_stk_at_others1').html(addCommas(res['data']['NSU_FREE_STK_OTH']));
-      $('.free_stk_at_others2').html(res['data']['NSU_FREE_STK_OTH_LS']);
       $('.exclusivity_remark').html(res['data']['NSU_EXCL_REMARK']);
-      $('.pm_contact').html(res['data']['NSU_PROD_MGR']);
+      $('.new_item_code').html(res['data']['NSU_NEW_ITEM_CODE']);
 
       let path_img = '/storage/img/products/' + item_code + '.jpg';
       $('#product_img').attr('src',path_img);

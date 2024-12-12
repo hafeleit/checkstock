@@ -36,27 +36,29 @@ class SalesUSIController extends Controller
         ->select([
             'm.material as NSU_ITEM_CODE',
             'm.kurztext as NSU_ITEM_NAME',
-            'm.bun',
-            'm.pgr',
-            'm.product_group_manager',
-            'm.su',
-            'm.numer',
-            'm.gross_weight',
-            'm.volume',
-            'm.st',
-            'm.lage',
-            'p.planned_deliv_time as aplfz',
-            'p.minimum_order_qty as minbm',
-            'p.vendor_material_number as zzhwwidnlf',
-            'i.unrestricted',
-            'mf.TDLINE',
-            'pm.certificate',
+            'm.bun as NSU_ITEM_UOM_CODE',
+            'm.pgr as NSU_PURCHASER',
+            'm.product_group_manager as NSU_PROD_MGR',
+            'm.su as NSU_PACK_UOM_CODE',
+            'm.numer as NSU_CONV_BASE_UOM',
+            'm.gross_weight as NSU_PACK_WEIGHT',
+            'm.volume as NSU_PACK_VOLUME',
+            'm.st as NSU_ITEM_STATUS',
+            'm.lage as NSU_ITEM_INV_CODE',
+            'p.planned_deliv_time as NSU_SUPP_REPL_TIME', // aplfz
+            'p.minimum_order_qty as NSU_PURC_MOQ', // minbm
+            'p.vendor_material_number as NSU_SUPP_ITEM_CODE', // zzhwwidnlf
+            'i.unrestricted as NSU_FREE_STK_QTY',
+            'mf.TDLINE as NSU_EXCL_REMARK',
+            'pm.certificate as NSU_ITEM_BRAND',
+            'od.customer_material as NSU_NEW_ITEM_CODE',
         ])
         ->distinct()
         ->leftJoin('zhaamm_ifvmg as p', 'p.material', '=', 'm.material')
         ->leftJoin('mb52 as i', 'i.material', '=', 'm.material')
         ->leftJoin('fis_mpm_out as mf', 'mf.MATNR', '=', 'm.material')
         ->leftJoin('zmm_matzert as pm', 'pm.material', '=', 'm.material')
+        ->leftJoin('zhaasd_ord as od', 'od.material', '=', 'm.material')
         ->where('m.material', '=', '000.07.815');
         $usis = $query->first();
         $count = $query->count();
