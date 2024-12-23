@@ -55,6 +55,7 @@ class ProductItem extends Model
       'series_name',
       'qr_code',
       'color',
-      
+      'status',
+
     ];
 }

@@ -88,14 +88,14 @@
         <tr>
           <td>แบบการขจัดฝ้าน้ำแข็ง:</td>
           <?php
-            switch ($productItems["defrosting"]) {
-              case 'A':
+            switch ($productItems->defrosting) {
+              case 'Automatic':
                 $defrosting = "() ด้วยมือ () กึ่งอัตโนมัติ (X) อัตโนมัติ";
                 break;
-              case 'S':
+              case 'Semiauto':
                 $defrosting = "() ด้วยมือ (X) กึ่งอัตโนมัติ () อัตโนมัติ";
                 break;
-              case 'M':
+              case 'Manual':
                 $defrosting = "(X) ด้วยมือ () กึ่งอัตโนมัติ () อัตโนมัติ";
                 break;
 

@@ -429,24 +429,27 @@
             </TD> @else <TD colspan=5 class="tr0 tdLeft_1">
               <P class="p4 ft1">ประเทศที่ผลิต</P>
             </TD> @endif </TR>
-          <TR> @if($productItems["made_by"] =='ไทย') <TD colspan=5 class="tr6 td7">
-              <P class="p4 ft8">{{ $productItems["factory_name"] }}</P> <?php
-					$factory_address = [];
-					if( $productItems["factory_address"] != ''){
-						$seq = 0;
-						$ex_str = explode(" ",$productItems["factory_address"]);
-						foreach($ex_str as $key => $val){
-							if($key < 3){
-								$factory_address[1][] = $val;
-							}
-							if($key >= 3 && $key < 5){
-								$factory_address[2][] = $val;
-							}
-							if($key >= 5 && $key < 10){
-								$factory_address[3][] = $val;
-							}
-						}
-					}
+          <TR>
+            @if($productItems["made_by"] =='ไทย')
+            <TD colspan=5 class="tr6 td7">
+              <P class="p4 ft8">{{ $productItems["factory_name"] }}</P>
+              <?php
+					         $factory_address = [];
+					         if( $productItems["factory_address"] != ''){
+  						       $seq = 0;
+  						       $ex_str = explode(" ",$productItems["factory_address"]);
+        						foreach($ex_str as $key => $val){
+        							if($key < 3){
+        								$factory_address[1][] = $val;
+        							}
+        							if($key >= 3 && $key < 5){
+        								$factory_address[2][] = $val;
+        							}
+        							if($key >= 5 && $key < 10){
+        								$factory_address[3][] = $val;
+        							}
+        						}
+			             }
 				?> <P class="p4 ft7"> <?php echo implode(" ", $factory_address[1]) ?> </P>
               <P class="p4 ft9"> <?php echo implode(" ", $factory_address[2]) ?> </P>
               <P class="p4 ft7"> <?php echo implode(" ", $factory_address[3]) ?> </P>

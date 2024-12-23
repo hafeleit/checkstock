@@ -197,7 +197,7 @@
                             </a>
                           </td>
                           <td class="text-sm">
-                            <a  href="" data-bs-toggle="tooltip" data-bs-original-title="Preview Product">
+                            <a  href="{{ route('product-items.show',$product->id) }}" data-bs-toggle="tooltip" data-bs-original-title="Preview Product">
                               <i class="fas fa-eye text-secondary" aria-hidden="true"></i>
                             </a>
                             @can('consumerlabel update')

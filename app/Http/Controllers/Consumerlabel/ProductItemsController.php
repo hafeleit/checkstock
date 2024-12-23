@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Consumerlabel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductItem;
+use App\Models\CMLColour;
+use App\Models\CMLCountryCode;
+use App\Models\CMLDefrosting;
+use App\Models\CMLMethod;
+use App\Models\CMLSuggestion;
+use App\Models\CMLWarning;
 use Auth;
 use PDF;
 use DB;
@@ -25,6 +31,21 @@ class ProductItemsController extends Controller
 
       $limit_product_name = 200;
       $productItems = ProductItem::where('item_code', $request->item_code)
+                      ->leftJoin('cml_suggestions','cml_suggestions.suggestion_code','product_items.suggest_text')
+                      ->leftJoin('cml_warnings','cml_warnings.warning_code','product_items.warning_text')
+                      ->leftJoin('cml_methods','cml_methods.method_code','product_items.how_to_text')
+                      ->leftJoin('cml_defrostings','cml_defrostings.defrosting_code','product_items.defrosting')
+                      ->leftJoin('cml_country_codes','cml_country_codes.country_code','product_items.country_code')
+                      ->leftJoin('cml_colours','cml_colours.colour_code','product_items.color')
+                      ->select(
+                        'product_items.*',
+                        'cml_suggestions.suggestion_description AS suggest_text',
+                        'cml_warnings.warning_description AS warning_text',
+                        'cml_methods.method_description AS how_to_text',
+                        'cml_defrostings.defrosting_description as defrosting',
+                        'cml_country_codes.country_name_in_thai as country_code',
+                        'cml_colours.colour_code as colour_code',
+                        )
                       //->select(DB::raw("product_items.*, CONCAT(SUBSTRING(product_items.product_name, 1, $limit_product_name), '...') AS product_name"))
                       ->first();
 
@@ -103,7 +124,24 @@ class ProductItemsController extends Controller
      */
     public function show(string $id)
     {
-        $productitem = ProductItem::find($id);
+        //$productitem = ProductItem::find($id)
+        $productitem = ProductItem::leftJoin('cml_suggestions','cml_suggestions.suggestion_code','product_items.suggest_text')
+        ->leftJoin('cml_warnings','cml_warnings.warning_code','product_items.warning_text')
+        ->leftJoin('cml_methods','cml_methods.method_code','product_items.how_to_text')
+        ->leftJoin('cml_defrostings','cml_defrostings.defrosting_code','product_items.defrosting')
+        ->leftJoin('cml_country_codes','cml_country_codes.country_code','product_items.country_code')
+        ->leftJoin('cml_colours','cml_colours.colour_code','product_items.color')
+        ->select(
+          'product_items.*',
+          'cml_suggestions.suggestion_description AS suggest_text',
+          'cml_warnings.warning_description AS warning_text',
+          'cml_methods.method_description AS how_to_text',
+          'cml_defrostings.defrosting_description as defrosting',
+          'cml_country_codes.country_name_in_thai as country_code',
+          'cml_colours.colour_description as colour_code',
+        )
+        ->where('product_items.id', $id)
+        ->first();
         return view('pages.consumerlabel.productitems.show',compact('productitem'));
     }
 
@@ -113,7 +151,14 @@ class ProductItemsController extends Controller
     public function edit(string $id)
     {
         $productitem = ProductItem::where('id',$id)->first();
-        return view('pages.consumerlabel.productitems.edit',compact('productitem'));
+        $colors = CMLColour::All();
+        $countrycodes = CMLCountryCode::All();
+        $defrostings = CMLDefrosting::All();
+        $methods = CMLMethod::All();
+        $suggestions = CMLSuggestion::All();
+        $warnings = CMLWarning::All();
+
+        return view('pages.consumerlabel.productitems.edit',compact('productitem','colors','countrycodes','defrostings','methods','suggestions','warnings'));
     }
 
     /**
@@ -121,9 +166,11 @@ class ProductItemsController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request['status'] = ($request->status != '') ? $request->status : 'Inactive';
+        //dd($request->status);
         $productitems = ProductItem::findOrFail($id);
         $productitems->update($request->all());
-        return redirect()->route('product-items.edit',$id)->with('success','Product Item updated successfully');
+        return redirect()->route('product-items.show',$id)->with('succes','Product Item updated successfully');
     }
 
     /**
