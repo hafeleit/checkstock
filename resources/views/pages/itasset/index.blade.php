@@ -158,9 +158,6 @@
                   <thead class="thead-light">
                     <tr>
                       <th >
-                        <a href="#" class="">ID</a>
-                      </th>
-                      <th >
                         <a href="#" class="">COMPUTER NAME</a>
                       </th>
                       <th >
@@ -196,7 +193,6 @@
                   <tbody>
                     @foreach ($itassets as $itasset)
                     <tr>
-                      <td>{{$itasset->id}}</td>
                       <td>
                         <a href="{{ route('itasset.show',$itasset->id) }}">
                         <div class="d-flex">

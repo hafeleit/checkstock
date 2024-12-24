@@ -38,6 +38,7 @@ use App\Http\Controllers\UserMasterController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CheckStockController;
 use App\Http\Controllers\Consumerlabel\ProductItemsController;
+use App\Http\Controllers\ITAssetTypeController;
 
   Route::get('/', function () {return redirect('/products');});
 
@@ -107,6 +108,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('usermaster-import', [UserMasterController::class,'import'])->name('usermaster-import');
   Route::get('itasset-export', [ITAssetController::class,'export'])->name('itasset-export');
   Route::resource('itasset', ITAssetController::class);
+  Route::resource('asset_types', ITAssetTypeController::class);
   Route::resource('onlineorder', OrderController::class);
   Route::resource('checkstock', CheckStockController::class);
   Route::get('checkstockhww-export', [CheckStockController::class,'export'])->name('checkstockhww-export');

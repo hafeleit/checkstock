@@ -292,7 +292,7 @@ class getorder extends Command
           $data_excel[$l][] = $order->shippingphone ?? '';
           $data_excel[$l][] = $order->shippingphone ?? '';
           //Carrier code
-          $shipchan = strtoupper($order->shippingchannel);
+          $shipchan = strtoupper($order->saleschannel);
           if(strtoupper($order->saleschannel) == 'LAZADA'){
             $shipchan = 'LEX';
           }
@@ -318,10 +318,10 @@ class getorder extends Command
             $data_excel[$l][] = 'TH-BIL-ECM';
           }elseif(Str::contains($shipchan, 'SPX')){
             $data_excel[$l][] = 'TH-SPE-ECM';
-          }elseif(strtoupper($order->shippingchannel) == 'STANDARD DELIVERY'){
+          }elseif(strtoupper($order->saleschannel) == 'STANDARD DELIVERY'){
             $data_excel[$l][] = 'TH-OTHERS';
           }else{
-            $data_excel[$l][] = $order->shippingchannel;
+            $data_excel[$l][] = $order->saleschannel;
           }
 
           $data_excel[$l][] = $order->customerpostcode ?? $order->shippingpostcode;
