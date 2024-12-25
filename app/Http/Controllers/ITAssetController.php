@@ -62,7 +62,7 @@ class ITAssetController extends Controller
     public function create()
     {
 
-        return view('pages.itasset.create',['types' => ITAssetType::All()]);
+        return view('pages.itasset.create',['types' => ITAssetType::where('type_status','Active')->get()]);
     }
 
     /**
@@ -148,7 +148,7 @@ class ITAssetController extends Controller
         $itassetspec = ITAssetSpec::where('computer_name',$itasset->computer_name)->first();
         $itassetown = ITAssetOwn::where('computer_name',$itasset->computer_name)->get();
         $softwares = Softwares::where('computer_name',$itasset->computer_name)->get();
-        $types = ITAssetType::All();
+        $types = ITAssetType::where('type_status','Active')->get();
         return view('pages.itasset.edit',compact('itasset','itassetspec','itassetown','softwares','types'));
     }
 
