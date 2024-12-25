@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ITAsset;
+use App\Models\ITAssetType;
 use App\Models\ITAssetOwn;
 use App\Models\ITAssetSpec;
 use App\Models\Softwares;
@@ -60,7 +61,8 @@ class ITAssetController extends Controller
      */
     public function create()
     {
-        return view('pages.itasset.create');
+
+        return view('pages.itasset.create',['types' => ITAssetType::All()]);
     }
 
     /**
@@ -128,8 +130,10 @@ class ITAssetController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ITAsset $itasset)
+    public function show(int $id)
     {
+        $itasset = ITAsset::where('i_t_assets.id', $id)->leftJoin('i_t_asset_types','i_t_asset_types.type_code','i_t_assets.type')
+                    ->select('i_t_assets.*','i_t_asset_types.type_desc AS type')->first();
         $itassetspec = ITAssetSpec::where('computer_name',$itasset->computer_name)->first();
         $itassetown = ITAssetOwn::where('computer_name',$itasset->computer_name)->leftJoin('user_masters','i_t_asset_owns.user','=','user_masters.job_code')->get();
         $softwares = Softwares::where('computer_name',$itasset->computer_name)->get();
@@ -144,7 +148,8 @@ class ITAssetController extends Controller
         $itassetspec = ITAssetSpec::where('computer_name',$itasset->computer_name)->first();
         $itassetown = ITAssetOwn::where('computer_name',$itasset->computer_name)->get();
         $softwares = Softwares::where('computer_name',$itasset->computer_name)->get();
-        return view('pages.itasset.edit',compact('itasset','itassetspec','itassetown','softwares'));
+        $types = ITAssetType::All();
+        return view('pages.itasset.edit',compact('itasset','itassetspec','itassetown','softwares','types'));
     }
 
     /**

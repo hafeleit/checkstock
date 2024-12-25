@@ -3,8 +3,9 @@
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'New Asset'])
     <div class="container-fluid py-4">
-      <form action="{{ route('asset_types.store') }}" method="post" >
-      @csrf
+      <form action="{{ route('asset_types.update',$assetType->id) }}" method="post" >
+        @csrf
+        @method('PUT')
       <div class="row">
         <div class="col-lg-6" style="z-index: 1;">
 
@@ -19,9 +20,7 @@
         <div class="col-lg-12 mt-lg-0 mt-4">
           <div class="card">
             <div class="card-body">
-              <div id="alert">
-                  @include('components.alert')
-              </div>
+
               @if ($errors->any())
                 <div class="alert alert-danger">
                     <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -35,8 +34,15 @@
               <h5 class="font-weight-bolder">Asset Type Information</h5>
               <div class="row">
                 <div class="col-12 col-sm-6">
-                  <label>Asset Type <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="type_desc" placeholder="" value="{{ old('type_desc') }}" required>
+                  <label>Asset Type Description <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="type_desc" placeholder="" value="{{ $assetType->type_desc }}" required>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <label>Status</label>
+                  <select class="form-control" name="type_status" required>
+                    <option value="Active" {{ ($assetType->type_status == 'Active') ? 'selected' : '' }} >Active</option>
+                    <option value="Inactive" {{ ($assetType->type_status == 'Inactive') ? 'selected' : '' }}>Inactive</option>
+                  </select>
                 </div>
               </div>
 

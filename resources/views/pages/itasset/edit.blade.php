@@ -23,31 +23,31 @@
               <div class="row">
                 <div class="col-12">
                   @switch($itasset->type)
-                    @case('NOTEBOOK')
+                    @case('T01')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="macbook">
                     @break
-                    @case('PRINTER')
+                    @case('T03')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/printer-fuji.jpg" alt="printer">
                     @break
-                    @case('PC')
+                    @case('T02')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="pc">
                     @break
-                    @case('HEADSET')
+                    @case('T05')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/headset.jpg" alt="headset">
                     @break
-                    @case('TELEPHONE_SIM')
+                    @case('T06')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/telephone_sim.jpg" alt="telephone_sim">
                     @break
-                    @case('TV')
+                    @case('T07')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/tv.png" alt="tv">
                     @break
-                    @case('COPY_MACHINE')
+                    @case('T08')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/copy_machine.png" alt="copy_machine">
                     @break
-                    @case('HANDHELD')
+                    @case('T09')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/handheld.png" alt="handheld">
                     @break
-                    @case('MOBILE_PRINTER')
+                    @case('T10')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/mobile_printer.jpg" alt="mobile_printer">
                     @break
                     @default
@@ -98,17 +98,14 @@
               <div class="row">
                 <div class="col-3">
                   <label class="mt-4">Type <span class="text-danger">*</span></label>
-                  <select class="form-control" name="type">
-                    <option value="NOTEBOOK" {{ $itasset->type == 'NOTEBOOK' ? 'selected' : '' }}>NOTEBOOK</option>
-                    <option value="PC" {{ $itasset->type == 'PC' ? 'selected' : '' }}>PC</option>
-                    <option value="PRINTER" {{ $itasset->type == 'PRINTER' ? 'selected' : '' }}>PRINTER</option>
-                    <option value="SERVER" {{ $itasset->type == 'SERVER' ? 'selected' : '' }}>SERVER</option>
-                    <option value="HEADSET" {{ $itasset->type == 'HEADSET' ? 'selected' : '' }}>HEADSET</option>
-                    <option value="TELEPHONE_SIM" {{ $itasset->type == 'TELEPHONE_SIM' ? 'selected' : '' }}>TELEPHONE SIM</option>
-                    <option value="TV" {{ $itasset->type == 'TV' ? 'selected' : '' }}>TV</option>
-                    <option value="COPY_MACHINE" {{ $itasset->type == 'COPY MACHINE' ? 'selected' : '' }}>COPY MACHINE</option>
-                    <option value="HANDHELD" {{ $itasset->type == 'HANDHELD' ? 'selected' : '' }}>HANDHELD</option>
-                    <option value="MOBILE_PRINTER" {{ $itasset->type == 'MOBILE PRINTER' ? 'selected' : '' }}>MOBILE PRINTER</option>
+                  <select class="form-control" name="type" required>
+                    <option value="">-- Select --</option>
+                    @foreach($types as $type)
+                        <option value="{{ $type->type_code }}"
+                            {{ $itasset->type == $type->type_code ? 'selected' : '' }}>
+                            {{ $type->type_desc }}
+                        </option>
+                    @endforeach
                   </select>
                 </div>
                 <div class="col-3">

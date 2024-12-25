@@ -18,12 +18,10 @@
     <div class="col-12">
 
       <div class="card">
+        <div id="alert">
+            @include('components.alert')
+        </div>
         <div class="card-header pb-0">
-            @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <p>{{ $message }}</p>
-            </div>
-            @endif
           <div class="d-lg-flex">
             <div>
               <h5 class="mb-0">All Asset</h5>
@@ -75,10 +73,10 @@
                       <td class="text-sm">{{$assetType->type_status}}</td>
 
                       <td class="text-sm">
-                        <a  href="" data-bs-toggle="tooltip" data-bs-original-title="Preview asset">
+                        <a  href="{{ route('asset_types.show',$assetType->id) }}" data-bs-toggle="tooltip" data-bs-original-title="Preview asset">
                           <i class="fas fa-eye text-secondary" aria-hidden="true"></i>
                         </a>
-                        <a href="" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit asset">
+                        <a href="{{ route('asset_types.edit',$assetType->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit asset">
                           <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
                         </a>
                       </td>

@@ -83,6 +83,14 @@
                 <span class="sidenav-normal"> Asset List </span>
               </a>
             </li>
+            @can('itasset_type create')
+            <li class="nav-item">
+              <a class="nav-link {{ Route::currentRouteName() == 'asset_types.index' ? 'active' : '' }}" href="{{ route('asset_types.index') }}">
+                <span class="sidenav-mini-icon text-xs"> T </span>
+                <span class="sidenav-normal"> Asset Type Management </span>
+              </a>
+            </li>
+            @endcan
           </ul>
         </div>
       </li>

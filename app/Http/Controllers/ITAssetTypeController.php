@@ -11,6 +11,15 @@ class ITAssetTypeController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct()
+    {
+       $this->middleware('permission:itasset_type view', ['only' => ['index']]);
+       $this->middleware('permission:itasset_type create', ['only' => ['create','store']]);
+       $this->middleware('permission:itasset_type update', ['only' => ['update','edit']]);
+       $this->middleware('permission:itasset_type delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
 
@@ -41,7 +50,7 @@ class ITAssetTypeController extends Controller
     {
       try {
           $validated = $request->validate([
-              'type_desc' => 'required|string|max:100',
+              'type_desc' => 'required|unique:i_t_asset_types|string|max:100',
           ]);
 
           $lastType = ITAssetType::orderBy('id', 'desc')->first();
@@ -54,7 +63,7 @@ class ITAssetTypeController extends Controller
 
           ITAssetType::create($validated);
 
-          return redirect()->route('asset_types.index')->with('success', 'Asset type created successfully!');
+          return redirect()->route('asset_types.index')->with('succes', 'Asset type created successfully!');
       } catch (Exception $e) {
           return back()->withErrors('Failed to create asset type: ' . $e->getMessage())->withInput();
       }
@@ -67,7 +76,7 @@ class ITAssetTypeController extends Controller
     {
       try {
           $assetType = ITAssetType::findOrFail($id);
-          return view('asset_types.show', compact('assetType'));
+          return view('pages.itasset.type.show', compact('assetType'));
       } catch (ModelNotFoundException $e) {
           return redirect()->route('asset_types.index')->withErrors('Asset type not found!');
       } catch (Exception $e) {
@@ -82,7 +91,7 @@ class ITAssetTypeController extends Controller
     {
       try {
           $assetType = ITAssetType::findOrFail($id);
-          return view('asset_types.edit', compact('assetType'));
+          return view('pages.itasset.type.edit', compact('assetType'));
       } catch (ModelNotFoundException $e) {
           return redirect()->route('asset_types.index')->withErrors('Asset type not found!');
       } catch (Exception $e) {
@@ -97,15 +106,14 @@ class ITAssetTypeController extends Controller
     {
       try {
           $validated = $request->validate([
-              'type_code' => 'required|string|max:10',
-              'type_desc' => 'required|string|max:100',
-              'type_status' => 'required|string|max:20',
+              'type_desc' => 'string|max:100|required|unique:i_t_asset_types,type_desc,'.$id,
+              'type_status' => 'required',
           ]);
 
           $assetType = ITAssetType::findOrFail($id);
           $assetType->update($validated);
 
-          return redirect()->route('asset_types.index')->with('success', 'Asset type updated successfully!');
+          return redirect()->route('asset_types.index')->with('succes', 'Asset type updated successfully!');
       } catch (ModelNotFoundException $e) {
           return redirect()->route('asset_types.index')->withErrors('Asset type not found!');
       } catch (Exception $e) {

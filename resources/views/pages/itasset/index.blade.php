@@ -197,31 +197,31 @@
                         <a href="{{ route('itasset.show',$itasset->id) }}">
                         <div class="d-flex">
                           @switch($itasset->type)
-                            @case('NOTEBOOK')
+                            @case('T01')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="notebook">
                             @break
-                            @case('PRINTER')
+                            @case('T03')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/printer-fuji.jpg" alt="printer">
                             @break
-                            @case('PC')
+                            @case('T02')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="pc">
                             @break
-                            @case('HEADSET')
+                            @case('T05')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/headset.jpg" alt="headset">
                             @break
-                            @case('TELEPHONE_SIM')
+                            @case('T06')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/telephone_sim.jpg" alt="telephone_sim">
                             @break
-                            @case('TV')
+                            @case('T07')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/tv.png" alt="tv">
                             @break
-                            @case('COPY_MACHINE')
+                            @case('T08')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/copy_machine.png" alt="copy_machine">
                             @break
-                            @case('HANDHELD')
+                            @case('T09')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/handheld.png" alt="handheld">
                             @break
-                            @case('MOBILE_PRINTER')
+                            @case('T10')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/mobile_printer.jpg" alt="mobile_printer">
                             @break
                             @default
