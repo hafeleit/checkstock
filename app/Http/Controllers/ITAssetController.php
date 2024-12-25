@@ -45,10 +45,12 @@ class ITAssetController extends Controller
                     ->get();
         //dd($itassets[0]->id);
         $total_notebook = ITAsset::where('type','T01')->where('delete','0')->count();
+        $total_notebook_spare = ITAsset::where('type','T01')->where('status','SPARE')->where('delete','0')->count();
+        $total_pc_spare = ITAsset::where('type','T02')->where('status','SPARE')->where('delete','0')->count();
         $total_pc = ITAsset::where('type','T02')->where('delete','0')->count();
         $total_spare = ITAsset::where('status','SPARE')->where('delete','0')->count();
         $itassets_cnt = count($itassets);
-        return view('pages.itasset.index',compact('itassets','itassets_cnt','total_notebook','total_pc','total_spare'));
+        return view('pages.itasset.index',compact('itassets','itassets_cnt','total_notebook','total_notebook_spare','total_pc','total_pc_spare','total_spare'));
     }
 
     public function export()

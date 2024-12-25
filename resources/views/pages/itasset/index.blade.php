@@ -42,9 +42,9 @@
                   <div class="row">
                       <div class="col-8">
                           <div class="numbers">
-                              <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Notebooks</p>
+                              <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Notebooks / Spare</p>
                               <h5 class="font-weight-bolder">
-                                  {{ NUMBER_FORMAT($total_notebook) ?? '' }}
+                                  {{ NUMBER_FORMAT($total_notebook) ?? '' }} / {{ NUMBER_FORMAT($total_notebook_spare) ?? '' }}
                               </h5>
                           </div>
                       </div>
@@ -63,9 +63,9 @@
                   <div class="row">
                       <div class="col-8">
                           <div class="numbers">
-                              <p class="text-sm mb-0 text-uppercase font-weight-bold">Total PC</p>
+                              <p class="text-sm mb-0 text-uppercase font-weight-bold">Total PC / Spare</p>
                               <h5 class="font-weight-bolder">
-                                  {{ NUMBER_FORMAT($total_pc) ?? '' }}
+                                  {{ NUMBER_FORMAT($total_pc) ?? '' }} / {{ NUMBER_FORMAT($total_pc_spare) ?? '' }}
                               </h5>
                           </div>
                       </div>
