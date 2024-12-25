@@ -44,8 +44,8 @@ class ITAssetController extends Controller
                     ->orderBy('i_t_assets.id','desc')
                     ->get();
         //dd($itassets[0]->id);
-        $total_notebook = ITAsset::where('type','NOTEBOOK')->where('delete','0')->count();
-        $total_pc = ITAsset::where('type','PC')->where('delete','0')->count();
+        $total_notebook = ITAsset::where('type','T01')->where('delete','0')->count();
+        $total_pc = ITAsset::where('type','T02')->where('delete','0')->count();
         $total_spare = ITAsset::where('status','SPARE')->where('delete','0')->count();
         $itassets_cnt = count($itassets);
         return view('pages.itasset.index',compact('itassets','itassets_cnt','total_notebook','total_pc','total_spare'));
