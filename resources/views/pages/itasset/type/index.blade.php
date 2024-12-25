@@ -28,10 +28,9 @@
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
               <div class="ms-auto my-auto">
-                @can('itasset create')
+                @can('itasset_type create')
                 <a href="{{ route('asset_types.create') }}" class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; New Asset Type</a>
                 @endcan
-                <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" href="{{ route('itasset-export') }}">Export</a>
               </div>
             </div>
           </div>
