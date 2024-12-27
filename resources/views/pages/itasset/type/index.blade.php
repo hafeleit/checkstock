@@ -2,7 +2,7 @@
 
 @section('content')
 
-@include('layouts.navbars.auth.topnav', ['title' => 'Asset List'])
+@include('layouts.navbars.auth.topnav', ['title' => 'Asset Type List'])
 <style media="screen">
   .dt-layout-row{
     padding: 1.5rem;
@@ -24,7 +24,7 @@
         <div class="card-header pb-0">
           <div class="d-lg-flex">
             <div>
-              <h5 class="mb-0">All Asset</h5>
+              <h5 class="mb-0">All Asset Type</h5>
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
               <div class="ms-auto my-auto">
