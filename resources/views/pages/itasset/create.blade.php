@@ -137,6 +137,7 @@
                     <option value="HTH64_Smart Technology">HTH64_Smart Technology</option>
                     <option value="HTH64_Spare">HTH64_Spare</option>
                     <option value="HTH64_Supply Chain">HTH64_Supply Chain</option>
+                    <option value="HTH64_Maintenance">HTH64_Maintenance</option>
                     <option value="HTHDC_Site Management">HTHDC_Site Management</option>
                     <option value="HTHDC_Delivery">HTHDC_Delivery</option>
                     <option value="HTHDC_Despatch">HTHDC_Despatch</option>

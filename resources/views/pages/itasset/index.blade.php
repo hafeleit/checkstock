@@ -217,6 +217,9 @@
                             @case('T11')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/pos.png" alt="pos">
                             @break
+                            @case('T12')
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/phone_number.png" alt="phone_number">
+                            @break
                             @default
                               <img class="w-10" src="" alt="product_image">
                           @endswitch

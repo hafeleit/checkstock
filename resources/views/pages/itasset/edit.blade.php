@@ -53,6 +53,9 @@
                     @case('T11')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/pos.png" alt="pos">
                     @break
+                    @case('T12')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/phone_number.png" alt="phone_number">
+                    @break
                     @default
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
                   @endswitch
@@ -192,6 +195,7 @@
                     <option value="HTH64_Smart Technology" {{ $itasset->location == 'HTH64_Smart Technology' ? 'selected' : '' }}>HTH64_Smart Technology</option>
                     <option value="HTH64_Spare" {{ $itasset->location == 'HTH64_Spare' ? 'selected' : '' }}>HTH64_Spare</option>
                     <option value="HTH64_Supply Chain" {{ $itasset->location == 'HTH64_Supply Chain' ? 'selected' : '' }}>HTH64_Supply Chain</option>
+                    <option value="HTH64_Maintenance" {{ $itasset->location == 'HTH64_Maintenance' ? 'selected' : '' }}>HTH64_Maintenance</option>
                     <option value="HTHDC_Delivery" {{ $itasset->location == 'HTHDC_Delivery' ? 'selected' : '' }}>HTHDC_Delivery</option>
                     <option value="HTHDC_Despatch" {{ $itasset->location == 'HTHDC_Despatch' ? 'selected' : '' }}>HTHDC_Despatch</option>
                     <option value="HTHDC_Logistics" {{ $itasset->location == 'HTHDC_Logistics' ? 'selected' : '' }}>HTHDC_Logistics</option>
