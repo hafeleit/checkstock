@@ -50,6 +50,9 @@
                     @case('T10')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/mobile_printer.jpg" alt="mobile_printer">
                     @break
+                    @case('T11')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/pos.png" alt="pos">
+                    @break
                     @default
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
                   @endswitch
@@ -201,6 +204,8 @@
                     <option value="HTHDC_Workshop" {{ $itasset->location == 'HTHDC_Workshop' ? 'selected' : '' }}>HTHDC_Workshop</option>
                     <option value="HTHDC_Maintenance" {{ $itasset->location == 'HTHDC_Maintenance' ? 'selected' : '' }}>HTHDC_Maintenance</option>
                     <option value="HTHDC_E-Commerce Warehouse" {{ $itasset->location == 'HTHDC_E-Commerce Warehouse' ? 'selected' : '' }}>HTHDC_E-Commerce Warehouse</option>
+                    <option value="HTHDC_IG" {{ $itasset->location == 'HTHDC_IG' ? 'selected' : '' }}>HTHDC_IG</option>
+                    <option value="HTHHA" {{ $itasset->location == 'HTHHA' ? 'selected' : '' }}>HTHHA</option>
                     <option value=""></option>
                   </select>
                 </div>

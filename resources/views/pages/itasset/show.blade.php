@@ -28,32 +28,35 @@
               <div class="row">
                 <div class="col-12">
                   @switch($itasset->type)
-                    @case('NOTEBOOK')
-                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="product_image">
+                    @case('T01')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="macbook">
                     @break
-                    @case('PRINTER')
+                    @case('T03')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/printer-fuji.jpg" alt="product_image">
                     @break
-                    @case('PC')
+                    @case('T02')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="product_image">
                     @break
-                    @case('HEADSET')
+                    @case('T05')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/headset.jpg" alt="product_image">
                     @break
-                    @case('TELEPHONE_SIM')
+                    @case('T06')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/telephone_sim.jpg" alt="telephone_sim">
                     @break
-                    @case('TV')
+                    @case('T07')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/tv.png" alt="tv">
                     @break
-                    @case('COPY_MACHINE')
+                    @case('T08')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/copy_machine.png" alt="copy_machine">
                     @break
-                    @case('HANDHELD')
+                    @case('T09')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/handheld.png" alt="handheld">
                     @break
-                    @case('MOBILE_PRINTER')
+                    @case('T10')
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/mobile_printer.jpg" alt="mobile_printer">
+                    @break
+                    @case('T11')
+                      <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/pos.png" alt="pos">
                     @break
                     @default
                       <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
@@ -92,7 +95,7 @@
                 <div class="col-3">
                   <p class="mt-3">Type</p>
                   <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{$itasset->type ?? 'n/a'}}</p>
+                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{$itasset->type_desc ?? 'n/a'}}</p>
                   </div>
                 </div>
                 <div class="col-3">

@@ -34,11 +34,13 @@ class ITAssetController extends Controller
                     ->leftjoin('i_t_asset_owns','i_t_assets.computer_name','i_t_asset_owns.computer_name')
                     ->leftjoin('user_masters','i_t_asset_owns.user','user_masters.job_code')
                     ->leftjoin('softwares','softwares.computer_name','i_t_assets.computer_name')
+                    ->leftjoin('i_t_asset_types','i_t_asset_types.type_code','i_t_assets.type')
                     ->select(DB::raw("
                       i_t_assets.*,
                       i_t_asset_owns.user,
                       user_masters.name_en,
-                      GROUP_CONCAT(softwares.software_name ORDER BY softwares.software_name ASC SEPARATOR ', ') AS software_name
+                      GROUP_CONCAT(softwares.software_name ORDER BY softwares.software_name ASC SEPARATOR ', ') AS software_name,
+                      i_t_asset_types.type_desc
                       "))
                     ->groupBy('i_t_assets.computer_name')
                     ->orderBy('i_t_assets.id','desc')
@@ -135,7 +137,7 @@ class ITAssetController extends Controller
     public function show(int $id)
     {
         $itasset = ITAsset::where('i_t_assets.id', $id)->leftJoin('i_t_asset_types','i_t_asset_types.type_code','i_t_assets.type')
-                    ->select('i_t_assets.*','i_t_asset_types.type_desc AS type')->first();
+                    ->select('i_t_assets.*','i_t_asset_types.type_desc')->first();
         $itassetspec = ITAssetSpec::where('computer_name',$itasset->computer_name)->first();
         $itassetown = ITAssetOwn::where('computer_name',$itasset->computer_name)->leftJoin('user_masters','i_t_asset_owns.user','=','user_masters.job_code')->get();
         $softwares = Softwares::where('computer_name',$itasset->computer_name)->get();

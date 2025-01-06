@@ -150,6 +150,8 @@
                     <option value="HTHDC_Workshop">HTHDC_Workshop</option>
                     <option value="HTHDC_Maintenance">HTHDC_Maintenance</option>
                     <option value="HTHDC_E-Commerce Warehouse">HTHDC_E-Commerce Warehouse</option>
+                    <option value="HTHDC_IG">HTHDC_IG</option>
+                    <option value="HTHHA">HTHHA</option>
 
                   </select>
                 </div>

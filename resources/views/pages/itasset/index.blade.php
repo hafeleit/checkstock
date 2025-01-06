@@ -170,18 +170,8 @@
                         <a href="#" class="">SERIAL NUMBER</a>
                       </th>
                       <th >
-                        <a href="#" class="">FIX ASSET NO.</a>
+                        <a href="#" class="">TYPE</a>
                       </th>
-                      <!--
-                      <th >
-                        <a href="#" class="">PURCHASE DATE</a>
-                      </th>
-                      <th >
-                        <a href="#" class="">WARRANTY</a>
-                      </th>
-                      <th >
-                        <a href="#" class="">EXPIRE DATE</a>
-                      </th>-->
                       <th >
                         <a href="#" class="">STATUS</a>
                       </th>
@@ -224,6 +214,9 @@
                             @case('T10')
                               <img class="w-10" src="{{ URL::to('/') }}/img/itasset/mobile_printer.jpg" alt="mobile_printer">
                             @break
+                            @case('T11')
+                              <img class="w-10" src="{{ URL::to('/') }}/img/itasset/pos.png" alt="pos">
+                            @break
                             @default
                               <img class="w-10" src="" alt="product_image">
                           @endswitch
@@ -233,15 +226,7 @@
                       <td class="text-sm">{{$itasset->user . ' ' .$itasset->name_en}}</td>
                       <td class="text-sm">{{$itasset->software_name}}</td>
                       <td class="text-sm">{{$itasset->serial_number}}</td>
-                      <td class="text-sm">{{$itasset->fixed_asset_no}}</td>
-                      <!--<td class="text-sm">{{$itasset->purchase_date }}</td>
-                      <td class="text-sm">{{$itasset->warranty}}</td>
-                      <td class="text-sm">
-                          <?php
-                            $wrt = '+' .substr($itasset->warranty,0,1).' year';
-                            echo date('Y-m-d', strtotime($wrt, strtotime($itasset->purchase_date)));
-                          ?>
-                        </td>-->
+                      <td class="text-sm">{{$itasset->type_desc}}</td>
                       <td>
                         @if($itasset->status == 'ACTIVE')
                           <span class="badge badge-success badge-md">{{$itasset->status}}</span>
