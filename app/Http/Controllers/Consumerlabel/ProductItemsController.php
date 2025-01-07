@@ -96,7 +96,8 @@ class ProductItemsController extends Controller
         $paginate = $request->perpage ?? 25;
         $q = ProductItem::where('item_code','like','%'.$search.'%');
         if($supp_code != ''){
-          $q->join('supplier_items','product_items.item_code','supplier_items.sai_si_item_code')->where('sai_sa_supp_code',$supp_code);
+          //$q->join('supplier_items','product_items.item_code','supplier_items.sai_si_item_code')->where('sai_sa_supp_code',$supp_code);
+          $q->where('supplier_code',$supp_code);
         }
         $productitems = $q->select('product_items.*')->paginate($paginate);
 
