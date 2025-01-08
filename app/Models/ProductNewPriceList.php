@@ -12,5 +12,6 @@ class ProductNewPriceList extends Model
     protected $fillable = [
       'ITEM_CODE',
       'PRICE',
+      'USD_PRICE',
     ];
 }

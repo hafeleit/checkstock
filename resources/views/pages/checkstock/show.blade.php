@@ -129,6 +129,9 @@
                     $usd_price = 'Please check with HTH';
                   }
 
+                  if($product->USD_PRICE != ''){
+                    $usd_price = "$".NUMBER_FORMAT($product->USD_PRICE,2);
+                  }
 
                  ?>
                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">ESTIMATED TRANSFER PRICE(THB):</strong> &nbsp; <span class="text-danger">{{ $e_price }}</span></li>

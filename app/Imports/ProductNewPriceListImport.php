@@ -21,10 +21,10 @@ class ProductNewPriceListImport implements ToModel, WithStartRow
 
     public function model(array $row)
     {
-
         return new ProductNewPriceList([
           'ITEM_CODE' => $row[0],
           'PRICE' => $row[5],
+          'USD_PRICE' => $row[7],
         ]);
     }
 }
