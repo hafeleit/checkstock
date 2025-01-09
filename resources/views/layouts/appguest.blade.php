@@ -16,6 +16,7 @@
     <link href="{{ env('APP_URL') }}/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/40a18bc2d2.js?v=2" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet" />
     <link href="{{ env('APP_URL') }}/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ env('APP_URL') }}/assets/css/argon-dashboard.css" rel="stylesheet" />
@@ -26,8 +27,8 @@
 <body class="{{ $class ?? '' }} g-sidenav-hidden">
     @guest
         @if (in_array(request()->route()->getName(), ['products.index','so-status.index','so-status.show','sales-usi.index']))
-        <div class="position-absolute w-100 min-height-600 top-0" style="background-image: url('/img/bg-bangkok.jpg'); background-position-y: 12%; background-position-x: 30%;">
-            <span class="mask bg-primary opacity-2"></span>
+        <div class="position-absolute w-100 top-0" style="background-image: url('/img/bg-hafele2.jpg'); background-position-y: 12%; background-position-x: 30%; height:100%">
+            <span class="bg-primary opacity-2"></span>
         </div>
         @else
           @if (in_array(request()->route()->getName(), ['clr_dashboard']))
@@ -45,8 +46,8 @@
             @if (!in_array(request()->route()->getName(), ['profile', 'profile-static','products.index']))
                 <div class="min-height-300 bg-primary position-absolute w-100"></div>
             @elseif (in_array(request()->route()->getName(), ['profile-static', 'profile','products.index']))
-                <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
-                    <span class="mask bg-primary opacity-6"></span>
+                <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('/img/bg-hafele.jpg'); background-position-y: 50%;">
+                    <span class="bg-primary opacity-6"></span>
                 </div>
             @endif
             @include('layouts.navbars.auth.sidenav')

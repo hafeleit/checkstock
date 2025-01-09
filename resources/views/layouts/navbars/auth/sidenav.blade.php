@@ -1,20 +1,21 @@
-<?php
-  $user_admin = ['admin','Super Admin'];
-  $itsupport = ['admin','Super Admin', '7231', '7232', '7233', '7230','7234'];
-  $user_ecom = ['admin','Super Admin','3043','3040','3044','3045','3047','3048','3029'];
-  $user_hww = ['admin','Super Admin','inventory','HongPhuc.Vo','lehoangdung.nguyen','josephine.ng','YipLing.Chow','Mayur.Jambhale','Nalin.Jayasundara',
-  'MingFoong.Wong','Iswahyuni.Iswahyuni','ganes.dinamariana','Leah.Ramos','Florian.Sergio','Natthanan.Lovrec','Joyce.Pan','Ayesha.Sandarenu'];
-?>
 <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-    <a class="navbar-brand m-0" href="{{ URL('/') }}" style="text-align: center;">
+    <a class="navbar-brand m-0" href="#" style="text-align: center;">
       <img src="{{ URL::to('/') }}/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo"> <?php /*
 				<span class="ms-1 font-weight-bold">Argon Dashboard 2 Laravel</span>*/ ?> </a>
   </div>
   <hr class="horizontal dark mt-0">
   <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main" style="height: unset !important;">
     <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" href="{{ route('profile') }}">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-tv-2 {{ Route::currentRouteName() == 'profile' ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Profile</span>
+        </a>
+      </li>
       @can('dashboard view')
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'home' ? 'active' : '' }}" href="{{ route('home') }}">
@@ -146,6 +147,17 @@
             </li>
           </ul>
         </div>
+      </li>
+      @endcan
+
+      @can('salesusi view')
+      <li class="nav-item">
+        <a class="nav-link {{ Route::currentRouteName() == 'sales-usi.index' ? 'active' : '' }}" href="{{ route('sales-usi.index') }}">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-archive-2 {{ Request::segment(1) == 'sales-usi' ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">SALES USI</span>
+        </a>
       </li>
       @endcan
 </aside>

@@ -61,7 +61,7 @@ use App\Http\Controllers\ITAssetTypeController;
   Route::resource('so-status', SoStatusController::class);
 
   //sales usi
-  Route::resource('sales-usi', SalesUSIController::class);
+
   Route::get('search-usi', [SalesUSIController::class,'search_usi'])->name('search_usi');
   Route::get('search-usi-inbound', [SalesUSIController::class,'inbound'])->name('search_inbound');
   Route::get('search-usi-outbound', [SalesUSIController::class,'outbound'])->name('search_outbound');
@@ -96,6 +96,8 @@ use App\Http\Controllers\ITAssetTypeController;
 
 Route::group(['middleware' => 'auth'], function () {
 //Route::group(['middleware' => ['role:super-admin|admin|staff|supplier|user']], function() {
+
+  Route::resource('sales-usi', SalesUSIController::class);
 
   Route::resource('permissions',  App\Http\Controllers\PermissionController::class);
   Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);

@@ -1,6 +1,8 @@
-@extends('layouts.appguest', ['class' => 'g-sidenav-show bg-gray-100'])
+@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
+
+@include('layouts.navbars.auth.topnav', ['title' => 'SALES USI'])
 <style media="screen">
   .border-usi{
     border-left: 1px solid #e9ecef !important;
