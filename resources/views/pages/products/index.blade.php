@@ -17,7 +17,7 @@
               <div class="card mt-4">
                   <div class="card-header pb-0 p-3">
                       <div class="row">
-                          <div class="col-6 d-flex align-items-center">
+                          <div class="col-12 d-flex align-items-center">
                               <h6 class="mb-0" style="font-size: 40px;">CHECK STOCK  </h6>
 
                           </div>
@@ -34,8 +34,9 @@
                   </div>
                   <div class="card-body p-3">
                       <div class="row">
-                          <div class="col-12">
-                            <input id="search" name="search" type="text" class="form-control" placeholder="Search by item code or item name" autocomplete="off" style="height:50px">
+                          <div class="col-12" style="position: relative;">
+                            <i class="fas fa-search opacity-3" style="position: absolute;  top: 17px;left: 24px;"></i>
+                              <input id="search" name="search" type="text" class="form-control" placeholder="Search by item code or item name" autocomplete="off" style="height:50px; padding-left:40px">
                           </div>
                       </div>
 
