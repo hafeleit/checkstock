@@ -1,7 +1,7 @@
 @extends('layouts.appguest', ['class' => 'g-sidenav-show bg-gray-100'])
 <div class="position-absolute w-100 min-height-300 top-0"
-    style="background-image: url('/img/bg-bangkok.jpg'); background-position-y: 20%;">
-    <span class="mask bg-primary opacity-6"></span>
+    style="background-image: url('/img/bg-hafele2.jpg'); background-position-y: 20%;">
+    <span class="bg-primary opacity-6"></span>
 </div>
 @section('content')
 <script src="/assets/js/plugins/photoswipe.min.js"></script>
