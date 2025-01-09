@@ -2,7 +2,13 @@
 
 @section('content')
     @include('layouts.navbars.guest.topnav', ['title' => 'Products'])
+    <style media="screen">
+    .form-control:focus {
 
+  border-color: #fff;
+
+}
+    </style>
     <div class="container-fluid">
       <input type="hidden" name="view" id="view" value="{{request()->input('view')}}">
       <div class="row">
@@ -12,7 +18,7 @@
                   <div class="card-header pb-0 p-3">
                       <div class="row">
                           <div class="col-6 d-flex align-items-center">
-                              <h6 class="mb-0">Check Stock  </h6>
+                              <h6 class="mb-0" style="font-size: 40px;">CHECK STOCK  </h6>
 
                           </div>
 
@@ -29,7 +35,7 @@
                   <div class="card-body p-3">
                       <div class="row">
                           <div class="col-12">
-                            <input id="search" name="search" type="text" class="form-control" placeholder="Search by item code or item name">
+                            <input id="search" name="search" type="text" class="form-control" placeholder="Search by item code or item name" autocomplete="off" style="height:50px">
                           </div>
                       </div>
 
