@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'slack' => [
+        'api_token' => env('SLACK_API_TOKEN'),
+    ],
+
 ];
