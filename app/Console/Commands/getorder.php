@@ -557,6 +557,34 @@ class getorder extends Command
 
     }
 
+    public function slack_api($message){
+
+      $curl = curl_init();
+
+      curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://slack.com/api/chat.postMessage',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>'{
+        "channel": "C088H8QFRHC",
+        "text": "'.$message.'"
+      }',
+        CURLOPT_HTTPHEADER => array(
+          'Authorization: Bearer ' . config('services.slack.api_token'),
+          'Content-Type: application/json'
+        ),
+      ));
+
+      $response = curl_exec($curl);
+
+      curl_close($curl);
+    }
+
     public function onlineorder_manual_get(){
 
       $new_order = [];
@@ -602,6 +630,8 @@ class getorder extends Command
 
       if($orion_excel){
         $this->sendLine($new_order_count);
+        $slack_msg = 'The number of orders is ' . $new_order_count;
+        $this->slack_api($slack_msg);
       }else{
         $this->sendLine("0");
       }

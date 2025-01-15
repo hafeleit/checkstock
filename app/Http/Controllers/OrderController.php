@@ -691,6 +691,8 @@ class OrderController extends Controller
 
       if($orion_excel){
         $this->sendLine($new_order_count);
+        $slack_msg = 'The number of orders is ' . $new_order_count;
+        $this->slack_api($slack_msg);
       }else{
         $this->sendLine("0");
       }
