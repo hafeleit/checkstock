@@ -586,7 +586,7 @@ class getorder extends Command
     }
 
     public function onlineorder_manual_get(){
-
+      $this->slack_api("TEST SLACK NOTIFY TIME - ".date('d-m-Y H:i:s'));
       $new_order = [];
       $insert_order = [];
       $page = 1;
@@ -630,8 +630,8 @@ class getorder extends Command
 
       if($orion_excel){
         $this->sendLine($new_order_count);
-        $slack_msg = 'The number of orders is ' . $new_order_count;
-        $this->slack_api($slack_msg);
+        //$slack_msg = 'The number of orders is ' . $new_order_count;
+        //$this->slack_api($slack_msg);
       }else{
         $this->sendLine("0");
       }
