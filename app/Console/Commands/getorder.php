@@ -586,7 +586,7 @@ class getorder extends Command
     }
 
     public function onlineorder_manual_get(){
-      $this->slack_api("TEST SLACK NOTIFY TIME - ".date('d-m-Y H:i:s'));
+      $this->slack_api(date('H:i'));
       $new_order = [];
       $insert_order = [];
       $page = 1;
