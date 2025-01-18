@@ -10,16 +10,18 @@ use App\Exports\ExportOrders;
 use App\Exports\ExportOrdersSAP;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
-
+use App\Services\SlackService;
 
 class OrderController extends Controller
 {
+    protected $slackService;
     /**
      * Display a listing of the resource.
      */
-     public function __construct()
+     public function __construct(SlackService $slackService)
      {
          $this->middleware('permission:onlineorder view', ['only' => ['index']]);
+         $this->slackService = $slackService;
      }
 
     public function index()
@@ -618,36 +620,9 @@ class OrderController extends Controller
 
     }
 
-    public function slack_api($message){
-
-      $curl = curl_init();
-
-      curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://slack.com/api/chat.postMessage',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS =>'{
-        "channel": "C088H8QFRHC",
-        "text": "'.$message.'"
-      }',
-        CURLOPT_HTTPHEADER => array(
-          'Authorization: Bearer ' . config('services.slack.api_token'),
-          'Content-Type: application/json'
-        ),
-      ));
-
-      $response = curl_exec($curl);
-
-      curl_close($curl);
-    }
-
     public function onlineorder_manual_get(){
-      $this->slack_api("TEST SLACK NOTIFY TIME - ".date('d-m-Y H:i:s'));
+
+      $this->slackService->slackApi(date('H:i'));
       $new_order = [];
       $insert_order = [];
       $page = 1;
@@ -691,8 +666,6 @@ class OrderController extends Controller
 
       if($orion_excel){
         $this->sendLine($new_order_count);
-        //$slack_msg = 'The number of orders is ' . $new_order_count;
-        //$this->slack_api($slack_msg);
       }else{
         $this->sendLine("0");
       }

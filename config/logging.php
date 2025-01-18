@@ -82,6 +82,12 @@ return [
             'replace_placeholders' => true,
         ],
 
+        'slack_api' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/slack_api.log'),
+            'level' => 'info',
+        ],
+
         'papertrail' => [
             'driver' => 'monolog',
             'level' => env('LOG_LEVEL', 'debug'),

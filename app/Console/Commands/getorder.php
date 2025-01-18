@@ -10,26 +10,21 @@ use App\Exports\ExportOrdersSAP;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 use App\Models\Order;
+use App\Services\SlackService;
 
 class getorder extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'cron:getorder';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    protected $signature = 'cron:getorder';
     protected $description = 'get order from zort';
 
-    /**
-     * Execute the console command.
-     */
+    protected $slackService;
+
+     public function __construct(SlackService $slackService)
+     {
+        parent::__construct();
+        $this->slackService = $slackService;
+     }
 
 
     public function handle()
@@ -557,36 +552,9 @@ class getorder extends Command
 
     }
 
-    public function slack_api($message){
-
-      $curl = curl_init();
-
-      curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://slack.com/api/chat.postMessage',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS =>'{
-        "channel": "C088H8QFRHC",
-        "text": "'.$message.'"
-      }',
-        CURLOPT_HTTPHEADER => array(
-          'Authorization: Bearer ' . config('services.slack.api_token'),
-          'Content-Type: application/json'
-        ),
-      ));
-
-      $response = curl_exec($curl);
-
-      curl_close($curl);
-    }
-
     public function onlineorder_manual_get(){
-      $this->slack_api(date('H:i'));
+
+      $this->slackService->slackApi(date('H:i'));
       $new_order = [];
       $insert_order = [];
       $page = 1;
@@ -630,8 +598,6 @@ class getorder extends Command
 
       if($orion_excel){
         $this->sendLine($new_order_count);
-        //$slack_msg = 'The number of orders is ' . $new_order_count;
-        //$this->slack_api($slack_msg);
       }else{
         $this->sendLine("0");
       }
