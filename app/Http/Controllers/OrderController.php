@@ -622,7 +622,6 @@ class OrderController extends Controller
 
     public function onlineorder_manual_get(){
 
-      $this->slackService->slackApi(date('H:i'));
       $new_order = [];
       $insert_order = [];
       $page = 1;
@@ -666,6 +665,7 @@ class OrderController extends Controller
 
       if($orion_excel){
         $this->sendLine($new_order_count);
+        $this->slackService->slackApi("The total number of orders is " . $new_order_count);
       }else{
         $this->sendLine("0");
       }
