@@ -15,208 +15,188 @@
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
-                            <h6 class="mb-0">SALES USI</h6>
+                            <h6 class="mb-0 h3">SALES USI</h6>
                         </div>
                         <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LAST UPDATE: {{ $created_at ?? '' }}</p>
                     </div>
 
                     <div class="card-body" style="padding-top: 0px">
                         <div class="row">
+                          <!--
                             <div class="col-md-2">
                                 <div class="form-group ">
                                     <span class="mb-2 text-sm">Item Code: </span>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
+                            </div> -->
+                            <div class="col-md-4">
                                 <div class="form-group" style="position: relative;">
-                                    <input class="form-control" id="item_code" name="item_code" type="text" value="">
+                                    <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Search..." value="931.16.689">
                                     <a href="javascript:;" onclick="search_usi()">
                                       <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 5%;">
                                     </a>
                                 </div>
                             </div>
                         </div>
+
+
+
                         <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Item Desc: </span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_desc text-input"></span>
-                                </div>
+                          <div class="col-12 col-sm-4">
+                            <p class="mt-3 h6">ITEM CODE</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 item_code">N/A</p>
                             </div>
                           </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Purchaser:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light purchaser text-input"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">PM Contact:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pm_contact text-input"></span>
-                                </div>
+                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
+                            <p class="mt-3 h6">ITEM DESC</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 item_desc">N/A</p>
                             </div>
                           </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Uom:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light uom text-input"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Pack Code:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pack_code1 text-input"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light pack_code2 text-input"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Item Status:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_status text-input"></span>
-                                </div>
+                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
+                            <p class="mt-3 h6">ITEM DESC</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 item_desc">N/A</p>
                             </div>
                           </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Weight-Volume:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light weight_volume1 text-input"></span>
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light weight_volume2 text-input"></span>
-                                </div>
-                            </div>
-
-                          </div>
-                          <div class="row">
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">RepL Time:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light repl_time text-input"></span>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="row">
-
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Purchase MOQ:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light purchase_moq text-input"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Inventory Code:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light inventory_code text-input"></span>
-                                </div>
-                            </div>
-
-                          </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Project Item:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light project_item text-input"></span>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Item Brand:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light item_brand text-input"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">New Item Code:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light new_item_code text-input"></span>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="mb-2 text-sm">Exclusivity Remark:</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light exclusivity_remark text-input" style="text-wrap: wrap;text-align: left;"></span>
-                                </div>
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <span class="text-dark ms-sm-2 font-weight-bold badge btn-light free_stk_at_others1 text-input"></span>
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 mt-4">
-                <div class="card card-profile ">
-                    <img id="product_img" src="/storage/img/products/coming_soon.jpg" alt="Image placeholder" class="card-img-top">
 
-                    <div class="card-body pt-0">
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <p class="mt-3 h6">UOM CODE</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 uom">N/A</p>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                            <p class="mt-3 h6">NEW ITEM CODE</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 new_item_code">N/A</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <p class="mt-3 h6">SUPP REPL TIME</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 repl_time">N/A</p>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                            <p class="mt-3 h6">BASE PRICE</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 bash_price">N/A</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <p class="mt-3 h6">PURCHASER</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 purchaser">N/A</p>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                            <p class="mt-3 h6">MGR</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 pm_contact">N/A</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <p class="mt-3 h6">PACK UOM CODE</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 pack_code1">N/A</p>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                            <p class="mt-3 h6">CONV BASE UOM</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 pack_code2">N/A</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <p class="mt-3 h6">PACK WEIGHT</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 weight_volume1">N/A</p>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                            <p class="mt-3 h6">PACK VOLUME</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 weight_volume2">N/A</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <p class="mt-3 h6">PURC MOQ</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 purchase_moq">N/A</p>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                            <p class="mt-3 h6">SUPP ITEM CODE</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 supplier_item_code">N/A</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <p class="mt-3 h6">FREE STK QTY</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 free_stk_qty">N/A</p>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                            <p class="mt-3 h6">EXCL REMARK</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 exclusivity_remark">N/A</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <p class="mt-3 h6">ITEM STATUS</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 item_status">N/A</p>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                            <p class="mt-3 h6">ITEM INV CODE</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 inventory_code">N/A</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <p class="mt-3 h6">ITEM BRAND</p>
+                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
+                              <p class="text-sm font-weight-bold my-auto ps-sm-2 item_brand">N/A</p>
+                            </div>
+                          </div>
+                        </div>
+
+
+
+
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -420,6 +400,7 @@
         $('#product_img').attr('src','/storage/img/products/coming_soon.jpg');
         return false;
       }
+      $('.item_code').html(res['data']['NSU_ITEM_CODE']);
       $('.item_desc').html(res['data']['NSU_ITEM_NAME']);
       $('.purchaser').html(res['data']['NSU_PURCHASER']);
       $('.pm_contact').html(res['data']['NSU_PROD_MGR']);
@@ -430,12 +411,14 @@
       $('.weight_volume2').html(res['data']['NSU_PACK_VOLUME'] + ' Dm 3');
       $('.item_status').html(res['data']['NSU_ITEM_STATUS']);
       $('.repl_time').html(res['data']['NSU_SUPP_REPL_TIME']);
+      $('.bash_price').html(res['data']['NSU_BASE_PRICE']);
       $('.purchase_moq').html(addCommas(res['data']['NSU_PURC_MOQ']));
       $('.inventory_code').html(res['data']['NSU_ITEM_INV_CODE']);
       $('.supplier_item_code').html(res['data']['NSU_SUPP_ITEM_CODE']);
       $('.item_brand').html(res['data']['NSU_ITEM_BRAND']);
       $('.exclusivity_remark').html(res['data']['NSU_EXCL_REMARK']);
       $('.new_item_code').html(res['data']['NSU_NEW_ITEM_CODE']);
+      $('.free_stk_qty').html(res['data']['NSU_FREE_STK_QTY']);
 
       let path_img = '/storage/img/products/' + item_code + '.jpg';
       $('#product_img').attr('src',path_img);
