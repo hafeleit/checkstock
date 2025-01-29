@@ -594,6 +594,8 @@ class OrderController extends Controller
               $data_excel[$l][] = '0118_SHOPEE';
             }elseif(strtoupper($order->shippingchannel) == 'STANDARD DELIVERY'){
               $data_excel[$l][] = 'OTHER';
+            }elseif(strtoupper($order->shippingchannel) == 'Express Delivery - ส่งด่วน'){
+              $data_excel[$l][] = '0118_SHOPEE';
             }else{
               $data_excel[$l][] = $order->shippingchannel;
             }
