@@ -207,11 +207,13 @@
                                       <span class="mb-2 text-sm">LIST PRICE INCLUDE VAT:
                                         <span class="text-danger font-weight-bolder ms-sm-2">{{ ($product[0]->RATE7 != '' ? number_format($product[0]->RATE7, 2) : '')}}</span>
 
-                                        @if(request()->input('aeiou') == 'aeiou')
+                                        @if(request()->input('admin') == 'admin')
                                         {{ ' / '. $product[0]['CURRWAC'] }}
                                         @endif
                                       </span>
-                                      
+                                      @if(request()->input('view') == 'supervisor')
+                                      {{ abort(500) }}
+                                      @endif
                                       <span class="mb-2 text-sm">NEW ITEM:
                                         <a href="{{ route('products.index').'/'.$product[0]['NEW_ITEM'].'?view='.request()->view }}"><span class="text-dark font-weight-bold ms-sm-2">{{ $product[0]['NEW_ITEM'] }}</span></a>
                                       </span>
