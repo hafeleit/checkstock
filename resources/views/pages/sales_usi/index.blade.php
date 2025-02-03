@@ -47,43 +47,34 @@
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 item_code">N/A</p>
                             </div>
                           </div>
-                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
+                          <div class="col-12 col-sm-4">
                             <p class="mt-3 h6">ITEM DESC</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 item_desc">N/A</p>
                             </div>
                           </div>
                           <div class="col-12 col-sm-4 mt-3 mt-sm-0">
-                            <p class="mt-3 h6">ITEM DESC</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 item_desc">N/A</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-6">
                             <p class="mt-3 h6">UOM CODE</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 uom">N/A</p>
                             </div>
                           </div>
-                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-sm-4">
                             <p class="mt-3 h6">NEW ITEM CODE</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 new_item_code">N/A</p>
                             </div>
                           </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-4">
                             <p class="mt-3 h6">SUPP REPL TIME</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 repl_time">N/A</p>
                             </div>
                           </div>
-                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
                             <p class="mt-3 h6">BASE PRICE</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 bash_price">N/A</p>
@@ -92,43 +83,40 @@
                         </div>
 
                         <div class="row">
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-4">
                             <p class="mt-3 h6">PURCHASER</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 purchaser">N/A</p>
                             </div>
                           </div>
-                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                          <div class="col-12 col-sm-4">
                             <p class="mt-3 h6">MGR</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 pm_contact">N/A</p>
                             </div>
                           </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
                             <p class="mt-3 h6">PACK UOM CODE</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 pack_code1">N/A</p>
                             </div>
                           </div>
-                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-sm-4">
                             <p class="mt-3 h6">CONV BASE UOM</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 pack_code2">N/A</p>
                             </div>
                           </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-4">
                             <p class="mt-3 h6">PACK WEIGHT</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 weight_volume1">N/A</p>
                             </div>
                           </div>
-                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
                             <p class="mt-3 h6">PACK VOLUME</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 weight_volume2">N/A</p>
@@ -137,43 +125,40 @@
                         </div>
 
                         <div class="row">
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-4">
                             <p class="mt-3 h6">PURC MOQ</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 purchase_moq">N/A</p>
                             </div>
                           </div>
-                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                          <div class="col-12 col-sm-4">
                             <p class="mt-3 h6">SUPP ITEM CODE</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 supplier_item_code">N/A</p>
                             </div>
                           </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
                             <p class="mt-3 h6">FREE STK QTY</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 free_stk_qty">N/A</p>
                             </div>
                           </div>
-                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-sm-4">
                             <p class="mt-3 h6">EXCL REMARK</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 exclusivity_remark">N/A</p>
                             </div>
                           </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-4">
                             <p class="mt-3 h6">ITEM STATUS</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 item_status">N/A</p>
                             </div>
                           </div>
-                          <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
                             <p class="mt-3 h6">ITEM INV CODE</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 inventory_code">N/A</p>
@@ -182,21 +167,13 @@
                         </div>
 
                         <div class="row">
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-4">
                             <p class="mt-3 h6">ITEM BRAND</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                               <p class="text-sm font-weight-bold my-auto ps-sm-2 item_brand">N/A</p>
                             </div>
                           </div>
                         </div>
-
-
-
-
-
-
-
-
                     </div>
                 </div>
             </div>
@@ -209,12 +186,9 @@
                           <thead>
                               <tr>
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 "> UOM</th>
-                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Conv Fact</th>
-                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Max Loose</th>
-                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 "> Price List</th>
                                   <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Price</th>
-                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Discount</th>
-                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Net Value</th>
+                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> ZPE COST</th>
+                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> MAP COST</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -225,7 +199,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-6 mb-lg-0 mt-4">
+          <!--<div class="col-lg-6 mb-lg-0 mt-4">
               <div class="card " style="height: 475px;">
                   <div class="table-responsive">
                       <table id="mss_table" class="table align-items-center ">
@@ -243,8 +217,8 @@
                       </table>
                   </div>
               </div>
-          </div>
-          <div class="col-lg-6 mb-lg-0 mt-4">
+          </div>-->
+          <div class="col-lg-8 mb-lg-0 mt-4">
               <div class="card" style="height: 475px;">
                   <div class="table-responsive">
                       <table id="wss_table" class="table align-items-center ">
@@ -466,12 +440,12 @@
           text_danger_out = 'text-danger';
         }
         //alert(week_no);
-        let tbody = '<tr><td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">'+val["WSS_WEEK_NO"]+'</p></td><td class="border-usi"><p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_inbound('+week_no+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_INCOMING_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_INCOMING_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_STATUS"]+'</p></td><td class="border-usi"><p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_outbound('+week_no+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RES_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RES_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_AVAIL_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_AVAIL_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RCV_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RCV_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">'+val["WSS_PLUSMINUS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_FREE_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_FREE_QTY_LS"])+'</p></td></tr>';
+        let tbody = '<tr><td class="border-usi"><p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_inbound('+week_no+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_INCOMING_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_INCOMING_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_STATUS"]+'</p></td><td class="border-usi"><p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_outbound('+week_no+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RES_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RES_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_AVAIL_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_AVAIL_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RCV_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RCV_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">'+val["WSS_PLUSMINUS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_FREE_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_FREE_QTY_LS"])+'</p></td></tr>';
         $('#wss_table').append(tbody);
       });
 
       $.each(res['uom'], function(key, val) {
-        let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_CONV_FACTOR"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IUW_MAX_LOOSE"])+'</p></td><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE_LIST"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommasD2(val["IUW_PRICE"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommasD2(val["IUW_DISC_PRICE"])+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommasD2(val["IUW_NET_PRICE"])+'</p></td></tr>';
+        let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_ZPE_COST"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_MAP_COST"]+'</p></td></tr>';
         $('#uom_table').append(tbody);
       });
 

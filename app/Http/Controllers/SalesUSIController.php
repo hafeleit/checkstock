@@ -107,9 +107,24 @@ class SalesUSIController extends Controller
       // END MONTH //
 
       $wss = DB::table('OW_WEEKWISE_STK_SUM_WEB_HAFL')->where('WSS_ITEM_CODE', $item_code)->get();
-      $uom = DB::table('OW_ITEM_UOM_WEB_HAFL')->where('IUW_ITEM_CODE', $item_code)->orderBy('IUW_CONV_FACTOR','ASC')->get();
+
+      //$uom = DB::table('OW_ITEM_UOM_WEB_HAFL')->where('IUW_ITEM_CODE', $item_code)->orderBy('IUW_CONV_FACTOR','ASC')->get();
       //$t20_3 = DB::table('OW_LAST3MON_T20_CUST_WEB_HAFL')->where('LTC_ITEM_CODE', $item_code)->get();
       //$t20_12 = DB::table('OW_LAST12MON_T20_CUST_WEB_HAFL')->where('LT_ITEM_CODE', $item_code)->get();
+
+      $uom = DB::table('zhwwbcquerydir as a')
+      ->select([
+          DB::raw('CASE WHEN a.material IS NOT NULL THEN a.material ELSE "N/A" END as IUW_ITEM_CODE'),
+          DB::raw('CASE WHEN c.UoM IS NOT NULL THEN c.UoM ELSE "N/A" END as IUW_UOM_CODE'),
+          DB::raw('CASE WHEN b.Amount IS NOT NULL THEN FORMAT(b.Amount, 0) ELSE "N/A" END as IUW_PRICE'),
+          DB::raw('CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount, 0) ELSE "N/A" END as NEW_ZPE_COST'),
+          DB::raw('CASE WHEN a.mov_avg_price IS NOT NULL THEN a.mov_avg_price ELSE "N/A" END as NEW_MAP_COST')
+      ])
+      ->leftJoin('zordposkonv_zpl as b', 'a.material', '=', 'b.Material')
+      ->leftJoin('zordposkonv_zpe as c', 'a.material', '=', 'c.Material')
+      ->where('a.material', '=', $item_code)
+      ->groupBy('c.material', 'c.uom')
+      ->get();
 
       return response()->json([
         'status' => true,
