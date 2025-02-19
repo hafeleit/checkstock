@@ -171,7 +171,7 @@ class SalesUSIController extends Controller
           DB::raw('CASE WHEN a.mov_avg_price IS NOT NULL THEN a.mov_avg_price ELSE "N/A" END as NEW_MAP_COST')
       ])
       ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
-      ->leftJoin('zordposkonv_zpe as c', 'a.material', '=', 'c.Material')
+      ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
       ->where('a.material', '=', $item_code)
       ->groupBy('c.material', 'c.uom')
       ->get();
