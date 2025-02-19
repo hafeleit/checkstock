@@ -217,38 +217,39 @@ class SalesUSIController extends Controller
     }
 
     public function outbound(Request $request){
+
       $item_code = $request->item_code ?? '940.99.961';
       $ipd_week_no = $request->ipd_week_no ?? '2346';
 
       //$query = DB::table('OW_ITEMWISE_SO_DTLS_WEB_HAFL')->where('ISD_ITEM_CODE', $item_code)->where('ISD_WEEK_NO', $ipd_week_no);
-$query = DB::table('ZHINSD_VA05 as a')
-    ->selectRaw("
-      COALESCE(a.sd_document, '') AS ISD_DOC_NO,
-      COALESCE(a.document_date, '') AS ISD_DOC_DT,
-      COALESCE(a.unit_of_measure, '') AS ISD_UOM_CODE,
-      COALESCE(a.order_quantity, 0) AS ISD_ORD_QTY,
-      COALESCE(a.confirmed_quantity, 0) AS ISD_RESV_QTY,
-      COALESCE(b.delivered_qty, 0) AS ISD_DEL_QTY,
-      COALESCE(SUM(c.invoiced_quantity), 0) AS ISD_INV_QTY,
-      COALESCE(a.goods_issue_date, '') AS ISD_DEL_DT,
-      COALESCE(a.net_price, 0) AS ISD_RATE,
-      COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE,
-      COALESCE(CONCAT_WS(' ', d.ZI, e.IDMA_ZI_NAME), '') AS ISD_ADMIN,
-      COALESCE(CONCAT_WS(' ', d.ZE, e2.IDMA_ZI_NAME), '') AS ISD_REP
-    ")
-    ->leftJoin('ZHAASD_ORD as b', function ($join) {
-        $join->on('b.material', '=', 'a.material')
-             ->on('b.sd_document', '=', 'a.sd_document');
-    })
-    ->leftJoin('ZHAASD_INV as c', function ($join) {
-        $join->on('c.material', '=', 'a.material')
-             ->on('c.sales_document', '=', 'a.sd_document');
-    })
-    ->leftJoin('HWW_SD_06 as d', 'd.Material', '=', 'a.material')
-    ->leftJoin('HWW_SD_CUSTLIS as e', 'd.ZI', '=', 'e.IDMA_ZI')
-    ->leftJoin('HWW_SD_CUSTLIS as e2', 'd.ZE', '=', 'e2.IDMA_ZI')
-    ->where('a.material', '=', '311.03.101')
-    ->groupBy('c.material');
+      $query = DB::table('ZHINSD_VA05 as a')
+          ->selectRaw("
+            COALESCE(a.sd_document, '') AS ISD_DOC_NO,
+            COALESCE(a.document_date, '') AS ISD_DOC_DT,
+            COALESCE(a.unit_of_measure, '') AS ISD_UOM_CODE,
+            COALESCE(a.order_quantity, 0) AS ISD_ORD_QTY,
+            COALESCE(a.confirmed_quantity, 0) AS ISD_RESV_QTY,
+            COALESCE(b.delivered_qty, 0) AS ISD_DEL_QTY,
+            COALESCE(SUM(c.invoiced_quantity), 0) AS ISD_INV_QTY,
+            COALESCE(a.goods_issue_date, '') AS ISD_DEL_DT,
+            COALESCE(a.net_price, 0) AS ISD_RATE,
+            COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE,
+            COALESCE(CONCAT_WS(' ', d.ZI, e.IDMA_ZI_NAME), '') AS ISD_ADMIN,
+            COALESCE(CONCAT_WS(' ', d.ZE, e2.IDMA_ZI_NAME), '') AS ISD_REP
+          ")
+          ->leftJoin('ZHAASD_ORD as b', function ($join) {
+              $join->on('b.material', '=', 'a.material')
+                   ->on('b.sd_document', '=', 'a.sd_document');
+          })
+          ->leftJoin('ZHAASD_INV as c', function ($join) {
+              $join->on('c.material', '=', 'a.material')
+                   ->on('c.sales_document', '=', 'a.sd_document');
+          })
+          ->leftJoin('HWW_SD_06 as d', 'd.Material', '=', 'a.material')
+          ->leftJoin('HWW_SD_CUSTLIS as e', 'd.ZI', '=', 'e.IDMA_ZI')
+          ->leftJoin('HWW_SD_CUSTLIS as e2', 'd.ZE', '=', 'e2.IDMA_ZI')
+          ->where('a.material', '=', $item_code)
+          ->groupBy('c.material');
 
 
       $count = $query->count();
