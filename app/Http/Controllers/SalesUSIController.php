@@ -21,7 +21,7 @@ class SalesUSIController extends Controller
 
       $item_code = $request->item_code ?? '';
 
-      $query = DB::table('zhwwbcquerydir as m')
+      $query = DB::table('ZHWWBCQUERYDIR as m')
       ->select([
         DB::raw("CASE WHEN m.material IS NULL OR m.material = '' THEN 'N/A' ELSE m.material END AS NSU_ITEM_CODE"),
         DB::raw("CASE WHEN m.kurztext IS NULL OR m.kurztext = '' THEN 'N/A' ELSE m.kurztext END AS NSU_ITEM_NAME"),
@@ -49,12 +49,12 @@ class SalesUSIController extends Controller
         END AS NSU_BASE_PRICE
     ")
         ->distinct()
-        ->leftJoin('zhaamm_ifvmg as p', 'p.material', '=', 'm.material')
-        ->leftJoin('mb52 as i', 'i.material', '=', 'm.material')
-        ->leftJoin('fis_mpm_out as mf', 'mf.MATNR', '=', 'm.material')
-        ->leftJoin('zmm_matzert as pm', 'pm.material', '=', 'm.material')
-        ->leftJoin('zhaasd_ord as od', 'od.material', '=', 'm.material')
-        ->leftJoin('zordposkonv_zpl as zpl', 'zpl.material', '=', 'm.material')
+        ->leftJoin('ZHAAMM_IFVMG as p', 'p.material', '=', 'm.material')
+        ->leftJoin('MB52 as i', 'i.material', '=', 'm.material')
+        ->leftJoin('FIS_MPM_OUT as mf', 'mf.MATNR', '=', 'm.material')
+        ->leftJoin('ZMM_MATZERT as pm', 'pm.material', '=', 'm.material')
+        ->leftJoin('ZHAASD_ORD as od', 'od.material', '=', 'm.material')
+        ->leftJoin('ZORDPOSKONV_ZPL as zpl', 'zpl.material', '=', 'm.material')
         ->where('m.material', '=', $item_code);
         $usis = $query->first();
         $count = $query->count();
@@ -109,7 +109,7 @@ class SalesUSIController extends Controller
           ->select('week_number', 'week_offset');
 
       // Query สำหรับ PO (การสั่งซื้อ)
-      $poQuery = DB::table('zhwwmm_open_orders as a')
+      $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
           ->select([
               'a.material',
               DB::raw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%d/%m/%Y'), 1) AS weeks"),
@@ -121,7 +121,7 @@ class SalesUSIController extends Controller
           ->groupBy('a.material', DB::raw('weeks'));
 
       // Query สำหรับ SO (การขาย)
-      $soQuery = DB::table('zhinsd_va05 as b')
+      $soQuery = DB::table('ZHINSD_VA05 as b')
           ->select([
               'b.material',
               DB::raw("WEEK(STR_TO_DATE(b.delivery_date, '%m/%d/%Y'), 1) AS weeks"),
@@ -131,7 +131,7 @@ class SalesUSIController extends Controller
           ->groupBy('b.material', DB::raw('weeks'));
 
       // Query สำหรับ Stock (สินค้าคงคลัง)
-      $stockQuery = DB::table('mb52 as a')
+      $stockQuery = DB::table('MB52 as a')
           ->select(DB::raw("COALESCE(SUM(a.unrestricted), 0) AS WSS_AVAIL_QTY"))
           ->where('a.material', $material)
           ->groupBy('a.material');
@@ -162,7 +162,7 @@ class SalesUSIController extends Controller
       //$t20_3 = DB::table('OW_LAST3MON_T20_CUST_WEB_HAFL')->where('LTC_ITEM_CODE', $item_code)->get();
       //$t20_12 = DB::table('OW_LAST12MON_T20_CUST_WEB_HAFL')->where('LT_ITEM_CODE', $item_code)->get();
 
-      $uom = DB::table('zhwwbcquerydir as a')
+      $uom = DB::table('ZHWWBCQUERYDIR as a')
       ->select([
           DB::raw('CASE WHEN a.material IS NOT NULL THEN a.material ELSE "N/A" END as IUW_ITEM_CODE'),
           DB::raw('CASE WHEN c.UoM IS NOT NULL THEN c.UoM ELSE "N/A" END as IUW_UOM_CODE'),
@@ -170,7 +170,7 @@ class SalesUSIController extends Controller
           DB::raw('CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount, 0) ELSE "N/A" END as NEW_ZPE_COST'),
           DB::raw('CASE WHEN a.mov_avg_price IS NOT NULL THEN a.mov_avg_price ELSE "N/A" END as NEW_MAP_COST')
       ])
-      ->leftJoin('zordposkonv_zpl as b', 'a.material', '=', 'b.Material')
+      ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
       ->leftJoin('zordposkonv_zpe as c', 'a.material', '=', 'c.Material')
       ->where('a.material', '=', $item_code)
       ->groupBy('c.material', 'c.uom')
@@ -194,7 +194,7 @@ class SalesUSIController extends Controller
       $ipd_week_no = $request->ipd_week_no ?? '2346';
 
       //$query = DB::table('OW_ITEMWISE_PO_DTLS_WEB_HAFL')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
-      $query = DB::table('zhwwmm_open_orders as a')
+      $query = DB::table('ZHWWMM_OPEN_ORDERS as a')
         ->select([
           DB::raw("IFNULL(a.purchasing_document, '') as IPD_DOC_NO"),
           DB::raw("IFNULL(a.created_on_purchasing_doc, '') as IPD_DOC_DT"),
@@ -236,17 +236,17 @@ $query = DB::table('ZHINSD_VA05 as a')
       COALESCE(CONCAT_WS(' ', d.ZI, e.IDMA_ZI_NAME), '') AS ISD_ADMIN,
       COALESCE(CONCAT_WS(' ', d.ZE, e2.IDMA_ZI_NAME), '') AS ISD_REP
     ")
-    ->leftJoin('zhaasd_ord as b', function ($join) {
+    ->leftJoin('ZHAASD_ORD as b', function ($join) {
         $join->on('b.material', '=', 'a.material')
              ->on('b.sd_document', '=', 'a.sd_document');
     })
-    ->leftJoin('zhaasd_inv as c', function ($join) {
+    ->leftJoin('ZHAASD_INV as c', function ($join) {
         $join->on('c.material', '=', 'a.material')
              ->on('c.sales_document', '=', 'a.sd_document');
     })
-    ->leftJoin('hww_sd_06 as d', 'd.Material', '=', 'a.material')
-    ->leftJoin('hww_sd_custlis as e', 'd.ZI', '=', 'e.IDMA_ZI')
-    ->leftJoin('hww_sd_custlis as e2', 'd.ZE', '=', 'e2.IDMA_ZI')
+    ->leftJoin('HWW_SD_06 as d', 'd.Material', '=', 'a.material')
+    ->leftJoin('HWW_SD_CUSTLIS as e', 'd.ZI', '=', 'e.IDMA_ZI')
+    ->leftJoin('HWW_SD_CUSTLIS as e2', 'd.ZE', '=', 'e2.IDMA_ZI')
     ->where('a.material', '=', '311.03.101')
     ->groupBy('c.material');
 
