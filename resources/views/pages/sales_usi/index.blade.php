@@ -30,7 +30,7 @@
                             </div> -->
                             <div class="col-md-4">
                                 <div class="form-group" style="position: relative;">
-                                    <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Search..." value="931.16.689">
+                                    <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Search..." value="311.03.101">
                                     <a href="javascript:;" onclick="search_usi()">
                                       <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 5%;">
                                     </a>
@@ -225,13 +225,11 @@
                           <thead>
                               <tr>
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Week</th>
-                                  <th colspan="2" class="text-center border-usi text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Inbound</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Status</th>
-                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Outbound</th>
-                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Avaliable</th>
-                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Received</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> +/</th>
-                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Forecast</th>
+                                  <th class="text-center border-usi text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Inbound</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Outbound</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Avaliable</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Received</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Forecast</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -254,11 +252,8 @@
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Document</th>
                                   <th class="border-usi text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Document Date</th>
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> UOM</th>
-                                  <th colspan="2" class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Qty</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Mode of Ship</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Locn Code</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Qty</th>
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> ETS</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> ETA</th>
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Status</th>
                               </tr>
                           </thead>
@@ -280,13 +275,11 @@
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> SO Detail</th>
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> SO Date</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Uom</th>
-                                  <th colspan="2" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Order Qty</th>
-                                  <th colspan="2" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Resv Qty</th>
-                                  <th colspan="2" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Delivered</th>
-                                  <th colspan="2" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Invoiced</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Order Qty</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Resv Qty</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Delivered</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Invoiced</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Delivery Date</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Del Locn</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Current</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Rate</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Value</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Admin</th>
@@ -427,10 +420,11 @@
 
         $('#mss_table').append(tbody);
       });
-
+      let forecast = 0;
+      const year = new Date().getFullYear().toString().slice(-2);
       $.each(res['wss'], function(key, val) {
-        let wss = val["WSS_WEEK_NO"].split(" ").join("");
-        let week_no = "'" + wss.split("/").join("") + "'";
+        //let wss = val["week_number"].split(" ").join("");
+        //let week_no = "'" + wss.split("/").join("") + "'";
         let text_danger_in = '';
         let text_danger_out = '';
         if(val["WSS_INCOMING_QTY"] > 0){
@@ -439,8 +433,32 @@
         if(val["WSS_RES_QTY"] > 0){
           text_danger_out = 'text-danger';
         }
-        //alert(week_no);
-        let tbody = '<tr><td class="border-usi"><p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_inbound('+week_no+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_INCOMING_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_INCOMING_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_STATUS"]+'</p></td><td class="border-usi"><p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_outbound('+week_no+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RES_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RES_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_AVAIL_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_AVAIL_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RCV_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_RCV_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-xs font-weight-bold mb-0 px-3">'+val["WSS_PLUSMINUS"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_FREE_QTY"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+addCommas(val["WSS_FREE_QTY_LS"])+'</p></td></tr>';
+
+        if(key == 0){
+          forecast = val["WSS_AVAIL_QTY"];
+        }
+        forecast = forecast + val["WSS_INCOMING_QTY"] - val["WSS_RES_QTY"];
+
+        let tbody = '<tr>\
+          <td class="border-usi">\
+            <p class="text-start text-xs font-weight-bold mb-0 px-3">'+year+'/'+val["week_number"]+'</p>\
+          </td>\
+          <td class="border-usi">\
+            <p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_inbound('+val["week_number"]+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
+          </td>\
+          <td class="border-usi">\
+            <p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_outbound('+val["week_number"]+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
+          </td>\
+          <td class="border-usi">\
+            <p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_AVAIL_QTY"]+'</p>\
+          </td>\
+          <td class="border-usi">\
+            <p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
+          </td>\
+          <td class="border-usi">\
+            <p class="text-end text-xs font-weight-bold mb-0 px-3">'+forecast+'</p>\
+          </td>\
+        </tr>';
         $('#wss_table').append(tbody);
       });
 
@@ -449,15 +467,6 @@
         $('#uom_table').append(tbody);
       });
 
-      $.each(res['t20_3'], function(key, val) {
-        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LTC_CUST_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LTC_CUST_NAME"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LTC_ORD_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LTC_ORD_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LTC_ORD_VAL"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LTC_GC_PERC"])+'</p></td></tr>';
-        $('#t20_3_table').append(tbody);
-      });
-
-      $.each(res['t20_12'], function(key, val) {
-        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LT_CUST_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["LT_CUST_NAME"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LT_ORD_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LT_ORD_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LT_ORD_VAL"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["LT_GC_PERC"])+'</p></td></tr>';
-        $('#t20_12_table').append(tbody);
-      });
     });
   }
 
@@ -474,7 +483,14 @@
       console.log(res);
       if(res['count'] == 0){ return false; }
       $.each(res['data'], function(key, val) {
-        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_DOC_NO"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_DOC_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_UOM_CODE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IPD_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["IPD_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_MODE_OF_SHIP"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_DEL_LOCN_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETS"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETA"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_STATUS"]+'</p></td></tr>';
+        let tbody = '<tr>\
+          <td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_DOC_NO"]+'</p></td>\
+          <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_DOC_DT"]+'</p></td>\
+          <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_UOM_CODE"]+'</p></td>\
+          <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_QTY"]+'</p></td>\
+          <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETS"]+'</p></td>\
+          <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_STATUS"]+'</p></td>\
+          </tr>';
         $('#po_table').append(tbody);
       });
 
@@ -498,7 +514,19 @@
       console.log(res);
       if(res['count'] == 0){ return false; }
       $.each(res['data'], function(key, val) {
-        let tbody = '<tr><td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DOC_NO"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DOC_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_UOM_CODE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_ORD_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_ORD_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_RESV_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_RESV_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_DEL_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_DEL_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_INV_QTY"])+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_INV_QTY_LS"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_DT"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_LOCN_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_CURR_CODE"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_RATE"]+'</p></td><td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_VALUE"])+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_ADMIN"]+'</p></td><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_REP"]+'</p></td></tr>';
+        let tbody = '<tr>\
+        <td><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DOC_NO"]+'</p></td>\
+        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DOC_DT"]+'</p></td>\
+        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_UOM_CODE"]+'</p></td>\
+        <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_ORD_QTY"])+'</p></td>\
+        <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_RESV_QTY"])+'</p></td>\
+        <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_DEL_QTY"])+'</p></td>\
+        <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_INV_QTY"])+'</p></td>\
+        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_DT"]+'</p></td>\
+        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_RATE"]+'</p></td>\
+        <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_VALUE"])+'</p></td>\
+        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_ADMIN"]+'</p></td>\
+        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_REP"]+'</p></td></tr>';
         $('#so_table').append(tbody);
       });
 
@@ -510,8 +538,6 @@
   }
 
   $(function(){
-
-
     $( ".error-close" ).on( "click", function() {
       $("#errorModal").modal('hide');
     } );

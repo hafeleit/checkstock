@@ -20,18 +20,7 @@ class SalesUSIController extends Controller
     public function search_usi(Request $request){
 
       $item_code = $request->item_code ?? '';
-      // NEW SALES USI //
-      /*
-      $usi = DB::table('OW_NEW_SALES_USI_WEB_HAFL')->where('NSU_ITEM_CODE', $item_code);
-      $count = $usi->count();
 
-      if($count == 0){
-        return response()->json([
-          'status' => false,
-          'count' => $count,
-        ]);
-      }
-      $usis = $usi->first();*/
       $query = DB::table('zhwwbcquerydir as m')
       ->select([
         DB::raw("CASE WHEN m.material IS NULL OR m.material = '' THEN 'N/A' ELSE m.material END AS NSU_ITEM_CODE"),
@@ -106,8 +95,69 @@ class SalesUSIController extends Controller
       $mss['sold'] = $sold;
       // END MONTH //
 
-      $wss = DB::table('OW_WEEKWISE_STK_SUM_WEB_HAFL')->where('WSS_ITEM_CODE', $item_code)->get();
+      //$wss = DB::table('OW_WEEKWISE_STK_SUM_WEB_HAFL')->where('WSS_ITEM_CODE', $item_code)->get();
+      $material = $item_code;
 
+      // สร้าง Common Table Expression (CTE) เพื่อสร้างลำดับสัปดาห์
+      $weekSequence = DB::table(DB::raw('(WITH RECURSIVE week_sequence AS (
+          SELECT WEEK(DATE_SUB(CURDATE(), INTERVAL 6 WEEK), 1) AS week_number, -6 AS week_offset
+          UNION ALL
+          SELECT WEEK(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK), 1), week_offset + 1
+          FROM week_sequence
+          WHERE week_offset < 6
+      ) SELECT * FROM week_sequence) as week_sequence'))
+          ->select('week_number', 'week_offset');
+
+      // Query สำหรับ PO (การสั่งซื้อ)
+      $poQuery = DB::table('zhwwmm_open_orders as a')
+          ->select([
+              'a.material',
+              DB::raw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%d/%m/%Y'), 1) AS weeks"),
+              'a.po_order_unit AS WSS_ITEM_UOM_CODE',
+              DB::raw("COALESCE(SUM(a.quantity_po) - SUM(a.delivered_quantity), 0) AS WSS_INCOMING_QTY"),
+              DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY")
+          ])
+          ->where('a.material', $material)
+          ->groupBy('a.material', DB::raw('weeks'));
+
+      // Query สำหรับ SO (การขาย)
+      $soQuery = DB::table('zhinsd_va05 as b')
+          ->select([
+              'b.material',
+              DB::raw("WEEK(STR_TO_DATE(b.delivery_date, '%m/%d/%Y'), 1) AS weeks"),
+              DB::raw("COALESCE(SUM(b.order_quantity), 0) AS WSS_RES_QTY")
+          ])
+          ->where('b.material', $material)
+          ->groupBy('b.material', DB::raw('weeks'));
+
+      // Query สำหรับ Stock (สินค้าคงคลัง)
+      $stockQuery = DB::table('mb52 as a')
+          ->select(DB::raw("COALESCE(SUM(a.unrestricted), 0) AS WSS_AVAIL_QTY"))
+          ->where('a.material', $material)
+          ->groupBy('a.material');
+
+      // รวมทั้งหมดเข้าด้วยกัน
+      $wss = DB::table(DB::raw("({$weekSequence->toSql()}) as week_sequence"))
+          ->mergeBindings($weekSequence)
+          ->leftJoin(DB::raw("({$poQuery->toSql()}) as po"), 'po.weeks', '=', 'week_sequence.week_number')
+          ->mergeBindings($poQuery)
+          ->leftJoin(DB::raw("({$soQuery->toSql()}) as so"), 'so.weeks', '=', 'week_sequence.week_number')
+          ->mergeBindings($soQuery)
+          ->leftJoin(DB::raw("({$stockQuery->toSql()}) as un"), DB::raw('1'), DB::raw('1')) // ทำให้ stockQuery ใช้ค่าเดียวกันกับทุก row
+          ->mergeBindings($stockQuery)
+          ->select([
+              'week_sequence.week_number',
+              DB::raw("COALESCE(po.WSS_ITEM_UOM_CODE, '') AS WSS_ITEM_UOM_CODE"),
+              DB::raw("COALESCE(po.WSS_INCOMING_QTY, 0) AS WSS_INCOMING_QTY"),
+              DB::raw("COALESCE(so.WSS_RES_QTY, 0) AS WSS_RES_QTY"),
+              DB::raw("COALESCE(un.WSS_AVAIL_QTY, 0) AS WSS_AVAIL_QTY"),
+              DB::raw("COALESCE(po.WSS_RCV_QTY, 0) AS WSS_RCV_QTY"),
+          ])
+          ->get();
+
+
+
+      //dd($wss);
       //$uom = DB::table('OW_ITEM_UOM_WEB_HAFL')->where('IUW_ITEM_CODE', $item_code)->orderBy('IUW_CONV_FACTOR','ASC')->get();
       //$t20_3 = DB::table('OW_LAST3MON_T20_CUST_WEB_HAFL')->where('LTC_ITEM_CODE', $item_code)->get();
       //$t20_12 = DB::table('OW_LAST12MON_T20_CUST_WEB_HAFL')->where('LT_ITEM_CODE', $item_code)->get();
@@ -143,7 +193,19 @@ class SalesUSIController extends Controller
       $item_code = $request->item_code ?? '940.99.961';
       $ipd_week_no = $request->ipd_week_no ?? '2346';
 
-      $query = DB::table('OW_ITEMWISE_PO_DTLS_WEB_HAFL')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
+      //$query = DB::table('OW_ITEMWISE_PO_DTLS_WEB_HAFL')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
+      $query = DB::table('zhwwmm_open_orders as a')
+        ->select([
+          DB::raw("IFNULL(a.purchasing_document, '') as IPD_DOC_NO"),
+          DB::raw("IFNULL(a.created_on_purchasing_doc, '') as IPD_DOC_DT"),
+          DB::raw("IFNULL(a.po_order_unit, '') as IPD_UOM_CODE"),
+          DB::raw("IFNULL(a.quantity_po, '') as IPD_QTY"),
+          DB::raw("IFNULL(a.vendor_output_date, '') as IPD_ETS"),
+          DB::raw("IFNULL(a.confirmed_issue_date, '') as IPD_STATUS"),
+        ])
+        ->where('a.material', $item_code)
+        ->whereRaw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%d/%m/%Y'), 1) = ?", [$ipd_week_no]);
+
       $count = $query->count();
       $inbound = $query->get();
       //dd($inbound);
@@ -158,7 +220,37 @@ class SalesUSIController extends Controller
       $item_code = $request->item_code ?? '940.99.961';
       $ipd_week_no = $request->ipd_week_no ?? '2346';
 
-      $query = DB::table('OW_ITEMWISE_SO_DTLS_WEB_HAFL')->where('ISD_ITEM_CODE', $item_code)->where('ISD_WEEK_NO', $ipd_week_no);
+      //$query = DB::table('OW_ITEMWISE_SO_DTLS_WEB_HAFL')->where('ISD_ITEM_CODE', $item_code)->where('ISD_WEEK_NO', $ipd_week_no);
+$query = DB::table('ZHINSD_VA05 as a')
+    ->selectRaw("
+      COALESCE(a.sd_document, '') AS ISD_DOC_NO,
+      COALESCE(a.document_date, '') AS ISD_DOC_DT,
+      COALESCE(a.unit_of_measure, '') AS ISD_UOM_CODE,
+      COALESCE(a.order_quantity, 0) AS ISD_ORD_QTY,
+      COALESCE(a.confirmed_quantity, 0) AS ISD_RESV_QTY,
+      COALESCE(b.delivered_qty, 0) AS ISD_DEL_QTY,
+      COALESCE(SUM(c.invoiced_quantity), 0) AS ISD_INV_QTY,
+      COALESCE(a.goods_issue_date, '') AS ISD_DEL_DT,
+      COALESCE(a.net_price, 0) AS ISD_RATE,
+      COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE,
+      COALESCE(CONCAT_WS(' ', d.ZI, e.IDMA_ZI_NAME), '') AS ISD_ADMIN,
+      COALESCE(CONCAT_WS(' ', d.ZE, e2.IDMA_ZI_NAME), '') AS ISD_REP
+    ")
+    ->leftJoin('zhaasd_ord as b', function ($join) {
+        $join->on('b.material', '=', 'a.material')
+             ->on('b.sd_document', '=', 'a.sd_document');
+    })
+    ->leftJoin('zhaasd_inv as c', function ($join) {
+        $join->on('c.material', '=', 'a.material')
+             ->on('c.sales_document', '=', 'a.sd_document');
+    })
+    ->leftJoin('hww_sd_06 as d', 'd.Material', '=', 'a.material')
+    ->leftJoin('hww_sd_custlis as e', 'd.ZI', '=', 'e.IDMA_ZI')
+    ->leftJoin('hww_sd_custlis as e2', 'd.ZE', '=', 'e2.IDMA_ZI')
+    ->where('a.material', '=', '311.03.101')
+    ->groupBy('c.material');
+
+
       $count = $query->count();
       $outbound = $query->get();
       //dd($inbound);
