@@ -17,7 +17,7 @@
                         <div class="d-flex align-items-center">
                             <h6 class="mb-0 h3">SALES USI</h6>
                         </div>
-                        <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">LAST UPDATE: {{ $created_at ?? '' }}</p>
+                        <p class="text-uppercase text-secondary text-xxs font-weight-bolder">LAST UPDATE: {{ $created_at ?? '' }}</p>
                     </div>
 
                     <div class="card-body" style="padding-top: 0px">
@@ -63,10 +63,10 @@
                         </div>
                         <div class="row">
                           <div class="col-12 col-sm-3">
-                            <span>Purchaser : <label class="purchaser text-sm"></label></span>
+                            <span>Purchasing Group : <label class="purchaser text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-4">
-                            <span>Mgr : <label class="pm_contact text-sm"></label></span>
+                            <span>Product group manag : <label class="pm_contact text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
                             <span>Pack Uom Code : <label class="pack_code1 text-sm"></label></span>
@@ -102,7 +102,7 @@
                             <span>Item Status : <label class="item_status text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Item Inv Code : <label class="inventory_code text-sm"></label></span>
+                            <span>Storage indicator : <label class="inventory_code text-sm"></label></span>
                           </div>
                         </div>
                         <div class="row">
@@ -122,10 +122,10 @@
                       <table id="uom_table" class="table align-items-center ">
                           <thead>
                               <tr>
-                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 "> UOM</th>
-                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Price</th>
-                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> ZPE COST</th>
-                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> MAP COST</th>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder "> UOM</th>
+                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder"> Price</th>
+                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder"> ZPE COST</th>
+                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder"> MAP COST</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -142,11 +142,11 @@
                       <table id="mss_table" class="table align-items-center ">
                           <thead>
                               <tr>
-                                  <th class="text-secondary opacity-7"></th>
-                                  <th colspan="2" class="border-usi text-center text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Tot. Qty</th>
-                                  <th colspan="2" class="border-usi text-center text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Sold Qty.</th>
-                                  <th class="border-usi text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Inv Count</th>
-                                  <th class="border-usi text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Cust</th>
+                                  <th class="text-secondary"></th>
+                                  <th colspan="2" class="border-usi text-center text-end text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> Tot. Qty</th>
+                                  <th colspan="2" class="border-usi text-center text-end text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> Sold Qty.</th>
+                                  <th class="border-usi text-end text-uppercase text-secondary text-xxs font-weight-bolder"> Inv Count</th>
+                                  <th class="border-usi text-end text-uppercase text-secondary text-xxs font-weight-bolder"> Cust</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -161,12 +161,12 @@
                       <table id="wss_table" class="table align-items-center ">
                           <thead>
                               <tr>
-                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Week</th>
-                                  <th class="text-center border-usi text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Inbound</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Outbound</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Avaliable</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Received</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Forecast</th>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder"> Week</th>
+                                  <th class="text-center border-usi text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> Inbound</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Outbound</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Avaliable</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Received</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Forecast</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -186,12 +186,12 @@
                       <table id="po_table" class="table align-items-center ">
                           <thead>
                               <tr>
-                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Document</th>
-                                  <th class="border-usi text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Document Date</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> UOM</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Qty</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> ETS</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Status</th>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder"> Document</th>
+                                  <th class="border-usi text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> Document Date</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> UOM</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Qty</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> ETS</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Status</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -209,18 +209,18 @@
                         <table id="so_table" class="table align-items-center ">
                             <thead>
                                 <tr>
-                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> SO Detail</th>
-                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> SO Date</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Uom</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Order Qty</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Resv Qty</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Delivered</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Invoiced</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Delivery Date</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Rate</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Value</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Admin</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Rep</th>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder"> SO Detail</th>
+                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> SO Date</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Uom</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Order Qty</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Resv Qty</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Delivered</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Invoiced</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Delivery Date</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Rate</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Value</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Admin</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Rep</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -315,7 +315,7 @@
       $('.weight_volume2').html(res['data']['NSU_PACK_VOLUME'] + ' Dm 3');
       $('.item_status').html(res['data']['NSU_ITEM_STATUS']);
       $('.repl_time').html(res['data']['NSU_SUPP_REPL_TIME']);
-      $('.bash_price').html(res['data']['NSU_BASE_PRICE']);
+      $('.bash_price').html(res['data']['NSU_BASE_PRICE'] + ' THB');
       $('.purchase_moq').html(addCommas(res['data']['NSU_PURC_MOQ']));
       $('.inventory_code').html(res['data']['NSU_ITEM_INV_CODE']);
       $('.supplier_item_code').html(res['data']['NSU_SUPP_ITEM_CODE']);
