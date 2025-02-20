@@ -11,7 +11,7 @@
 </style>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-10 mt-4">
+            <div class="col-md-12 mt-4">
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
@@ -39,147 +39,84 @@
                         </div>
 
 
-
+                        <div class="row">
+                          <div class="col-12 col-sm-3">
+                            <span>Item Code : <label class="item_code text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-4">
+                            <span>Item Desc : <label class="item_desc text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <span>UOM Code : <label class="uom text-sm"></label></span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 col-sm-3">
+                            <span>New Iten Code : <label class="new_item_code text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-4">
+                            <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <span>Base Price : <label class="bash_price text-sm"></label></span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 col-sm-3">
+                            <span>Purchaser : <label class="purchaser text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-4">
+                            <span>Mgr : <label class="pm_contact text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <span>Pack Uom Code : <label class="pack_code1 text-sm"></label></span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 col-sm-3">
+                            <span>Conv Base UOM : <label class="pack_code2 text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-4">
+                            <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <span>Pack Volume : <label class="weight_volume2 text-sm"></label></span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 col-sm-3">
+                            <span>Purc Moq : <label class="purchase_moq text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-4">
+                            <span>Supp Item Code : <label class="supplier_item_code text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <span>Free Stk Qty : <label class="free_stk_qty text-sm"></label></span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 col-sm-3">
+                            <span>Excl Remark : <label class="exclusivity_remark text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-4">
+                            <span>Item Status : <label class="item_status text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <span>Item Inv Code : <label class="inventory_code text-sm"></label></span>
+                          </div>
+                        </div>
                         <div class="row">
                           <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">ITEM CODE</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 item_code">N/A</p>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">ITEM DESC</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 item_desc">N/A</p>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
-                            <p class="mt-3 h6">UOM CODE</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 uom">N/A</p>
-                            </div>
+                            <span>Item Brand : <label class="item_brand text-sm"></label></span>
                           </div>
                         </div>
 
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">NEW ITEM CODE</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 new_item_code">N/A</p>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">SUPP REPL TIME</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 repl_time">N/A</p>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
-                            <p class="mt-3 h6">BASE PRICE</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 bash_price">N/A</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">PURCHASER</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 purchaser">N/A</p>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">MGR</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 pm_contact">N/A</p>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
-                            <p class="mt-3 h6">PACK UOM CODE</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 pack_code1">N/A</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">CONV BASE UOM</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 pack_code2">N/A</p>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">PACK WEIGHT</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 weight_volume1">N/A</p>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
-                            <p class="mt-3 h6">PACK VOLUME</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 weight_volume2">N/A</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">PURC MOQ</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 purchase_moq">N/A</p>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">SUPP ITEM CODE</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 supplier_item_code">N/A</p>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
-                            <p class="mt-3 h6">FREE STK QTY</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 free_stk_qty">N/A</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">EXCL REMARK</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 exclusivity_remark">N/A</p>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">ITEM STATUS</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 item_status">N/A</p>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-4 mt-3 mt-sm-0">
-                            <p class="mt-3 h6">ITEM INV CODE</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 inventory_code">N/A</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <p class="mt-3 h6">ITEM BRAND</p>
-                            <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                              <p class="text-sm font-weight-bold my-auto ps-sm-2 item_brand">N/A</p>
-                            </div>
-                          </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-          <div class="col-lg-10 mb-lg-0 mt-4">
+          <div class="col-lg-8 mb-lg-0 mt-4">
               <div class="card ">
                   <div class="table-responsive">
                       <table id="uom_table" class="table align-items-center ">
