@@ -122,7 +122,7 @@
                       $e_price = "฿".NUMBER_FORMAT($product->CURRWAC + (($product->CURRWAC / 100)*12),2);
                       $th_price = $product->CURRWAC + (($product->CURRWAC / 100)*12);
                     }
-                    $usd_price = "$".NUMBER_FORMAT($th_price / env('USD', 0),4);
+                    $usd_price = "$".NUMBER_FORMAT(($th_price / 34.05000),4);
                   }else{
                     $free_stock = 0;
                     $e_price = 'Please check with HTH';
