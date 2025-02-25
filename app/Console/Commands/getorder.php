@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 use App\Models\Order;
 use App\Services\SlackService;
+use Illuminate\Support\Facades\Log;
 
 class getorder extends Command
 {
@@ -34,7 +35,63 @@ class getorder extends Command
 
     }
 
-    public function get_order_api($page = 1){
+  	public function get_order_api($page = 1)
+  	{
+  		$storename = "hthecommerce@hafele.co.th";
+  		$apikey = "by3oFDNKYKNb8PHSRTM/k5IxHuuHT2RKTaPqyqWwuE=";
+  		$apisecret = "NOnFem169tqnU1VzMbFcd0YqrStaIb65ofmyHN3IQDs=";
+
+  		$order_status = 0;
+  		$start_date = date('Y-m-d', strtotime('-1 days')); // ลบ 1 วันจากวันนี้
+  		$today = date('Y-m-d');
+
+  		$endpoint = "/Order/GetOrders?updatedafter={$start_date}&updatedbefore={$today}&limit=2000&status={$order_status}&page={$page}";
+  		$url = "https://open-api.zortout.com/v4" . $endpoint;
+
+  		$headers = [
+  			'storename' => $storename,
+  			'apikey' => $apikey,
+  			'apisecret' => $apisecret,
+  		];
+
+  		$maxRetries = 5;
+  		$retryDelay = 2;
+  		$attempt = 0;
+
+  		while ($attempt < $maxRetries) {
+  			try {
+  				// เรียก API
+  				$response = Http::withHeaders($headers)
+  					->timeout(30) // ตั้ง timeout
+  					->get($url);
+
+  				$status_code = $response->status();
+  				$data = $response->json();
+
+  				// Log ข้อมูล API Response
+  				Log::info("API Request: $url | Status: $status_code");
+
+  				// ถ้า API ตอบกลับสำเร็จ และมี count -> return ข้อมูล
+  				if ($response->successful() && isset($data['count'])) {
+  					$response = json_decode($response);
+  					return $response;
+  				}
+
+  				// ถ้าไม่มี count หรือเกิด error -> retry
+  				Log::warning("API Missing 'count' or Failed | Retrying in {$retryDelay} seconds... (Attempt {$attempt}/{$maxRetries})");
+  			} catch (\Exception $e) {
+  				Log::error("API Error: " . $e->getMessage());
+  			}
+
+  			$attempt++;
+  			sleep($retryDelay);
+  		}
+
+  		// ถ้า retry ครบแล้วยังไม่ได้ response ที่ถูกต้อง -> throw Exception
+  		throw new \Exception("API call failed after {$maxRetries} retries.");
+  	}
+
+    public function get_order_api_backup($page = 1){
 
       $storename = "hthecommerce@hafele.co.th";
       $apikey = "by3oFDNKYKNb8PHSRTM/k5IxHuuHT2RKTaPqyqWwuE=";
@@ -69,6 +126,11 @@ class getorder extends Command
       $response = curl_exec($curl);
       curl_close($curl);
       $response = json_decode($response);
+	    $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+  	  // เก็บ log
+  		$log_message = date('Y-m-d H:i:s') . " | URL: $url | Status: $status_code\n";
+  		file_put_contents('/var/log/order_api.log', $log_message, FILE_APPEND);
 
       return $response;
     }
@@ -567,25 +629,40 @@ class getorder extends Command
       $orion_excel = false;
 
       $loop = ceil($order_total / $limit);
-      if($loop == 0){
-        $loop = 1;
-      }
+        //$loop = 1;
 
-      for ($i=0; $i < $loop; $i++) {
-        $response = $this->get_order_api($i+1);
-        $orders = $response->list;
-        foreach ($orders as $key => $order) {
-          $check_dup = Order::where('order_number', $order->number)->where('del', 0)->count();
-          if($check_dup == 0){
-            $new_order[] = $orders[$key];
-            $insert_order[] = [
-              'order_number' => $orders[$key]->number,
-              'filename' => $file_name,
-              'created_at' => date('Y-m-d H:i:s'),
-            ];
-          }
-        }
-      }
+		$orders = $response->list;
+		foreach ($orders as $key => $order) {
+		  $check_dup = Order::where('order_number', $order->number)->where('del', 0)->count();
+		  if($check_dup == 0){
+			$new_order[] = $orders[$key];
+			$insert_order[] = [
+			  'order_number' => $orders[$key]->number,
+			  'filename' => $file_name,
+			  'created_at' => date('Y-m-d H:i:s'),
+			];
+		  }
+		}
+
+      if($loop > 1){
+
+		  for ($i=0; $i < $loop; $i++) {
+			$response = $this->get_order_api($loop + $i);
+			$orders = $response->list;
+			foreach ($orders as $key => $order) {
+			  $check_dup = Order::where('order_number', $order->number)->where('del', 0)->count();
+			  if($check_dup == 0){
+				$new_order[] = $orders[$key];
+				$insert_order[] = [
+				  'order_number' => $orders[$key]->number,
+				  'filename' => $file_name,
+				  'created_at' => date('Y-m-d H:i:s'),
+				];
+			  }
+			}
+		  }
+
+	  }
 
       $new_order_count = count($new_order);
       $orion_excel = $this->generate_excel_orion($new_order, $file_name); //Orion Excel Exports
@@ -599,7 +676,7 @@ class getorder extends Command
 
       if($orion_excel){
         $this->sendLine($new_order_count);
-        //$this->slackService->slackApi("The total number of orders is " . $new_order_count);
+        $this->slackService->slackApi("The total number of orders is " . $new_order_count);
       }else{
         $this->sendLine("0");
       }
