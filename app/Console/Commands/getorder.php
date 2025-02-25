@@ -78,6 +78,7 @@ class getorder extends Command
   				}
 
   				// ถ้าไม่มี count หรือเกิด error -> retry
+          $this->slackService->slackApi("API Missing 'count' or Failed | Retrying in {$retryDelay} seconds... (Attempt {$attempt}/{$maxRetries})");
   				Log::warning("API Missing 'count' or Failed | Retrying in {$retryDelay} seconds... (Attempt {$attempt}/{$maxRetries})");
   			} catch (\Exception $e) {
   				Log::error("API Error: " . $e->getMessage());
