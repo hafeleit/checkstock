@@ -11,6 +11,8 @@ use App\Exports\ExportOrdersSAP;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 use App\Services\SlackService;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -102,7 +104,64 @@ class OrderController extends Controller
         //
     }
 
-    public function get_order_api($page = 1){
+    public function get_order_api($page = 1)
+  	{
+  		$storename = "hthecommerce@hafele.co.th";
+  		$apikey = "by3oFDNKYKNb8PHSRTM/k5IxHuuHT2RKTaPqyqWwuE=";
+  		$apisecret = "NOnFem169tqnU1VzMbFcd0YqrStaIb65ofmyHN3IQDs=";
+
+  		$order_status = 0;
+  		$start_date = date('Y-m-d', strtotime('-1 days')); // ลบ 1 วันจากวันนี้
+  		$today = date('Y-m-d');
+
+  		$endpoint = "/Order/GetOrders?updatedafter={$start_date}&updatedbefore={$today}&limit=2000&status={$order_status}&page={$page}";
+  		$url = "https://open-api.zortout.com/v4" . $endpoint;
+
+  		$headers = [
+  			'storename' => $storename,
+  			'apikey' => $apikey,
+  			'apisecret' => $apisecret,
+  		];
+
+  		$maxRetries = 5;
+  		$retryDelay = 2;
+  		$attempt = 0;
+
+  		while ($attempt < $maxRetries) {
+  			try {
+  				// เรียก API
+  				$response = Http::withHeaders($headers)
+  					->timeout(30) // ตั้ง timeout
+  					->get($url);
+
+  				$status_code = $response->status();
+  				$data = $response->json();
+
+  				// Log ข้อมูล API Response
+  				Log::info("API Request: $url | Status: $status_code");
+
+  				// ถ้า API ตอบกลับสำเร็จ และมี count -> return ข้อมูล
+  				if ($response->successful() && isset($data['count'])) {
+  					$response = json_decode($response);
+  					return $response;
+  				}
+
+  				// ถ้าไม่มี count หรือเกิด error -> retry
+          $this->slackService->slackApi("API Missing 'count' or Failed | Retrying in {$retryDelay} seconds... (Attempt {$attempt}/{$maxRetries})");
+  				Log::warning("API Missing 'count' or Failed | Retrying in {$retryDelay} seconds... (Attempt {$attempt}/{$maxRetries})");
+  			} catch (\Exception $e) {
+  				Log::error("API Error: " . $e->getMessage());
+  			}
+
+  			$attempt++;
+  			sleep($retryDelay);
+  		}
+
+  		// ถ้า retry ครบแล้วยังไม่ได้ response ที่ถูกต้อง -> throw Exception
+  		throw new \Exception("API call failed after {$maxRetries} retries.");
+  	}
+
+    public function get_order_api_backup($page = 1){
 
       $storename = "hthecommerce@hafele.co.th";
       $apikey = "by3oFDNKYKNb8PHSRTM/k5IxHuuHT2RKTaPqyqWwuE=";
