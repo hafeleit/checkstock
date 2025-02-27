@@ -369,7 +369,6 @@
         $('#mss_table').append(tbody);
       });
       let forecast = 0;
-      const year = new Date().getFullYear().toString().slice(-2);
       $.each(res['wss'], function(key, val) {
         //let wss = val["week_number"].split(" ").join("");
         //let week_no = "'" + wss.split("/").join("") + "'";
@@ -389,7 +388,7 @@
 
         let tbody = '<tr>\
           <td class="border-usi">\
-            <p class="text-start text-xs font-weight-bold mb-0 px-3">'+year+'/'+val["week_number"]+'</p>\
+            <p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["year_number"]+'/'+val["week_number"]+'</p>\
           </td>\
           <td class="border-usi">\
             <p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_inbound('+val["week_number"]+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\

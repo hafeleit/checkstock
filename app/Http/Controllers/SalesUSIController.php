@@ -112,35 +112,37 @@ class SalesUSIController extends Controller
 
       // สร้าง Common Table Expression (CTE) เพื่อสร้างลำดับสัปดาห์
       $weekSequence = DB::table(DB::raw('(WITH RECURSIVE week_sequence AS (
-          SELECT WEEK(DATE_SUB(CURDATE(), INTERVAL 1 WEEK), 1) AS week_number, -1 AS week_offset
+          SELECT WEEK(DATE_SUB(CURDATE(), INTERVAL 1 WEEK), 1) AS week_number, -1 AS week_offset, RIGHT(YEAR(DATE_SUB(CURDATE(), INTERVAL 1 WEEK)), 2) AS year_number
           UNION ALL
-          SELECT WEEK(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK), 1), week_offset + 1
+          SELECT WEEK(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK), 1), week_offset + 1, RIGHT(YEAR(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK)), 2) AS year_number
           FROM week_sequence
           WHERE week_offset < 52
       ) SELECT * FROM week_sequence) as week_sequence'))
-          ->select('week_number', 'week_offset');
+          ->select('week_number', 'week_offset', 'year_number');
 
       // Query สำหรับ PO (การสั่งซื้อ)
       $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
           ->select([
               'a.material',
+              DB::raw('RIGHT(YEAR(STR_TO_DATE(a.created_on_purchasing_doc, "%m/%d/%Y")), 2) AS years'),
               DB::raw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%d/%m/%Y'), 1) AS weeks"),
               'a.po_order_unit AS WSS_ITEM_UOM_CODE',
               DB::raw("COALESCE(SUM(a.quantity_po) - SUM(a.delivered_quantity), 0) AS WSS_INCOMING_QTY"),
               DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY")
           ])
           ->where('a.material', $material)
-          ->groupBy('a.material', DB::raw('weeks'));
+          ->groupBy('a.material', DB::raw('weeks'), DB::raw('years'));
 
       // Query สำหรับ SO (การขาย)
       $soQuery = DB::table('ZHINSD_VA05 as b')
           ->select([
               'b.material',
+              DB::raw('RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%m/%d/%Y")), 2) AS years'),
               DB::raw("WEEK(STR_TO_DATE(b.delivery_date, '%m/%d/%Y'), 1) AS weeks"),
               DB::raw("COALESCE(SUM(b.order_quantity), 0) AS WSS_RES_QTY")
           ])
           ->where('b.material', $material)
-          ->groupBy('b.material', DB::raw('weeks'));
+          ->groupBy('b.material', DB::raw('weeks'), DB::raw('years'));
 
       // Query สำหรับ Stock (สินค้าคงคลัง)
       $stockQuery = DB::table('MB52 as a')
@@ -151,14 +153,23 @@ class SalesUSIController extends Controller
       // รวมทั้งหมดเข้าด้วยกัน
       $wss = DB::table(DB::raw("({$weekSequence->toSql()}) as week_sequence"))
           ->mergeBindings($weekSequence)
-          ->leftJoin(DB::raw("({$poQuery->toSql()}) as po"), 'po.weeks', '=', 'week_sequence.week_number')
+          //->leftJoin(DB::raw("({$poQuery->toSql()}) as po"), 'po.weeks', '=', 'week_sequence.week_number')
+          ->leftJoin(DB::raw('(' . $poQuery->toSql() . ') as po'), function($join) {
+            $join->on('po.weeks', '=', 'week_sequence.week_number')
+                ->on('po.years', '=', 'week_sequence.year_number');
+            })
           ->mergeBindings($poQuery)
-          ->leftJoin(DB::raw("({$soQuery->toSql()}) as so"), 'so.weeks', '=', 'week_sequence.week_number')
+          //->leftJoin(DB::raw("({$soQuery->toSql()}) as so"), 'so.weeks', '=', 'week_sequence.week_number')
+          ->leftJoin(DB::raw('(' . $soQuery->toSql() . ') as so'), function($join) {
+              $join->on('so.weeks', '=', 'week_sequence.week_number')
+                   ->on('so.years', '=', 'week_sequence.year_number');
+          })
           ->mergeBindings($soQuery)
           ->leftJoin(DB::raw("({$stockQuery->toSql()}) as un"), DB::raw('1'), DB::raw('1')) // ทำให้ stockQuery ใช้ค่าเดียวกันกับทุก row
           ->mergeBindings($stockQuery)
           ->select([
               'week_sequence.week_number',
+              'week_sequence.year_number',
               DB::raw("COALESCE(po.WSS_ITEM_UOM_CODE, '') AS WSS_ITEM_UOM_CODE"),
               DB::raw("COALESCE(po.WSS_INCOMING_QTY, 0) AS WSS_INCOMING_QTY"),
               DB::raw("COALESCE(so.WSS_RES_QTY, 0) AS WSS_RES_QTY"),
