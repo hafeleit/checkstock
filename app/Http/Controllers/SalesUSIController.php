@@ -32,20 +32,32 @@ class SalesUSIController extends Controller
         DB::raw("CASE WHEN m.numer IS NULL OR m.numer = '' THEN 'N/A' ELSE m.numer END AS NSU_CONV_BASE_UOM"),
         DB::raw("CASE WHEN m.gross_weight IS NULL OR m.gross_weight = '' THEN 'N/A' ELSE m.gross_weight END AS NSU_PACK_WEIGHT"),
         DB::raw("CASE WHEN m.volume IS NULL OR m.volume = '' THEN 'N/A' ELSE m.volume END AS NSU_PACK_VOLUME"),
-        DB::raw("CASE WHEN m.st IS NULL OR m.st = '' THEN 'N/A' ELSE m.st END AS NSU_ITEM_STATUS"),
+        DB::raw("CASE
+                  WHEN m.st IS NULL OR m.st = '' THEN 'Active'
+                  WHEN m.st = 'Z1' THEN 'Basic data not compl'
+                  WHEN m.st = 'Z2' THEN 'Article not distrib.'
+                  WHEN m.st = 'ZB' THEN 'Sales Blocked'
+                  WHEN m.st = 'ZC' THEN 'Sales Blocked for QC'
+                  WHEN m.st = 'ZD' THEN 'Arranged for Delet.'
+                  WHEN m.st = 'ZL' THEN 'Unpacked'
+                  WHEN m.st = 'ZM' THEN 'Sell no minim.quant.'
+                  WHEN m.st = 'ZR' THEN 'Sell out & delete'
+                  WHEN m.st = 'ZS' THEN 'Sales Stopped'
+                  ELSE m.st
+              END AS NSU_ITEM_STATUS"),
         DB::raw("CASE WHEN m.lage IS NULL OR m.lage = '' THEN 'N/A' ELSE m.lage END AS NSU_ITEM_INV_CODE"),
         DB::raw("CASE WHEN p.planned_deliv_time IS NULL OR p.planned_deliv_time = '' THEN 'N/A' ELSE p.planned_deliv_time END AS NSU_SUPP_REPL_TIME"),
         DB::raw("CASE WHEN p.minimum_order_qty IS NULL OR p.minimum_order_qty = '' THEN 'N/A' ELSE p.minimum_order_qty END AS NSU_PURC_MOQ"),
         DB::raw("CASE WHEN p.vendor_material_number IS NULL OR p.vendor_material_number = '' THEN 'N/A' ELSE p.vendor_material_number END AS NSU_SUPP_ITEM_CODE"),
-        DB::raw("CASE WHEN i.unrestricted IS NULL OR i.unrestricted = '' THEN 'N/A' ELSE i.unrestricted END AS NSU_FREE_STK_QTY"),
+        DB::raw("CASE WHEN i.unrestricted IS NULL OR i.unrestricted = '' THEN '0' ELSE i.unrestricted END AS NSU_FREE_STK_QTY"),
         DB::raw("CASE WHEN mf.TDLINE IS NULL OR mf.TDLINE = '' THEN 'N/A' ELSE mf.TDLINE END AS NSU_EXCL_REMARK"),
         DB::raw("CASE WHEN pm.certificate IS NULL OR pm.certificate = '' THEN 'N/A' ELSE pm.certificate END AS NSU_ITEM_BRAND"),
         DB::raw("CASE WHEN od.customer_material IS NULL OR od.customer_material = '' THEN 'N/A' ELSE od.customer_material END AS NSU_NEW_ITEM_CODE")
     ])
     ->selectRaw("
         CASE
-            WHEN zpl.amount IS NULL OR zpl.per IS NULL OR zpl.per = 0 THEN 'N/A'
-            ELSE FORMAT(zpl.amount / zpl.per, 0)
+            WHEN zpl.amount IS NULL OR zpl.per IS NULL OR zpl.per = 0 THEN '0'
+            ELSE FORMAT(zpl.amount / zpl.per, 2)
         END AS NSU_BASE_PRICE
     ")
         ->distinct()
@@ -100,11 +112,11 @@ class SalesUSIController extends Controller
 
       // สร้าง Common Table Expression (CTE) เพื่อสร้างลำดับสัปดาห์
       $weekSequence = DB::table(DB::raw('(WITH RECURSIVE week_sequence AS (
-          SELECT WEEK(DATE_SUB(CURDATE(), INTERVAL 6 WEEK), 1) AS week_number, -6 AS week_offset
+          SELECT WEEK(DATE_SUB(CURDATE(), INTERVAL 1 WEEK), 1) AS week_number, -1 AS week_offset
           UNION ALL
           SELECT WEEK(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK), 1), week_offset + 1
           FROM week_sequence
-          WHERE week_offset < 6
+          WHERE week_offset < 52
       ) SELECT * FROM week_sequence) as week_sequence'))
           ->select('week_number', 'week_offset');
 
@@ -166,9 +178,9 @@ class SalesUSIController extends Controller
       ->select([
           DB::raw('CASE WHEN a.material IS NOT NULL THEN a.material ELSE "N/A" END as IUW_ITEM_CODE'),
           DB::raw('CASE WHEN c.UoM IS NOT NULL THEN c.UoM ELSE "N/A" END as IUW_UOM_CODE'),
-          DB::raw('CASE WHEN b.Amount IS NOT NULL THEN FORMAT(b.Amount, 0) ELSE "N/A" END as IUW_PRICE'),
-          DB::raw('CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount, 0) ELSE "N/A" END as NEW_ZPE_COST'),
-          DB::raw('CASE WHEN a.mov_avg_price IS NOT NULL THEN a.mov_avg_price ELSE "N/A" END as NEW_MAP_COST')
+          DB::raw('CASE WHEN b.Amount IS NOT NULL THEN FORMAT(b.Amount / b.per, 2) ELSE "0" END as IUW_PRICE'),
+          DB::raw('CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount / c.per, 2) ELSE "0" END as NEW_ZPE_COST'),
+          DB::raw('CASE WHEN a.mov_avg_price IS NOT NULL THEN FORMAT(a.mov_avg_price / a.per, 2) ELSE "0" END as NEW_MAP_COST')
       ])
       ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
       ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')

@@ -52,7 +52,7 @@
                         </div>
                         <div class="row">
                           <div class="col-12 col-sm-3">
-                            <span>New Iten Code : <label class="new_item_code text-sm"></label></span>
+                            <span>New Item Code : <label class="new_item_code text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-4">
                             <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
@@ -251,6 +251,16 @@
     </div>
 
 <script type="text/javascript">
+
+  $(function(){
+    $('#item_code').on('keypress', function(event) {
+        if (event.which === 13) { // 13 คือ keycode ของ Enter
+            event.preventDefault(); // ป้องกันการ submit form
+            search_usi();
+        }
+    });
+  });
+
   function addCommas(nStr)
   {
     nStr += '';
@@ -302,6 +312,7 @@
         $("#t20_12_table > tbody").html("");
         $('#errorModal').modal('show');
         $('#product_img').attr('src','/storage/img/products/coming_soon.jpg');
+        $('.card-body div div span label').text('');
         return false;
       }
       $('.item_code').html(res['data']['NSU_ITEM_CODE']);
@@ -400,7 +411,7 @@
       });
 
       $.each(res['uom'], function(key, val) {
-        let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_ZPE_COST"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_MAP_COST"]+'</p></td></tr>';
+        let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE"]+' THB</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_ZPE_COST"]+' THB</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_MAP_COST"]+' THB</p></td></tr>';
         $('#uom_table').append(tbody);
       });
 
