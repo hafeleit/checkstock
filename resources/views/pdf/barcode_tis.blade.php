@@ -17,7 +17,7 @@
     body {
     	margin-top: -42px;margin-left: -42px;
     	font-family: 'AngsanaUPC'; height: 100%;
-      font-size: 15px;
+      font-size: 16px;
     }
     .container{
       position:absolute;
@@ -38,20 +38,20 @@
   <!--<div class="" style="position:absolute;right:-30px; z-index: -1">
     <img src="img/logos/Logo-HAFELE-02.jpg" width="120" style="margin-top:2px">
   </div>-->
-  <div class="" style="position:absolute; right:30px;top:60px; text-align:center">
+  <div class="" style="position:absolute; right:30px;top:55px; text-align:center">
     <img src="img/logos/LEAD.png" width="60" style="margin-bottom: -20px;"></br>
     <span style="text-align:center;font-weight:Bold">{{ $productItems["tis_1"] }}</span>
   </div>
   @if($productItems["qr_code"] != '')
-  <div class="" style="position:absolute; right:-30px;top:70px">
+  <div class="" style="position:absolute; right:-30px;top:65px">
     <?php echo '<img src="data:image/png;base64,' . DNS2D::getBarcodePNG($productItems["qr_code"], "QRCODE") . '" width="50" height="50"/>'; ?>
   </div>
   @endif
   @if($productItems["bar_code"] != '')
-  <div class="" style="position:absolute; left:200px; top:150px; line-height: 0px;">
+  <div class="" style="position:absolute; left:220px; top:155px; line-height: 0px;">
     @if(strlen($productItems->bar_code) == 13)
-    <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="120" />'; ?>
-      <p style="font-size:12px; margin:10px 0px 0px 10px">
+    <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="100" />'; ?>
+      <p style="font-size:12px; margin:10px 0px 0px 8px">
       <B>
         {{$productItems["bar_code"][0]}}&nbsp;&nbsp; {{$productItems["bar_code"][1]}}
         {{$productItems["bar_code"][2]}}
