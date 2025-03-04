@@ -250,6 +250,10 @@
       </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
+    <script>
+        $('#item_code').mask('000.00.000');
+    </script>
 <script type="text/javascript">
 
   $(function(){
@@ -260,6 +264,8 @@
         }
     });
   });
+
+  $('#item_code').mask('000.00.000');
 
   function addCommas(nStr)
   {
