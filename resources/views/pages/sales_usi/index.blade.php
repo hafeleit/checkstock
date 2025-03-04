@@ -32,7 +32,7 @@
                                 <div class="form-group" style="position: relative;">
                                     <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Search..." value="311.03.101">
                                     <a href="javascript:;" onclick="search_usi()">
-                                      <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 5%;">
+                                      <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 2%;">
                                     </a>
                                 </div>
                             </div>
