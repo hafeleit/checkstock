@@ -62,7 +62,11 @@ class SalesUSIController extends Controller
     ")
         ->distinct()
         ->leftJoin('ZHAAMM_IFVMG as p', 'p.material', '=', 'm.material')
-        ->leftJoin('MB52 as i', 'i.material', '=', 'm.material')
+        //->leftJoin('MB52 as i', 'i.material', '=', 'm.material')
+        ->leftJoin('MB52 as i', function ($join) {
+            $join->on('i.material', '=', 'm.material')
+                 ->where('i.storage_location', '=', 'TH02');
+        })
         ->leftJoin('FIS_MPM_OUT as mf', 'mf.MATNR', '=', 'm.material')
         ->leftJoin('ZMM_MATZERT as pm', 'pm.material', '=', 'm.material')
         ->leftJoin('ZHAASD_ORD as od', 'od.material', '=', 'm.material')
