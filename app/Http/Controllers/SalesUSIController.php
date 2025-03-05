@@ -30,8 +30,8 @@ class SalesUSIController extends Controller
         DB::raw("CASE WHEN m.product_group_manager IS NULL OR m.product_group_manager = '' THEN 'N/A' ELSE m.product_group_manager END AS NSU_PROD_MGR"),
         DB::raw("CASE WHEN m.su IS NULL OR m.su = '' THEN 'N/A' ELSE m.su END AS NSU_PACK_UOM_CODE"),
         DB::raw("CASE WHEN m.numer IS NULL OR m.numer = '' THEN 'N/A' ELSE m.numer END AS NSU_CONV_BASE_UOM"),
-        DB::raw("CASE WHEN m.gross_weight IS NULL OR m.gross_weight = '' THEN 'N/A' ELSE m.gross_weight END AS NSU_PACK_WEIGHT"),
-        DB::raw("CASE WHEN m.volume IS NULL OR m.volume = '' THEN 'N/A' ELSE m.volume END AS NSU_PACK_VOLUME"),
+        DB::raw("CASE WHEN m.gross_weight IS NULL OR m.gross_weight = '' THEN 'N/A' ELSE CONCAT(m.gross_weight, ' ', m.wun) END AS NSU_PACK_WEIGHT"),
+        DB::raw("CASE WHEN m.volume IS NULL OR m.volume = '' THEN 'N/A' ELSE CONCAT(m.volume, ' ', m.vun) END AS NSU_PACK_VOLUME"),
         DB::raw("CASE
                   WHEN m.st IS NULL OR m.st = '' THEN 'Active'
                   WHEN m.st = 'Z1' THEN 'Basic data not compl'

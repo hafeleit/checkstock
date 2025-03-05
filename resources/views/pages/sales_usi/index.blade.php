@@ -328,8 +328,8 @@
       $('.uom').html(res['data']['NSU_ITEM_UOM_CODE']);
       $('.pack_code1').html(res['data']['NSU_PACK_UOM_CODE']);
       $('.pack_code2').html(res['data']['NSU_CONV_BASE_UOM'] + ' ' + res['data']['NSU_ITEM_UOM_CODE']);
-      $('.weight_volume1').html(res['data']['NSU_PACK_WEIGHT'] + ' KG');
-      $('.weight_volume2').html(res['data']['NSU_PACK_VOLUME'] + ' Dm 3');
+      $('.weight_volume1').html(res['data']['NSU_PACK_WEIGHT']);
+      $('.weight_volume2').html(res['data']['NSU_PACK_VOLUME']);
       $('.item_status').html(res['data']['NSU_ITEM_STATUS']);
       $('.repl_time').html(res['data']['NSU_SUPP_REPL_TIME']);
       $('.bash_price').html(res['data']['NSU_BASE_PRICE'] + ' THB');
