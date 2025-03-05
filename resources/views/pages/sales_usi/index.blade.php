@@ -481,7 +481,7 @@
     });
   }
 
-  function search_usi_outbound(week_no){
+  function search_usi_outbound(week_no, year_no){
     $("#so_table > tbody").html("");
     $.ajax({
       method: 'GET',
