@@ -152,6 +152,7 @@ class SalesUSIController extends Controller
       $stockQuery = DB::table('MB52 as a')
           ->select(DB::raw("COALESCE(SUM(a.unrestricted), 0) AS WSS_AVAIL_QTY"))
           ->where('a.material', $material)
+          ->where('a.storage_location', 'TH02')
           ->groupBy('a.material');
 
       // รวมทั้งหมดเข้าด้วยกัน
