@@ -38,76 +38,103 @@
                             </div>
                         </div>
 
-
+                        <!-- 1111111111111111111111111111 -->
                         <div class="row">
                           <div class="col-12 col-sm-3">
                             <span>Item Code : <label class="item_code text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-4">
-                            <span>Item Desc : <label class="item_desc text-sm"></label></span>
-                          </div>
                           <div class="col-12 col-sm-3">
-                            <span>UOM Code : <label class="uom text-sm"></label></span>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-12 col-sm-3">
-                            <span>New Item Code : <label class="new_item_code text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-4">
-                            <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
+                            <span>Purc Moq : <label class="purchase_moq text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
                             <span>Base Price : <label class="bash_price text-sm"></label></span>
                           </div>
                         </div>
+
+                        <!-- 2222222222222222222222222222 -->
                         <div class="row">
                           <div class="col-12 col-sm-3">
-                            <span>Purchasing Group : <label class="purchaser text-sm"></label></span>
+                            <span>Item Desc : <label class="item_desc text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-4">
-                            <span>Product group manag : <label class="pm_contact text-sm"></label></span>
+
+                          <div class="col-12 col-sm-3">
+                            <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
                           </div>
+                          <div class="col-12 col-sm-3">
+                            <span>Base Price RSP Incl. VAT : <label class="bash_price_incl text-sm">0</label></span>
+                          </div>
+                        </div>
+
+                        <!-- 3333333333333333333333333333 -->
+                        <div class="row">
+                          <div class="col-12 col-sm-3">
+                            <span>UOM Code : <label class="uom text-sm"></label></span>
+                          </div>
+
                           <div class="col-12 col-sm-3">
                             <span>Pack Uom Code : <label class="pack_code1 text-sm"></label></span>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-12 col-sm-3">
-                            <span>Conv Base UOM : <label class="pack_code2 text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-4">
-                            <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>Pack Volume : <label class="weight_volume2 text-sm"></label></span>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-12 col-sm-3">
-                            <span>Purc Moq : <label class="purchase_moq text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-4">
-                            <span>Supp Item Code : <label class="supplier_item_code text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
                             <span>Free Stk Qty : <label class="free_stk_qty text-sm"></label></span>
                           </div>
+
+
+
                         </div>
+
+                        <!-- 444444444444444444444444444 -->
                         <div class="row">
                           <div class="col-12 col-sm-3">
-                            <span>Excl Remark : <label class="exclusivity_remark text-sm"></label></span>
+                            <span>New Item Code : <label class="new_item_code text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-4">
+                          <div class="col-12 col-sm-3">
+                            <span>Conv Base UOM : <label class="pack_code2 text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <span>Purchasing Group : <label class="purchaser text-sm"></label></span>
+                          </div>
+
+
+                        </div>
+
+                        <!-- 555555555555555555555555555555 -->
+                        <div class="row">
+                          <div class="col-12 col-sm-3">
+                            <span>Item Brand : <label class="item_brand text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <span>Pack Volume : <label class="weight_volume2 text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <span>Product group manag : <label class="pm_contact text-sm"></label></span>
+                          </div>
+
+                          <!--<div class="col-12 col-sm-4">
+                            <span>Supp Item Code : <label class="supplier_item_code text-sm"></label></span>
+                          </div>-->
+
+
+                        </div>
+
+                        <!-- 666666666666666666666666666666 -->
+                        <div class="row">
+                          <div class="col-12 col-sm-3">
                             <span>Item Status : <label class="item_status text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Storage indicator : <label class="inventory_code text-sm"></label></span>
+                            <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
                           </div>
+                          <div class="col-12 col-sm-3">
+                            <span>Excl Remark : <label class="exclusivity_remark text-sm"></label></span>
+                          </div>
+
+
                         </div>
+
+                        <!-- 777777777777777777777777777777 -->
                         <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <span>Item Brand : <label class="item_brand text-sm"></label></span>
+                          <div class="col-12 col-sm-3">
+                            <span>Storage indicator : <label class="inventory_code text-sm"></label></span>
                           </div>
                         </div>
 
@@ -400,7 +427,7 @@
             <p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_inbound('+val["week_number"]+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
           </td>\
           <td class="border-usi">\
-            <p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_outbound('+val["week_number"]+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
+            <p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_outbound('+val["week_number"]+','+val["year_number"]+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
           </td>\
           <td class="border-usi">\
             <p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_AVAIL_QTY"]+'</p>\
@@ -461,7 +488,8 @@
       url: '{{ ROUTE('search_outbound') }}',
       data: {
         item_code: $('#item_code').val(),
-        ipd_week_no: week_no,
+        week_no: week_no,
+        year_no: year_no,
       }
     }).done(function(res){
       console.log(res);

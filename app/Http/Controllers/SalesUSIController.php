@@ -249,7 +249,8 @@ class SalesUSIController extends Controller
     public function outbound(Request $request){
 
       $item_code = $request->item_code ?? '940.99.961';
-      $ipd_week_no = $request->ipd_week_no ?? '2346';
+      $week_no = $request->week_no ?? '';
+      $year_no = $request->year_no ?? '';
 
       //$query = DB::table('OW_ITEMWISE_SO_DTLS_WEB_HAFL')->where('ISD_ITEM_CODE', $item_code)->where('ISD_WEEK_NO', $ipd_week_no);
       $query = DB::table('ZHINSD_VA05 as a')
@@ -265,7 +266,9 @@ class SalesUSIController extends Controller
             COALESCE(a.net_price, 0) AS ISD_RATE,
             COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE,
             COALESCE(CONCAT_WS(' ', d.ZI, e.IDMA_ZI_NAME), '') AS ISD_ADMIN,
-            COALESCE(CONCAT_WS(' ', d.ZE, e2.IDMA_ZI_NAME), '') AS ISD_REP
+            COALESCE(CONCAT_WS(' ', d.ZE, e2.IDMA_ZI_NAME), '') AS ISD_REP,
+            RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')),2) AS years,
+		        WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) AS weeks
           ")
           ->leftJoin('ZHAASD_ORD as b', function ($join) {
               $join->on('b.material', '=', 'a.material')
@@ -279,6 +282,8 @@ class SalesUSIController extends Controller
           ->leftJoin('HWW_SD_CUSTLIS as e', 'd.ZI', '=', 'e.IDMA_ZI')
           ->leftJoin('HWW_SD_CUSTLIS as e2', 'd.ZE', '=', 'e2.IDMA_ZI')
           ->where('a.material', '=', $item_code)
+          ->whereRaw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) = $year_no")
+          ->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) = $week_no")
           ->groupBy('c.material');
 
 
