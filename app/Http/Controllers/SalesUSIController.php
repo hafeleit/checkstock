@@ -65,7 +65,8 @@ class SalesUSIController extends Controller
         //->leftJoin('MB52 as i', 'i.material', '=', 'm.material')
         ->leftJoin('MB52 as i', function ($join) {
             $join->on('i.material', '=', 'm.material')
-                 ->where('i.storage_location', '=', 'TH02');
+                 ->where('i.storage_location', '=', 'TH02')
+                 ->where('i.special_stock', '=', '');
         })
         ->leftJoin('FIS_MPM_OUT as mf', 'mf.MATNR', '=', 'm.material')
         ->leftJoin('ZMM_MATZERT as pm', 'pm.material', '=', 'm.material')
@@ -153,6 +154,7 @@ class SalesUSIController extends Controller
           ->select(DB::raw("COALESCE(SUM(a.unrestricted), 0) AS WSS_AVAIL_QTY"))
           ->where('a.material', $material)
           ->where('a.storage_location', 'TH02')
+          ->where('a.special_stock', '')
           ->groupBy('a.material');
 
       // รวมทั้งหมดเข้าด้วยกัน
