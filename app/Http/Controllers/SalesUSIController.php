@@ -231,7 +231,8 @@ class SalesUSIController extends Controller
           DB::raw("IFNULL(a.po_order_unit, '') as IPD_UOM_CODE"),
           DB::raw("IFNULL(a.quantity_po, '') as IPD_QTY"),
           DB::raw("IFNULL(a.vendor_output_date, '') as IPD_ETS"),
-          DB::raw("IFNULL(a.confirmed_issue_date, '') as IPD_STATUS"),
+          //DB::raw("IFNULL(a.confirmed_issue_date, '') as IPD_STATUS"),
+          DB::raw("IF(a.confirmed_issue_date IS NOT NULL, 'C', 'L') as IPD_STATUS")
         ])
         ->where('a.material', $item_code)
         ->whereRaw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%d/%m/%Y'), 1) = ?", [$ipd_week_no]);
