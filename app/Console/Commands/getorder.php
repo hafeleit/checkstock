@@ -676,10 +676,10 @@ class getorder extends Command
       }
 
       if($orion_excel){
-        $this->sendLine($new_order_count);
+        //$this->sendLine($new_order_count);
         $this->slackService->slackApi("The total number of orders is " . $new_order_count);
       }else{
-        $this->sendLine("0");
+        //$this->sendLine("0");
         $this->slackService->slackApi("The total number of orders is 0");
       }
 
