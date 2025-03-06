@@ -50,10 +50,10 @@ class SalesUSIController extends Controller
             CASE
                 WHEN m.lage IS NULL OR m.lage = '' THEN 'N/A'
                 WHEN m.lage = 'NLW' THEN 'Not storage goods'
-                WHEN m.lage = 'LW' THEN 'Stock goods' 
+                WHEN m.lage = 'LW' THEN 'Stock goods'
                 ELSE m.lage
             END AS NSU_ITEM_INV_CODE
-        ")
+        "),
         DB::raw("CASE WHEN p.planned_deliv_time IS NULL OR p.planned_deliv_time = '' THEN 'N/A' ELSE p.planned_deliv_time END AS NSU_SUPP_REPL_TIME"),
         DB::raw("CASE WHEN p.minimum_order_qty IS NULL OR p.minimum_order_qty = '' THEN 'N/A' ELSE p.minimum_order_qty END AS NSU_PURC_MOQ"),
         DB::raw("CASE WHEN p.vendor_material_number IS NULL OR p.vendor_material_number = '' THEN 'N/A' ELSE p.vendor_material_number END AS NSU_SUPP_ITEM_CODE"),
