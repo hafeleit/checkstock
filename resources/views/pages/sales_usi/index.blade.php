@@ -149,11 +149,11 @@
                       <table id="uom_table" class="table align-items-center ">
                           <thead>
                               <tr>
-                                  <th class="text-uppercase text-xxs font-weight-bolder "> UOM</th>
-                                  <th class="text-end text-uppercase text-xxs font-weight-bolder"> Price</th>
-                                  <th class="text-end text-uppercase text-xxs font-weight-bolder"> ZPLV</th>
-                                  <th class="text-end text-uppercase text-xxs font-weight-bolder"> ZPE</th>
-                                  <th class="text-end text-uppercase text-xxs font-weight-bolder"> MAP</th>
+                                  <th class="text-uppercase text-sm font-weight-bolder "> UOM</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> Price</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> ZPLV</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> ZPE</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> MAP</th>
                               </tr>
                           </thead>
                           <tbody>
