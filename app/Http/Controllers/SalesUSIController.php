@@ -26,7 +26,54 @@ class SalesUSIController extends Controller
         DB::raw("CASE WHEN m.material IS NULL OR m.material = '' THEN 'N/A' ELSE m.material END AS NSU_ITEM_CODE"),
         DB::raw("CASE WHEN m.kurztext IS NULL OR m.kurztext = '' THEN 'N/A' ELSE m.kurztext END AS NSU_ITEM_NAME"),
         DB::raw("CASE WHEN m.bun IS NULL OR m.bun = '' THEN 'N/A' ELSE m.bun END AS NSU_ITEM_UOM_CODE"),
-        DB::raw("CASE WHEN m.pgr IS NULL OR m.pgr = '' THEN 'N/A' ELSE m.pgr END AS NSU_PURCHASER"),
+        //DB::raw("CASE WHEN m.pgr IS NULL OR m.pgr = '' THEN 'N/A' ELSE m.pgr END AS NSU_PURCHASER"),
+        DB::raw("
+            CASE
+                WHEN m.pgr IS NULL OR m.pgr = '' THEN 'N/A'
+                WHEN m.pgr = 'T01' THEN 'Unchalee Yensawad'
+                WHEN m.pgr = 'T02' THEN 'Ruthairat K.'
+                WHEN m.pgr = 'T03' THEN 'Vacant 1'
+                WHEN m.pgr = 'T04' THEN 'Supasinee Kanyamee'
+                WHEN m.pgr = 'T05' THEN 'Sucharee Sripa'
+                WHEN m.pgr = 'T06' THEN 'Benjamas Boonfak'
+                WHEN m.pgr = 'T07' THEN 'Vacant 2'
+                WHEN m.pgr = 'T08' THEN 'Hathaipat Buangam'
+                WHEN m.pgr = 'T09' THEN 'Thitiluk Apichaiwo'
+                WHEN m.pgr = 'T10' THEN 'Monchaya Somsuk'
+                WHEN m.pgr = 'T11' THEN 'Vipavin Nisayun'
+                WHEN m.pgr = 'T12' THEN 'Rapeepan Soongrang'
+                WHEN m.pgr = 'T13' THEN 'Pornpimol K.'
+                WHEN m.pgr = 'T14' THEN 'Wannisa Kongin'
+                WHEN m.pgr = 'T15' THEN 'Siriporn Pinkaew'
+                WHEN m.pgr = 'T16' THEN 'Wanthana S.'
+                WHEN m.pgr = 'T17' THEN 'Chaninat Kongkarun'
+                WHEN m.pgr = 'T18' THEN 'Kanokon Pakaedam'
+                WHEN m.pgr = 'T19' THEN 'Chanikarn Yati'
+                WHEN m.pgr = 'T20' THEN 'Vacant 3'
+                WHEN m.pgr = 'T21' THEN 'Vacant 4'
+                WHEN m.pgr = 'T22' THEN 'Vacant 5'
+                WHEN m.pgr = 'T23' THEN 'Vacant 6'
+                WHEN m.pgr = 'T24' THEN 'Kotchaporn S.'
+                WHEN m.pgr = 'T25' THEN 'Thanat A.'
+                WHEN m.pgr = 'T31' THEN 'HTH EHK PurGrp 1'
+                WHEN m.pgr = 'T32' THEN 'HTH EHK PurGrp 2'
+                WHEN m.pgr = 'T33' THEN 'HTH EHK PurGrp 3'
+                WHEN m.pgr = 'T99' THEN 'Relocation'
+                WHEN m.pgr = 'TH1' THEN 'SCM (Non-trade)'
+                WHEN m.pgr = 'TH2' THEN 'IT (Non-trade)'
+                WHEN m.pgr = 'TH3' THEN 'Fin.&Adm. (NT)'
+                WHEN m.pgr = 'TH4' THEN 'Retail Sales (NT)'
+                WHEN m.pgr = 'TH5' THEN 'Project Sales (NT)'
+                WHEN m.pgr = 'TH6' THEN 'PCM (NT)'
+                WHEN m.pgr = 'TH7' THEN 'CS (Non-trade)'
+                WHEN m.pgr = 'TH8' THEN 'Logistics (NT)'
+                WHEN m.pgr = 'TH9' THEN 'HR-POA (NT)'
+                WHEN m.pgr = 'THA' THEN 'HR-POD (NT)'
+                WHEN m.pgr = 'THB' THEN 'HR-TA&HRBP (NT)'
+                WHEN m.pgr = 'THC' THEN 'Marketing (NT)'
+                ELSE 'Unknown'
+            END AS NSU_PURCHASER
+        "),
         DB::raw("CASE WHEN m.product_group_manager IS NULL OR m.product_group_manager = '' THEN 'N/A' ELSE m.product_group_manager END AS NSU_PROD_MGR"),
         DB::raw("CASE WHEN m.su IS NULL OR m.su = '' THEN 'N/A' ELSE m.su END AS NSU_PACK_UOM_CODE"),
         DB::raw("CASE WHEN m.numer IS NULL OR m.numer = '' THEN 'N/A' ELSE m.numer END AS NSU_CONV_BASE_UOM"),
