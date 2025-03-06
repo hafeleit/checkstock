@@ -70,8 +70,8 @@ class SalesUSIController extends Controller
     ")
     ->selectRaw("
         CASE
-            WHEN ZPLV.amount IS NULL OR ZPLV.Pricing_unit IS NULL OR ZPLV.Pricing_unit = 0 THEN '0'
-            ELSE FORMAT(ZPLV.amount / ZPLV.Pricing_unit, 2)
+            WHEN zplv.amount IS NULL OR zplv.Pricing_unit IS NULL OR ZPLV.Pricing_unit = 0 THEN '0'
+            ELSE FORMAT(zplv.amount / zplv.Pricing_unit, 2)
         END AS NSU_BASE_PRICE_ZPLV
     ")
         ->distinct()
@@ -86,7 +86,7 @@ class SalesUSIController extends Controller
         ->leftJoin('ZMM_MATZERT as pm', 'pm.material', '=', 'm.material')
         ->leftJoin('ZHAASD_ORD as od', 'od.material', '=', 'm.material')
         ->leftJoin('ZORDPOSKONV_ZPL as zpl', 'zpl.material', '=', 'm.material')
-        ->leftJoin('ZPLV', 'ZPLV.material', '=', 'm.material')
+        ->leftJoin('zplv', 'zplv.material', '=', 'm.material')
         ->where('m.material', '=', $item_code);
         $usis = $query->first();
         $count = $query->count();
@@ -218,7 +218,7 @@ class SalesUSIController extends Controller
       ])
       ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
       ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
-      ->leftJoin('ZPLV as d', 'a.material', '=', 'd.Material')
+      ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
       ->where('a.material', '=', $item_code)
       ->groupBy('c.material', 'c.uom')
       ->get();
