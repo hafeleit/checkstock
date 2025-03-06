@@ -61,7 +61,7 @@
                             <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Base Price RSP Incl. VAT : <label class="bash_price_incl text-sm">0</label></span>
+                            <span>Base Price RSP Incl. VAT : <label class="zplv text-sm"></label></span>
                           </div>
                         </div>
 
@@ -151,6 +151,7 @@
                               <tr>
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder "> UOM</th>
                                   <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder"> Price</th>
+                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder"> ZPLV COST</th>
                                   <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder"> ZPE COST</th>
                                   <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder"> MAP COST</th>
                               </tr>
@@ -360,6 +361,7 @@
       $('.item_status').html(res['data']['NSU_ITEM_STATUS']);
       $('.repl_time').html(res['data']['NSU_SUPP_REPL_TIME']);
       $('.bash_price').html(res['data']['NSU_BASE_PRICE'] + ' THB');
+      $('.zplv').html(res['data']['NSU_BASE_PRICE_ZPLV'] + ' THB');
       $('.purchase_moq').html(addCommas(res['data']['NSU_PURC_MOQ']));
       $('.inventory_code').html(res['data']['NSU_ITEM_INV_CODE']);
       $('.supplier_item_code').html(res['data']['NSU_SUPP_ITEM_CODE']);
@@ -443,7 +445,11 @@
       });
 
       $.each(res['uom'], function(key, val) {
-        let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE"]+' THB</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_ZPE_COST"]+' THB</p></td><td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_MAP_COST"]+' THB</p></td></tr>';
+        let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td>\
+                      <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE"]+' THB</p></td>\
+                      <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_ZPLV_COST"]+' THB</p></td>\
+                      <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_ZPE_COST"]+' THB</p></td>\
+                      <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_MAP_COST"]+' THB</p></td></tr>';
         $('#uom_table').append(tbody);
       });
 

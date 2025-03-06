@@ -68,6 +68,12 @@ class SalesUSIController extends Controller
             ELSE FORMAT(zpl.amount / zpl.per, 2)
         END AS NSU_BASE_PRICE
     ")
+    ->selectRaw("
+        CASE
+            WHEN ZPLV.amount IS NULL OR ZPLV.Pricing_unit IS NULL OR ZPLV.Pricing_unit = 0 THEN '0'
+            ELSE FORMAT(ZPLV.amount / ZPLV.Pricing_unit, 2)
+        END AS NSU_BASE_PRICE_ZPLV
+    ")
         ->distinct()
         ->leftJoin('ZHAAMM_IFVMG as p', 'p.material', '=', 'm.material')
         //->leftJoin('MB52 as i', 'i.material', '=', 'm.material')
@@ -80,6 +86,7 @@ class SalesUSIController extends Controller
         ->leftJoin('ZMM_MATZERT as pm', 'pm.material', '=', 'm.material')
         ->leftJoin('ZHAASD_ORD as od', 'od.material', '=', 'm.material')
         ->leftJoin('ZORDPOSKONV_ZPL as zpl', 'zpl.material', '=', 'm.material')
+        ->leftJoin('ZPLV', 'ZPLV.material', '=', 'm.material')
         ->where('m.material', '=', $item_code);
         $usis = $query->first();
         $count = $query->count();
@@ -205,11 +212,13 @@ class SalesUSIController extends Controller
           DB::raw('CASE WHEN a.material IS NOT NULL THEN a.material ELSE "N/A" END as IUW_ITEM_CODE'),
           DB::raw('CASE WHEN c.UoM IS NOT NULL THEN c.UoM ELSE "N/A" END as IUW_UOM_CODE'),
           DB::raw('CASE WHEN b.Amount IS NOT NULL THEN FORMAT(b.Amount / b.per, 2) ELSE "0" END as IUW_PRICE'),
+          DB::raw('CASE WHEN d.Amount IS NOT NULL THEN FORMAT(d.Amount / d.Pricing_unit, 2) ELSE "0" END as NEW_ZPLV_COST'),
           DB::raw('CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount / c.per, 2) ELSE "0" END as NEW_ZPE_COST'),
           DB::raw('CASE WHEN a.mov_avg_price IS NOT NULL THEN FORMAT(a.mov_avg_price / a.per, 2) ELSE "0" END as NEW_MAP_COST')
       ])
       ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
       ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
+      ->leftJoin('ZPLV as d', 'a.material', '=', 'd.Material')
       ->where('a.material', '=', $item_code)
       ->groupBy('c.material', 'c.uom')
       ->get();
