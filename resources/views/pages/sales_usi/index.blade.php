@@ -124,7 +124,7 @@
                           <div class="col-12 col-sm-3">
                             <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-3">
+                          <div class="col-12 col-sm-6">
                             <span>Excl Remark : <label class="exclusivity_remark text-sm"></label></span>
                           </div>
 
