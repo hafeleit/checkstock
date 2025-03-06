@@ -70,7 +70,7 @@ class SalesUSIController extends Controller
     ")
     ->selectRaw("
         CASE
-            WHEN zplv.amount IS NULL OR zplv.Pricing_unit IS NULL OR ZPLV.Pricing_unit = 0 THEN '0'
+            WHEN zplv.amount IS NULL OR zplv.Pricing_unit IS NULL OR zplv.Pricing_unit = 0 THEN '0'
             ELSE FORMAT(zplv.amount / zplv.Pricing_unit, 2)
         END AS NSU_BASE_PRICE_ZPLV
     ")
