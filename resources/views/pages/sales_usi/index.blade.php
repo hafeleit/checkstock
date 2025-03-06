@@ -44,9 +44,9 @@
                             <span>Item Code : <label class="item_code text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Purc Moq : <label class="purchase_moq text-sm"></label></span>
+                            <span>MOQ : <label class="purchase_moq text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-3">
+                          <div class="col-12 col-sm-6">
                             <span>Base Price : <label class="bash_price text-sm"></label></span>
                           </div>
                         </div>
@@ -60,7 +60,7 @@
                           <div class="col-12 col-sm-3">
                             <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-3">
+                          <div class="col-12 col-sm-6">
                             <span>Base Price RSP Incl. VAT : <label class="zplv text-sm"></label></span>
                           </div>
                         </div>
@@ -74,7 +74,7 @@
                           <div class="col-12 col-sm-3">
                             <span>Pack Uom Code : <label class="pack_code1 text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-3">
+                          <div class="col-12 col-sm-6">
                             <span>Free Stk Qty : <label class="free_stk_qty text-sm"></label></span>
                           </div>
 
@@ -90,7 +90,7 @@
                           <div class="col-12 col-sm-3">
                             <span>Conv Base UOM : <label class="pack_code2 text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-3">
+                          <div class="col-12 col-sm-6">
                             <span>Purchasing Group : <label class="purchaser text-sm"></label></span>
                           </div>
 
@@ -105,8 +105,8 @@
                           <div class="col-12 col-sm-3">
                             <span>Pack Volume : <label class="weight_volume2 text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-3">
-                            <span>Product group manag : <label class="pm_contact text-sm"></label></span>
+                          <div class="col-12 col-sm-6">
+                            <span>Product manager : <label class="pm_contact text-sm"></label></span>
                           </div>
 
                           <!--<div class="col-12 col-sm-4">
@@ -149,11 +149,11 @@
                       <table id="uom_table" class="table align-items-center ">
                           <thead>
                               <tr>
-                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder "> UOM</th>
-                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder"> Price</th>
-                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder"> ZPLV COST</th>
-                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder"> ZPE COST</th>
-                                  <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder"> MAP COST</th>
+                                  <th class="text-uppercase text-xxs font-weight-bolder "> UOM</th>
+                                  <th class="text-end text-uppercase text-xxs font-weight-bolder"> Price</th>
+                                  <th class="text-end text-uppercase text-xxs font-weight-bolder"> ZPLV</th>
+                                  <th class="text-end text-uppercase text-xxs font-weight-bolder"> ZPE</th>
+                                  <th class="text-end text-uppercase text-xxs font-weight-bolder"> MAP</th>
                               </tr>
                           </thead>
                           <tbody>
