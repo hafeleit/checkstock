@@ -30,7 +30,7 @@
                             </div> -->
                             <div class="col-md-4">
                                 <div class="form-group" style="position: relative;">
-                                    <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Search..." value="311.03.101">
+                                    <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Item Code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
                                     <a href="javascript:;" onclick="search_usi()">
                                       <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 2%;">
                                     </a>
@@ -189,12 +189,12 @@
                       <table id="wss_table" class="table align-items-center ">
                           <thead>
                               <tr>
-                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder"> Week</th>
-                                  <th class="text-center border-usi text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> Inbound</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Outbound</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Avaliable</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Received</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Forecast</th>
+                                  <th class="text-uppercase text-sm font-weight-bolder"> Week</th>
+                                  <th class="text-center border-usi text-uppercase text-sm font-weight-bolder ps-2"> Inbound</th>
+                                  <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Outbound</th>
+                                  <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Avaliable</th>
+                                  <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Received</th>
+                                  <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Forecast</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -291,6 +291,7 @@
             search_usi();
         }
     });
+    $('#item_code').focus();
   });
 
   $('#item_code').mask('000.00.000');

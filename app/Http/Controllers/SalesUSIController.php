@@ -12,7 +12,7 @@ class SalesUSIController extends Controller
      */
     public function index()
     {
-        $q = DB::table('OW_NEW_SALES_USI_WEB_HAFL')->select('created_at')->first();
+        $q = DB::table('ZHWWBCQUERYDIR')->select('created_at')->first();
         $created_at = $q->created_at;
         return view('pages.sales_usi.index',['created_at' => $created_at]);
     }
@@ -104,7 +104,7 @@ class SalesUSIController extends Controller
         DB::raw("CASE WHEN p.planned_deliv_time IS NULL OR p.planned_deliv_time = '' THEN 'N/A' ELSE p.planned_deliv_time END AS NSU_SUPP_REPL_TIME"),
         DB::raw("CASE WHEN p.minimum_order_qty IS NULL OR p.minimum_order_qty = '' THEN 'N/A' ELSE p.minimum_order_qty END AS NSU_PURC_MOQ"),
         DB::raw("CASE WHEN p.vendor_material_number IS NULL OR p.vendor_material_number = '' THEN 'N/A' ELSE p.vendor_material_number END AS NSU_SUPP_ITEM_CODE"),
-        DB::raw("CASE WHEN i.unrestricted IS NULL OR i.unrestricted = '' THEN '0' ELSE i.unrestricted END AS NSU_FREE_STK_QTY"),
+        DB::raw("CASE WHEN i.unrestricted IS NULL OR i.unrestricted = '' THEN '0' ELSE FORMAT(i.unrestricted,0) END AS NSU_FREE_STK_QTY"),
         DB::raw("CASE WHEN mf.TDLINE IS NULL OR mf.TDLINE = '' THEN 'N/A' ELSE mf.TDLINE END AS NSU_EXCL_REMARK"),
         DB::raw("CASE WHEN pm.certificate IS NULL OR pm.certificate = '' THEN 'N/A' ELSE pm.certificate END AS NSU_ITEM_BRAND"),
         DB::raw("CASE WHEN od.customer_material IS NULL OR od.customer_material = '' THEN 'N/A' ELSE od.customer_material END AS NSU_NEW_ITEM_CODE")
