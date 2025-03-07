@@ -38,12 +38,12 @@
   <!--<div class="" style="position:absolute;right:-30px; z-index: -1">
     <img src="img/logos/Logo-HAFELE-02.jpg" width="120" style="margin-top:2px">
   </div>-->
-  <div class="" style="position:absolute; right:30px;top:55px; text-align:center">
+  <div class="" style="position:absolute; right:30px;top:45px; text-align:center">
     <img src="img/logos/LEAD.png" width="60" style="margin-bottom: -20px;"></br>
     <span style="text-align:center;font-weight:Bold">{{ $productItems["tis_1"] }}</span>
   </div>
   @if($productItems["qr_code"] != '')
-  <div class="" style="position:absolute; right:-30px;top:65px">
+  <div class="" style="position:absolute; right:-30px;top:55px">
     <?php echo '<img src="data:image/png;base64,' . DNS2D::getBarcodePNG($productItems["qr_code"], "QRCODE") . '" width="50" height="50"/>'; ?>
   </div>
   @endif
