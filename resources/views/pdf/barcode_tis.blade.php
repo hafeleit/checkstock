@@ -40,7 +40,15 @@
   </div>-->
   <div class="" style="position:absolute; right:30px;top:45px; text-align:center">
     <img src="img/logos/LEAD.png" width="60" style="margin-bottom: -20px;"></br>
-    <span style="text-align:center;font-weight:Bold">{{ $productItems["tis_1"] }}</span>
+    <?php
+      $tis_1 = '';
+      if (strpos($productItems["tis_1"], 'มอก.') === false){
+        $tis_1 = 'มอก.'.$productItems["tis_1"];
+      }else{
+        $tis_1 = $productItems["tis_1"];
+      }
+     ?>
+    <span style="text-align:center;font-weight:Bold">{{ $tis_1 }}</span>
   </div>
   @if($productItems["qr_code"] != '')
   <div class="" style="position:absolute; right:-30px;top:55px">
