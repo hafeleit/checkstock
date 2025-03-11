@@ -75,7 +75,7 @@ class SalesUSIController extends Controller
             END AS NSU_PURCHASER
         "),
         DB::raw("CASE WHEN m.product_group_manager IS NULL OR m.product_group_manager = '' THEN 'N/A' ELSE m.product_group_manager END AS NSU_PROD_MGR"),
-        DB::raw("CASE WHEN m.aun IS NULL OR m.aun = '' THEN 'N/A' ELSE m.aun END AS NSU_PACK_UOM_CODE"),
+        DB::raw("CASE WHEN u.uom_text IS NULL OR u.uom_text = '' THEN 'N/A' ELSE u.uom_text END AS NSU_PACK_UOM_CODE"),
         DB::raw("CASE WHEN m.numer IS NULL OR m.numer = '' THEN 'N/A' ELSE m.numer END AS NSU_CONV_BASE_UOM"),
         DB::raw("CASE WHEN m.gross_weight IS NULL OR m.gross_weight = '' THEN 'N/A' ELSE CONCAT(m.gross_weight, ' ', m.wun) END AS NSU_PACK_WEIGHT"),
         DB::raw("CASE WHEN m.volume IS NULL OR m.volume = '' THEN 'N/A' ELSE CONCAT(m.volume, ' ', m.vun) END AS NSU_PACK_VOLUME"),
@@ -133,6 +133,7 @@ class SalesUSIController extends Controller
         ->leftJoin('ZHAASD_ORD as od', 'od.material', '=', 'm.material')
         ->leftJoin('ZORDPOSKONV_ZPL as zpl', 'zpl.material', '=', 'm.material')
         ->leftJoin('zplv', 'zplv.material', '=', 'm.material')
+        ->leftJoin('UOM_Mapping as u', 'u.uom', '=', 'm.aun')
         ->where('m.material', '=', $item_code)
         ->whereColumn('m.bun', '!=', 'm.aun')
         ->where('m.aun', '!=', 'ZPU')
