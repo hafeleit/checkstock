@@ -30,7 +30,7 @@
                             </div> -->
                             <div class="col-md-4">
                                 <div class="form-group" style="position: relative;">
-                                    <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Item Code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
+                                    <input class="form-control" value="101.69.002" id="item_code" name="item_code" type="text" placeholder="Item Code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
                                     <a href="javascript:;" onclick="search_usi()">
                                       <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 2%;">
                                     </a>

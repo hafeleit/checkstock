@@ -30,66 +30,66 @@ class SalesUSIController extends Controller
         DB::raw("
             CASE
                 WHEN m.pgr IS NULL OR m.pgr = '' THEN 'N/A'
-                WHEN m.pgr = 'T01' THEN 'Unchalee Yensawad'
-                WHEN m.pgr = 'T02' THEN 'Ruthairat K.'
-                WHEN m.pgr = 'T03' THEN 'Vacant 1'
-                WHEN m.pgr = 'T04' THEN 'Supasinee Kanyamee'
-                WHEN m.pgr = 'T05' THEN 'Sucharee Sripa'
-                WHEN m.pgr = 'T06' THEN 'Benjamas Boonfak'
-                WHEN m.pgr = 'T07' THEN 'Vacant 2'
-                WHEN m.pgr = 'T08' THEN 'Hathaipat Buangam'
-                WHEN m.pgr = 'T09' THEN 'Thitiluk Apichaiwo'
-                WHEN m.pgr = 'T10' THEN 'Monchaya Somsuk'
-                WHEN m.pgr = 'T11' THEN 'Vipavin Nisayun'
-                WHEN m.pgr = 'T12' THEN 'Rapeepan Soongrang'
-                WHEN m.pgr = 'T13' THEN 'Pornpimol K.'
-                WHEN m.pgr = 'T14' THEN 'Wannisa Kongin'
-                WHEN m.pgr = 'T15' THEN 'Siriporn Pinkaew'
-                WHEN m.pgr = 'T16' THEN 'Wanthana S.'
-                WHEN m.pgr = 'T17' THEN 'Chaninat Kongkarun'
-                WHEN m.pgr = 'T18' THEN 'Kanokon Pakaedam'
-                WHEN m.pgr = 'T19' THEN 'Chanikarn Yati'
-                WHEN m.pgr = 'T20' THEN 'Vacant 3'
-                WHEN m.pgr = 'T21' THEN 'Vacant 4'
-                WHEN m.pgr = 'T22' THEN 'Vacant 5'
-                WHEN m.pgr = 'T23' THEN 'Vacant 6'
-                WHEN m.pgr = 'T24' THEN 'Kotchaporn S.'
-                WHEN m.pgr = 'T25' THEN 'Thanat A.'
-                WHEN m.pgr = 'T31' THEN 'HTH EHK PurGrp 1'
-                WHEN m.pgr = 'T32' THEN 'HTH EHK PurGrp 2'
-                WHEN m.pgr = 'T33' THEN 'HTH EHK PurGrp 3'
-                WHEN m.pgr = 'T99' THEN 'Relocation'
-                WHEN m.pgr = 'TH1' THEN 'SCM (Non-trade)'
-                WHEN m.pgr = 'TH2' THEN 'IT (Non-trade)'
-                WHEN m.pgr = 'TH3' THEN 'Fin.&Adm. (NT)'
-                WHEN m.pgr = 'TH4' THEN 'Retail Sales (NT)'
-                WHEN m.pgr = 'TH5' THEN 'Project Sales (NT)'
-                WHEN m.pgr = 'TH6' THEN 'PCM (NT)'
-                WHEN m.pgr = 'TH7' THEN 'CS (Non-trade)'
-                WHEN m.pgr = 'TH8' THEN 'Logistics (NT)'
-                WHEN m.pgr = 'TH9' THEN 'HR-POA (NT)'
-                WHEN m.pgr = 'THA' THEN 'HR-POD (NT)'
-                WHEN m.pgr = 'THB' THEN 'HR-TA&HRBP (NT)'
-                WHEN m.pgr = 'THC' THEN 'Marketing (NT)'
+                WHEN m.pgr = 'T01' THEN 'T01 Unchalee Yensawad'
+                WHEN m.pgr = 'T02' THEN 'T02 Ruthairat K.'
+                WHEN m.pgr = 'T03' THEN 'T03 Vacant 1'
+                WHEN m.pgr = 'T04' THEN 'T04 Supasinee Kanyamee'
+                WHEN m.pgr = 'T05' THEN 'T05 Sucharee Sripa'
+                WHEN m.pgr = 'T06' THEN 'T06 Benjamas Boonfak'
+                WHEN m.pgr = 'T07' THEN 'T07 Vacant 2'
+                WHEN m.pgr = 'T08' THEN 'T08 Hathaipat Buangam'
+                WHEN m.pgr = 'T09' THEN 'T09 Thitiluk Apichaiwo'
+                WHEN m.pgr = 'T10' THEN 'T10 Monchaya Somsuk'
+                WHEN m.pgr = 'T11' THEN 'T11 Vipavin Nisayun'
+                WHEN m.pgr = 'T12' THEN 'T12 Rapeepan Soongrang'
+                WHEN m.pgr = 'T13' THEN 'T13 Pornpimol K.'
+                WHEN m.pgr = 'T14' THEN 'T14 Wannisa Kongin'
+                WHEN m.pgr = 'T15' THEN 'T15 Siriporn Pinkaew'
+                WHEN m.pgr = 'T16' THEN 'T16 Wanthana S.'
+                WHEN m.pgr = 'T17' THEN 'T17 Chaninat Kongkarun'
+                WHEN m.pgr = 'T18' THEN 'T18 Kanokon Pakaedam'
+                WHEN m.pgr = 'T19' THEN 'T19 Chanikarn Yati'
+                WHEN m.pgr = 'T20' THEN 'T20 Vacant 3'
+                WHEN m.pgr = 'T21' THEN 'T21 Vacant 4'
+                WHEN m.pgr = 'T22' THEN 'T22 Vacant 5'
+                WHEN m.pgr = 'T23' THEN 'T23 Vacant 6'
+                WHEN m.pgr = 'T24' THEN 'T24 Kotchaporn S.'
+                WHEN m.pgr = 'T25' THEN 'T25 Thanat A.'
+                WHEN m.pgr = 'T31' THEN 'T31 HTH EHK PurGrp 1'
+                WHEN m.pgr = 'T32' THEN 'T32 HTH EHK PurGrp 2'
+                WHEN m.pgr = 'T33' THEN 'T33 HTH EHK PurGrp 3'
+                WHEN m.pgr = 'T99' THEN 'T99 Relocation'
+                WHEN m.pgr = 'TH1' THEN 'TH1 SCM (Non-trade)'
+                WHEN m.pgr = 'TH2' THEN 'TH2 IT (Non-trade)'
+                WHEN m.pgr = 'TH3' THEN 'TH3 Fin.&Adm. (NT)'
+                WHEN m.pgr = 'TH4' THEN 'TH4 Retail Sales (NT)'
+                WHEN m.pgr = 'TH5' THEN 'TH5 Project Sales (NT)'
+                WHEN m.pgr = 'TH6' THEN 'TH6 PCM (NT)'
+                WHEN m.pgr = 'TH7' THEN 'TH7 CS (Non-trade)'
+                WHEN m.pgr = 'TH8' THEN 'TH8 Logistics (NT)'
+                WHEN m.pgr = 'TH9' THEN 'TH9 HR-POA (NT)'
+                WHEN m.pgr = 'THA' THEN 'THA HR-POD (NT)'
+                WHEN m.pgr = 'THB' THEN 'THB HR-TA&HRBP (NT)'
+                WHEN m.pgr = 'THC' THEN 'THC Marketing (NT)'
                 ELSE 'Unknown'
             END AS NSU_PURCHASER
         "),
         DB::raw("CASE WHEN m.product_group_manager IS NULL OR m.product_group_manager = '' THEN 'N/A' ELSE m.product_group_manager END AS NSU_PROD_MGR"),
-        DB::raw("CASE WHEN m.su IS NULL OR m.su = '' THEN 'N/A' ELSE m.su END AS NSU_PACK_UOM_CODE"),
+        DB::raw("CASE WHEN m.aun IS NULL OR m.aun = '' THEN 'N/A' ELSE m.aun END AS NSU_PACK_UOM_CODE"),
         DB::raw("CASE WHEN m.numer IS NULL OR m.numer = '' THEN 'N/A' ELSE m.numer END AS NSU_CONV_BASE_UOM"),
         DB::raw("CASE WHEN m.gross_weight IS NULL OR m.gross_weight = '' THEN 'N/A' ELSE CONCAT(m.gross_weight, ' ', m.wun) END AS NSU_PACK_WEIGHT"),
         DB::raw("CASE WHEN m.volume IS NULL OR m.volume = '' THEN 'N/A' ELSE CONCAT(m.volume, ' ', m.vun) END AS NSU_PACK_VOLUME"),
         DB::raw("CASE
                   WHEN m.st IS NULL OR m.st = '' THEN 'Active'
-                  WHEN m.st = 'Z1' THEN 'Basic data not compl'
-                  WHEN m.st = 'Z2' THEN 'Article not distrib.'
-                  WHEN m.st = 'ZB' THEN 'Sales Blocked'
-                  WHEN m.st = 'ZC' THEN 'Sales Blocked for QC'
-                  WHEN m.st = 'ZD' THEN 'Arranged for Delet.'
-                  WHEN m.st = 'ZL' THEN 'Unpacked'
-                  WHEN m.st = 'ZM' THEN 'Sell no minim.quant.'
-                  WHEN m.st = 'ZR' THEN 'Sell out & delete'
-                  WHEN m.st = 'ZS' THEN 'Sales Stopped'
+                  WHEN m.st = 'Z1' THEN 'Z1 Basic data not compl'
+                  WHEN m.st = 'Z2' THEN 'Z2 Article not distrib.'
+                  WHEN m.st = 'ZB' THEN 'ZB Sales Blocked'
+                  WHEN m.st = 'ZC' THEN 'ZC Sales Blocked for QC'
+                  WHEN m.st = 'ZD' THEN 'ZD Arranged for Delet.'
+                  WHEN m.st = 'ZL' THEN 'ZL Unpacked'
+                  WHEN m.st = 'ZM' THEN 'ZM Sell no minim.quant.'
+                  WHEN m.st = 'ZR' THEN 'ZR Sell out & delete'
+                  WHEN m.st = 'ZS' THEN 'ZS Sales Stopped'
                   ELSE m.st
               END AS NSU_ITEM_STATUS"),
         //DB::raw("CASE WHEN m.lage IS NULL OR m.lage = '' THEN 'N/A' ELSE m.lage END AS NSU_ITEM_INV_CODE"),
@@ -121,7 +121,6 @@ class SalesUSIController extends Controller
             ELSE FORMAT(zplv.amount / zplv.Pricing_unit, 2)
         END AS NSU_BASE_PRICE_ZPLV
     ")
-        ->distinct()
         ->leftJoin('ZHAAMM_IFVMG as p', 'p.material', '=', 'm.material')
         //->leftJoin('MB52 as i', 'i.material', '=', 'm.material')
         ->leftJoin('MB52 as i', function ($join) {
@@ -134,7 +133,13 @@ class SalesUSIController extends Controller
         ->leftJoin('ZHAASD_ORD as od', 'od.material', '=', 'm.material')
         ->leftJoin('ZORDPOSKONV_ZPL as zpl', 'zpl.material', '=', 'm.material')
         ->leftJoin('zplv', 'zplv.material', '=', 'm.material')
-        ->where('m.material', '=', $item_code);
+        ->where('m.material', '=', $item_code)
+        ->whereColumn('m.bun', '!=', 'm.aun')
+        ->where('m.aun', '!=', 'ZPU')
+        ->orderBy('m.numer','asc')
+        ->limit(1)
+        ;
+
         $usis = $query->first();
         $count = $query->count();
 
