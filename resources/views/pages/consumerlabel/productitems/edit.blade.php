@@ -286,10 +286,11 @@
                   <label class="mt-4 text-sm">TIS 1</label>
                   <input class="form-control" type="text" name="tis_1" value="{{$productitem->tis_1 ?? ''}}">
                 </div>
+                <!--
                 <div class="col-12 col-sm-6">
                   <label class="mt-4 text-sm">TIS 2</label>
                   <input class="form-control" type="text" name="tis_2" value="{{$productitem->tis_2 ?? ''}}">
-                </div>
+                </div>-->
               </div>
               <div class="row">
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
