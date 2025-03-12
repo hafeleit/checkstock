@@ -136,6 +136,9 @@
                           <div class="col-12 col-sm-3">
                             <span>Storage indicator : <label class="inventory_code text-sm"></label></span>
                           </div>
+                          <div class="col-12 col-sm-3">
+                            <span>Barcode : <label class="barcode text-sm"></label></span>
+                          </div>
                         </div>
 
                     </div>
@@ -150,10 +153,12 @@
                           <thead>
                               <tr>
                                   <th class="text-uppercase text-sm font-weight-bolder "> UOM</th>
-                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> Price</th>
-                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> ZPLV</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> Base Price</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> Base Price RSP Incl. VAT</th>
+                                  @can('salesusi manager')
                                   <th class="text-end text-uppercase text-sm font-weight-bolder"> ZPE</th>
                                   <th class="text-end text-uppercase text-sm font-weight-bolder"> MAP</th>
+                                  @endcan
                               </tr>
                           </thead>
                           <tbody>
@@ -365,6 +370,7 @@
       $('.zplv').html(res['data']['NSU_BASE_PRICE_ZPLV'] + ' THB');
       $('.purchase_moq').html(addCommas(res['data']['NSU_PURC_MOQ']));
       $('.inventory_code').html(res['data']['NSU_ITEM_INV_CODE']);
+      $('.barcode').html(res['data']['ean_upc']);
       $('.supplier_item_code').html(res['data']['NSU_SUPP_ITEM_CODE']);
       $('.item_brand').html(res['data']['NSU_ITEM_BRAND']);
       $('.exclusivity_remark').html(res['data']['NSU_EXCL_REMARK']);
@@ -449,8 +455,8 @@
         let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td>\
                       <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE"]+' THB</p></td>\
                       <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_ZPLV_COST"]+' THB</p></td>\
-                      <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_ZPE_COST"]+' THB</p></td>\
-                      <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_MAP_COST"]+' THB</p></td></tr>';
+                      @can('salesusi manager')<td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_ZPE_COST"]+' THB</p></td>\
+                      <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_MAP_COST"]+' THB</p></td>@endcan</tr>';
         $('#uom_table').append(tbody);
       });
 
