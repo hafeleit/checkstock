@@ -35,11 +35,11 @@
     }
   </style>
   <!DOCTYPE html>
-
+  <!--
   <div class="" style="position:absolute;top:-26px;right:0px; z-index: -1">
     <img src="img/logos/Logo-HAFELE-02.jpg" width="110" style="margin-top:2px">
-  </div>
-  <div class="" style="position:absolute; right:60px;top:350px; text-align:center">
+  </div>-->
+  <div class="" style="position:absolute; right:60px;top:390px; text-align:center">
     <img src="img/logos/LEAD.png" width="60" style="margin-bottom: -20px;"></br>
     <?php
       $tis_1 = '';
@@ -52,13 +52,13 @@
     <span style="text-align:center;font-weight:Bold">{{ $tis_1 }}</span>
   </div>
   @if($productItems["qr_code"] != '')
-  <div class="" style="position:absolute; right:-10px;top:350px">
+  <div class="" style="position:absolute; right:-10px;top:390px">
     <?php echo '<img src="data:image/png;base64,' . DNS2D::getBarcodePNG($productItems["qr_code"], "QRCODE") . '" width="60" height="60"/>'; ?>
   </div>
   @endif
 
   @if($productItems["bar_code"] != '')
-  <div class="" style="position:absolute; left:170px; top:460px; line-height: 0px;">
+  <div class="" style="position:absolute; left:170px; top:470px; line-height: 0px;">
     @if(strlen($productItems->bar_code) == 13)
     <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="150" />'; ?>
       <p style="font-size:15px; margin:20px 0px 0px 17px">
