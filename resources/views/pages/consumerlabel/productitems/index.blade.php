@@ -247,6 +247,7 @@
             </div>
             <div class="modal-footer">
               <div class="" style="width: 100%; text-align: left;">
+                <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='1pc';"><i class="fa fa-upload"></i> Consumer Label for HTH</button>
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='1pc';"><i class="fa fa-upload"></i> Consumer Label 1 Pc</button>
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='a4';"><i class="fa fa-upload"></i> Consumer Label A4</button>
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='a4_nob';"><i class="fa fa-upload"></i> Consumer Label A4 No border</button>
