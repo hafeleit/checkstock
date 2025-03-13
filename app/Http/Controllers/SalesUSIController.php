@@ -366,7 +366,7 @@ class SalesUSIController extends Controller
           ->where('a.material', '=', $item_code)
           ->whereRaw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) = $year_no")
           ->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) = $week_no")
-          ->groupBy('e.IDMA_ZI')
+          
           ;
 
 
