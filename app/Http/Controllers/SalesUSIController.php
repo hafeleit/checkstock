@@ -338,7 +338,7 @@ class SalesUSIController extends Controller
             COALESCE(a.order_quantity, 0) AS ISD_ORD_QTY,
             COALESCE(a.confirmed_quantity, 0) AS ISD_RESV_QTY,
             COALESCE(b.delivered_qty, 0) AS ISD_DEL_QTY,
-            COALESCE(SUM(c.invoiced_quantity), 0) AS ISD_INV_QTY,
+            COALESCE(c.invoiced_quantity, 0) AS ISD_INV_QTY,
             COALESCE(a.goods_issue_date, '') AS ISD_DEL_DT,
             COALESCE(a.net_price, 0) AS ISD_RATE,
             COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE,
@@ -355,12 +355,16 @@ class SalesUSIController extends Controller
               $join->on('c.material', '=', 'a.material')
                    ->on('c.sales_document', '=', 'a.sd_document');
           })
-          ->leftJoin('HWW_SD_06 as d', 'd.Material', '=', 'a.material')
+          ->leftJoin('HWW_SD_06 as d', function ($join) {
+              $join->on('d.Material', '=', 'a.material')
+                   ->on('d.SalesDoc', '=', 'a.sd_document');
+          })
           ->leftJoin('HWW_SD_CUSTLIS as e', 'd.ZI', '=', 'e.IDMA_ZI')
           ->leftJoin('HWW_SD_CUSTLIS as e2', 'd.ZE', '=', 'e2.IDMA_ZI')
           ->where('a.material', '=', $item_code)
           ->whereRaw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) = $year_no")
           ->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) = $week_no")
+          ->groupBy('e.IDMA_ZI')
           ;
 
 
