@@ -3,6 +3,7 @@
 @section('content')
 
 @include('layouts.navbars.auth.topnav', ['title' => 'SALES USI'])
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style media="screen">
   .border-usi{
     border-left: 1px solid #e9ecef !important;
@@ -30,7 +31,7 @@
                             </div> -->
                             <div class="col-md-4">
                                 <div class="form-group" style="position: relative;">
-                                    <input class="form-control" value="101.69.002" id="item_code" name="item_code" type="text" placeholder="Item Code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
+                                    <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Item Code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
                                     <a href="javascript:;" onclick="search_usi()">
                                       <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 2%;">
                                     </a>
@@ -332,6 +333,16 @@
 
   function search_usi(){
     let item_code = $('#item_code').val();
+
+    Swal.fire({
+        title: 'กำลังค้นหา...',
+        text: 'โปรดรอสักครู่',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
     $.ajax({
       method: 'GET',
       url: '{{ ROUTE('search_usi')}}',
@@ -339,6 +350,7 @@
         item_code: item_code
       }
     }).done(function(res){
+      Swal.close();
       console.log(res);
       if(res['count'] == 0){
         $('.text-input').html('');
@@ -460,10 +472,20 @@
         $('#uom_table').append(tbody);
       });
 
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดข้อมูลได้: ' + errorThrown, 'error');
     });
   }
 
   function search_usi_inbound(week_no){
+    Swal.fire({
+        title: 'กำลังค้นหา...',
+        text: 'โปรดรอสักครู่',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
     $("#po_table > tbody").html("");
     $.ajax({
       method: 'GET',
@@ -473,6 +495,7 @@
         ipd_week_no: week_no,
       }
     }).done(function(res){
+      Swal.close();
       console.log(res);
       if(res['count'] == 0){ return false; }
       $.each(res['data'], function(key, val) {
@@ -491,10 +514,20 @@
           scrollTop: $("#po_table").offset().top
       }, 500);
 
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดข้อมูลได้: ' + errorThrown, 'error');
     });
   }
 
   function search_usi_outbound(week_no, year_no){
+    Swal.fire({
+        title: 'กำลังค้นหา...',
+        text: 'โปรดรอสักครู่',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
     $("#so_table > tbody").html("");
     $.ajax({
       method: 'GET',
@@ -505,6 +538,7 @@
         year_no: year_no,
       }
     }).done(function(res){
+      Swal.close();
       console.log(res);
       if(res['count'] == 0){ return false; }
       $.each(res['data'], function(key, val) {
@@ -528,6 +562,8 @@
           scrollTop: $("#so_table").offset().top
       }, 500);
 
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดข้อมูลได้: ' + errorThrown, 'error');
     });
   }
 
