@@ -12,7 +12,7 @@ class SalesUSIController extends Controller
      */
     public function index()
     {
-        $q = DB::table('ZHWWBCQUERYDIR')->select('created_at')->first();
+        $q = DB::table('ZHWWMM_OPEN_ORDERS')->select('created_at')->first();
         $created_at = $q->created_at;
         return view('pages.sales_usi.index',['created_at' => $created_at]);
     }
@@ -366,7 +366,7 @@ class SalesUSIController extends Controller
           ->where('a.material', '=', $item_code)
           ->whereRaw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) = $year_no")
           ->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) = $week_no")
-          
+
           ;
 
 
