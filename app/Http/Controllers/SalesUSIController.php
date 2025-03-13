@@ -359,8 +359,10 @@ class SalesUSIController extends Controller
               $join->on('d.Material', '=', 'a.material')
                    ->on('d.SalesDoc', '=', 'a.sd_document');
           })
-          ->leftJoin('HWW_SD_CUSTLIS as e', 'd.ZI', '=', 'e.IDMA_ZI')
-          ->leftJoin('HWW_SD_CUSTLIS as e2', 'd.ZE', '=', 'e2.IDMA_ZI')
+          //->leftJoin('HWW_SD_CUSTLIS as e', 'd.ZI', '=', 'e.IDMA_ZI')
+          //->leftJoin('HWW_SD_CUSTLIS as e2', 'd.ZE', '=', 'e2.IDMA_ZI')
+          ->leftJoin(DB::raw('(SELECT IDMA_ZI, IDMA_ZI_NAME FROM HWW_SD_CUSTLIS GROUP BY IDMA_ZI) as e'), 'e.IDMA_ZI', '=', 'd.ZI')
+          ->leftJoin(DB::raw('(SELECT IDMA_ZI, IDMA_ZI_NAME FROM HWW_SD_CUSTLIS GROUP BY IDMA_ZI) as e2'), 'e2.IDMA_ZI', '=', 'd.ZE')
           ->where('a.material', '=', $item_code)
           ->whereRaw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) = $year_no")
           ->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) = $week_no")
