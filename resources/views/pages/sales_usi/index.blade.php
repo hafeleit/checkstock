@@ -33,7 +33,7 @@
                                 <div class="form-group" style="position: relative;">
                                     <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Item Code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
                                     <a href="javascript:;" onclick="search_usi()">
-                                      <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 2%;">
+                                      <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 3%;">
                                     </a>
                                 </div>
                             </div>
@@ -272,13 +272,13 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+            <h5 class="modal-title" id="exampleModalLabel">No Data Found</h5>
           </div>
           <div class="modal-body">
-            No item code information found.
+            Sorry, we couldn't find any results for your search. Please check your search term or try again later.
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger error-close" data-dismiss="modal">Close</button>
+            <button type="button" id="btnCloseModal" class="btn btn-danger error-close" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -363,6 +363,9 @@
         $("#t20_3_table > tbody").html("");
         $("#t20_12_table > tbody").html("");
         $('#errorModal').modal('show');
+        $('#errorModal').on('shown.bs.modal', function () {
+            $('#btnCloseModal').focus();
+        });
         $('#product_img').attr('src','/storage/img/products/coming_soon.jpg');
         $('.card-body div div span label').text('');
         return false;
@@ -570,6 +573,7 @@
   $(function(){
     $( ".error-close" ).on( "click", function() {
       $("#errorModal").modal('hide');
+      $('#item_code').focus();
     } );
     //$('#p').prop('checked', true);
     //var d = new Date();

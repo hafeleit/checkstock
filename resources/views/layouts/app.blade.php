@@ -36,11 +36,11 @@
         @else
             @if (!in_array(request()->route()->getName(), ['profile', 'profile-static']))
 <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('/img/bg-hafele.jpg'); background-position-y: 30%; background-position-x: 30%;">
-<span class="bg-primary opacity-3"></span>
+<span class="mask bg-gradient-faded-dark-vertical opacity-3"></span>
 </div>
             @elseif (in_array(request()->route()->getName(), ['profile-static', 'profile']))
 <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('/img/bg-hafele.jpg'); background-position-y: 32%; background-position-x: 30%;">
-<span class="bg-primary opacity-2"></span>
+<span class="mask bg-gradient-faded-dark-vertical opacity-3"></span>
 </div>
             @endif
             @include('layouts.navbars.auth.sidenav')
