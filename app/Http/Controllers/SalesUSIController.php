@@ -215,7 +215,12 @@ class SalesUSIController extends Controller
               DB::raw("WEEK(STR_TO_DATE(b.delivery_date, '%m/%d/%Y'), 1) AS weeks"),
               DB::raw("COALESCE(SUM(b.order_quantity), 0) AS WSS_RES_QTY")
           ])
+          ->leftJoin('ZHAASD_INV as inv', function ($join) {
+              $join->on('inv.material', '=', 'b.material')
+                   ->on('inv.sales_document', '=', 'b.sd_document');
+          })
           ->where('b.material', $material)
+          ->whereRaw('COALESCE(b.order_quantity, 0) - COALESCE(inv.invoiced_quantity, 0) != 0')
           ->groupBy('b.material', DB::raw('weeks'), DB::raw('years'));
 
       // Query สำหรับ Stock (สินค้าคงคลัง)
