@@ -374,7 +374,7 @@ class SalesUSIController extends Controller
           ->whereRaw('COALESCE(a.order_quantity, 0) - COALESCE(c.invoiced_quantity, 0) != 0')
           ;
 
-
+      $sql = $query->toSql();
       $count = $query->count();
       $outbound = $query->get();
       //dd($inbound);
@@ -382,6 +382,7 @@ class SalesUSIController extends Controller
         'status' => true,
         'count' => $count,
         'data' => $outbound,
+        'sql' => $sql,
       ]);
     }
 
