@@ -12,7 +12,7 @@
 </style>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12 mt-3">
+            <div class="col-md-12 mt-4">
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
@@ -29,7 +29,7 @@
                                     <span class="mb-2 text-sm">Item Code: </span>
                                 </div>
                             </div> -->
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group" style="position: relative;">
                                     <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Item Code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
                                     <a href="javascript:;" onclick="search_usi()">
