@@ -45,6 +45,7 @@ class ProductItemsController extends Controller
                         'cml_defrostings.defrosting_description as defrosting',
                         'cml_country_codes.country_name_in_thai as country_code',
                         'cml_colours.colour_code as colour_code',
+                        'cml_country_codes.country_name_in_thai as made_by',
                         )
                       //->select(DB::raw("product_items.*, CONCAT(SUBSTRING(product_items.product_name, 1, $limit_product_name), '...') AS product_name"))
                       ->first();
@@ -65,6 +66,12 @@ class ProductItemsController extends Controller
         case 'a4_nob':
           $pdf = PDF::loadView('pdf.barcode_a4_nob', ['productItems' => $productItems]);
           $pdf->setPaper('A4');
+          break;
+        case 'pair':
+        //return view('pdf.barcode_pair', ['productItems' => $productItems]);
+          $pdf = PDF::loadView('pdf.barcode_pair', ['productItems' => $productItems]);
+          $customPaper = array(0,0,282,288);
+          $pdf->setPaper($customPaper);
           break;
         case 'tis':
           //return view('pdf.barcode_tis', ['productItems' => $productItems]);

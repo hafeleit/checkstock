@@ -35,10 +35,10 @@
     }
   </style>
   <!DOCTYPE html>
-  <!--
+
   <div class="" style="position:absolute;top:-26px;right:0px; z-index: -1">
     <img src="img/logos/Logo-HAFELE-02.jpg" width="110" style="margin-top:2px">
-  </div>-->
+  </div>
   <div class="" style="position:absolute; right:60px;top:390px; text-align:center">
     <img src="img/logos/LEAD.png" width="60" style="margin-bottom: -20px;"></br>
     <?php
@@ -151,7 +151,7 @@
         </tr>
         <tr>
           <td>ค่าพลังงานไฟฟ้าที่ใช้:</td>
-          <td>{{number_format($productItems["energy_cons_per_year"],2)}} กิโลวัตต์ชั่วโมงต่อปี</td>
+          <td>{{number_format((int)$productItems["energy_cons_per_year"],2)}} กิโลวัตต์ชั่วโมงต่อปี</td>
         </tr>
         <tr>
           <td>ชั้นภูมิอากาศ:</td>
@@ -166,7 +166,7 @@
           <td>{{$productItems["how_to_text"]}}</td>
         </tr>
         <tr>
-          <td>ข้อแนะนำ/คำเตือน:</td>
+          <td style="font-size:20px">ข้อแนะนำ/คำเตือน:</td>
           <td>{{$productItems["warning_text"]}}</td>
         </tr>
         <tr>
@@ -185,7 +185,7 @@
           <td>{{ $productItems['country_code'] }} </td>
         </tr>
         <tr>
-          <td colspan="2">นำเข้าและจัดจำหน่ายโดย: บริษัทเฮเฟเล่(ประเทศไทย)จำกัด</td>
+          <td colspan="2">นำเข้าและจัดจำหน่ายโดย: บริษัท เฮเฟเล่(ประเทศไทย)จำกัด</td>
         </tr>
         <tr>
           <td colspan="2"> 57 ซอยสุขุมวิท 64 ถนนสุขุมวิท </td>
@@ -194,7 +194,7 @@
           <td colspan="2"> แขวงพระโขนงใต้ เขตพระโขนง กรุงเทพมหานคร 10260</td>
         </tr>
         <tr>
-          <td colspan="2"> โทร 0-2741-7171</td>
+          <td colspan="2"> โทร 02-768-7171</td>
         </tr>
         <tr>
           <td>ปริมาณบรรจุ:</td>

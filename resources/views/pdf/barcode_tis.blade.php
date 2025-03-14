@@ -35,9 +35,9 @@
     }
   </style>
 
-  <!--<div class="" style="position:absolute;right:-30px; z-index: -1">
+  <div class="" style="position:absolute;right:-30px; z-index: -1">
     <img src="img/logos/Logo-HAFELE-02.jpg" width="120" style="margin-top:2px">
-  </div>-->
+  </div>
   <div class="" style="position:absolute; right:30px;top:45px; text-align:center">
     <img src="img/logos/LEAD.png" width="60" style="margin-bottom: -20px;"></br>
     <?php
@@ -56,9 +56,9 @@
   </div>
   @endif
   @if($productItems["bar_code"] != '')
-  <div class="" style="position:absolute; left:220px; top:155px; line-height: 0px;">
+  <div class="" style="position:absolute; left:205px; top:158px; line-height: 0px;">
     @if(strlen($productItems->bar_code) == 13)
-    <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="100" />'; ?>
+    <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="120" />'; ?>
       <p style="font-size:12px; margin:10px 0px 0px 8px">
       <B>
         {{$productItems["bar_code"][0]}}&nbsp;&nbsp; {{$productItems["bar_code"][1]}}
@@ -127,13 +127,13 @@
           <td>{{ $productItems['country_code'] }} </td>
         </tr>
         <tr>
-          <td colspan="2">นำเข้าและจัดจำหน่ายโดย: บริษัทเฮเฟเล่(ประเทศไทย)จำกัด</td>
+          <td colspan="2">นำเข้าและจัดจำหน่ายโดย: บริษัท เฮเฟเล่(ประเทศไทย)จำกัด</td>
         </tr>
         <tr>
           <td colspan="2"> 57 ซอยสุขุมวิท 64 ถนนสุขุมวิท แขวงพระโขนงใต้</td>
         </tr>
         <tr>
-          <td colspan="2"> เขตพระโขนง กรุงเทพมหานคร 10260 โทร 0-2741-7171</td>
+          <td colspan="2"> เขตพระโขนง กรุงเทพมหานคร 10260 โทร 02-768-7171</td>
         </tr>
         <tr>
           <td colspan="2">ปริมาณบรรจุ: {{$productItems["item_amout"]}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ราคา: ระบุ ณ จุดขาย</td>
