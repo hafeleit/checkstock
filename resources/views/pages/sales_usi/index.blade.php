@@ -41,41 +41,38 @@
 
                         <!-- 1111111111111111111111111111 -->
                         <div class="row">
-                          <div class="col-12 col-sm-3">
+                          <div class="col-12 col-sm-4">
                             <span>Item Code : <label class="item_code text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
                             <span>MOQ : <label class="purchase_moq text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-4">
                             <span>Base Price : <label class="bash_price text-sm"></label></span>
                           </div>
                         </div>
 
                         <!-- 2222222222222222222222222222 -->
                         <div class="row">
-                          <div class="col-12 col-sm-3">
+                          <div class="col-12 col-sm-7">
                             <span>Item Desc : <label class="item_desc text-sm"></label></span>
                           </div>
 
-                          <div class="col-12 col-sm-3">
-                            <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-6">
+
+                          <div class="col-12 col-sm-4">
                             <span>Base Price RSP Incl. VAT : <label class="zplv text-sm"></label></span>
                           </div>
                         </div>
 
                         <!-- 3333333333333333333333333333 -->
                         <div class="row">
-                          <div class="col-12 col-sm-3">
+                          <div class="col-12 col-sm-4">
                             <span>UOM Code : <label class="uom text-sm"></label></span>
                           </div>
-
                           <div class="col-12 col-sm-3">
-                            <span>Pack Uom Code : <label class="pack_code1 text-sm"></label></span>
+                            <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-5">
                             <span>Free Stk Qty : <label class="free_stk_qty text-sm"></label></span>
                           </div>
 
@@ -85,13 +82,13 @@
 
                         <!-- 444444444444444444444444444 -->
                         <div class="row">
-                          <div class="col-12 col-sm-3">
+                          <div class="col-12 col-sm-4">
                             <span>New Item Code : <label class="new_item_code text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Conv Base UOM : <label class="pack_code2 text-sm"></label></span>
+                            <span>Pack Uom Code : <label class="pack_code1 text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-5">
                             <span>Purchasing Group : <label class="purchaser text-sm"></label></span>
                           </div>
 
@@ -100,13 +97,13 @@
 
                         <!-- 555555555555555555555555555555 -->
                         <div class="row">
-                          <div class="col-12 col-sm-3">
+                          <div class="col-12 col-sm-4">
                             <span>Item Brand : <label class="item_brand text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Pack Volume : <label class="weight_volume2 text-sm"></label></span>
+                            <span>Conv Base UOM : <label class="pack_code2 text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-5">
                             <span>Product manager : <label class="pm_contact text-sm"></label></span>
                           </div>
 
@@ -119,13 +116,13 @@
 
                         <!-- 666666666666666666666666666666 -->
                         <div class="row">
-                          <div class="col-12 col-sm-3">
+                          <div class="col-12 col-sm-4">
                             <span>Item Status : <label class="item_status text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
+                            <span>Pack Volume : <label class="weight_volume2 text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 col-sm-5">
                             <span>Excl Remark : <label class="exclusivity_remark text-sm"></label></span>
                           </div>
 
@@ -134,8 +131,11 @@
 
                         <!-- 777777777777777777777777777777 -->
                         <div class="row">
-                          <div class="col-12 col-sm-3">
+                          <div class="col-12 col-sm-4">
                             <span>Storage indicator : <label class="inventory_code text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-3">
+                            <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
                             <span>Barcode : <label class="barcode text-sm"></label></span>
