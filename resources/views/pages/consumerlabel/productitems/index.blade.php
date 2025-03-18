@@ -247,15 +247,20 @@
             </div>
             <div class="modal-footer">
               <div class="" style="width: 100%; text-align: left;">
+                @can('consumerlabel admin')
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='pair';"><i class="fa fa-upload"></i> Consumer Label for HTH</button>
+                @endcan
+                @can('consumerlabel supplier')
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='1pc';"><i class="fa fa-upload"></i> Consumer Label 1 Pc</button>
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='a4';"><i class="fa fa-upload"></i> Consumer Label A4</button>
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='a4_nob';"><i class="fa fa-upload"></i> Consumer Label A4 No border</button>
-
+                @endcan
               </div>
               <div class="" style="width: 100%;">
+                @can('consumerlabel admin')
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='tis';"><i class="fa fa-upload"></i> TIS Size 100x72 mm</button>
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='tis2';"><i class="fa fa-upload"></i> TIS Size 100x150 mm</button>
+                @endcan
                 <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal" style="float: right;">Close</button>
 
               </div>
