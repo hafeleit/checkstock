@@ -9,7 +9,7 @@
 <STYLE type="text/css">
 
 body {
-	margin-top: -45px;margin-left: -45px;
+	margin: -40px;
 	font-family: 'AngsanaUPC'; height: 100%;
 }
 
@@ -36,18 +36,18 @@ body {
 .dclr {clear:both;float:none;height:1px;margin:0px;padding:0px;overflow:hidden;}
 
 .ft0{font: 16px 'AngsanaUPC';line-height: 10px;}
-.ft1{font: 19px 'AngsanaUPC';line-height: 10px;}
-.ft2{font: 19px 'AngsanaUPC';line-height: 12px;}
-.ft3{font: 22px 'AngsanaUPC';line-height: 13px;}
-.ft4{font: 19px 'AngsanaUPC';line-height: 11px;}
-.ft5{font: 19px 'AngsanaUPC';line-height: 13px;}
-.ft6{font: 19px 'AngsanaUPC';line-height: 11px;}
-.ft7{font: 18px 'AngsanaUPC';line-height: 9px;}
-.ft8{font: 18px 'AngsanaUPC';line-height: 7px;}
-.ft9{font: 18px 'AngsanaUPC';line-height: 10px;}
-.ft10{font: 16px 'AngsanaUPC';line-height: 6px;}
+.ft1{font: 30px 'AngsanaUPC';line-height: 16px;}
+.ft2{font: 30px 'AngsanaUPC';line-height: 16px;}
+.ft3{font: 32px 'AngsanaUPC';line-height: 19px; font-weight: bold;}
+.ft4{font: 32px 'AngsanaUPC';line-height: 21px;}
+.ft5{font: 30px 'AngsanaUPC';line-height: 14px;}
+.ft6{font: 30px 'AngsanaUPC';line-height: 15px;}
+.ft7{font: 30px 'AngsanaUPC';line-height: 15px;}
+.ft8{font: 30px 'AngsanaUPC';line-height: 15px;}
+.ft9{font: 30px 'AngsanaUPC';line-height: 19px;}
+.ft10{font: 20px 'AngsanaUPC';line-height: 6px;}
 .ft11{font: 16px 'AngsanaUPC';line-height: 6px;}
-.ft12{font: 22px 'AngsanaUPC';line-height: 7px;}
+.ft12{font: 30px 'AngsanaUPC';line-height: 7px;}
 .ft13{font: 16px 'AngsanaUPC';line-height: 15px;}
 .ft14{font: 16px 'AngsanaUPC';line-height: 6px;}
 .ft15{font: 16px 'AngsanaUPC';line-height: 6px;}
@@ -94,14 +94,14 @@ body {
 .dBorder{
 	border: solid 0px #000;
 	border-radius: 8px;
-	width:188px;height:288px;
+	width:300px;height:308px;
 
 float:left; display: inline-block;
 }
 .dBorder2{
 	border: solid 1px #000;
 	border-radius: 8px;
-	width:188px;height:288px;
+	width:390px;height:288px;
 float:left; display: inline-block;
 }
 .dBlank{
@@ -137,18 +137,18 @@ for($i=1;$i<=2;$i++)
 	<TABLE cellpadding=0 cellspacing=0 class="t0" style="padding:-2px 0px 0px 0px;" >
 	<TR>
 		<TD class="tr0 tdLeft_1"><P class="p4 ft1">รหัสสินค้า</P></TD>
-		<TD colspan=3 class="tr0 td4"><P class="p4 ft1" style="margin-left: -9px;">{{$productItems["item_code"]}}</P></TD>
+		<TD colspan=3 class="tr0 td4"><P class="p4 ft1" style="margin-left: -16px;">{{$productItems["item_code"]}}</P></TD>
 		<TD class="tr1 tdLeft_1"><P class="p4 ft1"><!--<img src="img/logos/Logo-HAFELE-02.jpg" width="55" style="margin: -12px 0px 0px -37px">--></P></TD>
 
 	</TR>
 	<TR>
 		<TD class="tr0 tdLeft_1"><P class="p4 ft2">ชื่อสินค้า</P></TD>
-		<TD colspan=4 class="tr0 td4"><P class="p4 ft2" style="margin-left: -20px;">{{ ($productItems["product_name"])}}</P></TD>
+		<TD colspan=4 class="tr0 td4"><P class="p4 ft2" style="margin-left: -35px;">{{ ($productItems["product_name"])}}</P></TD>
 	</TR>
 
 	<TR>
 		<TD class="tr0 tdLeft_1"><P class="p4 ft2">วิธีการใช้</P></TD>
-		<TD colspan=4 class="tr0 td4"><P class="p4 ft2" style="margin-left: -19px; ">{{$productItems["how_to_text"]}}</P></TD>
+		<TD colspan=4 class="tr0 td4"><P class="p4 ft2" style="margin-left: -35px; ">{{$productItems["how_to_text"]}}</P></TD>
 	</TR>
 	<TR>
 		<TD colspan=5 class="tr8 tdLeft_1"><P class="p4 ft1" >ข้อแนะนำ</P></TD>
@@ -172,7 +172,7 @@ for($i=1;$i<=2;$i++)
 	</TR>
 	<TR>
 		<TD class="tr0 tdLeft_1"><P class="p4 ft1">ขนาด</P></TD>
-		<TD colspan=4 class="tr0 td5"><P class="p4 ft1" style="margin-left: -20px; ">{{$productItems["item_size"]}}</P></TD>
+		<TD colspan=4 class="tr0 td5"><P class="p4 ft1" style="margin-left: -60px; ">{{$productItems["item_size"]}}</P></TD>
 	</TR>
 	<TR>
 		@if($productItems["made_by"] =='ไทย')
@@ -251,10 +251,10 @@ for($i=1;$i<=2;$i++)
 	<tr><td colspan=5  >
 				<table width="100%" cellpadding=0 cellspacing=0 >
 					<tr>
-								<td class="tr9 td4" valign="top" align="center" style="padding:0px 0px 0px 0px;line-height:10%;">
+								<td class="tr9 td4 ft10" valign="top" align="center" style="padding:0px 5px 0px 0px;line-height:10%;">
 									@if(strlen($productItems->bar_code) == 13)
-									<?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="94" height="26.25" style="margin:-32px 0px 0px 90px;"   />'; ?>
-									<p style="margin:-2px 0px 0px 85px;"><B>
+									<?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems["bar_code"], "EAN13") . '" width="135" height="40" style="margin:-45px 0px 0px 145px;"   />'; ?>
+									<p style="margin:2px 0px 0px 113px;"><B>
 										{{$productItems["bar_code"][0]}}&nbsp;&nbsp;
 										{{$productItems["bar_code"][1]}}
 										{{$productItems["bar_code"][2]}}
