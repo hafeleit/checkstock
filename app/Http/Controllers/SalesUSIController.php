@@ -136,13 +136,13 @@ class SalesUSIController extends Controller
         ->leftJoin('zplv', 'zplv.material', '=', 'm.material')
         ->leftJoin('UOM_Mapping as u', 'u.uom', '=', 'm.aun')
         ->where('m.material', '=', $item_code)
-        ->whereColumn('m.bun', '!=', 'm.aun')
-        ->where('m.aun', '!=', 'ZPU')
+        //->whereColumn('m.bun', '!=', 'm.aun')
+        //->where('m.aun', '!=', 'ZPU')
         ->orderBy('m.numer','asc')
-        ->limit(1)
+        //->limit(1)
         ;
-
-        $usis = $query->first();
+        $usi_sql = $query->toSql();
+        $usis = $query->get();
         $count = $query->count();
 
       // END NEW SALES USI //
@@ -286,6 +286,7 @@ class SalesUSIController extends Controller
         'status' => true,
         'count' => $count,
         'data' => $usis,
+        'usi_sql' => $usi_sql,
         'mss' => $mss,
         'wss' => $wss,
         'uom' => $uom,
@@ -337,6 +338,9 @@ class SalesUSIController extends Controller
       //$query = DB::table('OW_ITEMWISE_SO_DTLS_WEB_HAFL')->where('ISD_ITEM_CODE', $item_code)->where('ISD_WEEK_NO', $ipd_week_no);
       $query = DB::table('ZHINSD_VA05 as a')
           ->selectRaw("
+
+            a.sold_to_party,
+            a.name1,
             COALESCE(a.sd_document, '') AS ISD_DOC_NO,
             COALESCE(a.document_date, '') AS ISD_DOC_DT,
             COALESCE(a.unit_of_measure, '') AS ISD_UOM_CODE,

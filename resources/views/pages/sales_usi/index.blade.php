@@ -255,6 +255,7 @@
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Value</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Admin</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Rep</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Customer</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -370,27 +371,27 @@
         $('.card-body div div span label').text('');
         return false;
       }
-      $('.item_code').html(res['data']['NSU_ITEM_CODE']);
-      $('.item_desc').html(res['data']['NSU_ITEM_NAME']);
-      $('.purchaser').html(res['data']['NSU_PURCHASER']);
-      $('.pm_contact').html(res['data']['NSU_PROD_MGR']);
-      $('.uom').html(res['data']['NSU_ITEM_UOM_CODE']);
-      $('.pack_code1').html(res['data']['NSU_PACK_UOM_CODE']);
-      $('.pack_code2').html(res['data']['NSU_CONV_BASE_UOM'] + ' ' + res['data']['NSU_ITEM_UOM_CODE']);
-      $('.weight_volume1').html(res['data']['NSU_PACK_WEIGHT']);
-      $('.weight_volume2').html(res['data']['NSU_PACK_VOLUME']);
-      $('.item_status').html(res['data']['NSU_ITEM_STATUS']);
-      $('.repl_time').html(res['data']['NSU_SUPP_REPL_TIME']);
-      $('.bash_price').html(res['data']['NSU_BASE_PRICE'] + ' THB');
-      $('.zplv').html(res['data']['NSU_BASE_PRICE_ZPLV'] + ' THB');
-      $('.purchase_moq').html(addCommas(res['data']['NSU_PURC_MOQ']));
-      $('.inventory_code').html(res['data']['NSU_ITEM_INV_CODE']);
-      $('.barcode').html(res['data']['ean_upc']);
-      $('.supplier_item_code').html(res['data']['NSU_SUPP_ITEM_CODE']);
-      $('.item_brand').html(res['data']['NSU_ITEM_BRAND']);
-      $('.exclusivity_remark').html(res['data']['NSU_EXCL_REMARK']);
-      $('.new_item_code').html(res['data']['NSU_NEW_ITEM_CODE']);
-      $('.free_stk_qty').html(res['data']['NSU_FREE_STK_QTY']);
+      $('.item_code').html(res['data'][0]['NSU_ITEM_CODE']);
+      $('.item_desc').html(res['data'][0]['NSU_ITEM_NAME']);
+      $('.purchaser').html(res['data'][0]['NSU_PURCHASER']);
+      $('.pm_contact').html(res['data'][0]['NSU_PROD_MGR']);
+      $('.uom').html(res['data'][0]['NSU_ITEM_UOM_CODE']);
+      $('.pack_code1').html(res['data'][0]['NSU_PACK_UOM_CODE']);
+      $('.pack_code2').html(res['data'][0]['NSU_CONV_BASE_UOM'] + ' ' + res['data'][0]['NSU_ITEM_UOM_CODE']);
+      $('.weight_volume1').html(res['data'][0]['NSU_PACK_WEIGHT']);
+      $('.weight_volume2').html(res['data'][0]['NSU_PACK_VOLUME']);
+      $('.item_status').html(res['data'][0]['NSU_ITEM_STATUS']);
+      $('.repl_time').html(res['data'][0]['NSU_SUPP_REPL_TIME']);
+      $('.bash_price').html(res['data'][0]['NSU_BASE_PRICE'] + ' THB');
+      $('.zplv').html(res['data'][0]['NSU_BASE_PRICE_ZPLV'] + ' THB');
+      $('.purchase_moq').html(addCommas(res['data'][0]['NSU_PURC_MOQ']));
+      $('.inventory_code').html(res['data'][0]['NSU_ITEM_INV_CODE']);
+      $('.barcode').html(res['data'][0]['ean_upc']);
+      $('.supplier_item_code').html(res['data'][0]['NSU_SUPP_ITEM_CODE']);
+      $('.item_brand').html(res['data'][0]['NSU_ITEM_BRAND']);
+      $('.exclusivity_remark').html(res['data'][0]['NSU_EXCL_REMARK']);
+      $('.new_item_code').html(res['data'][0]['NSU_NEW_ITEM_CODE']);
+      $('.free_stk_qty').html(res['data'][0]['NSU_FREE_STK_QTY']);
 
       let path_img = '/storage/img/products/' + item_code + '.jpg';
       $('#product_img').attr('src',path_img);
@@ -557,7 +558,9 @@
         <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_RATE"]+'</p></td>\
         <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_VALUE"])+'</p></td>\
         <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_ADMIN"]+'</p></td>\
-        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_REP"]+'</p></td></tr>';
+        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_REP"]+'</p></td>\
+        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["sold_to_party"]+'-'+val["name1"]+'</p></td>\
+        </tr>';
         $('#so_table').append(tbody);
       });
 
