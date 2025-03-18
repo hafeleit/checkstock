@@ -240,7 +240,10 @@
             </div>
             <div class="modal-body">
               <p>
-                <input class="form-control datepicker" id="pdate" name="man_date" placeholder="Please select manufacturing date if you need" type="text" >
+                <input class="form-control datepicker" id="pdate" name="man_date" placeholder="Please select manufacturing date if you need" type="text" value="{{ date('Y-m-d')}}" >
+                <div class="clear-btn" style="position: absolute; top: 23px; right: 25px;">
+                  <i class="fas fa-times"></i>
+                </div>
               </p>
 
               <p class="text-danger text-xs">* Please select the production date, if no need please click "OK" for skip it</p>
@@ -285,7 +288,9 @@
 
   $(function(){
 
-
+    $('.clear-btn').click(function() {
+        $('#pdate').val('').datepicker('update');
+    });
     $( "#perpage" ).on( "change", function() {
       $( "#form_search" ).trigger( "submit" );
     });
