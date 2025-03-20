@@ -366,7 +366,7 @@ class SalesUSIController extends Controller
             COALESCE(a.document_date, '') AS ISD_DOC_DT,
             COALESCE(a.unit_of_measure, '') AS ISD_UOM_CODE,
             COALESCE(sum(a.order_quantity), 0) AS ISD_ORD_QTY,
-            COALESCE(a.confirmed_quantity, 0) AS ISD_RESV_QTY,
+            COALESCE(sum(a.confirmed_quantity), 0) AS ISD_RESV_QTY,
             COALESCE(b.delivered_qty, 0) AS ISD_DEL_QTY,
             COALESCE(c.invoiced_quantity, 0) AS ISD_INV_QTY,
             COALESCE(a.goods_issue_date, '') AS ISD_DEL_DT,
