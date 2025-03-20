@@ -212,7 +212,7 @@
         </div>
         <div class="row">
           <div class="col-lg-6 mb-lg-0 mt-4">
-              <div class="card " style="height: 270px;">
+              <div class="card " style="height: 400px;">
                   <div class="card-header pb-0">
                       <h6>PO Detail</h6>
                   </div>
@@ -235,7 +235,7 @@
               </div>
             </div>
             <div class="col-lg-6 mb-lg-0 mt-4">
-                <div class="card " style="height: 270px;">
+                <div class="card " style="height: 400px;">
                     <div class="card-header pb-0">
                         <h6>SO Detail</h6>
                     </div>
