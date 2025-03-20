@@ -208,20 +208,40 @@ class SalesUSIController extends Controller
           ->groupBy('a.material', DB::raw('weeks'), DB::raw('years'));
 
       // Query สำหรับ SO (การขาย)
-      $soQuery = DB::table('ZHINSD_VA05 as b')
+      /*$soQuery = DB::table('ZHINSD_VA05 as b')
           ->select([
               'b.material',
               DB::raw('RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%m/%d/%Y")), 2) AS years'),
               DB::raw("WEEK(STR_TO_DATE(b.delivery_date, '%m/%d/%Y'), 1) AS weeks"),
-              DB::raw("COALESCE(SUM(b.order_quantity), 0) AS WSS_RES_QTY")
+              DB::raw("COALESCE(SUM(b.order_quantity), 0) - COALESCE(inv.invoiced_quantity, 0) AS WSS_RES_QTY")
           ])
           ->leftJoin('ZHAASD_INV as inv', function ($join) {
               $join->on('inv.material', '=', 'b.material')
                    ->on('inv.sales_document', '=', 'b.sd_document');
           })
           ->where('b.material', $material)
-          ->whereRaw('COALESCE(b.order_quantity, 0) - COALESCE(inv.invoiced_quantity, 0) != 0')
-          ->groupBy('b.material', DB::raw('weeks'), DB::raw('years'));
+          //->whereRaw('COALESCE(b.order_quantity, 0) - COALESCE(inv.invoiced_quantity, 0) != 0')
+          ->groupBy('b.sd_document', DB::raw('weeks'), DB::raw('years'));*/
+          $subQuery = DB::table('ZHINSD_VA05 as b')
+              ->leftJoin('ZHAASD_INV as inv', function ($join) {
+                  $join->on('inv.material', '=', 'b.material')
+                       ->on('inv.sales_document', '=', 'b.sd_document');
+              })
+              ->selectRaw(
+                  'b.material,
+                  RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%m/%d/%Y")), 2) AS years,
+                  WEEK(STR_TO_DATE(b.delivery_date, "%m/%d/%Y"), 1) AS weeks,
+                  SUM(b.order_quantity) - COALESCE(inv.invoiced_quantity, 0) AS WSS_RES_QTY'
+              )
+              ->where('b.material', $material)
+              ->groupBy('b.sd_document')
+              ->groupByRaw('WEEK(STR_TO_DATE(b.delivery_date, "%m/%d/%Y"), 1)')
+              ->groupByRaw('RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%m/%d/%Y")), 2)');
+
+          $soQuery = DB::table(DB::raw('(' . $subQuery->toSql() . ') as t'))
+              ->mergeBindings($subQuery)
+              ->selectRaw('t.years, t.weeks, SUM(t.WSS_RES_QTY) AS WSS_RES_QTY')
+              ->groupBy('t.years', 't.weeks');
 
       // Query สำหรับ Stock (สินค้าคงคลัง)
       $stockQuery = DB::table('MB52 as a')
@@ -287,6 +307,7 @@ class SalesUSIController extends Controller
         'count' => $count,
         'data' => $usis,
         'usi_sql' => $usi_sql,
+        'so_sql' => $soQuery->toSql(),
         'mss' => $mss,
         'wss' => $wss,
         'uom' => $uom,
@@ -379,7 +400,7 @@ class SalesUSIController extends Controller
           ->where('a.material', '=', $item_code)
           ->whereRaw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) = $year_no")
           ->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) = $week_no")
-          //->whereRaw('COALESCE(a.order_quantity, 0) - COALESCE(c.invoiced_quantity, 0) != 0')
+          //->whereRaw('COALESCE(sum(a.order_quantity), 0) - COALESCE(c.invoiced_quantity, 0) != 0')
           ->groupBy(DB::raw("a.sd_document, RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')),2), WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1)"))
 
           ;
