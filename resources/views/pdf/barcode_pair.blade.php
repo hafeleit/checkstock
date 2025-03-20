@@ -184,6 +184,7 @@ for($i=1;$i<=2;$i++)
 	<TR>
 		@if($productItems["made_by"] =='ไทย')
 			<TD colspan=5 class="tr6 td7" >
+				@if($productItems["factory_name"] != '')
 				<P class="p4 ft8">{{ $productItems["factory_name"] }}</P>
 				<?php
 					$factory_address = [];
@@ -206,6 +207,7 @@ for($i=1;$i<=2;$i++)
 				<P class="p4 ft7"><?php echo implode(" ", $factory_address[1]) ?></P>
 				<P class="p4 ft9"><?php echo implode(" ", $factory_address[2]) ?></P>
 				<P class="p4 ft7"><?php echo implode(" ", $factory_address[3]) ?></P>
+				@endif
 			</TD>
 
 		@else
