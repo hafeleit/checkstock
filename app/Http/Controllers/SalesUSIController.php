@@ -364,9 +364,13 @@ class SalesUSIController extends Controller
               $join->on('c.material', '=', 'a.material')
                    ->on('c.sales_document', '=', 'a.sd_document');
           })
-          ->leftJoin('HWW_SD_06 as d', function ($join) {
+          /*->leftJoin('HWW_SD_06 as d', function ($join) {
               $join->on('d.Material', '=', 'a.material')
                    ->on('d.SalesDoc', '=', 'a.sd_document');
+          })*/
+          ->leftJoin(DB::raw('(SELECT SalesDoc, Material, ZI, ZE FROM HWW_SD_06 GROUP BY SalesDoc) as d'), function ($join) {
+              $join->on('d.SalesDoc', '=', 'a.sd_document')
+                   ->on('d.Material', '=', 'a.material');
           })
           //->leftJoin('HWW_SD_CUSTLIS as e', 'd.ZI', '=', 'e.IDMA_ZI')
           //->leftJoin('HWW_SD_CUSTLIS as e2', 'd.ZE', '=', 'e2.IDMA_ZI')
@@ -375,7 +379,9 @@ class SalesUSIController extends Controller
           ->where('a.material', '=', $item_code)
           ->whereRaw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) = $year_no")
           ->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) = $week_no")
-          ->whereRaw('COALESCE(a.order_quantity, 0) - COALESCE(c.invoiced_quantity, 0) != 0')
+          //->whereRaw('COALESCE(a.order_quantity, 0) - COALESCE(c.invoiced_quantity, 0) != 0')
+          ->groupBy(DB::raw("a.sd_document, RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')),2), WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1)"))
+
           ;
 
       $sql = $query->toSql();
