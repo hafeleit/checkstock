@@ -369,7 +369,10 @@ class SalesUSIController extends Controller
             COALESCE(sum(a.confirmed_quantity), 0) AS ISD_RESV_QTY,
             COALESCE(b.delivered_qty, 0) AS ISD_DEL_QTY,
             COALESCE(c.invoiced_quantity, 0) AS ISD_INV_QTY,
-            COALESCE(a.goods_issue_date, '') AS ISD_DEL_DT,
+            CASE
+                WHEN COALESCE(b.delivered_qty, 0) > 0 THEN COALESCE(a.goods_issue_date, '')
+                ELSE ''
+            END AS ISD_DEL_DT
             COALESCE(a.net_price, 0) AS ISD_RATE,
             COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE,
             COALESCE(CONCAT_WS(' ', d.ZI, e.IDMA_ZI_NAME), '') AS ISD_ADMIN,
