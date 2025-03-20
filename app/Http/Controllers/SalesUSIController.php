@@ -372,7 +372,7 @@ class SalesUSIController extends Controller
             CASE
                 WHEN COALESCE(b.delivered_qty, 0) > 0 THEN COALESCE(a.goods_issue_date, '')
                 ELSE ''
-            END AS ISD_DEL_DT
+            END AS ISD_DEL_DT,
             COALESCE(a.net_price, 0) AS ISD_RATE,
             COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE,
             COALESCE(CONCAT_WS(' ', d.ZI, e.IDMA_ZI_NAME), '') AS ISD_ADMIN,
