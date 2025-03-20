@@ -247,7 +247,7 @@
                                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> SO Date</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Uom</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Order Qty</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Resv Qty</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Confirmed</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Delivered</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Invoiced</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Delivery Date</th>
