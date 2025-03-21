@@ -175,7 +175,7 @@
         </tr>
         <tr>
           <td>ผลิตโดย:</td>
-          <td>{{$productItems["made_by"]}}</td>
+          <td>{{$productItems["made_by2"]}}</td>
         </tr>
         <?php
           $country_code = ['CN - CHINA' => 'สาธารณรัฐประชาชนจีน', 'DE - GERMANY' => 'เยอรมนี'];

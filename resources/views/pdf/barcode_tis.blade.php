@@ -117,7 +117,7 @@
         </tr>
         <tr>
           <td>ผลิตโดย:</td>
-          <td>{{$productItems["made_by"]}}</td>
+          <td>{{$productItems["made_by2"]}}</td>
         </tr>
 
         <tr>

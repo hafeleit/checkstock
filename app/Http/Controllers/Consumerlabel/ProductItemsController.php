@@ -39,6 +39,7 @@ class ProductItemsController extends Controller
                       ->leftJoin('cml_colours','cml_colours.colour_code','product_items.color')
                       ->select(
                         'product_items.*',
+                        'product_items.made_by as made_by2',
                         'cml_suggestions.suggestion_description AS suggest_text',
                         'cml_warnings.warning_description AS warning_text',
                         'cml_methods.method_description AS how_to_text',
