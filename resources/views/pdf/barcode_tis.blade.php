@@ -99,7 +99,7 @@
         <tr>
           <td style="vertical-align: top;">แบบรุ่น:</td>
           <td>
-            <div style="width:400px"> {{$productItems["model"]}} </div>
+            <div style="width:300px"> {{$productItems["model"]}} </div>
           </td>
         </tr>
         <tr>
