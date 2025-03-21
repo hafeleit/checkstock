@@ -119,9 +119,7 @@
           <td>ผลิตโดย:</td>
           <td>{{$productItems["made_by"]}}</td>
         </tr>
-        <?php
-          $country_code = ['CN - CHINA' => 'สาธารณรัฐประชาชนจีน', 'DE - GERMANY' => 'เยอรมนี'];
-        ?>
+
         <tr>
           <td>ประเทศ:</td>
           <td>{{ $productItems['country_code'] }} </td>
