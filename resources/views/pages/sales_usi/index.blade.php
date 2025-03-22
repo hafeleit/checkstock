@@ -250,6 +250,7 @@
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Confirmed</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Delivered</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Invoiced</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Pending</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Delivery Date</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Rate</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Value</th>
@@ -554,6 +555,7 @@
         <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_RESV_QTY"])+'</p></td>\
         <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_DEL_QTY"])+'</p></td>\
         <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_INV_QTY"])+'</p></td>\
+        <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+(val["ISD_ORD_QTY"] - val["ISD_INV_QTY"])+'</p></td>\
         <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_DT"]+'</p></td>\
         <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_RATE"]+'</p></td>\
         <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_VALUE"])+'</p></td>\
