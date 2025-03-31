@@ -59,7 +59,7 @@
                           <span class="text-xs font-weight-bold">SO NUMBER</span>
                           </div>
                           <div class="col-sm-2">
-                            <input type="text" class="form-control" id="soh_no" name="soh_no" value="{{Request::input('soh_no') ?? '717608889'}}">
+                            <input type="text" class="form-control" id="soh_no" name="soh_no" value="{{Request::input('soh_no') ?? ''}}">
                           </div>
                           <div class="col-sm-2">
                             <span class="text-xs font-weight-bold">PO NUMBER</span>

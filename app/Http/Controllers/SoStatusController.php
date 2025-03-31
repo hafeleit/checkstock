@@ -49,13 +49,13 @@ class SoStatusController extends Controller
             'c.IDMA_ZI_NAME AS SM_NAME',
             'a.status AS OVERALL_STATUS'
         ]);
-      if($soh_txn_code != ''){ $q->Where('sales_document_type',$soh_txn_code);}
-      if($soh_no != ''){ $q->Where('sd_document',$soh_no);}
-      if($po_number != ''){ $q->Where('purchase_order_no',$po_number);}
-      if($soh_cust_code != ''){ $q->Where('sold_to_party',$soh_cust_code); }
-      if($soh_cust_name != ''){ $q->Where('name1','like','%'.$soh_cust_name.'%'); }
-      if($soh_sm_code != ''){ $q->Where('SOH_SM_CODE',$soh_sm_code);}
-      if($sm_name != ''){ $q->Where('SM_NAME','like','%'.$sm_name.'%',); }
+      if($soh_txn_code != ''){ $q->Where('a.sales_document_type',$soh_txn_code);}
+      if($soh_no != ''){ $q->Where('a.sd_document',$soh_no);}
+      if($po_number != ''){ $q->Where('a.purchase_order_no',$po_number);}
+      if($soh_cust_code != ''){ $q->Where('a.sold_to_party',$soh_cust_code); }
+      if($soh_cust_name != ''){ $q->Where('a.name1','like','%'.$soh_cust_name.'%'); }
+      if($soh_sm_code != ''){ $q->Where('b.ZE',$soh_sm_code);}
+      if($sm_name != ''){ $q->Where('c.IDMA_ZI_NAME','like','%'.$sm_name.'%',); }
 
       $q->groupBy('a.sd_document','a.sales_document_type')->orderBy('a.sd_document','DESC');
       //$sostatus = $q->limit(5)->get();
