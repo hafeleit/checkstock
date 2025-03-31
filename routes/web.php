@@ -58,7 +58,7 @@ use App\Http\Controllers\ITAssetTypeController;
   Route::get('products-search-ajax', [ProductController::class, 'search_ajax'])->name('products.search-ajax');
 
   //so status
-  Route::resource('so-status', SoStatusController::class);
+
 
   //sales usi
 
@@ -98,7 +98,7 @@ Route::group(['middleware' => 'auth'], function () {
 //Route::group(['middleware' => ['role:super-admin|admin|staff|supplier|user']], function() {
 
   Route::resource('sales-usi', SalesUSIController::class);
-
+  Route::resource('so-status', SoStatusController::class);
   Route::resource('permissions',  App\Http\Controllers\PermissionController::class);
   Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);
   Route::resource('roles',  App\Http\Controllers\RoleController::class);

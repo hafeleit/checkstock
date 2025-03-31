@@ -1,7 +1,7 @@
-@extends('layouts.appguest', ['class' => 'g-sidenav-show bg-gray-100'])
+@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.guest.topnav', ['title' => 'Products'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'SO Status'])
     <style>
     .loader{
       display: block;
@@ -59,7 +59,7 @@
                           <span class="text-xs font-weight-bold">SO NUMBER</span>
                           </div>
                           <div class="col-sm-2">
-                            <input type="text" class="form-control" id="soh_no" name="soh_no" value="{{Request::input('soh_no') ?? ''}}">
+                            <input type="text" class="form-control" id="soh_no" name="soh_no" value="{{Request::input('soh_no') ?? '717608994'}}">
                           </div>
                           <div class="col-sm-2">
                             <span class="text-xs font-weight-bold">PO NUMBER</span>
@@ -146,26 +146,26 @@
                                       @foreach ($data as $value)
                                       <tr>
                                         <td>
-                                          <a onclick="get_sodetail('{{$value['id']}}' , '{{$value['SOH_NO']}}', '{{$value['SOH_TXN_CODE']}}')">
+                                          <a onclick="get_sodetail('{{$value->id}}' , '{{$value->SOH_NO}}', '{{$value->SOH_TXN_CODE}}')">
                                             <div class="d-flex flex-column justify-content-center">
                                               <h6 class="mb-0 text-sm">
                                                 <input type="hidden" name="search" id="search" value="1">
-                                                <span class="btn btn-link text-danger text-gradient px-3 mb-0">{{$value['SOH_TXN_CODE'].'-'.$value['SOH_NO']}}</span>
+                                                <span class="btn btn-link text-danger text-gradient px-3 mb-0">{{$value->SOH_TXN_CODE.'-'.$value->SOH_NO}}</span>
                                               </h6>
                                             </div>
                                           </a>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                          @if($value['OVERALL_STATUS'] == 'Completed')
-                                          <span class="badge badge-sm text-xs bg-gradient-faded-success">{{$value['OVERALL_STATUS']}}</span>
+                                          @if($value->OVERALL_STATUS == 'Completed')
+                                          <span class="badge badge-sm text-xs bg-gradient-faded-success">{{$value->OVERALL_STATUS}}</span>
                                           @else
-                                          <span class="badge badge-sm text-xs bg-gradient-faded-dark-vertical">{{$value['OVERALL_STATUS']}}</span>
+                                          <span class="badge badge-sm text-xs bg-gradient-faded-dark-vertical">{{$value->OVERALL_STATUS}}</span>
                                           @endif
                                         </td>
-                                        <td><span class="text-xs font-weight-bold">{{$value['SOH_LPO_NO']}}</span></td>
-                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value['SOH_DT']}}</span></td>
-                                        <td><span class="text-xs font-weight-bold">{{$value['SOH_CUST_CODE'] . '-' . $value['SOH_CUST_NAME']}}</span></td>
-                                        <td><span class="text-xs font-weight-bold">{{$value['SOH_SM_CODE'].'-'.$value['SM_NAME']}}</span></td>
+                                        <td><span class="text-xs font-weight-bold">{{$value->SOH_LPO_NO}}</span></td>
+                                        <td class="align-middle text-center"><span class="text-xs font-weight-bold">{{$value->SOH_DT}}</span></td>
+                                        <td><span class="text-xs font-weight-bold">{{$value->SOH_CUST_CODE . '-' . $value->SOH_CUST_NAME}}</span></td>
+                                        <td><span class="text-xs font-weight-bold">{{$value->SOH_SM_CODE.'-'.$value->SM_NAME}}</span></td>
                                       </tr>
                                       @endforeach
                                     @else
