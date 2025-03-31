@@ -31,12 +31,12 @@ class SoStatusController extends Controller
       }
 
       //$q = so_status::query();
-      $q = DB::table('zhinsd_va05 as a')
-        ->leftJoin('hww_sd_06 as b', function ($join) {
+      $q = DB::table('ZHINSD_VA05 as a')
+        ->leftJoin('HWW_SD_06 as b', function ($join) {
             $join->on('b.SalesDoc', '=', 'a.sd_document')
                  ->on('b.Material', '=', 'a.material');
         })
-        ->leftJoin('hww_sd_custlis as c', 'c.IDMA_ZI', '=', 'b.ZE')
+        ->leftJoin('HWW_SD_CUSTLIS as c', 'c.IDMA_ZI', '=', 'b.ZE')
         ->select([
             'a.id',
             'a.sales_document_type AS SOH_TXN_CODE',
@@ -102,7 +102,7 @@ class SoStatusController extends Controller
       $kl = [];
       if($SOH_NO != ''){
         //$q = so_status::where('SOH_NO', $SOH_NO)->where('SOH_TXN_CODE',$SOH_TXN_CODE)->get();
-        $q = DB::table('zhinsd_va05 as a')
+        $q = DB::table('ZHINSD_VA05 as a')
         ->select([
             'a.sales_document_type as SOH_TXN_CODE',
             'a.sd_document as SOH_NO',
@@ -125,16 +125,16 @@ class SoStatusController extends Controller
             DB::raw("'N/A' as WWH_DT"),
             DB::raw("'N/A' as POD_STATUS"),
         ])
-        ->leftJoin('hww_sd_06 as b', function($join) {
+        ->leftJoin('HWW_SD_06 as b', function($join) {
             $join->on('b.SalesDoc', '=', 'a.sd_document')
                  ->on('b.Material', '=', 'a.material');
         })
-        ->leftJoin('hww_sd_custlis as c', 'c.IDMA_ZI', '=', 'b.ZE')
-        ->leftJoin('zhaasd_inv as d', function($join) {
+        ->leftJoin('HWW_SD_CUSTLIS as c', 'c.IDMA_ZI', '=', 'b.ZE')
+        ->leftJoin('ZHAASD_INV as d', function($join) {
             $join->on('d.sales_document', '=', 'a.sd_document')
                  ->on('d.material', '=', 'a.material');
         })
-        ->leftJoin('zhwwsd_ob_wo_i as e', function($join) {
+        ->leftJoin('ZHWWSD_OB_WO_I as e', function($join) {
             $join->on('e.SalesDoc', '=', 'a.sd_document')
                  ->on('e.Material', '=', 'a.material');
         })
