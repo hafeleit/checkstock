@@ -75,7 +75,7 @@
                           <div class="col-sm-2">
                           <span class="text-xs font-weight-bold">CUSTOMER CODE</span>
                           </div>
-                          <div class="col-sm-1">
+                          <div class="col-sm-2">
                             <input type="text" class="form-control" id="soh_cust_code" name="soh_cust_code" value="{{Request::input('soh_cust_code') ?? ''}}">
                           </div>
                           <div class="col-sm-2">
@@ -84,13 +84,20 @@
                           <div class="col-sm-2">
                             <input type="text" class="form-control" id="soh_cust_name" name="soh_cust_name" value="{{Request::input('soh_cust_name') ?? ''}}">
                           </div>
-                          <div class="col-sm-1">
+
+
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group row">
+
+                          <div class="col-sm-2">
                             <span class="text-xs font-weight-bold">SALES CODE</span>
                           </div>
-                          <div class="col-sm-1">
+                          <div class="col-sm-2">
                             <input type="text" class="form-control" id="soh_sm_code" name="soh_sm_code" value="{{Request::input('soh_sm_code') ?? ''}}">
                           </div>
-                          <div class="col-sm-1">
+                          <div class="col-sm-2">
                           <span class="text-xs font-weight-bold">SALES NAME</span>
                           </div>
                           <div class="col-sm-2">
@@ -99,6 +106,35 @@
 
                         </div>
                       </div>
+                      <div class="row">
+                          <div class="form-group row">
+                              <div class="col-sm-2">
+                                  <span class="text-xs font-weight-bold">Date From</span>
+                              </div>
+                              <div class="col-sm-2">
+                                  <input type="text" class="form-control datepicker" id="date_from" name="date_from" value="{{Request::input('date_from') ?? ''}}">
+                              </div>
+                              <div class="col-sm-2">
+                                  <span class="text-xs font-weight-bold">To</span>
+                              </div>
+                              <div class="col-sm-2">
+                                  <input type="text" class="form-control datepicker" id="date_to" name="date_to" value="{{Request::input('date_to') ?? ''}}">
+                              </div>
+                          </div>
+                      </div>
+
+                      <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+                      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                      <script>
+                          $(document).ready(function() {
+                              $(".datepicker").datepicker({
+                                  dateFormat: "yy-mm-dd", // กำหนดรูปแบบวันที่
+                                  changeMonth: true,
+                                  changeYear: true
+                              });
+                          });
+                      </script>
+
                       <div class="align-items-center">
                           <button type="submit" class="btn btn-primary btn-sm ms-auto text-uppercase text-xxs btn-submit" onclick="loader_data()">SEARCH</button>
 

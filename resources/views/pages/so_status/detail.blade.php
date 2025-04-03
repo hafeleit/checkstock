@@ -68,15 +68,15 @@
                                           <tr>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ITEM CODE</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ITEM DESC</th>
-                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SOI QTY</th>
-                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">PENDING</th>
+                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">SO</th>
+                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">PENDING QTY</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DO QTY</th>
-                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">WAVE DATE</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DELIVERY NUMBER</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DELIVERY DATE</th>
+                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">WAVE DATE</th>
+                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">WAVE STATUS</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">INVOICE NUMBER</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">INVOICE DATE</th>
-                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">WAVE STATUS</th>
                                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">POD STATUS</th>
                                           </tr>
                                       </thead>
@@ -85,40 +85,18 @@
                                           @foreach($data as $value)
 
                                           <tr>
-                                              <td><p class="text-secondary text-xs font-weight-bold">
-                                                  @if(!in_array($value->SOI_ITEM_CODE ,$chk_dup_item))
-                                                    {{ $value->SOI_ITEM_CODE }}
-                                                  @endif
-                                              </p></td>
-                                              <td><p class="text-secondary text-xs font-weight-bold">
-                                                @if(!in_array($value->SOI_ITEM_CODE ,$chk_dup_item))
-                                                  {{$value->SOI_ITEM_DESC}}
-                                                @endif
-                                              </p></td>
-                                              <td><p class="text-secondary text-xs font-weight-bold">
-                                                @if(!in_array($value->SOI_ITEM_CODE ,$chk_dup_item))
-                                                  {{$value->SOI_QTY}}
-                                                @endif
-                                              </p></td>
-                                              <td>
-                                                @if(!in_array($value->SOI_ITEM_CODE ,$chk_dup_item))
-                                                  <?php
-                                                    $res = $value->SOI_QTY - array_sum($kl[$value->SOI_ITEM_CODE]);
-                                                    if($res > 0){ ?>
-                                                      <p class="text-danger text-xs font-weight-bold">{{ $res }}</p>
-                                                    <?php }else{ ?>
-                                                      <p class="text-secondary text-xs font-weight-bold">{{ $res }}</p>
-                                                    <?php }
-                                                   ?>
-                                                @endif
-                                              </td>
+                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->SOI_ITEM_CODE}}</p></td>
+                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->SOI_ITEM_DESC}}</p></td>
+                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->SOI_QTY}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->INV_QTY}}</p></td>
-                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->WWH_DT}}</p></td>
+
+                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->INV_QTY}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->DO_NO}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->DO_DT}}</p></td>
+                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->WWH_DT}}</p></td>
+                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->WAVE_STS}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->INV_NO}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->INV_DT}}</p></td>
-                                              <td><p class="text-secondary text-xs font-weight-bold">{{$value->WAVE_STS}}</p></td>
                                               <td><p class="text-secondary text-xs font-weight-bold">{{$value->POD_STATUS}}</p></td>
                                           </tr>
                                           <?php

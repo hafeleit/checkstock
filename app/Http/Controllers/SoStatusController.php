@@ -101,45 +101,47 @@ class SoStatusController extends Controller
 
       $kl = [];
       if($SOH_NO != ''){
-        //$q = so_status::where('SOH_NO', $SOH_NO)->where('SOH_TXN_CODE',$SOH_TXN_CODE)->get();
+
         $q = DB::table('ZHINSD_VA05 as a')
-        ->select([
-            'a.sales_document_type as SOH_TXN_CODE',
-            'a.sd_document as SOH_NO',
-            'a.document_date as SOH_DT',
-            'a.purchase_order_no as SOH_LPO_NO',
-            'a.sold_to_party as SOH_CUST_CODE',
-            'a.name1 as SOH_CUST_NAME',
-            'b.ZE as SOH_SM_CODE',
-            'c.IDMA_ZI_NAME as SM_NAME',
-            'a.status as OVERALL_STATUS',
-            'd.invoiced_quantity as INV_QTY',
-            'e.FollOndoc as DO_NO',
-            'e.Createdon as DO_DT',
-            'd.billing_type as INV_NO',
-            'd.billing_date as INV_DT',
-            'a.material as SOI_ITEM_CODE',
-            'a.description as SOI_ITEM_DESC',
-            'a.order_quantity as SOI_QTY',
-            DB::raw("'N/A' as WAVE_STS"),
-            DB::raw("'N/A' as WWH_DT"),
-            DB::raw("'N/A' as POD_STATUS"),
-        ])
-        ->leftJoin('HWW_SD_06 as b', function($join) {
+        ->selectRaw("
+            a.sales_document_type AS SOH_TXN_CODE,
+            a.sd_document AS SOH_NO,
+            a.document_date AS SOH_DT,
+            a.purchase_order_no AS SOH_LPO_NO,
+            a.sold_to_party AS SOH_CUST_CODE,
+            a.name1 AS SOH_CUST_NAME,
+            a.status AS OVERALL_STATUS,
+            a.material AS SOI_ITEM_CODE,
+            a.description AS SOI_ITEM_DESC,
+            FORMAT(SUM(a.order_quantity), 2) AS SOI_QTY,
+            GROUP_CONCAT(DISTINCT a.status ORDER BY a.status SEPARATOR ', ') AS ALL_STATUSES,
+            b.ZE AS SOH_SM_CODE,
+            c.IDMA_ZI_NAME AS SM_NAME,
+            FORMAT(SUM(d.invoiced_quantity), 2) AS INV_QTY,
+            CONCAT(d.billing_type, '-', d.billing_document) AS INV_NO,
+            d.billing_date AS INV_DT,
+            e.FollOndoc AS DO_NO,
+            e.Createdon AS DO_DT,
+            'N/A' AS WAVE_STS,
+            'N/A' AS WWH_DT,
+            'N/A' AS POD_STATUS
+        ")
+        ->leftJoin('HWW_SD_06 as b', function ($join) {
             $join->on('b.SalesDoc', '=', 'a.sd_document')
                  ->on('b.Material', '=', 'a.material');
         })
         ->leftJoin('HWW_SD_CUSTLIS as c', 'c.IDMA_ZI', '=', 'b.ZE')
-        ->leftJoin('ZHAASD_INV as d', function($join) {
+        ->leftJoin('ZHAASD_INV as d', function ($join) {
             $join->on('d.sales_document', '=', 'a.sd_document')
                  ->on('d.material', '=', 'a.material');
         })
-        ->leftJoin('ZHWWSD_OB_WO_I as e', function($join) {
+        ->leftJoin('ZHWWSD_OB_WO_I as e', function ($join) {
             $join->on('e.SalesDoc', '=', 'a.sd_document')
                  ->on('e.Material', '=', 'a.material');
         })
         ->where('a.sd_document', $SOH_NO)
         ->where('a.sales_document_type',$SOH_TXN_CODE)
+        ->groupBy('a.material')
         ->get();
 
         foreach ($q as $key => $value) {
