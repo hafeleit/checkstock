@@ -39,6 +39,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CheckStockController;
 use App\Http\Controllers\Consumerlabel\ProductItemsController;
 use App\Http\Controllers\ITAssetTypeController;
+use App\Http\Controllers\InvRecordController;
 
   Route::get('/', function () {return redirect('/products');});
 
@@ -96,6 +97,9 @@ use App\Http\Controllers\ITAssetTypeController;
 
 Route::group(['middleware' => 'auth'], function () {
 //Route::group(['middleware' => ['role:super-admin|admin|staff|supplier|user']], function() {
+
+  Route::resource('inv-record', InvRecordController::class);
+  Route::get('inv-record/export/{id}', [InvRecordController::class, 'export'])->name('inv-record.export');
 
   Route::resource('sales-usi', SalesUSIController::class);
   Route::resource('so-status', SoStatusController::class);
