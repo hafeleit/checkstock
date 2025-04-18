@@ -23,7 +23,7 @@ class SoStatusController extends Controller
       $sm_name = $request->sm_name ?? '';
       $po_number = $request->po_number ?? '';
       $page = 5;
-      $last_upd =so_status::first();
+      $last_upd = DB::table('ZHINSD_VA05')->first();
       $last_upd = $last_upd->created_at ?? '';
 
       if($soh_txn_code == '' && $soh_no == '' && $soh_cust_code == '' && $soh_cust_name == '' && $soh_sm_code == '' && $sm_name =='' && $po_number ==''){

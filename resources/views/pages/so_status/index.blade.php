@@ -106,6 +106,7 @@
 
                         </div>
                       </div>
+                      <!--
                       <div class="row">
                           <div class="form-group row">
                               <div class="col-sm-2">
@@ -115,13 +116,13 @@
                                   <input type="text" class="form-control datepicker" id="date_from" name="date_from" value="{{Request::input('date_from') ?? ''}}">
                               </div>
                               <div class="col-sm-2">
-                                  <span class="text-xs font-weight-bold">To</span>
+                                  <span class="text-xs font-weight-bold">Date To</span>
                               </div>
                               <div class="col-sm-2">
                                   <input type="text" class="form-control datepicker" id="date_to" name="date_to" value="{{Request::input('date_to') ?? ''}}">
                               </div>
                           </div>
-                      </div>
+                      </div>-->
 
                       <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
                       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
