@@ -114,7 +114,6 @@ class SoStatusController extends Controller
             a.material AS SOI_ITEM_CODE,
             a.description AS SOI_ITEM_DESC,
             FORMAT(SUM(a.order_quantity), 2) AS SOI_QTY,
-            GROUP_CONCAT(DISTINCT a.status ORDER BY a.status SEPARATOR ', ') AS ALL_STATUSES,
             b.ZE AS SOH_SM_CODE,
             c.IDMA_ZI_NAME AS SM_NAME,
             FORMAT(SUM(d.invoiced_quantity), 2) AS INV_QTY,
