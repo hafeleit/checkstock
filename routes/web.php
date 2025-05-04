@@ -41,7 +41,7 @@ use App\Http\Controllers\Consumerlabel\ProductItemsController;
 use App\Http\Controllers\ITAssetTypeController;
 use App\Http\Controllers\InvRecordController;
 
-  Route::get('/', function () {return redirect('/products');});
+  //Route::get('/', function () {return redirect('/products');});
 
   //warranty
   Route::get('warranty', function(){ return Redirect::to(route('register-warranty.index')); });
@@ -54,9 +54,9 @@ use App\Http\Controllers\InvRecordController;
   Route::get('clr_dashboard', [HomeController::class, 'clr_dashboard'])->name('clr_dashboard');
 
   //check stock
-  Route::resource('products', ProductController::class);
-  Route::post('products-import', [ProductController::class, 'import'])->name('products.import');
-  Route::get('products-search-ajax', [ProductController::class, 'search_ajax'])->name('products.search-ajax');
+  //Route::resource('products', ProductController::class);
+  //Route::post('products-import', [ProductController::class, 'import'])->name('products.import');
+  //Route::get('products-search-ajax', [ProductController::class, 'search_ajax'])->name('products.search-ajax');
 
   //so status
 
