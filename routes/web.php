@@ -41,7 +41,9 @@ use App\Http\Controllers\Consumerlabel\ProductItemsController;
 use App\Http\Controllers\ITAssetTypeController;
 use App\Http\Controllers\InvRecordController;
 
-  //Route::get('/', function () {return redirect('/products');});
+  Route::get('/', function () {
+    abort(404);
+  });
 
   //warranty
   Route::get('warranty', function(){ return Redirect::to(route('register-warranty.index')); });
