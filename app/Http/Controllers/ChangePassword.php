@@ -40,7 +40,7 @@ class ChangePassword extends Controller
             'new_password' => [
                 'required',
                 'string',
-                'min:8',
+                'min:15',
                 'confirmed',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).+$/'
             ],
