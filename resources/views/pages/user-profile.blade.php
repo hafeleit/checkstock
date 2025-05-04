@@ -124,13 +124,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <?php /* ?>
                             <div class="row">
                                 <div class="d-flex align-items-center">
                                     <a href="{{ route('change-password')}}" type="button" class="btn btn-dark btn-sm ms-auto">Change Password</a>
                                 </div>
                             </div>
-                            <?php */ ?>
                         </div>
 
                 </div>

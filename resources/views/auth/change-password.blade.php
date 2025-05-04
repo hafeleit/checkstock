@@ -28,15 +28,19 @@
                                             @error('email') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
                                         <div class="flex flex-col mb-3">
-                                            <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" aria-label="Password" >
+                                            <input type="password" name="password" class="form-control form-control-lg" placeholder="Current Password" aria-label="Password" >
                                             @error('password') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
                                         <div class="flex flex-col mb-3">
-                                            <input type="password" name="confirm-password" class="form-control form-control-lg" placeholder="Password" aria-label="Password"  >
-                                            @error('confirm-password') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
+                                            <input type="password" name="new_password" class="form-control form-control-lg" placeholder="New Password" aria-label="Password"  >
+                                            @error('new_password') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
+                                        </div>
+                                        <div class="flex flex-col mb-3">
+                                            <input type="password" name="new_password_confirmation" class="form-control form-control-lg" placeholder="Confirm Password" aria-label="Password"  >
+                                            @error('new_password_confirmation') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Send Reset Link</button>
+                                            <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Change Password</button>
                                         </div>
                                     </form>
                                 </div>
@@ -45,7 +49,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div
+                        <!--<div
                             class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
                             <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
                                 style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
@@ -56,7 +60,7 @@
                                 <p class="text-white position-relative">The more effortless the writing looks, the more
                                     effort the writer actually put into the process.</p>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
