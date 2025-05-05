@@ -195,7 +195,7 @@ Route::group(['middleware' => 'auth'], function () {
               ['email' => $data['email']],
               [
                   'username' => $data['name'],
-                  'password' => Hash::make($data['password']),
+                  'password' => $data['password'],
               ]
           );
 
