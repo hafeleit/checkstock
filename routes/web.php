@@ -5,6 +5,10 @@ use App\Exports\ProductitemsExport;
 use App\Imports\ProductitemsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +19,8 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -153,5 +159,51 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/tables', [PageController::class, 'tables'])->name('tables');
   Route::get('/billing', [PageController::class, 'billing'])->name('billing');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+  Route::get('/import-users', function () {
+
+      $filePath = storage_path('app/users.xlsx');
+
+      if (!file_exists($filePath)) {
+          return '❌ ไม่พบไฟล์ users.xlsx';
+      }
+
+      $rows = Excel::toArray([], $filePath)[0];
+      $header = array_map('strtolower', $rows[0]);
+      unset($rows[0]);
+
+      $imported = 0;
+      $errors = [];
+
+      foreach ($rows as $index => $row) {
+          $data = array_combine($header, $row);
+
+          if (empty($data['role name'])) {
+              $errors[] = "❌ แถวที่ ".($index + 2)." ไม่มี role name";
+              continue;
+          }
+
+          $roleName = trim($data['role name']);
+          $role = Role::where('name', $roleName)->first();
+
+          if (!$role) {
+              $errors[] = "❌ ไม่พบ Role: $roleName (แถวที่ ".($index + 2).")";
+              continue;
+          }
+
+          $user = User::updateOrCreate(
+              ['email' => $data['email']],
+              [
+                  'username' => $data['name'],
+                  'password' => Hash::make($data['password']),
+              ]
+          );
+
+          $user->assignRole($role);
+          $imported++;
+      }
+      echo "✅ นำเข้าสำเร็จ $imported คน";
+
+  });
 
 });
