@@ -48,7 +48,8 @@ use App\Http\Controllers\ITAssetTypeController;
 use App\Http\Controllers\InvRecordController;
 
   Route::get('/', function () {
-    abort(404);
+    //abort(404);
+    return view('welcome');
   });
 
   //warranty
