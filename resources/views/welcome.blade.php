@@ -39,8 +39,10 @@
     </div>
 
     <!-- Content -->
-    <h1 class="text-5xl font-bold mb-4 z-10">Welcome to Häfele Application Portal</h1>
-    <p class="text-xl text-gray-300 mb-6 z-10">All your internal tools, in one place.</p>
+    <h1 class="text-5xl font-bold mb-4 z-10">
+      Welcome to <span class="text-[#E30613] uppercase">HÄFELE</span> Apps Hub
+    </h1>
+    <p class="text-xl text-gray-300 mb-6 z-10">Your central portal for all applications</p>
     <a href="#apps"
        class="bg-[#E30613] text-white py-3 px-8 rounded-full text-lg font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out z-10">
       Explore Apps
