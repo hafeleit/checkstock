@@ -30,7 +30,7 @@
 <body class="bg-gray-100 font-sans">
 
   <section class="relative h-screen text-white flex flex-col items-center justify-center text-center" style="background-image: url('/img/s30.webp'); background-size: cover; background-position: center;">
-    <div class="absolute inset-0 bg-gradient-to-r from-[#0a2342] via-[#000000] to-[#000000] opacity-80 z-0"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0a2342] via-[#000000] to-[#000000] opacity-70 z-0"></div>
     <!-- Logo at top-left -->
     <div class="fixed top-4 left-4 z-50">
       <img src="/img/logo-ct.png" alt="Häfele Logo" class="h-8">
