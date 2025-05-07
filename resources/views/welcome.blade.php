@@ -33,7 +33,7 @@
     <div class="absolute inset-0 bg-gradient-to-r from-[#0a2342] via-[#000000] to-[#000000] opacity-70 z-0"></div>
     <!-- Logo at top-left -->
     <div class="absolute top-2 left-2 z-50">
-      <img src="/img/logo-ct.png" alt="Häfele Logo" class="h-8">
+      <img src="/img/logo-ct.png" alt="Häfele Logo" class="h-6 sm:h-8">
     </div>
 
     <!-- Content -->
