@@ -29,36 +29,71 @@
 </head>
 <body class="bg-gray-100 font-sans">
 
-  <!-- Hero Section (Full Screen) with IT Background -->
-  <section class="h-screen bg-cover bg-center text-white flex flex-col items-center justify-center text-center" style="background-image: url('https://t4.ftcdn.net/jpg/04/78/95/73/360_F_478957385_zCuEGTXNJKPygVCxmxkY01oV7JFVUFDv.jpg');">
-    <div class="bg-black bg-opacity-50 w-full h-full absolute top-0 left-0 z-0"></div> <!-- Overlay to make text stand out -->
+
+  <section class="relative h-screen text-white flex flex-col items-center justify-center text-center" style="background: radial-gradient(circle at right, #0a2342, #000000);">
+
+    <!-- Logo at top-left -->
+    <div class="absolute top-4 left-4 z-20">
+      <img src="/img/logo-ct.png" alt="Häfele Logo"
+           class="h-8">
+    </div>
+
+    <!-- Content -->
     <h1 class="text-5xl font-bold mb-4 z-10">Welcome to Häfele Application Portal</h1>
     <p class="text-xl text-gray-300 mb-6 z-10">All your internal tools, in one place.</p>
-    <a href="#apps" class="bg-blue-600 text-white py-2 px-6 rounded-full text-lg hover:bg-blue-700 transition z-10">Explore Apps</a>
+    <a href="#apps"
+       class="bg-[#E30613] text-white py-3 px-8 rounded-full text-lg font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out z-10">
+      Explore Apps
+    </a>
   </section>
 
   <!-- App Cards Section -->
   <section id="apps" class="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
 
     <!-- App Card 1 -->
-    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all">
-      <h3 class="text-xl font-semibold text-gray-800 mb-2">CRM System</h3>
+    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all group ">
+      <h3 class="text-2xl font-bold text-gray-800 mb-2 tracking-tight group-hover:text-[#E30613] transition-colors duration-300">
+        CRM System
+      </h3>
       <p class="text-sm text-gray-500 mb-4">Customer Relationship Management</p>
-      <a href="https://rsa-crm.hafele.com/index.php?module=Home&action=index" class="text-blue-600 hover:underline font-medium">Launch</a>
+      <a href="https://rsa-crm.hafele.com/index.php?module=Home&action=index" target="_blank"
+         class="inline-flex items-center gap-2 text-[#E30613] font-medium hover:text-red-700 transition duration-200 group">
+        <span>Launch</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7m0 0v7m0-7L10 14" />
+        </svg>
+      </a>
+
     </div>
 
     <!-- App Card 2 -->
-    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all">
-      <h3 class="text-xl font-semibold text-gray-800 mb-2">HR System</h3>
+    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all group">
+      <h3 class="text-2xl font-bold text-gray-800 mb-2 tracking-tight group-hover:text-[#E30613] transition-colors duration-300">
+        HR System
+      </h3>
       <p class="text-sm text-gray-500 mb-4">Manage employee information and leave requests</p>
-      <a href="https://hafele.peopleplushcm.com/login/home" class="text-blue-600 hover:underline font-medium">Launch</a>
+      <a href="https://hafele.peopleplushcm.com/login/home" target="_blank"
+         class="inline-flex items-center gap-2 text-[#E30613] font-medium hover:text-red-700 transition duration-200 group">
+        <span>Launch</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7m0 0v7m0-7L10 14" />
+        </svg>
+      </a>
     </div>
 
     <!-- App Card 3 -->
-    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all">
-      <h3 class="text-xl font-semibold text-gray-800 mb-2">In-house System</h3>
+    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all group">
+      <h3 class="text-2xl font-bold text-gray-800 mb-2 tracking-tight group-hover:text-[#E30613] transition-colors duration-300">
+        In-house System
+      </h3>
       <p class="text-sm text-gray-500 mb-4">Internal tools and automations developed by IT</p>
-      <a href="/login" class="text-blue-600 hover:underline font-medium">Launch</a>
+      <a href="/login" target="_blank"
+         class="inline-flex items-center gap-2 text-[#E30613] font-medium hover:text-red-700 transition duration-200 group">
+        <span>Launch</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7m0 0v7m0-7L10 14" />
+        </svg>
+      </a>
     </div>
 
     <!-- เพิ่มการ์ดเพิ่มเติมได้ที่นี่ -->
