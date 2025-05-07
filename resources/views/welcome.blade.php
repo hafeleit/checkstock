@@ -29,7 +29,6 @@
 </head>
 <body class="bg-gray-100 font-sans">
 
-
   <section class="relative h-screen text-white flex flex-col items-center justify-center text-center" style="background: radial-gradient(circle at right, #0a2342, #000000);">
 
     <!-- Logo at top-left -->
@@ -112,6 +111,34 @@
       </a>
     </div>
 
+    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all group">
+      <h3 class="text-2xl font-bold text-gray-800 mb-2 tracking-tight group-hover:text-[#E30613] transition-colors duration-300">
+        Sharepoint System
+      </h3>
+      <p class="text-sm text-gray-500 mb-4">Collaborate and manage documents and workflows</p>
+      <a href="https://haefele-my.sharepoint.com/" target="_blank"
+         class="inline-flex items-center gap-2 text-[#E30613] font-medium hover:text-red-700 transition duration-200 group">
+        <span>Launch</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7m0 0v7m0-7L10 14" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all group">
+      <h3 class="text-2xl font-bold text-gray-800 mb-2 tracking-tight group-hover:text-[#E30613] transition-colors duration-300">
+        Elearning Sosafe
+      </h3>
+      <p class="text-sm text-gray-500 mb-4">Online training platform for safety and security</p>
+      <a href="https://elearning.sosafe.de/" target="_blank"
+         class="inline-flex items-center gap-2 text-[#E30613] font-medium hover:text-red-700 transition duration-200 group">
+        <span>Launch</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7m0 0v7m0-7L10 14" />
+        </svg>
+      </a>
+    </div>
+
     <!-- เพิ่มการ์ดเพิ่มเติมได้ที่นี่ -->
   </section>
 
@@ -126,7 +153,6 @@
   <canvas id="summerCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></canvas>
 
   <script>
-
     const month = new Date().getMonth(); // 0 = January, 11 = December
 
     if ([4,5,6,7,8].includes(month)) {
@@ -313,9 +339,7 @@
       drawSakuraLeaves();
       }
 
-
   </script>
-
 
 </body>
 </html>
