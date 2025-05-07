@@ -14,6 +14,14 @@
     ::-webkit-scrollbar {
       display: none;
     }
+    #apps {
+      position: relative;
+      z-index: 10;
+    }
+
+    #rainCanvas {
+      z-index: 1 !important;
+    }
   </style>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -32,19 +40,22 @@
   <section class="relative h-screen text-white flex flex-col items-center justify-center text-center" style="background-image: url('/img/s30.webp'); background-size: cover; background-position: center;">
     <div class="absolute inset-0 bg-gradient-to-r from-[#0a2342] via-[#000000] to-[#000000] opacity-70 z-0"></div>
     <!-- Logo at top-left -->
-    <div class="absolute top-2 left-2 z-50">
+    <div class="absolute top-3 left-3 z-50">
       <img src="/img/logo-ct.png" alt="Häfele Logo" class="h-6 sm:h-8">
     </div>
 
     <!-- Content -->
-    <h1 class="text-5xl font-bold mb-4 z-10">
+    <h1 class="text-3xl sm:text-5xl font-bold mb-4 z-10">
       Welcome to <span class="text-[#E30613] uppercase animate-pulse">HÄFELE</span> Apps Hub
     </h1>
-    <p class="text-xl text-gray-300 mb-6 z-10">Your central portal for all applications</p>
+    <p class="text-base sm:text-xl text-gray-300 mb-6 z-10">
+      Your central portal for all applications
+    </p>
     <a href="#apps"
-       class="bg-[#E30613] text-white py-3 px-8 rounded-full text-lg font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out z-10">
+       class="text-sm sm:text-lg bg-[#E30613] text-white py-2 px-6 sm:py-3 sm:px-8 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out z-10">
       Explore Apps
     </a>
+
   </section>
 
   <!-- App Cards Section -->
