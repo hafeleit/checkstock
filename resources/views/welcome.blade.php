@@ -156,7 +156,7 @@
         Remote System
       </h3>
       <p class="text-sm text-gray-500 mb-4">Access internal systems remotely and securely</p>
-      <a href="https://remote.hafele.com/" target="_blank"
+      <a href="https://get.teamviewer.com/66bimqe" target="_blank"
          class="inline-flex items-center gap-2 text-[#E30613] font-medium hover:text-red-700 transition duration-200 group">
         <span>Launch</span>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
