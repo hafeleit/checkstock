@@ -150,6 +150,21 @@
       </a>
     </div>
 
+    <!-- App Card: Remote System -->
+    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all group">
+      <h3 class="text-2xl font-bold text-gray-800 mb-2 tracking-tight group-hover:text-[#E30613] transition-colors duration-300">
+        Remote System
+      </h3>
+      <p class="text-sm text-gray-500 mb-4">Access internal systems remotely and securely</p>
+      <a href="https://remote.hafele.com/" target="_blank"
+         class="inline-flex items-center gap-2 text-[#E30613] font-medium hover:text-red-700 transition duration-200 group">
+        <span>Launch</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7m0 0v7m0-7L10 14" />
+        </svg>
+      </a>
+    </div>
+
     <!-- เพิ่มการ์ดเพิ่มเติมได้ที่นี่ -->
   </section>
 
