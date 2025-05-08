@@ -45,8 +45,9 @@
     </div>
 
     <!-- Content -->
-    <h1 class="text-3xl sm:text-5xl font-bold mb-4 z-10">
-      Welcome to <span class="text-[#E30613] uppercase animate-pulse">HÄFELE</span> Apps Hub
+    <h1 class="text-3xl sm:text-5xl font-bold mb-4 z-10 leading-tight">
+      Welcome to <br>
+      <span class="text-[#E30613] uppercase animate-pulse">HÄFELE</span> Apps Hub
     </h1>
     <p class="text-base sm:text-xl text-gray-300 mb-6 z-10">
       Your central portal for all applications
