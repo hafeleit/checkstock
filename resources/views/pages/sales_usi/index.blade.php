@@ -198,7 +198,7 @@
                                   <th class="text-uppercase text-sm font-weight-bolder"> Week</th>
                                   <th class="text-center border-usi text-uppercase text-sm font-weight-bolder ps-2"> Inbound</th>
                                   <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Outbound</th>
-                                  <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Avaliable</th>
+                                  <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Available</th>
                                   <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Received</th>
                                   <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Forecast</th>
                               </tr>
