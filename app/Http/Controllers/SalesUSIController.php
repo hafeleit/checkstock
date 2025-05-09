@@ -186,18 +186,13 @@ class SalesUSIController extends Controller
 
       // สร้าง Common Table Expression (CTE) เพื่อสร้างลำดับสัปดาห์
       $weekSequence = DB::table(DB::raw('(WITH RECURSIVE week_sequence AS (
-          SELECT WEEK(DATE_SUB(CURDATE(), INTERVAL 1 WEEK), 1) AS week_number,
-                 -1 AS week_offset,
-                 YEAR(DATE_SUB(CURDATE(), INTERVAL 1 WEEK)) - 543 AS year_number
+          SELECT WEEK(DATE_SUB(CURDATE(), INTERVAL 1 WEEK), 1) AS week_number, -1 AS week_offset, RIGHT(YEAR(DATE_SUB(CURDATE(), INTERVAL 1 WEEK)), 2) AS year_number
           UNION ALL
-          SELECT WEEK(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK), 1),
-                 week_offset + 1,
-                 YEAR(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK)) - 543 AS year_number
+          SELECT WEEK(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK), 1), week_offset + 1, RIGHT(YEAR(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK)), 2) AS year_number
           FROM week_sequence
           WHERE week_offset < 52
       ) SELECT * FROM week_sequence) as week_sequence'))
-      ->select('week_number', 'week_offset', 'year_number')
-      ->get();
+          ->select('week_number', 'week_offset', 'year_number');
 
       // Query สำหรับ PO (การสั่งซื้อ)
       $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
