@@ -333,7 +333,8 @@ class getorder extends Command
           $rate = $order->list[$i]->totalprice / $order->list[$i]->number;
           $data_excel[$l][] = $rate.' '; //rate price
           $data_excel[$l][] = '';
-          $data_excel[$l][] = $order->customeridnumber ?? (string)'9999999999999';  //$order->customeridnumber
+          $customeridnumber = $order->customeridnumber != '' ? $order->customeridnumber : (string)'9999999999999';
+          $data_excel[$l][] = $customeridnumber; //$order->customeridnumber
           $data_excel[$l][] = '00000';
           $data_excel[$l][] = 'ZROL'; //Discount Code
           $discnt = '';
