@@ -46,6 +46,10 @@
 
     <!-- Content -->
     <h1 class="text-3xl sm:text-5xl font-bold mb-4 z-10 leading-tight">
+      Under Construction
+    </h1>
+    <!--
+    <h1 class="text-3xl sm:text-5xl font-bold mb-4 z-10 leading-tight">
       Welcome to <br>
       <span class="text-[#E30613] uppercase animate-pulse">HÄFELE</span> Apps Hub
     </h1>
@@ -56,13 +60,11 @@
        class="text-sm sm:text-lg bg-[#E30613] text-white py-2 px-6 sm:py-3 sm:px-8 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out z-10">
       Explore Apps
     </a>
-
+  -->
   </section>
-
-  <!-- App Cards Section -->
+<!--
   <section id="apps" class="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
 
-    <!-- App Card 1 -->
     <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all group ">
       <h3 class="text-2xl font-bold text-gray-800 mb-2 tracking-tight group-hover:text-[#E30613] transition-colors duration-300">
         CRM System
@@ -78,7 +80,6 @@
 
     </div>
 
-    <!-- App Card 2 -->
     <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all group">
       <h3 class="text-2xl font-bold text-gray-800 mb-2 tracking-tight group-hover:text-[#E30613] transition-colors duration-300">
         HRMS System
@@ -93,7 +94,6 @@
       </a>
     </div>
 
-    <!-- App Card 3 -->
     <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all group">
       <h3 class="text-2xl font-bold text-gray-800 mb-2 tracking-tight group-hover:text-[#E30613] transition-colors duration-300">
         In-house System
@@ -108,7 +108,6 @@
       </a>
     </div>
 
-    <!-- App Card 4 (Qlik Sense System) -->
     <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all group">
       <h3 class="text-2xl font-bold text-gray-800 mb-2 tracking-tight group-hover:text-[#E30613] transition-colors duration-300">
         Qlik Sense System
@@ -151,7 +150,6 @@
       </a>
     </div>
 
-    <!-- App Card: Remote System -->
     <div class="bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all group">
       <h3 class="text-2xl font-bold text-gray-800 mb-2 tracking-tight group-hover:text-[#E30613] transition-colors duration-300">
         Remote System
@@ -166,9 +164,8 @@
       </a>
     </div>
 
-    <!-- เพิ่มการ์ดเพิ่มเติมได้ที่นี่ -->
   </section>
-
+-->
   <!-- Footer -->
   <footer class="bg-gray-900 text-gray-400 text-center p-4 text-sm mt-8">
     © 2025 Häfele Thailand IT Department. All rights reserved.
