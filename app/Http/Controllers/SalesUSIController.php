@@ -198,7 +198,7 @@ class SalesUSIController extends Controller
       $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
           ->select([
               'a.material',
-              DB::raw('RIGHT(YEAR(STR_TO_DATE(a.created_on_purchasing_doc, "%m/%d/%Y")), 2) AS years'),
+              DB::raw('RIGHT(YEAR(STR_TO_DATE(a.created_on_purchasing_doc, "%d/%m/%Y")), 2) AS years'),
               DB::raw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%d/%m/%Y'), 1) AS weeks"),
               'a.po_order_unit AS WSS_ITEM_UOM_CODE',
               DB::raw("COALESCE(SUM(a.quantity_po) - SUM(a.delivered_quantity), 0) AS WSS_INCOMING_QTY"),
@@ -211,8 +211,8 @@ class SalesUSIController extends Controller
       /*$soQuery = DB::table('ZHINSD_VA05 as b')
           ->select([
               'b.material',
-              DB::raw('RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%m/%d/%Y")), 2) AS years'),
-              DB::raw("WEEK(STR_TO_DATE(b.delivery_date, '%m/%d/%Y'), 1) AS weeks"),
+              DB::raw('RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%d/%m/%Y")), 2) AS years'),
+              DB::raw("WEEK(STR_TO_DATE(b.delivery_date, '%d/%m/%Y'), 1) AS weeks"),
               DB::raw("COALESCE(SUM(b.order_quantity), 0) - COALESCE(inv.invoiced_quantity, 0) AS WSS_RES_QTY")
           ])
           ->leftJoin('ZHAASD_INV as inv', function ($join) {
@@ -229,14 +229,14 @@ class SalesUSIController extends Controller
               })
               ->selectRaw(
                   'b.material,
-                  RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%m/%d/%Y")), 2) AS years,
-                  WEEK(STR_TO_DATE(b.delivery_date, "%m/%d/%Y"), 1) AS weeks,
+                  RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%d/%m/%Y")), 2) AS years,
+                  WEEK(STR_TO_DATE(b.delivery_date, "%d/%m/%Y"), 1) AS weeks,
                   SUM(b.order_quantity) - COALESCE(inv.invoiced_quantity, 0) AS WSS_RES_QTY'
               )
               ->where('b.material', $material)
               ->groupBy('b.sd_document')
-              ->groupByRaw('WEEK(STR_TO_DATE(b.delivery_date, "%m/%d/%Y"), 1)')
-              ->groupByRaw('RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%m/%d/%Y")), 2)');
+              ->groupByRaw('WEEK(STR_TO_DATE(b.delivery_date, "%d/%m/%Y"), 1)')
+              ->groupByRaw('RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%d/%m/%Y")), 2)');
 
           $soQuery = DB::table(DB::raw('(' . $subQuery->toSql() . ') as t'))
               ->mergeBindings($subQuery)
@@ -377,8 +377,8 @@ class SalesUSIController extends Controller
             COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE,
             COALESCE(CONCAT_WS(' ', d.ZI, e.IDMA_ZI_NAME), '') AS ISD_ADMIN,
             COALESCE(CONCAT_WS(' ', d.ZE, e2.IDMA_ZI_NAME), '') AS ISD_REP,
-            RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')),2) AS years,
-		        WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) AS weeks
+            RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%d/%m/%Y')),2) AS years,
+		        WEEK(STR_TO_DATE(a.delivery_date, '%d/%m/%Y'), 1) AS weeks
           ")
           ->leftJoin('ZHAASD_ORD as b', function ($join) {
               $join->on('b.material', '=', 'a.material')
@@ -401,10 +401,10 @@ class SalesUSIController extends Controller
           ->leftJoin(DB::raw('(SELECT IDMA_ZI, IDMA_ZI_NAME FROM HWW_SD_CUSTLIS GROUP BY IDMA_ZI) as e'), 'e.IDMA_ZI', '=', 'd.ZI')
           ->leftJoin(DB::raw('(SELECT IDMA_ZI, IDMA_ZI_NAME FROM HWW_SD_CUSTLIS GROUP BY IDMA_ZI) as e2'), 'e2.IDMA_ZI', '=', 'd.ZE')
           ->where('a.material', '=', $item_code)
-          ->whereRaw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) = $year_no")
-          ->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) = $week_no")
+          ->whereRaw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%d/%m/%Y')), 2) = $year_no")
+          ->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%d/%m/%Y'), 1) = $week_no")
           //->whereRaw('COALESCE(sum(a.order_quantity), 0) - COALESCE(c.invoiced_quantity, 0) != 0')
-          ->groupBy(DB::raw("a.sd_document, RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')),2), WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1)"))
+          ->groupBy(DB::raw("a.sd_document, RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%d/%m/%Y')),2), WEEK(STR_TO_DATE(a.delivery_date, '%d/%m/%Y'), 1)"))
 
           ;
 
