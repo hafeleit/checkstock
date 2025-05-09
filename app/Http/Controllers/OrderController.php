@@ -449,7 +449,8 @@ class OrderController extends Controller
             $data_excel[$l][] = $order->shippingchannel;
           }
 
-          $data_excel[$l][] = $order->customerpostcode ?? $order->shippingpostcode;
+          $shippingpostcode = $order->shippingpostcode != '' ? $order->shippingpostcode : $order->customerpostcode;
+          $data_excel[$l][] = $shippingpostcode;
           $data_excel[$l][] = 'ZAF';
           $data_excel[$l][] = $order->shippingamount ?? '0';
 
