@@ -325,7 +325,15 @@ class SalesUSIController extends Controller
       $query = DB::table('ZHWWMM_OPEN_ORDERS as a')
         ->select([
           DB::raw("IFNULL(a.purchasing_document, '') as IPD_DOC_NO"),
-          DB::raw("IFNULL(DATE_FORMAT(a.created_on_purchasing_doc, '%d/%m/%Y'), '') as IPD_DOC_DT"),
+          DB::raw("
+            IFNULL(
+              DATE_FORMAT(
+                STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'),
+                '%d/%m/%Y'
+              ),
+              ''
+            ) as IPD_DOC_DT
+          "),
           DB::raw("IFNULL(a.po_order_unit, '') as IPD_UOM_CODE"),
           DB::raw("IFNULL(a.quantity_po, '') as IPD_QTY"),
           DB::raw("IFNULL(a.vendor_output_date, '') as IPD_ETS"),
