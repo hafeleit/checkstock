@@ -336,7 +336,15 @@ class SalesUSIController extends Controller
           "),
           DB::raw("IFNULL(a.po_order_unit, '') as IPD_UOM_CODE"),
           DB::raw("IFNULL(a.quantity_po, '') as IPD_QTY"),
-          DB::raw("IFNULL(a.vendor_output_date, '') as IPD_ETS"),
+          DB::raw("
+            IFNULL(
+              DATE_FORMAT(
+                STR_TO_DATE(a.vendor_output_date, '%m/%d/%Y'),
+                '%d/%m/%Y'
+              ),
+              ''
+            ) as IPD_ETS
+          "),
           //DB::raw("IFNULL(a.confirmed_issue_date, '') as IPD_STATUS"),
           //DB::raw("IF(a.confirmed_issue_date IS NOT NULL, 'C', 'U') as IPD_STATUS")
           DB::raw("
