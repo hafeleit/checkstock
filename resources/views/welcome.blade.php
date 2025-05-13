@@ -46,7 +46,7 @@
 
     <!-- Content -->
     <h1 class="text-3xl sm:text-5xl font-bold mb-4 z-10 leading-tight">
-      Under Construction
+      This page is getting a makeover.
     </h1>
     <!--
     <h1 class="text-3xl sm:text-5xl font-bold mb-4 z-10 leading-tight">
