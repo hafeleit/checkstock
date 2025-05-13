@@ -57,8 +57,8 @@
                                 <input name="article_no" id="article_no" type="text" class="form-control" placeholder="กรุณากรอก Article no. (Please fill in)" value="{{ old('article_no') }}" required>
                             </div>
                             <div class="mb-3">
-                                <label class="text-sm">Serial no. (16-20 หลัก)<span class="text-danger">*</span></label>
-                                <input name="serial_no" type="text" class="form-control" placeholder="กรุณากรอก Serial no. (Please fill in)" value="{{ old('serial_no') }}" required>
+                                <label class="text-sm">Serial no. (16-20 หลัก)</label>
+                                <input name="serial_no" type="text" class="form-control" placeholder="“กรุณากรอก Serial no. (ถ้ามี)” (Please enter the serial number (if available)" value="{{ old('serial_no') }}">
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">ช่องทางการสั่งซื้อ (Order channel)<span class="text-danger">*</span></label>
