@@ -201,7 +201,7 @@ class SalesUSIController extends Controller
               $join->on('a.material', '=', 'b.material')
                    ->on('a.purchasing_document', '=', 'b.purch_doc');
           })
-          ->leftJoin('zhaamm_ifvmg as c', 'c.material', '=', 'a.material')
+          ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
           ->select([
               'a.material',
               /*DB::raw('RIGHT(YEAR(STR_TO_DATE(a.created_on_purchasing_doc, "%m/%d/%Y")), 2) AS years'),*/
@@ -338,7 +338,7 @@ class SalesUSIController extends Controller
       ->get();
 
 
-      $stocks = DB::table('mb52')
+      $stocks = DB::table('MB52')
           ->selectRaw("
               SUM(CASE WHEN storage_location = 'TH02' THEN unrestricted ELSE 0 END) AS TH02,
               SUM(CASE WHEN storage_location = 'THS2' THEN unrestricted ELSE 0 END) AS THS2,
@@ -378,7 +378,7 @@ class SalesUSIController extends Controller
             $join->on('a.material', '=', 'b.material')
                  ->on('a.purchasing_document', '=', 'b.purch_doc');
         })
-        ->leftJoin('zhaamm_ifvmg as c', 'c.material', '=', 'a.material')
+        ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
         ->select([
           DB::raw("IFNULL(a.purchasing_document, '') as IPD_DOC_NO"),
           DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_DOC_DT"),
