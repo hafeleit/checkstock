@@ -25,6 +25,7 @@ class SalesUSIController extends Controller
       ->select([
         DB::raw("CASE WHEN m.material IS NULL OR m.material = '' THEN 'N/A' ELSE m.material END AS NSU_ITEM_CODE"),
         DB::raw("CASE WHEN m.kurztext IS NULL OR m.kurztext = '' THEN 'N/A' ELSE m.kurztext END AS NSU_ITEM_NAME"),
+        DB::raw("CASE WHEN m.dm IS NULL OR m.dm = '' THEN 'N/A' ELSE m.dm END AS NSU_ITEM_DM"),
         DB::raw("CASE WHEN m.bun IS NULL OR m.bun = '' THEN 'N/A' ELSE m.bun END AS NSU_ITEM_UOM_CODE"),
         //DB::raw("CASE WHEN m.pgr IS NULL OR m.pgr = '' THEN 'N/A' ELSE m.pgr END AS NSU_PURCHASER"),
         DB::raw("
@@ -127,7 +128,7 @@ class SalesUSIController extends Controller
         ->leftJoin('MB52 as i', function ($join) {
             $join->on('i.material', '=', 'm.material')
                  ->where('i.storage_location', '=', 'TH02')
-                 ->where('i.special_stock', '=', '');
+                 ->whereNull('i.special_stock');
         })
         ->leftJoin('FIS_MPM_OUT as mf', 'mf.MATNR', '=', 'm.material')
         ->leftJoin('ZMM_MATZERT as pm', 'pm.material', '=', 'm.material')
@@ -196,13 +197,47 @@ class SalesUSIController extends Controller
 
       // Query สำหรับ PO (การสั่งซื้อ)
       $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
+          ->leftJoin('574_ekko_expo as b', function($join) {
+              $join->on('a.material', '=', 'b.material')
+                   ->on('a.purchasing_document', '=', 'b.purch_doc');
+          })
+          ->leftJoin('zhaamm_ifvmg as c', 'c.material', '=', 'a.material')
           ->select([
               'a.material',
-              DB::raw('RIGHT(YEAR(STR_TO_DATE(a.created_on_purchasing_doc, "%m/%d/%Y")), 2) AS years'),
-              DB::raw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'), 1) AS weeks"),
+              /*DB::raw('RIGHT(YEAR(STR_TO_DATE(a.created_on_purchasing_doc, "%m/%d/%Y")), 2) AS years'),*/
+              DB::raw("
+                RIGHT(
+                  YEAR(
+                    DATE_ADD(
+                      STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
+                      INTERVAL (c.planned_deliv_time - b.production_time_in_days) DAY
+                    )
+                  ),
+                  2
+                ) as years
+              "),
+              DB::raw("
+                WEEK(
+                  DATE_ADD(
+                    STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
+                    INTERVAL (c.planned_deliv_time - b.production_time_in_days) DAY
+                  ),
+                  1
+                ) as weeks
+              "),
+              /*DB::raw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'), 1) AS weeks"),*/
               'a.po_order_unit AS WSS_ITEM_UOM_CODE',
               DB::raw("COALESCE(SUM(a.quantity_po) - SUM(a.delivered_quantity), 0) AS WSS_INCOMING_QTY"),
-              DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY")
+              DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY"),
+              /*DB::raw("
+                DATE_FORMAT(
+                  DATE_ADD(
+                    STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
+                    INTERVAL (c.planned_deliv_time - b.production_time_in_days) DAY
+                  ),
+                  '%d/%m/%Y'
+                ) as IPD_ETA
+              ")*/
           ])
           ->where('a.material', $material)
           ->groupBy('a.material', DB::raw('weeks'), DB::raw('years'));
@@ -302,6 +337,20 @@ class SalesUSIController extends Controller
       ->groupBy('c.material', 'c.uom')
       ->get();
 
+
+      $stocks = DB::table('mb52')
+          ->selectRaw("
+              SUM(CASE WHEN storage_location = 'TH02' THEN unrestricted ELSE 0 END) AS TH02,
+              SUM(CASE WHEN storage_location = 'THS2' THEN unrestricted ELSE 0 END) AS THS2,
+              SUM(CASE WHEN storage_location = 'THS3' THEN unrestricted ELSE 0 END) AS THS3,
+              SUM(CASE WHEN storage_location = 'THS4' THEN unrestricted ELSE 0 END) AS THS4,
+              SUM(CASE WHEN storage_location = 'THS5' THEN unrestricted ELSE 0 END) AS THS5,
+              SUM(CASE WHEN storage_location = 'THS6' THEN unrestricted ELSE 0 END) AS THS6
+          ")
+          ->where('material', '499.30.198')
+          ->whereIn('storage_location', ['TH02','THS2','THS3','THS4','THS5','THS6'])
+          ->first(); // ดึงแถวเดียว
+
       return response()->json([
         'status' => true,
         'count' => $count,
@@ -311,6 +360,7 @@ class SalesUSIController extends Controller
         'mss' => $mss,
         'wss' => $wss,
         'uom' => $uom,
+        'stocks' => $stocks,
         //'t20_3' => $t20_3,
         //'t20_12' => $t20_12,
       ]);
@@ -318,43 +368,46 @@ class SalesUSIController extends Controller
     }
 
     public function inbound(Request $request){
+
       $item_code = $request->item_code ?? '940.99.961';
       $ipd_week_no = $request->ipd_week_no ?? '2346';
 
       //$query = DB::table('OW_ITEMWISE_PO_DTLS_WEB_HAFL')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
       $query = DB::table('ZHWWMM_OPEN_ORDERS as a')
+        ->leftJoin('574_ekko_expo as b', function($join) {
+            $join->on('a.material', '=', 'b.material')
+                 ->on('a.purchasing_document', '=', 'b.purch_doc');
+        })
+        ->leftJoin('zhaamm_ifvmg as c', 'c.material', '=', 'a.material')
         ->select([
           DB::raw("IFNULL(a.purchasing_document, '') as IPD_DOC_NO"),
-          DB::raw("
-            IFNULL(
-              DATE_FORMAT(
-                STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'),
-                '%d/%m/%Y'
-              ),
-              ''
-            ) as IPD_DOC_DT
-          "),
+          DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_DOC_DT"),
           DB::raw("IFNULL(a.po_order_unit, '') as IPD_UOM_CODE"),
           DB::raw("IFNULL(a.quantity_po, '') as IPD_QTY"),
+          DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.vendor_output_date, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_ETS"),
+          DB::raw("IF(a.delivered_quantity > 0, 'S',IF(a.confirmed_issue_date IS NOT NULL, 'C', 'U')) as IPD_STATUS"),
           DB::raw("
-            IFNULL(
-              DATE_FORMAT(
-                STR_TO_DATE(a.vendor_output_date, '%m/%d/%Y'),
-                '%d/%m/%Y'
+            DATE_FORMAT(
+              DATE_ADD(
+                STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
+                INTERVAL (c.planned_deliv_time - b.production_time_in_days) DAY
               ),
-              ''
-            ) as IPD_ETS
-          "),
-          //DB::raw("IFNULL(a.confirmed_issue_date, '') as IPD_STATUS"),
-          //DB::raw("IF(a.confirmed_issue_date IS NOT NULL, 'C', 'U') as IPD_STATUS")
-          DB::raw("
-              IF(a.delivered_quantity > 0, 'S',
-                  IF(a.confirmed_issue_date IS NOT NULL, 'C', 'U')
-              ) as IPD_STATUS
+              '%d/%m/%Y'
+            ) as IPD_ETA
           ")
         ])
+
         ->where('a.material', $item_code)
-        ->whereRaw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'), 1) = ?", [$ipd_week_no]);
+        /*->whereRaw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'), 1) = ?", [$ipd_week_no]);*/
+        ->whereRaw("
+          WEEK(
+            DATE_ADD(
+              STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
+              INTERVAL (c.planned_deliv_time - b.production_time_in_days) DAY
+            ),
+            1
+          ) = ?
+        ", [$ipd_week_no]);
 
       $count = $query->count();
       $inbound = $query->get();

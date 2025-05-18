@@ -70,10 +70,11 @@
                             <span>UOM Code : <label class="uom text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
+                            <span>Pack Uom Code : <label class="pack_code1 text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-5">
-                            <span>Free Stk Qty : <label class="free_stk_qty text-sm"></label></span>
+                            <!--<span>Free Stk Qty : <label class="free_stk_qty text-sm"></label></span>-->
+                            <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
                           </div>
 
 
@@ -86,7 +87,7 @@
                             <span>New Item Code : <label class="new_item_code text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Pack Uom Code : <label class="pack_code1 text-sm"></label></span>
+                            <span>Conv Base UOM : <label class="pack_code2 text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-5">
                             <span>Purchasing Group : <label class="purchaser text-sm"></label></span>
@@ -101,7 +102,7 @@
                             <span>Item Brand : <label class="item_brand text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Conv Base UOM : <label class="pack_code2 text-sm"></label></span>
+                            <span>Pack Volume : <label class="weight_volume2 text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-5">
                             <span>Product manager : <label class="pm_contact text-sm"></label></span>
@@ -120,7 +121,7 @@
                             <span>Item Status : <label class="item_status text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Pack Volume : <label class="weight_volume2 text-sm"></label></span>
+                            <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-5">
                             <span>Excl Remark : <label class="exclusivity_remark text-sm"></label></span>
@@ -135,7 +136,7 @@
                             <span>Storage indicator : <label class="inventory_code text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
+                            <span>DM : <label class="item_dm text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
                             <span>Barcode : <label class="barcode text-sm"></label></span>
@@ -147,7 +148,7 @@
             </div>
         </div>
         <div class="row">
-          <div class="col-lg-8 mb-lg-0 mt-4">
+          <div class="col-lg-4 mb-lg-0 mt-4">
               <div class="card ">
                   <div class="table-responsive">
                       <table id="uom_table" class="table align-items-center ">
@@ -160,6 +161,26 @@
                                   <th class="text-end text-uppercase text-sm font-weight-bolder"> ZPE</th>
                                   <th class="text-end text-uppercase text-sm font-weight-bolder"> MAP</th>
                                   @endcan
+                              </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-8 mb-lg-0 mt-4">
+              <div class="card ">
+                  <div class="table-responsive">
+                      <table id="stk_table" class="table align-items-center ">
+                          <thead>
+                              <tr>
+                                  <th class="text-uppercase text-sm font-weight-bolder ">DC STK</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder">BKK DIY STK</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder">Pattaya S/R STK</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder">Phuket S/R STK</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder">HuaHin S/R STK</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder">ChiangMai S/R STK</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -226,6 +247,7 @@
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Qty</th>
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> ETS</th>
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Status</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> ETA</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -355,9 +377,11 @@
       Swal.close();
       console.log(res);
       if(res['count'] == 0){
+
         $('.text-input').html('');
         $(':checkbox').prop('checked', false);
         $("#uom_table > tbody").html("");
+        $("#stk_table > tbody").html("");
         $("#mss_table > tbody").html("");
         $("#po_table > tbody").html("");
         $("#so_table > tbody").html("");
@@ -372,8 +396,10 @@
         $('.card-body div div span label').text('');
         return false;
       }
+
       $('.item_code').html(res['data'][0]['NSU_ITEM_CODE']);
       $('.item_desc').html(res['data'][0]['NSU_ITEM_NAME']);
+      $('.item_dm').html(res['data'][0]['NSU_ITEM_DM']);
       $('.purchaser').html(res['data'][0]['NSU_PURCHASER']);
       $('.pm_contact').html(res['data'][0]['NSU_PROD_MGR']);
       $('.uom').html(res['data'][0]['NSU_ITEM_UOM_CODE']);
@@ -401,6 +427,7 @@
 
       var d = new Date();
       $("#uom_table > tbody").html("");
+      $("#stk_table > tbody").html("");
       $("#mss_table > tbody").html("");
       $("#wss_table > tbody").html("");
       $("#t20_3_table > tbody").html("");
@@ -477,6 +504,15 @@
         $('#uom_table').append(tbody);
       });
 
+      let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+res['stocks']['TH02']+'</p></td>\
+                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS2']+' </p></td>\
+                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS3']+' </p></td>\
+                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS4']+' </p></td>\
+                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS5']+' </p></td>\
+                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS6']+' </p></td></tr>';
+      $('#stk_table').append(tbody);
+
+
     }).fail(function(jqXHR, textStatus, errorThrown) {
         Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดข้อมูลได้: ' + errorThrown, 'error');
     });
@@ -511,6 +547,7 @@
           <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_QTY"]+'</p></td>\
           <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETS"]+'</p></td>\
           <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_STATUS"]+'</p></td>\
+          <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETA"]+'</p></td>\
           </tr>';
         $('#po_table').append(tbody);
       });
