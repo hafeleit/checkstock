@@ -347,7 +347,7 @@ class SalesUSIController extends Controller
               SUM(CASE WHEN storage_location = 'THS5' THEN unrestricted ELSE 0 END) AS THS5,
               SUM(CASE WHEN storage_location = 'THS6' THEN unrestricted ELSE 0 END) AS THS6
           ")
-          ->where('material', '499.30.198')
+          ->where('material', $item_code)
           ->whereIn('storage_location', ['TH02','THS2','THS3','THS4','THS5','THS6'])
           ->first(); // ดึงแถวเดียว
 
