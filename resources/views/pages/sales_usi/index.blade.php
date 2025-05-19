@@ -397,6 +397,9 @@
         return false;
       }
 
+      $("#po_table > tbody").html("");
+      $("#so_table > tbody").html("");
+
       $('.item_code').html(res['data'][0]['NSU_ITEM_CODE']);
       $('.item_desc').html(res['data'][0]['NSU_ITEM_NAME']);
       $('.item_dm').html(res['data'][0]['NSU_ITEM_DM']);
