@@ -139,7 +139,7 @@
                             <span>Storage indicator : <label class="inventory_code text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>DM : <label class="item_dm text-sm"></label></span>
+                            <span>MRP Type : <label class="item_dm text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
                             <span>Barcode : <label class="barcode text-sm"></label></span>
