@@ -178,12 +178,12 @@
                       <table id="stk_table" class="table align-items-center ">
                           <thead>
                               <tr>
-                                  <th class="text-uppercase text-sm font-weight-bolder ">DC STK</th>
-                                  <th class="text-end text-uppercase text-sm font-weight-bolder">BKK DIY STK</th>
-                                  <th class="text-end text-uppercase text-sm font-weight-bolder">Pattaya S/R STK</th>
-                                  <th class="text-end text-uppercase text-sm font-weight-bolder">Phuket S/R STK</th>
-                                  <th class="text-end text-uppercase text-sm font-weight-bolder">HuaHin S/R STK</th>
-                                  <th class="text-end text-uppercase text-sm font-weight-bolder">ChiangMai S/R STK</th>
+                                  <th class="text-uppercase text-sm font-weight-bolder ">TH02-DC</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder">THS2-BKK DIY</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder">THS3-Pattaya S/R</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder">THS4-Phuket S/R</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder">THS5-HuaHin S/R</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder">THS6-ChiangMai S/R</th>
                               </tr>
                           </thead>
                           <tbody>
