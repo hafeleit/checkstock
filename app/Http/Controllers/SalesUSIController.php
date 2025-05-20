@@ -340,12 +340,12 @@ class SalesUSIController extends Controller
 
       $stocks = DB::table('MB52')
           ->selectRaw("
-              SUM(CASE WHEN storage_location = 'TH02' THEN unrestricted ELSE 0 END) AS TH02,
-              SUM(CASE WHEN storage_location = 'THS2' THEN unrestricted ELSE 0 END) AS THS2,
-              SUM(CASE WHEN storage_location = 'THS3' THEN unrestricted ELSE 0 END) AS THS3,
-              SUM(CASE WHEN storage_location = 'THS4' THEN unrestricted ELSE 0 END) AS THS4,
-              SUM(CASE WHEN storage_location = 'THS5' THEN unrestricted ELSE 0 END) AS THS5,
-              SUM(CASE WHEN storage_location = 'THS6' THEN unrestricted ELSE 0 END) AS THS6
+              COALESCE(SUM(CASE WHEN storage_location = 'TH02' THEN unrestricted ELSE 0 END), 0) AS TH02,
+              COALESCE(SUM(CASE WHEN storage_location = 'THS2' THEN unrestricted ELSE 0 END), 0) AS THS2,
+              COALESCE(SUM(CASE WHEN storage_location = 'THS3' THEN unrestricted ELSE 0 END), 0) AS THS3,
+              COALESCE(SUM(CASE WHEN storage_location = 'THS4' THEN unrestricted ELSE 0 END), 0) AS THS4,
+              COALESCE(SUM(CASE WHEN storage_location = 'THS5' THEN unrestricted ELSE 0 END), 0) AS THS5,
+              COALESCE(SUM(CASE WHEN storage_location = 'THS6' THEN unrestricted ELSE 0 END), 0) AS THS6
           ")
           ->where('material', $item_code)
           ->whereIn('storage_location', ['TH02','THS2','THS3','THS4','THS5','THS6'])
