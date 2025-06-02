@@ -102,6 +102,14 @@ class SalesUSIController extends Controller
                 ELSE m.lage
             END AS NSU_ITEM_INV_CODE
         "),
+        DB::raw("
+            CASE
+                WHEN m.lage = 'LW' AND (m.dm = 'Z4' OR m.dm = 'ZM' OR m.dm = 'PD') THEN 'Stock Item'
+                WHEN m.lage = 'NLW' AND (m.dm = 'ZX' OR m.dm = 'ZD') THEN 'C-Item'
+                ELSE NULL
+            END AS NSU_ITEM_DM_DESC
+        "),
+
         DB::raw("CASE WHEN p.planned_deliv_time IS NULL OR p.planned_deliv_time = '' THEN 'N/A' ELSE p.planned_deliv_time END AS NSU_SUPP_REPL_TIME"),
         DB::raw("CASE WHEN p.minimum_order_qty IS NULL OR p.minimum_order_qty = '' THEN 'N/A' ELSE p.minimum_order_qty END AS NSU_PURC_MOQ"),
         DB::raw("CASE WHEN p.vendor_material_number IS NULL OR p.vendor_material_number = '' THEN 'N/A' ELSE p.vendor_material_number END AS NSU_SUPP_ITEM_CODE"),
@@ -202,6 +210,7 @@ class SalesUSIController extends Controller
                    ->on('a.purchasing_document', '=', 'b.purch_doc');
           })
           ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
+          ->leftJoin('ZHWWBCQUERYDIR as d', 'd.material', '=', 'a.material')
           ->select([
               'a.material',
               /*DB::raw('RIGHT(YEAR(STR_TO_DATE(a.created_on_purchasing_doc, "%m/%d/%Y")), 2) AS years'),*/
@@ -210,7 +219,7 @@ class SalesUSIController extends Controller
                   YEAR(
                     DATE_ADD(
                       STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-                      INTERVAL (c.planned_deliv_time - b.production_time_in_days) DAY
+                      INTERVAL (c.planned_deliv_time - b.production_time_in_days + d.war) DAY
                     )
                   ),
                   2
@@ -220,7 +229,7 @@ class SalesUSIController extends Controller
                 WEEK(
                   DATE_ADD(
                     STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-                    INTERVAL (c.planned_deliv_time - b.production_time_in_days) DAY
+                    INTERVAL (c.planned_deliv_time - b.production_time_in_days + d.war) DAY
                   ),
                   1
                 ) as weeks
@@ -229,54 +238,53 @@ class SalesUSIController extends Controller
               'a.po_order_unit AS WSS_ITEM_UOM_CODE',
               DB::raw("COALESCE(SUM(a.quantity_po) - SUM(a.delivered_quantity), 0) AS WSS_INCOMING_QTY"),
               DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY"),
-              /*DB::raw("
-                DATE_FORMAT(
-                  DATE_ADD(
-                    STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-                    INTERVAL (c.planned_deliv_time - b.production_time_in_days) DAY
-                  ),
-                  '%d/%m/%Y'
-                ) as IPD_ETA
-              ")*/
           ])
           ->where('a.material', $material)
           ->groupBy('a.material', DB::raw('weeks'), DB::raw('years'));
 
-      // Query สำหรับ SO (การขาย)
-      /*$soQuery = DB::table('ZHINSD_VA05 as b')
-          ->select([
-              'b.material',
-              DB::raw('RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%m/%d/%Y")), 2) AS years'),
-              DB::raw("WEEK(STR_TO_DATE(b.delivery_date, '%m/%d/%Y'), 1) AS weeks"),
-              DB::raw("COALESCE(SUM(b.order_quantity), 0) - COALESCE(inv.invoiced_quantity, 0) AS WSS_RES_QTY")
-          ])
-          ->leftJoin('ZHAASD_INV as inv', function ($join) {
-              $join->on('inv.material', '=', 'b.material')
-                   ->on('inv.sales_document', '=', 'b.sd_document');
-          })
-          ->where('b.material', $material)
-          //->whereRaw('COALESCE(b.order_quantity, 0) - COALESCE(inv.invoiced_quantity, 0) != 0')
-          ->groupBy('b.sd_document', DB::raw('weeks'), DB::raw('years'));*/
-          $subQuery = DB::table('ZHINSD_VA05 as b')
-              ->leftJoin('ZHAASD_INV as inv', function ($join) {
-                  $join->on('inv.material', '=', 'b.material')
-                       ->on('inv.sales_document', '=', 'b.sd_document');
-              })
-              ->selectRaw(
-                  'b.material,
-                  RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%m/%d/%Y")), 2) AS years,
-                  WEEK(STR_TO_DATE(b.delivery_date, "%m/%d/%Y"), 1) AS weeks,
-                  SUM(b.order_quantity) - COALESCE(inv.invoiced_quantity, 0) AS WSS_RES_QTY'
-              )
-              ->where('b.material', $material)
-              ->groupBy('b.sd_document')
-              ->groupByRaw('WEEK(STR_TO_DATE(b.delivery_date, "%m/%d/%Y"), 1)')
-              ->groupByRaw('RIGHT(YEAR(STR_TO_DATE(b.delivery_date, "%m/%d/%Y")), 2)');
+              // Subquery t1
+              $t1 = DB::table('ZHINSD_VA05 as a')
+                  ->select(
+                      'a.material',
+                      DB::raw("COALESCE(a.sd_document, '') AS ISD_DOC_NO"),
+                      DB::raw("COALESCE(SUM(a.order_quantity), 0) AS sum_order_qty"),
+                      DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) AS years"),
+                      DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) AS weeks")
+                  )
+                  ->where('a.material', $material)
+                  ->where('a.status','!=', 'Completed')
+                  ->groupBy(
+                      DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1)"),
+                      DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2)")
+                  );
 
-          $soQuery = DB::table(DB::raw('(' . $subQuery->toSql() . ') as t'))
-              ->mergeBindings($subQuery)
-              ->selectRaw('t.years, t.weeks, SUM(t.WSS_RES_QTY) AS WSS_RES_QTY')
-              ->groupBy('t.years', 't.weeks');
+              // Subquery t2
+              $t2 = DB::table('ZHAASD_INV as b')
+                  ->select(
+                      'b.sales_document',
+                      'b.material',
+                      DB::raw('SUM(b.invoiced_quantity) AS sum_inv_qty')
+                  )
+                  ->where('b.material', $material)
+                  ->groupBy('b.sales_document', 'b.material');
+
+              // Main query
+              $soQuery = DB::table(DB::raw("({$t1->toSql()}) as t1"))
+                  ->mergeBindings($t1) // VERY IMPORTANT!
+                  ->leftJoin(DB::raw("({$t2->toSql()}) as t2"), function ($join) {
+                      $join->on('t1.material', '=', 't2.material')
+                           ->on('t1.ISD_DOC_NO', '=', 't2.sales_document');
+                  })
+                  ->mergeBindings($t2) // VERY IMPORTANT!
+                  ->select(
+                      't1.material',
+                      't1.years',
+                      't1.weeks',
+                      't1.sum_order_qty',
+                      't2.sum_inv_qty',
+                      DB::raw('COALESCE(t1.sum_order_qty, 0) - COALESCE(t2.sum_inv_qty, 0) AS WSS_RES_QTY')
+                  );
+
 
       // Query สำหรับ Stock (สินค้าคงคลัง)
       $stockQuery = DB::table('MB52 as a')
@@ -324,7 +332,7 @@ class SalesUSIController extends Controller
       $uom = DB::table('ZHWWBCQUERYDIR as a')
       ->select([
           DB::raw('CASE WHEN a.material IS NOT NULL THEN a.material ELSE "N/A" END as IUW_ITEM_CODE'),
-          DB::raw('CASE WHEN c.UoM IS NOT NULL THEN c.UoM ELSE "N/A" END as IUW_UOM_CODE'),
+          DB::raw('CASE WHEN a.bun IS NOT NULL THEN a.bun ELSE "N/A" END as IUW_UOM_CODE'),
           DB::raw('CASE WHEN b.Amount IS NOT NULL THEN FORMAT(b.Amount / b.per, 2) ELSE "0" END as IUW_PRICE'),
           DB::raw('CASE WHEN d.Amount IS NOT NULL THEN FORMAT(d.Amount / d.Pricing_unit, 2) ELSE "0" END as NEW_ZPLV_COST'),
           DB::raw('CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount / c.per, 2) ELSE "0" END as NEW_ZPE_COST'),
@@ -351,6 +359,53 @@ class SalesUSIController extends Controller
           ->whereIn('storage_location', ['TH02','THS2','THS3','THS4','THS5','THS6'])
           ->first(); // ดึงแถวเดียว
 
+          // ตรวจสอบว่ามีข้อมูลจาก material หรือไม่
+          $check = DB::table('zhwwmm_bom_vko')->where('material', $item_code)->exists();
+
+          // ตั้งค่า flag
+          $flg = $check ? 'material' : 'component';
+
+          // เริ่ม query
+          $query = DB::table('zhwwmm_bom_vko as a')
+              ->leftJoin('mb52 as b', 'b.material', '=', 'a.component')
+              ->select(
+                  'a.material as parent',
+                  'a.bom_usg',
+                  'a.base_quantity as parent_qty',
+                  'a.component as comp',
+                  'a.quantity as comp_qty',
+                  'b.unrestricted as comp_stk',
+                  DB::raw('(b.unrestricted / a.quantity) * a.base_quantity as cal_stk'),
+                  DB::raw("'" . $flg . "' as flg")
+              );
+
+          // ใส่เงื่อนไข where ตาม flag
+          if ($flg === 'material') {
+              $query->where('a.material', $item_code)
+                    ->where(function ($q) {
+                        $q->where('a.bom_usg', '!=', 1)  // ถ้า bom_usg ไม่ใช่ 1 => ผ่าน
+                          ->orWhere(function ($q2) {
+                              $q2->where('a.bom_usg', 1)   // ถ้า bom_usg เป็น 1
+                                 ->where('a.proc_type', 'E'); // ต้องมี proc_type = E
+                          });
+                    })
+                    ->groupBy('a.component');
+          } else {
+              $query->where('a.component', $item_code)
+                    ->groupBy('a.material');
+          }
+
+          // สั่งเรียงลำดับ
+          $bom = $query->orderBy('cal_stk', 'asc')
+              ->get()
+              ->map(function ($item) {
+                  $item->comp_stk = number_format($item->comp_stk, 2);
+                  $item->cal_stk = number_format($item->cal_stk, 2);
+                  return $item;
+              });
+
+
+
       return response()->json([
         'status' => true,
         'count' => $count,
@@ -361,6 +416,7 @@ class SalesUSIController extends Controller
         'wss' => $wss,
         'uom' => $uom,
         'stocks' => $stocks,
+        'bom' => $bom,
         //'t20_3' => $t20_3,
         //'t20_12' => $t20_12,
       ]);
@@ -379,6 +435,7 @@ class SalesUSIController extends Controller
                  ->on('a.purchasing_document', '=', 'b.purch_doc');
         })
         ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
+        ->leftJoin('ZHWWBCQUERYDIR as d', 'd.material', '=', 'a.material')
         ->select([
           DB::raw("IFNULL(a.purchasing_document, '') as IPD_DOC_NO"),
           DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_DOC_DT"),
@@ -390,7 +447,7 @@ class SalesUSIController extends Controller
             DATE_FORMAT(
               DATE_ADD(
                 STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-                INTERVAL (c.planned_deliv_time - b.production_time_in_days) DAY
+                INTERVAL (c.planned_deliv_time - b.production_time_in_days + d.war) DAY
               ),
               '%d/%m/%Y'
             ) as IPD_ETA
@@ -403,7 +460,7 @@ class SalesUSIController extends Controller
           WEEK(
             DATE_ADD(
               STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-              INTERVAL (c.planned_deliv_time - b.production_time_in_days) DAY
+              INTERVAL (c.planned_deliv_time - b.production_time_in_days + d.war) DAY
             ),
             1
           ) = ?
@@ -421,65 +478,88 @@ class SalesUSIController extends Controller
 
     public function outbound(Request $request){
 
-      $item_code = $request->item_code ?? '940.99.961';
-      $week_no = $request->week_no ?? '';
-      $year_no = $request->year_no ?? '';
+      $material = $request->item_code ?? '';
+      $week = $request->week_no ?? '';
+      $year = $request->year_no ?? '';
 
-      //$query = DB::table('OW_ITEMWISE_SO_DTLS_WEB_HAFL')->where('ISD_ITEM_CODE', $item_code)->where('ISD_WEEK_NO', $ipd_week_no);
-      $query = DB::table('ZHINSD_VA05 as a')
-          ->selectRaw("
+      // Subquery d
+      $d = DB::table('HWW_SD_06 as a')
+          ->select(
+              'a.SalesDoc',
+              'a.Material',
+              'a.ZI',
+              'a.ZE',
+              DB::raw('b1.IDMA_ZI_NAME AS ISD_ADMIN'),
+              DB::raw('b2.IDMA_ZI_NAME AS ISD_REP')
+          )
+          ->leftJoin('HWW_SD_CUSTLIS as b1', 'b1.IDMA_ZI', '=', 'a.ZI')
+          ->leftJoin('HWW_SD_CUSTLIS as b2', 'b2.IDMA_ZI', '=', 'a.ZE')
+          ->where('a.Material', $material)
+          ->distinct();
 
-            a.sold_to_party,
-            a.name1,
-            COALESCE(a.sd_document, '') AS ISD_DOC_NO,
-            COALESCE(a.document_date, '') AS ISD_DOC_DT,
-            COALESCE(a.unit_of_measure, '') AS ISD_UOM_CODE,
-            COALESCE(sum(a.order_quantity), 0) AS ISD_ORD_QTY,
-            COALESCE(sum(a.confirmed_quantity), 0) AS ISD_RESV_QTY,
-            COALESCE(b.delivered_qty, 0) AS ISD_DEL_QTY,
-            COALESCE(c.invoiced_quantity, 0) AS ISD_INV_QTY,
-            CASE
-                WHEN COALESCE(b.delivered_qty, 0) > 0 THEN COALESCE(a.goods_issue_date, '')
-                ELSE ''
-            END AS ISD_DEL_DT,
-            COALESCE(a.net_price, 0) AS ISD_RATE,
-            COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE,
-            COALESCE(CONCAT_WS(' ', d.ZI, e.IDMA_ZI_NAME), '') AS ISD_ADMIN,
-            COALESCE(CONCAT_WS(' ', d.ZE, e2.IDMA_ZI_NAME), '') AS ISD_REP,
-            RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')),2) AS years,
-		        WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) AS weeks
-          ")
+      // Subquery t1
+      $t1 = DB::table('ZHINSD_VA05 as a')
+          ->select(
+              'a.material',
+              'a.status',
+              'a.sold_to_party',
+              'a.name1',
+              'a.goods_issue_date',
+              DB::raw("COALESCE(a.sd_document, '') AS ISD_DOC_NO"),
+              DB::raw("COALESCE(a.document_date, '') AS ISD_DOC_DT"),
+              DB::raw("COALESCE(a.unit_of_measure, '') AS ISD_UOM_CODE"),
+              DB::raw("COALESCE(SUM(a.order_quantity), 0) AS ISD_ORD_QTY"),
+              DB::raw("COALESCE(SUM(a.confirmed_quantity), 0) AS ISD_RESV_QTY"),
+              DB::raw("COALESCE(b.delivered_qty, 0) AS ISD_DEL_QTY"),
+              DB::raw("COALESCE(a.net_price, 0) AS ISD_RATE"),
+              DB::raw("COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE"),
+              DB::raw("COALESCE(CONCAT_WS(' ', d.ZI, d.ISD_ADMIN), '') AS ISD_ADMIN"),
+              DB::raw("COALESCE(CONCAT_WS(' ', d.ZE, d.ISD_REP), '') AS ISD_REP"),
+              DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) AS years"),
+              DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) AS weeks")
+          )
           ->leftJoin('ZHAASD_ORD as b', function ($join) {
               $join->on('b.material', '=', 'a.material')
                    ->on('b.sd_document', '=', 'a.sd_document');
           })
-          ->leftJoin('ZHAASD_INV as c', function ($join) {
-              $join->on('c.material', '=', 'a.material')
-                   ->on('c.sales_document', '=', 'a.sd_document');
-          })
-          /*->leftJoin('HWW_SD_06 as d', function ($join) {
-              $join->on('d.Material', '=', 'a.material')
-                   ->on('d.SalesDoc', '=', 'a.sd_document');
-          })*/
-          ->leftJoin(DB::raw('(SELECT SalesDoc, Material, ZI, ZE FROM HWW_SD_06 GROUP BY SalesDoc) as d'), function ($join) {
+          ->leftJoinSub($d, 'd', function ($join) {
               $join->on('d.SalesDoc', '=', 'a.sd_document')
                    ->on('d.Material', '=', 'a.material');
           })
-          //->leftJoin('HWW_SD_CUSTLIS as e', 'd.ZI', '=', 'e.IDMA_ZI')
-          //->leftJoin('HWW_SD_CUSTLIS as e2', 'd.ZE', '=', 'e2.IDMA_ZI')
-          ->leftJoin(DB::raw('(SELECT IDMA_ZI, IDMA_ZI_NAME FROM HWW_SD_CUSTLIS GROUP BY IDMA_ZI) as e'), 'e.IDMA_ZI', '=', 'd.ZI')
-          ->leftJoin(DB::raw('(SELECT IDMA_ZI, IDMA_ZI_NAME FROM HWW_SD_CUSTLIS GROUP BY IDMA_ZI) as e2'), 'e2.IDMA_ZI', '=', 'd.ZE')
-          ->where('a.material', '=', $item_code)
-          ->whereRaw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) = $year_no")
-          ->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) = $week_no")
-          //->whereRaw('COALESCE(sum(a.order_quantity), 0) - COALESCE(c.invoiced_quantity, 0) != 0')
-          ->groupBy(DB::raw("a.sd_document, RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')),2), WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1)"))
+          ->where('a.material', $material)
+          ->where('a.status', '!=', 'Completed')
+          ->where(DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2)"), $year)
+          ->where(DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1)"), $week)
+          ->groupBy('a.sd_document');
 
-          ;
+      // Subquery t2
+      $t2 = DB::table('ZHAASD_INV as b')
+          ->select(
+              'b.sales_document',
+              'b.material',
+              DB::raw('SUM(b.invoiced_quantity) AS ISD_INV_QTY')
+          )
+          ->where('b.material', $material)
+          ->groupBy('b.sales_document', 'b.material');
 
-      $sql = $query->toSql();
-      $count = $query->count();
-      $outbound = $query->get();
+      // Main Query
+      $data = DB::table(DB::raw("({$t1->toSql()}) as t1"))
+          ->mergeBindings($t1)
+          ->leftJoin(DB::raw("({$t2->toSql()}) as t2"), function ($join) {
+              $join->on('t1.material', '=', 't2.material')
+                   ->on('t1.ISD_DOC_NO', '=', 't2.sales_document');
+          })
+          ->mergeBindings($t2)
+          ->select(
+              't1.*',
+              DB::raw('COALESCE(t2.ISD_INV_QTY, 0) AS ISD_INV_QTY'),
+              DB::raw("CASE WHEN COALESCE(t2.ISD_INV_QTY, 0) > 0 THEN COALESCE(t1.goods_issue_date, '') ELSE '' END AS ISD_DEL_DT")
+          );
+
+
+      $sql = $data->toSql();
+      $count = $data->count();
+      $outbound = $data->get();
       //dd($inbound);
       return response()->json([
         'status' => true,

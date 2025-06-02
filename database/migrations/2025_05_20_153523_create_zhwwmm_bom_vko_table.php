@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('zhwwmm_bom_vko', function (Blueprint $table) {
             $table->id();
             $table->string('material', 20)->nullable();        // ตัวอย่าง: 002.81.152
+            $table->string('proc_type', 5)->nullable();        // ตัวอย่าง: E
             $table->string('base_quantity', 30)->nullable();   // ตัวอย่าง: 1
             $table->string('bun', 10)->nullable();             // ตัวอย่าง: PCE
             $table->string('bom_usg', 10)->nullable();         // ตัวอย่าง: 1

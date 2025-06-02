@@ -8,7 +8,11 @@
   .border-usi{
     border-left: 1px solid #e9ecef !important;
   }
-
+  .form-check-input.no-click {
+    pointer-events: none;   /* ป้องกันการคลิก */
+    transform: scale(1.4);  /* ขยาย checkbox */
+    margin-right: 0.5rem;
+  }
 </style>
     <div class="container-fluid">
         <div class="row">
@@ -63,7 +67,7 @@
 
 
                           <div class="col-12 col-sm-4">
-                            <span>Base Price RSP Incl. VAT : <label class="zplv text-sm"></label></span>
+                            <span>Base Price RSP (ZPLV) Incl. VAT : <label class="zplv text-sm"></label></span>
                           </div>
                         </div>
 
@@ -142,10 +146,44 @@
                             <span>MRP Type : <label class="item_dm text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Barcode : <label class="barcode text-sm"></label></span>
+                            <span>MRP Desc : <label class="mrp_desc text-sm"></label></span>
                           </div>
                         </div>
 
+                        <div class="row">
+                          <div class="col-12 col-sm-4">
+                            <span>Barcode : <label class="barcode text-sm"></label></span>
+                          </div>
+                          <div class="col-12 col-sm-3">
+
+                          </div>
+                          <div class="col-12 col-sm-3">
+
+                          </div>
+                        </div>
+
+                        <div class="row mt-3 bom_show_flg">
+                          <div class="col-auto">
+                            <div class="form-check fs-5">
+                              <input class="form-check-input no-click" type="checkbox" id="chk_parent" name="option" value="P">
+                              <label class="form-check-label" for="chk_parent">P</label>
+                            </div>
+                          </div>
+
+                          <div class="col-auto">
+                            <div class="form-check fs-5">
+                              <input class="form-check-input no-click" type="checkbox" id="chk_comp" name="option" value="C">
+                              <label class="form-check-label" for="chk_comp">C</label>
+                            </div>
+                          </div>
+
+                          <div class="col-auto">
+                            <div class="form-check fs-5">
+                              <input class="form-check-input no-click" type="checkbox" id="chk_pp" name="option" value="P/P">
+                              <label class="form-check-label" for="chk_pp">P/P</label>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -158,8 +196,8 @@
                           <thead>
                               <tr>
                                   <th class="text-uppercase text-sm font-weight-bolder "> UOM</th>
-                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> Base Price</th>
-                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> Base Price RSP Incl. VAT</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> Base Price (ZPL)</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> Base Price RSP (ZPLV) Incl. VAT</th>
                                   @can('salesusi manager')
                                   <th class="text-end text-uppercase text-sm font-weight-bolder"> ZPE</th>
                                   <th class="text-end text-uppercase text-sm font-weight-bolder"> MAP</th>
@@ -194,17 +232,25 @@
           </div>
         </div>
         <div class="row">
-          <!--<div class="col-lg-6 mb-lg-0 mt-4">
-              <div class="card " style="height: 475px;">
+          <div class="col-lg-6 mb-lg-0 mt-4 bom_show_flg">
+              <div class="card" style="height: 475px;">
+                  <div class="card-header pb-0">
+                      <div class="">
+                        <label for="" class="text-lg">BOM Informations</label>
+                          <span class="float-end">No.of Parent can be made from available components <label for="" class="text-lg text-primary bom_cal">0</label></span>
+                      </div>
+
+                  </div>
                   <div class="table-responsive">
-                      <table id="mss_table" class="table align-items-center ">
+                      <table id="bom_table" class="table align-items-center ">
                           <thead>
                               <tr>
-                                  <th class="text-secondary"></th>
-                                  <th colspan="2" class="border-usi text-center text-end text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> Tot. Qty</th>
-                                  <th colspan="2" class="border-usi text-center text-end text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> Sold Qty.</th>
-                                  <th class="border-usi text-end text-uppercase text-secondary text-xxs font-weight-bolder"> Inv Count</th>
-                                  <th class="border-usi text-end text-uppercase text-secondary text-xxs font-weight-bolder"> Cust</th>
+                                  <th class="text-uppercase text-sm font-weight-bolder"> Parent</th>
+                                  <th class="text-center border-usi text-uppercase text-sm font-weight-bolder ps-2"> Parent Qty</th>
+                                  <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Comp</th>
+                                  <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Comp Qty</th>
+                                  <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Comp STK</th>
+                                  <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Cal STK</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -212,8 +258,8 @@
                       </table>
                   </div>
               </div>
-          </div>-->
-          <div class="col-lg-8 mb-lg-0 mt-4">
+          </div>
+          <div class="col-lg-6 mb-lg-0 mt-4">
               <div class="card" style="height: 475px;">
                   <div class="table-responsive">
                       <table id="wss_table" class="table align-items-center ">
@@ -233,6 +279,7 @@
                   </div>
               </div>
           </div>
+
         </div>
         <div class="row">
           <div class="col-lg-6 mb-lg-0 mt-4">
@@ -384,6 +431,8 @@
         $('.text-input').html('');
         $(':checkbox').prop('checked', false);
         $("#uom_table > tbody").html("");
+        $("#bom_table > tbody").html("");
+        $(".bom_cal").html("");
         $("#stk_table > tbody").html("");
         $("#mss_table > tbody").html("");
         $("#po_table > tbody").html("");
@@ -406,6 +455,7 @@
       $('.item_code').html(res['data'][0]['NSU_ITEM_CODE']);
       $('.item_desc').html(res['data'][0]['NSU_ITEM_NAME']);
       $('.item_dm').html(res['data'][0]['NSU_ITEM_DM']);
+      $('.mrp_desc').html(res['data'][0]['NSU_ITEM_DM_DESC']);
       $('.purchaser').html(res['data'][0]['NSU_PURCHASER']);
       $('.pm_contact').html(res['data'][0]['NSU_PROD_MGR']);
       $('.uom').html(res['data'][0]['NSU_ITEM_UOM_CODE']);
@@ -433,6 +483,8 @@
 
       var d = new Date();
       $("#uom_table > tbody").html("");
+      $("#bom_table > tbody").html("");
+      $(".bom_cal").html("");
       $("#stk_table > tbody").html("");
       $("#mss_table > tbody").html("");
       $("#wss_table > tbody").html("");
@@ -509,6 +561,48 @@
                       <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_MAP_COST"]+' THB</p></td>@endcan</tr>';
         $('#uom_table').append(tbody);
       });
+
+      if (res['bom'] && res['bom'].length > 0) {
+        $('.bom_show_flg').show();
+        $.each(res['bom'], function(key, val) {
+          let tbody = '<tr><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["parent"]+'</p></td>\
+          <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["parent_qty"]+'</p></td>\
+          <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["comp"]+'</p></td>\
+          <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["comp_qty"]+'</p></td>\
+          <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["comp_stk"]+'</p></td>\
+          <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["cal_stk"]+'</p></td></tr>';
+          $('#bom_table').append(tbody);
+        });
+      }else{
+        $('.bom_show_flg').hide();
+      }
+
+      if (res['bom'][0]['flg'] == 'material') {
+        $('.bom_cal').html(res['bom'][0]['cal_stk']);
+      }else{
+        $('.bom_cal').html(0);
+      }
+
+      if (res['bom'] && res['bom'].length > 0) {
+        let flg = res['bom'][0]['flg'];
+        let bom_usg = res['bom'][0]['bom_usg'];
+
+        // เคลียร์การติ๊กทุกช่องก่อน
+        $('#chk_parent, #chk_comp, #chk_pp').prop('checked', false);
+
+        // เงื่อนไขตามที่คุณต้องการ
+        if (flg === 'material' && bom_usg == 1) {
+          $('#chk_parent').prop('checked', true);
+        }
+
+        if (flg === 'component') {
+          $('#chk_comp').prop('checked', true);
+        }
+
+        if (bom_usg == 5) {
+          $('#chk_pp').prop('checked', true);
+        }
+      }
 
       let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+res['stocks']['TH02']+'</p></td>\
                     <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS2']+' </p></td>\

@@ -40,6 +40,23 @@ class SoStatusController extends Controller
         ->select([
             'a.id',
             'a.sales_document_type AS SOH_TXN_CODE',
+            DB::raw("
+                CASE a.sales_document_type
+                    WHEN 'YRWC' THEN 'YRWC-Retail/Online Shp'
+                    WHEN 'ZCM'  THEN 'ZCM-value credit memo'
+                    WHEN 'ZCW'  THEN 'ZCW-credit memo with GR'
+                    WHEN 'ZDM'  THEN 'ZDM-Debit Memo Request'
+                    WHEN 'ZDUE' THEN 'ZDUE-Data Migration Ord'
+                    WHEN 'ZEA'  THEN 'ZEA-Single rel.order ZHA'
+                    WHEN 'ZHA'  THEN 'ZHA-Main release order'
+                    WHEN 'ZOS'  THEN 'ZOS-Standard Order'
+                    WHEN 'ZPS'  THEN 'ZPS-Project Order (POC)'
+                    WHEN 'ZRW'  THEN 'ZRW-Returns'
+                    WHEN 'ZSO'  THEN 'ZSO-Sample order'
+                    WHEN 'ZOWC' THEN 'ZOWC-Warehouse Clearance'
+                    ELSE a.sales_document_type
+                END AS SOH_TXN_CODE_DESC
+            "),
             'a.sd_document AS SOH_NO',
             'a.document_date AS SOH_DT',
             'a.purchase_order_no AS SOH_LPO_NO',
@@ -49,6 +66,7 @@ class SoStatusController extends Controller
             'c.IDMA_ZI_NAME AS SM_NAME',
             'a.status AS OVERALL_STATUS'
         ]);
+
       if($soh_txn_code != ''){ $q->Where('a.sales_document_type',$soh_txn_code);}
       if($soh_no != ''){ $q->Where('a.sd_document',$soh_no);}
       if($po_number != ''){ $q->Where('a.purchase_order_no',$po_number);}
@@ -103,6 +121,25 @@ class SoStatusController extends Controller
       if($SOH_NO != ''){
 
         $q = DB::table('ZHINSD_VA05 as a')
+        ->select([
+          DB::raw("
+              CASE a.sales_document_type
+                  WHEN 'YRWC' THEN 'YRWC-Retail/Online Shp'
+                  WHEN 'ZCM'  THEN 'ZCM-value credit memo'
+                  WHEN 'ZCW'  THEN 'ZCW-credit memo with GR'
+                  WHEN 'ZDM'  THEN 'ZDM-Debit Memo Request'
+                  WHEN 'ZDUE' THEN 'ZDUE-Data Migration Ord'
+                  WHEN 'ZEA'  THEN 'ZEA-Single rel.order ZHA'
+                  WHEN 'ZHA'  THEN 'ZHA-Main release order'
+                  WHEN 'ZOS'  THEN 'ZOS-Standard Order'
+                  WHEN 'ZPS'  THEN 'ZPS-Project Order (POC)'
+                  WHEN 'ZRW'  THEN 'ZRW-Returns'
+                  WHEN 'ZSO'  THEN 'ZSO-Sample order'
+                  WHEN 'ZOWC' THEN 'ZOWC-Warehouse Clearance'
+                  ELSE a.sales_document_type
+              END AS SOH_TXN_CODE_DESC
+          ")
+        ])
         ->selectRaw("
             a.sales_document_type AS SOH_TXN_CODE,
             a.sd_document AS SOH_NO,

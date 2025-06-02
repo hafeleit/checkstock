@@ -56,7 +56,7 @@ class WarrantyController extends Controller
            'name' => 'required',
            'addr' => 'required',
            'tel' => 'required',
-           'serial_no' => 'unique:warranties,serial_no',
+           'serial_no' => 'nullable|unique:warranties,serial_no',
            'order_channel' => 'required',
            'order_number' => 'required',
         ],[

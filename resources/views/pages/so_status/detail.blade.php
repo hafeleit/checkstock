@@ -20,9 +20,16 @@
                     </div>
                     <div class="card-body">
                       <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span class="mb-2 text-xs">SO TYPE: <span class="text-danger font-weight-bold ms-sm-2">{{$data[0]->SOH_TXN_CODE_DESC}}</span></span>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <span class="mb-2 text-xs">SO NUMBER: <span class="text-danger font-weight-bold ms-sm-2">{{$data[0]->SOH_TXN_CODE.'-'.$data[0]->SOH_NO}}</span></span>
+                                    <span class="mb-2 text-xs">SO NUMBER: <span class="text-danger font-weight-bold ms-sm-2">{{$data[0]->SOH_NO}}</span></span>
                                 </div>
                             </div>
                             <div class="col-md-2">
