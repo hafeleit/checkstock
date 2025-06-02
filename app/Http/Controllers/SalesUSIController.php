@@ -539,7 +539,7 @@ class SalesUSIController extends Controller
       })
       ->select(DB::raw("
           t1.*,
-          t2.ISD_INV_QTY,
+          COALESCE(t2.ISD_INV_QTY, 0) AS ISD_INV_QTY,
           CASE
               WHEN COALESCE(t2.ISD_INV_QTY, 0) > 0 THEN COALESCE(t1.goods_issue_date, '')
               ELSE ''
