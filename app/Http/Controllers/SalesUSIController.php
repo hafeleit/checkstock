@@ -486,7 +486,7 @@ class SalesUSIController extends Controller
       // Subquery t2
       $t2 = DB::table('ZHAASD_INV as b')
           ->selectRaw('b.sales_document, b.material, SUM(b.invoiced_quantity) AS ISD_INV_QTY')
-          ->where('b.material', '946.26.016')
+          ->where('b.material', $material)
           ->groupBy('b.sales_document', 'b.material');
 
       // Subquery d (rep/admin)
