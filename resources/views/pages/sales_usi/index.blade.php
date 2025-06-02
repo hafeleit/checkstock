@@ -577,10 +577,10 @@
         $('.bom_show_flg').hide();
       }
 
-      if (res['bom'][0]['flg'] == 'material') {
-        $('.bom_cal').html(res['bom'][0]['cal_stk']);
-      }else{
-        $('.bom_cal').html(0);
+      if (res['bom'] && res['bom'].length > 0 && res['bom'][0]['flg'] === 'material') {
+          $('.bom_cal').html(res['bom'][0]['cal_stk']);
+      } else {
+          $('.bom_cal').html(0);
       }
 
       if (res['bom'] && res['bom'].length > 0) {
