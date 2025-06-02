@@ -482,45 +482,33 @@ class SalesUSIController extends Controller
       $week = $request->week_no ?? '';
       $year = $request->year_no ?? '';
 
-      // Subquery d
+      // Subquery t2
+      $t2 = DB::table('ZHAASD_INV as b')
+          ->selectRaw('b.sales_document, b.material, SUM(b.invoiced_quantity) AS ISD_INV_QTY')
+          ->where('b.material', '946.26.016')
+          ->groupBy('b.sales_document', 'b.material');
+
+      // Subquery d (rep/admin)
       $d = DB::table('HWW_SD_06 as a')
-          ->select(
-              'a.SalesDoc',
-              'a.Material',
-              'a.ZI',
-              'a.ZE',
-              DB::raw('b1.IDMA_ZI_NAME AS ISD_ADMIN'),
-              DB::raw('b2.IDMA_ZI_NAME AS ISD_REP')
-          )
+          ->selectRaw("
+              DISTINCT a.SalesDoc, a.Material, a.ZI, a.ZE,
+              b1.IDMA_ZI_NAME AS ISD_ADMIN,
+              b2.IDMA_ZI_NAME AS ISD_REP
+          ")
           ->leftJoin('HWW_SD_CUSTLIS as b1', 'b1.IDMA_ZI', '=', 'a.ZI')
           ->leftJoin('HWW_SD_CUSTLIS as b2', 'b2.IDMA_ZI', '=', 'a.ZE')
-          ->where('a.Material', $material)
-          ->distinct();
+          ->where('a.Material', $material);
+
+      // Subquery b1 (delivered qty)
+      $b1 = DB::table('ZHAASD_ORD as b')
+          ->selectRaw('b.material, b.sd_document, SUM(b.delivered_qty) AS sum_del_qty')
+          ->where('b.material', $material)
+          ->groupBy('b.sd_document');
 
       // Subquery t1
       $t1 = DB::table('ZHINSD_VA05 as a')
-          ->select(
-              'a.material',
-              'a.status',
-              'a.sold_to_party',
-              'a.name1',
-              'a.goods_issue_date',
-              DB::raw("COALESCE(a.sd_document, '') AS ISD_DOC_NO"),
-              DB::raw("COALESCE(a.document_date, '') AS ISD_DOC_DT"),
-              DB::raw("COALESCE(a.unit_of_measure, '') AS ISD_UOM_CODE"),
-              DB::raw("COALESCE(SUM(a.order_quantity), 0) AS ISD_ORD_QTY"),
-              DB::raw("COALESCE(SUM(a.confirmed_quantity), 0) AS ISD_RESV_QTY"),
-              DB::raw("COALESCE(b.delivered_qty, 0) AS ISD_DEL_QTY"),
-              DB::raw("COALESCE(a.net_price, 0) AS ISD_RATE"),
-              DB::raw("COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE"),
-              DB::raw("COALESCE(CONCAT_WS(' ', d.ZI, d.ISD_ADMIN), '') AS ISD_ADMIN"),
-              DB::raw("COALESCE(CONCAT_WS(' ', d.ZE, d.ISD_REP), '') AS ISD_REP"),
-              DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) AS years"),
-              DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) AS weeks")
-          )
-          ->leftJoin('ZHAASD_ORD as b', function ($join) {
-              $join->on('b.material', '=', 'a.material')
-                   ->on('b.sd_document', '=', 'a.sd_document');
+          ->leftJoinSub($b1, 'b1', function ($join) {
+              $join->on('b1.sd_document', '=', 'a.sd_document');
           })
           ->leftJoinSub($d, 'd', function ($join) {
               $join->on('d.SalesDoc', '=', 'a.sd_document')
@@ -528,33 +516,44 @@ class SalesUSIController extends Controller
           })
           ->where('a.material', $material)
           ->where('a.status', '!=', 'Completed')
-          ->where(DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2)"), $year)
-          ->where(DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1)"), $week)
-          ->groupBy('a.sd_document');
+          ->whereRaw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) = $year")
+          ->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) = $week")
+          ->groupBy('a.sd_document')
+          ->selectRaw("
+              a.material,
+              a.status,
+              a.sold_to_party,
+              a.name1,
+              a.goods_issue_date,
+              COALESCE(a.sd_document, '') AS ISD_DOC_NO,
+              COALESCE(a.document_date, '') AS ISD_DOC_DT,
+              COALESCE(a.unit_of_measure, '') AS ISD_UOM_CODE,
+              COALESCE(SUM(a.order_quantity), 0) AS ISD_ORD_QTY,
+              COALESCE(SUM(a.confirmed_quantity), 0) AS ISD_RESV_QTY,
+              COALESCE(b1.sum_del_qty, 0) AS ISD_DEL_QTY,
+              COALESCE(a.net_price, 0) AS ISD_RATE,
+              COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE,
+              COALESCE(CONCAT_WS(' ', d.ZI, d.ISD_ADMIN), '') AS ISD_ADMIN,
+              COALESCE(CONCAT_WS(' ', d.ZE, d.ISD_REP), '') AS ISD_REP,
+              RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) AS years,
+              WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) AS weeks
+          ");
 
-      // Subquery t2
-      $t2 = DB::table('ZHAASD_INV as b')
-          ->select(
-              'b.sales_document',
-              'b.material',
-              DB::raw('SUM(b.invoiced_quantity) AS ISD_INV_QTY')
-          )
-          ->where('b.material', $material)
-          ->groupBy('b.sales_document', 'b.material');
-
-      // Main Query
+      // Main query
       $data = DB::table(DB::raw("({$t1->toSql()}) as t1"))
           ->mergeBindings($t1)
-          ->leftJoin(DB::raw("({$t2->toSql()}) as t2"), function ($join) {
+          ->leftJoinSub($t2, 't2', function ($join) {
               $join->on('t1.material', '=', 't2.material')
                    ->on('t1.ISD_DOC_NO', '=', 't2.sales_document');
           })
-          ->mergeBindings($t2)
-          ->select(
-              't1.*',
-              DB::raw('COALESCE(t2.ISD_INV_QTY, 0) AS ISD_INV_QTY'),
-              DB::raw("CASE WHEN COALESCE(t2.ISD_INV_QTY, 0) > 0 THEN COALESCE(t1.goods_issue_date, '') ELSE '' END AS ISD_DEL_DT")
-          );
+          ->selectRaw("
+              t1.*,
+              t2.ISD_INV_QTY,
+              CASE
+                  WHEN COALESCE(t2.ISD_INV_QTY, 0) > 0 THEN COALESCE(t1.goods_issue_date, '')
+                  ELSE ''
+              END AS ISD_DEL_DT
+          ");
 
 
       $sql = $data->toSql();
