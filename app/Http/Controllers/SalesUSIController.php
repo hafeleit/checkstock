@@ -367,7 +367,7 @@ class SalesUSIController extends Controller
 
           // เริ่ม query
           $query = DB::table('zhwwmm_bom_vko as a')
-              ->leftJoin('mb52 as b', 'b.material', '=', 'a.component')
+              ->leftJoin('MB52 as b', 'b.material', '=', 'a.component')
               ->select(
                   'a.material as parent',
                   'a.bom_usg',
