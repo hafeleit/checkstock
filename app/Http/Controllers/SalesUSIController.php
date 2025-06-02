@@ -360,6 +360,7 @@ class SalesUSIController extends Controller
           ->first(); // ดึงแถวเดียว
 
           // ตรวจสอบว่ามีข้อมูลจาก material หรือไม่
+          $flg = '';
           $check = DB::table('zhwwmm_bom_vko')->where('material', $item_code)->exists();
 
           // ตั้งค่า flag
