@@ -162,7 +162,7 @@
                           </div>
                         </div>
 
-                        <div class="row mt-3 bom_show_flg">
+                        <div class="row mt-3 bom_show_flg" style="Display:none">
                           <div class="col-auto">
                             <div class="form-check fs-5">
                               <input class="form-check-input no-click" type="checkbox" id="chk_parent" name="option" value="P">
@@ -232,7 +232,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-6 mb-lg-0 mt-4 bom_show_flg">
+          <div class="col-lg-6 mb-lg-0 mt-4 bom_show_flg" style="Display:none">
               <div class="card" style="height: 475px;">
                   <div class="card-header pb-0">
                       <div class="">
