@@ -220,7 +220,7 @@ class SalesUSIController extends Controller
                   YEAR(
                     DATE_ADD(
                       STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-                      INTERVAL (c.planned_deliv_time - b.production_time_in_days + d.war) DAY
+                      INTERVAL (c.planned_deliv_time - b.production_time_in_days + COALESCE(d.war,0)) DAY
                     )
                   ),
                   2
@@ -230,7 +230,7 @@ class SalesUSIController extends Controller
                 WEEK(
                   DATE_ADD(
                     STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-                    INTERVAL (c.planned_deliv_time - b.production_time_in_days + d.war) DAY
+                    INTERVAL (c.planned_deliv_time - b.production_time_in_days + COALESCE(d.war,0)) DAY
                   ),
                   1
                 ) as weeks
@@ -437,7 +437,7 @@ class SalesUSIController extends Controller
                  ->on('a.purchasing_document', '=', 'b.purch_doc');
         })
         ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
-        ->leftJoin('ZHWWBCQUERYDIR as d', 'd.material', '=', 'a.material')
+        ->leftJoin(DB::raw("(SELECT d1.war, d1.material FROM ZHWWBCQUERYDIR d1 WHERE d1.material = '{$item_code}' GROUP BY d1.material) as d"), 'd.material', '=', 'a.material')
         ->select([
           DB::raw("IFNULL(a.purchasing_document, '') as IPD_DOC_NO"),
           DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_DOC_DT"),
@@ -449,7 +449,7 @@ class SalesUSIController extends Controller
             DATE_FORMAT(
               DATE_ADD(
                 STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-                INTERVAL (c.planned_deliv_time - b.production_time_in_days + d.war) DAY
+                INTERVAL (c.planned_deliv_time - b.production_time_in_days + COALESCE(d.war,0)) DAY
               ),
               '%d/%m/%Y'
             ) as IPD_ETA
@@ -462,7 +462,7 @@ class SalesUSIController extends Controller
           WEEK(
             DATE_ADD(
               STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-              INTERVAL (c.planned_deliv_time - b.production_time_in_days + d.war) DAY
+              INTERVAL (c.planned_deliv_time - b.production_time_in_days + COALESCE(d.war,0)) DAY
             ),
             1
           ) = ?

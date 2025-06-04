@@ -285,7 +285,7 @@
           <div class="col-lg-6 mb-lg-0 mt-4">
               <div class="card " style="height: 400px;">
                   <div class="card-header pb-0">
-                      <h6>PO Detail</h6>
+                      <h6>PO Details</h6>
                   </div>
                   <div class="table-responsive">
                       <table id="po_table" class="table align-items-center ">
@@ -309,7 +309,7 @@
             <div class="col-lg-6 mb-lg-0 mt-4">
                 <div class="card " style="height: 400px;">
                     <div class="card-header pb-0">
-                        <h6>SO Detail</h6>
+                        <h6>SO Details</h6>
                     </div>
                     <div class="table-responsive">
                         <table id="so_table" class="table align-items-center ">
