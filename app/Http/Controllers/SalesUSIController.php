@@ -210,7 +210,8 @@ class SalesUSIController extends Controller
                    ->on('a.purchasing_document', '=', 'b.purch_doc');
           })
           ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
-          ->leftJoin('ZHWWBCQUERYDIR as d', 'd.material', '=', 'a.material')
+          //->leftJoin('ZHWWBCQUERYDIR as d', 'd.material', '=', 'a.material')
+          ->leftJoin(DB::raw("(SELECT d1.war, d1.material FROM ZHWWBCQUERYDIR d1 WHERE d1.material = '{$material}' GROUP BY d1.material) as d"), 'd.material', '=', 'a.material')
           ->select([
               'a.material',
               /*DB::raw('RIGHT(YEAR(STR_TO_DATE(a.created_on_purchasing_doc, "%m/%d/%Y")), 2) AS years'),*/
