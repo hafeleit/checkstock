@@ -123,13 +123,13 @@ class SalesUSIController extends Controller
         CASE
             WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
             WHEN zpl.amount IS NULL OR zpl.per IS NULL OR zpl.per = 0 THEN '0 THB'
-            ELSE CONCAT(FORMAT(zpl.amount / zpl.per, 2), ' TH')
+            ELSE CONCAT(FORMAT(zpl.amount / zpl.per, 2), ' THB')
         END AS NSU_BASE_PRICE
     ")
     ->selectRaw("
         CASE
             WHEN zplv.amount IS NULL OR zplv.Pricing_unit IS NULL OR zplv.Pricing_unit = 0 THEN '0 THB'
-            ELSE CONCAT(FORMAT(zplv.amount / zplv.Pricing_unit, 2), ' TH')
+            ELSE CONCAT(FORMAT(zplv.amount / zplv.Pricing_unit, 2), ' THB')
         END AS NSU_BASE_PRICE_ZPLV
     ")
         ->leftJoin('ZHAAMM_IFVMG as p', 'p.material', '=', 'm.material')
