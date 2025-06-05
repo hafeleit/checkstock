@@ -337,13 +337,18 @@ class SalesUSIController extends Controller
           DB::raw('CASE WHEN a.material IS NOT NULL THEN a.material ELSE "N/A" END as IUW_ITEM_CODE'),
           DB::raw('CASE WHEN a.bun IS NOT NULL THEN a.bun ELSE "N/A" END as IUW_UOM_CODE'),
           DB::raw('CASE WHEN b.Amount IS NOT NULL THEN FORMAT(b.Amount / b.per, 2) ELSE "0" END as IUW_PRICE'),
-          DB::raw('CASE WHEN d.Amount IS NOT NULL THEN FORMAT(d.Amount / d.Pricing_unit, 2) ELSE "0" END as NEW_ZPLV_COST'),
+          DB::raw('CASE
+                    WHEN im.mvgr4 = "Z00" THEN "Check price with BD/PCM"
+                    WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2)," TH")
+                    ELSE "0 TH"
+                    END as NEW_ZPLV_COST'),
           DB::raw('CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount / c.per, 2) ELSE "0" END as NEW_ZPE_COST'),
           DB::raw('CASE WHEN a.mov_avg_price IS NOT NULL THEN FORMAT(a.mov_avg_price / a.per, 2) ELSE "0" END as NEW_MAP_COST')
       ])
       ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
       ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
       ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
+      ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
       ->where('a.material', '=', $item_code)
       ->groupBy('c.material', 'c.uom')
       ->get();
