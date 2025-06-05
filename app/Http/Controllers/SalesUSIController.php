@@ -121,8 +121,9 @@ class SalesUSIController extends Controller
     ])
     ->selectRaw("
         CASE
+            WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
             WHEN zpl.amount IS NULL OR zpl.per IS NULL OR zpl.per = 0 THEN '0'
-            ELSE FORMAT(zpl.amount / zpl.per, 2)
+            ELSE CONCAT(FORMAT(zpl.amount / zpl.per, 2), ' TH')
         END AS NSU_BASE_PRICE
     ")
     ->selectRaw("
@@ -336,7 +337,11 @@ class SalesUSIController extends Controller
       ->select([
           DB::raw('CASE WHEN a.material IS NOT NULL THEN a.material ELSE "N/A" END as IUW_ITEM_CODE'),
           DB::raw('CASE WHEN a.bun IS NOT NULL THEN a.bun ELSE "N/A" END as IUW_UOM_CODE'),
-          DB::raw('CASE WHEN b.Amount IS NOT NULL THEN FORMAT(b.Amount / b.per, 2) ELSE "0" END as IUW_PRICE'),
+          DB::raw('CASE
+                    WHEN im.mvgr4 = "Z00" THEN "Check price with BD/PCM"
+                    WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2)," TH")
+                    ELSE "0 TH"
+                    END as IUW_PRICE'),
           DB::raw('CASE
                     WHEN im.mvgr4 = "Z00" THEN "Check price with BD/PCM"
                     WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2)," TH")

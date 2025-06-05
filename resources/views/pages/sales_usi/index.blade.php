@@ -465,7 +465,7 @@
       $('.weight_volume2').html(res['data'][0]['NSU_PACK_VOLUME']);
       $('.item_status').html(res['data'][0]['NSU_ITEM_STATUS']);
       $('.repl_time').html(res['data'][0]['NSU_SUPP_REPL_TIME']);
-      $('.bash_price').html(res['data'][0]['NSU_BASE_PRICE'] + ' THB');
+      $('.bash_price').html(res['data'][0]['NSU_BASE_PRICE']);
       $('.zplv').html(res['data'][0]['NSU_BASE_PRICE_ZPLV']);
       $('.purchase_moq').html(addCommas(res['data'][0]['NSU_PURC_MOQ']));
       $('.inventory_code').html(res['data'][0]['NSU_ITEM_INV_CODE']);
@@ -555,8 +555,8 @@
 
       $.each(res['uom'], function(key, val) {
         let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+val["IUW_UOM_CODE"]+'</p></td>\
-                      <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE"]+' THB</p></td>\
-                      <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_ZPLV_COST"]+' THB</p></td>\
+                      <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IUW_PRICE"]+'</p></td>\
+                      <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_ZPLV_COST"]+'</p></td>\
                       @can('salesusi manager')<td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_ZPE_COST"]+' THB</p></td>\
                       <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["NEW_MAP_COST"]+' THB</p></td>@endcan</tr>';
         $('#uom_table').append(tbody);
