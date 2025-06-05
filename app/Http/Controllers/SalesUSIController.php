@@ -127,11 +127,13 @@ class SalesUSIController extends Controller
     ")
     ->selectRaw("
         CASE
-            WHEN zplv.amount IS NULL OR zplv.Pricing_unit IS NULL OR zplv.Pricing_unit = 0 THEN '0'
-            ELSE FORMAT(zplv.amount / zplv.Pricing_unit, 2)
+            WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
+            WHEN zplv.amount IS NULL OR zplv.Pricing_unit IS NULL OR zplv.Pricing_unit = 0 THEN '0 TH'
+            ELSE CONCAT(FORMAT(zplv.amount / zplv.Pricing_unit, 2), ' TH')
         END AS NSU_BASE_PRICE_ZPLV
     ")
         ->leftJoin('ZHAAMM_IFVMG as p', 'p.material', '=', 'm.material')
+        ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'm.material')
         //->leftJoin('MB52 as i', 'i.material', '=', 'm.material')
         ->leftJoin('MB52 as i', function ($join) {
             $join->on('i.material', '=', 'm.material')

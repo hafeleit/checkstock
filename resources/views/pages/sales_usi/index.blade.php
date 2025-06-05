@@ -466,7 +466,7 @@
       $('.item_status').html(res['data'][0]['NSU_ITEM_STATUS']);
       $('.repl_time').html(res['data'][0]['NSU_SUPP_REPL_TIME']);
       $('.bash_price').html(res['data'][0]['NSU_BASE_PRICE'] + ' THB');
-      $('.zplv').html(res['data'][0]['NSU_BASE_PRICE_ZPLV'] + ' THB');
+      $('.zplv').html(res['data'][0]['NSU_BASE_PRICE_ZPLV']);
       $('.purchase_moq').html(addCommas(res['data'][0]['NSU_PURC_MOQ']));
       $('.inventory_code').html(res['data'][0]['NSU_ITEM_INV_CODE']);
       $('.barcode').html(res['data'][0]['ean_upc']);
