@@ -207,10 +207,16 @@ class SalesUSIController extends Controller
 
       // Query สำหรับ PO (การสั่งซื้อ)
       $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
-          ->leftJoin('574_ekko_expo as b', function($join) {
-              $join->on('a.material', '=', 'b.material')
-                   ->on('a.purchasing_document', '=', 'b.purch_doc');
-          })
+
+          ->leftJoin(
+              DB::raw("(SELECT DISTINCT material, purch_doc, vdr_outp_date, production_time_in_days
+                        FROM 574_ekko_expo
+                        WHERE material = '{$material}') as b"),
+              function($join) {
+                  $join->on('a.material', '=', 'b.material')
+                       ->on('a.purchasing_document', '=', 'b.purch_doc');
+              }
+          )
           ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
           //->leftJoin('ZHWWBCQUERYDIR as d', 'd.material', '=', 'a.material')
           ->leftJoin(DB::raw("(SELECT d1.war, d1.material FROM ZHWWBCQUERYDIR d1 WHERE d1.material = '{$material}' GROUP BY d1.material) as d"), 'd.material', '=', 'a.material')
@@ -442,17 +448,26 @@ class SalesUSIController extends Controller
 
       //$query = DB::table('OW_ITEMWISE_PO_DTLS_WEB_HAFL')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
       $query = DB::table('ZHWWMM_OPEN_ORDERS as a')
-        ->leftJoin('574_ekko_expo as b', function($join) {
+        /*->leftJoin('574_ekko_expo as b', function($join) {
             $join->on('a.material', '=', 'b.material')
                  ->on('a.purchasing_document', '=', 'b.purch_doc');
-        })
+        })*/
+        ->leftJoin(
+                DB::raw("(SELECT DISTINCT material, purch_doc, vdr_outp_date, production_time_in_days
+                          FROM 574_ekko_expo
+                          WHERE material = '{$item_code}') as b"),
+                function($join) {
+                    $join->on('a.material', '=', 'b.material')
+                         ->on('a.purchasing_document', '=', 'b.purch_doc');
+                }
+            )
         ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
         ->leftJoin(DB::raw("(SELECT d1.war, d1.material FROM ZHWWBCQUERYDIR d1 WHERE d1.material = '{$item_code}' GROUP BY d1.material) as d"), 'd.material', '=', 'a.material')
         ->select([
           DB::raw("IFNULL(a.purchasing_document, '') as IPD_DOC_NO"),
           DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_DOC_DT"),
           DB::raw("IFNULL(a.po_order_unit, '') as IPD_UOM_CODE"),
-          DB::raw("IFNULL(a.quantity_po, '') as IPD_QTY"),
+          DB::raw("IFNULL(SUM(a.quantity_po), '') as IPD_QTY"),
           DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.vendor_output_date, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_ETS"),
           DB::raw("IF(a.delivered_quantity > 0, 'S',IF(a.confirmed_issue_date IS NOT NULL, 'C', 'U')) as IPD_STATUS"),
           DB::raw("
@@ -476,7 +491,8 @@ class SalesUSIController extends Controller
             ),
             1
           ) = ?
-        ", [$ipd_week_no]);
+        ", [$ipd_week_no])
+        ->groupBy('a.purchasing_document');
 
       $count = $query->count();
       $inbound = $query->get();
