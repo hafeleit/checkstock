@@ -46,7 +46,6 @@
                             </div>
                         </div>
 
-                        <!-- 1111111111111111111111111111 -->
                         <div class="row">
                           <div class="col-12 col-sm-4">
                             <span>Item Code : <label class="item_code text-sm"></label></span>
@@ -59,7 +58,6 @@
                           </div>
                         </div>
 
-                        <!-- 2222222222222222222222222222 -->
                         <div class="row">
                           <div class="col-12 col-sm-7">
                             <span>Item Desc : <label class="item_desc text-sm"></label></span>
@@ -71,16 +69,14 @@
                           </div>
                         </div>
 
-                        <!-- 3333333333333333333333333333 -->
                         <div class="row">
                           <div class="col-12 col-sm-4">
                             <span>UOM Code : <label class="uom text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Pack Uom Code : <label class="pack_code1 text-sm"></label></span>
+                            <!--<span>Pack Uom Code : <label class="pack_code1 text-sm"></label></span>-->
                           </div>
                           <div class="col-12 col-sm-5">
-                            <!--<span>Free Stk Qty : <label class="free_stk_qty text-sm"></label></span>-->
                             <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
                           </div>
 
@@ -88,7 +84,6 @@
 
                         </div>
 
-                        <!-- 444444444444444444444444444 -->
                         <div class="row">
                           <div class="col-12 col-sm-4">
                             <span>New Item Code : <label class="new_item_code text-sm"></label></span>
@@ -103,7 +98,6 @@
 
                         </div>
 
-                        <!-- 555555555555555555555555555555 -->
                         <div class="row">
                           <div class="col-12 col-sm-4">
                             <span>Item Brand : <label class="item_brand text-sm"></label></span>
@@ -122,7 +116,6 @@
 
                         </div>
 
-                        <!-- 666666666666666666666666666666 -->
                         <div class="row">
                           <div class="col-12 col-sm-4">
                             <span>Item Status : <label class="item_status text-sm"></label></span>
@@ -137,7 +130,6 @@
 
                         </div>
 
-                        <!-- 777777777777777777777777777777 -->
                         <div class="row">
                           <div class="col-12 col-sm-4">
                             <span>Storage indicator : <label class="inventory_code text-sm"></label></span>
@@ -295,8 +287,8 @@
                                   <th class="border-usi text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> Document Date</th>
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> UOM</th>
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Qty</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> ETS</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Status</th>
+                                  <!--<th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> ETS</th>
+                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Status</th>-->
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> ETA</th>
                               </tr>
                           </thead>
@@ -324,8 +316,8 @@
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Invoiced</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Pending</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Delivery Date</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Rate</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Value</th>
+                                  <!--<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Rate</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Value</th>-->
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Admin</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Rep</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Customer</th>
@@ -459,7 +451,7 @@
       $('.purchaser').html(res['data'][0]['NSU_PURCHASER']);
       $('.pm_contact').html(res['data'][0]['NSU_PROD_MGR']);
       $('.uom').html(res['data'][0]['NSU_ITEM_UOM_CODE']);
-      $('.pack_code1').html(res['data'][0]['NSU_PACK_UOM_CODE']);
+      //$('.pack_code1').html(res['data'][0]['NSU_PACK_UOM_CODE']);
       $('.pack_code2').html(res['data'][0]['NSU_CONV_BASE_UOM'] + ' ' + res['data'][0]['NSU_ITEM_UOM_CODE']);
       $('.weight_volume1').html(res['data'][0]['NSU_PACK_WEIGHT']);
       $('.weight_volume2').html(res['data'][0]['NSU_PACK_VOLUME']);
@@ -645,11 +637,14 @@
           <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_DOC_DT"]+'</p></td>\
           <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_UOM_CODE"]+'</p></td>\
           <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["IPD_QTY"]+'</p></td>\
-          <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETS"]+'</p></td>\
-          <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_STATUS"]+'</p></td>\
+
           <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETA"]+'</p></td>\
           </tr>';
         $('#po_table').append(tbody);
+        /*
+        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETS"]+'</p></td>\
+        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_STATUS"]+'</p></td>\
+        */
       });
 
       $('html, body').animate({
@@ -694,13 +689,16 @@
         <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_INV_QTY"])+'</p></td>\
         <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+(val["ISD_ORD_QTY"] - val["ISD_INV_QTY"])+'</p></td>\
         <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_DEL_DT"]+'</p></td>\
-        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_RATE"]+'</p></td>\
-        <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_VALUE"])+'</p></td>\
+
         <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_ADMIN"]+'</p></td>\
         <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_REP"]+'</p></td>\
         <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["sold_to_party"]+'-'+val["name1"]+'</p></td>\
         </tr>';
         $('#so_table').append(tbody);
+        /*
+        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_RATE"]+'</p></td>\
+        <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_VALUE"])+'</p></td>\
+        */
       });
 
       $('html, body').animate({

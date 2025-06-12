@@ -256,7 +256,7 @@ class SalesUSIController extends Controller
                   ->select(
                       'a.material',
                       DB::raw("COALESCE(a.sd_document, '') AS ISD_DOC_NO"),
-                      DB::raw("COALESCE(SUM(a.order_quantity), 0) AS sum_order_qty"),
+                      DB::raw("COALESCE(SUM(a.confirmed_quantity), 0) AS sum_order_qty"),
                       DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) AS years"),
                       DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) AS weeks")
                   )
