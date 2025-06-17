@@ -37,7 +37,7 @@ class SalesUSIController extends Controller
                 WHEN m.pgr = 'T04' THEN 'T04-Supasinee Kanyamee'
                 WHEN m.pgr = 'T05' THEN 'T05-Sucharee Sripa'
                 WHEN m.pgr = 'T06' THEN 'T06-Benjamas Boonfak'
-                WHEN m.pgr = 'T07' THEN 'T07-Vacant 2'
+                WHEN m.pgr = 'T07' THEN 'T07-Kanokporn Chalaem'
                 WHEN m.pgr = 'T08' THEN 'T08-Hathaipat Buangam'
                 WHEN m.pgr = 'T09' THEN 'T09-Thitiluk Apichaiwo'
                 WHEN m.pgr = 'T10' THEN 'T10-Monchaya Somsuk'
@@ -75,13 +75,14 @@ class SalesUSIController extends Controller
                 ELSE 'Unknown'
             END AS NSU_PURCHASER
         "),
-        DB::raw("CASE WHEN m.product_group_manager IS NULL OR m.product_group_manager = '' THEN 'N/A' ELSE m.product_group_manager END AS NSU_PROD_MGR"),
+        //DB::raw("CASE WHEN m.product_group_manager IS NULL OR m.product_group_manager = '' THEN 'N/A' ELSE m.product_group_manager END AS NSU_PROD_MGR"),
+        DB::raw("CONCAT(m.product_group_manager, '-', um.name_en) as NSU_PROD_MGR"),
         DB::raw("CASE WHEN u.uom_text IS NULL OR u.uom_text = '' THEN 'N/A' ELSE u.uom_text END AS NSU_PACK_UOM_CODE"),
         DB::raw("CASE WHEN m.numer IS NULL OR m.numer = '' THEN 'N/A' ELSE m.numer END AS NSU_CONV_BASE_UOM"),
         DB::raw("CASE WHEN m.gross_weight IS NULL OR m.gross_weight = '' THEN 'N/A' ELSE CONCAT(m.gross_weight, ' ', m.wun) END AS NSU_PACK_WEIGHT"),
         DB::raw("CASE WHEN m.volume IS NULL OR m.volume = '' THEN 'N/A' ELSE CONCAT(m.volume, ' ', m.vun) END AS NSU_PACK_VOLUME"),
         DB::raw("CASE
-                  WHEN m.st IS NULL OR m.st = '' THEN 'Active'
+
                   WHEN m.st = 'Z1' THEN 'Z1-Basic data not compl'
                   WHEN m.st = 'Z2' THEN 'Z2-Article not distrib.'
                   WHEN m.st = 'ZB' THEN 'ZB-Sales Blocked'
@@ -91,6 +92,7 @@ class SalesUSIController extends Controller
                   WHEN m.st = 'ZM' THEN 'ZM-Sell no minim.quant.'
                   WHEN m.st = 'ZR' THEN 'ZR-Sell out & delete'
                   WHEN m.st = 'ZS' THEN 'ZS-Sales Stopped'
+                  WHEN m.st IS NULL OR m.st = '' THEN 'Active'
                   ELSE m.st
               END AS NSU_ITEM_STATUS"),
         //DB::raw("CASE WHEN m.lage IS NULL OR m.lage = '' THEN 'N/A' ELSE m.lage END AS NSU_ITEM_INV_CODE"),
@@ -104,8 +106,8 @@ class SalesUSIController extends Controller
         "),
         DB::raw("
             CASE
-                WHEN m.lage = 'LW' AND (m.dm = 'Z4' OR m.dm = 'ZM' OR m.dm = 'PD') THEN 'Stock Item'
-                WHEN m.lage = 'NLW' AND (m.dm = 'ZX' OR m.dm = 'ZD') THEN 'C-Item'
+                WHEN m.lage = 'LW' AND (m.dm = 'Z4' OR m.dm = 'ZM' OR m.dm = 'PD') THEN CONCAT(m.dm,'-','Stock Item')
+                WHEN m.lage = 'NLW' AND (m.dm = 'ZX' OR m.dm = 'ZD') THEN CONCAT(m.dm,'-','C-Item')
                 ELSE NULL
             END AS NSU_ITEM_DM_DESC
         "),
@@ -134,7 +136,7 @@ class SalesUSIController extends Controller
     ")
         ->leftJoin('ZHAAMM_IFVMG as p', 'p.material', '=', 'm.material')
         ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'm.material')
-        //->leftJoin('MB52 as i', 'i.material', '=', 'm.material')
+        ->leftJoin('user_masters as um', DB::raw("m.product_group_manager"), '=', DB::raw("CONCAT('HTH', um.job_code)"))
         ->leftJoin('MB52 as i', function ($join) {
             $join->on('i.material', '=', 'm.material')
                  ->where('i.storage_location', '=', 'TH02')
@@ -385,7 +387,11 @@ class SalesUSIController extends Controller
 
           // เริ่ม query
           $query = DB::table('zhwwmm_bom_vko as a')
-              ->leftJoin('MB52 as b', 'b.material', '=', 'a.component')
+              //->leftJoin('MB52 as b', 'b.material', '=', 'a.component')
+              ->leftJoin('MB52 as b', function($join) {
+                  $join->on('b.material', '=', 'a.component')
+                       ->where('b.storage_location', '=', 'TH02');
+              })
               ->select(
                   'a.material as parent',
                   'a.bom_usg',
@@ -417,8 +423,8 @@ class SalesUSIController extends Controller
           $bom = $query->orderBy('cal_stk', 'asc')
               ->get()
               ->map(function ($item) {
-                  $item->comp_stk = number_format($item->comp_stk, 2);
-                  $item->cal_stk = number_format($item->cal_stk, 2);
+                  $item->comp_stk = number_format($item->comp_stk, 0);
+                  $item->cal_stk = number_format($item->cal_stk, 0);
                   return $item;
               });
 

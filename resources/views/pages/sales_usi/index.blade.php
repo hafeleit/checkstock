@@ -53,9 +53,13 @@
                           <div class="col-12 col-sm-3">
                             <span>MOQ : <label class="purchase_moq text-sm"></label></span>
                           </div>
+                          <div class="col-12 col-sm-5">
+                            <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
+                          </div>
+                          <!--
                           <div class="col-12 col-sm-4">
                             <span>Base Price : <label class="bash_price text-sm"></label></span>
-                          </div>
+                          </div>-->
                         </div>
 
                         <div class="row">
@@ -63,9 +67,12 @@
                             <span>Item Desc : <label class="item_desc text-sm"></label></span>
                           </div>
 
-
+                          <!--
                           <div class="col-12 col-sm-4">
                             <span>Base Price RSP (ZPLV) Incl. VAT : <label class="zplv text-sm"></label></span>
+                          </div>-->
+                          <div class="col-12 col-sm-5">
+                            <span>Purchasing Group : <label class="purchaser text-sm"></label></span>
                           </div>
                         </div>
 
@@ -74,13 +81,11 @@
                             <span>UOM Code : <label class="uom text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <!--<span>Pack Uom Code : <label class="pack_code1 text-sm"></label></span>-->
+                            <span>Conv Base UOM : <label class="pack_code2 text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-5">
-                            <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
+                            <span>Product manager : <label class="pm_contact text-sm"></label></span>
                           </div>
-
-
 
                         </div>
 
@@ -89,12 +94,11 @@
                             <span>New Item Code : <label class="new_item_code text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Conv Base UOM : <label class="pack_code2 text-sm"></label></span>
+                            <span>Pack Volume : <label class="weight_volume2 text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-5">
-                            <span>Purchasing Group : <label class="purchaser text-sm"></label></span>
+                            <span>Excl Remark : <label class="exclusivity_remark text-sm"></label></span>
                           </div>
-
 
                         </div>
 
@@ -103,17 +107,14 @@
                             <span>Item Brand : <label class="item_brand text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Pack Volume : <label class="weight_volume2 text-sm"></label></span>
+                            <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-5">
-                            <span>Product manager : <label class="pm_contact text-sm"></label></span>
+                          <div class="col-12 col-sm-3">
+                            <span>MRP : <label class="mrp_desc text-sm"></label></span>
                           </div>
-
                           <!--<div class="col-12 col-sm-4">
                             <span>Supp Item Code : <label class="supplier_item_code text-sm"></label></span>
                           </div>-->
-
-
                         </div>
 
                         <div class="row">
@@ -121,39 +122,16 @@
                             <span>Item Status : <label class="item_status text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-5">
-                            <span>Excl Remark : <label class="exclusivity_remark text-sm"></label></span>
-                          </div>
-
-
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <span>Storage indicator : <label class="inventory_code text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>MRP Type : <label class="item_dm text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>MRP Desc : <label class="mrp_desc text-sm"></label></span>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
                             <span>Barcode : <label class="barcode text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-3">
-
+                          <div class="col-12 col-sm-5">
+                            <span>Storage indicator : <label class="inventory_code text-sm"></label></span>
                           </div>
-                          <div class="col-12 col-sm-3">
-
-                          </div>
+                          <!--
+                          <div class="col-12 col-sm-5">
+                            <span>MRP Type : <label class="item_dm text-sm"></label></span>
+                          </div>-->
                         </div>
-
                         <div class="row mt-3 bom_show_flg" style="Display:none">
                           <div class="col-auto">
                             <div class="form-check fs-5">
@@ -189,7 +167,7 @@
                               <tr>
                                   <th class="text-uppercase text-sm font-weight-bolder "> UOM</th>
                                   <th class="text-end text-uppercase text-sm font-weight-bolder"> Base Price (ZPL)</th>
-                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> Base Price RSP (ZPLV) Incl. VAT</th>
+                                  <th class="text-end text-uppercase text-sm font-weight-bolder"> RSP (ZPLV)</th>
                                   @can('salesusi manager')
                                   <th class="text-end text-uppercase text-sm font-weight-bolder"> ZPE</th>
                                   <th class="text-end text-uppercase text-sm font-weight-bolder"> MAP</th>
@@ -273,6 +251,7 @@
           </div>
 
         </div>
+        @can('salesusi iodetail')
         <div class="row">
           <div class="col-lg-6 mb-lg-0 mt-4">
               <div class="card " style="height: 400px;">
@@ -330,7 +309,7 @@
                 </div>
               </div>
         </div>
-
+        @endcan
     </div>
 
     <!-- Modal -->
@@ -457,8 +436,8 @@
       $('.weight_volume2').html(res['data'][0]['NSU_PACK_VOLUME']);
       $('.item_status').html(res['data'][0]['NSU_ITEM_STATUS']);
       $('.repl_time').html(res['data'][0]['NSU_SUPP_REPL_TIME']);
-      $('.bash_price').html(res['data'][0]['NSU_BASE_PRICE']);
-      $('.zplv').html(res['data'][0]['NSU_BASE_PRICE_ZPLV']);
+      //$('.bash_price').html(res['data'][0]['NSU_BASE_PRICE']);
+      //$('.zplv').html(res['data'][0]['NSU_BASE_PRICE_ZPLV']);
       $('.purchase_moq').html(addCommas(res['data'][0]['NSU_PURC_MOQ']));
       $('.inventory_code').html(res['data'][0]['NSU_ITEM_INV_CODE']);
       $('.barcode').html(res['data'][0]['ean_upc']);
@@ -527,10 +506,18 @@
             <p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["year_number"]+'/'+val["week_number"]+'</p>\
           </td>\
           <td class="border-usi">\
+            @can('salesusi iodetail')
             <p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_inbound('+val["week_number"]+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
+            @else
+            <p style="text-decoration: underline;cursor: pointer;" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
+            @endcan
           </td>\
           <td class="border-usi">\
+            @can('salesusi iodetail')
             <p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_outbound('+val["week_number"]+','+val["year_number"]+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
+            @else
+            <p style="text-decoration: underline;cursor: pointer;" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
+            @endcan
           </td>\
           <td class="border-usi">\
             <p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_AVAIL_QTY"]+'</p>\
@@ -592,7 +579,9 @@
         }
 
         if (bom_usg == 5) {
-          $('#chk_pp').prop('checked', true);
+          if (flg != 'component') {
+            $('#chk_pp').prop('checked', true);
+          }
         }
       }
 
