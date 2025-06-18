@@ -99,13 +99,15 @@ use App\Http\Controllers\InvRecordController;
 	Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
 	Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
 	Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
-	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
-	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
+	/*Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
+	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');*/
 	Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
 
 Route::group(['middleware' => 'auth'], function () {
 //Route::group(['middleware' => ['role:super-admin|admin|staff|supplier|user']], function() {
+  Route::get('/change-password', [ChangePassword::class, 'show'])->name('change-password');
+  Route::post('/change-password', [ChangePassword::class, 'update'])->name('change.perform');
 
   Route::resource('inv-record', InvRecordController::class);
   Route::get('inv-record/export/{id}', [InvRecordController::class, 'export'])->name('inv-record.export');

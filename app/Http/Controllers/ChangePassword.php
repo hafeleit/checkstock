@@ -15,10 +15,10 @@ class ChangePassword extends Controller
 
     public function __construct()
     {
-        Auth::logout();
+        //Auth::logout();
 
-        $id = intval(request()->id);
-        $this->user = User::find($id);
+        //$id = intval(request()->id);
+        //$this->user = User::find($id);
     }
 
     public function show()
@@ -28,14 +28,9 @@ class ChangePassword extends Controller
 
     public function update(Request $request)
     {
-        /*$attributes = $request->validate([
-            'email' => ['required'],
-            'password' => ['required', 'min:5'],
-            'new_password' => ['required', 'min:5', 'confirmed'],
-        ]);*/
 
         $attributes = $request->validate([
-            'email' => ['required', 'email'],
+            'email' => ['required'],
             'password' => ['required', 'min:5'], // current password
             'new_password' => [
                 'required',
@@ -47,8 +42,8 @@ class ChangePassword extends Controller
         ], [
             'new_password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
         ]);
-
         $existingUser = User::where('email', $attributes['email'])->first();
+
         if ($existingUser) {
 
           if (!Hash::check($attributes['password'], $existingUser->password)) {
@@ -60,7 +55,7 @@ class ChangePassword extends Controller
             $existingUser->update([
                 'password' => $attributes['new_password']
             ]);
-            return redirect('login');
+            return redirect('profile');
         } else {
             return back()->with('error', 'Your email does not match the email who requested the password change');
         }

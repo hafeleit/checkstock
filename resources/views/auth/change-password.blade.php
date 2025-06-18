@@ -22,25 +22,29 @@
                                 <div class="card-body">
                                     <form role="form" method="POST" action="{{ route('change.perform') }}">
                                         @csrf
-
                                         <div class="flex flex-col mb-3">
-                                            <input type="email" name="email" class="form-control form-control-lg" placeholder="Email" value="{{ old('email') }}" aria-label="Email">
+                                          <input type="hidden" name="email" value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}">
+                                          <input type="text" class="form-control form-control-lg" placeholder="Email"
+                                            value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}" aria-label="Email" readonly>
                                             @error('email') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
                                         <div class="flex flex-col mb-3">
-                                            <input type="password" name="password" class="form-control form-control-lg" placeholder="Current Password" aria-label="Password" >
+                                            <input type="password" name="password" class="form-control form-control-lg" placeholder="Current Password" aria-label="Password" autocomplete="off">
                                             @error('password') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
                                         <div class="flex flex-col mb-3">
-                                            <input type="password" name="new_password" class="form-control form-control-lg" placeholder="New Password" aria-label="Password"  >
+                                            <input type="password" name="new_password" class="form-control form-control-lg" placeholder="New Password" aria-label="Password" autocomplete="off">
                                             @error('new_password') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
                                         <div class="flex flex-col mb-3">
-                                            <input type="password" name="new_password_confirmation" class="form-control form-control-lg" placeholder="Confirm Password" aria-label="Password"  >
+                                            <input type="password" name="new_password_confirmation" class="form-control form-control-lg" placeholder="Confirm Password" aria-label="Password" autocomplete="off">
                                             @error('new_password_confirmation') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Change Password</button>
+                                        </div>
+                                        <div class="text-center">
+                                            <a href="{{Route('profile')}}" class="btn btn-lg btn-secondary btn-lg w-100 mt-4 mb-0">Cancel</a>
                                         </div>
                                     </form>
                                 </div>
