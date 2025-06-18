@@ -28,7 +28,7 @@ class OrderController extends Controller
 
     public function index()
     {
-      $orders = Order::groupBy('filename')->orderBy('id','desc')->select(DB::raw("orders.*, COUNT(orders.filename) AS cnt"))->limit(30)->get();
+      $orders = Order::groupBy('filename')->orderBy('id','desc')->select(DB::raw("orders.*, COUNT(orders.filename) AS cnt"))->limit(300)->get();
 
       return view('pages.onlineorder.index',compact('orders'));
     }
