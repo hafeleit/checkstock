@@ -100,8 +100,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Code</label>
-                                        <select class="form-control" name="about" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                        <label for="example-text-input" class="form-control-label">Country</label>
+                                        <select class="form-control" name="country" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
                                             <option value="HVN" {{ (auth()->user()->about == 'HTH') ? 'selected' : '' }}>HTH</option>
                                             <option value="HVN" {{ (auth()->user()->about == 'HVN') ? 'selected' : '' }}>HVN</option>
                                             <option value="HSI" {{ (auth()->user()->about == 'HSI') ? 'selected' : '' }}>HSI</option>

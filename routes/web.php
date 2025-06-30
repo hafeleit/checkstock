@@ -199,6 +199,7 @@ Route::group(['middleware' => 'auth'], function () {
               [
                   'username' => $data['name'],
                   'password' => $data['password'],
+                  'supp_code' => $data['supp_code'],
               ]
           );
 
