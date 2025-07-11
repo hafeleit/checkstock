@@ -588,6 +588,10 @@ class getorder extends Command
               $data_excel[$l][] = '0121_BI';
             }elseif(Str::contains($shipchan, 'SPX')){
               $data_excel[$l][] = '0118_SHOPEE';
+            }elseif(Str::contains($shipchan, 'NOCNOC')){
+              $data_excel[$l][] = 'TH-OTHERS';
+            }elseif(Str::contains($shipchan, 'SHOPIFY')){
+              $data_excel[$l][] = 'TH-DHL-ECM';
             }elseif(strtoupper($order->shippingchannel) == 'STANDARD DELIVERY'){
               $data_excel[$l][] = 'OTHER';
             }elseif(strtoupper($order->shippingchannel) == 'Express Delivery - ส่งด่วน'){
@@ -629,42 +633,30 @@ class getorder extends Command
       $response = $this->get_order_api($page); //get order by ZORT
       $order_total = $response->count;
       $orion_excel = false;
+      $existing_numbers = [];
 
       $loop = ceil($order_total / $limit);
-        //$loop = 1;
-
-		$orders = $response->list;
-		foreach ($orders as $key => $order) {
-		  $check_dup = Order::where('order_number', $order->number)->where('del', 0)->count();
-		  if($check_dup == 0){
-			$new_order[] = $orders[$key];
-			$insert_order[] = [
-			  'order_number' => $orders[$key]->number,
-			  'filename' => $file_name,
-			  'created_at' => date('Y-m-d H:i:s'),
-			];
-		  }
-		}
-
-      if($loop > 1){
-
-		  for ($i=0; $i < $loop; $i++) {
-			$response = $this->get_order_api($loop + $i);
-			$orders = $response->list;
-			foreach ($orders as $key => $order) {
-			  $check_dup = Order::where('order_number', $order->number)->where('del', 0)->count();
-			  if($check_dup == 0){
-				$new_order[] = $orders[$key];
-				$insert_order[] = [
-				  'order_number' => $orders[$key]->number,
-				  'filename' => $file_name,
-				  'created_at' => date('Y-m-d H:i:s'),
-				];
-			  }
-			}
-		  }
-
-	  }
+      if($loop > 0){
+        for ($i=0; $i < $loop; $i++) {
+          $response = $this->get_order_api($i+1);
+          $orders = $response->list;
+          foreach ($orders as $key => $order) {
+            if (empty($order->number) || in_array($order->number, $existing_numbers)) {
+                continue;
+            }
+            $check_dup = Order::where('order_number', $order->number)->where('del', 0)->exists();
+            if($check_dup == 0){
+              $new_order[] = $orders[$key];
+              $insert_order[] = [
+                'order_number' => $orders[$key]->number,
+                'filename' => $file_name,
+                'created_at' => date('Y-m-d H:i:s'),
+              ];
+              $existing_numbers[] = $order->number;
+            }
+          }
+        }
+      }
 
       $new_order_count = count($new_order);
       $orion_excel = $this->generate_excel_orion($new_order, $file_name); //Orion Excel Exports
@@ -672,15 +664,13 @@ class getorder extends Command
 
       if($orion_excel){
         if(count($insert_order) > 0){
-          Order::insert($insert_order);
+          Order::insertOrIgnore($insert_order);
         }
       }
 
       if($orion_excel){
-        //$this->sendLine($new_order_count);
         $this->slackService->slackApi("The total number of orders is " . $new_order_count);
       }else{
-        //$this->sendLine("0");
         $this->slackService->slackApi("The total number of orders is 0");
       }
 
