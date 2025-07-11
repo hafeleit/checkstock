@@ -106,8 +106,9 @@ class SalesUSIController extends Controller
         "),
         DB::raw("
             CASE
-                WHEN m.lage = 'LW' AND (m.dm = 'Z4' OR m.dm = 'ZM' OR m.dm = 'PD') THEN CONCAT(m.dm,'-','Stock Item')
-                WHEN m.lage = 'NLW' AND (m.dm = 'ZX' OR m.dm = 'ZD') THEN CONCAT(m.dm,'-','C-Item')
+                WHEN m.lage = 'LW' AND (m.dm = 'Z4' OR m.dm = 'ZM') THEN CONCAT(m.dm,'-','Stock Item')
+                WHEN m.lage = 'LW' AND m.dm = 'PD' THEN CONCAT(m.dm,'-','C Item')
+                WHEN m.lage = 'NLW' AND (m.dm = 'ZX' OR m.dm = 'ZD') THEN CONCAT(m.dm,'-','C Item')
                 ELSE NULL
             END AS NSU_ITEM_DM_DESC
         "),
