@@ -44,10 +44,8 @@
                   </div>
                 </div>
                 <div class="col-12 col-sm-6 mt-3 mt-sm-0">
-                  <label class="text-sm">Barcode</label>
-                  <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                    <p class="text-sm font-weight-bold my-auto ps-sm-2">{{$productitem->bar_code ?? ''}}</p>
-                  </div>
+                  <label class="mt-4 text-sm">Barcode</label>
+                    <input class="form-control" type="text" name="bar_code" value="{{$productitem->bar_code ?? ''}}">
                 </div>
               </div>
 
