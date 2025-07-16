@@ -25,7 +25,7 @@
                         @php
                             $yesterday = date('d/m/Y', strtotime('-1 day'));
                         @endphp
-                        <p class="text-uppercase text-secondary text-xxs font-weight-bolder">LAST UPDATE: {{ $yesterday }} 22:00</p>
+                        <p class="text-uppercase text-secondary text-xxs font-weight-bolder">LAST UPDATE: {{ $yesterday }} 20:00</p>
                     </div>
 
                     <div class="card-body" style="padding-top: 0px">
