@@ -494,13 +494,13 @@ class OrderController extends Controller
 
           for ($i=0; $i < $list_cnt; $i++) {
 
-            $data_excel[$l][] = 'HTH';
+            /*$data_excel[$l][] = 'HTH';
             $data_excel[$l][] = date('d/m/y');
             $data_excel[$l][] = strval(1);
             $data_excel[$l][] = '1';
-            $data_excel[$l][] = 'SO_WEB';
+            $data_excel[$l][] = 'SO_WEB';*/
             $data_excel[$l][] = $order->number;
-            $data_excel[$l][] = '1';
+            /*$data_excel[$l][] = '1';
             $data_excel[$l][] = '157019';
             $data_excel[$l][] = '157019-201';
             $data_excel[$l][] = $order->shippingname;
@@ -516,7 +516,7 @@ class OrderController extends Controller
             $data_excel[$l][] = '3040';
             $data_excel[$l][] = 'EX WORKS';
             $data_excel[$l][] = 'BANGKOK';
-            $data_excel[$l][] = 'N';
+            $data_excel[$l][] = 'N';*/
             // Annotation
             if(strtoupper($order->saleschannel) == 'LAZADA'){
               $data_excel[$l][] = 'LEX';
@@ -525,7 +525,7 @@ class OrderController extends Controller
             }else{
               $data_excel[$l][] = $order->saleschannel;
             }
-            $data_excel[$l][] = ($i+1 == $list_cnt) ? '605' : $order->list[$i]->sku; //sku
+            /*$data_excel[$l][] = ($i+1 == $list_cnt) ? '605' : $order->list[$i]->sku; //sku
             $data_excel[$l][] = '';
             $data_excel[$l][] = '';
             $data_excel[$l][] = '';
@@ -671,7 +671,7 @@ class OrderController extends Controller
             $data_excel[$l][] = $order->customeridnumber ?? '';
             $data_excel[$l][] = $order->tag[0] ?? '';
             $data_excel[$l][] = $order->customerbrancename ?? '';
-            $data_excel[$l][] = $order->customerbranceno ?? '';
+            $data_excel[$l][] = $order->customerbranceno ?? '';*/
 
             $l++;
         }
@@ -784,7 +784,7 @@ class OrderController extends Controller
     //header orion excel
     public function exportExcel($data_excel, $file_name){
 
-      $header[] = [
+      /*$header[] = [
         'Company Code','SO Date','Doc Src Locn Code','Sales Location Code','Transaction Code','LPO Number',
         'Res Location','Customer Code','Ship To Address','Ship Contact Person','Ship Address1','Ship Address2',
         'Bill Contact Person','Bill To Address','Bill Address1','Bill Address2','Currency Code','Delivery  Date',
@@ -793,6 +793,9 @@ class OrderController extends Controller
         'Customer Branch Id','Form Code','Invoice Handling','Project Code','Discount Code','Discount Amount',
         'Ship Phone','Bill Phone','Bank Code','Carrier Code','Priority','POST_CODE','SHIP_EMAIL_ID',
         'Tax ID','Request INV.','Brance Name','Brance No.'
+      ];*/
+      $header[] = [
+        'LPO Number','Annotation'
       ];
       $data_export[] = $header;
       $data_export[] = $data_excel;
