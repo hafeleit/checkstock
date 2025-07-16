@@ -65,7 +65,7 @@
                         <a href="#" class="">File name</a>
                       </th>
                       <th >
-                        <a href="#" class="">ORION</a>
+                        <a href="#" class="">Annotation</a>
                       </th>
                       <th >
                         <a href="#" class="">SAP</a>
