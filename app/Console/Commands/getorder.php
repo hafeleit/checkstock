@@ -454,7 +454,7 @@ class getorder extends Command
             }elseif(strtoupper($order->shippingchannel) == 'STANDARD DELIVERY'){
               $data_excel[$l][] = 'NocNoc';
             }else{
-              $data_excel[$l][] = $order->shippingchannel;
+              $data_excel[$l][] = $order->saleschannel;
             }
             $data_excel[$l][] = ($i+1 == $list_cnt) ? '605' : $order->list[$i]->sku; //sku
             $data_excel[$l][] = '';
