@@ -490,7 +490,8 @@ class OrderController extends Controller
 
       foreach ($new_order as $key2 => $order) {
 
-          $list_cnt = count($order->list) + 1; //for orion
+          //$list_cnt = count($order->list) + 1; //for orion
+          $list_cnt = count($order->list); //for orion
 
           for ($i=0; $i < $list_cnt; $i++) {
 
