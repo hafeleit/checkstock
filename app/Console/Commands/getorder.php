@@ -457,6 +457,7 @@ class getorder extends Command
             }else{
               $data_excel[$l][] = $order->shippingchannel;
             }
+            $data_excel[$l][] = $order->list[$i]->sku; //sku
             /*$data_excel[$l][] = ($i+1 == $list_cnt) ? '605' : $order->list[$i]->sku; //sku
             $data_excel[$l][] = '';
             $data_excel[$l][] = '';
@@ -730,7 +731,7 @@ class getorder extends Command
         'Tax ID','Request INV.','Brance Name','Brance No.'
       ];*/
       $header[] = [
-        'LPO Number','Annotation'
+        'LPO Number','Annotation','Item code'
       ];
       $data_export[] = $header;
       $data_export[] = $data_excel;
