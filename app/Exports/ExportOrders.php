@@ -29,7 +29,7 @@ class ExportOrders extends DefaultValueBinder implements FromArray, WithColumnFo
 
     public function bindValue(Cell $cell, $value)
     {
-        if ($cell->getColumn() == 'A') {
+        if ($cell->getColumn() == 'F') {
             $cell->setValueExplicit($value, DataType::TYPE_STRING);
             return true;
         }
@@ -87,7 +87,7 @@ class ExportOrders extends DefaultValueBinder implements FromArray, WithColumnFo
     {
         return [
             'B' => 13,
-            'A' => 22,
+            'F' => 22,
             'I' => 12,
             'X' => 15,
             'Y' => 11,
@@ -100,7 +100,7 @@ class ExportOrders extends DefaultValueBinder implements FromArray, WithColumnFo
     public function columnFormats(): array
     {
         return [
-            'A' => NumberFormat::FORMAT_TEXT,
+            'F' => NumberFormat::FORMAT_TEXT,
 
             'H' => NumberFormat::FORMAT_TEXT,
             'T' => NumberFormat::FORMAT_TEXT,
