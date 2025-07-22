@@ -560,7 +560,7 @@ class getorder extends Command
                 break;
             }
 
-            $shipchan = strtoupper($order->shippingchannel);
+            $shipchan = strtoupper($order->saleschannel);
             if(strtoupper($order->saleschannel) == 'LAZADA'){
               $shipchan = 'LEX';
             }
