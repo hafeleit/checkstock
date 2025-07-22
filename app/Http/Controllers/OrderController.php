@@ -415,7 +415,7 @@ class OrderController extends Controller
           $data_excel[$l][] = $order->shippingphone ?? '';
           $data_excel[$l][] = $order->shippingphone ?? '';
           //Carrier code
-          $shipchan = strtoupper($order->saleschannel);
+          $shipchan = strtoupper($order->shippingchannel);
           if(strtoupper($order->saleschannel) == 'LAZADA'){
             $shipchan = 'LEX';
           }
