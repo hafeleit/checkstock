@@ -11,6 +11,7 @@ class ITAsset extends Model
 
     protected $fillable = [
       'computer_name',
+      'old_device_name',
       'serial_number',
       'type',
       'color',
