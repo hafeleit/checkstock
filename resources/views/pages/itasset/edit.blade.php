@@ -102,7 +102,7 @@
               </div>
               <div class="col-12 mt-3">
                 <label>Old Device Name</label>
-                <input class="form-control" type="text" name="old_device_name" placeholder="ex.HTHBKKNB222" value="{{ old('old_device_name') }}">
+                <input class="form-control" type="text" name="old_device_name" placeholder="ex.AP-5CD242KKN4" value="{{ old('old_device_name') }}">
               </div>
             </div>
             <div class="row">
