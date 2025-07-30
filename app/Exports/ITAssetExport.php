@@ -20,6 +20,7 @@ class ITAssetExport implements FromCollection, WithHeadings
             ->select(
                 'i_t_assets.id',
                 'i_t_assets.computer_name',
+                'i_t_assets.old_device_name',
                 'i_t_assets.serial_number',
                 'i_t_assets.type as type_code',
                 'i_t_assets.color',
@@ -57,6 +58,7 @@ class ITAssetExport implements FromCollection, WithHeadings
         return [
             "id",
             "computer_name",
+            "old_device_name",
             "serial_number",
             "type_code",
             "color",
