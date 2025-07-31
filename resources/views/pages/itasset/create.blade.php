@@ -45,14 +45,15 @@
                 <label>Serial Number</label>
                 <input class="form-control" type="text" name="serial_number" placeholder="ex.SNTEST000001" value="{{ old('serial_number') }}">
               </div>
-              <div class="col-12 mt-3">
+
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-6 mt-3">
                 <label>Old Device Name</label>
                 <input class="form-control" type="text" name="old_device_name" placeholder="ex.AP-5CD242KKN4" value="{{ old('old_device_name') }}">
               </div>
-            </div>
-            <div class="row">
-              <div class="col-3">
-                <label class="mt-4">Type <span class="text-danger">*</span></label>
+              <div class="col-12 col-sm-6 mt-3">
+                <label>Type <span class="text-danger">*</span></label>
                 <select class="form-control" name="type" required>
                   <option value="">-- Select --</option>
                   @foreach($types as $type)
@@ -60,7 +61,9 @@
                   @endforeach
                 </select>
               </div>
-              <div class="col-3">
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                 <label class="mt-4">Color</label>
                 <select class="form-control" name="color">
                   <option value="GREEN">GREEN</option>

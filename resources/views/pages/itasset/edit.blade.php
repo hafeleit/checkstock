@@ -100,13 +100,14 @@
                 <label>Serial Number</label>
                 <input class="form-control" type="text" name="serial_number" value="{{$itasset->serial_number}}">
               </div>
-              <div class="col-12 mt-3">
-                <label>Old Device Name</label>
-                <input class="form-control" type="text" name="old_device_name" placeholder="ex.AP-5CD242KKN4" value="{{$itasset->old_device_name}}">
-              </div>
+
             </div>
             <div class="row">
-              <div class="col-3">
+              <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                <label class="mt-4">Old Device Name</label>
+                <input class="form-control" type="text" name="old_device_name" placeholder="ex.AP-5CD242KKN4" value="{{$itasset->old_device_name}}">
+              </div>
+              <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                 <label class="mt-4">Type <span class="text-danger">*</span></label>
                 <select class="form-control" name="type" required>
                   <option value="">-- Select --</option>
@@ -118,7 +119,9 @@
                   @endforeach
                 </select>
               </div>
-              <div class="col-3">
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                 <label class="mt-4">Color</label>
                 <select class="form-control" name="color">
                   <option value="GREEN" {{ $itasset->color == 'GREEN' ? 'selected' : '' }}>GREEN</option>
