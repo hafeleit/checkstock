@@ -11,8 +11,8 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('permission:user view', ['only' => ['index']]);
-        $this->middleware('permission:user create', ['only' => ['create','store']]);
-        $this->middleware('permission:user update', ['only' => ['update','edit']]);
+        $this->middleware('permission:user create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:user update', ['only' => ['update', 'edit']]);
         $this->middleware('permission:user delete', ['only' => ['destroy']]);
     }
 
@@ -24,7 +24,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::pluck('name', 'name')->all();
         return view('role-permission.user.create', ['roles' => $roles]);
     }
 
@@ -38,21 +38,23 @@ class UserController extends Controller
         ]);
 
         $user = User::create([
-                        'username' => $request->username,
-                        'email' => $request->email,
-                        'password' => $request->password,
-                        'supp_code' => $request->supp_code,
-                    ]);
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => $request->password,
+            'supp_code' => $request->supp_code,
+            'is_active' => $request->is_active ? true : false,
+        ]);
 
         $user->syncRoles($request->roles);
 
-        return redirect('/users')->with('status','User created successfully with roles');
+        return redirect('/users')->with('status', 'User created successfully with roles');
     }
 
     public function edit(User $user)
     {
-        $roles = Role::pluck('name','name')->all();
-        $userRoles = $user->roles->pluck('name','name')->all();
+        $roles = Role::pluck('name', 'name')->all();
+        $userRoles = $user->roles->pluck('name', 'name')->all();
+
         return view('role-permission.user.edit', [
             'user' => $user,
             'roles' => $roles,
@@ -72,9 +74,10 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'supp_code' => $request->supp_code,
+            'is_active' => $request->is_active ? true : false,
         ];
 
-        if(!empty($request->password)){
+        if (!empty($request->password)) {
             $data += [
                 'password' => $request->password,
             ];
@@ -83,7 +86,7 @@ class UserController extends Controller
         $user->update($data);
         $user->syncRoles($request->roles);
 
-        return redirect('/users')->with('status','User Updated Successfully with roles');
+        return redirect('/users')->with('status', 'User Updated Successfully with roles');
     }
 
     public function destroy($userId)
@@ -91,6 +94,6 @@ class UserController extends Controller
         $user = User::findOrFail($userId);
         $user->delete();
 
-        return redirect('/users')->with('status','User Delete Successfully');
+        return redirect('/users')->with('status', 'User Delete Successfully');
     }
 }

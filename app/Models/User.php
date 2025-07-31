@@ -29,7 +29,8 @@ class User extends Authenticatable
         'country',
         'postal',
         'about',
-        'supp_code'
+        'supp_code',
+        'is_active',
     ];
 
     /**
