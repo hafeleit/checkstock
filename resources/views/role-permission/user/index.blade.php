@@ -77,7 +77,7 @@
                                 <td>
                                     @if (!empty($user->getRoleNames()))
                                     @foreach ($user->getRoleNames() as $rolename)
-                                    <label class="badge bg-primary mx-1">{{ $rolename }}</label>
+                                    <label class="badge bg-primary mx-1 my-0">{{ $rolename }}</label>
                                     @endforeach
                                     @endif
                                 </td>
@@ -90,12 +90,11 @@
                                 </td>
                                 <td>
                                     @can('user update')
-                                    <a href="{{ url('users/'.$user->id.'/edit') }}" class="btn btn-success">Edit</a>
+                                    <a href="{{ url('users/'.$user->id.'/edit') }}" class="btn btn-success my-0">Edit</a>
                                     @endcan
 
-
                                     @can('user delete')
-                                    <a href="{{ url('users/'.$user->id.'/delete') }}" class="btn btn-danger mx-2">Delete</a>
+                                    <a href="{{ url('users/'.$user->id.'/delete') }}" class="btn btn-danger mx-2 my-0">Delete</a>
                                     @endcan
                                 </td>
                             </tr>

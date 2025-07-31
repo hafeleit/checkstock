@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -31,10 +32,18 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_active' => 1])) {
             $request->session()->regenerate();
 
             return redirect()->intended('profile');
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user && $user->is_active === 0) {
+            return back()->withErrors([
+                'email' => 'Your account is not active. Please contact the administrator.',
+            ]);
         }
 
         return back()->withErrors([
