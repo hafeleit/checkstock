@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->dateTime('last_logged_in_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
