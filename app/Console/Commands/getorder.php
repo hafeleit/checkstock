@@ -381,6 +381,8 @@ class getorder extends Command
             $data_excel[$l][] = 'TH-OTHERS';
           }elseif(Str::contains($shipchan, 'SHOPIFY')){
             $data_excel[$l][] = 'TH-DHL-ECM';
+          }elseif(Str::contains($shipchan, 'TIKTOK')){
+            $data_excel[$l][] = 'TH-TOK-ECM';
           }elseif(strtoupper($order->saleschannel) == 'STANDARD DELIVERY'){
             $data_excel[$l][] = 'TH-OTHERS';
           }else{

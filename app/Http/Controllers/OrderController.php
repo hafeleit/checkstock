@@ -445,6 +445,8 @@ class OrderController extends Controller
             $data_excel[$l][] = 'TH-OTHERS';
           }elseif(Str::contains($shipchan, 'SHOPIFY')){
             $data_excel[$l][] = 'TH-DHL-ECM';
+          }elseif(Str::contains($shipchan, 'TIKTOK')){
+            $data_excel[$l][] = 'TH-TOK-ECM';
           }elseif(strtoupper($order->shippingchannel) == 'STANDARD DELIVERY'){
             $data_excel[$l][] = 'TH-OTHERS';
           }elseif(strtoupper($order->shippingchannel) == 'Express Delivery - ส่งด่วน'){
