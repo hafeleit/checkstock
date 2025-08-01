@@ -92,10 +92,6 @@
                                     @can('user update')
                                     <a href="{{ url('users/'.$user->id.'/edit') }}" class="btn btn-success my-0">Edit</a>
                                     @endcan
-
-                                    @can('user delete')
-                                    <a href="{{ url('users/'.$user->id.'/delete') }}" class="btn btn-danger mx-2 my-0">Delete</a>
-                                    @endcan
                                 </td>
                             </tr>
                             @endforeach
