@@ -21,6 +21,7 @@
                           <th>#</th>
                           <th>Sub ID</th>
                           <th>Status</th>
+                          <th>Schema ID</th>
                           <th>HR Comment</th>
                           <th>FIN Comment</th>
                           <th>Create By</th>
@@ -34,17 +35,29 @@
                               <td>{{ $c->id }}</td>
                               <td>{{ $c->sub_id }}</td>
                               <td>{{ $c->status }}</td>
+                              <td>{{ $c->schema_id }}</td>
                               <td>{{ $c->hr_comment }}</td>
                               <td>{{ $c->fin_comment }}</td>
 
                               <td>{{ $c->creator ? $c->creator->username : 'ไม่พบชื่อผู้ใช้' }}</td>
                               <td>{{ $c->created_at->format('Y-m-d H:i') }}</td>
                               <td>
-                                  <a href="{{ route('commissions.show', $c->id) }}" class="btn btn-info btn-sm">ดูรายละเอียด</a>
+                                  <a href="{{ route('commissions.show', $c->id) }}" class="btn btn-info btn-sm">
+                                      <i class="fas fa-file-alt me-1"></i> ดูรายละเอียด
+                                  </a>
+                                  <a href="{{ route('commissions.sales-summary', $c->id) }}" class="btn btn-sm btn-primary">
+                                      <i class="fas fa-chart-bar me-1"></i> ดูยอดรวม
+                                  </a>
+                                  <a href="{{ route('commissions.check', $c->id) }}" class="btn btn-sm btn-success">
+                                      <i class="fas fa-check-circle me-1"></i> ตรวจสอบ Commission
+                                  </a>
+
                                   <form method="POST" action="{{ route('commissions.destroy', $c->id) }}" class="delete-form d-inline">
                                       @csrf
                                       @method('DELETE')
-                                      <button type="button" class="btn btn-danger btn-sm btn-delete">ลบ</button>
+                                      <button type="button" class="btn btn-danger btn-sm btn-delete">
+                                          <i class="fas fa-trash-alt me-1"></i> ลบ
+                                      </button>
                                   </form>
                               </td>
                           </tr>

@@ -24,6 +24,22 @@ class CommissionsCnImport implements ToModel
             return null; // ข้าม header row
         }
 
+        $amount = (float) ($row[5] ?? 0);
+        if ($amount == 0) {
+            return null; // ข้ามแถวที่ยอดเงินไม่มากกว่า 0
+        }
+
+        $cnNo = trim($row[3] ?? '');
+
+        // 🛑 ตรวจสอบว่ามี reference_key ซ้ำใน AR หรือไม่
+        $exists = CommissionsAr::where('type', 'AR')
+            ->where('reference_key', $cnNo)
+            ->exists();
+
+        if ($exists) {
+            return null; // ถ้ามีอยู่แล้ว ไม่ต้องบันทึก
+        }
+
         return new CommissionsAr([
             'commissions_id'   => $this->commissionId,
             'type'      => 'CN',

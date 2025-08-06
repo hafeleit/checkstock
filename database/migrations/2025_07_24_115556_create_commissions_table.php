@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('sub_id')->nullable();
             $table->string('status')->nullable();
+            $table->unsignedBigInteger('schema_id')->nullable();
             $table->text('hr_comment')->nullable();
             $table->text('fin_comment')->nullable();
             $table->boolean('delete')->default(false);

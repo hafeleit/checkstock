@@ -63,7 +63,7 @@ class CommissionsArImport implements WithMultipleSheets, ToModel
             'reference_key'            => $row[10] ?? null,
             'document_date'            => $this->parseDate($row[18] ?? null),
             'clearing_date'            => $this->parseDate($row[19] ?? null),
-            'amount_in_local_currency' => $row[23] ?? null,
+            'amount_in_local_currency' => $amountExVat,
             'local_currency'           => $row[24] ?? null,
             'clearing_document'        => $row[25] ?? null,
             'text'                     => $row[31] ?? null,

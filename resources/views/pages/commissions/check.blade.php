@@ -17,6 +17,29 @@
       </div>
   @endif
     <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Commission</p>
+                                <h5 class="font-weight-bolder">
+                                    {{ number_format( $totalCommissions, 2 ) }}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                                <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
         <div class="col-12">
             <div class="card shadow-sm">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -33,7 +56,7 @@
                 <div class="card-body pt-3">
                     <form method="GET" class="row g-2 mb-4">
                         <div class="col-md-10 col-sm-12">
-                            <input type="text" name="search" class="form-control" placeholder="ค้นหา Account, Name, Reference key หรือ Sales Rep" value="{{ request('search') }}">
+                            <input type="text" name="search" class="form-control" placeholder="ค้นหา Reference key" value="{{ request('search') }}">
                         </div>
                         <div class="col-md-2 col-sm-12 text-end">
                             <button type="submit" class="btn bg-gradient-success w-100">
@@ -42,112 +65,14 @@
                         </div>
                     </form>
                     <div class="col-lg-12 col-md-3 col-sm-6 d-flex ">
-                      @if ($commission->status === 'Calculate')
-                          <!-- ปุ่ม Export -->
-                          <button type="button"
-                                  class="btn btn-sm bg-gradient-info px-3 me-2"
-                                  id="export-btn"
-                                  data-url="{{ route('commissions.export', $commission->id) }}">
-                              <i class="fas fa-file-export me-1"></i> Export
-                          </button>
-
-                          <button type="button"
-                                  class="btn btn-sm bg-gradient-warning px-3 me-2"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#adjustModal">
-                              <i class="fas fa-edit me-1"></i> Adjust
-                          </button>
-
                           <button type="button"
                                   class="btn btn-sm bg-gradient-secondary px-3"
                                   data-bs-toggle="modal"
                                   data-bs-target="#schemaModal">
                               <i class="fas fa-table me-1"></i> ดู Schema
                           </button>
-                      @else
-                          <!-- ปุ่ม Calculate Commission -->
-                          <form method="POST" action="{{ route('commissions.update', $commission->id) }}" id="calculate-form">
-                              @csrf
-                              @method('PUT')
-                              <button type="submit" class="btn btn-sm bg-gradient-primary px-3">
-                                  <i class="fas fa-calculator me-1"></i> Calculate Commission
-                              </button>
-                          </form>
-                      @endif
 
                       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                      <script>
-                      document.getElementById('export-btn')?.addEventListener('click', function () {
-                          const url = this.getAttribute('data-url');
-
-                          Swal.fire({
-                              title: 'กำลังส่งออกข้อมูล...',
-                              text: 'ระบบกำลังสร้างไฟล์ Excel',
-                              allowOutsideClick: false,
-                              allowEscapeKey: false,
-                              didOpen: () => {
-                                  Swal.showLoading();
-                              }
-                          });
-
-                          fetch(url, {
-                              headers: {
-                                  'X-Requested-With': 'XMLHttpRequest',
-                                  'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                              }
-                          })
-                          .then(response => {
-                              if (!response.ok) throw new Error('ไม่สามารถส่งออกไฟล์ได้');
-
-                              // ✅ ดึงชื่อไฟล์จาก Content-Disposition
-                              const disposition = response.headers.get('Content-Disposition');
-                              let filename = 'commissions_export.xlsx';
-
-                              if (disposition && disposition.indexOf('filename=') !== -1) {
-                                  const filenameRegex = /filename[^;=\n]*=(['"]?)([^'"\n]*)\1?/;
-                                  const matches = filenameRegex.exec(disposition);
-                                  if (matches != null && matches[2]) {
-                                      filename = decodeURIComponent(matches[2]);
-                                  }
-                              }
-
-                              return response.blob().then(blob => ({ blob, filename }));
-                          })
-                          .then(({ blob, filename }) => {
-                              const link = document.createElement('a');
-                              const url = window.URL.createObjectURL(blob);
-                              link.href = url;
-                              link.download = filename;
-                              document.body.appendChild(link);
-                              link.click();
-
-                              // ทำความสะอาด
-                              link.remove();
-                              window.URL.revokeObjectURL(url);
-
-                              Swal.close();
-                          })
-                          .catch(error => {
-                              Swal.fire('เกิดข้อผิดพลาด', error.message, 'error');
-                          });
-
-                      });
-                      </script>
-
-
-                      <script>
-                          document.getElementById('calculate-form').addEventListener('submit', function (e) {
-                              Swal.fire({
-                                  title: 'กำลังคำนวณ...',
-                                  text: 'กรุณารอสักครู่',
-                                  allowOutsideClick: false,
-                                  allowEscapeKey: false,
-                                  didOpen: () => {
-                                      Swal.showLoading();
-                                  }
-                              });
-                          });
-                      </script>
 
                     </div>
                     <div class="table-responsive">
@@ -157,16 +82,11 @@
                                 <tr>
                                     <th>Type</th>
                                     <th>Account</th>
-                                    <th>Name</th>
-                                    <th>Reference</th>
                                     <th>Reference Key</th>
                                     <th>Document Date</th>
                                     <th>Clearing Date</th>
                                     <th>Amount</th>
                                     <th>Clearing Document</th>
-                                    <th>Text</th>
-                                    <th>Sales Rep</th>
-                                    <th>Division</th>
                                     <th>Billing Ref</th>
                                     <th>Sales Doc</th>
                                     <th>SalesOrder Date</th>
@@ -184,9 +104,7 @@
                                 @forelse ($commissionArs as $ar)
                                     <tr>
                                         <td>{{ $ar->type }}</td>
-                                        <td>{{ $ar->account }}</td>
-                                        <td>{{ $ar->name }}</td>
-                                        <td>{{ $ar->reference }}</td>
+                                        <td>{{ $ar->account . ' ' .$ar->name }}</td>
                                         <td>{{ $ar->reference_key }}</td>
                                         <td>{{ $ar->document_date }}</td>
                                         <td>{{ $ar->clearing_date }}</td>
@@ -196,10 +114,6 @@
                                                 : '-' }}
                                         </td>
                                         <td>{{ $ar->clearing_document }}</td>
-                                        <td>{{ $ar->text }}</td>
-                                        <td>{{ $ar->sales_rep }}</td>
-                                        <td>{{ $ar->division }}</td>
-
                                         <td>{{ $ar->cn_billing_ref }}</td>
                                         <td>{{ $ar->cn_sales_doc }}</td>
                                         <td>{{ $ar->cn_order_date }}</td>
@@ -268,10 +182,6 @@
                                 @endforelse
                             </tbody>
                         </table>
-                    </div>
-
-                    <div class="d-flex justify-content-center mt-4">
-                        {{ $commissionArs->links('pagination::bootstrap-5') }}
                     </div>
                 </div>
             </div>
@@ -366,26 +276,5 @@
   </div>
 </div>
 
-
-@if(session('adjust_success'))
-<script>
-    Swal.fire({
-        icon: 'success',
-        title: 'ปรับค่าคอมมิชชั่นสำเร็จ!',
-        text: 'ข้อมูลถูกบันทึกเรียบร้อยแล้ว',
-        confirmButtonText: 'ตกลง'
-    });
-</script>
-@endif
-
-@if(session('adjust_updated'))
-<script>
-  Swal.fire({
-      icon: 'success',
-      title: 'บันทึกสำเร็จ',
-      text: 'ปรับปรุงข้อมูล Adjust เรียบร้อยแล้ว',
-  });
-</script>
-@endif
 
 @endsection

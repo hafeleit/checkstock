@@ -35,7 +35,6 @@ class CommissionsAr extends Model
         'cn_tax_invoice',
         'cn_sales_doc_name',
 
-        'schema_id',
         'ar_rate',
         'ar_rate_percent',
         'commissions',

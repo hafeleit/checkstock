@@ -16,7 +16,8 @@ return new class extends Migration
           $table->string('division')->nullable()->after('employee_code');
           $table->string('manager')->nullable()->after('division');
           $table->string('status')->nullable()->after('manager');
-          $table->date('effecttive_date')->nullable()->after('status');
+          $table->date('employment_date')->nullable()->after('status');
+          $table->date('effecttive_date')->nullable()->after('employment_date');
           $table->string('job_title')->nullable()->after('effecttive_date');
 
         });
@@ -33,6 +34,7 @@ return new class extends Migration
               'division',
               'manager',
               'status',
+              'employment_date',
               'effecttive_date',
               'job_title',
           ]);

@@ -12,6 +12,7 @@ class Commission extends Model
     protected $fillable = [
         'sub_id',
         'status',
+        'schema_id',
         'hr_comment',
         'fin_comment',
         'delete',

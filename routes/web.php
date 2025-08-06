@@ -129,9 +129,17 @@ Route::group(['middleware' => 'auth'], function () {
   Route::resource('asset_types', ITAssetTypeController::class);
   Route::resource('onlineorder', OrderController::class);
   Route::resource('checkstock', CheckStockController::class);
+
+
   Route::resource('commissions', CommissionController::class);
 
   Route::post('/commissions/import', [CommissionController::class, 'importAll'])->name('commissions.import');
+  Route::get('/commissions/{id}/export', [CommissionController::class, 'export'])->name('commissions.export');
+  Route::get('/commissions/{id}/summary-export', [CommissionController::class, 'summary_export'])->name('commissions.summary-export');
+  Route::post('/commissions/{id}/adjust', [CommissionController::class, 'adjust'])->name('commissions.adjust');
+  Route::put('/commissions/adjust/{id}', [CommissionController::class, 'adjustUpdate'])->name('commissions.adjust.update');
+  Route::get('/commissions/{id}/sales-summary', [CommissionController::class, 'salesSummary'])->name('commissions.sales-summary');
+  Route::get('/commissions/{id}/check', [CommissionController::class, 'check'])->name('commissions.check');
 
   Route::get('checkstockhww-export', [CheckStockController::class,'export'])->name('checkstockhww-export');
   Route::post('product-new-price-list-import', [CheckStockController::class,'import'])->name('product-new-price-list-import');

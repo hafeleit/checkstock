@@ -29,7 +29,6 @@ return new class extends Migration
             $table->text('text')->nullable();
             $table->string('posting_key')->nullable();
             $table->string('sales_rep')->nullable();
-            $table->unsignedBigInteger('schema_id')->nullable();
             $table->decimal('ar_rate', 10, 4)->nullable();
             $table->decimal('ar_rate_percent', 10, 2)->nullable();
             $table->decimal('commissions', 15, 2)->nullable();
