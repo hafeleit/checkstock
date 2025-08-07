@@ -56,6 +56,7 @@ class SalesUSIController extends Controller
                 WHEN m.pgr = 'T23' THEN 'T23-Vacant 6'
                 WHEN m.pgr = 'T24' THEN 'T24-Kotchaporn S.'
                 WHEN m.pgr = 'T25' THEN 'T25-Thanat A.'
+                WHEN m.pgr = 'T26' THEN 'T26-Khwanvalee P.'
                 WHEN m.pgr = 'T31' THEN 'T31-HTH EHK PurGrp 1'
                 WHEN m.pgr = 'T32' THEN 'T32-HTH EHK PurGrp 2'
                 WHEN m.pgr = 'T33' THEN 'T33-HTH EHK PurGrp 3'
