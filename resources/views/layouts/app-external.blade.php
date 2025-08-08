@@ -27,10 +27,10 @@
     <!-- Navbar -->
     <header class="navbar bg-white shadow-sm border-b sticky top-0 z-50">
         <div class="flex items-center justify-between py-5">
-            <div class="flex gap-4 items-center px-6 md:px-4">
+            <a href="/customer/products" class="flex gap-4 items-center px-6 md:px-4">
                 <img src="/img/hafele_logo.png" class="w-5 h-5">
                 <h1 class="text-sm md:text-xl font-bold text-gray-800">Product Information System</h1>
-            </div>
+            </a>
 
             <!-- User Dropdown -->
             <div class="hidden md:inline-block px-4" x-data="{ open: false }">
