@@ -110,9 +110,23 @@ input[type="email"]:disabled {
 .bg-primary-50 {
     background-color: var(--primary-color-50);
 }
+
+.bg-primary-500 {
+    background-color: var(--color-primary-500);
+}
+
+.bg-primary-600 {
+    background-color: var(--color-primary-600);
+}
+
+.bg-primary-700 {
+    background-color: var(--color-primary-700);
+}
+
 .text-primary-700 {
     color: var(--color-primary-700);
 }
+
 .border-primary-700 {
     border-color: var(--color-primary-700);
 }

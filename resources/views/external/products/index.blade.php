@@ -3,11 +3,14 @@
 @section('content')
 <div class="mx-auto">
     <div class="bg-white rounded-lg shadow p-6">
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Product Search</h1>
+        <h1 class="text-md md:text-xl font-bold text-gray-800 mb-3">Product Search</h1>
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('external.products.index') }}">
-
+            <div class="text-sm text-red-600 mb-3 bg-red-50 py-3 px-2 rounded-md">
+                สต๊อกที่แสดงเป็นสต๊อก ณ เวลา <strong>{{ $date_now }}</strong> และเพื่อป้องกันความผิดพลาด<br>
+                หากต้องการยืนยันคำสั่งซื้อ ขอให้ตรวจสอบยืันยันกับพนักงานขายของท่านทุกครั้ง
+            </div>
             <div class="flex gap-4">
                 <div class="flex-1">
                     <label for="item_code" class="block text-sm font-medium text-gray-700 mb-2">
@@ -62,7 +65,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Stock Quantity</label>
                         <p class="text-gray-800">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $product->stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                            <span class="inline-flex items-center px-2.5 py-0.5 mt-2 rounded-full text-sm font-medium {{ $product->stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                 {{ $product->stock }} units
                             </span>
                         </p>
