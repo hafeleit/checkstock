@@ -32,9 +32,8 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_active' => 1])) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_active' => 1, 'type' => 'employee'])) {
             $request->session()->regenerate();
-
             return redirect()->intended('profile');
         }
 

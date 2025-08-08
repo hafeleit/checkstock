@@ -16,7 +16,7 @@ class CheckUserStatus
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->is_active == 1) {
+        if (Auth::check() && Auth::user()->is_active == 1 && Auth::user()->type == 'employee') {
             return $next($request);
         }
 

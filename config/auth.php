@@ -40,9 +40,9 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'external_guard' => [
+        'customer' => [
             'driver' => 'session',
-            'provider' => 'external_users_provider',
+            'provider' => 'users',
         ],
     ],
 
@@ -67,10 +67,6 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
-        ],
-        'external_users_provider' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\External\User::class,
         ],
 
         // 'users' => [

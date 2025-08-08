@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\External;
 
 use App\Http\Controllers\Controller;
-use App\Models\External\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
+use function Symfony\Component\String\b;
 
 class ProfileController extends Controller
 {
@@ -20,16 +22,31 @@ class ProfileController extends Controller
 
     public function edit($id)
     {
-         $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
         return view('external.profile.edit', [
             'user' => $user
         ]);
     }
 
-    public function update(Request $request, User $user)
+    public function update($id)
     {
-        dd($request->all());
-        $user->update($request->all());
+        request()->validate([
+            'username' => 'required|string|max:100',
+            'first_name' => 'nullable|string|max:100',
+            'last_name' => 'nullable|string|max:100',
+            'email' => [
+                'nullable',
+                'string',
+                'email',
+                'max:255',
+                \Illuminate\Validation\Rule::unique('users')->ignore($id),
+            ],
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->update(request()->all());
+
+        return redirect()->route('customer.profile.show', $user->id)->with('success', '');
     }
 
     public function changePassword()
@@ -40,18 +57,20 @@ class ProfileController extends Controller
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'current_password' => 'required',
-            'password' => 'required|string|min:8|confirmed',
+            'current_password' => ['required', 'string'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        if (!Hash::check($request->current_password, Auth::user()->password)) {
-            return back()->withErrors(['current_password' => 'Current password is incorrect']);
+        $user = auth()->user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'current password is incorrect']);
         }
 
-        Auth::user()->update([
-            'password' => Hash::make($request->password)
-        ]);
+        $user->update(['password' => Hash::make($request->password)]);
+        
+        auth()->login($user);
 
-        return redirect()->route('external.profile.show')->with('success', 'Password changed successfully');
+        return back()->with('success', 'password changed successfully');
     }
 }

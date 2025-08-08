@@ -23,13 +23,12 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::guard('external_guard')->attempt($credentials, $request->boolean('remember'))) {
+        if (Auth::guard('customer')->attempt(array_merge($credentials), $request->boolean('remember'))) {
             $request->session()->regenerate();
-
-            $user = Auth::guard('external_guard')->user();
+            $user = Auth::guard('customer')->user();
             $user->update(['last_logged_in_at' => Carbon::now()]);
 
-            return redirect('/external/products');
+            return redirect('/customer/products');
         }
 
         return back()->withErrors([
@@ -39,9 +38,9 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('external_guard')->logout();
+        Auth::guard('customer')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/external/login');
+        return redirect('/customer/login');
     }
 }

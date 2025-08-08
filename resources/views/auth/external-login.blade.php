@@ -11,7 +11,7 @@
             </div>
 
             <!-- Login Form -->
-            <form method="POST" action="{{ route('external.login') }}" class="space-y-4">
+            <form method="POST" action="{{ route('customer.login') }}" class="space-y-4">
                 @csrf
                 <div class="space-y-2">
                     <label for="email" class="flex items-center gap-2 text-sm font-medium text-gray-700">
@@ -55,9 +55,6 @@
                             Remember me
                         </label>
                     </div>
-                    <!-- <a href="#" class="text-sm text-blue-600 hover:text-blue-500 hover:underline">
-                        Forgot password?
-                    </a> -->
                 </div>
 
                 <button type="submit" class="w-full h-11 flex items-center justify-center gap-2 px-4 py-2 button-primary rounded-md disabled:cursor-not-allowed">
