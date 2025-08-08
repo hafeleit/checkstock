@@ -117,7 +117,7 @@ class CommissionController extends Controller
              'commissions' => $request->commissions,
              'remark' => $request->remark,
              'type' => 'Adjust',
-             'adjuster' => Auth::user()->name,
+             'adjuster' => Auth::user()->username,
          ]);
 
          return redirect()->back()->with('adjust_success', true);
@@ -157,7 +157,9 @@ class CommissionController extends Controller
                  'commissions_ars.sales_rep',
                  'user_masters.name_en',
                  'user_masters.division',
-                 DB::raw('SUM(commissions_ars.commissions) as total_commissions')
+                 DB::raw('SUM(commissions_ars.commissions) as total_commissions'),
+                 DB::raw("SUM(CASE WHEN commissions_ars.type = 'Adjust' THEN commissions_ars.commissions ELSE 0 END) AS total_adjust"),
+                 DB::raw("SUM(CASE WHEN commissions_ars.type != 'Adjust' THEN commissions_ars.commissions ELSE 0 END) AS total_initial")
              )
              ->leftJoin('user_masters', function ($join) {
                  $join->on(DB::raw("SUBSTRING(commissions_ars.sales_rep, 4)"), '=', 'user_masters.job_code')
@@ -175,15 +177,17 @@ class CommissionController extends Controller
              ->orderBy('commissions_ars.sales_rep','desc')
              ->get();
 
-         $totalCommissions = CommissionsAr::where('commissions_id', $id)
-             /*->where('commissions', '>', 0)*/
-             ->sum('commissions');
+         $totalInitial = CommissionsAr::where('commissions_id', $id)->where('type','!=','Adjust')->sum('commissions');
+         $totalAdjustment = CommissionsAr::where('commissions_id', $id)->where('type','Adjust')->sum('commissions');
+         $totalCommissions = CommissionsAr::where('commissions_id', $id)->sum('commissions');
 
 
          return view('pages.commissions.sales_summary', compact(
              'commission',
              'summary',
              'search',
+             'totalInitial',
+             'totalAdjustment',
              'totalCommissions',
          ));
      }
@@ -222,7 +226,7 @@ class CommissionController extends Controller
      public function check(Request $request, $id)
      {
 
-        $users = 'HTH3783';
+        $users = 'HTH4090';
         $search = $request->input('search');
         $commission = Commission::findOrFail($id);
         $commissionArs = CommissionsAr::where('commissions_id',$id)->where('sales_rep', $users)
@@ -234,14 +238,14 @@ class CommissionController extends Controller
             ->get();
         // ตรวจสอบก่อนดึง
         $schemaTable = [];
-        $columns = ['0-30', '31-60', '61-90', '91-120', '121-150', '>150'];
+        $columns = ['0-30', '31-60', '61-90', '91-120', '121-150', '151-365'];
 
         if ($commission->schema_id) {
             $schemaDetails = CommissionsSchemaDetail::where('commissions_schemas_id', $commission->schema_id)->get();
 
             foreach ($schemaDetails as $detail) {
                 $division = $detail->division_name;
-                $range = $detail->ar_end > 150 ? '>150' : "{$detail->ar_start}-{$detail->ar_end}";
+                $range = $detail->ar_end > 150 ? '151-365' : "{$detail->ar_start}-{$detail->ar_end}";
 
                 if (!isset($schemaTable[$division])) {
                     $schemaTable[$division] = [];
@@ -251,16 +255,19 @@ class CommissionController extends Controller
             }
         }
 
+        $totalInitial = CommissionsAr::where('commissions_id', $id)->where('sales_rep', $users)->where('type','!=','Adjust')->sum('commissions');
+        $totalAdjustment = CommissionsAr::where('commissions_id', $id)->where('sales_rep', $users)->where('type','Adjust')->sum('commissions');
         $totalCommissions = CommissionsAr::where('commissions_id', $id)->where('sales_rep', $users)->sum('commissions');
 
-        return view('pages.commissions.check', compact('commissionArs','commission','schemaTable','columns','totalCommissions'));
+        return view('pages.commissions.check', compact('commissionArs','commission','schemaTable','columns','totalInitial','totalAdjustment','totalCommissions'));
      }
 
      public function show(Commission $commission, Request $request)
      {
+       
          $search = $request->input('search');
 
-         $commissionArs = CommissionsAr::select('commissions_ars.*', 'user_masters.division')
+         $commissionArs = CommissionsAr::select('commissions_ars.*', 'user_masters.division', 'user_masters.name_en')
              ->leftJoin('user_masters', function ($join) {
                  $join->on(DB::raw("SUBSTRING(commissions_ars.sales_rep, 4)"), '=', 'user_masters.job_code')
                       ->where('user_masters.status', 'Current'); // เช่น เฉพาะพนักงานที่ยังอยู่
@@ -280,14 +287,14 @@ class CommissionController extends Controller
 
              // ตรวจสอบก่อนดึง
              $schemaTable = [];
-             $columns = ['0-30', '31-60', '61-90', '91-120', '121-150', '>150'];
+             $columns = ['0-30', '31-60', '61-90', '91-120', '121-150', '151-365'];
 
              if ($commission->schema_id) {
                  $schemaDetails = CommissionsSchemaDetail::where('commissions_schemas_id', $commission->schema_id)->get();
 
                  foreach ($schemaDetails as $detail) {
                      $division = $detail->division_name;
-                     $range = $detail->ar_end > 150 ? '>150' : "{$detail->ar_start}-{$detail->ar_end}";
+                     $range = $detail->ar_end > 150 ? '151-365' : "{$detail->ar_start}-{$detail->ar_end}";
 
                      if (!isset($schemaTable[$division])) {
                          $schemaTable[$division] = [];

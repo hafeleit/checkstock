@@ -44,13 +44,18 @@ class CommissionsArImport implements WithMultipleSheets, ToModel
         }
 
         // 👉 เงื่อนไข: ไม่เอา posting_key 08, 15
-        $postingKey = trim($row[34] ?? '');
+        $postingKey = trim($row[35] ?? '');
         if (in_array($postingKey, ['08', '15'])) {
             return null;
         }
 
+        // 👉 เงื่อนไข: $row[46] ต้องไม่มีข้อมูล
+        if (!empty(trim($row[46] ?? ''))) {
+            return null;
+        }
+
         // 👉 ถอด VAT 7%
-        $amount = floatval(str_replace(',', '', $row[23] ?? 0)); // ป้องกัน , หรือค่าว่าง
+        $amount = floatval(str_replace(',', '', $row[24] ?? 0)); // ป้องกัน , หรือค่าว่าง
         $amountExVat = round($amount / 1.07, 2); // ถอด VAT 7%
 
         return new CommissionsAr([
@@ -64,11 +69,11 @@ class CommissionsArImport implements WithMultipleSheets, ToModel
             'document_date'            => $this->parseDate($row[18] ?? null),
             'clearing_date'            => $this->parseDate($row[19] ?? null),
             'amount_in_local_currency' => $amountExVat,
-            'local_currency'           => $row[24] ?? null,
-            'clearing_document'        => $row[25] ?? null,
-            'text'                     => $row[31] ?? null,
-            'posting_key'              => $row[34] ?? null,
-            'sales_rep'                => $row[39] ?? null,
+            'local_currency'           => $row[25] ?? null,
+            'clearing_document'        => $row[26] ?? null,
+            'text'                     => $row[32] ?? null,
+            'posting_key'              => $row[35] ?? null,
+            'sales_rep'                => $row[40] ?? null,
         ]);
     }
 

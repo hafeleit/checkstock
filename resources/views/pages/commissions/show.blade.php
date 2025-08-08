@@ -33,7 +33,7 @@
                 <div class="card-body pt-3">
                     <form method="GET" class="row g-2 mb-4">
                         <div class="col-md-10 col-sm-12">
-                            <input type="text" name="search" class="form-control" placeholder="ค้นหา Account, Name, Reference key หรือ Sales Rep" value="{{ request('search') }}">
+                            <input type="text" name="search" class="form-control" placeholder="ค้นหา Account, Name, Reference Document หรือ Sales Rep" value="{{ request('search') }}">
                         </div>
                         <div class="col-md-2 col-sm-12 text-end">
                             <button type="submit" class="btn bg-gradient-success w-100">
@@ -43,13 +43,13 @@
                     </form>
                     <div class="col-lg-12 col-md-3 col-sm-6 d-flex ">
                       @if ($commission->status === 'Calculate')
-                          <!-- ปุ่ม Export -->
+                          <!-- ปุ่ม Export
                           <button type="button"
                                   class="btn btn-sm bg-gradient-info px-3 me-2"
                                   id="export-btn"
                                   data-url="{{ route('commissions.export', $commission->id) }}">
                               <i class="fas fa-file-export me-1"></i> Export
-                          </button>
+                          </button>-->
 
                           <button type="button"
                                   class="btn btn-sm bg-gradient-warning px-3 me-2"
@@ -150,35 +150,83 @@
                       </script>
 
                     </div>
+
+                    <script>
+                        let sortDirection = {};
+
+                        function sortTable(colIndex) {
+                          const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
+                          const rows = Array.from(table.rows).slice(1);
+                          const isAsc = sortDirection[colIndex] = !sortDirection[colIndex];
+
+                          rows.sort((a, b) => {
+                            const aText = a.cells[colIndex]?.innerText.trim();
+                            const bText = b.cells[colIndex]?.innerText.trim();
+
+                            const parseValue = (text) => {
+                              const cleanText = text.replace(/,/g, '').trim(); // ลบ comma
+                              const number = parseFloat(cleanText);
+                              return isNaN(number) ? cleanText.toLowerCase() : number;
+                            };
+
+                            const aVal = parseValue(aText);
+                            const bVal = parseValue(bText);
+
+
+                            return isAsc ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
+                          });
+
+                          const tbody = table.tBodies[0];
+                          rows.forEach(row => tbody.appendChild(row));
+
+                          // เปลี่ยน icon
+                          const headers = table.querySelectorAll("th");
+                          headers.forEach((th, idx) => {
+                            const icon = th.querySelector("i");
+                            if (icon) {
+                              icon.className = "fas fa-sort";
+                              if (idx === colIndex) {
+                                icon.className = isAsc ? "fas fa-sort-up" : "fas fa-sort-down";
+                              }
+                            }
+                          });
+                        }
+                    </script>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
                     <div class="table-responsive">
 
-                        <table class="table table-hover align-items-center">
+                        <table class="table table-hover align-items-center" id="sortableTable">
                             <thead>
                                 <tr>
-                                    <th>Type</th>
-                                    <th>Account</th>
-                                    <th>Name</th>
-                                    <th>Reference</th>
-                                    <th>Reference Key</th>
-                                    <th>Document Date</th>
-                                    <th>Clearing Date</th>
-                                    <th>Amount</th>
-                                    <th>Clearing Document</th>
-                                    <th>Text</th>
-                                    <th>Sales Rep</th>
-                                    <th>Division</th>
-                                    <th>Billing Ref</th>
-                                    <th>Sales Doc</th>
-                                    <th>SalesOrder Date</th>
-                                    <th>CN. (No.)</th>
-                                    <th>CN. date (Date)</th>
-                                    <th>Tax-Invoice</th>
-                                    <th>Rate (days)</th>
-                                    <th>Rate (%)</th>
-                                    <th>Commission</th>
-                                    <th>Remark</th>
-                                    <th></th>
+                                  <th onclick="sortTable(0)">Type <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(1)">Account <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(2)">Name <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(3)">Reference <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(4)">Reference Document <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(5)">Document Date <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(6)">Clearing Date <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(7)">Amount <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(8)">Clearing Document <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(9)">Document Type <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(10)">Text <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(11)">Sales Rep <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(12)">Emp Status <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(13)">Division <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(14)">Billing Ref <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(15)">Sales Doc <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(16)">SalesOrder Date <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(17)">CN. (No.) <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(18)">CN. Date <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(19)">Tax-Invoice <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(20)">Rate (days) <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(21)">Rate (%) <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(22)">Commission <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(23)">Remark <i class="fas fa-sort"></i></th>
+                                  <th></th> <!-- ปุ่มหรือ action อื่นๆ -->
                                 </tr>
+
                             </thead>
                             <tbody>
                                 @forelse ($commissionArs as $ar)
@@ -196,8 +244,10 @@
                                                 : '-' }}
                                         </td>
                                         <td>{{ $ar->clearing_document }}</td>
+                                        <td>{{ $ar->document_type }}</td>
                                         <td>{{ $ar->text }}</td>
                                         <td>{{ $ar->sales_rep }}</td>
+                                        <td>{{ $ar->name_en }}</td>
                                         <td>{{ $ar->division }}</td>
 
                                         <td>{{ $ar->cn_billing_ref }}</td>
@@ -239,7 +289,7 @@
                                                             <input type="text" class="form-control" name="sales_rep" value="{{ $ar->sales_rep }}" required>
                                                           </div>
                                                           <div class="mb-3">
-                                                            <label>Reference Key</label>
+                                                            <label>Reference Document</label>
                                                             <input type="text" class="form-control" name="reference_key" value="{{ $ar->reference_key }}" required>
                                                           </div>
                                                           <div class="mb-3">
@@ -292,25 +342,32 @@
 
         <div class="modal-body">
           <div class="mb-3">
-            <label for="sales_code" class="form-label">Sales Code</label>
-            <input type="text" class="form-control" name="sales_rep" id="sales_rep" required>
+            <label for="sales_code" class="form-label">
+              Sales Code <span class="text-danger">*</span>
+            </label>
+            <input type="text" class="form-control" name="sales_rep" id="sales_rep" placeholder="HTHxxxx" required>
           </div>
 
           <div class="mb-3">
-            <label for="invoice_no" class="form-label">Invoice No</label>
+            <label for="invoice_no" class="form-label">
+              Reference Document / Credit Note Number <span class="text-danger">*</span>
+            </label>
             <input type="text" class="form-control" name="reference_key" id="reference_key" required>
           </div>
 
           <div class="mb-3">
-            <label for="commission" class="form-label">Commission</label>
+            <label for="commission" class="form-label">
+              Commission Amount(THB) <span class="text-danger">*</span>
+            </label>
             <input type="number" step="0.01" class="form-control" name="commissions" id="commissions" required>
           </div>
 
           <div class="mb-3">
-            <label for="remark" class="form-label">Remark</label>
+            <label for="remark" class="form-label">Reason<span class="text-danger">*</span></label>
             <textarea class="form-control" name="remark" id="remark" rows="2"></textarea>
           </div>
         </div>
+
 
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save</button>

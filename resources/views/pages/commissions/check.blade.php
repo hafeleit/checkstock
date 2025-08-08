@@ -17,27 +17,69 @@
       </div>
   @endif
     <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Commission</p>
-                                <h5 class="font-weight-bolder">
-                                    {{ number_format( $totalCommissions, 2 ) }}
-                                </h5>
-                            </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+              <div class="card-body p-3">
+                  <div class="row">
+                      <div class="col-8">
+                          <div class="numbers">
+                              <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Initial</p>
+                              <h5 class="font-weight-bolder">
+                                  {{ number_format( $totalInitial, 2 ) }}
+                              </h5>
+                          </div>
+                      </div>
+                      <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                            <i class="ni ni-chart-bar-32 text-lg opacity-10" aria-hidden="true"></i>
                         </div>
-                        <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                                <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+              <div class="card-body p-3">
+                  <div class="row">
+                      <div class="col-8">
+                          <div class="numbers">
+                              <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Adjustment</p>
+                              <h5 class="font-weight-bolder">
+                                  {{ number_format( $totalAdjustment, 2 ) }}
+                              </h5>
+                          </div>
+                      </div>
+                      <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-primary shadow-success text-center rounded-circle">
+                            <i class="ni ni-curved-next text-lg opacity-10" aria-hidden="true"></i>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+              <div class="card-body p-3">
+                  <div class="row">
+                      <div class="col-8">
+                          <div class="numbers">
+                              <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Commission</p>
+                              <h5 class="font-weight-bolder">
+                                  {{ number_format( $totalCommissions, 2 ) }}
+                              </h5>
+                          </div>
+                      </div>
+                      <div class="col-4 text-end">
+                          <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                              <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
     <div class="row mt-4">
         <div class="col-12">
@@ -56,7 +98,7 @@
                 <div class="card-body pt-3">
                     <form method="GET" class="row g-2 mb-4">
                         <div class="col-md-10 col-sm-12">
-                            <input type="text" name="search" class="form-control" placeholder="ค้นหา Reference key" value="{{ request('search') }}">
+                            <input type="text" name="search" class="form-control" placeholder="ค้นหา Reference Document" value="{{ request('search') }}">
                         </div>
                         <div class="col-md-2 col-sm-12 text-end">
                             <button type="submit" class="btn bg-gradient-success w-100">
@@ -82,11 +124,12 @@
                                 <tr>
                                     <th>Type</th>
                                     <th>Account</th>
-                                    <th>Reference Key</th>
+                                    <th>Reference Document</th>
                                     <th>Document Date</th>
                                     <th>Clearing Date</th>
                                     <th>Amount</th>
                                     <th>Clearing Document</th>
+                                    <th>Sales Rep</th>
                                     <th>Billing Ref</th>
                                     <th>Sales Doc</th>
                                     <th>SalesOrder Date</th>
@@ -97,7 +140,6 @@
                                     <th>Rate (%)</th>
                                     <th>Commission</th>
                                     <th>Remark</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,6 +156,7 @@
                                                 : '-' }}
                                         </td>
                                         <td>{{ $ar->clearing_document }}</td>
+                                        <td>{{ $ar->sales_rep }}</td>
                                         <td>{{ $ar->cn_billing_ref }}</td>
                                         <td>{{ $ar->cn_sales_doc }}</td>
                                         <td>{{ $ar->cn_order_date }}</td>
@@ -128,54 +171,7 @@
                                         <td class="text-end">{{ $ar->ar_rate_percent }}</td>
                                         <td class="text-end">{{ $ar->commissions }}</td>
                                         <td>{{ $ar->remark }}</td>
-                                        <td>
-                                            @if ($ar->type === 'Adjust')
-                                                <button type="button"
-                                                        class="btn btn-sm btn-warning"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#editAdjustModal{{ $ar->id }}">
-                                                    <i class="fas fa-edit me-1"></i> แก้ไข
-                                                </button>
-                                                <div class="modal fade" id="editAdjustModal{{ $ar->id }}" tabindex="-1" aria-hidden="true">
-                                                  <div class="modal-dialog">
-                                                    <form method="POST" action="{{ route('commissions.adjust.update', $ar->id) }}">
-                                                      @csrf
-                                                      @method('PUT')
-                                                      <div class="modal-content">
-                                                        <div class="modal-header">
-                                                          <h5 class="modal-title">แก้ไข Adjust</h5>
-                                                          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                        </div>
-                                                        <div class="modal-body">
 
-                                                          <div class="mb-3">
-                                                            <label>Sales Rep</label>
-                                                            <input type="text" class="form-control" name="sales_rep" value="{{ $ar->sales_rep }}" required>
-                                                          </div>
-                                                          <div class="mb-3">
-                                                            <label>Reference Key</label>
-                                                            <input type="text" class="form-control" name="reference_key" value="{{ $ar->reference_key }}" required>
-                                                          </div>
-                                                          <div class="mb-3">
-                                                            <label>Commissions</label>
-                                                            <input type="number" step="0.01" class="form-control" name="commissions" value="{{ $ar->commissions }}" required>
-                                                          </div>
-                                                          <div class="mb-3">
-                                                            <label>Remark</label>
-                                                            <textarea class="form-control" name="remark">{{ $ar->remark }}</textarea>
-                                                          </div>
-
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">ปิด</button>
-                                                          <button type="submit" class="btn btn-primary btn-sm">บันทึก</button>
-                                                        </div>
-                                                      </div>
-                                                    </form>
-                                                  </div>
-                                                </div>
-                                            @endif
-                                        </td>
                                     </tr>
                                 @empty
                                     <tr><td colspan="7" class="text-center text-muted">ไม่มีข้อมูล</td></tr>

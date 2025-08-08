@@ -53,15 +53,21 @@ class UserMasterImport implements ToModel, WithStartRow, WithMultipleSheets, Wit
     private function parseDate($val)
     {
         try {
-            // กรณีเป็น Excel serial number (เช่น 45115)
+            // ✅ ถ้าไม่มีค่าเลย (null, '', หรือช่องว่าง) ให้ return null
+            if (empty(trim($val))) {
+                return null;
+            }
+
+            // กรณีเป็น Excel serial number เช่น 45115
             if (is_numeric($val)) {
                 return Date::excelToDateTimeObject($val)->format('Y-m-d');
             }
-
+    
             // กรณีเป็น string เช่น "25/07/2025"
             return Carbon::parse(trim($val))->format('Y-m-d');
         } catch (\Exception $e) {
             return null;
         }
     }
+
 }

@@ -23,6 +23,48 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Initial</p>
+                                <h5 class="font-weight-bolder">
+                                    {{ number_format( $totalInitial, 2 ) }}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                          <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                              <i class="ni ni-chart-bar-32 text-lg opacity-10" aria-hidden="true"></i>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Adjustment</p>
+                                <h5 class="font-weight-bolder">
+                                    {{ number_format( $totalAdjustment, 2 ) }}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                          <div class="icon icon-shape bg-gradient-primary shadow-success text-center rounded-circle">
+                              <i class="ni ni-curved-next text-lg opacity-10" aria-hidden="true"></i>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Commission</p>
                                 <h5 class="font-weight-bolder">
                                     {{ number_format( $totalCommissions, 2 ) }}
@@ -142,7 +184,9 @@
                                     <th>Sales Rep</th>
                                     <th>Sales Name</th>
                                     <th>Division</th>
-                                    <th>Total Commissions</th>
+                                    <th class="text-end">Total Initial</th>
+                                    <th class="text-end">Total Adjustment</th>
+                                    <th class="text-end">Total Commissions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -151,7 +195,9 @@
                                         <td>{{ $item->sales_rep }}</td>
                                         <td>{{ $item->name_en }}</td>
                                         <td>{{ $item->division }}</td>
-                                        <td>{{ number_format($item->total_commissions,2) }}</td>
+                                        <td class="text-end">{{ number_format($item->total_initial,2) }}</td>
+                                        <td class="text-end">{{ number_format($item->total_adjust,2) }}</td>
+                                        <td class="text-end">{{ number_format($item->total_commissions,2) }}</td>
 
                                     </tr>
                                 @empty
