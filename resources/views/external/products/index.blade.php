@@ -21,7 +21,7 @@
                         name="item_code"
                         value="{{ old('item_code', $item_code ?? '') }}"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-transparent"
-                        placeholder="Enter item code to search...">
+                        placeholder="Enter item code to search..." autofocus>
                     @error('item_code')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
