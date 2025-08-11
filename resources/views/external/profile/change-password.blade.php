@@ -5,11 +5,6 @@
     <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center justify-between mb-6">
             <h1 class="text-2xl font-bold text-gray-800">Change Password</h1>
-            <a href="{{ route('customer.profile.show', 1) }}" class="text-gray-500 hover:text-gray-700">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </a>
         </div>
 
         <form method="POST" action="{{ route('customer.profile.update-password', auth()->user()->id) }}" class="space-y-6">
