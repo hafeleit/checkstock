@@ -123,7 +123,7 @@
     </header>
 
     <div class="flex min-h-screen">
-        @if (!auth()->user()->type === 'customer')
+        @if (auth()->user()->type !== 'customer')
         <!-- Sidebar: Desktop -->
         <div class="hidden md:block w-64 bg-white shadow-lg">
             <nav class="mt-4 z-50">

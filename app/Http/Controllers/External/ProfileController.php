@@ -61,15 +61,16 @@ class ProfileController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $user = auth()->user();
+        $user = Auth::guard('customer')->user();
 
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'current password is incorrect']);
         }
 
-        $user->update(['password' => Hash::make($request->password)]);
-        
-        auth()->login($user);
+        $user->update(['password' => $request->password]);
+
+        Auth::guard('customer')->login($user);
+        $request->session()->regenerate();
 
         return back()->with('success', 'password changed successfully');
     }
