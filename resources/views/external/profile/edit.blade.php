@@ -5,12 +5,6 @@
     <div class="bg-white rounded-lg shadow p-6">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-gray-800">Edit Profile</h1>
-            <a href="{{ route('customer.profile.show', 1) }}"
-                class="px-4 py-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
-            </a>
         </div>
 
         <form method="POST" action="{{ route('customer.profile.update', auth()->user()->id) }}" class="space-y-6">
