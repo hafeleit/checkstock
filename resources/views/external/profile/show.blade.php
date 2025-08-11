@@ -34,7 +34,8 @@
 
             <div>
                 <label class="block text-md font-semibold text-gray-700">Status</label>
-                <span class="inline-flex px-2.5 py-0.5 text-sm font-semibold rounded-full {{ !$user->is_active ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' }}">
+                <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full {{ $user->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}}">
+                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
                     {{ $user->is_active ? 'Active' : 'Inactive' }}
                 </span>
             </div>
