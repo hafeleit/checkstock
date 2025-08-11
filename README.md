@@ -7,6 +7,7 @@
 7. git push by command line first
 8. php artisan db:seed --class="UserRolePermissionSeeder"
 
+-----
 
 ### external database setup
 
@@ -20,9 +21,6 @@ external_db_database=your_database_name
 external_db_username=your_username
 external_db_password=your_password
 ```
-
------
-
 ### migrating the database
 
 to run migrations on the external database, use this command:
