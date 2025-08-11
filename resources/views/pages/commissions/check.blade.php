@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'รายละเอียด Commission'])
@@ -107,40 +107,78 @@
                         </div>
                     </form>
                     <div class="col-lg-12 col-md-3 col-sm-6 d-flex ">
-                          <button type="button"
-                                  class="btn btn-sm bg-gradient-secondary px-3"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#schemaModal">
-                              <i class="fas fa-table me-1"></i> ดู Schema
-                          </button>
-
+                      <button type="button"
+                              class="btn btn-sm bg-gradient-secondary px-3"
+                              data-bs-toggle="modal"
+                              data-bs-target="#schemaModal">
+                          <i class="fas fa-table me-1"></i> ดู Schema
+                      </button>
                       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
                     </div>
-                    <div class="table-responsive">
+                    <script>
+                        let sortDirection = {};
 
-                        <table class="table table-hover align-items-center">
+                        function sortTable(colIndex) {
+                          const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
+                          const rows = Array.from(table.rows).slice(1);
+                          const isAsc = sortDirection[colIndex] = !sortDirection[colIndex];
+
+                          rows.sort((a, b) => {
+                            const aText = a.cells[colIndex]?.innerText.trim();
+                            const bText = b.cells[colIndex]?.innerText.trim();
+
+                            const parseValue = (text) => {
+                              const cleanText = text.replace(/,/g, '').trim(); // ลบ comma
+                              const number = parseFloat(cleanText);
+                              return isNaN(number) ? cleanText.toLowerCase() : number;
+                            };
+
+                            const aVal = parseValue(aText);
+                            const bVal = parseValue(bText);
+
+
+                            return isAsc ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
+                          });
+
+                          const tbody = table.tBodies[0];
+                          rows.forEach(row => tbody.appendChild(row));
+
+                          // เปลี่ยน icon
+                          const headers = table.querySelectorAll("th");
+                          headers.forEach((th, idx) => {
+                            const icon = th.querySelector("i");
+                            if (icon) {
+                              icon.className = "fas fa-sort";
+                              if (idx === colIndex) {
+                                icon.className = isAsc ? "fas fa-sort-up" : "fas fa-sort-down";
+                              }
+                            }
+                          });
+                        }
+                    </script>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-items-center" id="sortableTable">
                             <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Account</th>
-                                    <th>Reference Document</th>
-                                    <th>Document Date</th>
-                                    <th>Clearing Date</th>
-                                    <th>Amount</th>
-                                    <th>Clearing Document</th>
-                                    <th>Sales Rep</th>
-                                    <th>Billing Ref</th>
-                                    <th>Sales Doc</th>
-                                    <th>SalesOrder Date</th>
-                                    <th>CN. (No.)</th>
-                                    <th>CN. date (Date)</th>
-                                    <th>Tax-Invoice</th>
-                                    <th>Rate (days)</th>
-                                    <th>Rate (%)</th>
-                                    <th>Commission</th>
-                                    <th>Remark</th>
-                                </tr>
+                                    <tr>
+                                        <th onclick="sortTable(0)">Type <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(1)">Account <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(2)">Reference Document <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(3)">Document Date <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(4)">Clearing Date <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(5)">Amount <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(6)">Clearing Document <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(7)">Sales Rep <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(8)">Billing Ref <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(9)">Sales Doc <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(10)">SalesOrder Date <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(11)">CN. (No.) <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(12)">CN. date (Date) <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(13)">Tax-Invoice <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(14)">Rate (days) <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(15)">Rate (%) <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(16)">Commission <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(17)">Remark <i class="fas fa-sort"></i></th>
+                                    </tr>
                             </thead>
                             <tbody>
                                 @forelse ($commissionArs as $ar)

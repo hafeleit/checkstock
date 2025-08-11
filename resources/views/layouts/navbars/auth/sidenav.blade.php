@@ -173,7 +173,7 @@
       </li>-->
       @endcan
 
-      @can('commissions view')
+      @can('Commissions List')
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'commissions.index' ? 'active' : '' }}" href="{{ route('commissions.index') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">

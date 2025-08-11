@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'รายละเอียด Commission'])
@@ -50,14 +50,14 @@
                                   data-url="{{ route('commissions.export', $commission->id) }}">
                               <i class="fas fa-file-export me-1"></i> Export
                           </button>-->
-
+                          @can('Commissions AR-Adjust')
                           <button type="button"
                                   class="btn btn-sm bg-gradient-warning px-3 me-2"
                                   data-bs-toggle="modal"
                                   data-bs-target="#adjustModal">
                               <i class="fas fa-edit me-1"></i> Adjust
                           </button>
-
+                          @endcan
                           <button type="button"
                                   class="btn btn-sm bg-gradient-secondary px-3"
                                   data-bs-toggle="modal"
@@ -192,11 +192,7 @@
                           });
                         }
                     </script>
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
                     <div class="table-responsive">
-
                         <table class="table table-hover align-items-center" id="sortableTable">
                             <thead>
                                 <tr>

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Commissions'])
@@ -9,9 +9,11 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Commissions List</h5>
+                @can('Commissions Import')
                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#importModal">
                     <i class="fas fa-file-upload me-1"></i> Import
                 </button>
+                @endcan
             </div>
 
             <div class="table-responsive p-3">
@@ -42,16 +44,22 @@
                               <td>{{ $c->creator ? $c->creator->username : 'ไม่พบชื่อผู้ใช้' }}</td>
                               <td>{{ $c->created_at->format('Y-m-d H:i') }}</td>
                               <td>
+                                  @can('Commissions AR-View')
                                   <a href="{{ route('commissions.show', $c->id) }}" class="btn btn-info btn-sm">
                                       <i class="fas fa-file-alt me-1"></i> ดูรายละเอียด
                                   </a>
+                                  @endcan
+                                  @can('Commissions Summary-View')
                                   <a href="{{ route('commissions.sales-summary', $c->id) }}" class="btn btn-sm btn-primary">
                                       <i class="fas fa-chart-bar me-1"></i> ดูยอดรวม
                                   </a>
+                                  @endcan
+                                  @can('Commissions Check')
                                   <a href="{{ route('commissions.check', $c->id) }}" class="btn btn-sm btn-success">
                                       <i class="fas fa-check-circle me-1"></i> ตรวจสอบ Commission
                                   </a>
-
+                                  @endcan
+                                  @can('Commissions Delete')
                                   <form method="POST" action="{{ route('commissions.destroy', $c->id) }}" class="delete-form d-inline">
                                       @csrf
                                       @method('DELETE')
@@ -59,6 +67,7 @@
                                           <i class="fas fa-trash-alt me-1"></i> ลบ
                                       </button>
                                   </form>
+                                  @endcan
                               </td>
                           </tr>
                       @empty

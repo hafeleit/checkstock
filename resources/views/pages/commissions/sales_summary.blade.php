@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'ยอดรวม Commission ราย Sales Rep'])
@@ -107,86 +107,124 @@
                         </div>
                     </form>
                     <div class="col-lg-12 col-md-3 col-sm-6 d-flex ">
-
-                          <button type="button"
-                                  class="btn btn-sm bg-gradient-info px-3 me-2"
-                                  id="export-btn"
-                                  data-url="{{ route('commissions.summary-export', $commission->id) }}">
-                              <i class="fas fa-file-export me-1"></i> Export
-                          </button>
+                      <button type="button"
+                              class="btn btn-sm bg-gradient-info px-3 me-2"
+                              id="export-btn"
+                              data-url="{{ route('commissions.summary-export', $commission->id) }}">
+                          <i class="fas fa-file-export me-1"></i> Export
+                      </button>
 
                       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                       <script>
-                      document.getElementById('export-btn')?.addEventListener('click', function () {
-                          const url = this.getAttribute('data-url');
+                        document.getElementById('export-btn')?.addEventListener('click', function () {
+                            const url = this.getAttribute('data-url');
 
-                          Swal.fire({
-                              title: 'กำลังส่งออกข้อมูล...',
-                              text: 'ระบบกำลังสร้างไฟล์ Excel',
-                              allowOutsideClick: false,
-                              allowEscapeKey: false,
-                              didOpen: () => {
-                                  Swal.showLoading();
-                              }
-                          });
+                            Swal.fire({
+                                title: 'กำลังส่งออกข้อมูล...',
+                                text: 'ระบบกำลังสร้างไฟล์ Excel',
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
 
-                          fetch(url, {
-                              headers: {
-                                  'X-Requested-With': 'XMLHttpRequest',
-                                  'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                              }
-                          })
-                          .then(response => {
-                              if (!response.ok) throw new Error('ไม่สามารถส่งออกไฟล์ได้');
+                            fetch(url, {
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                }
+                            })
+                            .then(response => {
+                                if (!response.ok) throw new Error('ไม่สามารถส่งออกไฟล์ได้');
 
-                              // ✅ ดึงชื่อไฟล์จาก Content-Disposition
-                              const disposition = response.headers.get('Content-Disposition');
-                              let filename = 'commissions_export.xlsx';
+                                // ✅ ดึงชื่อไฟล์จาก Content-Disposition
+                                const disposition = response.headers.get('Content-Disposition');
+                                let filename = 'commissions_export.xlsx';
 
-                              if (disposition && disposition.indexOf('filename=') !== -1) {
-                                  const filenameRegex = /filename[^;=\n]*=(['"]?)([^'"\n]*)\1?/;
-                                  const matches = filenameRegex.exec(disposition);
-                                  if (matches != null && matches[2]) {
-                                      filename = decodeURIComponent(matches[2]);
-                                  }
-                              }
+                                if (disposition && disposition.indexOf('filename=') !== -1) {
+                                    const filenameRegex = /filename[^;=\n]*=(['"]?)([^'"\n]*)\1?/;
+                                    const matches = filenameRegex.exec(disposition);
+                                    if (matches != null && matches[2]) {
+                                        filename = decodeURIComponent(matches[2]);
+                                    }
+                                }
 
-                              return response.blob().then(blob => ({ blob, filename }));
-                          })
-                          .then(({ blob, filename }) => {
-                              const link = document.createElement('a');
-                              const url = window.URL.createObjectURL(blob);
-                              link.href = url;
-                              link.download = filename;
-                              document.body.appendChild(link);
-                              link.click();
+                                return response.blob().then(blob => ({ blob, filename }));
+                            })
+                            .then(({ blob, filename }) => {
+                                const link = document.createElement('a');
+                                const url = window.URL.createObjectURL(blob);
+                                link.href = url;
+                                link.download = filename;
+                                document.body.appendChild(link);
+                                link.click();
 
-                              // ทำความสะอาด
-                              link.remove();
-                              window.URL.revokeObjectURL(url);
+                                // ทำความสะอาด
+                                link.remove();
+                                window.URL.revokeObjectURL(url);
 
-                              Swal.close();
-                          })
-                          .catch(error => {
-                              Swal.fire('เกิดข้อผิดพลาด', error.message, 'error');
-                          });
+                                Swal.close();
+                            })
+                            .catch(error => {
+                                Swal.fire('เกิดข้อผิดพลาด', error.message, 'error');
+                            });
 
-                      });
+                        });
                       </script>
 
-
                     </div>
-                    <div class="table-responsive">
+                    <script>
+                        let sortDirection = {};
 
-                        <table class="table table-hover align-items-center">
+                        function sortTable(colIndex) {
+                          const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
+                          const rows = Array.from(table.rows).slice(1);
+                          const isAsc = sortDirection[colIndex] = !sortDirection[colIndex];
+
+                          rows.sort((a, b) => {
+                            const aText = a.cells[colIndex]?.innerText.trim();
+                            const bText = b.cells[colIndex]?.innerText.trim();
+
+                            const parseValue = (text) => {
+                              const cleanText = text.replace(/,/g, '').trim(); // ลบ comma
+                              const number = parseFloat(cleanText);
+                              return isNaN(number) ? cleanText.toLowerCase() : number;
+                            };
+
+                            const aVal = parseValue(aText);
+                            const bVal = parseValue(bText);
+
+
+                            return isAsc ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
+                          });
+
+                          const tbody = table.tBodies[0];
+                          rows.forEach(row => tbody.appendChild(row));
+
+                          // เปลี่ยน icon
+                          const headers = table.querySelectorAll("th");
+                          headers.forEach((th, idx) => {
+                            const icon = th.querySelector("i");
+                            if (icon) {
+                              icon.className = "fas fa-sort";
+                              if (idx === colIndex) {
+                                icon.className = isAsc ? "fas fa-sort-up" : "fas fa-sort-down";
+                              }
+                            }
+                          });
+                        }
+                    </script>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-items-center" id="sortableTable">
                             <thead>
                                 <tr>
-                                    <th>Sales Rep</th>
-                                    <th>Sales Name</th>
-                                    <th>Division</th>
-                                    <th class="text-end">Total Initial</th>
-                                    <th class="text-end">Total Adjustment</th>
-                                    <th class="text-end">Total Commissions</th>
+                                    <th onclick="sortTable(0)">Sales Rep <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(1)">Sales Name <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(2)">Division <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" onclick="sortTable(3)">Total Initial <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" onclick="sortTable(4)">Total Adjustment <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" onclick="sortTable(5)">Total Commissions <i class="fas fa-sort"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
