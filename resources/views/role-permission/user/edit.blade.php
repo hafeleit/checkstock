@@ -70,9 +70,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h4>Edit User
-                        <a href="{{ url('users') }}" class="btn btn-danger float-end">Back</a>
-                    </h4>
+                    <h4>Edit User</h4>
                 </div>
                 <div class="card-body">
                     <form action="{{ url('users/'.$user->id) }}" method="POST">
@@ -114,6 +112,14 @@
                             </select>
                             @error('roles') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
+                        <div class="mb-3">
+                            <label for="type-select">Type</label>
+                            <select name="type" id="type-select" class="form-control" data-placeholder="Choose type">
+                                <option value="">select type</option>
+                                <option value="employee" @if($user->type == 'employee') selected @endif>Employee</option>
+                                <option value="customer" @if($user->type == 'customer') selected @endif>Customer</option>
+                            </select>
+                        </div>
                         <div class="card__active_status mb-4">
                             <div>
                                 <h6 class="mb-0">Active Status</h6>
@@ -128,8 +134,9 @@
                                     data-onstyle="success">
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">Update</button>
+                        <div class="float-end">
+                            <a href="{{ url('users') }}" class="btn btn-secondary btn-lg mb-0">Back</a>
+                            <button type="submit" class="btn btn-primary btn-lg mb-0">Update</button>
                         </div>
                     </form>
                 </div>

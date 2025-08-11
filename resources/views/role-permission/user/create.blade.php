@@ -70,7 +70,6 @@
             <div class="card">
                 <div class="card-header card-header__user">
                     <h4 class="mb-0">Create User</h4>
-                    <a href="{{ url('users') }}" class="btn btn-dark float-end mb-0">Back</a>
                 </div>
                 <div class="card-body">
                     <form action="{{ url('users') }}" method="POST">
@@ -93,12 +92,20 @@
                             <input type="text" name="supp_code" class="form-control" />
                         </div>
                         <div class="mb-3">
-                            <label for="roles-select">roles</label>
+                            <label for="roles-select">Roles</label>
                             <select name="roles[]" class="form-select" id="roles-select" data-placeholder="Choose anything" multiple>
                                 <option value="">select role</option>
                                 @foreach ($roles as $role)
                                 <option value="{{ $role }}">{{ $role }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="type-select">Type</label>
+                            <select name="type" id="type-select" class="form-control" data-placeholder="Choose type">
+                                <option value="">select type</option>
+                                <option value="employee">Employee</option>
+                                <option value="customer">Customer</option>
                             </select>
                         </div>
                         <div class="card__active_status mb-4">
@@ -115,8 +122,9 @@
                                     data-onstyle="success">
                             </div>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">Save</button>
+                        <div class="float-end">
+                            <a href="{{ url('users') }}" class="btn btn-secondary btn-lg mb-0">Back</a>
+                            <button type="submit" class="btn btn-primary btn-lg mb-0">Save</button>
                         </div>
                     </form>
 

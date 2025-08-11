@@ -34,7 +34,8 @@ class UserController extends Controller
             'username' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|max:20',
-            'roles' => 'required'
+            'roles' => 'required',
+            'type' => 'required|string|in:employee,customer',
         ]);
 
         $user = User::create([
@@ -43,6 +44,7 @@ class UserController extends Controller
             'password' => $request->password,
             'supp_code' => $request->supp_code,
             'is_active' => $request->is_active ? true : false,
+            'type' => $request->type,
         ]);
 
         $user->syncRoles($request->roles);
@@ -67,7 +69,8 @@ class UserController extends Controller
         $request->validate([
             'username' => 'required|string|max:255',
             'password' => 'nullable|string|min:8|max:20',
-            'roles' => 'required'
+            'roles' => 'required',
+            'type' => 'required|string|in:employee,customer',
         ]);
 
         $data = [
@@ -75,6 +78,7 @@ class UserController extends Controller
             'email' => $request->email,
             'supp_code' => $request->supp_code,
             'is_active' => $request->is_active ? true : false,
+            'type' => $request->type,
         ];
 
         if (!empty($request->password)) {
