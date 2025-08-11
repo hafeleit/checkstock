@@ -66,7 +66,7 @@
                         <label class="block text-sm font-medium text-gray-600">Stock Quantity</label>
                         <p class="text-gray-800">
                             <span class="inline-flex items-center px-2.5 py-0.5 mt-2 rounded-full text-sm font-medium {{ $product->stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                {{ $product->stock }} units
+                                {{ number_format($product->stock, 0) }} units
                             </span>
                         </p>
                     </div>
