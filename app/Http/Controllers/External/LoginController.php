@@ -23,12 +23,27 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::guard('customer')->attempt(array_merge($credentials), $request->boolean('remember'))) {
-            $request->session()->regenerate();
+        if (Auth::guard('customer')->attempt($credentials, $request->boolean('remember'))) {
             $user = Auth::guard('customer')->user();
-            $user->update(['last_logged_in_at' => Carbon::now()]);
 
-            return redirect('/customer/products');
+            // check if user is a customer
+            if ($user->type === 'customer') {
+                $request->session()->regenerate();
+                $user->update(['last_logged_in_at' => Carbon::now()]);
+                return redirect('/customer/products');
+            }
+
+            // check if user is an employee with the super-admin role
+            if ($user->type === 'employee' && $user->hasRole('super-admin')) {
+                $request->session()->regenerate();
+                $user->update(['last_logged_in_at' => Carbon::now()]);
+                return redirect('/customer/products');
+            }
+
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'You do not have permission to access this area.',
+            ])->onlyInput('email');
         }
 
         return back()->withErrors([
