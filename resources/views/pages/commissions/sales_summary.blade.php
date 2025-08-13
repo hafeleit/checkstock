@@ -107,13 +107,46 @@
                         </div>
                     </form>
                     <div class="col-lg-12 col-md-3 col-sm-6 d-flex ">
+                      @can('Commissions Summary-Export')
                       <button type="button"
-                              class="btn btn-sm bg-gradient-info px-3 me-2"
+                              class="btn btn-sm bg-gradient-success px-3 me-2"
                               id="export-btn"
                               data-url="{{ route('commissions.summary-export', $commission->id) }}">
                           <i class="fas fa-file-export me-1"></i> Export
                       </button>
-
+                      @endcan
+                      @can('Commissions Summary-Approve')
+                      <div class="ms-auto">
+                          <form id="approve-form-{{ $commission->id }}"
+                                action="{{ route('commissions.updateStatus', $commission->id) }}"
+                                method="POST" class="d-inline">
+                              @csrf
+                              @method('PUT')
+                              <input type="hidden" name="status" value="Summary Approve">
+                              <button type="button"
+                                      class="btn btn-sm bg-gradient-info px-3"
+                                      onclick="approveSwal('{{ $commission->id }}')">
+                                  <i class="fas fa-check me-1"></i>Summary Approve
+                              </button>
+                          </form>
+                      </div>
+                      @endcan
+                      @can('Commissions Approve')
+                      <div class="ms-auto">
+                          <form id="approve-form-{{ $commission->id }}"
+                                action="{{ route('commissions.updateStatus', $commission->id) }}"
+                                method="POST" class="d-inline">
+                              @csrf
+                              @method('PUT')
+                              <input type="hidden" name="status" value="AR Approve">
+                              <button type="button"
+                                      class="btn btn-sm bg-gradient-info px-3"
+                                      onclick="approveSwal_final('{{ $commission->id }}')">
+                                  <i class="fas fa-check me-1"></i>Final Approve
+                              </button>
+                          </form>
+                      </div>
+                      @endcan
                       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                       <script>
                         document.getElementById('export-btn')?.addEventListener('click', function () {
@@ -250,5 +283,38 @@
         </div>
     </div>
 </div>
+<script>
+function approveSwal(id) {
+    Swal.fire({
+        title: 'ยืนยันการ Approve?',
+        text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น Summary Approve",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ใช่, Approve เลย!',
+        cancelButtonText: 'ยกเลิก',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('approve-form-' + id).submit();
+        }
+    });
+}
 
+
+function approveSwal_final(id) {
+    Swal.fire({
+        title: 'ยืนยันการ Approve?',
+        text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น Final Approve",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ใช่, Approve เลย!',
+        cancelButtonText: 'ยกเลิก',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('approve-form-' + id).submit();
+        }
+    });
+}
+</script>
 @endsection

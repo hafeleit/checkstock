@@ -42,7 +42,7 @@
                         </div>
                     </form>
                     <div class="col-lg-12 col-md-3 col-sm-6 d-flex ">
-                      @if ($commission->status === 'Calculate')
+                      @if ($commission->status === 'calculate')
                           <!-- ปุ่ม Export
                           <button type="button"
                                   class="btn btn-sm bg-gradient-info px-3 me-2"
@@ -64,8 +64,25 @@
                                   data-bs-target="#schemaModal">
                               <i class="fas fa-table me-1"></i> ดู Schema
                           </button>
+                          @can('Commissions AR-Approve')
+                          <div class="ms-auto">
+                              <form id="approve-form-{{ $commission->id }}"
+                                    action="{{ route('commissions.updateStatus', $commission->id) }}"
+                                    method="POST" class="d-inline">
+                                  @csrf
+                                  @method('PUT')
+                                  <input type="hidden" name="status" value="AR Approve">
+                                  <button type="button"
+                                          class="btn btn-sm bg-gradient-info px-3"
+                                          onclick="approveSwal('{{ $commission->id }}')">
+                                      <i class="fas fa-check me-1"></i>AR Approve
+                                  </button>
+                              </form>
+                          </div>
+                          @endcan
 
-                      @else
+                      @endif
+                      @if ($commission->status === 'imported')
                           <!-- ปุ่ม Calculate Commission -->
                           <form method="POST" action="{{ route('commissions.update', $commission->id) }}" id="calculate-form">
                               @csrf
@@ -75,20 +92,7 @@
                               </button>
                           </form>
                       @endif
-                      <div class="ms-auto">
-                          <form id="approve-form-{{ $commission->id }}"
-                                action="{{ route('commissions.updateStatus', $commission->id) }}"
-                                method="POST" class="d-inline">
-                              @csrf
-                              @method('PUT')
-                              <input type="hidden" name="status" value="AR Approve">
-                              <button type="button"
-                                      class="btn btn-sm bg-gradient-info px-3"
-                                      onclick="approveSwal('{{ $commission->id }}')">
-                                  <i class="fas fa-check me-1"></i> Approve
-                              </button>
-                          </form>
-                      </div>
+
                     </div>
 
                     <div class="table-responsive">
@@ -469,5 +473,6 @@ document.getElementById('export-btn')?.addEventListener('click', function () {
             }
         });
     }
+
 </script>
 @endsection

@@ -406,7 +406,7 @@ class CommissionController extends Controller
       // ✅ อัปเดต status ของ Commission เป็น "Calculate"
       $commission = Commission::find($id);
       if ($commission) {
-          $commission->status = 'Calculate';
+          $commission->status = 'calculate';
           $commission->save();
       }
 
