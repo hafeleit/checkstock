@@ -132,7 +132,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
   Route::resource('commissions', CommissionController::class);
-
+  Route::put('/commissions/{id}/status', [CommissionController::class, 'updateStatus'])->name('commissions.updateStatus');
   Route::post('/commissions/import', [CommissionController::class, 'importAll'])->name('commissions.import');
   Route::get('/commissions/{id}/export', [CommissionController::class, 'export'])->name('commissions.export');
   Route::get('/commissions/{id}/summary-export', [CommissionController::class, 'summary_export'])->name('commissions.summary-export');

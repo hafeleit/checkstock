@@ -192,6 +192,19 @@ class CommissionController extends Controller
          ));
      }
 
+     public function updateStatus(Request $request, $id)
+     {
+         $request->validate([
+             'status' => 'required|string|max:50',
+         ]);
+
+         $commission = Commission::findOrFail($id);
+         $commission->status = $request->status;
+         $commission->save();
+
+         return back()->with('succes', 'Status updated successfully.');
+     }
+
 
      public function index()
      {
@@ -264,7 +277,7 @@ class CommissionController extends Controller
 
      public function show(Commission $commission, Request $request)
      {
-       
+
          $search = $request->input('search');
 
          $commissionArs = CommissionsAr::select('commissions_ars.*', 'user_masters.division', 'user_masters.name_en')

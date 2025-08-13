@@ -64,6 +64,7 @@
                                   data-bs-target="#schemaModal">
                               <i class="fas fa-table me-1"></i> ดู Schema
                           </button>
+
                       @else
                           <!-- ปุ่ม Calculate Commission -->
                           <form method="POST" action="{{ route('commissions.update', $commission->id) }}" id="calculate-form">
@@ -74,124 +75,22 @@
                               </button>
                           </form>
                       @endif
-
-                      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                      <script>
-                      document.getElementById('export-btn')?.addEventListener('click', function () {
-                          const url = this.getAttribute('data-url');
-
-                          Swal.fire({
-                              title: 'กำลังส่งออกข้อมูล...',
-                              text: 'ระบบกำลังสร้างไฟล์ Excel',
-                              allowOutsideClick: false,
-                              allowEscapeKey: false,
-                              didOpen: () => {
-                                  Swal.showLoading();
-                              }
-                          });
-
-                          fetch(url, {
-                              headers: {
-                                  'X-Requested-With': 'XMLHttpRequest',
-                                  'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                              }
-                          })
-                          .then(response => {
-                              if (!response.ok) throw new Error('ไม่สามารถส่งออกไฟล์ได้');
-
-                              // ✅ ดึงชื่อไฟล์จาก Content-Disposition
-                              const disposition = response.headers.get('Content-Disposition');
-                              let filename = 'commissions_export.xlsx';
-
-                              if (disposition && disposition.indexOf('filename=') !== -1) {
-                                  const filenameRegex = /filename[^;=\n]*=(['"]?)([^'"\n]*)\1?/;
-                                  const matches = filenameRegex.exec(disposition);
-                                  if (matches != null && matches[2]) {
-                                      filename = decodeURIComponent(matches[2]);
-                                  }
-                              }
-
-                              return response.blob().then(blob => ({ blob, filename }));
-                          })
-                          .then(({ blob, filename }) => {
-                              const link = document.createElement('a');
-                              const url = window.URL.createObjectURL(blob);
-                              link.href = url;
-                              link.download = filename;
-                              document.body.appendChild(link);
-                              link.click();
-
-                              // ทำความสะอาด
-                              link.remove();
-                              window.URL.revokeObjectURL(url);
-
-                              Swal.close();
-                          })
-                          .catch(error => {
-                              Swal.fire('เกิดข้อผิดพลาด', error.message, 'error');
-                          });
-
-                      });
-                      </script>
-
-
-                      <script>
-                          document.getElementById('calculate-form').addEventListener('submit', function (e) {
-                              Swal.fire({
-                                  title: 'กำลังคำนวณ...',
-                                  text: 'กรุณารอสักครู่',
-                                  allowOutsideClick: false,
-                                  allowEscapeKey: false,
-                                  didOpen: () => {
-                                      Swal.showLoading();
-                                  }
-                              });
-                          });
-                      </script>
-
+                      <div class="ms-auto">
+                          <form id="approve-form-{{ $commission->id }}"
+                                action="{{ route('commissions.updateStatus', $commission->id) }}"
+                                method="POST" class="d-inline">
+                              @csrf
+                              @method('PUT')
+                              <input type="hidden" name="status" value="AR Approve">
+                              <button type="button"
+                                      class="btn btn-sm bg-gradient-info px-3"
+                                      onclick="approveSwal('{{ $commission->id }}')">
+                                  <i class="fas fa-check me-1"></i> Approve
+                              </button>
+                          </form>
+                      </div>
                     </div>
 
-                    <script>
-                        let sortDirection = {};
-
-                        function sortTable(colIndex) {
-                          const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
-                          const rows = Array.from(table.rows).slice(1);
-                          const isAsc = sortDirection[colIndex] = !sortDirection[colIndex];
-
-                          rows.sort((a, b) => {
-                            const aText = a.cells[colIndex]?.innerText.trim();
-                            const bText = b.cells[colIndex]?.innerText.trim();
-
-                            const parseValue = (text) => {
-                              const cleanText = text.replace(/,/g, '').trim(); // ลบ comma
-                              const number = parseFloat(cleanText);
-                              return isNaN(number) ? cleanText.toLowerCase() : number;
-                            };
-
-                            const aVal = parseValue(aText);
-                            const bVal = parseValue(bText);
-
-
-                            return isAsc ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
-                          });
-
-                          const tbody = table.tBodies[0];
-                          rows.forEach(row => tbody.appendChild(row));
-
-                          // เปลี่ยน icon
-                          const headers = table.querySelectorAll("th");
-                          headers.forEach((th, idx) => {
-                            const icon = th.querySelector("i");
-                            if (icon) {
-                              icon.className = "fas fa-sort";
-                              if (idx === colIndex) {
-                                icon.className = isAsc ? "fas fa-sort-up" : "fas fa-sort-down";
-                              }
-                            }
-                          });
-                        }
-                    </script>
                     <div class="table-responsive">
                         <table class="table table-hover align-items-center" id="sortableTable">
                             <thead>
@@ -332,7 +231,7 @@
       @csrf
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="adjustModalLabel">Adjust Commission {{ $commission->id }}</h5>
+          <h5 class="modal-title" id="adjustModalLabel">Adjust Commission </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
@@ -441,4 +340,134 @@
 </script>
 @endif
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.getElementById('export-btn')?.addEventListener('click', function () {
+    const url = this.getAttribute('data-url');
+
+    Swal.fire({
+        title: 'กำลังส่งออกข้อมูล...',
+        text: 'ระบบกำลังสร้างไฟล์ Excel',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    fetch(url, {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('ไม่สามารถส่งออกไฟล์ได้');
+
+        // ✅ ดึงชื่อไฟล์จาก Content-Disposition
+        const disposition = response.headers.get('Content-Disposition');
+        let filename = 'commissions_export.xlsx';
+
+        if (disposition && disposition.indexOf('filename=') !== -1) {
+            const filenameRegex = /filename[^;=\n]*=(['"]?)([^'"\n]*)\1?/;
+            const matches = filenameRegex.exec(disposition);
+            if (matches != null && matches[2]) {
+                filename = decodeURIComponent(matches[2]);
+            }
+        }
+
+        return response.blob().then(blob => ({ blob, filename }));
+    })
+    .then(({ blob, filename }) => {
+        const link = document.createElement('a');
+        const url = window.URL.createObjectURL(blob);
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+
+        // ทำความสะอาด
+        link.remove();
+        window.URL.revokeObjectURL(url);
+
+        Swal.close();
+    })
+    .catch(error => {
+        Swal.fire('เกิดข้อผิดพลาด', error.message, 'error');
+    });
+
+});
+</script>
+
+
+<script>
+    document.getElementById('calculate-form').addEventListener('submit', function (e) {
+        Swal.fire({
+            title: 'กำลังคำนวณ...',
+            text: 'กรุณารอสักครู่',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+    });
+</script>
+<script>
+    let sortDirection = {};
+
+    function sortTable(colIndex) {
+      const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
+      const rows = Array.from(table.rows).slice(1);
+      const isAsc = sortDirection[colIndex] = !sortDirection[colIndex];
+
+      rows.sort((a, b) => {
+        const aText = a.cells[colIndex]?.innerText.trim();
+        const bText = b.cells[colIndex]?.innerText.trim();
+
+        const parseValue = (text) => {
+          const cleanText = text.replace(/,/g, '').trim(); // ลบ comma
+          const number = parseFloat(cleanText);
+          return isNaN(number) ? cleanText.toLowerCase() : number;
+        };
+
+        const aVal = parseValue(aText);
+        const bVal = parseValue(bText);
+
+
+        return isAsc ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
+      });
+
+      const tbody = table.tBodies[0];
+      rows.forEach(row => tbody.appendChild(row));
+
+      // เปลี่ยน icon
+      const headers = table.querySelectorAll("th");
+      headers.forEach((th, idx) => {
+        const icon = th.querySelector("i");
+        if (icon) {
+          icon.className = "fas fa-sort";
+          if (idx === colIndex) {
+            icon.className = isAsc ? "fas fa-sort-up" : "fas fa-sort-down";
+          }
+        }
+      });
+    }
+
+    function approveSwal(id) {
+        Swal.fire({
+            title: 'ยืนยันการ Approve?',
+            text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น AR Approve",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'ใช่, Approve เลย!',
+            cancelButtonText: 'ยกเลิก',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('approve-form-' + id).submit();
+            }
+        });
+    }
+</script>
 @endsection
