@@ -31,7 +31,7 @@ class ChecUserLastLogin extends Command
 
         // handle users with null last_logged_in_at
         User::whereNull('last_logged_in_at')
-            ->update(['last_logged_in_at' => User::raw('created_at')]);
+            ->update(['last_logged_in_at' => Carbon::now()]);
 
         // update users to inactive
         User::where('last_logged_in_at', '<', $cutOffDate)
