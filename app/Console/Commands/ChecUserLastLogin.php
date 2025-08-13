@@ -27,8 +27,8 @@ class ChecUserLastLogin extends Command
      */
     public function handle()
     {
-        $cutOffDate = Carbon::now()->subDays(60)->endOfDay();
-
+        $cutOffDate = Carbon::now()->subDays(env('CONFIG_USER_CUTOFF_DAYS') ?? 60)->endOfDay();
+        
         // handle users with null last_logged_in_at
         User::whereNull('last_logged_in_at')
             ->update(['last_logged_in_at' => Carbon::now()]);
