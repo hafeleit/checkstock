@@ -36,7 +36,12 @@
                           <tr>
                               <td>{{ $c->id }}</td>
                               <td>{{ $c->sub_id }}</td>
-                              <td>{{ $c->status }}</td>
+                              <td>
+                                <small class="badge
+                                    {{ stripos($c->status, 'Reject') !== false ? 'bg-danger' :'bg-success' }}">
+                                    {{ $c->status }}
+                                </small>
+                              </td>
                               <td>{{ $c->schema_id }}</td>
                               <td>{{ $c->hr_comment }}</td>
                               <td>{{ $c->fin_comment }}</td>
@@ -54,11 +59,13 @@
                                       <i class="fas fa-chart-bar me-1"></i> ดูยอดรวม
                                   </a>
                                   @endcan
-                                  @can('Commissions Check')
-                                  <a href="{{ route('commissions.check', $c->id) }}" class="btn btn-sm btn-success">
-                                      <i class="fas fa-check-circle me-1"></i> ตรวจสอบ Commission
-                                  </a>
-                                  @endcan
+                                  @if(in_array($c->status, ['Summary Confirm', 'Summary Approve', 'Final Approve']))
+                                    @can('Commissions Check')
+                                      <a href="{{ route('commissions.check', $c->id) }}" class="btn btn-sm btn-success">
+                                          <i class="fas fa-check-circle me-1"></i> ตรวจสอบ Commission
+                                      </a>
+                                    @endcan
+                                  @endif
                                   @can('Commissions Delete')
                                   <form method="POST" action="{{ route('commissions.destroy', $c->id) }}" class="delete-form d-inline">
                                       @csrf
@@ -92,16 +99,17 @@
 
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="file1" class="form-label">Upload File 1 (Commission AR)</label>
+                            <label for="file1" class="form-label">Upload File (Commission AR)</label>
                             <input type="file" class="form-control" id="file1" name="file1">
                         </div>
+                        <!--
                         <div class="mb-3">
                             <label for="file2" class="form-label">Upload File 2 (Commission CN)</label>
                             <input type="file" class="form-control" id="file2" name="file2">
                         </div>
                         <div class="text-muted small">
                             * สามารถเลือกไฟล์ใดไฟล์หนึ่ง หรือทั้งสองไฟล์ได้
-                        </div>
+                        </div>-->
                     </div>
 
                     <div class="modal-footer">

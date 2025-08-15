@@ -87,7 +87,10 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="mb-0">Commission ID: {{ $commission->sub_id }}</h5>
-                        <small class="text-muted">Status: {{ $commission->status }}</small>
+                        status: <small class="badge
+                            {{ stripos($commission->status, 'Reject') !== false ? 'bg-danger' :'bg-success' }}">
+                            {{ $commission->status }}
+                        </small>
                     </div>
 
                     <a href="{{ route('commissions.index') }}" class="btn bg-gradient-secondary btn-sm">

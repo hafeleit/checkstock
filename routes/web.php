@@ -137,6 +137,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/commissions/{id}/export', [CommissionController::class, 'export'])->name('commissions.export');
   Route::get('/commissions/{id}/summary-export', [CommissionController::class, 'summary_export'])->name('commissions.summary-export');
   Route::post('/commissions/{id}/adjust', [CommissionController::class, 'adjust'])->name('commissions.adjust');
+  Route::delete('/commissions/{id}/adjust', [CommissionController::class, 'adjust_delete'])->name('commissions.adjust.delete');
   Route::put('/commissions/adjust/{id}', [CommissionController::class, 'adjustUpdate'])->name('commissions.adjust.update');
   Route::get('/commissions/{id}/sales-summary', [CommissionController::class, 'salesSummary'])->name('commissions.sales-summary');
   Route::get('/commissions/{id}/check', [CommissionController::class, 'check'])->name('commissions.check');

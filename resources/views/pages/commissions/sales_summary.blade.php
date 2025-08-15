@@ -87,7 +87,10 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="mb-0">Commission ID: {{ $commission->sub_id }}</h5>
-                        <small class="text-muted">Status: {{ $commission->status }}</small>
+                        status: <small class="badge
+                            {{ stripos($commission->status, 'Reject') !== false ? 'bg-danger' :'bg-success' }}">
+                            {{ $commission->status }}
+                        </small>
                     </div>
 
                     <a href="{{ route('commissions.index') }}" class="btn bg-gradient-secondary btn-sm">
@@ -107,162 +110,87 @@
                         </div>
                     </form>
                     <div class="col-lg-12 col-md-3 col-sm-6 d-flex ">
-                      @can('Commissions Summary-Export')
-                      <button type="button"
-                              class="btn btn-sm bg-gradient-success px-3 me-2"
-                              id="export-btn"
-                              data-url="{{ route('commissions.summary-export', $commission->id) }}">
-                          <i class="fas fa-file-export me-1"></i> Export
-                      </button>
-                      @endcan
-                      @can('Commissions Summary-Approve')
-                      <div class="ms-auto">
-                          <form id="approve-form-{{ $commission->id }}"
-                                action="{{ route('commissions.updateStatus', $commission->id) }}"
-                                method="POST" class="d-inline">
-                              @csrf
-                              @method('PUT')
-                              <input type="hidden" name="status" value="Summary Approve">
-                              <button type="button"
-                                      class="btn btn-sm bg-gradient-info px-3"
-                                      onclick="approveSwal('{{ $commission->id }}')">
-                                  <i class="fas fa-check me-1"></i>Summary Approve
-                              </button>
-                          </form>
-                      </div>
-                      @endcan
-                      @can('Commissions Approve')
-                      <div class="ms-auto">
-                          <form id="approve-form-{{ $commission->id }}"
-                                action="{{ route('commissions.updateStatus', $commission->id) }}"
-                                method="POST" class="d-inline">
-                              @csrf
-                              @method('PUT')
-                              <input type="hidden" name="status" value="AR Approve">
-                              <button type="button"
-                                      class="btn btn-sm bg-gradient-info px-3"
-                                      onclick="approveSwal_final('{{ $commission->id }}')">
-                                  <i class="fas fa-check me-1"></i>Final Approve
-                              </button>
-                          </form>
-                      </div>
-                      @endcan
-                      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                      <script>
-                        document.getElementById('export-btn')?.addEventListener('click', function () {
-                            const url = this.getAttribute('data-url');
+                      @if ($commission->status === 'Final Approve')
+                        @can('Commissions Summary-Export')
+                        <button type="button"
+                                class="btn btn-sm bg-gradient-success px-3 me-2"
+                                id="export-btn"
+                                data-url="{{ route('commissions.summary-export', $commission->id) }}">
+                            <i class="fas fa-file-export me-1"></i> Export
+                        </button>
+                        @endcan
+                      @endif
 
-                            Swal.fire({
-                                title: 'กำลังส่งออกข้อมูล...',
-                                text: 'ระบบกำลังสร้างไฟล์ Excel',
-                                allowOutsideClick: false,
-                                allowEscapeKey: false,
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                }
-                            });
+                      @if ($commission->status === 'Summary Approve')
+                        @can('Commissions Approve')
+                        <div class="ms-auto">
+                            <form id="approve-form-{{ $commission->id }}"
+                                  action="{{ route('commissions.updateStatus', $commission->id) }}"
+                                  method="POST" class="d-inline">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="status" value="Final Approve">
+                                <button type="button"
+                                        class="btn btn-sm bg-gradient-info px-3"
+                                        onclick="approveSwal_final('{{ $commission->id }}')">
+                                    <i class="fas fa-check me-1"></i>Final Approve
+                                </button>
+                            </form>
+                        </div>
+                        @endcan
+                      @endif
 
-                            fetch(url, {
-                                headers: {
-                                    'X-Requested-With': 'XMLHttpRequest',
-                                    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                                }
-                            })
-                            .then(response => {
-                                if (!response.ok) throw new Error('ไม่สามารถส่งออกไฟล์ได้');
+                      @if ($commission->status === 'Summary Confirm')
+                        @can('Commissions Summary-Approve')
+                        <div class="ms-auto">
+                            <form id="approve-form-{{ $commission->id }}"
+                                  action="{{ route('commissions.updateStatus', $commission->id) }}"
+                                  method="POST" class="d-inline">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="status" value="Summary Approve">
+                                <input type="hidden" id="selected_sales_{{ $commission->id }}" name="selected_sales">
+                                <button type="button"
+                                        class="btn btn-sm bg-gradient-info px-3 me-2"
+                                        onclick="approveSwal('{{ $commission->id }}')">
+                                    <i class="fas fa-check me-1"></i>Summary Approve
+                                </button>
+                            </form>
+                        </div>
 
-                                // ✅ ดึงชื่อไฟล์จาก Content-Disposition
-                                const disposition = response.headers.get('Content-Disposition');
-                                let filename = 'commissions_export.xlsx';
-
-                                if (disposition && disposition.indexOf('filename=') !== -1) {
-                                    const filenameRegex = /filename[^;=\n]*=(['"]?)([^'"\n]*)\1?/;
-                                    const matches = filenameRegex.exec(disposition);
-                                    if (matches != null && matches[2]) {
-                                        filename = decodeURIComponent(matches[2]);
-                                    }
-                                }
-
-                                return response.blob().then(blob => ({ blob, filename }));
-                            })
-                            .then(({ blob, filename }) => {
-                                const link = document.createElement('a');
-                                const url = window.URL.createObjectURL(blob);
-                                link.href = url;
-                                link.download = filename;
-                                document.body.appendChild(link);
-                                link.click();
-
-                                // ทำความสะอาด
-                                link.remove();
-                                window.URL.revokeObjectURL(url);
-
-                                Swal.close();
-                            })
-                            .catch(error => {
-                                Swal.fire('เกิดข้อผิดพลาด', error.message, 'error');
-                            });
-
-                        });
-                      </script>
+                        <!-- ปุ่ม Reject -->
+                        <button type="button"
+                                class="btn btn-sm bg-gradient-danger px-3"
+                                data-bs-toggle="modal"
+                                data-bs-target="#rejectModal-{{ $commission->id }}">
+                            <i class="fas fa-times me-1"></i> Reject
+                        </button>
+                        @endcan
+                      @endif
 
                     </div>
-                    <script>
-                        let sortDirection = {};
 
-                        function sortTable(colIndex) {
-                          const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
-                          const rows = Array.from(table.rows).slice(1);
-                          const isAsc = sortDirection[colIndex] = !sortDirection[colIndex];
-
-                          rows.sort((a, b) => {
-                            const aText = a.cells[colIndex]?.innerText.trim();
-                            const bText = b.cells[colIndex]?.innerText.trim();
-
-                            const parseValue = (text) => {
-                              const cleanText = text.replace(/,/g, '').trim(); // ลบ comma
-                              const number = parseFloat(cleanText);
-                              return isNaN(number) ? cleanText.toLowerCase() : number;
-                            };
-
-                            const aVal = parseValue(aText);
-                            const bVal = parseValue(bText);
-
-
-                            return isAsc ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
-                          });
-
-                          const tbody = table.tBodies[0];
-                          rows.forEach(row => tbody.appendChild(row));
-
-                          // เปลี่ยน icon
-                          const headers = table.querySelectorAll("th");
-                          headers.forEach((th, idx) => {
-                            const icon = th.querySelector("i");
-                            if (icon) {
-                              icon.className = "fas fa-sort";
-                              if (idx === colIndex) {
-                                icon.className = isAsc ? "fas fa-sort-up" : "fas fa-sort-down";
-                              }
-                            }
-                          });
-                        }
-                    </script>
                     <div class="table-responsive">
                         <table class="table table-hover align-items-center" id="sortableTable">
                             <thead>
                                 <tr>
-                                    <th onclick="sortTable(0)">Sales Rep <i class="fas fa-sort"></i></th>
-                                    <th onclick="sortTable(1)">Sales Name <i class="fas fa-sort"></i></th>
-                                    <th onclick="sortTable(2)">Division <i class="fas fa-sort"></i></th>
-                                    <th class="text-end" onclick="sortTable(3)">Total Initial <i class="fas fa-sort"></i></th>
-                                    <th class="text-end" onclick="sortTable(4)">Total Adjustment <i class="fas fa-sort"></i></th>
-                                    <th class="text-end" onclick="sortTable(5)">Total Commissions <i class="fas fa-sort"></i></th>
+                                    <th >
+                                        All <input type="checkbox" id="checkAll" {{ in_array($commission->status, ['Summary Approve', 'Final Approve']) ? 'disabled' : '' }}>
+                                    </th>
+                                    <th onclick="sortTable(1)">Sales Rep <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(2)">Sales Name <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(3)">Division <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" onclick="sortTable(4)">Total Initial <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" onclick="sortTable(5)">Total Adjustment <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" onclick="sortTable(6)">Total Commissions <i class="fas fa-sort"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($summary as $item)
                                     <tr>
+                                        <td>
+                                            <input type="checkbox" class="row-check" value="{{ $item->sales_rep }}" {{ $item->status == 'Approve' ? 'checked' : '' }} {{ in_array($commission->status, ['Summary Approve', 'Final Approve']) ? 'disabled' : '' }}>
+                                        </td>
                                         <td>{{ $item->sales_rep }}</td>
                                         <td>{{ $item->name_en }}</td>
                                         <td>{{ $item->division }}</td>
@@ -283,22 +211,162 @@
         </div>
     </div>
 </div>
+<!-- Modal Reject -->
+<div class="modal fade" id="rejectModal-{{ $commission->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{ route('commissions.updateStatus', $commission->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="status" value="Summary Reject">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reject Summary</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="reason">Reason<span class="text-danger">*</span></label>
+                    <textarea name="hr_comment" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Reject</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+  document.getElementById('export-btn')?.addEventListener('click', function () {
+      const url = this.getAttribute('data-url');
+
+      Swal.fire({
+          title: 'กำลังส่งออกข้อมูล...',
+          text: 'ระบบกำลังสร้างไฟล์ Excel',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+              Swal.showLoading();
+          }
+      });
+
+      fetch(url, {
+          headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          }
+      })
+      .then(response => {
+          if (!response.ok) throw new Error('ไม่สามารถส่งออกไฟล์ได้');
+
+          // ✅ ดึงชื่อไฟล์จาก Content-Disposition
+          const disposition = response.headers.get('Content-Disposition');
+          let filename = 'commissions_export.xlsx';
+
+          if (disposition && disposition.indexOf('filename=') !== -1) {
+              const filenameRegex = /filename[^;=\n]*=(['"]?)([^'"\n]*)\1?/;
+              const matches = filenameRegex.exec(disposition);
+              if (matches != null && matches[2]) {
+                  filename = decodeURIComponent(matches[2]);
+              }
+          }
+
+          return response.blob().then(blob => ({ blob, filename }));
+      })
+      .then(({ blob, filename }) => {
+          const link = document.createElement('a');
+          const url = window.URL.createObjectURL(blob);
+          link.href = url;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+
+          // ทำความสะอาด
+          link.remove();
+          window.URL.revokeObjectURL(url);
+
+          Swal.close();
+      })
+      .catch(error => {
+          Swal.fire('เกิดข้อผิดพลาด', error.message, 'error');
+      });
+
+  });
+</script>
+<script>
+    let sortDirection = {};
+
+    function sortTable(colIndex) {
+      const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
+      const rows = Array.from(table.rows).slice(1);
+      const isAsc = sortDirection[colIndex] = !sortDirection[colIndex];
+
+      rows.sort((a, b) => {
+        const aText = a.cells[colIndex]?.innerText.trim();
+        const bText = b.cells[colIndex]?.innerText.trim();
+
+        const parseValue = (text) => {
+          const cleanText = text.replace(/,/g, '').trim(); // ลบ comma
+          const number = parseFloat(cleanText);
+          return isNaN(number) ? cleanText.toLowerCase() : number;
+        };
+
+        const aVal = parseValue(aText);
+        const bVal = parseValue(bText);
+
+
+        return isAsc ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
+      });
+
+      const tbody = table.tBodies[0];
+      rows.forEach(row => tbody.appendChild(row));
+
+      // เปลี่ยน icon
+      const headers = table.querySelectorAll("th");
+      headers.forEach((th, idx) => {
+        const icon = th.querySelector("i");
+        if (icon) {
+          icon.className = "fas fa-sort";
+          if (idx === colIndex) {
+            icon.className = isAsc ? "fas fa-sort-up" : "fas fa-sort-down";
+          }
+        }
+      });
+    }
+</script>
+<script>
+
+document.getElementById('checkAll').addEventListener('change', function () {
+    document.querySelectorAll('.row-check').forEach(chk => chk.checked = this.checked);
+});
+
 function approveSwal(id) {
+    let selected = [];
+    document.querySelectorAll('.row-check:checked').forEach(cb => {
+        selected.push(cb.value);
+    });
+
+    if (selected.length === 0) {
+        Swal.fire('กรุณาเลือกอย่างน้อย 1 รายการ', '', 'warning');
+        return;
+    }
+
+    // set ค่าใน hidden input
+    document.getElementById('selected_sales_' + id).value = selected.join(',');
+
     Swal.fire({
-        title: 'ยืนยันการ Approve?',
-        text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น Summary Approve",
-        icon: 'warning',
+        title: 'ยืนยันการ Summary Approve?',
+        icon: 'question',
         showCancelButton: true,
-        confirmButtonText: 'ใช่, Approve เลย!',
-        cancelButtonText: 'ยกเลิก',
-        reverseButtons: true
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก'
     }).then((result) => {
         if (result.isConfirmed) {
             document.getElementById('approve-form-' + id).submit();
         }
     });
 }
+
 
 
 function approveSwal_final(id) {

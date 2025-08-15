@@ -2,6 +2,18 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'รายละเอียด Commission'])
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
+<style media="screen">
+.ts-control {
+  border: 1px solid #ced4da; /* สีเดียวกับ Bootstrap default */
+  border-radius: 0.375rem;    /* เหมือน form-select */
+  padding: 0.375rem 0.75rem;  /* กำหนด padding ให้พอดี */
+}
+</style>
 <div id="alert">
     @include('components.alert')
 </div>
@@ -22,7 +34,10 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="mb-0">Commission ID: {{ $commission->sub_id }}</h5>
-                        <small class="text-muted">Status: {{ $commission->status }}</small>
+                        status: <small class="badge
+                            {{ stripos($commission->status, 'Reject') !== false ? 'bg-danger' :'bg-success' }}">
+                            {{ $commission->status }}
+                        </small>
                     </div>
 
                     <a href="{{ route('commissions.index') }}" class="btn bg-gradient-secondary btn-sm">
@@ -42,6 +57,12 @@
                         </div>
                     </form>
                     <div class="col-lg-12 col-md-3 col-sm-6 d-flex ">
+                      <button type="button"
+                              class="btn btn-sm bg-gradient-secondary px-3 me-2"
+                              data-bs-toggle="modal"
+                              data-bs-target="#schemaModal">
+                          <i class="fas fa-table me-1"></i> ดู Schema
+                      </button>
                       @if ($commission->status === 'calculate')
                           <!-- ปุ่ม Export
                           <button type="button"
@@ -50,20 +71,6 @@
                                   data-url="{{ route('commissions.export', $commission->id) }}">
                               <i class="fas fa-file-export me-1"></i> Export
                           </button>-->
-                          @can('Commissions AR-Adjust')
-                          <button type="button"
-                                  class="btn btn-sm bg-gradient-warning px-3 me-2"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#adjustModal">
-                              <i class="fas fa-edit me-1"></i> Adjust
-                          </button>
-                          @endcan
-                          <button type="button"
-                                  class="btn btn-sm bg-gradient-secondary px-3"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#schemaModal">
-                              <i class="fas fa-table me-1"></i> ดู Schema
-                          </button>
                           @can('Commissions AR-Approve')
                           <div class="ms-auto">
                               <form id="approve-form-{{ $commission->id }}"
@@ -81,6 +88,8 @@
                           </div>
                           @endcan
 
+
+
                       @endif
                       @if ($commission->status === 'imported')
                           <!-- ปุ่ม Calculate Commission -->
@@ -91,6 +100,33 @@
                                   <i class="fas fa-calculator me-1"></i> Calculate Commission
                               </button>
                           </form>
+                      @endif
+
+                      @if ($commission->status === 'AR Approve' || $commission->status === 'Summary Confirm')
+                        @can('Commissions AR-Adjust')
+                        <button type="button"
+                                class="btn btn-sm bg-gradient-warning px-3 me-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#adjustModal">
+                            <i class="fas fa-edit me-1"></i> Adjust
+                        </button>
+                        @endcan
+                        @can('Commissions Summary-Confirm')
+                        <div class="ms-auto">
+                            <form id="approve-form-{{ $commission->id }}"
+                                  action="{{ route('commissions.updateStatus', $commission->id) }}"
+                                  method="POST" class="d-inline">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="status" value="Summary Confirm">
+                                <button type="button"
+                                        class="btn btn-sm bg-gradient-info px-3"
+                                        onclick="approveSwal_confirm('{{ $commission->id }}')">
+                                    <i class="fas fa-check me-1"></i>Summary Confirm
+                                </button>
+                            </form>
+                        </div>
+                        @endcan
                       @endif
 
                     </div>
@@ -165,12 +201,23 @@
                                         <td>{{ $ar->remark }}</td>
                                         <td>
                                             @if ($ar->type === 'Adjust')
+
+                                                @can('Commissions AR-Adjust')
                                                 <button type="button"
                                                         class="btn btn-sm btn-warning"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#editAdjustModal{{ $ar->id }}">
                                                     <i class="fas fa-edit me-1"></i> แก้ไข
                                                 </button>
+                                                <!-- ปุ่มลบ -->
+                                                <form method="POST" action="{{ route('commissions.adjust.delete', $ar->id) }}" class="d-inline delete-form">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-sm btn-danger btn-delete">
+                                                        <i class="fas fa-trash me-1"></i> ลบ
+                                                    </button>
+                                                </form>
+                                                @endcan
                                                 <div class="modal fade" id="editAdjustModal{{ $ar->id }}" tabindex="-1" aria-hidden="true">
                                                   <div class="modal-dialog">
                                                     <form method="POST" action="{{ route('commissions.adjust.update', $ar->id) }}">
@@ -181,11 +228,29 @@
                                                           <h5 class="modal-title">แก้ไข Adjust</h5>
                                                           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                         </div>
+
+
                                                         <div class="modal-body">
 
                                                           <div class="mb-3">
                                                             <label>Sales Rep</label>
-                                                            <input type="text" class="form-control" name="sales_rep" value="{{ $ar->sales_rep }}" required>
+                                                            <select id="sales_rep_edit" name="sales_rep" class="form-select" placeholder="-- Select Sales Rep --" required>
+                                                                <option value="">-- Select Sales Rep --</option>
+                                                                @foreach($salesReps as $rep)
+                                                                    <option value="{{ $rep->sales_rep }}" {{ $rep->sales_rep == $ar->sales_rep ? 'selected' : '' }}>
+                                                                        {{ $rep->sales_rep }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            <script>
+                                                            $(document).ready(function() {
+                                                                new TomSelect("#sales_rep_edit", {
+                                                                    create: false,   // ไม่ให้สร้าง option ใหม่
+                                                                    sortField: { field: "text", direction: "asc" },
+                                                                    placeholder: "-- Select Sales Rep --",
+                                                                });
+                                                            });
+                                                            </script>
                                                           </div>
                                                           <div class="mb-3">
                                                             <label>Reference Document</label>
@@ -201,6 +266,7 @@
                                                           </div>
 
                                                         </div>
+
                                                         <div class="modal-footer">
                                                           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">ปิด</button>
                                                           <button type="submit" class="btn btn-primary btn-sm">บันทึก</button>
@@ -244,7 +310,26 @@
             <label for="sales_code" class="form-label">
               Sales Code <span class="text-danger">*</span>
             </label>
-            <input type="text" class="form-control" name="sales_rep" id="sales_rep" placeholder="HTHxxxx" required>
+            <!--<input type="text" class="form-control" name="sales_rep" id="sales_rep" placeholder="HTHxxxx" required>-->
+
+            <select id="sales_rep" name="sales_rep" class="form-select" placeholder="-- Select Sales Rep --" required>
+                <option value="">-- Select Sales Rep --</option>
+                @foreach($salesReps as $rep)
+                    <option value="{{ $rep->sales_rep }}">{{ $rep->sales_rep }}</option>
+                @endforeach
+            </select>
+
+            <script>
+            $(document).ready(function() {
+                new TomSelect("#sales_rep", {
+                    create: false,   // ไม่ให้สร้าง option ใหม่
+                    sortField: { field: "text", direction: "asc" },
+                    placeholder: "-- Select Sales Rep --",
+                });
+            });
+            </script>
+
+
           </div>
 
           <div class="mb-3">
@@ -344,7 +429,30 @@
 </script>
 @endif
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+$(document).ready(function() {
+    $('.btn-delete').click(function(e) {
+        e.preventDefault();
+        let form = $(this).closest('form');
+
+        Swal.fire({
+            title: 'คุณแน่ใจหรือไม่?',
+            text: "รายการนี้จะถูกลบถาวร!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'ใช่, ลบเลย!',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit(); // submit form DELETE
+            }
+        });
+    });
+});
+</script>
 <script>
 document.getElementById('export-btn')?.addEventListener('click', function () {
     const url = this.getAttribute('data-url');
@@ -465,6 +573,22 @@ document.getElementById('export-btn')?.addEventListener('click', function () {
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'ใช่, Approve เลย!',
+            cancelButtonText: 'ยกเลิก',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('approve-form-' + id).submit();
+            }
+        });
+    }
+
+    function approveSwal_confirm(id) {
+        Swal.fire({
+            title: 'ยืนยันการ Confirm?',
+            text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น Summary Contirm",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'ใช่, Confirm เลย!',
             cancelButtonText: 'ยกเลิก',
             reverseButtons: true
         }).then((result) => {

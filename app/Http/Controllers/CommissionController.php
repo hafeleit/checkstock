@@ -15,6 +15,8 @@ use App\Exports\CommissionExport;
 use App\Exports\CommissionSummaryExport;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 class CommissionController extends Controller
 {
@@ -53,7 +55,37 @@ class CommissionController extends Controller
          $insertedCn = 0;
 
          $now = now();
-         $prefix = $now->format('Ym'); // เช่น 202507
+         //$prefix = $now->format('Ym'); // เช่น 202507
+
+         $file = $request->file('file1');
+
+         if (!$file) {
+             return redirect()
+                 ->back()
+                 ->with('error', '❌ กรุณาเลือกไฟล์ก่อนนำเข้า');
+         }
+
+         // ✅ โหลดแค่แถวที่ 2 โดยใช้ PhpSpreadsheet โดยตรง
+         $spreadsheet = IOFactory::load($file->getRealPath());
+         $sheet = $spreadsheet->getActiveSheet();
+
+
+         // หา column สูงสุดจริง
+         $highestColumn = $sheet->getHighestColumn(); // เช่น "AU"
+         $highestColumnIndex = Coordinate::columnIndexFromString($highestColumn); // แปลงเป็นเลข
+
+         $expectedColumns = 47;
+         if ($highestColumnIndex != $expectedColumns) {
+             return redirect()->back()->with('error', "❌ จำนวน column ของ Row 1 ไม่ถูกต้อง ต้องเป็น $expectedColumns คอลัมน์ แต่เจอ $highestColumnIndex");
+         }
+
+         $cellValue = trim($sheet->getCell('A2')->getValue() ?? '');
+         if (empty($cellValue)) {
+             return redirect()
+                 ->back()
+                 ->with('error', '❌ ไม่พบข้อมูลใน Column A ของแถวที่ 2');
+         }
+         $prefix = $cellValue; // เช่น 202507
 
          $commissionsThisMonth = Commission::where('sub_id', 'like', "$prefix-%")->get();
 
@@ -62,7 +94,7 @@ class CommissionController extends Controller
              $allDeleted = $commissionsThisMonth->every(fn($c) => $c->delete == true);
 
              if (! $allDeleted) {
-                 return back()->with('error', 'มีการ import เดือนนี้แล้ว และยังไม่ได้ลบทั้งหมด');
+                 return back()->with('error', 'มีการ import เดือนนี้แล้ว หากต้องการ Import กรุณาลบข้อมูลเก่า');
              }
 
              // ให้ run number ถัดไป
@@ -155,6 +187,7 @@ class CommissionController extends Controller
          // ✅ Summary ราย Sales Rep
          $summary = CommissionsAr::select(
                  'commissions_ars.sales_rep',
+                 'commissions_ars.status',
                  'user_masters.name_en',
                  'user_masters.division',
                  DB::raw('SUM(commissions_ars.commissions) as total_commissions'),
@@ -177,9 +210,9 @@ class CommissionController extends Controller
              ->orderBy('commissions_ars.sales_rep','desc')
              ->get();
 
-         $totalInitial = CommissionsAr::where('commissions_id', $id)->where('type','!=','Adjust')->sum('commissions');
-         $totalAdjustment = CommissionsAr::where('commissions_id', $id)->where('type','Adjust')->sum('commissions');
-         $totalCommissions = CommissionsAr::where('commissions_id', $id)->sum('commissions');
+         $totalInitial = CommissionsAr::where('commissions_id', $id)->where('type','!=','Adjust')->where('status','Approve')->sum('commissions');
+         $totalAdjustment = CommissionsAr::where('commissions_id', $id)->where('type','Adjust')->where('status','Approve')->sum('commissions');
+         $totalCommissions = CommissionsAr::where('commissions_id', $id)->where('status','Approve')->sum('commissions');
 
 
          return view('pages.commissions.sales_summary', compact(
@@ -196,11 +229,25 @@ class CommissionController extends Controller
      {
          $request->validate([
              'status' => 'required|string|max:50',
+             'selected_sales' => 'nullable|string' // ค่า sales_rep ที่ส่งมาเป็นคอมมา
          ]);
-
          $commission = Commission::findOrFail($id);
          $commission->status = $request->status;
-         $commission->save();
+
+
+         // ถ้ามีเหตุผลให้บันทึกใน hr_comment
+         if ($request->filled('hr_comment')) {
+             $commission->hr_comment = $request->hr_comment;
+         }
+
+        $commission->save();
+
+         // ถ้ามี selected_sales ให้ไปอัปเดต CommissionAR
+         if (!empty($request->selected_sales)) {
+             $salesReps = explode(',', $request->selected_sales);
+             CommissionsAr::whereIn('sales_rep', $salesReps)
+                 ->update(['status' => 'Approve']);
+         }
 
          return back()->with('succes', 'Status updated successfully.');
      }
@@ -239,7 +286,15 @@ class CommissionController extends Controller
      public function check(Request $request, $id)
      {
 
-        $users = 'HTH4090';
+        if (empty(Auth::user()->emp_code)) {
+            return back()->with('error', 'ไม่พบรหัสพนักงาน (emp code) ของคุณ');
+        }
+
+        $users = DB::table('user_masters')
+             ->where('employee_code', Auth::user()->emp_code)
+             ->value('job_code');
+        $users = $users ? 'HTH' . $users : null;
+
         $search = $request->input('search');
         $commission = Commission::findOrFail($id);
         $commissionArs = CommissionsAr::where('commissions_id',$id)->where('sales_rep', $users)
@@ -317,7 +372,9 @@ class CommissionController extends Controller
                  }
              }
 
-         return view('pages.commissions.show', compact('commission', 'commissionArs', 'search', 'schemaTable', 'columns'));
+         $salesReps = CommissionsAr::select('sales_rep')->groupBy('sales_rep')->orderBy('sales_rep')->get();
+
+         return view('pages.commissions.show', compact('commission', 'commissionArs', 'search', 'schemaTable', 'columns', 'salesReps'));
      }
 
     /**
@@ -422,5 +479,21 @@ class CommissionController extends Controller
          $commission->update(['delete' => true]);
 
          return redirect()->route('commissions.index')->with('succes', 'ลบ Commission สำเร็จ');
+     }
+
+     public function adjust_delete($id)
+     {
+         $ar = CommissionsAr::find($id);
+
+         if (!$ar) {
+             return redirect()->back()->with('error', 'ไม่พบรายการนี้');
+         }
+
+         try {
+             $ar->delete();
+             return redirect()->back()->with('success', 'ลบรายการเรียบร้อยแล้ว');
+         } catch (\Exception $e) {
+             return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
+         }
      }
 }
