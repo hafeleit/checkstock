@@ -1,0 +1,132 @@
+:root {
+    --primary-color: #d60537;
+    --secondary-color: #000000;
+    --text-color: #333333;
+    --background-color: #ffffff;
+    --color-primary-500: #d60537;
+    --color-primary-600: #b0042d;
+    --color-primary-700: #8c0324;
+    --color-secondary-700: #1a1a1a;
+    --color-secondary-600: #333333;
+    --color-secondary-500: #565656;
+    --primary-color-50: rgba(214, 5, 55, 0.05);
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+.button-primary {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border: 1px solid var(--primary-color);
+    padding: 8px 16px;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.button-primary:hover,
+.button-primary:focus {
+    background-color: var(--color-primary-600);
+    border-color: var(--color-primary-600);
+}
+
+.button-primary:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    border-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.button-secondary {
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+    border: 1px solid var(--secondary-color);
+    padding: 8px 16px;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.button-secondary:hover,
+.button-secondary:focus {
+    background-color: var(--color-secondary-600);
+    border-color: var(--color-secondary-600);
+}
+
+.button-secondary:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    border-color: #cccccc;
+    cursor: not-allowed;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+    outline: 0;
+    box-shadow: 0 0 0 1px var(--primary-color);
+    border-color: var(--color-primary-600);
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ccc;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    position: relative;
+    top: 2px;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--color-primary-600);
+    border-color: var(--color-primary-600);
+}
+
+input[type="checkbox"]:checked::before {
+    content: "\2713";
+    font-size: 10px;
+    color: white;
+    position: absolute;
+    left: 3.5px;
+}
+
+input[type="checkbox"]:focus {
+    outline: none;
+}
+
+input[type="email"]:disabled {
+    cursor: not-allowed;
+}
+
+.bg-primary-50 {
+    background-color: var(--primary-color-50);
+}
+
+.bg-primary-500 {
+    background-color: var(--color-primary-500);
+}
+
+.bg-primary-600 {
+    background-color: var(--color-primary-600);
+}
+
+.bg-primary-700 {
+    background-color: var(--color-primary-700);
+}
+
+.text-primary-700 {
+    color: var(--color-primary-700);
+}
+
+.border-primary-700 {
+    border-color: var(--color-primary-700);
+}

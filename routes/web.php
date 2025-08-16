@@ -92,7 +92,6 @@ Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('gues
 	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');*/
 Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
-
 Route::middleware(['auth', 'check.status'])->group( function () {
   //Route::group(['middleware' => ['role:super-admin|admin|staff|supplier|user']], function() {
   Route::get('/change-password', [ChangePassword::class, 'show'])->name('change-password');

@@ -31,6 +31,8 @@ class User extends Authenticatable
         'about',
         'supp_code',
         'is_active',
+        'last_logged_in_at',
+        'type'
     ];
 
     /**
@@ -50,6 +52,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_logged_in_at' => 'datetime',
     ];
 
     /**
