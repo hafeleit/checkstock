@@ -27,12 +27,21 @@ class ProductController extends Controller
         $product = DB::connection('external_mysql')
                     ->table('ZHWWBCQUERYDIR')
                     ->leftJoin('ZORDPOSKONV_ZPL', 'ZHWWBCQUERYDIR.Material', '=', 'ZORDPOSKONV_ZPL.Material')
-                    ->leftJoin('MB52', 'ZHWWBCQUERYDIR.Material', '=', 'MB52.material')
+                    ->leftJoin('MB52', function($join) {
+                        $join->on('ZHWWBCQUERYDIR.Material', '=', 'MB52.material')
+                             ->where('MB52.storage_location', '=', 'TH02');
+                    })
                     ->where('ZHWWBCQUERYDIR.Material', request()->item_code)
                     ->where('MB52.storage_location', 'TH02')
-                    ->select('ZHWWBCQUERYDIR.*', 'ZORDPOSKONV_ZPL.*', 'MB52.*')
+                    ->select(
+                        'ZHWWBCQUERYDIR.Material',
+                        'ZHWWBCQUERYDIR.kurztext',
+                        'ZORDPOSKONV_ZPL.Amount',
+                        'MB52.unrestricted'
+                    )
                     ->first();
 
+        $last_update = Carbon::now()->subDay()->setHour(20)->setMinute(0)->setSecond(0);
 
         if ($product) {
             return view('external.products.index', [
@@ -41,6 +50,7 @@ class ProductController extends Controller
                 'item_code' => request()->item_code,
                 'date_now' => Carbon::now(),
                 'user' => auth()->user(),
+                'last_update' => $last_update
             ]);
         }
 
@@ -50,6 +60,7 @@ class ProductController extends Controller
             'item_code' => request()->item_code,
             'date_now' => Carbon::now(),
             'user' => auth()->user(),
+            'last_update' => $last_update
         ]);
     }
 }

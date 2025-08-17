@@ -8,7 +8,7 @@
         <!-- Search Form -->
         <form method="GET" action="{{ route('customer.products.index') }}">
             <div class="text-sm text-red-600 mb-3 bg-red-50 py-3 px-2 rounded-md">
-                สต๊อกที่แสดงเป็นสต๊อก ณ เวลา <strong>{{ $date_now }}</strong> และเพื่อป้องกันความผิดพลาด<br>
+                สต๊อกที่แสดงเป็นสต๊อก ณ เวลา <strong>{{ $last_update->format('Y-m-d H:i') }}</strong> และเพื่อป้องกันความผิดพลาด<br>
                 หากต้องการยืนยันคำสั่งซื้อ ขอให้ตรวจสอบยืนยันกับพนักงานขายของท่านทุกครั้ง
             </div>
             <div class="flex gap-4">
