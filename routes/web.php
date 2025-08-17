@@ -188,6 +188,7 @@ Route::middleware(['auth', 'check.status'])->group( function () {
           'username' => $data['name'],
           'password' => $data['password'],
           'supp_code' => $data['supp_code'],
+          'type' => $data['type'],
         ]
       );
 
