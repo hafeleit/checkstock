@@ -15,11 +15,12 @@ class ProductController extends Controller
         if (!auth()->user()) {
             abort(404);
         }
-
+        $last_update = Carbon::now()->subDay()->setHour(20)->setMinute(0)->setSecond(0);
         if (empty(request()->all()) || !is_array(request()->all())) {
             return view('external.products.index', [
                 'date_now' => Carbon::now(),
                 'user' => auth()->user(),
+                'last_update' => $last_update
             ]);
         }
 
@@ -35,12 +36,12 @@ class ProductController extends Controller
                     ->select(
                         'ZHWWBCQUERYDIR.Material',
                         'ZHWWBCQUERYDIR.kurztext',
-                        'ZORDPOSKONV_ZPL.Amount',
+                        DB::raw('ZORDPOSKONV_ZPL.Amount / NULLIF(ZORDPOSKONV_ZPL.per, 0) AS amount_per'),
                         'MB52.unrestricted'
                     )
                     ->first();
 
-        $last_update = Carbon::now()->subDay()->setHour(20)->setMinute(0)->setSecond(0);
+
 
         if ($product) {
             return view('external.products.index', [
