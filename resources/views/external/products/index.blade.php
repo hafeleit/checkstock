@@ -52,21 +52,21 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Item Code</label>
-                        <p class="text-lg font-semibold text-gray-800">{{ $product->item_code }}</p>
+                        <p class="text-lg font-semibold text-gray-800">{{ $product->Material }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Item Description</label>
-                        <p class="text-gray-700">{{ $product->item_desc }}</p>
+                        <p class="text-gray-700">{{ $product->kurztext }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Base Price</label>
-                        <p class="text-xl font-bold text-green-600">฿{{ number_format($product->base_price, 2) }}</p>
+                        <p class="text-xl font-bold text-green-600">฿{{ number_format($product->Amount, 2) }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Stock Quantity</label>
                         <p class="text-gray-800">
-                            <span class="inline-flex items-center px-2.5 py-0.5 mt-2 rounded-full text-sm font-medium {{ $product->stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                {{ number_format($product->stock, 0) }} units
+                            <span class="inline-flex items-center px-2.5 py-0.5 mt-2 rounded-full text-sm font-medium {{ $product->unrestricted > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                {{ number_format($product->unrestricted, 0) }} units
                             </span>
                         </p>
                     </div>
