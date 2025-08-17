@@ -32,7 +32,6 @@ class ProductController extends Controller
                              ->where('MB52.storage_location', '=', 'TH02');
                     })
                     ->where('ZHWWBCQUERYDIR.Material', request()->item_code)
-                    ->where('MB52.storage_location', 'TH02')
                     ->select(
                         'ZHWWBCQUERYDIR.Material',
                         'ZHWWBCQUERYDIR.kurztext',
