@@ -36,7 +36,7 @@ class ProductController extends Controller
                     ->select(
                         'ZHWWBCQUERYDIR.Material',
                         'ZHWWBCQUERYDIR.kurztext',
-                        DB::raw('ZORDPOSKONV_ZPL.Amount / NULLIF(ZORDPOSKONV_ZPL.per, 0) AS amount_per'),
+                        DB::raw('ZORDPOSKONV_ZPL.Amount / NULLIF(ZORDPOSKONV_ZPL.per, 0) AS amount'),
                         'MB52.unrestricted'
                     )
                     ->first();
