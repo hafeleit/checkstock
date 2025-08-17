@@ -10,7 +10,7 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::connection($this->connection)->create('mb52', function (Blueprint $table) {
+        Schema::connection($this->connection)->create('MB52', function (Blueprint $table) {
             $table->string('material', 20)->nullable();
             $table->string('storage_location', 10)->nullable();
             $table->string('descr_of_storage_loc', 100)->nullable();
@@ -21,6 +21,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::connection($this->connection)->dropIfExists('mb52');
+        Schema::connection($this->connection)->dropIfExists('MB52');
     }
 };
