@@ -10,7 +10,7 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::connection($this->connection)->create('ZHWWMM_MDM', function (Blueprint $table) {
+        Schema::connection($this->connection)->create('ZHWWBCQUERYDIR', function (Blueprint $table) {
             $table->string('Material', 20)->nullable();
             $table->string('kurztext', 255)->nullable();
             $table->string('bun', 50)->nullable();
@@ -35,6 +35,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::connection($this->connection)->dropIfExists('ZHWWMM_MDM');
+        Schema::connection($this->connection)->dropIfExists('ZHWWBCQUERYDIR');
     }
 };

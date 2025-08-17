@@ -10,7 +10,7 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::connection($this->connection)->create('ZPL', function (Blueprint $table) {
+        Schema::connection($this->connection)->create('ZORDPOSKONV_ZPL', function (Blueprint $table) {
             $table->string('Material', 20)->nullable();
             $table->decimal('Amount', 20, 2)->nullable(); // รองรับเลขใหญ่และทศนิยม
             $table->string('per', 10)->nullable();
@@ -19,6 +19,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::connection($this->connection)->dropIfExists('ZPL');
+        Schema::connection($this->connection)->dropIfExists('ZORDPOSKONV_ZPL');
     }
 };
