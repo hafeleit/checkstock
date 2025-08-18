@@ -18,7 +18,7 @@
                         <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
-                        Email address
+                        Account
                     </label>
                     <input id="email" type="text" name="email" value="{{ old('email') }}" required autofocus placeholder="Enter your email" class="w-full h-11 px-3 py-2 border border-gray-300 rounded-md shadow-sm @error('email') border-red-500 @enderror">
                     @error('email')
