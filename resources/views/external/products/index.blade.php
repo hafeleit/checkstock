@@ -66,7 +66,7 @@
                         <label class="block text-sm font-medium text-gray-600">Stock Quantity</label>
                         <p class="text-gray-800">
                             <span class="inline-flex items-center px-2.5 py-0.5 mt-2 rounded-full text-sm font-medium {{ $product->unrestricted > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                {{ number_format($product->unrestricted, 0) }} {{ $product->aun }}
+                                {{ number_format($product->unrestricted, 0) }} {{ $product->bun }}
                             </span>
                         </p>
                     </div>
