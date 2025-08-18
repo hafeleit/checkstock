@@ -56,10 +56,25 @@ class ProfileController extends Controller
 
     public function updatePassword(Request $request)
     {
+        $messages = [
+            'password.min' => 'password must be at least 15 characters long.',
+            'password.regex' => 'password must include lowercase, uppercase, numbers, and special characters.',
+            'password.confirmed' => 'the new password and confirmation password do not match.',
+        ];
+
         $request->validate([
             'current_password' => ['required', 'string'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+            'password' => [
+                'required',
+                'string',
+                'min:15',
+                'confirmed',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[^a-zA-Z0-9]/',
+            ],
+        ], $messages);
 
         $user = Auth::guard('customer')->user();
 
