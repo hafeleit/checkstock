@@ -60,13 +60,13 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Base Price</label>
-                        <p class="text-xl font-bold text-green-600">฿{{ number_format($product->Amount, 2) }}</p>
+                        <p class="text-xl font-bold text-green-600">{{ number_format($product->Amount, 2, '.', ',') }} {{ $product->bun }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Stock Quantity</label>
                         <p class="text-gray-800">
                             <span class="inline-flex items-center px-2.5 py-0.5 mt-2 rounded-full text-sm font-medium {{ $product->unrestricted > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                {{ number_format($product->unrestricted, 0) }} units
+                                {{ number_format($product->unrestricted, 0) }} {{ $product->aun }}
                             </span>
                         </p>
                     </div>

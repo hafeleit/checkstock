@@ -26,22 +26,22 @@ class ProductController extends Controller
 
         //$product = Product::where('item_code', request()->item_code)->first();
         $product = DB::connection('external_mysql')
-                    ->table('ZHWWBCQUERYDIR')
-                    ->leftJoin('ZORDPOSKONV_ZPL', 'ZHWWBCQUERYDIR.Material', '=', 'ZORDPOSKONV_ZPL.Material')
-                    ->leftJoin('MB52', function($join) {
-                        $join->on('ZHWWBCQUERYDIR.Material', '=', 'MB52.material')
-                             ->where('MB52.storage_location', '=', 'TH02');
-                    })
-                    ->where('ZHWWBCQUERYDIR.Material', request()->item_code)
-                    ->select(
-                        'ZHWWBCQUERYDIR.Material',
-                        'ZHWWBCQUERYDIR.kurztext',
-                        DB::raw('ZORDPOSKONV_ZPL.Amount / NULLIF(ZORDPOSKONV_ZPL.per, 0) AS Amount'),
-                        'MB52.unrestricted'
-                    )
-                    ->first();
-
-
+            ->table('ZHWWBCQUERYDIR')
+            ->leftJoin('ZORDPOSKONV_ZPL', 'ZHWWBCQUERYDIR.Material', '=', 'ZORDPOSKONV_ZPL.Material')
+            ->leftJoin('MB52', function ($join) {
+                $join->on('ZHWWBCQUERYDIR.Material', '=', 'MB52.material')
+                    ->where('MB52.storage_location', '=', 'TH02');
+            })
+            ->where('ZHWWBCQUERYDIR.Material', request()->item_code)
+            ->select(
+                'ZHWWBCQUERYDIR.Material',
+                'ZHWWBCQUERYDIR.kurztext',
+                DB::raw('ZORDPOSKONV_ZPL.Amount / NULLIF(ZORDPOSKONV_ZPL.per, 0) AS Amount'),
+                'MB52.unrestricted',
+                'ZHWWBCQUERYDIR.bun',
+                'ZHWWBCQUERYDIR.aun',
+            )
+            ->first();
 
         if ($product) {
             return view('external.products.index', [
