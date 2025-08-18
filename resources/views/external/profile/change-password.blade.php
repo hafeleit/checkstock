@@ -57,13 +57,53 @@
                         </svg>
                     </button>
                 </div>
-                @error('password')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-                <p class="mt-1 text-sm text-gray-500">Password must be at least 8 characters long</p>
+
+                <!-- Password Requirement -->
+                <div id="password-requirements" class="mt-2 text-sm text-gray-500 space-y-1">
+                    <p class="mb-1">Password must meet the following criteria:</p>
+                    <p id="req-length" class="text-red-500">
+                        <span class="inline-block w-4 h-4 mr-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path id="icon-length" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </span>
+                        at least 15 characters
+                    </p>
+                    <p id="req-lowercase" class="text-red-500">
+                        <span class="inline-block w-4 h-4 mr-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path id="icon-lowercase" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </span>
+                        at least one lowercase letter
+                    </p>
+                    <p id="req-uppercase" class="text-red-500">
+                        <span class="inline-block w-4 h-4 mr-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path id="icon-uppercase" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </span>
+                        at least one uppercase letter
+                    </p>
+                    <p id="req-number" class="text-red-500">
+                        <span class="inline-block w-4 h-4 mr-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path id="icon-number" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </span>
+                        at least one number
+                    </p>
+                    <p id="req-special" class="text-red-500">
+                        <span class="inline-block w-4 h-4 mr-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path id="icon-special" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </span>
+                        at least one special character (!@#$%, etc.)
+                    </p>
+                </div>
             </div>
 
-            <!-- Confirm Password -->
             <div>
                 <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">
                     Confirm New Password
@@ -84,9 +124,9 @@
                         </svg>
                     </button>
                 </div>
+                <p id="password-match-error" class="mt-1 text-sm text-red-600 hidden">Passwords do not match</p>
             </div>
 
-            <!-- Submit Buttons -->
             <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
                 <a href="{{ route('customer.profile.show',auth()->user()->id ) }}"
                     class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
@@ -128,34 +168,84 @@
     document.addEventListener('DOMContentLoaded', function() {
         const passwordField = document.getElementById('password');
         const confirmField = document.getElementById('password_confirmation');
+        const requirements = {
+            length: document.getElementById('req-length'),
+            lowercase: document.getElementById('req-lowercase'),
+            uppercase: document.getElementById('req-uppercase'),
+            number: document.getElementById('req-number'),
+            special: document.getElementById('req-special'),
+        };
+        const icons = {
+            length: document.getElementById('icon-length'),
+            lowercase: document.getElementById('icon-lowercase'),
+            uppercase: document.getElementById('icon-uppercase'),
+            number: document.getElementById('icon-number'),
+            special: document.getElementById('icon-special'),
+        };
+        const mismatchError = document.getElementById('password-match-error');
 
-        // Password strength indicator
-        passwordField.addEventListener('input', function() {
-            this.classList.remove('border-red-500');
-            const errorMsg = this.parentNode.parentNode.querySelector('.text-red-600');
-            if (errorMsg) {
-                errorMsg.style.display = 'none';
-            }
-        });
+        const successIconPath = "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z";
+        const errorIconPath = "M6 18L18 6M6 6l12 12";
 
-        // Password confirmation matching
-        confirmField.addEventListener('input', function() {
-            if (passwordField.value !== this.value) {
-                this.classList.add('border-yellow-500');
+        function updatePasswordRequirements() {
+            const value = passwordField.value;
+
+            // At least 15 characters
+            const isLengthValid = value.length >= 15;
+            requirements.length.classList.toggle('text-green-500', isLengthValid);
+            requirements.length.classList.toggle('text-red-500', !isLengthValid);
+            icons.length.setAttribute('d', isLengthValid ? successIconPath : errorIconPath);
+
+            // At least one lowercase letter
+            const hasLowercase = /[a-z]/.test(value);
+            requirements.lowercase.classList.toggle('text-green-500', hasLowercase);
+            requirements.lowercase.classList.toggle('text-red-500', !hasLowercase);
+            icons.lowercase.setAttribute('d', hasLowercase ? successIconPath : errorIconPath);
+
+            // At least one uppercase letter
+            const hasUppercase = /[A-Z]/.test(value);
+            requirements.uppercase.classList.toggle('text-green-500', hasUppercase);
+            requirements.uppercase.classList.toggle('text-red-500', !hasUppercase);
+            icons.uppercase.setAttribute('d', hasUppercase ? successIconPath : errorIconPath);
+
+            // At least one number
+            const hasNumber = /[0-9]/.test(value);
+            requirements.number.classList.toggle('text-green-500', hasNumber);
+            requirements.number.classList.toggle('text-red-500', !hasNumber);
+            icons.number.setAttribute('d', hasNumber ? successIconPath : errorIconPath);
+
+            // At least one special character
+            const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value);
+            requirements.special.classList.toggle('text-green-500', hasSpecial);
+            requirements.special.classList.toggle('text-red-500', !hasSpecial);
+            icons.special.setAttribute('d', hasSpecial ? successIconPath : errorIconPath);
+        }
+
+        function checkPasswordMatch() {
+            if (confirmField.value !== passwordField.value) {
+                mismatchError.classList.remove('hidden');
+                confirmField.classList.remove('border-green-500');
+                confirmField.classList.add('border-red-500');
             } else {
-                this.classList.remove('border-yellow-500');
-                this.classList.add('border-green-500');
+                mismatchError.classList.add('hidden');
+                confirmField.classList.remove('border-red-500');
+                if (confirmField.value.length > 0) {
+                    confirmField.classList.add('border-green-500');
+                } else {
+                    confirmField.classList.remove('border-green-500');
+                }
             }
+        }
+
+        passwordField.addEventListener('input', () => {
+            updatePasswordRequirements();
+            checkPasswordMatch();
         });
 
-        // Current password field
-        document.getElementById('current_password').addEventListener('input', function() {
-            this.classList.remove('border-red-500');
-            const errorMsg = this.parentNode.parentNode.querySelector('.text-red-600');
-            if (errorMsg) {
-                errorMsg.style.display = 'none';
-            }
-        });
+        confirmField.addEventListener('input', checkPasswordMatch);
+
+        // Initial check on page load
+        updatePasswordRequirements();
     });
 </script>
 @endsection
