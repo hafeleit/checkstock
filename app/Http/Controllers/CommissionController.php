@@ -240,6 +240,10 @@ class CommissionController extends Controller
              $commission->hr_comment = $request->hr_comment;
          }
 
+         if ($request->filled('fin_comment')) {
+             $commission->fin_comment = $request->fin_comment;
+         }
+
         $commission->save();
 
          // ถ้ามี selected_sales ให้ไปอัปเดต CommissionAR

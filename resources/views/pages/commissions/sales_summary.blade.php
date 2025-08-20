@@ -131,12 +131,18 @@
                                 @method('PUT')
                                 <input type="hidden" name="status" value="Final Approve">
                                 <button type="button"
-                                        class="btn btn-sm bg-gradient-info px-3"
+                                        class="btn btn-sm bg-gradient-info px-3 me-2"
                                         onclick="approveSwal_final('{{ $commission->id }}')">
                                     <i class="fas fa-check me-1"></i>Final Approve
                                 </button>
                             </form>
                         </div>
+                        <button type="button"
+                                class="btn btn-sm bg-gradient-danger px-3"
+                                data-bs-toggle="modal"
+                                data-bs-target="#final-rejectModal-{{ $commission->id }}">
+                            <i class="fas fa-times me-1"></i> Reject
+                        </button>
                         @endcan
                       @endif
 
@@ -175,7 +181,7 @@
                             <thead>
                                 <tr>
                                     <th >
-                                        All <input type="checkbox" id="checkAll" {{ in_array($commission->status, ['Summary Approve', 'Final Approve']) ? 'disabled' : '' }}>
+                                        All <input type="checkbox" id="checkAll" {{ !in_array($commission->status, ['Summary Confirm']) ? 'disabled' : '' }}>
                                     </th>
                                     <th onclick="sortTable(1)">Sales Rep <i class="fas fa-sort"></i></th>
                                     <th onclick="sortTable(2)">Sales Name <i class="fas fa-sort"></i></th>
@@ -189,7 +195,7 @@
                                 @forelse ($summary as $item)
                                     <tr>
                                         <td>
-                                            <input type="checkbox" class="row-check" value="{{ $item->sales_rep }}" {{ $item->status == 'Approve' ? 'checked' : '' }} {{ in_array($commission->status, ['Summary Approve', 'Final Approve']) ? 'disabled' : '' }}>
+                                            <input type="checkbox" class="row-check" value="{{ $item->sales_rep }}" {{ $item->status == 'Approve' ? 'checked' : '' }} {{ !in_array($commission->status, ['Summary Confirm']) ? 'disabled' : '' }}>
                                         </td>
                                         <td>{{ $item->sales_rep }}</td>
                                         <td>{{ $item->name_en }}</td>
@@ -220,12 +226,35 @@
             <input type="hidden" name="status" value="Summary Reject">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Reject Summary</h5>
+                    <h5 class="modal-title">Reject Commission</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <label for="reason">Reason<span class="text-danger">*</span></label>
                     <textarea name="hr_comment" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Reject</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="final-rejectModal-{{ $commission->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{ route('commissions.updateStatus', $commission->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="status" value="Final Reject">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reject Commission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="reason">Reason<span class="text-danger">*</span></label>
+                    <textarea name="fin_comment" class="form-control" rows="3" required></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
