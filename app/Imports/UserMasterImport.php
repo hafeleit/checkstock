@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Carbon\Carbon;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class UserMasterImport implements ToModel, WithStartRow, WithMultipleSheets, WithCalculatedFormulas
 {
@@ -62,7 +63,7 @@ class UserMasterImport implements ToModel, WithStartRow, WithMultipleSheets, Wit
             if (is_numeric($val)) {
                 return Date::excelToDateTimeObject($val)->format('Y-m-d');
             }
-    
+
             // กรณีเป็น string เช่น "25/07/2025"
             return Carbon::parse(trim($val))->format('Y-m-d');
         } catch (\Exception $e) {

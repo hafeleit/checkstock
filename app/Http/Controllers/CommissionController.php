@@ -184,31 +184,81 @@ class CommissionController extends Controller
          // ✅ ดึง Commission รายการเดียว
          $commission = Commission::findOrFail($id);
 
-         // ✅ Summary ราย Sales Rep
-         $summary = CommissionsAr::select(
-                 'commissions_ars.sales_rep',
-                 'commissions_ars.status',
-                 'user_masters.name_en',
-                 'user_masters.division',
-                 DB::raw('SUM(commissions_ars.commissions) as total_commissions'),
-                 DB::raw("SUM(CASE WHEN commissions_ars.type = 'Adjust' THEN commissions_ars.commissions ELSE 0 END) AS total_adjust"),
-                 DB::raw("SUM(CASE WHEN commissions_ars.type != 'Adjust' THEN commissions_ars.commissions ELSE 0 END) AS total_initial")
+         $subUser = DB::table('user_masters as u1')
+             ->select(
+                 'u1.job_code',
+                 DB::raw('u1.name_en as name_en'),
+                 DB::raw('u1.division as division'),
+                 DB::raw('u1.effecttive_date as effecttive_date')
              )
-             ->leftJoin('user_masters', function ($join) {
-                 $join->on(DB::raw("SUBSTRING(commissions_ars.sales_rep, 4)"), '=', 'user_masters.job_code')
-                      ->where('user_masters.status', 'Current');
-             })
-             ->where('commissions_ars.commissions_id', $id)
-             ->whereNotNull('commissions_ars.commissions')
-             ->when($search, function ($query) use ($search) {
-                 $query->where(function ($q) use ($search) {
-                     $q->where('commissions_ars.sales_rep', 'like', "%$search%")
-                       ->orWhere('user_masters.name_en', 'like', "%$search%");
-                 });
-             })
-             ->groupBy('commissions_ars.sales_rep')
-             ->orderBy('commissions_ars.sales_rep','desc')
-             ->get();
+             ->whereRaw("
+                 NOT EXISTS (
+                     SELECT 1
+                     FROM user_masters u2
+                     WHERE u2.job_code = u1.job_code
+                     AND (
+                         CASE u2.status
+                             WHEN 'Current' THEN 1
+                             WHEN 'Probation' THEN 2
+                             WHEN 'Resign' THEN 3
+                             ELSE 4
+                         END
+                         < CASE u1.status
+                             WHEN 'Current' THEN 1
+                             WHEN 'Probation' THEN 2
+                             WHEN 'Resign' THEN 3
+                             ELSE 4
+                         END
+                         OR (
+                             CASE u2.status
+                                 WHEN 'Current' THEN 1
+                                 WHEN 'Probation' THEN 2
+                                 WHEN 'Resign' THEN 3
+                                 ELSE 4
+                             END
+                             = CASE u1.status
+                                 WHEN 'Current' THEN 1
+                                 WHEN 'Probation' THEN 2
+                                 WHEN 'Resign' THEN 3
+                                 ELSE 4
+                             END
+                             AND u2.effecttive_date > u1.effecttive_date
+                         )
+                     )
+                 )
+             ");
+
+             $summary = CommissionsAr::select(
+                     'commissions_ars.sales_rep',
+                     'commissions_ars.status',
+                     'user_masters.name_en',
+                     'user_masters.division',
+                     'user_masters.effecttive_date',
+                     DB::raw('SUM(commissions_ars.commissions) as total_commissions'),
+                     DB::raw("SUM(CASE WHEN commissions_ars.type = 'Adjust' THEN commissions_ars.commissions ELSE 0 END) AS total_adjust"),
+                     DB::raw("SUM(CASE WHEN commissions_ars.type != 'Adjust' THEN commissions_ars.commissions ELSE 0 END) AS total_initial")
+                 )
+                 ->leftJoinSub($subUser, 'user_masters', function ($join) {
+                     $join->on(DB::raw("SUBSTRING(commissions_ars.sales_rep, 4)"), '=', 'user_masters.job_code');
+                 })
+                 ->where('commissions_ars.commissions_id', $id)
+                 ->whereNotNull('commissions_ars.commissions')
+                 ->when($search, function ($query) use ($search) {
+                     $query->where(function ($q) use ($search) {
+                         $q->where('commissions_ars.sales_rep', 'like', "%$search%")
+                           ->orWhere('user_masters.name_en', 'like', "%$search%");
+                     });
+                 })
+                 ->groupBy(
+                     'commissions_ars.sales_rep',
+                     'commissions_ars.status',
+                     'user_masters.name_en',
+                     'user_masters.division',
+                     'user_masters.effecttive_date'
+                 )
+                 ->orderBy('commissions_ars.sales_rep','asc')
+                 ->get();
+
 
          $totalInitial = CommissionsAr::where('commissions_id', $id)->where('type','!=','Adjust')->where('status','Approve')->sum('commissions');
          $totalAdjustment = CommissionsAr::where('commissions_id', $id)->where('type','Adjust')->where('status','Approve')->sum('commissions');
@@ -339,10 +389,54 @@ class CommissionController extends Controller
 
          $search = $request->input('search');
 
-         $commissionArs = CommissionsAr::select('commissions_ars.*', 'user_masters.division', 'user_masters.name_en')
-             ->leftJoin('user_masters', function ($join) {
-                 $join->on(DB::raw("SUBSTRING(commissions_ars.sales_rep, 4)"), '=', 'user_masters.job_code')
-                      ->where('user_masters.status', 'Current'); // เช่น เฉพาะพนักงานที่ยังอยู่
+         $subUser = DB::table('user_masters as u1')
+             ->select(
+                 'u1.job_code as job_code',
+                 'u1.name_en as name_en',
+                 'u1.division as division',
+                 'u1.effecttive_date as effecttive_date'
+             )
+             ->whereRaw("
+                 NOT EXISTS (
+                     SELECT 1
+                     FROM user_masters u2
+                     WHERE u2.job_code = u1.job_code
+                     AND (
+                         CASE u2.status
+                             WHEN 'Current' THEN 1
+                             WHEN 'Probation' THEN 2
+                             WHEN 'Resign' THEN 3
+                             ELSE 4
+                         END
+                         < CASE u1.status
+                             WHEN 'Current' THEN 1
+                             WHEN 'Probation' THEN 2
+                             WHEN 'Resign' THEN 3
+                             ELSE 4
+                         END
+                         OR (
+                             CASE u2.status
+                                 WHEN 'Current' THEN 1
+                                 WHEN 'Probation' THEN 2
+                                 WHEN 'Resign' THEN 3
+                                 ELSE 4
+                             END
+                             = CASE u1.status
+                                 WHEN 'Current' THEN 1
+                                 WHEN 'Probation' THEN 2
+                                 WHEN 'Resign' THEN 3
+                                 ELSE 4
+                             END
+                             AND u2.effecttive_date > u1.effecttive_date
+                         )
+                     )
+                 )
+             ");
+
+
+         $commissionArs = CommissionsAr::select('commissions_ars.*', 'user_masters.*')
+             ->leftJoinSub($subUser, 'user_masters', function ($join) {
+                 $join->on(DB::raw("SUBSTRING(commissions_ars.sales_rep, 4)"), '=', 'user_masters.job_code');
              })
              ->where('commissions_id', $commission->id)
              ->when($search, function ($query) use ($search) {
@@ -408,7 +502,18 @@ class CommissionController extends Controller
           // ตัด 3 ตัวหน้า
           $jobCode = substr($salesRep, 3);
 
-          $user = UserMaster::where('job_code', $jobCode)->where('status','Current')->first();
+          $user = UserMaster::where('job_code', $jobCode)
+          ->orderByRaw("
+              CASE
+                  WHEN status = 'Current' THEN 1
+                  WHEN status = 'Probation' THEN 2
+                  WHEN status = 'Resign' THEN 3
+                  ELSE 4
+              END
+          ")
+          ->orderByDesc('effecttive_date')
+          ->first();
+
           if (!$user) {
               continue;
           }
