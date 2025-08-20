@@ -189,7 +189,8 @@ class CommissionController extends Controller
                  'u1.job_code',
                  DB::raw('u1.name_en as name_en'),
                  DB::raw('u1.division as division'),
-                 DB::raw('u1.effecttive_date as effecttive_date')
+                 DB::raw('u1.effecttive_date as effecttive_date'),
+                 DB::raw('u1.status as emp_status')
              )
              ->whereRaw("
                  NOT EXISTS (
@@ -234,6 +235,7 @@ class CommissionController extends Controller
                      'user_masters.name_en',
                      'user_masters.division',
                      'user_masters.effecttive_date',
+                     'user_masters.emp_status',
                      DB::raw('SUM(commissions_ars.commissions) as total_commissions'),
                      DB::raw("SUM(CASE WHEN commissions_ars.type = 'Adjust' THEN commissions_ars.commissions ELSE 0 END) AS total_adjust"),
                      DB::raw("SUM(CASE WHEN commissions_ars.type != 'Adjust' THEN commissions_ars.commissions ELSE 0 END) AS total_initial")

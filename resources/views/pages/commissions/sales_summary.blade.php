@@ -183,12 +183,14 @@
                                     <th >
                                         All <input type="checkbox" id="checkAll" {{ !in_array($commission->status, ['Summary Confirm']) ? 'disabled' : '' }}>
                                     </th>
-                                    <th onclick="sortTable(1)">Sales Rep <i class="fas fa-sort"></i></th>
-                                    <th onclick="sortTable(2)">Sales Name <i class="fas fa-sort"></i></th>
-                                    <th onclick="sortTable(3)">Division <i class="fas fa-sort"></i></th>
-                                    <th class="text-end" onclick="sortTable(4)">Total Initial <i class="fas fa-sort"></i></th>
-                                    <th class="text-end" onclick="sortTable(5)">Total Adjustment <i class="fas fa-sort"></i></th>
-                                    <th class="text-end" onclick="sortTable(6)">Total Commissions <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(1)">Status <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(2)">Effecttive Date <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(3)">Sales Rep <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(4)">Sales Name <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(5)">Division <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" onclick="sortTable(6)">Total Initial <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" onclick="sortTable(7)">Total Adjustment <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" onclick="sortTable(8)">Total Commissions <i class="fas fa-sort"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -197,6 +199,12 @@
                                         <td>
                                             <input type="checkbox" class="row-check" value="{{ $item->sales_rep }}" {{ $item->status == 'Approve' ? 'checked' : '' }} {{ !in_array($commission->status, ['Summary Confirm']) ? 'disabled' : '' }}>
                                         </td>
+                                        <td>
+                                            <span class="badge {{ $item->emp_status === 'Resign' ? 'bg-danger' : 'bg-success' }}">
+                                                {{ $item->emp_status }}
+                                            </span>
+                                        </td>
+                                        <td>{{ $item->effecttive_date }}</td>
                                         <td>{{ $item->sales_rep }}</td>
                                         <td>{{ $item->name_en }}</td>
                                         <td>{{ $item->division }}</td>
