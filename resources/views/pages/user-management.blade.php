@@ -54,6 +54,27 @@
                       </div>
                     </div>
                 </div>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const form = document.querySelector('#import form');
+
+                    form.addEventListener('submit', function (e) {
+                        e.preventDefault(); // กัน form submit ทันที
+
+                        Swal.fire({
+                            title: 'กำลังอัปโหลด...',
+                            text: 'กรุณารอสักครู่',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                                form.submit(); // ค่อย submit หลังแสดง Swal
+                            }
+                        });
+                    });
+                });
+                </script>
+
 
 
                 <div class="card-body px-0 pb-0">
@@ -63,13 +84,12 @@
                         <table class="table table-flush dataTable-table" id="products-list">
                           <thead class="thead-light">
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">uuid</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">employee code</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">job code</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">name th</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">name en</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">dept</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Devition</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">position</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">location</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">department</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">email</th>
 
                                 </tr>
@@ -78,25 +98,22 @@
                               @foreach($user_master as $row)
                                 <tr>
                                     <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ $row->uuid }}</p>
+                                        <p class="text-sm font-weight-bold mb-0">{{ $row->employee_code }}</p>
                                     </td>
                                     <td>
                                         <p class="text-sm font-weight-bold mb-0">{{ $row->job_code }}</p>
                                     </td>
                                     <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ $row->name_th }}</p>
-                                    </td>
-                                    <td>
                                         <p class="text-sm font-weight-bold mb-0">{{ $row->name_en }}</p>
                                     </td>
                                     <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ $row->dept }}</p>
+                                        <p class="text-sm font-weight-bold mb-0">{{ $row->division }}</p>
                                     </td>
                                     <td>
                                         <p class="text-sm font-weight-bold mb-0">{{ $row->position }}</p>
                                     </td>
                                     <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ $row->location }}</p>
+                                        <p class="text-sm font-weight-bold mb-0">{{ $row->dept }}</p>
                                     </td>
                                     <td>
                                         <p class="text-sm font-weight-bold mb-0">{{ $row->email }}</p>

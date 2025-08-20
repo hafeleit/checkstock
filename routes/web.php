@@ -43,6 +43,7 @@ use App\Http\Controllers\CheckStockController;
 use App\Http\Controllers\Consumerlabel\ProductItemsController;
 use App\Http\Controllers\ITAssetTypeController;
 use App\Http\Controllers\InvRecordController;
+use App\Http\Controllers\CommissionController;
 
 Route::get('/', function () {
   //abort(404);
@@ -116,10 +117,23 @@ Route::middleware(['auth', 'check.status'])->group( function () {
   Route::resource('asset_types', ITAssetTypeController::class);
   Route::resource('onlineorder', OrderController::class);
   Route::resource('checkstock', CheckStockController::class);
-  Route::get('checkstockhww-export', [CheckStockController::class, 'export'])->name('checkstockhww-export');
-  Route::post('product-new-price-list-import', [CheckStockController::class, 'import'])->name('product-new-price-list-import');
-  Route::get('onlineorder/download/{file}', [OrderController::class, 'download'])->name('onlineorder-download');
-  Route::get('onlineorder-manual-get', [OrderController::class, 'onlineorder_manual_get'])->name('onlineorder-manual-get');
+
+
+  Route::resource('commissions', CommissionController::class);
+  Route::put('/commissions/{id}/status', [CommissionController::class, 'updateStatus'])->name('commissions.updateStatus');
+  Route::post('/commissions/import', [CommissionController::class, 'importAll'])->name('commissions.import');
+  Route::get('/commissions/{id}/export', [CommissionController::class, 'export'])->name('commissions.export');
+  Route::get('/commissions/{id}/summary-export', [CommissionController::class, 'summary_export'])->name('commissions.summary-export');
+  Route::post('/commissions/{id}/adjust', [CommissionController::class, 'adjust'])->name('commissions.adjust');
+  Route::delete('/commissions/{id}/adjust', [CommissionController::class, 'adjust_delete'])->name('commissions.adjust.delete');
+  Route::put('/commissions/adjust/{id}', [CommissionController::class, 'adjustUpdate'])->name('commissions.adjust.update');
+  Route::get('/commissions/{id}/sales-summary', [CommissionController::class, 'salesSummary'])->name('commissions.sales-summary');
+  Route::get('/commissions/{id}/check', [CommissionController::class, 'check'])->name('commissions.check');
+
+  Route::get('checkstockhww-export', [CheckStockController::class,'export'])->name('checkstockhww-export');
+  Route::post('product-new-price-list-import', [CheckStockController::class,'import'])->name('product-new-price-list-import');
+  Route::get('onlineorder/download/{file}', [OrderController::class,'download'])->name('onlineorder-download');
+  Route::get('onlineorder-manual-get', [OrderController::class,'onlineorder_manual_get'])->name('onlineorder-manual-get');
 
   //Consumerlabel
   Route::resource('product-items', ProductItemsController::class);

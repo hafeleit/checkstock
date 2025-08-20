@@ -10,6 +10,13 @@ class UserMaster extends Model
     use HasFactory;
 
     protected $fillable = [
+      'employee_code',
+      'division',
+      'manager',
+      'status',
+      'employment_date',
+      'effecttive_date',
+      'job_title',
       'uuid',
       'job_code',
       'name_en',
