@@ -165,6 +165,10 @@ Route::middleware(['auth', 'check.status'])->group( function () {
   Route::get('/billing', [PageController::class, 'billing'])->name('billing');
   Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
+  Route::get('/countdown', function(){
+    return view('pages.countdown');
+  });
+
   Route::get('/import-users', function () {
 
     $filePath = storage_path('app/users.xlsx');

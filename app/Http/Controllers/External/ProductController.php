@@ -15,6 +15,15 @@ class ProductController extends Controller
         if (!auth()->user()) {
             abort(404);
         }
+
+        // กำหนดวันเวลา Go-live
+        $goLive = \Carbon\Carbon::create(2025, 8, 22, 8, 0, 0, 'Asia/Bangkok');
+
+        // ถ้ายังไม่ถึงเวลา Go-live → แสดงหน้านับถอยหลัง
+        if (now('Asia/Bangkok')->lt($goLive)) {
+            return view('pages.countdown');
+        }
+        
         $last_update = Carbon::now()->subDay()->setHour(20)->setMinute(0)->setSecond(0);
         if (empty(request()->all()) || !is_array(request()->all())) {
             return view('external.products.index', [
