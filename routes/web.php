@@ -19,6 +19,7 @@ use Spatie\Permission\Models\Role;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', function () {
   return view('welcome');
 });
@@ -43,6 +44,7 @@ use App\Http\Controllers\CheckStockController;
 use App\Http\Controllers\Consumerlabel\ProductItemsController;
 use App\Http\Controllers\ITAssetTypeController;
 use App\Http\Controllers\InvRecordController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
   //abort(404);
@@ -92,7 +94,7 @@ Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('gues
 	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');*/
 Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
-Route::middleware(['auth', 'check.status'])->group( function () {
+Route::middleware(['auth', 'check.status'])->group(function () {
   //Route::group(['middleware' => ['role:super-admin|admin|staff|supplier|user']], function() {
   Route::get('/change-password', [ChangePassword::class, 'show'])->name('change-password');
   Route::post('/change-password', [ChangePassword::class, 'update'])->name('change.perform');
@@ -108,6 +110,7 @@ Route::middleware(['auth', 'check.status'])->group( function () {
   Route::get('roles/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy']);
   Route::get('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'addPermissionToRole']);
   Route::put('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'givePermissionToRole']);
+  Route::post('users/import-users', [UserController::class, 'importUser'])->name('users.import-users');
   Route::resource('users', App\Http\Controllers\UserController::class);
   Route::get('users/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy']);
   Route::post('usermaster-import', [UserMasterController::class, 'import'])->name('usermaster-import');
@@ -150,51 +153,4 @@ Route::middleware(['auth', 'check.status'])->group( function () {
   Route::get('/tables', [PageController::class, 'tables'])->name('tables');
   Route::get('/billing', [PageController::class, 'billing'])->name('billing');
   Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-
-  Route::get('/import-users', function () {
-
-    $filePath = storage_path('app/users.xlsx');
-
-    if (!file_exists($filePath)) {
-      return '❌ ไม่พบไฟล์ users.xlsx';
-    }
-
-    $rows = Excel::toArray([], $filePath)[0];
-    $header = array_map('strtolower', $rows[0]);
-    unset($rows[0]);
-
-    $imported = 0;
-    $errors = [];
-
-    foreach ($rows as $index => $row) {
-      $data = array_combine($header, $row);
-
-      if (empty($data['role name'])) {
-        $errors[] = "❌ แถวที่ " . ($index + 2) . " ไม่มี role name";
-        continue;
-      }
-
-      $roleName = trim($data['role name']);
-      $role = Role::where('name', $roleName)->first();
-
-      if (!$role) {
-        $errors[] = "❌ ไม่พบ Role: $roleName (แถวที่ " . ($index + 2) . ")";
-        continue;
-      }
-
-      $user = User::updateOrCreate(
-        ['email' => $data['email']],
-        [
-          'username' => $data['name'],
-          'password' => $data['password'],
-          'supp_code' => $data['supp_code'],
-          'type' => $data['type'],
-        ]
-      );
-
-      $user->assignRole($role);
-      $imported++;
-    }
-    echo "✅ นำเข้าสำเร็จ $imported คน";
-  });
 });
