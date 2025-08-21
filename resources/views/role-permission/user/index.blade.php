@@ -60,7 +60,7 @@
                 <div class="card-header card-header__user pb-0">
                     <h5 class="mb-0">Users</h5>
                     <div class="d-flex gap-1">
-                        @can('import users')
+                        @can('user import')
                         <!-- Import user button -->
                         <button type="button" class="btn btn-dark m-0" data-bs-toggle="modal" data-bs-target="#importUsersModal">
                             <div class="d-flex gap-2 align-items-center">
