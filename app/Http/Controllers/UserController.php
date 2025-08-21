@@ -150,9 +150,10 @@ class UserController extends Controller
                     ]
                 );
 
-                if (env("CUSTOMER_PROD")) {
-                    $user->assignRole($role);
-                }
+                // ** uat ยังไม่ assign role ให้ customer user ที่ import เข้าไปใหม่ **
+                // if (env("CUSTOMER_PROD")) {
+                    // $user->assignRole($role);
+                // }
 
                 $importedCount++;
             }
