@@ -146,7 +146,7 @@
                         @endcan
                       @endif
 
-                      @if ($commission->status === 'Summary Confirm')
+                      @if ($commission->status === 'Summary Confirm' || $commission->status === 'Final Reject')
                         @can('Commissions Summary-Approve')
                         <div class="ms-auto">
                             <form id="approve-form-{{ $commission->id }}"
@@ -155,11 +155,36 @@
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="status" value="Summary Approve">
+                                <button type="button"
+                                        class="btn btn-sm bg-gradient-info px-3 me-2"
+                                        onclick="approveSwal_Summary('{{ $commission->id }}')">
+                                    <i class="fas fa-check me-1"></i>Summary Approve
+                                </button>
+                            </form>
+                        </div>
+                        <button type="button"
+                                class="btn btn-sm bg-gradient-danger px-3"
+                                data-bs-toggle="modal"
+                                data-bs-target="#summary-rejectModal-{{ $commission->id }}">
+                            <i class="fas fa-times me-1"></i> Reject
+                        </button>
+                        @endcan
+                      @endif
+
+                      @if ($commission->status === 'AR Approve' || $commission->status === 'Summary Reject(Manager)')
+                        @can('Commissions Summary-Confirm')
+                        <div class="ms-auto">
+                            <form id="approve-form-{{ $commission->id }}"
+                                  action="{{ route('commissions.updateStatus', $commission->id) }}"
+                                  method="POST" class="d-inline">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="status" value="Summary Confirm">
                                 <input type="hidden" id="selected_sales_{{ $commission->id }}" name="selected_sales">
                                 <button type="button"
                                         class="btn btn-sm bg-gradient-info px-3 me-2"
                                         onclick="approveSwal('{{ $commission->id }}')">
-                                    <i class="fas fa-check me-1"></i>Summary Approve
+                                    <i class="fas fa-check me-1"></i>Summary Confirm
                                 </button>
                             </form>
                         </div>
@@ -169,9 +194,10 @@
                                 class="btn btn-sm bg-gradient-danger px-3"
                                 data-bs-toggle="modal"
                                 data-bs-target="#rejectModal-{{ $commission->id }}">
-                            <i class="fas fa-times me-1"></i> Reject
+                            <i class="fas fa-times me-1"></i>Reject
                         </button>
                         @endcan
+
                       @endif
 
                     </div>
@@ -180,10 +206,17 @@
                         <table class="table table-hover align-items-center" id="sortableTable">
                             <thead>
                                 <tr>
+                                    @can('Commissions Summary-Confirm')
                                     <th >
-                                        All <input type="checkbox" id="checkAll" {{ !in_array($commission->status, ['Summary Confirm']) ? 'disabled' : '' }}>
+                                      All <input type="checkbox" id="checkAll" {{ !in_array($commission->status, ['AR Approve','Summary Reject(Manager)']) ? 'disabled' : '' }}>
                                     </th>
-                                    <th onclick="sortTable(1)">Status <i class="fas fa-sort"></i></th>
+                                    @endcan
+
+                                    @canany(['Commissions Summary-Approve','Commissions Approve'])
+                                    <th onclick="sortTable(0)">Select<i class="fas fa-sort"></i></th>
+                                    @endcan
+
+                                    <th onclick="sortTable(1)">Employee Status <i class="fas fa-sort"></i></th>
                                     <th onclick="sortTable(2)">Effecttive Date <i class="fas fa-sort"></i></th>
                                     <th onclick="sortTable(3)">Sales Rep <i class="fas fa-sort"></i></th>
                                     <th onclick="sortTable(4)">Sales Name <i class="fas fa-sort"></i></th>
@@ -196,9 +229,21 @@
                             <tbody>
                                 @forelse ($summary as $item)
                                     <tr>
-                                        <td>
-                                            <input type="checkbox" class="row-check" value="{{ $item->sales_rep }}" {{ $item->status == 'Approve' ? 'checked' : '' }} {{ !in_array($commission->status, ['Summary Confirm']) ? 'disabled' : '' }}>
-                                        </td>
+                                          @can('Commissions Summary-Confirm')
+                                          <td>
+                                            <input type="checkbox" class="row-check" value="{{ $item->sales_rep }}" {{ $item->status == 'Approve' ? 'checked' : '' }} {{ !in_array($commission->status, ['AR Approve','Summary Reject(Manager)']) ? 'disabled' : '' }}>
+                                          </td>
+                                          @endcan
+                                          @canany(['Commissions Summary-Approve','Commissions Approve'])
+                                          <td>
+                                              @if($item->status === 'Approve')
+                                                  <span class="text-success">✔️</span>
+                                              @else
+                                                  <span class="text-danger">❌</span>
+                                              @endif
+                                          </td>
+                                          @endcan
+
                                         <td>
                                             <span class="badge {{ $item->emp_status === 'Resign' ? 'bg-danger' : 'bg-success' }}">
                                                 {{ $item->emp_status }}
@@ -263,6 +308,29 @@
                 <div class="modal-body">
                     <label for="reason">Reason<span class="text-danger">*</span></label>
                     <textarea name="fin_comment" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Reject</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="summary-rejectModal-{{ $commission->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{ route('commissions.updateStatus', $commission->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="status" value="Summary Reject(Manager)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reject Commission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="reason">Reason<span class="text-danger">*</span></label>
+                    <textarea name="hr_comment" class="form-control" rows="3" required></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -392,7 +460,7 @@ function approveSwal(id) {
     document.getElementById('selected_sales_' + id).value = selected.join(',');
 
     Swal.fire({
-        title: 'ยืนยันการ Summary Approve?',
+        title: 'ยืนยันการ Confirm?',
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'ยืนยัน',
@@ -410,6 +478,22 @@ function approveSwal_final(id) {
     Swal.fire({
         title: 'ยืนยันการ Approve?',
         text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น Final Approve",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ใช่, Approve เลย!',
+        cancelButtonText: 'ยกเลิก',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('approve-form-' + id).submit();
+        }
+    });
+}
+
+function approveSwal_Summary(id) {
+    Swal.fire({
+        title: 'ยืนยันการ Summary Approve?',
+        text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น Summary Approve",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'ใช่, Approve เลย!',

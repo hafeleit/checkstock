@@ -88,8 +88,6 @@
                           </div>
                           @endcan
 
-
-
                       @endif
                       @if ($commission->status === 'imported')
                           <!-- ปุ่ม Calculate Commission -->
@@ -112,6 +110,7 @@
                         </button>
                         @endcan
                         @can('Commissions Summary-Confirm')
+                        <!--
                         <div class="ms-auto">
                             <form id="approve-form-{{ $commission->id }}"
                                   action="{{ route('commissions.updateStatus', $commission->id) }}"
@@ -126,8 +125,19 @@
                                 </button>
                             </form>
                         </div>
+                        -->
                         @endcan
+
                       @endif
+
+                      @can('Commissions Summary-Confirm')
+                      <div class="ms-auto">
+                        <a href="{{ route('commissions.sales-summary', $commission->id) }}"
+                           class="btn btn-sm bg-gradient-info px-3">
+                            <i class="fas fa-file-export me-1"></i> ดูยอดรวม
+                        </a>
+                      </div>
+                      @endcan
 
                     </div>
 
@@ -136,8 +146,7 @@
                             <thead>
                                 <tr>
                                   <th onclick="sortTable(0)">Type <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(1)">Account <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(2)">Name <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(1)">Account<i class="fas fa-sort"></i></th>
                                   <th onclick="sortTable(3)">Reference <i class="fas fa-sort"></i></th>
                                   <th onclick="sortTable(4)">Reference Document <i class="fas fa-sort"></i></th>
                                   <th onclick="sortTable(5)">Document Date <i class="fas fa-sort"></i></th>
@@ -147,18 +156,12 @@
                                   <th onclick="sortTable(9)">Document Type <i class="fas fa-sort"></i></th>
                                   <th onclick="sortTable(10)">Text <i class="fas fa-sort"></i></th>
                                   <th onclick="sortTable(11)">Sales Rep <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(12)">Emp Status <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(13)">Division <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(14)">Billing Ref <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(15)">Sales Doc <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(16)">SalesOrder Date <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(17)">CN. (No.) <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(18)">CN. Date <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(19)">Tax-Invoice <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(20)">Rate (days) <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(21)">Rate (%) <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(22)">Commission <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(23)">Remark <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(12)">Division <i class="fas fa-sort"></i></th>
+
+                                  <th onclick="sortTable(13)">Rate (days) <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(14)">Rate (%) <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(15)">Commission <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(16)">Remark <i class="fas fa-sort"></i></th>
                                   <th></th> <!-- ปุ่มหรือ action อื่นๆ -->
                                 </tr>
 
@@ -167,8 +170,7 @@
                                 @forelse ($commissionArs as $ar)
                                     <tr>
                                         <td>{{ $ar->type }}</td>
-                                        <td>{{ $ar->account }}</td>
-                                        <td>{{ $ar->name }}</td>
+                                        <td>{{ $ar->account . ' - ' . $ar->name }}</td>
                                         <td>{{ $ar->reference }}</td>
                                         <td>{{ $ar->reference_key }}</td>
                                         <td>{{ $ar->document_date }}</td>
@@ -181,16 +183,9 @@
                                         <td>{{ $ar->clearing_document }}</td>
                                         <td>{{ $ar->document_type }}</td>
                                         <td>{{ $ar->text }}</td>
-                                        <td>{{ $ar->sales_rep }}</td>
-                                        <td>{{ $ar->name_en }}</td>
+                                        <td>{{ $ar->sales_rep . ' - ' . $ar->name_en }}</td>
                                         <td>{{ $ar->division }}</td>
 
-                                        <td>{{ $ar->cn_billing_ref }}</td>
-                                        <td>{{ $ar->cn_sales_doc }}</td>
-                                        <td>{{ $ar->cn_order_date }}</td>
-                                        <td>{{ $ar->cn_no }}</td>
-                                        <td>{{ $ar->cn_date }}</td>
-                                        <td>{{ $ar->cn_tax_invoice }}</td>
                                         <td class="text-end">
                                           @if($ar->ar_rate_percent != '')
                                           {{ number_format($ar->ar_rate) }}

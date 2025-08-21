@@ -283,11 +283,10 @@ class CommissionController extends Controller
              'status' => 'required|string|max:50',
              'selected_sales' => 'nullable|string' // ค่า sales_rep ที่ส่งมาเป็นคอมมา
          ]);
+
          $commission = Commission::findOrFail($id);
          $commission->status = $request->status;
 
-
-         // ถ้ามีเหตุผลให้บันทึกใน hr_comment
          if ($request->filled('hr_comment')) {
              $commission->hr_comment = $request->hr_comment;
          }
@@ -296,17 +295,35 @@ class CommissionController extends Controller
              $commission->fin_comment = $request->fin_comment;
          }
 
-        $commission->save();
+         if (empty($request->hr_comment) && empty($request->fin_comment)) {
 
-         // ถ้ามี selected_sales ให้ไปอัปเดต CommissionAR
-         if (!empty($request->selected_sales)) {
-             $salesReps = explode(',', $request->selected_sales);
-             CommissionsAr::whereIn('sales_rep', $salesReps)
-                 ->update(['status' => 'Approve']);
+           if (!empty($request->selected_sales)) {
+               $salesReps = explode(',', $request->selected_sales);
+
+               // อัปเดตเป็น Approve สำหรับ sales ที่ติ๊ก
+               CommissionsAr::where('commissions_id', $commission->id)
+                   ->whereIn('sales_rep', $salesReps)
+                   ->update(['status' => 'Approve']);
+
+               // เอาคนที่ไม่ได้ติ๊กออกจาก Approve
+               CommissionsAr::where('commissions_id', $commission->id)
+                   ->whereNotIn('sales_rep', $salesReps)
+                   ->where('status', 'Approve')
+                   ->update(['status' => null]); // หรือ 'Pending'
+           } /*else {
+               // ไม่ได้ติ๊กอะไรเลย → ลบ Approve ทั้งหมด สำหรับ commission นี้
+               CommissionsAr::where('commissions_id', $commission->id)
+                   ->where('status', 'Approve')
+                   ->update(['status' => null]); // หรือ 'Pending'
+           }*/
+
          }
 
-         return back()->with('succes', 'Status updated successfully.');
+         $commission->save();
+
+         return back()->with('success', 'Status updated successfully.');
      }
+
 
 
      public function index()
