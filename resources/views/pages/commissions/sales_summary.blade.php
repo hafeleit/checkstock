@@ -133,7 +133,7 @@
                                 <button type="button"
                                         class="btn btn-sm bg-gradient-info px-3 me-2"
                                         onclick="approveSwal_final('{{ $commission->id }}')">
-                                    <i class="fas fa-check me-1"></i>Final Approved
+                                    <i class="fas fa-check me-1"></i>Final Approve
                                 </button>
                             </form>
                         </div>
@@ -158,7 +158,7 @@
                                 <button type="button"
                                         class="btn btn-sm bg-gradient-info px-3 me-2"
                                         onclick="approveSwal_Summary('{{ $commission->id }}')">
-                                    <i class="fas fa-check me-1"></i>Summary Approved
+                                    <i class="fas fa-check me-1"></i>Summary Approve
                                 </button>
                             </form>
                         </div>
@@ -184,7 +184,7 @@
                                 <button type="button"
                                         class="btn btn-sm bg-gradient-info px-3 me-2"
                                         onclick="approveSwal('{{ $commission->id }}')">
-                                    <i class="fas fa-check me-1"></i>Summary Confirmed
+                                    <i class="fas fa-check me-1"></i>Summary Confirm
                                 </button>
                             </form>
                         </div>
@@ -476,7 +476,7 @@ function approveSwal(id) {
 
 function approveSwal_final(id) {
     Swal.fire({
-        title: 'ยืนยันการ Approve?',
+        title: 'ยืนยันการ Final Approve?',
         text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น Final Approved",
         icon: 'warning',
         showCancelButton: true,
@@ -492,7 +492,7 @@ function approveSwal_final(id) {
 
 function approveSwal_Summary(id) {
     Swal.fire({
-        title: 'ยืนยันการ Summary Approved?',
+        title: 'ยืนยันการ Summary Approve?',
         text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น Summary Approved",
         icon: 'warning',
         showCancelButton: true,

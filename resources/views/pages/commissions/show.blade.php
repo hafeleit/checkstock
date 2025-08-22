@@ -147,7 +147,7 @@
                                   <button type="button"
                                           class="btn btn-sm bg-gradient-info px-3"
                                           onclick="approveSwal('{{ $commission->id }}')">
-                                      <i class="fas fa-check me-1"></i>AR Approved
+                                      <i class="fas fa-check me-1"></i>AR Approve
                                   </button>
                               </form>
                           </div>
