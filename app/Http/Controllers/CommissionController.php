@@ -616,7 +616,6 @@ class CommissionController extends Controller
               ->select('account','name','document_type','reference','reference_key','document_date','clearing_date','amount_in_local_currency','local_currency','clearing_document','text','posting_key','sales_rep','ar_rate','ar_rate_percent','commissions')
               ->where('commissions_id', $oldCommissionId)
               ->where('commissions', '!=', '')
-              ->where('delete', 0)
               ->whereNull('status')
               ->get();
 
