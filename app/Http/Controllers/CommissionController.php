@@ -453,7 +453,10 @@ class CommissionController extends Controller
              ");
 
 
-         $commissionArs = CommissionsAr::select('commissions_ars.*', 'user_masters.*')
+         $commissionArs = CommissionsAr::select(
+            'commissions_ars.*',
+            'user_masters.*'
+            )
              ->leftJoinSub($subUser, 'user_masters', function ($join) {
                  $join->on(DB::raw("SUBSTRING(commissions_ars.sales_rep, 4)"), '=', 'user_masters.job_code');
              })
@@ -463,7 +466,8 @@ class CommissionController extends Controller
                      $q->where('commissions_ars.account', 'like', "%$search%")
                        ->orWhere('commissions_ars.name', 'like', "%$search%")
                        ->orWhere('commissions_ars.sales_rep', 'like', "%$search%")
-                       ->orWhere('commissions_ars.reference_key', 'like', "%$search%");
+                       ->orWhere('commissions_ars.reference_key', 'like', "%$search%")
+                       ->orWhere('user_masters.name_en', 'like', "%$search%");
                  });
              })
              ->orderBy('commissions_ars.id', 'desc')
@@ -491,7 +495,11 @@ class CommissionController extends Controller
 
          $salesReps = CommissionsAr::select('sales_rep')->groupBy('sales_rep')->orderBy('sales_rep')->get();
 
-         return view('pages.commissions.show', compact('commission', 'commissionArs', 'search', 'schemaTable', 'columns', 'salesReps'));
+         $totalInitial = CommissionsAr::where('commissions_id', $commission->id)->where('type','!=','Adjust')->sum('commissions');
+         $totalAdjustment = CommissionsAr::where('commissions_id', $commission->id)->where('type','Adjust')->sum('commissions');
+         $totalCommissions = CommissionsAr::where('commissions_id', $commission->id)->sum('commissions');
+
+         return view('pages.commissions.show', compact('commission', 'commissionArs', 'search', 'schemaTable', 'columns', 'salesReps', 'totalInitial', 'totalAdjustment', 'totalCommissions'));
      }
 
     /**
@@ -588,12 +596,58 @@ class CommissionController extends Controller
           }
       }
 
-      // ✅ อัปเดต status ของ Commission เป็น "Calculate"
+      // ✅ อัปเดต status ของ Commission เป็น "calculated"
       $commission = Commission::find($id);
+
       if ($commission) {
-          $commission->status = 'calculate';
+          // อัปเดตสถานะ
+          $commission->status = 'calculated';
           $commission->save();
+
+          // หา commission id เก่า (ล่าสุด - 1)
+          $latestId = Commission::where('delete', 0)->max('id');
+
+          $oldCommissionId = Commission::where('delete', 0)
+              ->where('id', '<', $latestId)
+              ->max('id');
+
+          // ดึงข้อมูล commissions_ars ที่ตรงเงื่อนไขจาก commission id เก่า
+          $ars = DB::table('commissions_ars')
+              ->select('account','name','document_type','reference','reference_key','document_date','clearing_date','amount_in_local_currency','local_currency','clearing_document','text','posting_key','sales_rep','ar_rate','ar_rate_percent','commissions')
+              ->where('commissions_id', $oldCommissionId)
+              ->where('commissions', '!=', '')
+              ->where('delete', 0)
+              ->whereNull('status')
+              ->get();
+
+          // copy ข้อมูลเก่า → มาใส่ commission id ใหม่ ($id)
+          foreach ($ars as $ar) {
+              DB::table('commissions_ars')->insert([
+                  'type'                   => 'AR Old',
+                  'commissions_id'         => $id,  // ใช้ commission id ล่าสุด
+                  'account'                => $ar->account,
+                  'name'                   => $ar->name,
+                  'document_type'          => $ar->document_type,
+                  'reference'              => $ar->reference,
+                  'reference_key'          => $ar->reference_key,
+                  'document_date'          => $ar->document_date,
+                  'clearing_date'          => $ar->clearing_date,
+                  'amount_in_local_currency' => $ar->amount_in_local_currency,
+                  'local_currency'         => $ar->local_currency,
+                  'clearing_document'      => $ar->clearing_document,
+                  'text'                   => $ar->text,
+                  'posting_key'            => $ar->posting_key,
+                  'sales_rep'              => $ar->sales_rep,
+                  'ar_rate'              => $ar->ar_rate,
+                  'ar_rate_percent'              => $ar->ar_rate_percent,
+                  'commissions'              => $ar->commissions,
+                  'status'                 => null, // reset ใหม่
+                  'created_at'             => now(),
+                  'updated_at'             => now(),
+              ]);
+          }
       }
+
 
       return back()->with('succes', 'คำนวณค่าคอมมิชชั่นสำเร็จแล้ว');
     }

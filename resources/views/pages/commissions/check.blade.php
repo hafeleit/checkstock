@@ -170,17 +170,11 @@
                                         <th onclick="sortTable(4)">Clearing Date <i class="fas fa-sort"></i></th>
                                         <th onclick="sortTable(5)">Amount <i class="fas fa-sort"></i></th>
                                         <th onclick="sortTable(6)">Clearing Document <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(7)">Sales Rep <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(8)">Billing Ref <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(9)">Sales Doc <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(10)">SalesOrder Date <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(11)">CN. (No.) <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(12)">CN. date (Date) <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(13)">Tax-Invoice <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(14)">Rate (days) <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(15)">Rate (%) <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(16)">Commission <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(17)">Remark <i class="fas fa-sort"></i></th>
+
+                                        <th onclick="sortTable(7)">Rate (days) <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(8)">Rate (%) <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(9)">Commission <i class="fas fa-sort"></i></th>
+                                        <th onclick="sortTable(10)">Remark <i class="fas fa-sort"></i></th>
                                     </tr>
                             </thead>
                             <tbody>
@@ -197,13 +191,7 @@
                                                 : '-' }}
                                         </td>
                                         <td>{{ $ar->clearing_document }}</td>
-                                        <td>{{ $ar->sales_rep }}</td>
-                                        <td>{{ $ar->cn_billing_ref }}</td>
-                                        <td>{{ $ar->cn_sales_doc }}</td>
-                                        <td>{{ $ar->cn_order_date }}</td>
-                                        <td>{{ $ar->cn_no }}</td>
-                                        <td>{{ $ar->cn_date }}</td>
-                                        <td>{{ $ar->cn_tax_invoice }}</td>
+
                                         <td class="text-end">
                                           @if($ar->ar_rate_percent != '')
                                           {{ number_format($ar->ar_rate) }}

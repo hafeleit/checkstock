@@ -29,6 +29,71 @@
       </div>
   @endif
     <div class="row">
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+              <div class="card-body p-3">
+                  <div class="row">
+                      <div class="col-8">
+                          <div class="numbers">
+                              <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Initial</p>
+                              <h5 class="font-weight-bolder">
+                                  {{ number_format( $totalInitial, 2 ) }}
+                              </h5>
+                          </div>
+                      </div>
+                      <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                            <i class="ni ni-chart-bar-32 text-lg opacity-10" aria-hidden="true"></i>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+              <div class="card-body p-3">
+                  <div class="row">
+                      <div class="col-8">
+                          <div class="numbers">
+                              <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Adjustment</p>
+                              <h5 class="font-weight-bolder">
+                                  {{ number_format( $totalAdjustment, 2 ) }}
+                              </h5>
+                          </div>
+                      </div>
+                      <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-primary shadow-success text-center rounded-circle">
+                            <i class="ni ni-curved-next text-lg opacity-10" aria-hidden="true"></i>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+              <div class="card-body p-3">
+                  <div class="row">
+                      <div class="col-8">
+                          <div class="numbers">
+                              <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Commission</p>
+                              <h5 class="font-weight-bolder">
+                                  {{ number_format( $totalCommissions, 2 ) }}
+                              </h5>
+                          </div>
+                      </div>
+                      <div class="col-4 text-end">
+                          <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                              <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="row mt-4">
         <div class="col-12">
             <div class="card shadow-sm">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -48,7 +113,7 @@
                 <div class="card-body pt-3">
                     <form method="GET" class="row g-2 mb-4">
                         <div class="col-md-10 col-sm-12">
-                            <input type="text" name="search" class="form-control" placeholder="ค้นหา Account, Name, Reference Document หรือ Sales Rep" value="{{ request('search') }}">
+                            <input type="text" name="search" class="form-control" placeholder="ค้นหา Account, Name, Reference Document หรือ Sales Code, Name" value="{{ request('search') }}">
                         </div>
                         <div class="col-md-2 col-sm-12 text-end">
                             <button type="submit" class="btn bg-gradient-success w-100">
@@ -63,7 +128,7 @@
                               data-bs-target="#schemaModal">
                           <i class="fas fa-table me-1"></i> ดู Schema
                       </button>
-                      @if ($commission->status === 'calculate')
+                      @if ($commission->status === 'calculated')
                           <!-- ปุ่ม Export
                           <button type="button"
                                   class="btn btn-sm bg-gradient-info px-3 me-2"
@@ -78,11 +143,11 @@
                                     method="POST" class="d-inline">
                                   @csrf
                                   @method('PUT')
-                                  <input type="hidden" name="status" value="AR Approve">
+                                  <input type="hidden" name="status" value="AR Approved">
                                   <button type="button"
                                           class="btn btn-sm bg-gradient-info px-3"
                                           onclick="approveSwal('{{ $commission->id }}')">
-                                      <i class="fas fa-check me-1"></i>AR Approve
+                                      <i class="fas fa-check me-1"></i>AR Approved
                                   </button>
                               </form>
                           </div>
@@ -90,17 +155,17 @@
 
                       @endif
                       @if ($commission->status === 'imported')
-                          <!-- ปุ่ม Calculate Commission -->
-                          <form method="POST" action="{{ route('commissions.update', $commission->id) }}" id="calculate-form">
+                          <!-- ปุ่ม calculated Commission -->
+                          <form method="POST" action="{{ route('commissions.update', $commission->id) }}" id="calculated-form">
                               @csrf
                               @method('PUT')
                               <button type="submit" class="btn btn-sm bg-gradient-primary px-3">
-                                  <i class="fas fa-calculator me-1"></i> Calculate Commission
+                                  <i class="fas fa-calculator me-1"></i> calculated Commission
                               </button>
                           </form>
                       @endif
 
-                      @if ($commission->status === 'AR Approve' || $commission->status === 'Summary Confirm')
+                      @if ($commission->status === 'AR Approved' || $commission->status === 'Summary Confirmed')
                         @can('Commissions AR-Adjust')
                         <button type="button"
                                 class="btn btn-sm bg-gradient-warning px-3 me-2"
@@ -117,11 +182,11 @@
                                   method="POST" class="d-inline">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" name="status" value="Summary Confirm">
+                                <input type="hidden" name="status" value="Summary Confirmed">
                                 <button type="button"
                                         class="btn btn-sm bg-gradient-info px-3"
                                         onclick="approveSwal_confirm('{{ $commission->id }}')">
-                                    <i class="fas fa-check me-1"></i>Summary Confirm
+                                    <i class="fas fa-check me-1"></i>Summary Confirmed
                                 </button>
                             </form>
                         </div>
@@ -156,7 +221,7 @@
                                   <th onclick="sortTable(9)">Document Type <i class="fas fa-sort"></i></th>
                                   <th onclick="sortTable(10)">Text <i class="fas fa-sort"></i></th>
                                   <th onclick="sortTable(11)">Sales Rep <i class="fas fa-sort"></i></th>
-                                  <th onclick="sortTable(12)">Division <i class="fas fa-sort"></i></th>
+                                  <th onclick="sortTable(12)">Team <i class="fas fa-sort"></i></th>
 
                                   <th onclick="sortTable(13)">Rate (days) <i class="fas fa-sort"></i></th>
                                   <th onclick="sortTable(14)">Rate (%) <i class="fas fa-sort"></i></th>
@@ -508,7 +573,7 @@ document.getElementById('export-btn')?.addEventListener('click', function () {
 
 
 <script>
-    document.getElementById('calculate-form').addEventListener('submit', function (e) {
+    document.getElementById('calculated-form').addEventListener('submit', function (e) {
         Swal.fire({
             title: 'กำลังคำนวณ...',
             text: 'กรุณารอสักครู่',
@@ -564,7 +629,7 @@ document.getElementById('export-btn')?.addEventListener('click', function () {
     function approveSwal(id) {
         Swal.fire({
             title: 'ยืนยันการ Approve?',
-            text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น AR Approve",
+            text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น AR Approved",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'ใช่, Approve เลย!',

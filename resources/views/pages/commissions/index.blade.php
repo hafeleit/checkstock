@@ -59,7 +59,7 @@
                                       <i class="fas fa-chart-bar me-1"></i> ดูยอดรวม
                                   </a>
                                   @endcan
-                                  @if(in_array($c->status, ['Summary Confirm', 'Summary Approve', 'Final Approve']))
+                                  @if(in_array($c->status, ['Summary Confirmed', 'Summary Approved', 'Final Approved']))
                                     @can('Commissions Check')
                                       <a href="{{ route('commissions.check', $c->id) }}" class="btn btn-sm btn-success">
                                           <i class="fas fa-check-circle me-1"></i> ตรวจสอบ Commission
