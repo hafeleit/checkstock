@@ -2,10 +2,92 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'รายละเอียด Commission'])
+<style>
+  .table-scroll-wrapper {
+      position: relative;
+  }
+
+  .table-scroll-top {
+      overflow-x: auto;
+      overflow-y: hidden;
+      height: 20px;           /* ความสูงให้เห็น scrollbar */
+      background: #f8f9fa;    /* สีพื้นหลังให้แยกจาก table */
+      border-bottom: 1px solid #dee2e6;
+  }
+
+  .table-scroll-bottom {
+      overflow-x: auto;       /* table เลื่อนได้จริง */
+  }
+
+  .table-scroll-top div {
+      height: 1px;            /* spacer */
+  }
+  .go-top-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0d6efd;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+      z-index: 9999;
+  }
+
+  .go-top-btn:hover {
+      background: #0b5ed7;
+      transform: translateY(-4px);
+  }
+  .go-top-btn.show {
+      opacity: 1;
+      visibility: visible;
+  }
+
+  /* ปรับใช้กับ scrollbar ทั้งบนและล่าง */
+  .table-scroll-top::-webkit-scrollbar,
+  .table-scroll-bottom::-webkit-scrollbar {
+      height: 10px; /* ความสูงของ scrollbar */
+  }
+
+  .table-scroll-top::-webkit-scrollbar-track,
+  .table-scroll-bottom::-webkit-scrollbar-track {
+      background: #f1f1f1; /* สีพื้นหลัง track */
+      border-radius: 10px;
+  }
+
+  .table-scroll-top::-webkit-scrollbar-thumb,
+  .table-scroll-bottom::-webkit-scrollbar-thumb {
+      background: linear-gradient(45deg, #4facfe, #00f2fe); /* gradient thumb */
+      border-radius: 10px;
+      border: 2px solid #f1f1f1; /* ทำให้ดูเป็นแท่งนูนขึ้น */
+  }
+
+  .table-scroll-top::-webkit-scrollbar-thumb:hover,
+  .table-scroll-bottom::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(45deg, #43e97b, #38f9d7); /* เปลี่ยนสีเวลา hover */
+  }
+
+  /* สำหรับ Firefox */
+  .table-scroll-top,
+  .table-scroll-bottom {
+      scrollbar-color: #dcdcdc #f1f1f1; /* thumb, track */
+      scrollbar-width: thin;
+  }
+
+</style>
 <div id="alert">
     @include('components.alert')
 </div>
-
+<!-- ปุ่ม Go to Top -->
+<button id="goTopBtn" class="go-top-btn">
+  <i class="fas fa-arrow-up"></i>
+</button>
 <div class="container-fluid py-4">
   @if ($errors->any())
       <div class="alert alert-danger">
@@ -111,55 +193,24 @@
                     </form>
                     <div class="col-lg-12 col-md-3 col-sm-6 d-flex ">
                       <button type="button"
-                              class="btn btn-sm bg-gradient-secondary px-3"
+                              class="btn btn-sm bg-gradient-secondary px-3 me-2"
                               data-bs-toggle="modal"
                               data-bs-target="#schemaModal">
                           <i class="fas fa-table me-1"></i> ดู Schema
                       </button>
                       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                      <a href="{{ route('commissions.summary-sales-export', $commission->id) }}"
+                         class="btn btn-sm bg-gradient-success px-3">
+                          <i class="fas fa-file-excel me-1"></i> Export
+                      </a>
                     </div>
-                    <script>
-                        let sortDirection = {};
 
-                        function sortTable(colIndex) {
-                          const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
-                          const rows = Array.from(table.rows).slice(1);
-                          const isAsc = sortDirection[colIndex] = !sortDirection[colIndex];
-
-                          rows.sort((a, b) => {
-                            const aText = a.cells[colIndex]?.innerText.trim();
-                            const bText = b.cells[colIndex]?.innerText.trim();
-
-                            const parseValue = (text) => {
-                              const cleanText = text.replace(/,/g, '').trim(); // ลบ comma
-                              const number = parseFloat(cleanText);
-                              return isNaN(number) ? cleanText.toLowerCase() : number;
-                            };
-
-                            const aVal = parseValue(aText);
-                            const bVal = parseValue(bText);
-
-
-                            return isAsc ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
-                          });
-
-                          const tbody = table.tBodies[0];
-                          rows.forEach(row => tbody.appendChild(row));
-
-                          // เปลี่ยน icon
-                          const headers = table.querySelectorAll("th");
-                          headers.forEach((th, idx) => {
-                            const icon = th.querySelector("i");
-                            if (icon) {
-                              icon.className = "fas fa-sort";
-                              if (idx === colIndex) {
-                                icon.className = isAsc ? "fas fa-sort-up" : "fas fa-sort-down";
-                              }
-                            }
-                          });
-                        }
-                    </script>
-                    <div class="table-responsive">
+                  <div class="table-scroll-wrapper">
+                <!-- Scrollbar ด้านบน -->
+                    <div class="table-scroll-top">
+                        <div style="height:1px;"></div> <!-- จะกำหนดความกว้างด้วย JS -->
+                    </div>
+                    <div class="table-responsive  table-scroll-bottom">
                         <table class="table table-hover align-items-center" id="sortableTable">
                             <thead>
                                     <tr>
@@ -208,6 +259,28 @@
                             </tbody>
                         </table>
                     </div>
+                  </div>
+                  <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const topScroll = document.querySelector(".table-scroll-top");
+                        const spacer = topScroll.querySelector("div");
+                        const bottomScroll = document.querySelector(".table-scroll-bottom");
+                        const table = bottomScroll.querySelector("table");
+
+                        // กำหนดความกว้าง scrollbar ด้านบนให้เท่ากับ table
+                        spacer.style.width = table.scrollWidth + "px";
+                        spacer.style.height = "1px"; // สำคัญ ไม่งั้นมันจะ collapse
+
+                        // sync scroll
+                        topScroll.addEventListener("scroll", () => {
+                            bottomScroll.scrollLeft = topScroll.scrollLeft;
+                        });
+                        bottomScroll.addEventListener("scroll", () => {
+                            topScroll.scrollLeft = bottomScroll.scrollLeft;
+                        });
+                    });
+
+                  </script>
                 </div>
             </div>
         </div>
@@ -300,6 +373,63 @@
     </div>
   </div>
 </div>
+<script>
+    let sortDirection = {};
+
+    function sortTable(colIndex) {
+      const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
+      const rows = Array.from(table.rows).slice(1);
+      const isAsc = sortDirection[colIndex] = !sortDirection[colIndex];
+
+      rows.sort((a, b) => {
+        const aText = a.cells[colIndex]?.innerText.trim();
+        const bText = b.cells[colIndex]?.innerText.trim();
+
+        const parseValue = (text) => {
+          const cleanText = text.replace(/,/g, '').trim(); // ลบ comma
+          const number = parseFloat(cleanText);
+          return isNaN(number) ? cleanText.toLowerCase() : number;
+        };
+
+        const aVal = parseValue(aText);
+        const bVal = parseValue(bText);
 
 
+        return isAsc ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
+      });
+
+      const tbody = table.tBodies[0];
+      rows.forEach(row => tbody.appendChild(row));
+
+      // เปลี่ยน icon
+      const headers = table.querySelectorAll("th");
+      headers.forEach((th, idx) => {
+        const icon = th.querySelector("i");
+        if (icon) {
+          icon.className = "fas fa-sort";
+          if (idx === colIndex) {
+            icon.className = isAsc ? "fas fa-sort-up" : "fas fa-sort-down";
+          }
+        }
+      });
+    }
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const goTopBtn = document.getElementById("goTopBtn");
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+            goTopBtn.classList.add("show");
+        } else {
+            goTopBtn.classList.remove("show");
+        }
+    });
+
+    goTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+});
+
+</script>
 @endsection

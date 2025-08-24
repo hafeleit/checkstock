@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use App\Exports\CommissionsExport;
 
 class CommissionController extends Controller
 {
@@ -34,6 +35,22 @@ class CommissionController extends Controller
        $filename = "{$subId}_{$date}.xlsx";
 
        return Excel::download(new CommissionExport($id), $filename);
+     }
+
+     public function summarySalesExport($id)
+     {
+         $users = DB::table('user_masters')
+             ->where('employee_code', Auth::user()->emp_code)
+             ->select('job_code', 'division')
+             ->first();
+
+         if ($users) {
+             $sales_rep = 'HTH' . $users->job_code;
+         } else {
+             $sales_rep = null;
+         }
+
+         return Excel::download(new CommissionsExport($id, $sales_rep), 'commissions-summary-sales.xlsx');
      }
 
      public function summary_export($id)
@@ -190,7 +207,8 @@ class CommissionController extends Controller
                  DB::raw('u1.name_en as name_en'),
                  DB::raw('u1.division as division'),
                  DB::raw('u1.effecttive_date as effecttive_date'),
-                 DB::raw('u1.status as emp_status')
+                 DB::raw('u1.status as emp_status'),
+                 DB::raw('u1.position as emp_position')
              )
              ->whereRaw("
                  NOT EXISTS (
@@ -236,6 +254,7 @@ class CommissionController extends Controller
                      'user_masters.division',
                      'user_masters.effecttive_date',
                      'user_masters.emp_status',
+                     'user_masters.emp_position',
                      DB::raw('SUM(commissions_ars.commissions) as total_commissions'),
                      DB::raw("SUM(CASE WHEN commissions_ars.type = 'Adjust' THEN commissions_ars.commissions ELSE 0 END) AS total_adjust"),
                      DB::raw("SUM(CASE WHEN commissions_ars.type != 'Adjust' THEN commissions_ars.commissions ELSE 0 END) AS total_initial")
@@ -364,25 +383,39 @@ class CommissionController extends Controller
         }
 
         $users = DB::table('user_masters')
-             ->where('employee_code', Auth::user()->emp_code)
-             ->value('job_code');
-        $users = $users ? 'HTH' . $users : null;
+            ->where('employee_code', Auth::user()->emp_code)
+            ->select('job_code', 'division')
+            ->first();
+
+        if ($users) {
+            $sales_rep   = 'HTH' . $users->job_code;
+            $division  = $users->division;
+        } else {
+            $jobCode   = null;
+            $division  = null;
+        }
+
 
         $search = $request->input('search');
         $commission = Commission::findOrFail($id);
-        $commissionArs = CommissionsAr::where('commissions_id',$id)->where('sales_rep', $users)
+        $commissionArs = CommissionsAr::where('commissions_id',$id)
+            ->where('sales_rep', $sales_rep)
+            ->where('status','Approve')
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->Where('commissions_ars.reference_key', 'like', "%$search%");
                 });
             })
+            ->orderBy('document_date','asc')
             ->get();
         // ตรวจสอบก่อนดึง
         $schemaTable = [];
         $columns = ['0-30', '31-60', '61-90', '91-120', '121-150', '151-365'];
 
         if ($commission->schema_id) {
-            $schemaDetails = CommissionsSchemaDetail::where('commissions_schemas_id', $commission->schema_id)->get();
+            $schemaDetails = CommissionsSchemaDetail::where('commissions_schemas_id', $commission->schema_id)
+            ->where('division_name',$division)
+            ->get();
 
             foreach ($schemaDetails as $detail) {
                 $division = $detail->division_name;
@@ -396,9 +429,9 @@ class CommissionController extends Controller
             }
         }
 
-        $totalInitial = CommissionsAr::where('commissions_id', $id)->where('sales_rep', $users)->where('type','!=','Adjust')->sum('commissions');
-        $totalAdjustment = CommissionsAr::where('commissions_id', $id)->where('sales_rep', $users)->where('type','Adjust')->sum('commissions');
-        $totalCommissions = CommissionsAr::where('commissions_id', $id)->where('sales_rep', $users)->sum('commissions');
+        $totalInitial = CommissionsAr::where('commissions_id', $id)->where('sales_rep', $sales_rep)->where('type','!=','Adjust')->where('status','Approve')->sum('commissions');
+        $totalAdjustment = CommissionsAr::where('commissions_id', $id)->where('sales_rep', $sales_rep)->where('type','Adjust')->where('status','Approve')->sum('commissions');
+        $totalCommissions = CommissionsAr::where('commissions_id', $id)->where('sales_rep', $sales_rep)->where('status','Approve')->sum('commissions');
 
         return view('pages.commissions.check', compact('commissionArs','commission','schemaTable','columns','totalInitial','totalAdjustment','totalCommissions'));
      }
@@ -471,7 +504,7 @@ class CommissionController extends Controller
                  });
              })
              ->orderBy('commissions_ars.id', 'desc')
-             ->paginate(200)
+             ->paginate(50)
              ->withQueryString();
 
              // ตรวจสอบก่อนดึง
@@ -499,7 +532,12 @@ class CommissionController extends Controller
          $totalAdjustment = CommissionsAr::where('commissions_id', $commission->id)->where('type','Adjust')->sum('commissions');
          $totalCommissions = CommissionsAr::where('commissions_id', $commission->id)->sum('commissions');
 
-         return view('pages.commissions.show', compact('commission', 'commissionArs', 'search', 'schemaTable', 'columns', 'salesReps', 'totalInitial', 'totalAdjustment', 'totalCommissions'));
+         $previousRemarks = CommissionsAr::select('remark')
+           ->groupBy('remark')
+           ->orderBy('remark', 'asc')
+           ->pluck('remark') // เอาเฉพาะ column remark เป็น array
+           ->toArray();
+         return view('pages.commissions.show', compact('commission', 'commissionArs', 'search', 'schemaTable', 'columns', 'salesReps', 'totalInitial', 'totalAdjustment', 'totalCommissions','previousRemarks'));
      }
 
     /**

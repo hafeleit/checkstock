@@ -2,10 +2,92 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'ยอดรวม Commission ราย Sales Rep'])
+<style>
+  .table-scroll-wrapper {
+      position: relative;
+  }
+
+  .table-scroll-top {
+      overflow-x: auto;
+      overflow-y: hidden;
+      height: 20px;           /* ความสูงให้เห็น scrollbar */
+      background: #f8f9fa;    /* สีพื้นหลังให้แยกจาก table */
+      border-bottom: 1px solid #dee2e6;
+  }
+
+  .table-scroll-bottom {
+      overflow-x: auto;       /* table เลื่อนได้จริง */
+  }
+
+  .table-scroll-top div {
+      height: 1px;            /* spacer */
+  }
+  .go-top-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0d6efd;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+      z-index: 9999;
+  }
+
+  .go-top-btn:hover {
+      background: #0b5ed7;
+      transform: translateY(-4px);
+  }
+  .go-top-btn.show {
+      opacity: 1;
+      visibility: visible;
+  }
+
+  /* ปรับใช้กับ scrollbar ทั้งบนและล่าง */
+  .table-scroll-top::-webkit-scrollbar,
+  .table-scroll-bottom::-webkit-scrollbar {
+      height: 10px; /* ความสูงของ scrollbar */
+  }
+
+  .table-scroll-top::-webkit-scrollbar-track,
+  .table-scroll-bottom::-webkit-scrollbar-track {
+      background: #f1f1f1; /* สีพื้นหลัง track */
+      border-radius: 10px;
+  }
+
+  .table-scroll-top::-webkit-scrollbar-thumb,
+  .table-scroll-bottom::-webkit-scrollbar-thumb {
+      background: linear-gradient(45deg, #4facfe, #00f2fe); /* gradient thumb */
+      border-radius: 10px;
+      border: 2px solid #f1f1f1; /* ทำให้ดูเป็นแท่งนูนขึ้น */
+  }
+
+  .table-scroll-top::-webkit-scrollbar-thumb:hover,
+  .table-scroll-bottom::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(45deg, #43e97b, #38f9d7); /* เปลี่ยนสีเวลา hover */
+  }
+
+  /* สำหรับ Firefox */
+  .table-scroll-top,
+  .table-scroll-bottom {
+      scrollbar-color: #dcdcdc #f1f1f1; /* thumb, track */
+      scrollbar-width: thin;
+  }
+
+</style>
 <div id="alert">
     @include('components.alert')
 </div>
-
+<!-- ปุ่ม Go to Top -->
+<button id="goTopBtn" class="go-top-btn">
+  <i class="fas fa-arrow-up"></i>
+</button>
 <div class="container-fluid py-4">
   @if ($errors->any())
       <div class="alert alert-danger">
@@ -99,7 +181,7 @@
                 </div>
 
                 <div class="card-body pt-3">
-                    <form method="GET" class="row g-2 mb-4">
+                    <form method="GET" class="row g-2 mb-2">
                         <div class="col-md-10 col-sm-12">
                             <input type="text" name="search" class="form-control" placeholder="ค้นหา Sales Rep หรือ Sales Name" value="{{ request('search') }}">
                         </div>
@@ -110,6 +192,11 @@
                         </div>
                     </form>
                     <div class="col-lg-12 col-md-3 col-sm-6 d-flex ">
+
+                      <a href="{{ route('commissions.show', $commission->id) }}"
+                         class="btn btn-sm bg-gradient-info px-3">
+                          <i class="fas fa-file-export me-1"></i> ดูรายละเอียด
+                      </a>
                       @if ($commission->status === 'Final Approved')
                         @can('Commissions Summary-Export')
                         <button type="button"
@@ -201,8 +288,12 @@
                       @endif
 
                     </div>
-
-                    <div class="table-responsive">
+                <div class="table-scroll-wrapper">
+                <!-- Scrollbar ด้านบน -->
+                  <div class="table-scroll-top">
+                      <div style="height:1px;"></div> <!-- จะกำหนดความกว้างด้วย JS -->
+                  </div>
+                    <div class="table-responsive table-scroll-bottom">
                         <table class="table table-hover align-items-center" id="sortableTable">
                             <thead>
                                 <tr>
@@ -220,10 +311,11 @@
                                     <th onclick="sortTable(2)">Effecttive Date <i class="fas fa-sort"></i></th>
                                     <th onclick="sortTable(3)">Sales Rep <i class="fas fa-sort"></i></th>
                                     <th onclick="sortTable(4)">Sales Name <i class="fas fa-sort"></i></th>
-                                    <th onclick="sortTable(5)">Team <i class="fas fa-sort"></i></th>
-                                    <th class="text-end" onclick="sortTable(6)">Total Initial <i class="fas fa-sort"></i></th>
-                                    <th class="text-end" onclick="sortTable(7)">Total Adjustment <i class="fas fa-sort"></i></th>
-                                    <th class="text-end" onclick="sortTable(8)">Total Commissions <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(5)">Position <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(6)">Team <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" onclick="sortTable(7)">Total Initial <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" onclick="sortTable(8)">Total Adjustment <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" onclick="sortTable(9)">Total Commissions <i class="fas fa-sort"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -253,6 +345,7 @@
                                         <td>{{ $item->sales_rep }}</td>
                                         <td>{{ $item->name_en }}</td>
                                         <td>{{ $item->division }}</td>
+                                        <td>{{ $item->emp_position }}</td>
                                         <td class="text-end">{{ number_format($item->total_initial,2) }}</td>
                                         <td class="text-end">{{ number_format($item->total_adjust,2) }}</td>
                                         <td class="text-end">{{ number_format($item->total_commissions,2) }}</td>
@@ -264,7 +357,28 @@
                             </tbody>
                         </table>
                     </div>
+                  </div>
+                  <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const topScroll = document.querySelector(".table-scroll-top");
+                        const spacer = topScroll.querySelector("div");
+                        const bottomScroll = document.querySelector(".table-scroll-bottom");
+                        const table = bottomScroll.querySelector("table");
 
+                        // กำหนดความกว้าง scrollbar ด้านบนให้เท่ากับ table
+                        spacer.style.width = table.scrollWidth + "px";
+                        spacer.style.height = "1px"; // สำคัญ ไม่งั้นมันจะ collapse
+
+                        // sync scroll
+                        topScroll.addEventListener("scroll", () => {
+                            bottomScroll.scrollLeft = topScroll.scrollLeft;
+                        });
+                        bottomScroll.addEventListener("scroll", () => {
+                            topScroll.scrollLeft = bottomScroll.scrollLeft;
+                        });
+                    });
+
+                  </script>
                 </div>
             </div>
         </div>
@@ -505,5 +619,24 @@ function approveSwal_Summary(id) {
         }
     });
 }
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const goTopBtn = document.getElementById("goTopBtn");
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+            goTopBtn.classList.add("show");
+        } else {
+            goTopBtn.classList.remove("show");
+        }
+    });
+
+    goTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+});
+
 </script>
 @endsection

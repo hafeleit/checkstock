@@ -45,16 +45,8 @@ class CommissionExport implements FromCollection, WithHeadings, WithMapping, Wit
             $row->sales_rep,
 
             $row->user_status,
+            $row->user_position,
             $row->effecttive_date,
-
-            $row->cn_billing_ref,
-            $row->cn_sales_doc,
-            $row->cn_order_date,
-            $row->cn_no,
-            $row->cn_date,
-            $row->cn_sales_name,
-            $row->cn_tax_invoice,
-            $row->cn_sales_doc_name,
 
             $row->ar_rate,
             $row->ar_rate_percent,
@@ -73,7 +65,7 @@ class CommissionExport implements FromCollection, WithHeadings, WithMapping, Wit
 
     public function collection()
     {
-        // สร้าง Subquery ที่จัดอันดับ row ต่อ job_code โดยเรียง status -> effecttive_date
+      /*
         $subQuery = DB::table('user_masters')
             ->select('*')
             ->selectRaw('ROW_NUMBER() OVER (
@@ -87,7 +79,6 @@ class CommissionExport implements FromCollection, WithHeadings, WithMapping, Wit
                     effecttive_date DESC
             ) AS rn');
 
-        // Query หลักจาก commissions_ars
         return CommissionsAr::where('commissions_id', $this->commissionId)
             ->leftJoinSub($subQuery, 'user_masters', function ($join) {
                 $join->on(DB::raw("SUBSTRING(commissions_ars.sales_rep, 4)"), '=', 'user_masters.job_code')
@@ -112,14 +103,81 @@ class CommissionExport implements FromCollection, WithHeadings, WithMapping, Wit
                 'user_masters.status as user_status',
                 'effecttive_date',
 
-                'cn_billing_ref',
-                'cn_sales_doc',
-                'cn_order_date',
-                'cn_no',
-                'cn_date',
-                'cn_sales_name',
-                'cn_tax_invoice',
-                'cn_sales_doc_name',
+                'ar_rate',
+                'ar_rate_percent',
+                'commissions',
+                'adjuster',
+                'remark',
+            ])
+            ->get();
+            */
+
+            $subUser = DB::table('user_masters as u1')
+                ->select(
+                    'u1.job_code as job_code',
+                    'u1.name_en as name_en',
+                    'u1.division as division',
+                    'u1.effecttive_date as effecttive_date',
+                    'u1.status as user_status',
+                    'u1.position as user_position'
+                )
+                ->whereRaw("
+                    NOT EXISTS (
+                        SELECT 1
+                        FROM user_masters u2
+                        WHERE u2.job_code = u1.job_code
+                        AND (
+                            CASE u2.status
+                                WHEN 'Current' THEN 1
+                                WHEN 'Probation' THEN 2
+                                WHEN 'Resign' THEN 3
+                                ELSE 4
+                            END
+                            < CASE u1.status
+                                WHEN 'Current' THEN 1
+                                WHEN 'Probation' THEN 2
+                                WHEN 'Resign' THEN 3
+                                ELSE 4
+                            END
+                            OR (
+                                CASE u2.status
+                                    WHEN 'Current' THEN 1
+                                    WHEN 'Probation' THEN 2
+                                    WHEN 'Resign' THEN 3
+                                    ELSE 4
+                                END
+                                = CASE u1.status
+                                    WHEN 'Current' THEN 1
+                                    WHEN 'Probation' THEN 2
+                                    WHEN 'Resign' THEN 3
+                                    ELSE 4
+                                END
+                                AND u2.effecttive_date > u1.effecttive_date
+                            )
+                        )
+                    )
+                ");
+
+
+            return CommissionsAr::select([
+                'type',
+                'account',
+                'name',
+                'document_type',
+                'reference',
+                'reference_key',
+                'document_date',
+                'clearing_date',
+                'amount_in_local_currency',
+                'local_currency',
+                'clearing_document',
+                'text',
+                'posting_key',
+                'sales_rep',
+
+                'user_masters.user_status as user_status',
+                'user_masters.user_position as user_position',
+                'effecttive_date',
 
                 'ar_rate',
                 'ar_rate_percent',
@@ -127,6 +185,9 @@ class CommissionExport implements FromCollection, WithHeadings, WithMapping, Wit
                 'adjuster',
                 'remark',
             ])
+            ->leftJoinSub($subUser, 'user_masters', function ($join) {
+                $join->on(DB::raw("SUBSTRING(commissions_ars.sales_rep, 4)"), '=', 'user_masters.job_code');
+            })
             ->get();
     }
 
@@ -151,16 +212,8 @@ class CommissionExport implements FromCollection, WithHeadings, WithMapping, Wit
           'sales_rep',
 
           'user status',
+          'user position',
           'effecttive_date',
-
-          'cn_billing_ref',
-          'cn_sales_doc',
-          'cn_order_date',
-          'cn_no',
-          'cn_date',
-          'cn_sales_name',
-          'cn_tax_invoice',
-          'cn_sales_doc_name',
 
           'ar_rate',
           'ar_rate_percent',

@@ -129,7 +129,8 @@ Route::middleware(['auth', 'check.status'])->group( function () {
   Route::put('/commissions/adjust/{id}', [CommissionController::class, 'adjustUpdate'])->name('commissions.adjust.update');
   Route::get('/commissions/{id}/sales-summary', [CommissionController::class, 'salesSummary'])->name('commissions.sales-summary');
   Route::get('/commissions/{id}/check', [CommissionController::class, 'check'])->name('commissions.check');
-
+  Route::get('/commissions/{id}/summary-sales-export', [CommissionController::class, 'summarySalesExport'])->name('commissions.summary-sales-export');
+  
   Route::get('checkstockhww-export', [CheckStockController::class,'export'])->name('checkstockhww-export');
   Route::post('product-new-price-list-import', [CheckStockController::class,'import'])->name('product-new-price-list-import');
   Route::get('onlineorder/download/{file}', [OrderController::class,'download'])->name('onlineorder-download');
