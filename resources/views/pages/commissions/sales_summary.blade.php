@@ -194,7 +194,7 @@
                     <div class="col-lg-12 col-md-3 col-sm-6 d-flex ">
 
                       <a href="{{ route('commissions.show', $commission->id) }}"
-                         class="btn btn-sm bg-gradient-info px-3">
+                         class="btn btn-sm bg-gradient-info px-3 me-2">
                           <i class="fas fa-file-export me-1"></i> ดูรายละเอียด
                       </a>
                       @if ($commission->status === 'Final Approved')
