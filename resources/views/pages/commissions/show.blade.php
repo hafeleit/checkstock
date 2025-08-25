@@ -272,7 +272,7 @@
 
                       @endif
 
-                      @can('Commissions Summary-Confirm')
+                      @can('Commissions Summary-View')
                       <div class="ms-auto">
                         <a href="{{ route('commissions.sales-summary', $commission->id) }}"
                            class="btn btn-sm bg-gradient-info px-3">
