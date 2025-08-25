@@ -23,10 +23,12 @@
                           <th>#</th>
                           <th>Sub ID</th>
                           <th>Status</th>
+                          @cannot('Commissions Check')
                           <th>Schema ID</th>
                           <th>HR Comment</th>
                           <th>FIN Comment</th>
                           <th>Create By</th>
+                          @endcan
                           <th>Date Create</th>
                           <th>Action</th>
                         </tr>
@@ -42,11 +44,12 @@
                                     {{ $c->status }}
                                 </small>
                               </td>
+                              @cannot('Commissions Check')
                               <td>{{ $c->schema_id }}</td>
                               <td>{{ $c->hr_comment }}</td>
                               <td>{{ $c->fin_comment }}</td>
-
                               <td>{{ $c->creator ? $c->creator->username : 'ไม่พบชื่อผู้ใช้' }}</td>
+                              @endcan
                               <td>{{ $c->created_at->format('Y-m-d H:i') }}</td>
                               <td>
                                   @can('Commissions AR-View')
