@@ -87,37 +87,27 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">employee code</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">job code</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">name en</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Devition</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Team</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">position</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">department</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">email</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">status</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">effecttive date</th>
 
                                 </tr>
                             </thead>
                             <tbody>
                               @foreach($user_master as $row)
                                 <tr>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ $row->employee_code }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ $row->job_code }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ $row->name_en }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ $row->division }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ $row->position }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ $row->dept }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ $row->email }}</p>
-                                    </td>
+                                    <td><p class="text-sm font-weight-bold mb-0">{{ $row->employee_code }}</p></td>
+                                    <td><p class="text-sm font-weight-bold mb-0">{{ $row->job_code }}</p></td>
+                                    <td><p class="text-sm font-weight-bold mb-0">{{ $row->name_en }}</p></td>
+                                    <td><p class="text-sm font-weight-bold mb-0">{{ $row->division }}</p></td>
+                                    <td><p class="text-sm font-weight-bold mb-0">{{ $row->position }}</p></td>
+                                    <td><p class="text-sm font-weight-bold mb-0">{{ $row->dept }}</p></td>
+                                    <td><p class="text-sm font-weight-bold mb-0">{{ $row->email }}</p></td>
+                                    <td><p class="text-sm font-weight-bold mb-0">{{ $row->status }}</p></td>
+                                    <td><p class="text-sm font-weight-bold mb-0">{{ $row->effecttive_date }}</p></td>
                                 </tr>
                                 @endforeach
 

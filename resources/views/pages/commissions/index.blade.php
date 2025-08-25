@@ -2,7 +2,7 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Commissions'])
-    <div id="alert">
+    <div>
         @include('components.alert')
     </div>
     <div class="container-fluid py-4">

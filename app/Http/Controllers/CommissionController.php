@@ -82,6 +82,11 @@ class CommissionController extends Controller
                  ->with('error', '❌ กรุณาเลือกไฟล์ก่อนนำเข้า');
          }
 
+         // ✅ check ว่าเป็น .xlsx เท่านั้น
+         if ($file->getClientOriginalExtension() !== 'xlsx') {
+             return back()->with('error', '❌ กรุณาเลือกไฟล์ที่เป็น .xlsx เท่านั้น');
+         }
+
          // ✅ โหลดแค่แถวที่ 2 โดยใช้ PhpSpreadsheet โดยตรง
          $spreadsheet = IOFactory::load($file->getRealPath());
          $sheet = $spreadsheet->getActiveSheet();
@@ -138,9 +143,9 @@ class CommissionController extends Controller
              Excel::import(new CommissionsArImport($commission->id), $request->file('file1'));
          }
 
-         if ($request->hasFile('file2')) {
+         /*if ($request->hasFile('file2')) {
              Excel::import(new CommissionsCnImport($commission->id), $request->file('file2'));
-         }
+         }*/
 
          return back()->with('succes', 'Import สำเร็จ!');
 
@@ -649,40 +654,45 @@ class CommissionController extends Controller
               ->where('id', '<', $latestId)
               ->max('id');
 
-          // ดึงข้อมูล commissions_ars ที่ตรงเงื่อนไขจาก commission id เก่า
           $ars = DB::table('commissions_ars')
-              ->select('account','name','document_type','reference','reference_key','document_date','clearing_date','amount_in_local_currency','local_currency','clearing_document','text','posting_key','sales_rep','ar_rate','ar_rate_percent','commissions')
+              ->select('account','name','document_type','reference','reference_key','document_date','clearing_date',
+                       'amount_in_local_currency','local_currency','clearing_document','text','posting_key',
+                       'sales_rep','ar_rate','ar_rate_percent','commissions')
               ->where('commissions_id', $oldCommissionId)
               ->where('commissions', '!=', '')
               ->whereNull('status')
               ->get();
 
-          // copy ข้อมูลเก่า → มาใส่ commission id ใหม่ ($id)
-          foreach ($ars as $ar) {
-              DB::table('commissions_ars')->insert([
-                  'type'                   => 'AR Old',
-                  'commissions_id'         => $id,  // ใช้ commission id ล่าสุด
-                  'account'                => $ar->account,
-                  'name'                   => $ar->name,
-                  'document_type'          => $ar->document_type,
-                  'reference'              => $ar->reference,
-                  'reference_key'          => $ar->reference_key,
-                  'document_date'          => $ar->document_date,
-                  'clearing_date'          => $ar->clearing_date,
-                  'amount_in_local_currency' => $ar->amount_in_local_currency,
-                  'local_currency'         => $ar->local_currency,
-                  'clearing_document'      => $ar->clearing_document,
-                  'text'                   => $ar->text,
-                  'posting_key'            => $ar->posting_key,
-                  'sales_rep'              => $ar->sales_rep,
-                  'ar_rate'              => $ar->ar_rate,
-                  'ar_rate_percent'              => $ar->ar_rate_percent,
-                  'commissions'              => $ar->commissions,
-                  'status'                 => null, // reset ใหม่
-                  'created_at'             => now(),
-                  'updated_at'             => now(),
-              ]);
+          if ($ars->isNotEmpty()) {
+              $insertData = $ars->map(function ($ar) use ($id) {
+                  return [
+                      'type'                     => 'AR Old',
+                      'commissions_id'           => $id,
+                      'account'                  => $ar->account,
+                      'name'                     => $ar->name,
+                      'document_type'            => $ar->document_type,
+                      'reference'                => $ar->reference,
+                      'reference_key'            => $ar->reference_key,
+                      'document_date'            => $ar->document_date,
+                      'clearing_date'            => $ar->clearing_date,
+                      'amount_in_local_currency' => $ar->amount_in_local_currency,
+                      'local_currency'           => $ar->local_currency,
+                      'clearing_document'        => $ar->clearing_document,
+                      'text'                     => $ar->text,
+                      'posting_key'              => $ar->posting_key,
+                      'sales_rep'                => $ar->sales_rep,
+                      'ar_rate'                  => $ar->ar_rate,
+                      'ar_rate_percent'          => $ar->ar_rate_percent,
+                      'commissions'              => $ar->commissions,
+                      'status'                   => null,
+                      'created_at'               => now(),
+                      'updated_at'               => now(),
+                  ];
+              })->toArray();
+
+              DB::table('commissions_ars')->insert($insertData);
           }
+
       }
 
 
