@@ -295,21 +295,21 @@
                                     <tr>
                                       <th onclick="sortTable(0)">Type <i class="fas fa-sort"></i></th>
                                       <th onclick="sortTable(1)">Account<i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(3)">Reference <i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(4)">Reference Document <i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(5)">Document Date <i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(6)">Clearing Date <i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(7)">Amount <i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(8)">Clearing Document <i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(9)">Document Type <i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(10)">Text <i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(11)">Sales Rep <i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(12)">Team <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(2)">Reference <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(3)">Reference Document <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(4)">Document Date <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(5)">Clearing Date <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(6)">Amount <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(7)">Clearing Document <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(8)">Document Type <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(9)">Text <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(10)">Sales Rep <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(11)">Team <i class="fas fa-sort"></i></th>
 
-                                      <th onclick="sortTable(13)">Rate (days) <i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(14)">Rate (%) <i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(15)">Commission <i class="fas fa-sort"></i></th>
-                                      <th onclick="sortTable(16)">Remark <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(12)">Rate (days) <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(13)">Rate (%) <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(14)">Commission <i class="fas fa-sort"></i></th>
+                                      <th onclick="sortTable(15)">Remark <i class="fas fa-sort"></i></th>
                                       <th></th> <!-- ปุ่มหรือ action อื่นๆ -->
                                     </tr>
 
