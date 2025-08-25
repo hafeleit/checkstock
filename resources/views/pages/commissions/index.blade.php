@@ -70,13 +70,15 @@
                                     @endcan
                                   @endif
                                   @can('Commissions Delete')
-                                  <form method="POST" action="{{ route('commissions.destroy', $c->id) }}" class="delete-form d-inline">
-                                      @csrf
-                                      @method('DELETE')
-                                      <button type="button" class="btn btn-danger btn-sm btn-delete">
-                                          <i class="fas fa-trash-alt me-1"></i> ลบ
-                                      </button>
-                                  </form>
+                                    @if(in_array($c->status, ['imported', 'calculated']))
+                                    <form method="POST" action="{{ route('commissions.destroy', $c->id) }}" class="delete-form d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm btn-delete">
+                                            <i class="fas fa-trash-alt me-1"></i> ลบ
+                                        </button>
+                                    </form>
+                                    @endif
                                   @endcan
                               </td>
                           </tr>
