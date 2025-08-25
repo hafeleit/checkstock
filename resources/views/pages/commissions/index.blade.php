@@ -70,7 +70,7 @@
                                     @endcan
                                   @endif
                                   @can('Commissions Delete')
-                                    @if(in_array($c->status, ['imported', 'calculated']))
+                                    @if(in_array($c->status, ['imported', 'calculated','Summary Rejected']))
                                     <form method="POST" action="{{ route('commissions.destroy', $c->id) }}" class="delete-form d-inline">
                                         @csrf
                                         @method('DELETE')
