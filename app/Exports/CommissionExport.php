@@ -188,6 +188,7 @@ class CommissionExport implements FromCollection, WithHeadings, WithMapping, Wit
             ->leftJoinSub($subUser, 'user_masters', function ($join) {
                 $join->on(DB::raw("SUBSTRING(commissions_ars.sales_rep, 4)"), '=', 'user_masters.job_code');
             })
+            ->where('commissions_id',$this->commissionId)
             ->get();
     }
 

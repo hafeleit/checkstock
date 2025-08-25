@@ -236,19 +236,13 @@
                           </form>
                       @endif
 
-                      @if ($commission->status === 'AR Approved' || $commission->status === 'Summary Confirmed')
+                      @if ($commission->status === 'AR Approved' || $commission->status === 'Summary Confirmed' || $commission->status === 'Summary Rejected(Manager)')
                         @can('Commissions AR-Adjust')
                         <button type="button"
                                 class="btn btn-sm bg-gradient-warning px-3 me-2"
                                 data-bs-toggle="modal"
                                 data-bs-target="#adjustModal">
                             <i class="fas fa-edit me-1"></i> Adjust
-                        </button>
-                        <button type="button"
-                                class="btn btn-sm bg-gradient-info px-3 me-2"
-                                id="export-btn"
-                                data-url="{{ route('commissions.export', $commission->id) }}">
-                            <i class="fas fa-file-export me-1"></i> Export
                         </button>
                         @endcan
                         @can('Commissions Summary-Confirm')
@@ -271,7 +265,14 @@
                         @endcan
 
                       @endif
-
+                      @can('Commissions AR-Adjust')
+          						<button type="button"
+                              class="btn btn-sm bg-gradient-info px-3 me-2"
+                              id="export-btn"
+                              data-url="{{ route('commissions.export', $commission->id) }}">
+                          <i class="fas fa-file-export me-1"></i> Export
+                      </button>
+          					  @endcan
                       @can('Commissions Summary-View')
                       <div class="ms-auto">
                         <a href="{{ route('commissions.sales-summary', $commission->id) }}"
