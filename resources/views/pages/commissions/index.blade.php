@@ -20,8 +20,8 @@
                 <table class="table table-hover align-items-center mb-0">
                     <thead class="bg-light">
                         <tr>
-                          <th>#</th>
-                          <th>Sub ID</th>
+                          <th>ID</th>
+                          <th>Month</th>
                           <th>Status</th>
                           @cannot('Commissions Check')
                           <th>Schema ID</th>
@@ -36,8 +36,9 @@
                     <tbody>
                       @forelse ($commissions as $c)
                           <tr>
-                              <td>{{ $c->id }}</td>
                               <td>{{ $c->sub_id }}</td>
+                              <td>{{ \Carbon\Carbon::createFromFormat('Ym', substr($c->sub_id, 0, 6))->format('F Y') }}</td>
+
                               <td>
                                 <small class="badge
                                     {{ stripos($c->status, 'Reject') !== false ? 'bg-danger' :'bg-success' }}">
