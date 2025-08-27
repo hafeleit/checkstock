@@ -415,7 +415,7 @@ class CommissionController extends Controller
             ->get();
         // ตรวจสอบก่อนดึง
         $schemaTable = [];
-        $columns = ['0-30', '31-60', '61-90', '91-120', '121-150', '151-365'];
+        $columns = ['0-30', '31-60', '61-90', '91-120', '121-150', '> 150'];
 
         if ($commission->schema_id) {
             $schemaDetails = CommissionsSchemaDetail::where('commissions_schemas_id', $commission->schema_id)
@@ -424,7 +424,7 @@ class CommissionController extends Controller
 
             foreach ($schemaDetails as $detail) {
                 $division = $detail->division_name;
-                $range = $detail->ar_end > 150 ? '151-365' : "{$detail->ar_start}-{$detail->ar_end}";
+                $range = $detail->ar_end > 150 ? '> 150' : "{$detail->ar_start}-{$detail->ar_end}";
 
                 if (!isset($schemaTable[$division])) {
                     $schemaTable[$division] = [];
@@ -514,14 +514,14 @@ class CommissionController extends Controller
 
              // ตรวจสอบก่อนดึง
              $schemaTable = [];
-             $columns = ['0-30', '31-60', '61-90', '91-120', '121-150', '151-365'];
+             $columns = ['0-30', '31-60', '61-90', '91-120', '121-150', '> 150'];
 
              if ($commission->schema_id) {
                  $schemaDetails = CommissionsSchemaDetail::where('commissions_schemas_id', $commission->schema_id)->get();
 
                  foreach ($schemaDetails as $detail) {
                      $division = $detail->division_name;
-                     $range = $detail->ar_end > 150 ? '151-365' : "{$detail->ar_start}-{$detail->ar_end}";
+                     $range = $detail->ar_end > 150 ? '> 150' : "{$detail->ar_start}-{$detail->ar_end}";
 
                      if (!isset($schemaTable[$division])) {
                          $schemaTable[$division] = [];
