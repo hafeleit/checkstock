@@ -556,148 +556,130 @@ class CommissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-      // ดึงข้อมูลเฉพาะ commission นี้
-      $entries = CommissionsAr::where('commissions_id', $id)->get();
-      $commission = Commission::where('id', $id)->first();
+     public function update(Request $request, string $id)
+     {
+         // ดึง Commission
+         $commission = Commission::where('id', $id)->first();
 
-      foreach ($entries as $entry) {
-          $salesRep = $entry->sales_rep;
+         // ดึงข้อมูล commissions_ars พร้อม diffDays ที่คำนวณจาก SQL
+         $entries = CommissionsAr::select(
+                 'commissions_ars.*',
+                 DB::raw('DATEDIFF(clearing_date, document_date) as diffDays')
+             )
+             ->where('commissions_id', $id)
+             ->get();
 
-          if (!$salesRep || strlen($salesRep) < 4) {
-              continue;
-          }
+         foreach ($entries as $entry) {
+             $salesRep = $entry->sales_rep;
 
-          // ตัด 3 ตัวหน้า
-          $jobCode = substr($salesRep, 3);
+             if (!$salesRep || strlen($salesRep) < 4) {
+                 continue;
+             }
 
-          $user = UserMaster::where('job_code', $jobCode)
-          ->orderByRaw("
-              CASE
-                  WHEN status = 'Current' THEN 1
-                  WHEN status = 'Probation' THEN 2
-                  WHEN status = 'Resign' THEN 3
-                  ELSE 4
-              END
-          ")
-          ->orderByDesc('effecttive_date')
-          ->first();
+             // ตัด 3 ตัวหน้า
+             $jobCode = substr($salesRep, 3);
 
-          if (!$user) {
-              continue;
-          }
+             $user = UserMaster::where('job_code', $jobCode)
+                 ->orderByRaw("
+                     CASE
+                         WHEN status = 'Current' THEN 1
+                         WHEN status = 'Probation' THEN 2
+                         WHEN status = 'Resign' THEN 3
+                         ELSE 4
+                     END
+                 ")
+                 ->orderByDesc('effecttive_date')
+                 ->first();
 
-          $division = $user->division;
+             if (!$user) {
+                 continue;
+             }
 
-          // เตรียมวันที่จาก record เดิม
-          $docDate = $entry->document_date;
-          $clearDate = $entry->clearing_date;
+             $division = $user->division;
 
-          // 🟡 เฉพาะ type 'CN' → ตรวจสอบ cn_billing_ref
-          if ($entry->type === 'CN') {
+             // ข้ามถ้า docDate หรือ clearDate ว่าง
+             if (!$entry->document_date || !$entry->clearing_date) continue;
 
-              // พยายามหา reference_key ที่ตรงกันใน AR
-              $arRef = CommissionsAr::where('type', 'AR')
-                  ->where('reference_key', $entry->cn_billing_ref)
-                  ->first();
+             $diffDays = (int) $entry->diffDays;
 
-              // หากหาไม่พบ → ข้ามรายการนี้
-              if (!$arRef) continue;
+             // หา schema
+             $schema = CommissionsSchemaDetail::where('commissions_schemas_id', $commission->schema_id)
+                 ->where('division_name', $division)
+                 ->where('ar_start', '<=', $diffDays)
+                 ->where('ar_end', '>=', $diffDays)
+                 ->first();
 
-              // ถ้าพบ → ใช้วันที่จาก AR
-              $docDate = $arRef->document_date;
-              $clearDate = $arRef->clearing_date;
-          }
+             if ($schema) {
+                 $ratePercent = (float) $schema->rate_percent;
+                 $amount = (float) $entry->amount_in_local_currency;
+                 $commissionAmount = $amount * $ratePercent / 100;
 
-          // ตรวจสอบวันที่ให้ครบ
-          if (!$docDate || !$clearDate) continue;
+                 $entry->ar_rate_percent = $ratePercent;
+                 $entry->ar_rate = $diffDays;
+                 $entry->commissions = round($commissionAmount, 2);
+                 $entry->save();
+             }
+         }
 
-          $docDate = Carbon::parse($docDate);
-          $clearDate = Carbon::parse($clearDate);
-          $diffDays = $docDate->diffInDays($clearDate);
+         // ✅ อัปเดต status ของ Commission เป็น "calculated"
+         $commission = Commission::find($id);
 
-          // หาค่า commissions_schemas_id ล่าสุด
-          //$latestSchemaId = CommissionsSchemaDetail::max('commissions_schemas_id');
+         if ($commission) {
+             $commission->status = 'calculated';
+             $commission->save();
 
-          // ดึง schema โดยอิงจาก division และช่วง diffDays
-          $schema = CommissionsSchemaDetail::where('commissions_schemas_id', $commission->schema_id)
-              ->where('division_name', $division)
-              ->where('ar_start', '<=', $diffDays)
-              ->where('ar_end', '>=', $diffDays)
-              ->first();
+             // หา commission id เก่า (ล่าสุด - 1)
+             $latestId = Commission::where('delete', 0)->max('id');
 
-          if ($schema) {
-            $ratePercent = (float) $schema->rate_percent;
-            $amount = (float) $entry->amount_in_local_currency;
-            $commissionAmount = $amount * $ratePercent / 100;
+             $oldCommissionId = Commission::where('delete', 0)
+                 ->where('id', '<', $latestId)
+                 ->max('id');
 
-            $entry->ar_rate_percent = $ratePercent;
-            $entry->ar_rate = $diffDays;
-            $entry->commissions = round($commissionAmount, 2); // ปัดเศษ 2 ตำแหน่ง
-            $entry->save();
-          }
-      }
+             $ars = DB::table('commissions_ars')
+                 ->select(
+                     'account','name','document_type','reference','reference_key','document_date','clearing_date',
+                     'amount_in_local_currency','local_currency','clearing_document','text','posting_key',
+                     'sales_rep','ar_rate','ar_rate_percent','commissions'
+                 )
+                 ->where('commissions_id', $oldCommissionId)
+                 ->where('commissions', '!=', '')
+                 ->whereNull('status')
+                 ->get();
 
-      // ✅ อัปเดต status ของ Commission เป็น "calculated"
-      $commission = Commission::find($id);
+             if ($ars->isNotEmpty()) {
+                 $insertData = $ars->map(function ($ar) use ($id) {
+                     return [
+                         'type'                     => 'AR Old',
+                         'commissions_id'           => $id,
+                         'account'                  => $ar->account,
+                         'name'                     => $ar->name,
+                         'document_type'            => $ar->document_type,
+                         'reference'                => $ar->reference,
+                         'reference_key'            => $ar->reference_key,
+                         'document_date'            => $ar->document_date,
+                         'clearing_date'            => $ar->clearing_date,
+                         'amount_in_local_currency' => $ar->amount_in_local_currency,
+                         'local_currency'           => $ar->local_currency,
+                         'clearing_document'        => $ar->clearing_document,
+                         'text'                     => $ar->text,
+                         'posting_key'              => $ar->posting_key,
+                         'sales_rep'                => $ar->sales_rep,
+                         'ar_rate'                  => $ar->ar_rate,
+                         'ar_rate_percent'          => $ar->ar_rate_percent,
+                         'commissions'              => $ar->commissions,
+                         'status'                   => null,
+                         'created_at'               => now(),
+                         'updated_at'               => now(),
+                     ];
+                 })->toArray();
 
-      if ($commission) {
-          // อัปเดตสถานะ
-          $commission->status = 'calculated';
-          $commission->save();
+                 DB::table('commissions_ars')->insert($insertData);
+             }
+         }
 
-          // หา commission id เก่า (ล่าสุด - 1)
-          $latestId = Commission::where('delete', 0)->max('id');
+         return back()->with('succes', 'คำนวณค่าคอมมิชชั่นสำเร็จแล้ว');
+     }
 
-          $oldCommissionId = Commission::where('delete', 0)
-              ->where('id', '<', $latestId)
-              ->max('id');
-
-          $ars = DB::table('commissions_ars')
-              ->select('account','name','document_type','reference','reference_key','document_date','clearing_date',
-                       'amount_in_local_currency','local_currency','clearing_document','text','posting_key',
-                       'sales_rep','ar_rate','ar_rate_percent','commissions')
-              ->where('commissions_id', $oldCommissionId)
-              ->where('commissions', '!=', '')
-              ->whereNull('status')
-              ->get();
-
-          if ($ars->isNotEmpty()) {
-              $insertData = $ars->map(function ($ar) use ($id) {
-                  return [
-                      'type'                     => 'AR Old',
-                      'commissions_id'           => $id,
-                      'account'                  => $ar->account,
-                      'name'                     => $ar->name,
-                      'document_type'            => $ar->document_type,
-                      'reference'                => $ar->reference,
-                      'reference_key'            => $ar->reference_key,
-                      'document_date'            => $ar->document_date,
-                      'clearing_date'            => $ar->clearing_date,
-                      'amount_in_local_currency' => $ar->amount_in_local_currency,
-                      'local_currency'           => $ar->local_currency,
-                      'clearing_document'        => $ar->clearing_document,
-                      'text'                     => $ar->text,
-                      'posting_key'              => $ar->posting_key,
-                      'sales_rep'                => $ar->sales_rep,
-                      'ar_rate'                  => $ar->ar_rate,
-                      'ar_rate_percent'          => $ar->ar_rate_percent,
-                      'commissions'              => $ar->commissions,
-                      'status'                   => null,
-                      'created_at'               => now(),
-                      'updated_at'               => now(),
-                  ];
-              })->toArray();
-
-              DB::table('commissions_ars')->insert($insertData);
-          }
-
-      }
-
-
-      return back()->with('succes', 'คำนวณค่าคอมมิชชั่นสำเร็จแล้ว');
-    }
 
     /**
      * Remove the specified resource from storage.
