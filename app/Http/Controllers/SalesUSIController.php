@@ -138,7 +138,10 @@ class SalesUSIController extends Controller
     ")
         ->leftJoin('ZHAAMM_IFVMG as p', 'p.material', '=', 'm.material')
         ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'm.material')
-        ->leftJoin('user_masters as um', DB::raw("m.product_group_manager"), '=', DB::raw("CONCAT('HTH', um.job_code)"))
+        ->leftJoin('user_masters as um', function($join) {
+            $join->on(DB::raw("m.product_group_manager"), '=', DB::raw("CONCAT('HTH', um.job_code)"))
+                 ->where('um.status', '=', 'Current');
+        })
         ->leftJoin('MB52 as i', function ($join) {
             $join->on('i.material', '=', 'm.material')
                  ->where('i.storage_location', '=', 'TH02')
