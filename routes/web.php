@@ -130,7 +130,7 @@ Route::middleware(['auth', 'check.status'])->group( function () {
   Route::get('/commissions/{id}/sales-summary', [CommissionController::class, 'salesSummary'])->name('commissions.sales-summary');
   Route::get('/commissions/{id}/check', [CommissionController::class, 'check'])->name('commissions.check');
   Route::get('/commissions/{id}/summary-sales-export', [CommissionController::class, 'summarySalesExport'])->name('commissions.summary-sales-export');
-  
+
   Route::get('checkstockhww-export', [CheckStockController::class,'export'])->name('checkstockhww-export');
   Route::post('product-new-price-list-import', [CheckStockController::class,'import'])->name('product-new-price-list-import');
   Route::get('onlineorder/download/{file}', [OrderController::class,'download'])->name('onlineorder-download');
@@ -175,7 +175,7 @@ Route::middleware(['auth', 'check.status'])->group( function () {
     $filePath = storage_path('app/users.xlsx');
 
     if (!file_exists($filePath)) {
-      return '❌ ไม่พบไฟล์ users.xlsx';
+        return '❌ ไม่พบไฟล์ users.xlsx';
     }
 
     $rows = Excel::toArray([], $filePath)[0];
@@ -186,34 +186,51 @@ Route::middleware(['auth', 'check.status'])->group( function () {
     $errors = [];
 
     foreach ($rows as $index => $row) {
-      $data = array_combine($header, $row);
+        $data = array_combine($header, $row);
 
-      if (empty($data['role name'])) {
-        $errors[] = "❌ แถวที่ " . ($index + 2) . " ไม่มี role name";
-        continue;
-      }
+        if (empty($data['role name'])) {
+            $errors[] = "❌ แถวที่ " . ($index + 2) . " ไม่มี role name";
+            continue;
+        }
 
-      $roleName = trim($data['role name']);
-      $role = Role::where('name', $roleName)->first();
+        $roleName = trim($data['role name']);
+        $role = Role::where('name', $roleName)->first();
 
-      if (!$role) {
-        $errors[] = "❌ ไม่พบ Role: $roleName (แถวที่ " . ($index + 2) . ")";
-        continue;
-      }
+        if (!$role) {
+            $errors[] = "❌ ไม่พบ Role: $roleName (แถวที่ " . ($index + 2) . ")";
+            continue;
+        }
 
-      $user = User::updateOrCreate(
-        ['email' => $data['email']],
-        [
-          'username' => $data['name'],
-          'password' => $data['password'],
-          'supp_code' => $data['supp_code'],
-          'type' => $data['type'],
-        ]
-      );
+        // เตรียมข้อมูลสำหรับ updateOrCreate
+        $userData = [
+            'username' => $data['name'],
+            'supp_code' => $data['supp_code'],
+            'type' => $data['type'],
+        ];
 
-      $user->assignRole($role);
-      $imported++;
+        // อัปเดต password ก็ต่อเมื่อมีค่า
+        if (!empty($data['password'])) {
+            $userData['password'] = $data['password'];
+        }
+
+        $user = User::updateOrCreate(
+            ['email' => $data['email']],
+            $userData
+        );
+
+        // เพิ่ม role ใหม่โดยไม่ลบ role เดิม
+        if (!$user->hasRole($roleName)) {
+            $user->assignRole($role);
+        }
+
+        $imported++;
     }
+
     echo "✅ นำเข้าสำเร็จ $imported คน";
+
+    if (!empty($errors)) {
+        echo "\n" . implode("\n", $errors);
+    }
+
   });
 });
