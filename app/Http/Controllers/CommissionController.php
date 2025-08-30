@@ -350,15 +350,27 @@ class CommissionController extends Controller
 
 
 
-     public function index()
+     public function index(Request $request)
      {
-       $commissions = Commission::where('delete', false)
-               ->with('creator')       // โหลดข้อมูลผู้สร้างด้วย
-               ->orderByDesc('created_at')
-               ->get();
+         // กรณี user login แต่ยังไม่ได้ผ่านการ redirect กลับจาก login
+         if (Auth::check() && !$request->session()->get('is_double_login')) {
+             Auth::logout();
+             $request->session()->invalidate();
+             $request->session()->regenerateToken();
 
+             // ส่งไป login พร้อม query string
+             return redirect()->route('login', ['from' => 'commissions']);
+         }
+
+         // โหลด commissions ปกติ
+         $commissions = Commission::where('delete', false)
+             ->with('creator')
+             ->orderByDesc('created_at')
+             ->get();
+             $request->session()->forget('is_double_login');
          return view('pages.commissions.index', compact('commissions'));
      }
+
 
 
     /**

@@ -36,6 +36,10 @@ class LoginController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_active' => 1, 'type' => 'employee'])) {
             $request->session()->regenerate();
             auth()->user()->update(['last_logged_in_at' => Carbon::now()]);
+            if ($request->filled('from')) {
+                $request->session()->put('is_double_login', true);
+                return redirect($request->input('from'));
+            }
             return redirect()->intended('profile');
         }
 
@@ -55,7 +59,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-
+        $request->session()->forget('is_double_login');
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

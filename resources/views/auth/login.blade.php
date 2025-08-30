@@ -17,24 +17,59 @@
                             <div class="card card-plain">
                                 <div class="card-header pb-0 text-start">
                                     <h4 class="font-weight-bolder">Sign In</h4>
-                                    <p class="mb-0">Enter your email and password to sign in</p>
+                                    <p class="mb-0">Enter your account and password to sign in</p>
                                 </div>
                                 <div class="card-body">
                                     <form role="form" method="POST" action="{{ route('login.perform') }}">
                                         @csrf
                                         @method('post')
+                                        <input type="hidden" name="from" value="{{ request()->query('from') }}">
                                         <div class="flex flex-col mb-3">
-                                            <input autofocus type="text" name="email" class="form-control form-control-lg" value="{{ old('email') ?? '' }}" aria-label="Email" placeholder="email@hafele.co.th">
+                                            <input autofocus type="text" name="email" class="form-control form-control-lg" value="{{ old('email') ?? '' }}" aria-label="Email" autocomplete="off">
                                             @error('email') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
-                                        <div class="flex flex-col mb-3">
-                                            <input type="password" name="password" class="form-control form-control-lg" aria-label="Password" value="" >
-                                            @error('password') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
+                                        <div class="flex flex-col mb-3 position-relative">
+                                            <input id="password" type="password" name="password" class="form-control form-control-lg" aria-label="Password" value="" autocomplete="off">
+
+                                            <!-- Font Awesome eye icon -->
+                                            <i id="togglePassword" class="fas fa-eye absolute end-3 top-1/2 translate-middle-y cursor-pointer text-gray-400 hover:text-gray-700 position-absolute top-50"></i>
+
+                                            @error('password')
+                                                <p class="text-danger text-xs pt-1">{{$message}}</p>
+                                            @enderror
                                         </div>
-                                        <div class="form-check form-switch">
+
+                                        <script>
+                                        const passwordInput = document.getElementById('password');
+                                        const toggleIcon = document.getElementById('togglePassword');
+
+                                        // คลิกค้าง
+                                        toggleIcon.addEventListener('mousedown', function() {
+                                            passwordInput.setAttribute('type', 'text');
+                                            this.classList.remove('fa-eye');
+                                            this.classList.add('fa-eye-slash');
+                                        });
+
+                                        // ปล่อยเมาส์ หรือเลื่อนออกจาก icon
+                                        toggleIcon.addEventListener('mouseup', hidePassword);
+                                        toggleIcon.addEventListener('mouseleave', hidePassword);
+
+                                        function hidePassword() {
+                                            passwordInput.setAttribute('type', 'password');
+                                            toggleIcon.classList.remove('fa-eye-slash');
+                                            toggleIcon.classList.add('fa-eye');
+                                        }
+                                        </script>
+
+
+                                        <!--<div class="form-check form-switch">
                                             <input class="form-check-input" name="remember" type="checkbox" id="rememberMe">
                                             <label class="form-check-label" for="rememberMe">Remember me</label>
-                                        </div>
+                                        </div>-->
+                                        <p class="text-center mt-2" style="font-size: 0.9rem;">
+                                            Forgot your password or need an account? </br>Please contact
+                                            <a class="text-primary" href="https://it-service.hafele.com/plugins/servlet/desk/portal/2" target="_blank">IT Service System</a>.
+                                        </p>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Sign in</button>
                                         </div>
@@ -61,8 +96,8 @@
                                 style="background-image: url('/img/bg-hafele.jpg');
               background-size: cover;">
                                 <span class="bg-gradient-primary opacity-6"></span>
-                                <h4 class="mt-5 text-white font-weight-bolder position-relative">"HAFELE APPLICATION"</h4>
-                                <p class="text-white position-relative">Make by IT</p>
+                                <h4 class="mt-5 text-primary font-weight-bolder position-relative">HAFELE THAILAND APPLICATION</h4>
+                                <p class="text-warning position-relative">Make by HTH IT</p>
                             </div>
                         </div>
                     </div>
