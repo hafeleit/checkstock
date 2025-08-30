@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use App\Exports\CommissionsExport;
+use Illuminate\Support\Facades\Session;
+
 
 class CommissionController extends Controller
 {
@@ -348,31 +350,38 @@ class CommissionController extends Controller
          return back()->with('success', 'Status updated successfully.');
      }
 
+     public function verifyPassword(Request $request)
+     {
+         $request->validate([
+             'password' => 'required',
+         ]);
 
+         $user = Auth::user();
+
+         if (!\Hash::check($request->password, $user->password)) {
+             return response()->json(['error' => 'รหัสผ่านไม่ถูกต้อง'], 422);
+         }
+
+         // สร้าง session ว่า verified
+         $request->session()->put('commission_verified', true);
+
+         return response()->json(['success' => true]);
+     }
 
      public function index(Request $request)
      {
-         // กรณี user login แต่ยังไม่ได้ผ่านการ redirect กลับจาก login
-         if (Auth::check() && !$request->session()->get('is_double_login')) {
-             Auth::logout();
-             $request->session()->invalidate();
-             $request->session()->regenerateToken();
-
-             // ส่งไป login พร้อม query string
-             return redirect()->route('login', ['from' => 'commissions']);
+         // ถ้า session ยังไม่ verified → redirect ไป modal (หรือแสดง modal จาก frontend)
+         if (!$request->session()->get('commission_verified')) {
+             return view('pages.user-profile');
          }
-
-         // โหลด commissions ปกติ
+         Session::forget('commission_verified');
          $commissions = Commission::where('delete', false)
              ->with('creator')
              ->orderByDesc('created_at')
              ->get();
-             $request->session()->forget('is_double_login');
+
          return view('pages.commissions.index', compact('commissions'));
      }
-
-
-
     /**
      * Show the form for creating a new resource.
      */

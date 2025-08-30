@@ -120,6 +120,7 @@ Route::middleware(['auth', 'check.status'])->group( function () {
 
 
   Route::resource('commissions', CommissionController::class);
+  Route::post('/commission/verify-password', [CommissionController::class, 'verifyPassword'])->name('commission.verify-password');
   Route::put('/commissions/{id}/status', [CommissionController::class, 'updateStatus'])->name('commissions.updateStatus');
   Route::post('/commissions/import', [CommissionController::class, 'importAll'])->name('commissions.import');
   Route::get('/commissions/{id}/export', [CommissionController::class, 'export'])->name('commissions.export');

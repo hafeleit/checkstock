@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
+use Spatie\Permission\PermissionRegistrar;
 
 class LoginController extends Controller
 {
@@ -33,28 +34,35 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_active' => 1, 'type' => 'employee'])) {
-            $request->session()->regenerate();
-            auth()->user()->update(['last_logged_in_at' => Carbon::now()]);
-            if ($request->filled('from')) {
-                $request->session()->put('is_double_login', true);
-                return redirect($request->input('from'));
-            }
-            return redirect()->intended('profile');
-        }
-
         $user = User::where('email', $request->email)->first();
 
-        if ($user && $user->is_active === 0) {
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'The provided credentials do not match our records.',
+            ]);
+        }
+
+        if ($user->is_active === 0) {
             return back()->withErrors([
                 'email' => 'Your account is not active. Please contact the administrator.',
             ]);
+        }
+
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'type' => 'employee'])) {
+            // ล้าง role/permission cache ของ Spatie
+            app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
+            $request->session()->regenerate();
+            $user->update(['last_logged_in_at' => Carbon::now()]);
+
+            return redirect()->intended('profile');
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
+
 
     public function logout(Request $request)
     {
