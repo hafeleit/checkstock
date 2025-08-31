@@ -175,7 +175,7 @@
 
       @can('Commissions List')
       <li class="nav-item">
-          <a href="javascript:void(0)" class="nav-link" id="commissions-link">
+          <a href="{{ route('commissions.index') }}" class="nav-link">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="ni ni-money-coins {{ Request::segment(1) == 'commissions' ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
               </div>
@@ -184,52 +184,5 @@
       </li>
       @endcan
 
-      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-      <script>
-      document.getElementById('commissions-link').addEventListener('click', function() {
-          Swal.fire({
-              title: 'Confirm Password',
-              input: 'password',
-              inputLabel: 'Password',
-              inputPlaceholder: 'Enter your password',
-              inputAttributes: {
-                  autocapitalize: 'off',
-                  autocorrect: 'off',
-                  autocomplete: 'off',  // ปิด auto complete
-              },
-              showCancelButton: true,
-              confirmButtonText: 'Confirm',
-              showLoaderOnConfirm: true,
-              preConfirm: (password) => {
-                  return fetch('{{ route("commission.verify-password") }}', {
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/json',
-                          'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                      },
-                      body: JSON.stringify({ password: password })
-                  })
-                  .then(async response => {
-                      const data = await response.json();
-                      if (!response.ok) {
-                          // แสดงข้อความ error จาก backend
-                          throw new Error(data.error || 'เกิดข้อผิดพลาด');
-                      }
-                      return data;
-                  })
-                  .catch(error => {
-                      Swal.showValidationMessage(error.message);
-                  });
-              },
-              allowOutsideClick: () => !Swal.isLoading()
-          }).then((result) => {
-              if (result.isConfirmed && result.value.success) {
-                  window.location.href = '{{ route("commissions.index") }}';
-              } else if(result.isConfirmed) {
-                  Swal.fire('Error', 'Incorrect password', 'error');
-              }
-          })
-      });
-      </script>
 
 </aside>

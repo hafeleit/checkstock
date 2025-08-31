@@ -19,6 +19,8 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use App\Exports\CommissionsExport;
 use Illuminate\Support\Facades\Session;
+use App\Mail\CommissionStatusMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class CommissionController extends Controller
@@ -26,6 +28,11 @@ class CommissionController extends Controller
     /**
      * Display a listing of the resource.
      */
+     public function __construct()
+     {
+         $this->middleware('permission:Commissions Summary-View', ['only' => ['salesSummary']]);
+         $this->middleware('permission:Commissions AR-View', ['only' => ['show']]);
+     }
 
      public function export($id)
      {
@@ -347,7 +354,46 @@ class CommissionController extends Controller
 
          $commission->save();
 
-         return back()->with('success', 'Status updated successfully.');
+         $to = [];
+         $cc = [auth()->user()->email]; // cc ตัวเองเสมอ
+
+         switch ($request->status) {
+             case 'AR Approved':
+                 $to = ['warisara@hafele.co.th','pimnada@hafele.co.th','apirak@hafele.co.th']; //warisara, pimnada
+                 break;
+
+             case 'Summary Rejected':
+                 $to = ['sarunya@hafele.co.th','apirak@hafele.co.th']; //sarunya
+                 break;
+
+             case 'Summary Confirmed':
+                 $to = ['chanida@hafele.co.th','apirak@hafele.co.th']; //chanida
+                 break;
+
+             case 'Summary Rejected(Manager)':
+                 $to = ['warisara@hafele.co.th','pimnada@hafele.co.th','apirak@hafele.co.th']; //warisara, pimnada
+                 break;
+
+             case 'Summary Approved':
+                 $to = ['nattawan@hafele.co.th','apirak@hafele.co.th']; //nattawan
+                 break;
+
+             case 'Final Rejected':
+                 $to = ['chanida@hafele.co.th','apirak@hafele.co.th']; //chanida
+                 break;
+
+             case 'Final Approved':
+                 $to = ['chanida@hafele.co.th','warisara@hafele.co.th','pimnada@hafele.co.th','apirak@hafele.co.th']; //chanida warisara, pimnada
+                 break;
+         }
+
+         // ส่งเมล
+         Mail::to($to)
+             ->cc($cc)
+             ->send(new CommissionStatusMail($commission->sub_id, $request->status));
+         //Mail::to('apirak@hafele.co.th')->send(new CommissionStatusMail($commission->sub_id, $request->status));
+
+         return back()->with('succes', "✅ Commission #{$commission->sub_id} เปลี่ยนสถานะเป็น {$request->status} และส่งอีเมลแจ้งแล้ว");
      }
 
      public function verifyPassword(Request $request)
@@ -370,11 +416,7 @@ class CommissionController extends Controller
 
      public function index(Request $request)
      {
-         // ถ้า session ยังไม่ verified → redirect ไป modal (หรือแสดง modal จาก frontend)
-         if (!$request->session()->get('commission_verified')) {
-             return view('pages.user-profile');
-         }
-         Session::forget('commission_verified');
+
          $commissions = Commission::where('delete', false)
              ->with('creator')
              ->orderByDesc('created_at')
@@ -403,6 +445,12 @@ class CommissionController extends Controller
      */
      public function check(Request $request, $id)
      {
+
+       // ถ้า session ยังไม่ verified → redirect ไป modal (หรือแสดง modal จาก frontend)
+       if (!$request->session()->get('commission_verified')) {
+           return view('pages.user-profile');
+       }
+       Session::forget('commission_verified');
 
         if (empty(Auth::user()->emp_code)) {
             return back()->with('error', 'ไม่พบรหัสพนักงาน (emp code) ของคุณ');

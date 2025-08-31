@@ -65,9 +65,60 @@
                                   @endcan
                                   @if(in_array($c->status, ['Summary Confirmed', 'Summary Approved', 'Final Approved']))
                                     @can('Commissions Check')
-                                      <a href="{{ route('commissions.check', $c->id) }}" class="btn btn-sm btn-success">
+                                      <a href="javascript:void(0)" class="btn btn-sm btn-success" id="commissions-link">
                                           <i class="fas fa-check-circle me-1"></i> ตรวจสอบ Commission
                                       </a>
+                                      <script>
+                                      document.getElementById('commissions-link').addEventListener('click', function() {
+                                          Swal.fire({
+                                              title: 'Confirm Password',
+                                              input: 'password',
+                                              inputLabel: 'Password',
+                                              inputPlaceholder: 'Enter your password',
+                                              inputAttributes: {
+                                                  autocapitalize: 'off',
+                                                  autocorrect: 'off',
+                                                  autocomplete: 'off',  // ปิด auto complete
+                                              },
+                                              showCancelButton: true,
+                                              confirmButtonText: 'Confirm',
+                                              showLoaderOnConfirm: true,
+                                              inputValidator: (value) => {
+                                                   if (!value) {
+                                                       return 'กรุณากรอกรหัสผ่านก่อน'; // ✅ require field
+                                                   }
+                                               },
+                                              preConfirm: (password) => {
+                                                  return fetch('{{ route("commission.verify-password") }}', {
+                                                      method: 'POST',
+                                                      headers: {
+                                                          'Content-Type': 'application/json',
+                                                          'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                      },
+                                                      body: JSON.stringify({ password: password })
+                                                  })
+                                                  .then(async response => {
+                                                      const data = await response.json();
+                                                      if (!response.ok) {
+                                                          // แสดงข้อความ error จาก backend
+                                                          throw new Error(data.error || 'เกิดข้อผิดพลาด');
+                                                      }
+                                                      return data;
+                                                  })
+                                                  .catch(error => {
+                                                      Swal.showValidationMessage(error.message);
+                                                  });
+                                              },
+                                              allowOutsideClick: () => !Swal.isLoading()
+                                          }).then((result) => {
+                                              if (result.isConfirmed && result.value.success) {
+                                                  window.location.href = '{{ route("commissions.check", $c->id) }}';
+                                              } else if(result.isConfirmed) {
+                                                  Swal.fire('Error', 'Incorrect password', 'error');
+                                              }
+                                          })
+                                      });
+                                      </script>
                                     @endcan
                                   @endif
                                   @can('Commissions Delete')
