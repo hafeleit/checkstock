@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Häfele App Portal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="{{ asset('css/tailwind.min.css') }}" rel="stylesheet">
   <style>
     body {
       overflow-y: scroll; /* ซ่อน scrollbar แต่ยังเลื่อนลงได้ */
