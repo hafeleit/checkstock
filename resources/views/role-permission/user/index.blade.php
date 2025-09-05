@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <style media="screen">
     .dt-layout-row {
         padding: 1.5rem 0;
@@ -43,20 +42,61 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-md-12">
-
             @if (session('status'))
-            <div class="alert alert-success">{{ session('status') }}</div>
+            <div class="alert alert-success text-white font-weight-bold">{{ session('status') }}</div>
+            @endif
+
+            @if ($errors->any())
+            <div class="alert alert-danger" role="alert">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                    <li class="text-white font-weight-bold mb-0">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
             @endif
 
             <div class="card mt-3">
                 <div class="card-header card-header__user pb-0">
                     <h5 class="mb-0">Users</h5>
-                    @can('user create')
-                    <a href="{{ url('users/create') }}" class="btn btn-primary float-end mb-0">Add User</a>
-                    @endcan
+                    <div class="d-flex gap-1">
+                        @can('user import')
+                        <!-- Import user button -->
+                        <button type="button" class="btn btn-dark m-0" data-bs-toggle="modal" data-bs-target="#importUsersModal">
+                            <div class="d-flex gap-2 align-items-center">
+                                <i class="fa-solid fa-upload"></i>
+                                <span>Import Users</span>
+                            </div>
+                        </button>
+                        <form action="{{ route('users.import-users') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal fade" id="importUsersModal" tabindex="-1" aria-labelledby="importUsersModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="importUsersModalLabel">Import Users</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input class="form-control" type="file" id="formFile" name="user_file">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
+                                            <button type="submit" class="btn btn-primary">IMPORT</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        @endcan
+
+                        <!-- Create user button -->
+                        @can('user create')
+                        <a href="{{ url('users/create') }}" class="btn btn-primary float-end mb-0">Add User</a>
+                        @endcan
+                    </div>
                 </div>
                 <div class="card-body">
-
                     <table class="table table-flush dataTable-table" id="products-list">
                         <thead>
                             <tr>
@@ -97,7 +137,6 @@
                             @endforeach
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
@@ -116,7 +155,7 @@
             ]
         });
 
-        $('.').addClass('dataTable-top');
+        $('.dataTable-table').addClass('dataTable-top');
     });
 </script>
 @endsection

@@ -3,7 +3,9 @@
 namespace  App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -99,5 +101,75 @@ class UserController extends Controller
         $user->delete();
 
         return redirect('/users')->with('status', 'User Delete Successfully');
+    }
+
+    public function importUser()
+    {
+
+        $file = request()->file('user_file');
+
+        if (!file_exists($file)) {
+            return back()->withErrors('File not found: ' . $file->getClientOriginalName());
+        }
+
+        try {
+            $rows = Excel::toArray([], $file)[0];
+            $header = collect(array_shift($rows))->map('strtolower')->toArray();
+
+            $importedCount = 0;
+            $errors = [];
+
+            foreach ($rows as $index => $row) {
+                if (empty(array_filter($row))) {
+                    continue;
+                }
+
+                $data = array_combine($header, $row);
+
+                if (empty($data['role name'])) {
+                    $errors[] = "Row " . ($index + 2) . " has no role name";
+                    continue;
+                }
+
+                $roleName = trim($data['role name']);
+
+                try {
+                    $role = Role::where('name', $roleName)->firstOrFail();
+                } catch (ModelNotFoundException $e) {
+                    $errors[] = "Role not found: {$roleName} (row " . ($index + 2) . ")";
+                    continue;
+                }
+
+                $userData = [
+                    'username' => $data['name'],
+                    'supp_code' => $data['supp_code'],
+                    'type' => $data['type'],
+                ];
+
+                if (!empty($data['password'])) {
+                    $userData['password'] = $data['password'];
+                }
+
+                $user = User::updateOrCreate(
+                    ['email' => $data['email']],
+                    $userData
+                );
+
+                if (!$user->hasRole($roleName)) {
+                    $user->assignRole($role);
+                }
+                // ** uat ยังไม่ assign role ให้ customer user ที่ import เข้าไปใหม่ **
+                // if (env("CUSTOMER_PROD")) {
+                    // $user->assignRole($role);
+                // }
+
+                $importedCount++;
+            }
+
+            $successMessage = "Successfully imported {$importedCount} users";
+            return redirect('/users')->with('status', $successMessage);
+        } catch (\Throwable $th) {
+            return back()->withErrors('An error occurred while processing the file: ' . $th->getMessage());
+        }
     }
 }

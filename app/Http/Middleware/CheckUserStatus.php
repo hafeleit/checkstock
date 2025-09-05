@@ -16,11 +16,18 @@ class CheckUserStatus
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->is_active == 1 && Auth::user()->type == 'employee') {
+        $user = Auth::user();
+
+        if (Auth::check() && $user->is_active == 1) {
             return $next($request);
         }
 
         Auth::logout();
-        return redirect('/login')->withErrors('your account is not active.');
+
+        if ($user->type === 'customer') {
+            return redirect('/customer/login')->withErrors(['email' => 'Your account is not active. Please contact the administrator.'])->onlyInput('email');
+        }
+
+        return redirect('/login')->withErrors(['email' => 'Your account is not active. Please contact the administrator.'])->onlyInput('email');
     }
 }
