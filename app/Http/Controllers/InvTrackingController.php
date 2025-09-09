@@ -12,6 +12,17 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class InvTrackingController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:delivery view lists', ['only' => ['index']]);
+        $this->middleware('permission:delivery view details', ['only' => ['detail']]);
+        $this->middleware('permission:delivery edit deliver', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delivery delete deliver', ['only' => ['destroy']]);
+        $this->middleware('permission:delivery export overall report', ['only' => ['exportOverall']]);
+        $this->middleware('permission:delivery export pending report', ['only' => ['exportPending']]);
+    }
+
     public function index()
     {
         $drivers = Driver::get();

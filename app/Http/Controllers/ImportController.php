@@ -12,6 +12,11 @@ use Maatwebsite\Excel\Validators\ValidationException;
 
 class ImportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:delivery import file', ['only' => ['index', 'store']]);
+    }
+
     public function index()
     {
         $types = ['invoice', 'address', 'hu_detail'];

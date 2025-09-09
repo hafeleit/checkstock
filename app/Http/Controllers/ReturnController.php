@@ -13,6 +13,12 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ReturnController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:delivery create return', ['only' => ['index', 'store']]);
+        $this->middleware('permission:delivery export return report', ['only' => ['export']]);
+    }
+
     public function index()
     {
         $drivers = Driver::get();

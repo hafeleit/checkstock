@@ -17,6 +17,13 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class DeliverController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:delivery create deliver', ['only' => ['index', 'store']]);
+        $this->middleware('permission:delivery export deliver report', ['only' => ['export']]);
+        $this->middleware('permission:delivery export rtt report', ['only' => ['exportRTT']]);
+    }
+
     public function index()
     {
         $drivers = Driver::get();
