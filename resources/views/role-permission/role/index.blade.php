@@ -82,8 +82,8 @@
         </div>
     </div>
 
-    <script src="https://cdn.datatables.net/2.0.6/js/dataTables.min.js"></script>
-    <link href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.min.css" rel="stylesheet" />
+    <script src="{{ asset('js/dataTables.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/dataTables.dataTables.min.css') }}">
 
     <script>
         $(document).ready(function () {
@@ -92,7 +92,6 @@
               order: [[0, 'asc']]
             });
 
-            $('.').addClass('dataTable-top');
         });
     </script>
 @endsection

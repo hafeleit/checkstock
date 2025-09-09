@@ -10,18 +10,17 @@
         HAFELE APPLICATION
     </title>
 
-    <link href="{{ asset('css/fonts.googleapis.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.all.min.css') }}" rel="stylesheet">
     <!-- Nucleo Icons -->
     <link href="{{ URL::to('/') }}/assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="{{ URL::to('/') }}/assets/css/nucleo-svg.css" rel="stylesheet" />
-
     <link href="{{ URL::to('/') }}/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ URL::to('/') }}/assets/css/argon-dashboard.css" rel="stylesheet" />
 
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ asset('js/buttons.github.js') }}"></script>
+    <script src="{{ asset('js/sweetalert2@11.js') }}"></script>
+    <script src="{{ asset('js/jquery.mask.js') }}"></script>
 </head>
 
 <body class="{{ $class ?? '' }} g-sidenav-hidden">
