@@ -65,7 +65,7 @@
                                       }
                                       $title_store = $title[0];
                                      ?>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label>
                                             <input
                                                 id="{{$permission->name}}"
@@ -75,7 +75,7 @@
                                                 value="{{ $permission->name }}"
                                                 {{ in_array($permission->id, $rolePermissions) ? 'checked':'' }}
                                             />
-                                            <label class="custom-control-label text-sm text-uppercase text-secondary" for="{{$permission->name}}">{{ $title[1] }}</label>
+                                            <label class="custom-control-label text-sm text-uppercase text-secondary" for="{{$permission->name}}">{{ implode(' ', array_slice($title, 1)) }}</label>
 
                                         </label>
                                     </div>

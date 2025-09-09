@@ -38,6 +38,9 @@ class RouteServiceProvider extends ServiceProvider
 
              Route::middleware('external')
                 ->group(base_path('routes/external.php'));
+
+             Route::middleware('invoices')
+                ->group(base_path('routes/invoices.php'));
         });
     }
 }
