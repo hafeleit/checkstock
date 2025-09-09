@@ -102,13 +102,13 @@ class CommissionController extends Controller
 
 
          // หา column สูงสุดจริง
-         $highestColumn = $sheet->getHighestColumn(); // เช่น "AU"
-         $highestColumnIndex = Coordinate::columnIndexFromString($highestColumn); // แปลงเป็นเลข
+         //$highestColumn = $sheet->getHighestColumn(); // เช่น "AU"
+         //$highestColumnIndex = Coordinate::columnIndexFromString($highestColumn); // แปลงเป็นเลข
 
-         $expectedColumns = 47;
+         /*$expectedColumns = 47;
          if ($highestColumnIndex != $expectedColumns) {
              return redirect()->back()->with('error', "❌ จำนวน column ของ Row 1 ไม่ถูกต้อง ต้องเป็น $expectedColumns คอลัมน์ แต่เจอ $highestColumnIndex");
-         }
+         }*/
 
          $cellValue = trim($sheet->getCell('A2')->getValue() ?? '');
          if (empty($cellValue)) {
@@ -359,31 +359,64 @@ class CommissionController extends Controller
 
          switch ($request->status) {
              case 'AR Approved':
-                 $to = ['warisara@hafele.co.th','pimnada@hafele.co.th','apirak@hafele.co.th']; //warisara, pimnada
+                 $to = ['warisara@hafele.co.th','pimnada@hafele.co.th']; //warisara, pimnada
+                 $cc = array_merge($cc, [
+                           'apirak@hafele.co.th',
+                           'chanida@hafele.co.th',
+                           'nattawan@hafele.co.th',
+                       ]);
                  break;
 
              case 'Summary Rejected':
-                 $to = ['sarunya@hafele.co.th','apirak@hafele.co.th']; //sarunya
+                 $to = ['sarunya@hafele.co.th']; //sarunya
+                 $cc = array_merge($cc, [
+                           'apirak@hafele.co.th',
+                           'chanida@hafele.co.th',
+                           'nattawan@hafele.co.th',
+                       ]);
                  break;
 
              case 'Summary Confirmed':
-                 $to = ['chanida@hafele.co.th','apirak@hafele.co.th']; //chanida
+                 $to = ['chanida@hafele.co.th']; //chanida
+                 $cc = array_merge($cc, [
+                           'apirak@hafele.co.th',
+                           'warisara@hafele.co.th',
+                           'pimnada@hafele.co.th'
+                       ]);
                  break;
 
              case 'Summary Rejected(Manager)':
-                 $to = ['warisara@hafele.co.th','pimnada@hafele.co.th','apirak@hafele.co.th']; //warisara, pimnada
+                 $to = ['warisara@hafele.co.th','pimnada@hafele.co.th']; //warisara, pimnada
+                 $cc = array_merge($cc, [
+                           'apirak@hafele.co.th',
+                       ]);
                  break;
 
              case 'Summary Approved':
-                 $to = ['nattawan@hafele.co.th','apirak@hafele.co.th']; //nattawan
+                 $to = ['nattawan@hafele.co.th']; //nattawan
+                 $cc = array_merge($cc, [
+                           'apirak@hafele.co.th',
+                           'warisara@hafele.co.th',
+                           'pimnada@hafele.co.th'
+                       ]);
                  break;
 
              case 'Final Rejected':
-                 $to = ['chanida@hafele.co.th','apirak@hafele.co.th']; //chanida
+                 $to = ['chanida@hafele.co.th']; //chanida
+                 $cc = array_merge($cc, [
+                           'apirak@hafele.co.th',
+                           'sarunya@hafele.co.th'
+                       ]);
                  break;
 
              case 'Final Approved':
-                 $to = ['chanida@hafele.co.th','warisara@hafele.co.th','pimnada@hafele.co.th','apirak@hafele.co.th']; //chanida warisara, pimnada
+                 $to = ['chanida@hafele.co.th'];
+                 $cc = array_merge($cc, [
+                           'apirak@hafele.co.th',
+                           'warisara@hafele.co.th',
+                           'pimnada@hafele.co.th',
+                           'sarunya@hafele.co.th',
+                       ]);
                  break;
          }
 

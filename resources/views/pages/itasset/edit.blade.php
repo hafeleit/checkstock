@@ -22,44 +22,31 @@
             <h5 class="font-weight-bolder">Asset Image</h5>
             <div class="row">
               <div class="col-12">
-                @switch($itasset->type)
-                @case('T01')
-                <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="macbook">
-                @break
-                @case('T03')
-                <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/printer-fuji.jpg" alt="printer">
-                @break
-                @case('T02')
-                <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="pc">
-                @break
-                @case('T05')
-                <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/headset.jpg" alt="headset">
-                @break
-                @case('T06')
-                <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/telephone_sim.jpg" alt="telephone_sim">
-                @break
-                @case('T07')
-                <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/tv.png" alt="tv">
-                @break
-                @case('T08')
-                <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/copy_machine.png" alt="copy_machine">
-                @break
-                @case('T09')
-                <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/handheld.png" alt="handheld">
-                @break
-                @case('T10')
-                <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/mobile_printer.jpg" alt="mobile_printer">
-                @break
-                @case('T11')
-                <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/pos.png" alt="pos">
-                @break
-                @case('T12')
-                <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ URL::to('/') }}/img/itasset/phone_number.png" alt="phone_number">
-                @break
-                @default
-                <img class="w-100 border-radius-lg shadow-lg mt-3" src="" alt="product_image">
-                @endswitch
+                  @php
+                      $images = [
+                          'T01' => 'macbook-pro.jpg',
+                          'T02' => 'pc.jpg',
+                          'T03' => 'printer-fuji.jpg',
+                          'T05' => 'headset.jpg',
+                          'T06' => 'telephone_sim.jpg',
+                          'T07' => 'tv.png',
+                          'T08' => 'copy_machine.png',
+                          'T09' => 'handheld.png',
+                          'T10' => 'mobile_printer.jpg',
+                          'T11' => 'pos.png',
+                          'T12' => 'phone_number.png',
+                          'T13' => 'microphone.png',
+                          'T14' => 'usb_flash_drive.png',
+                          'T15' => 'video_conference.png',
+                          'T16' => 'speaker.png',
+                          'T17' => 'mobile_phone.png',
+                          'T18' => 'tablet.png',
+                      ];
 
+                      $image = $images[$itasset->type] ?? null;
+                  @endphp
+
+                  <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ $image ? URL::to('/').'/img/itasset/'.$image : '' }}" alt="itasset">
               </div>
               <div class="col-12 mt-5">
                 <div class="d-flex">
@@ -109,7 +96,7 @@
               </div>
               <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                 <label class="mt-4">Type <span class="text-danger">*</span></label>
-                <select class="form-control" name="type" required>
+                <select class="form-control" name="type" id="type" required>
                   <option value="">-- Select --</option>
                   @foreach($types as $type)
                   <option value="{{ $type->type_code }}"
@@ -120,6 +107,30 @@
                 </select>
               </div>
             </div>
+            <div class="row d-none" id="col-tel">
+              <div class="col-12 col-sm-6 mt-3">
+
+              </div>
+              <div class="col-12 col-sm-6 mt-3">
+                <label>Phone Number</label>
+                <input class="form-control" type="text" name="tel" value="{{$itasset->tel}}">
+              </div>
+            </div>
+            <script>
+            function toggleTelField() {
+                let val = $('#type').val();
+                if (val === 'T17' || val === 'T18') {
+                    $('#col-tel').removeClass('d-none'); // Show
+                } else {
+                    $('#col-tel').addClass('d-none'); // Hide
+                }
+            }
+
+            $(document).ready(function(){
+                toggleTelField(); // check once when page load
+                $('#type').on('change', toggleTelField); // check again when user change
+            });
+            </script>
             <div class="row">
               <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                 <label class="mt-4">Color</label>
