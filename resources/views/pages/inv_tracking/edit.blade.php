@@ -48,7 +48,6 @@
 
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary uppercase d-flex align-items-center justify-content-center gap-2">
-                        <!-- <i class="fa fa-plus-circle"></i> -->
                         <span>UPDATE DOCUMENT</span>
                     </button>
                 </div>
@@ -69,7 +68,6 @@
 
         const form = this;
         const driver_or_sent_to = form.querySelector('#driver_or_sent_to').value;
-        // const delivery_date = form.querySelector('#delivery_date').value;
         const erpDocuments = form.querySelector('#erp_documents').value;
         const erpDocumentsArray = erpDocuments.split('\n').filter(line => line.trim() !== '');
 
@@ -84,15 +82,10 @@
 
         const previewList = erpDocumentsArray.map(erp => {
             return `
-            <div class="row mb-2">
-                <div class="col-6">
-                    <label class="form-label">${erp}</label>
-                </div>
-                <div class="col-6">
-                    <input type="text" class="form-control form-control-sm" name="invoice_id[]" data-erp="${erp}" placeholder="fetching invoice..." disabled>
-                </div>
-            </div>
-        `;
+                <li>
+                <p class="mb-0 text-sm">${erp}</p>
+                </li>
+            `;
         }).join('');
 
         const htmlContent = `
@@ -100,13 +93,9 @@
             <div class="text-sm" style="text-align: left; padding: 0 1rem;">
                 <p class="mb-0 text-sm"><strong>Driver/Sent to:</strong> ${driver_or_sent_to ?? ''}</p>
                 <p class="mb-0 text-sm"><strong>Created by:</strong> {{ $user->username }}</p>
-            </div>
-            <div class="mt-3" style="text-align: left; padding: 0 1rem;">
-                <div class="row mt-2">
-                    <div class="col-6"><strong>ERP document</strong></div>
-                    <div class="col-6"><strong>Invoice ID</strong></div>
-                </div>
-                ${previewList}
+                <ul>
+                    ${previewList}
+                </ul>
             </div>
         `;
 
@@ -122,28 +111,12 @@
                 actions: 'd-flex gap-2 justify-content-center'
             },
             buttonsStyling: false,
-            didOpen: () => {
-                fetchInvoices(erpDocumentsArray);
-            }
         }).then((result) => {
             if (result.isConfirmed) {
                 const finalData = {
-                    // driver_or_sent_to: driver_or_sent_to,
-                    // delivery_date: delivery_date,
                     remark: form.querySelector('#remark').value,
-                    items: []
+                    erp_documents: erpDocumentsArray,
                 };
-
-                document.querySelectorAll('input[name="invoice_id[]"]').forEach(input => {
-                    const erp = input.dataset.erp;
-                    const invoice = input.value;
-                    if (erp && invoice) {
-                        finalData.items.push({
-                            erp_document: erp,
-                            invoice_id: invoice
-                        });
-                    }
-                });
 
                 Swal.fire({
                     title: 'Updating...',

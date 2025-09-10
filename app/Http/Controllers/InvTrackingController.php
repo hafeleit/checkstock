@@ -139,14 +139,12 @@ class InvTrackingController extends Controller
 
     public function update($logiTrackId)
     {
-        $finalData = request()->input('finalData');
-
         request()->validate([
-            'finalData.items' => 'required|array',
-            'finalData.items.*.erp_document' => 'required|string',
-            'finalData.items.*.invoice_id' => 'required|string',
+            'finalData.erp_documents' => 'required|array',
             'finalData.remark' => 'nullable|string',
         ]);
+
+        $finalData = request()->input('finalData');
 
         DB::transaction(function () use ($logiTrackId, $finalData) {
             $invTracking = InvTracking::where('logi_track_id', $logiTrackId)->first();
@@ -156,14 +154,14 @@ class InvTrackingController extends Controller
 
             InvTracking::where('logi_track_id', $logiTrackId)->delete();
 
-            foreach ($finalData['items'] as $item) {
+            foreach ($finalData['erp_documents'] as $item) {
                 InvTracking::create([
                     'logi_track_id' => $logiTrackId,
-                    'erp_document' => $item['erp_document'],
-                    'invoice_id' => $invTracking['invoice_id'],
+                    'erp_document' => $item,
+                    'invoice_id' => null,
                     'driver_or_sent_to' => $invTracking['driver_or_sent_to'],
                     'type' => $invTracking['type'],
-                    'status' => 'pending',
+                    'status' => $invTracking['type'] === 'deliver' ? 'pending' : 'completed',
                     'delivery_date' => $invTracking['delivery_date'] ?? null,
                     'created_date' => $invTracking['created_date'],
                     'created_by' => $invTracking['created_by'],

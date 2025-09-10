@@ -71,7 +71,7 @@
                                 <strong class="text-lg">Address</strong>
                                 <span class="text-muted text-sm">Name: {{ $latestLogs['address']['file_name'] }}</span>
                                 <span class="text-muted text-sm">Type: {{ $latestLogs['address']['type'] }}</span>
-                                <span class="text-muted text-sm">Date: {{ $latestLogs['invoice']['created_at'] }}</span>
+                                <span class="text-muted text-sm">Date: {{ $latestLogs['address']['created_at'] }}</span>
                             </div>
                             @else
                             <div class="d-flex flex-column small text-muted">
@@ -86,7 +86,7 @@
                                 <strong class="text-lg">HU Detail</strong>
                                 <span class="text-muted text-sm">Name: {{ $latestLogs['hu_detail']['file_name'] }}</span>
                                 <span class="text-muted text-sm">Type: {{ $latestLogs['hu_detail']['type'] }}</span>
-                                <span class="text-muted text-sm">Date: {{ $latestLogs['invoice']['created_at'] }}</span>
+                                <span class="text-muted text-sm">Date: {{ $latestLogs['hu_detail']['created_at'] }}</span>
                             </div>
                             @else
                             <div class="d-flex flex-column small text-muted">
@@ -120,7 +120,7 @@
 <script>
     Swal.fire({
         title: 'Success!',
-        text: '{{ session('success') }}',
+        text: "{{ session('success') }}",
         icon: 'success',
         timer: 3000,
         showConfirmButton: false
@@ -132,7 +132,7 @@
 <script>
     Swal.fire({
         title: 'Error!',
-        text: '{{ session('error') }}',
+        text: "{{ session('error') }}",
         icon: 'error',
         showConfirmButton: true
     });

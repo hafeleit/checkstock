@@ -43,7 +43,7 @@
     .select2-container--default .select2-selection--single .select2-selection__placeholder {
         font-size: 12px !important;
     }
-
+    
     p.text-sm.text-gray-700.leading-5.dark\:text-gray-400 {
         margin-bottom: 0px;
     }

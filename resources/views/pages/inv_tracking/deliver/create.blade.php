@@ -80,7 +80,7 @@
     $(document).ready(function() {
         $('#driver_or_sent_to').select2({
             tags: true,
-            tokenSeparators: [',', ' '],
+            tokenSeparators: [','],
             placeholder: 'Search for a driver or add a new one',
             createTag: function(params) {
                 var term = $.trim(params.term);
