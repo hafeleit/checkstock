@@ -12,6 +12,12 @@
     .select2-container--default .select2-selection--single .select2-selection__placeholder {
         font-size: 12px !important;
     }
+
+    .required::after {
+        content: "*";
+        color: red;
+        margin-left: 4px;
+    }
 </style>
 <div class="container-fluid py-4">
     <div class="card">
@@ -42,7 +48,7 @@
                         </select>
                     </div>
                     <div class="mb-3 col-6">
-                        <label for="delivery_date" class="form-label">Delivery Date</label>
+                        <label for="delivery_date" class="form-label required">Delivery Date</label>
                         <input type="date" class="form-control form-control-sm" id="delivery_date" name="delivery_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
                     </div>
                 </div>

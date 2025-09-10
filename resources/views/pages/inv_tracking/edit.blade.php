@@ -2,6 +2,13 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Deliver Management'])
+<style>
+    .required::after {
+        content: "*";
+        color: red;
+        margin-left: 4px;
+    }
+</style>
 <div class="container-fluid py-4">
     <div class="card">
         <div class="px-4 d-flex align-items-center justify-content-between mt-4">
@@ -28,7 +35,7 @@
                     </div>
                     @if ($invTracking['type'] ==='deliver')
                     <div class="mb-3 col-6">
-                        <label for="delivery_date" class="form-label">Delivery Date</label>
+                        <label for="delivery_date" class="form-label required">Delivery Date</label>
                         <input type="date" class="form-control form-control-sm" id="delivery_date" name="delivery_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" disabled>
                     </div>
                     @endif
