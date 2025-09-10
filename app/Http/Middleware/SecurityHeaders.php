@@ -29,14 +29,7 @@ class SecurityHeaders
         // Content Security Policy (CSP) - ปรับตามระบบจริง
         $response->headers->set(
             'Content-Security-Policy',
-            "default-src 'self'; " .
-            "script-src 'self'; " .
-            "style-src 'self'; " .
-            "font-src 'self'; " .
-            "img-src 'self' data:; " .
-            "object-src 'none'; " .
-            "base-uri 'self'; " .
-            "frame-ancestors 'none';"
+            "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval';  style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:"
         );
 
         // บังคับใช้ HTTPS
