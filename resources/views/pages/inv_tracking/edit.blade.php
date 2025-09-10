@@ -2,13 +2,6 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Deliver Management'])
-<style>
-    .required::after {
-        content: "*";
-        color: red;
-        margin-left: 4px;
-    }
-</style>
 <div class="container-fluid py-4">
     <div class="card">
         <div class="px-4 d-flex align-items-center justify-content-between mt-4">
@@ -30,7 +23,7 @@
                 @method('PUT')
                 <div class="row">
                     <div class="mb-3 {{ $invTracking['type'] === 'deliver' ? 'col-6' : 'col-12'}}">
-                        <label for="driver_or_sent_to" class="form-label required">{{ $invTracking['type'] ==='deliver' ? 'Driver' : 'Sent to' }}</label>
+                        <label for="driver_or_sent_to" class="form-label required">{{ $invTracking['type'] === 'deliver' ? 'Driver' : 'Sent to' }}</label>
                         <input type="text" class="form-control form-control-sm" id="driver_or_sent_to" name="driver_or_sent_to" value="{{ $invTracking['driver_or_sent_to'] }}" disabled>
                     </div>
                     @if ($invTracking['type'] ==='deliver')

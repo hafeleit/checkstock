@@ -12,12 +12,6 @@
     .select2-container--default .select2-selection--single .select2-selection__placeholder {
         font-size: 12px !important;
     }
-
-    .required::after {
-        content: "*";
-        color: red;
-        margin-left: 4px;
-    }
 </style>
 <div class="container-fluid py-4">
     <div class="card">

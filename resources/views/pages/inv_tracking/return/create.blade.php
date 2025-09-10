@@ -13,16 +13,12 @@
         font-size: 12px !important;
     }
 
-    .required::after {
-        content: "*";
-        color: red;
-        margin-left: 4px;
-    }
+    
 </style>
 <div class="container-fluid py-4">
     <div class="card">
         <div class="px-4 d-flex align-items-center justify-content-between mt-4">
-            <h2 class="h5 mb-0">Create New Retrun Document</h2>
+            <h2 class="h5 mb-0">Create New Return Document</h2>
             <a href="/delivery-trackings" class="btn btn-secondary btn-sm d-flex align-items-center gap-2 mb-0">
                 <i class="fa fa-arrow-left"></i>
                 <span>Back</span>

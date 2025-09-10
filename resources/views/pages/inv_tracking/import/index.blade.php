@@ -2,13 +2,6 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Import Document'])
-<style>
-    .required::after {
-        content: "*";
-        color: red;
-        margin-left: 4px;
-    }
-</style>
 <div class="container-fluid py-4">
     <div class="card">
         <div class="p-4">
