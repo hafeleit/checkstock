@@ -41,6 +41,14 @@
     .hidden.sm\:flex-1.sm\:flex.sm\:items-center.sm\:justify-between {
         margin-top: 12px;
     }
+
+    .btn-export-rtt {
+        background-color: #17a2b8;
+        color: white;
+    }
+    .btn-export-rtt:hover {
+        color: white;
+    }
 </style>
 
 <div class="container-fluid py-4">
@@ -181,7 +189,7 @@
                                                 </a>
                                                 @endcan
                                                 @can('delivery export rtt report')
-                                                <a href="/invoice-trackings/delivers/export-rtt?logi_track_id={{ $item['logi_track_id'] }}&report_type=detail" class="btn btn-secondary m-1">
+                                                <a href="/invoice-trackings/delivers/export-rtt?logi_track_id={{ $item['logi_track_id'] }}&report_type=detail" class="btn btn-export-rtt m-1">
                                                     <i class="fas fa-print"></i> RTT Report
                                                 </a>
                                                 @endcan

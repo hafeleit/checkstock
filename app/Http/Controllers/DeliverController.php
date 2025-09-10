@@ -132,7 +132,7 @@ class DeliverController extends Controller
                 'job_number' => $invTracking['logi_track_id'] ?? null,
                 'shipment_number' => $huDetail['shipment_number'] ?? null,
                 'weight' => $huDetail['total_weight'] ?? null,
-                'volume' => $huDetail['total_volume'] ?? null,
+                'volume' => ($huDetail['total_volume'] ?? null) ? ($huDetail['total_volume'] / 1000000) : null,
                 'handling_units' => $huDetail['handling_units'] ?? null,
                 'address' => $address['street'] ?? null,
                 'city' => $address['city'] ?? null,
