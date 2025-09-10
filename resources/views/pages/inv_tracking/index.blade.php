@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-@include('layouts.navbars.auth.topnav', ['title' => 'Invoice Tracking'])
+@include('layouts.navbars.auth.topnav', ['title' => 'Delivery Tracking'])
 
 <style>
     .custom-shadow {
@@ -55,7 +55,7 @@
     <div class="card">
         <div class="d-flex justify-content-between align-items-center py-4 px-4">
             <div class="d-flex align-items-center justify-content-between">
-                <h2 class="h5 mb-0">Invoice Tracking Lists</h2>
+                <h2 class="h5 mb-0">Delivery Tracking Lists</h2>
             </div>
             <!-- Dropdown create job -->
             @canany(['delivery create deliver', 'delivery create return'])
@@ -65,10 +65,10 @@
                 </button>
                 <ul class="dropdown-menu shadow" aria-labelledby="dropdownCreateButton">
                     @can('delivery create deliver')
-                    <li><a class="dropdown-item" href="{{ route('invoice-trackings.delivers.index') }}">Deliver</a></li>
+                    <li><a class="dropdown-item" href="{{ route('delivery-trackings.delivers.index') }}">Deliver</a></li>
                     @endcan
                     @can('delivery create return')
-                    <li><a class="dropdown-item" href="{{ route('invoice-trackings.returns.index') }}">Return</a></li>
+                    <li><a class="dropdown-item" href="{{ route('delivery-trackings.returns.index') }}">Return</a></li>
                     @endcan
                 </ul>
             </div>
@@ -123,7 +123,7 @@
                         @foreach ($invTrackings as $item)
                         <tr>
                             <td class="py-3 px-3">
-                                <a href="/invoice-trackings/details?logi_track_id={{ $item['logi_track_id'] }}">
+                                <a href="/delivery-trackings/details?logi_track_id={{ $item['logi_track_id'] }}">
                                     {{ $item['logi_track_id'] }}
                                 </a>
                             </td>
@@ -143,7 +143,7 @@
                             </td>
                             <td class="py-3 px-3 text-end d-flex gap-3 align-items-center justify-content-end">
                                 @canany(['delivery edit deliver', 'delivery edit return'])
-                                <a href="/invoice-trackings/{{ $item['logi_track_id'] }}/edit" class="text-dark">
+                                <a href="/delivery-trackings/{{ $item['logi_track_id'] }}/edit" class="text-dark">
                                     <!-- Edit SVG Icon -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2">
                                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
@@ -164,7 +164,7 @@
                                 @endcanany
                                 @else
                                 @can('delivery export return report')
-                                <a href="/invoice-trackings/returns/export?logi_track_id={{ $item['logi_track_id'] }}" class="text-dark">
+                                <a href="/delivery-trackings/returns/export?logi_track_id={{ $item['logi_track_id'] }}" class="text-dark">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download">
                                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                         <polyline points="7 10 12 15 17 10"></polyline>
@@ -184,12 +184,12 @@
                                             <div class="modal-body text-center">
                                                 <p>Please choose which report you want to export:</p>
                                                 @can('delivery export deliver report')
-                                                <a href="/invoice-trackings/delivers/export?logi_track_id={{ $item['logi_track_id'] }}&report_type=summary" class="btn btn-primary m-1">
+                                                <a href="/delivery-trackings/delivers/export?logi_track_id={{ $item['logi_track_id'] }}&report_type=summary" class="btn btn-primary m-1">
                                                     <i class="fas fa-print"></i> Deliver Report
                                                 </a>
                                                 @endcan
                                                 @can('delivery export rtt report')
-                                                <a href="/invoice-trackings/delivers/export-rtt?logi_track_id={{ $item['logi_track_id'] }}&report_type=detail" class="btn btn-export-rtt m-1">
+                                                <a href="/delivery-trackings/delivers/export-rtt?logi_track_id={{ $item['logi_track_id'] }}&report_type=detail" class="btn btn-export-rtt m-1">
                                                     <i class="fas fa-print"></i> RTT Report
                                                 </a>
                                                 @endcan
@@ -204,7 +204,7 @@
 
                                 <!-- Delete Button -->
                                 @canany(['delivery delete deliver', 'delivery delete return'])
-                                <form id="delete-form-{{ $item['logi_track_id'] }}" action="{{ route('invoice-trackings.destroy', $item['logi_track_id']) }}" method="POST">
+                                <form id="delete-form-{{ $item['logi_track_id'] }}" action="{{ route('delivery-trackings.destroy', $item['logi_track_id']) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <a href="#" class="text-danger" onclick="confirmDelete('{{ $item['logi_track_id'] }}')">
@@ -267,7 +267,7 @@
         }
 
         const params = new URLSearchParams(filteredData).toString();
-        const url = `/invoice-trackings${params ? '?' + params : ''}`;
+        const url = `/delivery-trackings${params ? '?' + params : ''}`;
 
         window.location.href = url;
     };

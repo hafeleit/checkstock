@@ -6,7 +6,7 @@
     <div class="card">
         <div class="px-4 d-flex align-items-center justify-content-between mt-4">
             <h2 class="h5 mb-0">Edit Deliver/Return #{{ $invTracking['logi_track_id'] }}</h2>
-            <a href="/invoice-trackings" class="btn btn-secondary btn-sm d-flex align-items-center gap-2 mb-0">
+            <a href="/delivery-trackings" class="btn btn-secondary btn-sm d-flex align-items-center gap-2 mb-0">
                 <i class="fa fa-arrow-left"></i>
                 <span>Back</span>
             </a>
@@ -18,7 +18,7 @@
         </div>
 
         <div class="px-4">
-            <form id="edit-form" action="{{ route('invoice-trackings.update', $invTracking['logi_track_id']) }}" method="POST">
+            <form id="edit-form" action="{{ route('delivery-trackings.update', $invTracking['logi_track_id']) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="row">
@@ -141,7 +141,7 @@
                     .then(response => {})
                     .then(data => {
                         swal.fire('Success', 'Data saved successfully!', 'success');
-                        window.location.href = '/invoice-trackings';
+                        window.location.href = '/delivery-trackings';
                     })
                     .catch(error => {
                         swal.fire('Error', 'An error occurred while saving the data.', 'error');

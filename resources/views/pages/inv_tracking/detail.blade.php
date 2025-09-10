@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-@include('layouts.navbars.auth.topnav', ['title' => 'Invoice Tracking'])
+@include('layouts.navbars.auth.topnav', ['title' => 'Delivery Tracking'])
 
 <style>
     .custom-shadow {
@@ -112,13 +112,13 @@
 
             <div class="d-flex align-items-center justify-content-end gap-2">
                 @can('delivery export overall report')
-                <a href="/invoice-trackings/export-overall" class="btn btn-export btn-sm d-flex align-items-center gap-2">
+                <a href="/delivery-trackings/export-overall" class="btn btn-export btn-sm d-flex align-items-center gap-2">
                     <i class="fas fa-print"></i>
                     <span>Overall report</span>
                 </a>
                 @endcan
                 @can('delivery export pending report')
-                <a href="/invoice-trackings/export-pending" class="btn btn-export btn-sm d-flex align-items-center gap-2">
+                <a href="/delivery-trackings/export-pending" class="btn btn-export btn-sm d-flex align-items-center gap-2">
                     <i class="fas fa-print"></i>
                     <span>Pending ERP report</span>
                 </a>

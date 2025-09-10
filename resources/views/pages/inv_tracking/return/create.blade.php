@@ -17,7 +17,7 @@
     <div class="card">
         <div class="px-4 d-flex align-items-center justify-content-between mt-4">
             <h2 class="h5 mb-0">Create New Retrun Document</h2>
-            <a href="/invoice-trackings" class="btn btn-secondary btn-sm d-flex align-items-center gap-2 mb-0">
+            <a href="/delivery-trackings" class="btn btn-secondary btn-sm d-flex align-items-center gap-2 mb-0">
                 <i class="fa fa-arrow-left"></i>
                 <span>Back</span>
             </a>
@@ -29,7 +29,7 @@
         </div>
 
         <div class="px-4">
-            <form id="deliver-form" action="{{ route('invoice-trackings.returns.store') }}" method="POST">
+            <form id="deliver-form" action="{{ route('delivery-trackings.returns.store') }}" method="POST">
                 @csrf
                 <div class="row">
                     <div class="mb-3">
@@ -176,7 +176,7 @@
                     .then(response => {})
                     .then(data => {
                         Swal.fire('Success', 'Data saved successfully!', 'success');
-                        window.location.href = '/invoice-trackings';
+                        window.location.href = '/delivery-trackings';
                     })
                     .catch(error => {
                         Swal.fire('Error', 'An error occurred while saving the data.', 'error');

@@ -12,7 +12,7 @@
         </div>
 
         <div class="px-4">
-            <form id="import-form" action="{{ route('invoice-trackings.imports.store') }}" method="POST" enctype="multipart/form-data">
+            <form id="import-form" action="{{ route('delivery-trackings.imports.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="col">
                     <div class="mb-2 col-6">
