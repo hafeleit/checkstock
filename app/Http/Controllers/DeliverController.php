@@ -61,7 +61,7 @@ class DeliverController extends Controller
                     'driver_or_sent_to' => $request->driver_or_sent_to,
                     'type' => 'deliver',
                     'status' => 'pending',
-                    'delivery_date' => Carbon::parse($request->delivery_date),
+                    'delivery_date' => Carbon::createFromFormat('d-m-Y H:i', $request->delivery_date),
                     'created_date' => Carbon::now(),
                     'created_by' => Auth()->user()->id,
                     'remark' => $request->remark ?? null

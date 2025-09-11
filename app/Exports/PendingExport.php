@@ -32,6 +32,7 @@ class PendingExport implements FromCollection, WithHeadings, WithMapping, WithSt
         return [
             'First Create Date',
             'ERP Document',
+            'Invoice ID',
             'Lastest Driver',
             'Duration',
         ];
@@ -41,8 +42,9 @@ class PendingExport implements FromCollection, WithHeadings, WithMapping, WithSt
         return [
             $row['delivery_date'],
             $row['erp_document'],
+            $row['invoice_id'],
             $row['driver_or_sent_to'],
-            $row['duration'],
+            (string) $row['duration']
         ];
     }
 
@@ -54,21 +56,21 @@ class PendingExport implements FromCollection, WithHeadings, WithMapping, WithSt
     public function styles(Worksheet $sheet)
     {
         // จัดรูปแบบหัวตาราง
-        $sheet->getStyle('A1:D1')->getFont()->setBold(true);
-        $sheet->getStyle('A1:D1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFDBDBDB');
-        $sheet->getStyle('A1:D1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A1:E1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:E1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFDBDBDB');
+        $sheet->getStyle('A1:E1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-        // *** เพิ่มเส้นขอบให้กับหัวตาราง (A1:D1) ***
-        $sheet->getStyle('A1:D1')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+        // *** เพิ่มเส้นขอบให้กับหัวตาราง (A1:E1) ***
+        $sheet->getStyle('A1:E1')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 
         // *** เพิ่มเส้นขอบให้กับข้อมูลในตาราง ***
         $lastRow = count($this->mappedData) + 1;
-        $range = 'A1:D' . $lastRow;
+        $range = 'A1:E' . $lastRow;
 
         $sheet->getStyle($range)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 
         // จัดความกว้างคอลัมน์
-        foreach (range('A', 'D') as $column) {
+        foreach (range('A', 'E') as $column) {
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
     }

@@ -43,7 +43,7 @@
                     </div>
                     <div class="mb-3 col-6">
                         <label for="delivery_date" class="form-label required">Delivery Date</label>
-                        <input type="date" class="form-control form-control-sm" id="delivery_date" name="delivery_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
+                        <input type="datetime-local" class="form-control form-control-sm bg-white" id="delivery_date" name="delivery_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d\TH:i') }}" required>
                     </div>
                 </div>
 
@@ -93,6 +93,11 @@
 
     // --- Select2 Initialization ---
     $(document).ready(function() {
+        flatpickr("#delivery_date", {
+            enableTime: true,
+            dateFormat: "d-m-Y H:i",
+            defaultDate: "{{ \Carbon\Carbon::now()->format('d-m-Y H:i') }}"
+        });
         $('#driver_or_sent_to').select2({
             tags: true,
             tokenSeparators: [','],
@@ -190,7 +195,7 @@
                         Swal.showLoading();
                     }
                 });
-
+                console.log(finalData)
                 fetch(form.action, {
                         method: 'post',
                         headers: {

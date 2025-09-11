@@ -217,7 +217,7 @@ class InvTrackingController extends Controller
     public function exportPending()
     {
         $invTrackings = InvTracking::query()
-            ->select('erp_document')
+            ->select('erp_document', 'invoice_id')
             ->selectRaw('MIN(delivery_date) as oldest_delivery_date')
             ->selectRaw('DATEDIFF(CURDATE(), MIN(delivery_date)) as days_since_delivery')
             ->selectSub(function ($query) {
@@ -231,13 +231,14 @@ class InvTrackingController extends Controller
             }, 'driver_or_sent_to')
             ->where('type', 'deliver')
             ->where('status', 'pending')
-            ->groupBy('erp_document')
+            ->groupBy('erp_document', 'invoice_id')
             ->get();
 
         $mappedData = $invTrackings->map(function ($invTracking, $index) {
             return [
                 'delivery_date' => $invTracking->oldest_delivery_date,
                 'erp_document' => $invTracking->erp_document,
+                'invoice_id' => $invTracking->invoice_id,
                 'driver_or_sent_to' => $invTracking->driver_or_sent_to,
                 'duration' => $invTracking->days_since_delivery ?? ''
             ];

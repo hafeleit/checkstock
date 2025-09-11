@@ -3,56 +3,6 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Delivery Tracking'])
 
-<style>
-    .custom-shadow {
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    }
-
-    .text-primary-custom {
-        color: #dc3545 !important;
-    }
-
-    .bg-primary-custom {
-        background-color: #dc3545 !important;
-    }
-
-    .btn-export {
-        background-color: #17a2b8;
-        color: white;
-    }
-
-    .btn-export:hover {
-        background-color: #017587;
-        color: white;
-    }
-
-    .capitalize {
-        text-transform: capitalize;
-    }
-
-    .uppercase {
-        text-transform: uppercase;
-    }
-
-    .select2-container--default .select2-selection--single {
-        height: 30px !important;
-        border: 1px solid #d2d6da !important;
-        border-radius: 8px !important;
-    }
-
-    .select2-container--default .select2-selection--single .select2-selection__placeholder {
-        font-size: 12px !important;
-    }
-    
-    p.text-sm.text-gray-700.leading-5.dark\:text-gray-400 {
-        margin-bottom: 0px;
-    }
-
-    .hidden.sm\:flex-1.sm\:flex.sm\:items-center.sm\:justify-between {
-        margin-top: 12px;
-    }
-</style>
-
 <div class="container-fluid py-4">
     <div class="card">
         <div class="my-3 px-4">
@@ -148,9 +98,9 @@
                             <td class="py-3 px-3">{{ $item['erp_document'] }}</td>
                             <td class="py-3 px-3">{{ $item['invoice_id'] ?? null }}</td>
                             <td class="py-3 px-3">{{ $item['driver_or_sent_to'] }}</td>
-                            <td class="py-3 px-3">{{ $item['delivery_date'] ? $item['delivery_date']->format('d-m-Y') : '-' }}</td>
+                            <td class="py-3 px-3">{{ $item['delivery_date'] ? $item['delivery_date']->format('d-m-Y H:i:s') : '-' }}</td>
                             <td class="py-3 px-3">{{ $item['user']['username'] }}</td>
-                            <td class="py-3 px-3">{{ $item['created_date']->format('d-m-Y') }}</td>
+                            <td class="py-3 px-3">{{ $item['created_date']->format('d-m-Y H:i:s') }}</td>
                             <td class="py-3 px-3">
                                 <span class="fw-semibold capitalize @if($item['type'] === 'return') text-success @else text-muted @endif">
                                     {{ $item['type'] }}
