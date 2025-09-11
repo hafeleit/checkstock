@@ -1,40 +1,43 @@
 <!-- Navbar -->
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl
         {{ str_contains(Request::url(), 'virtual-reality') == true ? ' mt-3 mx-3 bg-primary' : '' }}" id="navbarBlur"
-        data-scroll="false">
+    data-scroll="false">
     <div class="container-fluid py-1 px-3">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-                <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ $title }}</li>
-            </ol>
-            <h3 class="font-weight-bolder text-white mb-0">{{ $title }}</h3>
-        </nav>
-        <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none me-auto" id="sidenavToggler">
-          <a href="javascript:;" class="nav-link text-body p-0">
-            <div class="sidenav-toggler-inner">
-              <i class="sidenav-toggler-line bg-white"></i>
-              <i class="sidenav-toggler-line bg-white"></i>
-              <i class="sidenav-toggler-line bg-white"></i>
+        <div class="d-flex align-items-center gap-4">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ $title }}</li>
+                </ol>
+                <h3 class="font-weight-bolder text-white mb-0">{{ $title }}</h3>
+            </nav>
+            <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none me-auto" id="sidenavToggler">
+                <a href="javascript:;" class="nav-link text-body p-0">
+                    <div class="sidenav-toggler-inner">
+                        <i class="sidenav-toggler-line bg-white"></i>
+                        <i class="sidenav-toggler-line bg-white"></i>
+                        <i class="sidenav-toggler-line bg-white"></i>
+                    </div>
+                </a>
             </div>
-          </a>
-        </div>
-        <script type="text/javascript">
-        const toggler = document.getElementById('sidenavToggler');
-        const body = document.body;
+            <script type="text/javascript">
+                const toggler = document.getElementById('sidenavToggler');
+                const body = document.body;
 
-        toggler.addEventListener('click', function () {
-            if (body.classList.contains('g-sidenav-hidden')) {
-                body.classList.remove('g-sidenav-hidden');
-                body.classList.add('g-sidenav-pinned');
-            } else if (body.classList.contains('g-sidenav-pinned')) {
-                body.classList.remove('g-sidenav-pinned');
-                body.classList.add('g-sidenav-hidden');
-            } else {
-                body.classList.add('g-sidenav-hidden');
-            }
-        });
-        </script>
+                toggler.addEventListener('click', function() {
+                    if (body.classList.contains('g-sidenav-hidden')) {
+                        body.classList.remove('g-sidenav-hidden');
+                        body.classList.add('g-sidenav-pinned');
+                    } else if (body.classList.contains('g-sidenav-pinned')) {
+                        body.classList.remove('g-sidenav-pinned');
+                        body.classList.add('g-sidenav-hidden');
+                    } else {
+                        body.classList.add('g-sidenav-hidden');
+                    }
+                });
+            </script>
+        </div>
+
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                 <!--<div class="input-group">

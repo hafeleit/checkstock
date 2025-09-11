@@ -28,7 +28,7 @@
     </div>
     <div class="container-fluid py-4">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
                     <form role="form" method="POST" action={{ route('profile.update') }} enctype="multipart/form-data">
                         @csrf
