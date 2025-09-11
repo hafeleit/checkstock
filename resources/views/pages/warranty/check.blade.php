@@ -22,9 +22,9 @@
 
 
 <main class="main-content  mt-0">
-    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
+    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('/img/bg_warranty.jpg'); background-position: top;">
       <div style="width: 100%;z-index: 9;text-align: center;">
-        <img src="https://www.hafelethailand.com/wp-content/uploads/2022/10/cropped-Hafele-Logo-white.png" style="z-index: 9;width: 250px;">
+        <img src="/img/hafele_logo_white.png" style="z-index: 9;width: 250px;">
       </div>
       <span class="mask bg-primary opacity-6" style=""></span>
     </div>
