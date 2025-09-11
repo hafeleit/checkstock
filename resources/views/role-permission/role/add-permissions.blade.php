@@ -3,7 +3,7 @@
 @section('content')
 
 @include('layouts.navbars.auth.topnav', ['title' => 'Online Order'])
-<style media="screen">
+<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
   input[type="checkbox"]:checked {
     accent-color: #fb6340;
   }

@@ -1,12 +1,12 @@
 <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-    <a class="navbar-brand m-0" href="#" style="text-align: center;">
+    <a class="navbar-brand m-0" href="#">
       <img src="{{ URL::to('/') }}/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo"> <?php /*
 				<span class="ms-1 font-weight-bold">Argon Dashboard 2 Laravel</span>*/ ?> </a>
   </div>
   <hr class="horizontal dark mt-0">
-  <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main" style="height: unset !important;">
+  <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" href="{{ route('profile') }}">
@@ -38,7 +38,7 @@
           </div>
           <span class="nav-link-text ms-1">User Management</span>
         </a>
-        <div class="collapse {{ in_array(Request::segment(1), ['users','permissions','roles']) ? 'show' : '' }}" id="usermanagment" style="">
+        <div class="collapse {{ in_array(Request::segment(1), ['users','permissions','roles']) ? 'show' : '' }}" id="usermanagment">
           <ul class="nav nav-sm flex-column">
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'users.index' ? 'active' : '' }}" href="{{ url('users') }}">
@@ -70,7 +70,7 @@
           </div>
           <span class="nav-link-text ms-1">IT Asset</span>
         </a>
-        <div class="collapse {{ Request::segment(1) == 'itasset' ? 'show' : '' }}" id="productsExample" style="">
+        <div class="collapse {{ Request::segment(1) == 'itasset' ? 'show' : '' }}" id="productsExample">
           <ul class="nav nav-sm flex-column">
             @can('itasset create')
             <li class="nav-item">
