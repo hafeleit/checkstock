@@ -103,7 +103,7 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/sweetalert2@11.js') }}"></script>
 <script>
     document.getElementById('import-form').addEventListener('submit', function(event) {
         Swal.fire({
