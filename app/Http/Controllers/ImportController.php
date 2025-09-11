@@ -69,8 +69,7 @@ class ImportController extends Controller
             $failures = $e->failures();
             return redirect()->back()->with('error', "Validation failed: " . count($failures) . " row(s) have errors.");
         } catch (\Exception $e) {
-            $cleanMessage = str_replace('"', '', $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred: ' . $cleanMessage);
+            return redirect()->back()->with('error', 'An error occurred. Please check the file.');
         }
     }
 }
