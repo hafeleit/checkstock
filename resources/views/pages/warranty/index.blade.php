@@ -3,11 +3,11 @@
 @section('content')
 <!-- End Navbar -->
 <main class="main-content  mt-0">
-    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
+    <div class="page-header warranty-background align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
       <div style="width: 100%;z-index: 9;text-align: center;">
         <img src="https://www.hafelethailand.com/wp-content/uploads/2022/10/cropped-Hafele-Logo-white.png" style="z-index: 9;width: 250px;">
       </div>
-      <span class="mask bg-primary opacity-6" style=""></span>
+      <span class="mask bg-primary opacity-6"></span>
     </div>
     <div class="container">
         <div class="row mt-md-n11 mt-n10 justify-content-center">
@@ -46,7 +46,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">ที่อยู่จัดส่งสินค้า (Delivery address)<span class="text-danger">*</span></label>
-                                <textarea name="addr" class="form-control" rows="3" placeholder="กรุณากรอกที่อยู่จัดส่งสินค้า (Please fill in)" required> {{ old('addr') }} </textarea>
+                                <textarea name="addr" class="form-control" rows="3" placeholder="กรุณากรอกที่อยู่จัดส่งสินค้า (Please fill in)" value="{{ old('addr') }}" required></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="text-sm">เบอร์โทรศัพท์ที่ติดต่อได้ (Contact number)<span class="text-danger">*</span></label>
@@ -106,7 +106,6 @@
         </div>
     </div>
 </main>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous">
 </script>
 <script>
     $('#article_no').mask('000.00.000');
