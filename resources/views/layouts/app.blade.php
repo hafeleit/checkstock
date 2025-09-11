@@ -9,20 +9,19 @@
     <title>
         HAFELE APPLICATION
     </title>
-    <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+
+    <link href="{{ asset('css/font-awesome.all.min.css') }}" rel="stylesheet">
     <!-- Nucleo Icons -->
     <link href="{{ URL::to('/') }}/assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="{{ URL::to('/') }}/assets/css/nucleo-svg.css" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js" crossorigin="anonymous"></script>--}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet" />
     <link href="{{ URL::to('/') }}/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ URL::to('/') }}/assets/css/argon-dashboard.css" rel="stylesheet" />
     <link id="pagestyle" href="{{ URL::to('/') }}/assets/css/checkstock.css" rel="stylesheet" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert2@11.js') }}"></script>
+    <script src="{{ asset('js/jquery.mask.js') }}"></script>
 </head>
 
 <body class="{{ $class ?? '' }} g-sidenav-hidden">
@@ -68,9 +67,6 @@
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
     </script>
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ URL::to('/') }}/assets/js/argon-dashboard.js"></script>
     @stack('js')
 </body>

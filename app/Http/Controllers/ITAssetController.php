@@ -133,7 +133,7 @@ class ITAssetController extends Controller
   public function show(int $id)
   {
     $itasset = ITAsset::where('i_t_assets.id', $id)->leftJoin('i_t_asset_types', 'i_t_asset_types.type_code', 'i_t_assets.type')
-      ->select('i_t_assets.*', 'i_t_asset_types.type_desc')->first();
+      ->select('i_t_assets.*', 'i_t_asset_types.type_desc', 'i_t_asset_types.type_code')->first();
     $itassetspec = ITAssetSpec::where('computer_name', $itasset->computer_name)->first();
     $itassetown = ITAssetOwn::where('computer_name', $itasset->computer_name)->leftJoin('user_masters', 'i_t_asset_owns.user', '=', 'user_masters.job_code')->get();
     $softwares = Softwares::where('computer_name', $itasset->computer_name)->get();

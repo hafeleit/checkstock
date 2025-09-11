@@ -3,7 +3,6 @@
 @section('content')
 
 @include('layouts.navbars.auth.topnav', ['title' => 'Customer Label'])
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style media="screen">
   a.disabled {
     pointer-events: none;
@@ -272,7 +271,7 @@
         </form>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
+
 <script>
     $('#search').mask('000.00.000');
 </script>

@@ -2,10 +2,9 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'รายละเอียด Commission'])
+<script src="{{ asset('js/tom-select.complete.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('css/tom-select.bootstrap5.css') }}">
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
 
 <style>
   .table-scroll-wrapper {
@@ -746,21 +745,25 @@ document.getElementById('export-btn')?.addEventListener('click', function () {
 
 });
 </script>
-
-
 <script>
-    document.getElementById('calculated-form').addEventListener('submit', function (e) {
-        Swal.fire({
-            title: 'กำลังคำนวณ...',
-            text: 'กรุณารอสักครู่',
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
+document.addEventListener("DOMContentLoaded", function () {
+    const calculatedForm = document.getElementById('calculated-form');
+    if (calculatedForm) {
+        calculatedForm.addEventListener('submit', function (e) {
+            Swal.fire({
+                title: 'กำลังคำนวณ...',
+                text: 'กรุณารอสักครู่',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
         });
-    });
+    }
+});
 </script>
+
 <script>
     let sortDirection = {};
 

@@ -3,7 +3,6 @@
 @section('content')
 
 @include('layouts.navbars.auth.topnav', ['title' => 'SALES USI'])
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style media="screen">
   .border-usi{
     border-left: 1px solid #e9ecef !important;
@@ -206,8 +205,8 @@
               <div class="card" style="height: 475px;">
                   <div class="card-header pb-0">
                       <div class="">
-                        <label for="" class="text-lg">BOM Informations</label>
-                          <span class="float-end">No.of Parent can be made from available components <label for="" class="text-lg text-primary bom_cal">0</label></span>
+                        <label class="text-lg">BOM Informations</label>
+                          <span class="float-end">No.of Parent can be made from available components <label class="text-lg text-primary bom_cal">0</label></span>
                       </div>
 
                   </div>
@@ -329,7 +328,6 @@
       </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
     <script>
         $('#item_code').mask('000.00.000');
     </script>

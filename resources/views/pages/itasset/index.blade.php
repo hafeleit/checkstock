@@ -187,43 +187,32 @@
                       <td>
                         <a href="{{ route('itasset.show',$itasset->id) }}">
                           <div class="d-flex">
-                            @switch($itasset->type)
-                            @case('T01')
-                            <img class="w-10" src="{{ URL::to('/') }}/img/itasset/macbook-pro.jpg" alt="notebook">
-                            @break
-                            @case('T03')
-                            <img class="w-10" src="{{ URL::to('/') }}/img/itasset/printer-fuji.jpg" alt="printer">
-                            @break
-                            @case('T02')
-                            <img class="w-10" src="{{ URL::to('/') }}/img/itasset/pc.jpg" alt="pc">
-                            @break
-                            @case('T05')
-                            <img class="w-10" src="{{ URL::to('/') }}/img/itasset/headset.jpg" alt="headset">
-                            @break
-                            @case('T06')
-                            <img class="w-10" src="{{ URL::to('/') }}/img/itasset/telephone_sim.jpg" alt="telephone_sim">
-                            @break
-                            @case('T07')
-                            <img class="w-10" src="{{ URL::to('/') }}/img/itasset/tv.png" alt="tv">
-                            @break
-                            @case('T08')
-                            <img class="w-10" src="{{ URL::to('/') }}/img/itasset/copy_machine.png" alt="copy_machine">
-                            @break
-                            @case('T09')
-                            <img class="w-10" src="{{ URL::to('/') }}/img/itasset/handheld.png" alt="handheld">
-                            @break
-                            @case('T10')
-                            <img class="w-10" src="{{ URL::to('/') }}/img/itasset/mobile_printer.jpg" alt="mobile_printer">
-                            @break
-                            @case('T11')
-                            <img class="w-10" src="{{ URL::to('/') }}/img/itasset/pos.png" alt="pos">
-                            @break
-                            @case('T12')
-                            <img class="w-10" src="{{ URL::to('/') }}/img/itasset/phone_number.png" alt="phone_number">
-                            @break
-                            @default
-                            <img class="w-10" src="" alt="product_image">
-                            @endswitch
+                            @php
+                                $images = [
+                                    'T01' => 'macbook-pro.jpg',
+                                    'T02' => 'pc.jpg',
+                                    'T03' => 'printer-fuji.jpg',
+                                    'T05' => 'headset.jpg',
+                                    'T06' => 'telephone_sim.jpg',
+                                    'T07' => 'tv.png',
+                                    'T08' => 'copy_machine.png',
+                                    'T09' => 'handheld.png',
+                                    'T10' => 'mobile_printer.jpg',
+                                    'T11' => 'pos.png',
+                                    'T12' => 'phone_number.png',
+                                    'T13' => 'microphone.png',
+                                    'T14' => 'usb_flash_drive.png',
+                                    'T15' => 'video_conference.png',
+                                    'T16' => 'speaker.png',
+                                    'T17' => 'mobile_phone.png',
+                                    'T18' => 'tablet.png',
+                                ];
+
+                                $image = $images[$itasset->type] ?? null;
+                            @endphp
+
+                            <img class="w-30" src="{{ $image ? URL::to('/').'/img/itasset/'.$image : '' }}">
+
                             <h6 class="ms-3 my-auto">{{$itasset->computer_name}}</h6>
                           </div>
                         </a>
@@ -267,14 +256,12 @@
   </div>
 </div>
 
-<script src="https://cdn.datatables.net/2.0.6/js/dataTables.min.js"></script>
-<link href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.min.css" rel="stylesheet" />
+<script src="{{ asset('js/dataTables.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('css/dataTables.dataTables.min.css') }}">
 
 <script>
   $(document).ready(function() {
     $("#products-list").DataTable();
-
-    $('.').addClass('dataTable-top');
   });
 </script>
 

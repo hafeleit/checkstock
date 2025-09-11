@@ -198,7 +198,6 @@
                               data-bs-target="#schemaModal">
                           <i class="fas fa-table me-1"></i> ดู Schema
                       </button>
-                      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                       <a href="{{ route('commissions.summary-sales-export', $commission->id) }}"
                          class="btn btn-sm bg-gradient-success px-3">
                           <i class="fas fa-file-excel me-1"></i> Export

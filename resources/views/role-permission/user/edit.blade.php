@@ -145,13 +145,14 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{ asset('js/bootstrap-toggle.min.js') }}"></script>
+<script src="{{ asset('js/jquery.slim.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/select2.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}">
+
 <script>
     $('#roles-select').select2({
         theme: "bootstrap-5",

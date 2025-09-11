@@ -54,7 +54,7 @@
               </div>
               <div class="col-12 col-sm-6 mt-3">
                 <label>Type <span class="text-danger">*</span></label>
-                <select class="form-control" name="type" required>
+                <select class="form-control" name="type" id="type" required>
                   <option value="">-- Select --</option>
                   @foreach($types as $type)
                   <option value="{{$type->type_code}}">{{$type->type_desc}}</option>
@@ -62,6 +62,30 @@
                 </select>
               </div>
             </div>
+            <div class="row d-none" id="col-tel">
+              <div class="col-12 col-sm-6 mt-3">
+
+              </div>
+              <div class="col-12 col-sm-6 mt-3">
+                <label>Phone Number</label>
+                <input class="form-control" type="text" name="tel" value="{{ old('tel') }}">
+              </div>
+            </div>
+            <script>
+            function toggleTelField() {
+                let val = $('#type').val();
+                if (val === 'T17' || val === 'T18') {
+                    $('#col-tel').removeClass('d-none'); // Show
+                } else {
+                    $('#col-tel').addClass('d-none'); // Hide
+                }
+            }
+
+            $(document).ready(function(){
+                toggleTelField(); // check once when page load
+                $('#type').on('change', toggleTelField); // check again when user change
+            });
+            </script>
             <div class="row">
               <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                 <label class="mt-4">Color</label>

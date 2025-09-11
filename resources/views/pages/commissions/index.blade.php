@@ -179,7 +179,6 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
     document.querySelectorAll('.btn-delete').forEach(button => {
         button.addEventListener('click', function () {

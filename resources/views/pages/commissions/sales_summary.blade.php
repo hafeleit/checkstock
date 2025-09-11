@@ -454,7 +454,6 @@
         </form>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   document.getElementById('export-btn')?.addEventListener('click', function () {
       const url = this.getAttribute('data-url');
