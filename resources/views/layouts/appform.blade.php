@@ -19,7 +19,6 @@
     <link id="pagestyle" href="../assets/css/argon-dashboard.css" rel="stylesheet" />
 
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.mask-1.14.16.js') }}"></script>
 </head>
 
 <body class="{{ $class ?? '' }}">
