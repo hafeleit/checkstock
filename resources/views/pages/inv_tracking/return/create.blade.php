@@ -12,8 +12,6 @@
     .select2-container--default .select2-selection--single .select2-selection__placeholder {
         font-size: 12px !important;
     }
-
-    
 </style>
 <div class="container-fluid py-4">
     <div class="card">
@@ -53,6 +51,9 @@
                     </p>
                 </div>
                 <div class="mb-3">
+                    <p id="line-counter" class="form-text text-sm mt-1 text-gray-500 text-right fw-bold">Count: </p>
+                </div>
+                <div class="mb-3">
                     <label for="remark" class="form-label">Remark</label>
                     <input type="text" class="form-control form-control-sm" id="remark" name="remark">
                 </div>
@@ -65,8 +66,6 @@
                 </div>
             </form>
         </div>
-
-
     </div>
 </div>
 
@@ -75,6 +74,18 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+    // --- Line Counter Logic ---
+    const erp_documents = document.getElementById('erp_documents');
+    const counter = document.getElementById('line-counter');
+    const updateLineCount = () => {
+        const text = erp_documents.value;
+        const lines = text.split('\n').filter(line => line.trim() !== '');
+        counter.textContent = `Count: ${lines.length}`;
+    };
+    erp_documents.addEventListener('input', updateLineCount);
+    updateLineCount();
+
+    // --- Select2 Initialization ---
     $(document).ready(function() {
         $('#driver_or_sent_to').select2({
             tags: true,
@@ -96,17 +107,20 @@
         });
     });
 
+    // --- Input Sanitation ---
     document.getElementById('erp_documents').addEventListener('input', function(event) {
         let value = event.target.value;
         event.target.value = value.replace(/[^a-zA-Z0-9\n]/g, '');
     });
 
+    // --- Form Submission Handler ---
     document.getElementById('deliver-form').addEventListener('submit', function(event) {
         event.preventDefault();
 
         const form = this;
         const driver_or_sent_to = form.querySelector('#driver_or_sent_to').value;
         const erpDocuments = form.querySelector('#erp_documents').value;
+        const remark = form.querySelector('#remark').value;
         const erpDocumentsArray = erpDocuments.split('\n').filter(line => line.trim() !== '');
 
         if (erpDocumentsArray.length === 0) {
@@ -120,8 +134,8 @@
 
         const previewList = erpDocumentsArray.map(erp => {
             return `
-                <li>
-                <p class="mb-0 text-sm">${erp}</p>
+                <li class="d-flex gap-2">
+                    <p class="mb-0 text-sm">${erp}</p>
                 </li>
             `;
         }).join('');
@@ -131,10 +145,11 @@
             <div class="text-sm" style="text-align: left; padding: 0 1rem;">
                 <p class="mb-0 text-sm"><strong>Sent to:</strong> ${driver_or_sent_to ?? ''}</p>
                 <p class="mb-0 text-sm"><strong>Created by:</strong> {{ $user->username }}</p>
-                <p class="mb-0 text-sm"><strong>ERP document:</strong></p>
-                <ul>
+                <p class="mb-0 text-sm"><strong>Remark:</strong> ${remark ?? ''}</p>
+                <p class="mb-0 text-sm"><strong>Outbound:</strong></p>
+                <ol class="list-group list-group-numbered">
                     ${previewList}
-                </ul>
+                </ol>
             </div>
         `;
 

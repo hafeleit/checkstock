@@ -42,6 +42,9 @@
                     </p>
                 </div>
                 <div class="mb-3">
+                    <p id="line-counter" class="form-text text-sm mt-1 text-gray-500 text-right fw-bold">Count: </p>
+                </div>
+                <div class="mb-3">
                     <label for="remark" class="form-label">Remark</label>
                     <input type="text" class="form-control form-control-sm" id="remark" name="remark">
                 </div>
@@ -58,17 +61,31 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    // --- Line Counter Logic ---
+    const erp_documents = document.getElementById('erp_documents');
+    const counter = document.getElementById('line-counter');
+    const updateLineCount = () => {
+        const text = erp_documents.value;
+        const lines = text.split('\n').filter(line => line.trim() !== '');
+        counter.textContent = `Count: ${lines.length}`;
+    };
+    erp_documents.addEventListener('input', updateLineCount);
+    updateLineCount();
+
+    // --- Input Sanitation ---
     document.getElementById('erp_documents').addEventListener('input', function(event) {
         let value = event.target.value;
         event.target.value = value.replace(/[^a-zA-Z0-9\n]/g, '');
     });
 
+    // --- Form Submission Handler ---
     document.getElementById('edit-form').addEventListener('submit', function(event) {
         event.preventDefault();
 
         const form = this;
         const driver_or_sent_to = form.querySelector('#driver_or_sent_to').value;
         const erpDocuments = form.querySelector('#erp_documents').value;
+        const remark = form.querySelector('#remark').value;
         const erpDocumentsArray = erpDocuments.split('\n').filter(line => line.trim() !== '');
 
         if (erpDocumentsArray.length === 0) {
@@ -82,8 +99,8 @@
 
         const previewList = erpDocumentsArray.map(erp => {
             return `
-                <li>
-                <p class="mb-0 text-sm">${erp}</p>
+                <li class="d-flex gap-2">
+                    <p class="mb-0 text-sm">${erp}</p>
                 </li>
             `;
         }).join('');
@@ -93,9 +110,11 @@
             <div class="text-sm" style="text-align: left; padding: 0 1rem;">
                 <p class="mb-0 text-sm"><strong>Driver/Sent to:</strong> ${driver_or_sent_to ?? ''}</p>
                 <p class="mb-0 text-sm"><strong>Created by:</strong> {{ $user->username }}</p>
-                <ul>
+                <p class="mb-0 text-sm"><strong>Remark:</strong> ${remark ?? ''}</p>
+                <p class="mb-0 text-sm"><strong>Outbound:</strong></p>
+                <ol class="list-group list-group-numbered">
                     ${previewList}
-                </ul>
+                </ol>
             </div>
         `;
 
