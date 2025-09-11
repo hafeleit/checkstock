@@ -9,16 +9,14 @@
     <title>
         HAFELE APPLICATION
     </title>
-    <!--     Fonts and icons     -->
-    <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" /> -->
-    
-    <!-- Nucleo Icons -->
-    <link href="{{ URL::to('/') }}/assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="{{ URL::to('/') }}/assets/css/nucleo-svg.css" rel="stylesheet" />
-    <link href="{{ URL::to('/') }}/assets/css/nucleo-svg.css" rel="stylesheet" />
 
+    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
-    <link id="pagestyle" href="{{ URL::to('/') }}/assets/css/argon-dashboard.css" rel="stylesheet" />
+    <link id="pagestyle" href="../assets/css/argon-dashboard.css" rel="stylesheet" />
 
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('js/jquery.mask-1.14.16.js') }}"></script>
