@@ -26,16 +26,16 @@
     </div>
     <span class="mask bg-primary opacity-6"></span>
   </div>
+
   <div class="container">
     <div class="row mt-lg-n12 mt-md-n11 mt-n10 justify-content-center">
       <div class="col-xl-5 col-lg-5 col-md-7 mx-auto">
-
         <div class="card z-index-0">
           <div class="text-center">
-            <a href="{{route('register-warranty.index')}}"><button type="button" class="btn bg-gradient-danger w-50 my-4 mb-2">Register Warranty</button></a>
-
+            <a href="{{route('register-warranty.index')}}">
+              <button type="button" class="btn bg-gradient-danger w-50 my-4 mb-2">Register Warranty</button>
+            </a>
           </div>
-
           <div class="card-header text-center pt-4">
             <h3>Check Warranty</h3>
           </div>
@@ -51,11 +51,10 @@
               <div class="text-center">
                 <button id="btn_search" type="button" class="btn bg-gradient-success w-100 my-4 mb-2">Search</button>
               </div>
-
             </form>
           </div>
         </div>
-        <div id="fullpage" onclick="this.style.display='none';"></div>
+        <!-- <div id="fullpage" onclick="this.style.display='none';"></div> -->
       </div>
     </div>
   </div>
@@ -73,7 +72,6 @@
           search: search,
         }
       }).done(function(msg) {
-        //console.log(msg);
         $('#get_warranty').html(msg);
 
         $(".img").click(function() {
