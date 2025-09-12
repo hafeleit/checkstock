@@ -14,47 +14,45 @@
             <span class="mb-2 text-xs">Order number: <span class="text-dark ms-sm-2 font-weight-bold text-lg">{{$value->order_number}}</span></span>
 
             <span>
-              <?php
-
-                if($value->file_name != ''){
-                  $image = '/storage/img/warranty/' . $value->file_name;
-                  $image2 = $value->file_name;
-                  if (file_exists( public_path() . $image )) {
-                      echo '<img src="'.$image.'" class="img shadow mx-1" alt="" width="50">';
-                  }elseif(file_exists( public_path() . $image2 )){
-                      echo '<img src="'.$image2.'" class="img shadow mx-1" alt="" width="50">';
-                  }
-                }
-
-                if($value->file_name2 != ''){
-                   $image = '/storage/img/warranty/' . $value->file_name2;
-                   if (file_exists( public_path() . $image )) {
-                       echo '<img src="'.$image.'" class="img shadow mx-1" alt="" width="50">';
-                   }
-                 }
-
-                 if($value->file_name3 != ''){
-                    $image = '/storage/img/warranty/' . $value->file_name3;
-                    if (file_exists( public_path() . $image )) {
-                        echo '<img src="'.$image.'" class="img shadow mx-1" alt="" width="50">';
-                    }
-                  }
-
-                  if($value->file_name4 != ''){
-                     $image = '/storage/img/warranty/' . $value->file_name4;
-                     if (file_exists( public_path() . $image )) {
-                         echo '<img src="'.$image.'" class="img shadow mx-1" alt="" width="50">';
-                     }
-                   }
-
-                   if($value->file_name5 != ''){
-                      $image = '/storage/img/warranty/' . $value->file_name5;
-                      if (file_exists( public_path() . $image )) {
-                          echo '<img src="'.$image.'" class="img shadow mx-1" alt="" width="50">';
-                      }
-                    }
-
+                @if($value->file_name)
+                <?php
+                $image = '/storage/img/warranty/' . $value->file_name;
+                $image2 = $value->file_name;
                 ?>
+                @if (file_exists(public_path() . $image))
+                <a href="{{ $image }}" target="_blank"><img src="{{ $image }}" class="img shadow mx-1" alt="" width="50"></a>
+                @elseif (file_exists(public_path() . $image2))
+                <a href="{{ $image2 }}" target="_blank"><img src="{{ $image2 }}" class="img shadow mx-1" alt="" width="50"></a>
+                @endif
+                @endif
+
+                @if($value->file_name2)
+                <?php $image = '/storage/img/warranty/' . $value->file_name2; ?>
+                @if (file_exists(public_path() . $image))
+                <a href="{{ $image }}" target="_blank"><img src="{{ $image }}" class="img shadow mx-1" alt="" width="50"></a>
+                @endif
+                @endif
+
+                @if($value->file_name3)
+                <?php $image = '/storage/img/warranty/' . $value->file_name3; ?>
+                @if (file_exists(public_path() . $image))
+                <a href="{{ $image }}" target="_blank"><img src="{{ $image }}" class="img shadow mx-1" alt="" width="50"></a>
+                @endif
+                @endif
+
+                @if($value->file_name4)
+                <?php $image = '/storage/img/warranty/' . $value->file_name4; ?>
+                @if (file_exists(public_path() . $image))
+                <a href="{{ $image }}" target="_blank"><img src="{{ $image }}" class="img shadow mx-1" alt="" width="50"></a>
+                @endif
+                @endif
+
+                @if($value->file_name5)
+                <?php $image = '/storage/img/warranty/' . $value->file_name5; ?>
+                @if (file_exists(public_path() . $image))
+                <a href="{{ $image }}" target="_blank"><img src="{{ $image }}" class="img shadow mx-1" alt="" width="50"></a>
+                @endif
+                @endif
             </span>
 
         </div>
@@ -63,12 +61,12 @@
               <?php
                 $image = '/storage/img/warranty/' . $value->file_name;
                 $image2 = $value->file_name;
-                if (file_exists( public_path() . $image )) {
-                    echo '<img src="'.$image.'" class="img" alt="" width="100">';
-                }elseif(file_exists( public_path() . $image2 )){
-                    echo '<img src="'.$image2.'" class="img" alt="" width="100">';
+                if (file_exists(public_path() . $image)) {
+                    echo '<img src="' . $image . '" class="img" alt="" width="100">';
+                } elseif (file_exists(public_path() . $image2)) {
+                    echo '<img src="' . $image2 . '" class="img" alt="" width="100">';
                 }
-               ?>
+                ?>
             </div>
         </div> --}}
     </li>
