@@ -2,7 +2,7 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'รายละเอียด Commission'])
-<style>
+<style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
   .table-scroll-wrapper {
       position: relative;
   }
@@ -206,8 +206,13 @@
 
                   <div class="table-scroll-wrapper">
                 <!-- Scrollbar ด้านบน -->
+                <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+                  .sc-top{
+                    height:1px;
+                  }
+                </style>
                     <div class="table-scroll-top">
-                        <div style="height:1px;"></div> <!-- จะกำหนดความกว้างด้วย JS -->
+                        <div class="sc-top"></div> <!-- จะกำหนดความกว้างด้วย JS -->
                     </div>
                     <div class="table-responsive  table-scroll-bottom">
                         <table class="table table-hover align-items-center" id="sortableTable">
@@ -259,7 +264,7 @@
                         </table>
                     </div>
                   </div>
-                  <script>
+                  <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
                     document.addEventListener("DOMContentLoaded", function () {
                         const topScroll = document.querySelector(".table-scroll-top");
                         const spacer = topScroll.querySelector("div");
@@ -372,7 +377,7 @@
     </div>
   </div>
 </div>
-<script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     let sortDirection = {};
 
     function sortTable(colIndex) {
@@ -413,7 +418,7 @@
       });
     }
 </script>
-<script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
 document.addEventListener("DOMContentLoaded", function () {
     const goTopBtn = document.getElementById("goTopBtn");
 

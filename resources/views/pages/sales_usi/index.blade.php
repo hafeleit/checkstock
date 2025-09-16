@@ -3,7 +3,7 @@
 @section('content')
 
 @include('layouts.navbars.auth.topnav', ['title' => 'SALES USI'])
-<style media="screen">
+<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
   .border-usi{
     border-left: 1px solid #e9ecef !important;
   }
@@ -11,6 +11,29 @@
     pointer-events: none;   /* ป้องกันการคลิก */
     transform: scale(1.4);  /* ขยาย checkbox */
     margin-right: 0.5rem;
+  }
+
+  .h-400{
+    height: 400px;
+  }
+
+  .icon-search{
+    position: absolute;
+    top: 18%;
+    right: 3%;
+  }
+
+  .relative {
+      position: relative;
+  }
+
+  .h-475 {
+      height: 475px;
+  }
+
+  .wss-table{
+   text-decoration: underline;
+   cursor: pointer;
   }
 </style>
     <div class="container-fluid">
@@ -27,19 +50,13 @@
                         <p class="text-uppercase text-secondary text-xxs font-weight-bolder">LAST UPDATE: {{ $yesterday }} 20:00</p>
                     </div>
 
-                    <div class="card-body" style="padding-top: 0px">
+                    <div class="card-body">
                         <div class="row">
-                          <!--
-                            <div class="col-md-2">
-                                <div class="form-group ">
-                                    <span class="mb-2 text-sm">Item Code: </span>
-                                </div>
-                            </div> -->
                             <div class="col-md-3">
-                                <div class="form-group" style="position: relative;">
+                                <div class="form-group relative" >
                                     <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Item Code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
                                     <a href="javascript:;" onclick="search_usi()">
-                                      <img src="./img/icons/search.png" alt="Country flag" width="25px" style="position: absolute;top: 18%;right: 3%;">
+                                      <img src="./img/icons/search.png" alt="Country flag" width="25px" class="icon-search">
                                     </a>
                                 </div>
                             </div>
@@ -131,7 +148,7 @@
                             <span>MRP Type : <label class="item_dm text-sm"></label></span>
                           </div>-->
                         </div>
-                        <div class="row mt-3 bom_show_flg" style="Display:none">
+                        <div class="row mt-3 bom_show_flg d-none" >
                           <div class="col-auto">
                             <div class="form-check fs-5">
                               <input class="form-check-input no-click" type="checkbox" id="chk_parent" name="option" value="P">
@@ -201,8 +218,8 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-6 mb-lg-0 mt-4 bom_show_flg" style="Display:none">
-              <div class="card" style="height: 475px;">
+          <div class="col-lg-6 mb-lg-0 mt-4 bom_show_flg d-none">
+              <div class="card h-475">
                   <div class="card-header pb-0">
                       <div class="">
                         <label class="text-lg">BOM Informations</label>
@@ -229,7 +246,7 @@
               </div>
           </div>
           <div class="col-lg-6 mb-lg-0 mt-4">
-              <div class="card" style="height: 475px;">
+              <div class="card h-475">
                   <div class="table-responsive">
                       <table id="wss_table" class="table align-items-center ">
                           <thead>
@@ -253,7 +270,7 @@
         @can('salesusi iodetail')
         <div class="row">
           <div class="col-lg-6 mb-lg-0 mt-4">
-              <div class="card " style="height: 400px;">
+              <div class="card h-400">
                   <div class="card-header pb-0">
                       <h6>PO Details</h6>
                   </div>
@@ -277,7 +294,7 @@
               </div>
             </div>
             <div class="col-lg-6 mb-lg-0 mt-4">
-                <div class="card " style="height: 400px;">
+                <div class="card h-400">
                     <div class="card-header pb-0">
                         <h6>SO Details</h6>
                     </div>
@@ -328,10 +345,10 @@
       </div>
     </div>
 
-    <script>
+    <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         $('#item_code').mask('000.00.000');
     </script>
-<script type="text/javascript">
+<script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
 
   $(function(){
     $('#item_code').on('keypress', function(event) {
@@ -394,7 +411,6 @@
       }
     }).done(function(res){
       Swal.close();
-      console.log(res);
       if(res['count'] == 0){
 
         $('.text-input').html('');
@@ -505,16 +521,16 @@
           </td>\
           <td class="border-usi">\
             @can('salesusi iodetail')
-            <p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_inbound('+val["week_number"]+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
+            <p class="wss-table" onclick="search_usi_inbound('+val["week_number"]+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
             @else
-            <p style="text-decoration: underline;cursor: pointer;" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
+            <p class="wss-table" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
             @endcan
           </td>\
           <td class="border-usi">\
             @can('salesusi iodetail')
-            <p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_outbound('+val["week_number"]+','+val["year_number"]+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
+            <p class="wss-table" onclick="search_usi_outbound('+val["week_number"]+','+val["year_number"]+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
             @else
-            <p style="text-decoration: underline;cursor: pointer;" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
+            <p class="wss-table" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
             @endcan
           </td>\
           <td class="border-usi">\
@@ -616,7 +632,6 @@
       }
     }).done(function(res){
       Swal.close();
-      console.log(res);
       if(res['count'] == 0){ return false; }
       $.each(res['data'], function(key, val) {
         let tbody = '<tr>\
@@ -662,7 +677,6 @@
       }
     }).done(function(res){
       Swal.close();
-      console.log(res);
       if(res['count'] == 0){ return false; }
       $.each(res['data'], function(key, val) {
         let tbody = '<tr>\

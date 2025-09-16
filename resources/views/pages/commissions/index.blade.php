@@ -68,7 +68,7 @@
                                       <a href="javascript:void(0)" class="btn btn-sm btn-success" id="commissions-link">
                                           <i class="fas fa-check-circle me-1"></i> ตรวจสอบ Commission
                                       </a>
-                                      <script>
+                                      <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
                                       document.getElementById('commissions-link').addEventListener('click', function() {
                                           Swal.fire({
                                               title: 'Confirm Password',
@@ -179,7 +179,7 @@
 
     </div>
 
-    <script>
+    <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     document.querySelectorAll('.btn-delete').forEach(button => {
         button.addEventListener('click', function () {
             Swal.fire({
