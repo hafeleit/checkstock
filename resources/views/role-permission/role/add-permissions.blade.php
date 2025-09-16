@@ -3,7 +3,7 @@
 @section('content')
 
 @include('layouts.navbars.auth.topnav', ['title' => 'Online Order'])
-<style media="screen">
+<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
   input[type="checkbox"]:checked {
     accent-color: #fb6340;
   }
@@ -65,7 +65,7 @@
                                       }
                                       $title_store = $title[0];
                                      ?>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label>
                                             <input
                                                 id="{{$permission->name}}"
@@ -75,7 +75,7 @@
                                                 value="{{ $permission->name }}"
                                                 {{ in_array($permission->id, $rolePermissions) ? 'checked':'' }}
                                             />
-                                            <label class="custom-control-label text-sm text-uppercase text-secondary" for="{{$permission->name}}">{{ $title[1] }}</label>
+                                            <label class="custom-control-label text-sm text-uppercase text-secondary" for="{{$permission->name}}">{{ implode(' ', array_slice($title, 1)) }}</label>
 
                                         </label>
                                     </div>

@@ -3,7 +3,7 @@
 @section('content')
 
 @include('layouts.navbars.auth.topnav', ['title' => 'Customer Label'])
-<style media="screen">
+<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
   a.disabled {
     pointer-events: none;
     cursor: default;
@@ -44,7 +44,7 @@
                         <button type="submit" class="btn bg-gradient-primary btn-sm">Upload</button>
                       </div>
                       </form>
-                      <script>
+                      <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
                         const importForm = document.getElementById('import-form');
 
                         importForm.addEventListener('submit', function (event) {
@@ -97,7 +97,7 @@
                 </div>
 
                 <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" id="btn_export" href="{{ route('productitems_export') }}">Export</a>
-                <script>
+                <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
                   const exportLink = document.getElementById('btn_export');
 
                   exportLink.addEventListener('click', function (event) {
@@ -240,15 +240,26 @@
             <div class="modal-body">
               <p>
                 <input class="form-control datepicker" id="pdate" name="man_date" placeholder="Please select manufacturing date if you need" type="text" value="{{ date('Y-m-d')}}" >
-                <div class="clear-btn" style="position: absolute; top: 23px; right: 25px;">
+                <div class="clear-btn">
                   <i class="fas fa-times"></i>
                 </div>
               </p>
+              <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+                .clear-btn{
+                  position: absolute;
+                  top: 23px;
+                  right: 25px;
+                }
 
+                .btn-print{
+                  width: 100%; '
+                  text-align: left;
+                }
+              </style>
               <p class="text-danger text-xs">* Please select the production date, if no need please click "OK" for skip it</p>
             </div>
             <div class="modal-footer">
-              <div class="" style="width: 100%; text-align: left;">
+              <div class="btn-print">
                 @can('consumerlabel labelhth')
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='pair';"><i class="fa fa-upload"></i> Consumer Label for HTH </button>
                 @endcan
@@ -258,12 +269,12 @@
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='a4_nob';"><i class="fa fa-upload"></i> Consumer Label A4 No border</button>
                 @endcan
               </div>
-              <div class="" style="width: 100%;">
+              <div class="">
                 @can('consumerlabel labelhth')
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='tis';"><i class="fa fa-upload"></i> TIS Size 100x72 mm</button>
                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('barcode_type').value='tis2';"><i class="fa fa-upload"></i> TIS Size 100x150 mm</button>
                 @endcan
-                <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal" style="float: right;">Close</button>
+                <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">Close</button>
 
               </div>
                 </div>
@@ -272,10 +283,10 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     $('#search').mask('000.00.000');
 </script>
-<script type="text/javascript">
+<script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
 
   function chkSkip(){
     if($('#pdate').val() == ''){

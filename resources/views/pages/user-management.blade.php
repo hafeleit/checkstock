@@ -2,7 +2,7 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'User Master'])
-    <style media="screen">
+    <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
       .dt-layout-row{
         padding: 1.5rem;
       }
@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                <script>
+                <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
                 document.addEventListener('DOMContentLoaded', function () {
                     const form = document.querySelector('#import form');
 
@@ -122,7 +122,7 @@
     <script src="{{ asset('js/dataTables.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/dataTables.dataTables.min.css') }}">
 
-    <script>
+    <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         $(document).ready(function () {
             $("#products-list").DataTable({
               order: [[1, 'asc']]
