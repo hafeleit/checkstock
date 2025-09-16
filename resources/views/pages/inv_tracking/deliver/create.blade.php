@@ -2,7 +2,7 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Deliver Management'])
-<style>
+<style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
     .select2-container--default .select2-selection--single {
         height: 30px !important;
         border: 1px solid #d2d6da !important;
@@ -11,6 +11,11 @@
 
     .select2-container--default .select2-selection--single .select2-selection__placeholder {
         font-size: 12px !important;
+    }
+
+    .sweetalert-text-container {
+        text-align: left;
+        padding: 0 1rem;
     }
 </style>
 <div class="container-fluid py-4">
@@ -34,7 +39,7 @@
                 <div class="row">
                     <div class="mb-3 col-6">
                         <label for="driver_or_sent_to" class="form-label required">Driver</label>
-                        <select class="form-control form-control-sm" id="driver_or_sent_to" name="driver_or_sent_to" style="width: 100%" required>
+                        <select class="form-control form-control-sm" id="driver_or_sent_to" name="driver_or_sent_to" required>
                             <option value=""></option>
                             @foreach ($drivers as $driver)
                             <option value="{{ $driver->code }}">{{$driver->code}}</option>
@@ -75,11 +80,12 @@
     </div>
 </div>
 
-<script src="{{ asset('js/sweetalert2@11.js') }}"></script>
+<link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
+<script src="{{ asset('js/sweetalert2.min.js') }}"></script>
 <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
 <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
 <script src="{{ asset('js/select2.min.js') }}"></script>
-<script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     // --- Line Counter Logic ---
     const erp_documents = document.getElementById('erp_documents');
     const counter = document.getElementById('line-counter');
@@ -154,7 +160,7 @@
 
         const htmlContent = `
             <p class="text-sm">Do you want to save this delivery data? Please review the details below before confirming.</p>
-            <div class="text-sm" style="text-align: left; padding: 0 1rem;">
+            <div class="text-sm sweetalert-text-container">
                 <p class="mb-0 text-sm"><strong>Driver:</strong> ${driver_or_sent_to ?? ''}</p>
                 <p class="mb-0 text-sm"><strong>Created by:</strong> {{ $user->username }}</p>
                 <p class="mb-0 text-sm"><strong>Delivery date:</strong> ${delivery_date}</p>

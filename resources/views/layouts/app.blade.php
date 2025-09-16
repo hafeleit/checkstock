@@ -31,11 +31,8 @@
     </style>
 
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
-
     <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet" nonce="{{ $csp_style_nonce }}">
     <script src="{{ asset('js/sweetalert2.min.js') }}" nonce="{{ $csp_script_nonce }}"></script>
-
-
     <script src="{{ asset('js/jquery.mask.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
 </head>
 

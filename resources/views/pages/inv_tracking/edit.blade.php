@@ -2,6 +2,13 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Deliver Management'])
+<style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+    .sweetalert-text-container {
+        text-align: left;
+        padding: 0 1rem;
+    }
+</style>
+
 <div class="container-fluid py-4">
     <div class="card">
         <div class="px-4 d-flex align-items-center justify-content-between mt-4">
@@ -59,8 +66,9 @@
     </div>
 </div>
 
-<script src="{{ asset('js/sweetalert2@11.js') }}"></script>
-<script>
+<link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
+<script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     // --- Line Counter Logic ---
     const erp_documents = document.getElementById('erp_documents');
     const counter = document.getElementById('line-counter');
@@ -107,7 +115,7 @@
 
         const htmlContent = `
             <p class="text-sm">Do you want to save this delivery data? Please review the details below before confirming.</p>
-            <div class="text-sm" style="text-align: left; padding: 0 1rem;">
+            <div class="text-sm sweetalert-text-container">
                 <p class="mb-0 text-sm"><strong>Driver/Sent to:</strong> ${driver_or_sent_to ?? ''}</p>
                 <p class="mb-0 text-sm"><strong>Created by:</strong> {{ $user->username }}</p>
                 <p class="mb-0 text-sm"><strong>Remark:</strong> ${remark ?? ''}</p>

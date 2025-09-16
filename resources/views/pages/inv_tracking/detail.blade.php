@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-md-3">
                     <label for="driver_or_sent_to" class="form-label">Driver/Sent To</label>
-                    <select class="form-control form-control-sm" id="driver_or_sent_to" name="driver_or_sent_to" style="width: 100%" onchange="handleSearch()">
+                    <select class="form-control form-control-sm" id="driver_or_sent_to" name="driver_or_sent_to" onchange="handleSearch()">
                         <option value=""></option>
                         @foreach($drivers as $driver)
                         <option value="{{ $driver->code }}" {{ ($params['driver_or_sent_to'] ?? '') == $driver->code ? 'selected' : '' }}>
@@ -130,9 +130,9 @@
 </div>
 
 <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
-<script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
-<script src="{{ asset('js/select2.min.js') }}"></script>
-<script>
+<script src="{{ asset('js/jquery-3.7.1.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
+<script src="{{ asset('js/select2.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     $(document).ready(function() {
         $('#driver_or_sent_to').select2({
             placeholder: 'Search for a driver',

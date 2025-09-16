@@ -103,8 +103,9 @@
     </div>
 </div>
 
-<script src="{{ asset('js/sweetalert2@11.js') }}"></script>
-<script>
+<link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
+<script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     document.getElementById('import-form').addEventListener('submit', function(event) {
         Swal.fire({
             title: 'uploading...',
@@ -117,7 +118,7 @@
     });
 </script>
 @if(session('success'))
-<script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     Swal.fire({
         title: 'Success!',
         text: "{{ session('success') }}",
@@ -129,7 +130,7 @@
 @endif
 
 @if(session('error'))
-<script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     Swal.fire({
         title: 'Error!',
         text: "{{ session('error') }}",
