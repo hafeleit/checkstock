@@ -46,6 +46,7 @@ use App\Http\Controllers\ITAssetTypeController;
 use App\Http\Controllers\InvRecordController;
 use App\Http\Controllers\CommissionController;
 use App\Http\Controllers\UserController;
+use App\Models\AuditLog;
 
 Route::get('/', function () {
   //abort(404);
@@ -169,4 +170,13 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   Route::get('/tables', [PageController::class, 'tables'])->name('tables');
   Route::get('/billing', [PageController::class, 'billing'])->name('billing');
   Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+  // Audit log
+  Route::get('/audit-logs', function () {
+    $logs = AuditLog::latest()->get();
+    // return response()->json($logs);
+    return view('audit_log.index', [
+      'logs' => $logs
+    ]);
+  });
 });

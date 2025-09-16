@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\FileExported;
+use App\Events\FileImported;
+use App\Events\UserLoggedIn;
+use App\Listeners\LogFileExport;
+use App\Listeners\LogFileImport;
+use App\Listeners\LogUserLogin;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +24,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        UserLoggedIn::class => [
+            LogUserLogin::class
+        ],
+        FileImported::class => [
+            LogFileImport::class
+        ],
+        FileExported::class => [
+            LogFileExport::class
+        ]
     ];
 
     /**

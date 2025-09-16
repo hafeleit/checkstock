@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FileExported;
 use App\Models\ITAsset;
 use App\Models\ITAssetType;
 use App\Models\ITAssetOwn;
@@ -56,7 +57,17 @@ class ITAssetController extends Controller
 
   public function export()
   {
-    return Excel::download(new ITAssetExport, 'ITAsset.xlsx');
+    $fileName = 'ITAsset.xlsx';
+    $fileSize = null;
+    try {
+      event(new FileExported('App\Models\ITAsset', auth()->id(), 'export', 'pass', $fileName, $fileSize));
+      return Excel::download(new ITAssetExport, $fileName);
+    } catch (\Throwable $th) {
+      event(new FileExported('App\Models\ITAsset', auth()->id(), 'export', 'fail', $fileName, $fileSize, $th->getMessage()));
+      return back()->with('error', 'An error occurred while exporting the file: ' . $th->getMessage());
+    }
+
+    // return Excel::download(new ITAssetExport, $fileName);
   }
 
   /**
