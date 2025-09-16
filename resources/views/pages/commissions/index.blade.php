@@ -65,11 +65,13 @@
                                   @endcan
                                   @if(in_array($c->status, ['Summary Confirmed', 'Summary Approved', 'Final Approved']))
                                     @can('Commissions Check')
-                                      <a href="javascript:void(0)" class="btn btn-sm btn-success" id="commissions-link">
+                                      <a href="javascript:void(0)" class="btn btn-sm btn-success commissions-link" data-id="{{ $c->id }}">
                                           <i class="fas fa-check-circle me-1"></i> ตรวจสอบ Commission
                                       </a>
                                       <script>
-                                      document.getElementById('commissions-link').addEventListener('click', function() {
+                                      document.querySelectorAll('.commissions-link').forEach(function(button) {
+                                      button.addEventListener('click', function() {
+                                          const commissionId = this.dataset.id; // ดึงจาก data-id
                                           Swal.fire({
                                               title: 'Confirm Password',
                                               input: 'password',
@@ -78,16 +80,16 @@
                                               inputAttributes: {
                                                   autocapitalize: 'off',
                                                   autocorrect: 'off',
-                                                  autocomplete: 'off',  // ปิด auto complete
+                                                  autocomplete: 'off',
                                               },
                                               showCancelButton: true,
                                               confirmButtonText: 'Confirm',
                                               showLoaderOnConfirm: true,
                                               inputValidator: (value) => {
-                                                   if (!value) {
-                                                       return 'กรุณากรอกรหัสผ่านก่อน'; // ✅ require field
-                                                   }
-                                               },
+                                                  if (!value) {
+                                                      return 'กรุณากรอกรหัสผ่านก่อน';
+                                                  }
+                                              },
                                               preConfirm: (password) => {
                                                   return fetch('{{ route("commission.verify-password") }}', {
                                                       method: 'POST',
@@ -100,7 +102,6 @@
                                                   .then(async response => {
                                                       const data = await response.json();
                                                       if (!response.ok) {
-                                                          // แสดงข้อความ error จาก backend
                                                           throw new Error(data.error || 'เกิดข้อผิดพลาด');
                                                       }
                                                       return data;
@@ -112,12 +113,14 @@
                                               allowOutsideClick: () => !Swal.isLoading()
                                           }).then((result) => {
                                               if (result.isConfirmed && result.value.success) {
-                                                  window.location.href = '{{ route("commissions.check", $c->id) }}';
+                                                  window.location.href = '/commissions/' + commissionId + '/check';
                                               } else if(result.isConfirmed) {
                                                   Swal.fire('Error', 'Incorrect password', 'error');
                                               }
-                                          })
+                                          });
                                       });
+                                  });
+
                                       </script>
                                     @endcan
                                   @endif
