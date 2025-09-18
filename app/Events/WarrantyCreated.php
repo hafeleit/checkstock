@@ -10,24 +10,24 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserLoggedIn
+class WarrantyCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user_id;
-    public $event;
     public $status;
-    public $error_message;
+    public $warrantyData;
+    public $fileNames;
+    public $errorMessage;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($user_id, $event, $status, $error_message = null)
+    public function __construct($status, $warrantyData, $fileNames, $errorMessage = null)
     {
-        $this->user_id = $user_id;
-        $this->event = $event;
         $this->status = $status;
-        $this->error_message = $error_message;
+        $this->warrantyData = $warrantyData;
+        $this->fileNames = $fileNames;
+        $this->errorMessage = $errorMessage;
     }
 
     /**

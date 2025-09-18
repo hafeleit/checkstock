@@ -172,7 +172,7 @@ Route::middleware(['auth', 'check.status'])->group(function () {
 
   // Audit log
   Route::get('/audit-logs', function () {
-    $logs = AuditLog::latest()->get();
+    $logs = AuditLog::latest()->paginate(50);
     // return response()->json($logs);
     return view('audit_log.index', [
       'logs' => $logs

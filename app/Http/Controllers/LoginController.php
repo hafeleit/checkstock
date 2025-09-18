@@ -37,44 +37,41 @@ class LoginController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        // ตรวจสอบว่ามีผู้ใช้หรือไม่
-        if (!$user) {
-            $errorMessage = 'The provided credentials do not match our records.';
-            event(new UserLoggedIn(null, 'fail', $errorMessage));
+        if ($user) {
+            // ตรวจสอบสถานะบัญชี
+            if ($user->is_active === 0) {
+                $errorMessage = 'Your account is not active. Please contact the administrator.';
+                event(new UserLoggedIn($user->id, 'login', 'fail', $errorMessage));
+                return back()->withErrors([
+                    'email' => 'Your account is not active. Please contact the administrator.',
+                ]);
+            }
+
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'type' => 'employee'])) {
+                // กรณีล็อกอินสำเร็จ
+                event(new UserLoggedIn(Auth::id(), 'login', 'pass'));
+
+                // ล้าง role/permission cache ของ Spatie
+                app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
+                $request->session()->regenerate();
+                $user->update(['last_logged_in_at' => Carbon::now()]);
+
+                return redirect()->intended('profile');
+            }
+
+            // ถ้า Auth::attempt ล้มเหลว (รหัสผ่านไม่ถูกต้อง)
+            $errorMessage = 'Invalid email or password.';
+            event(new UserLoggedIn($user->id, 'login', 'fail', $errorMessage));
+
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
             ]);
-        }
-
-        // ตรวจสอบสถานะบัญชี
-        if ($user->is_active === 0) {
+        } else {
             $errorMessage = 'Your account is not active. Please contact the administrator.';
-            event(new UserLoggedIn($user->id, 'fail', $errorMessage));
-            return back()->withErrors([
-                'email' => 'Your account is not active. Please contact the administrator.',
-            ]);
+            event(new UserLoggedIn(null, 'login', 'fail', 'Invalid email or password.'));
+            return back()->withErrors(['email' => $errorMessage]);
         }
-
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'type' => 'employee'])) {
-            // กรณีล็อกอินสำเร็จ
-            event(new UserLoggedIn(Auth::id(), 'pass'));
-
-            // ล้าง role/permission cache ของ Spatie
-            app()[PermissionRegistrar::class]->forgetCachedPermissions();
-
-            $request->session()->regenerate();
-            $user->update(['last_logged_in_at' => Carbon::now()]);
-
-            return redirect()->intended('profile');
-        }
-
-        // ถ้า Auth::attempt ล้มเหลว (รหัสผ่านไม่ถูกต้อง)
-        $errorMessage = 'Invalid email or password.';
-        event(new UserLoggedIn($user->id, 'fail', $errorMessage));
-
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
     }
 
 

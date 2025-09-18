@@ -196,10 +196,18 @@
                         },
                         body: JSON.stringify(finalData)
                     })
-                    .then(response => {})
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(err => {
+                                throw err;
+                            });
+                        }
+                    })
                     .then(data => {
-                        Swal.fire('Success', 'Data saved successfully!', 'success');
-                        window.location.href = '/delivery-trackings';
+                        Swal.fire('Success', 'Data saved successfully!', 'success')
+                            .then(() => {
+                                window.location.href = '/delivery-trackings';
+                            });
                     })
                     .catch(error => {
                         Swal.fire('Error', 'An error occurred while saving the data.', 'error');

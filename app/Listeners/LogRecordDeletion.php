@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\FileImported;
+use App\Events\RecordDeleted;
 use App\Models\AuditLog;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class LogFileImport
+class LogRecordDeletion
 {
     /**
      * Create the event listener.
@@ -20,17 +20,15 @@ class LogFileImport
     /**
      * Handle the event.
      */
-    public function handle(FileImported $event): void
+    public function handle(RecordDeleted $event): void
     {
         AuditLog::create([
-            'user_id' => $event->user_id,
-            'event' => $event->event,
+            'user_id' => $event->userId,
+            'event' => 'deleted',
             'status' => $event->status,
             'auditable_type' => $event->model,
-            // 'auditable_id' => $event->status === 'pass' ? $event->user_id : null,
-            'file_name' => $event->file_name,
-            'file_size' => $event->file_size,
-            'error_message' => $event->error_message,
+            'auditable_id' => $event->recordId,
+            'error_message' => $event->errorMessage,
         ]);
     }
 }

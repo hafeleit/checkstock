@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\External;
 
+use App\Events\UserLoggedIn;
 use App\Http\Controllers\Controller;
-use App\Models\External\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Date;
 use Illuminate\Http\Request;
@@ -26,29 +27,31 @@ class LoginController extends Controller
         if (Auth::guard('customer')->attempt($credentials, $request->boolean('remember'))) {
             $user = Auth::guard('customer')->user();
 
-            // check if user is a customer
-            if ($user->type === 'customer') {
+            if ($user->type === 'customer' || ($user->type === 'employee' && $user->hasRole('super-admin'))) {
+                // บันทึก log เมื่อล็อกอินสำเร็จ
+                event(new UserLoggedIn($user->id, 'external_login', 'pass'));
+
                 $request->session()->regenerate();
                 $user->update(['last_logged_in_at' => Carbon::now()]);
+                
                 return redirect('/customer/products');
             }
 
-            // check if user is an employee with the super-admin role
-            if ($user->type === 'employee' && $user->hasRole('super-admin')) {
-                $request->session()->regenerate();
-                $user->update(['last_logged_in_at' => Carbon::now()]);
-                return redirect('/customer/products');
-            }
-
+            // ถ้าล็อกอินสำเร็จ แต่ไม่มีสิทธิ์เข้าถึง
             Auth::logout();
-            return back()->withErrors([
-                'email' => 'You do not have permission to access this area.',
-            ])->onlyInput('email');
+
+            event(new UserLoggedIn($user->id, 'external_login', 'fail', 'Permission denied.'));
+            return back()->withErrors(['email' => 'You do not have permission to access this area.'])->onlyInput('email');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        // ถ้าล็อกอินไม่สำเร็จ (credentials ไม่ถูกต้อง)
+        $user = User::where('email', $request->email)->first();
+        $userId = $user ? $user->id : null;
+        $errorMessage = 'The provided credentials do not match our records.';
+
+        event(new UserLoggedIn($userId, 'external_login', 'fail', 'Invalid email or password.'));
+
+        return back()->withErrors(['email' => $errorMessage])->onlyInput('email');
     }
 
     public function logout(Request $request)

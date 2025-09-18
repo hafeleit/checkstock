@@ -159,7 +159,7 @@
                                 <form id="delete-form-{{ $item['logi_track_id'] }}" action="{{ route('delivery-trackings.destroy', $item['logi_track_id']) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <a href="#" class="text-danger" onclick="confirmDelete('{{ $item['logi_track_id'] }}')">
+                                    <a href="#" class="text-danger delete-btn" data-id="{{ $item['logi_track_id'] }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
                                             <polyline points="3 6 5 6 21 6"></polyline>
                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -224,6 +224,17 @@
 
         window.location.href = url;
     };
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const id = this.getAttribute('data-id');
+                confirmDelete(id);
+            });
+        });
+    });
 
     function confirmDelete(logiTrackId) {
         Swal.fire({

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FileExported;
+use App\Events\RecordDeleted;
 use App\Exports\OverAllExport;
 use App\Exports\PendingExport;
 use App\Models\Driver;
@@ -12,7 +14,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class InvTrackingController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('permission:delivery view lists', ['only' => ['index']]);
@@ -185,65 +186,87 @@ class InvTrackingController extends Controller
                 }
 
                 InvTracking::where('logi_track_id', $logiTrackId)->delete();
-            });
 
+                $deletedIds = $invTrackings->pluck('id')->all();
+                foreach ($deletedIds as $id) {
+                    event(new RecordDeleted('App\Models\InvTracking', auth()->id(), 'pass', $id));
+                }
+            });
             return redirect()->back()->with('success', 'Record deleted successfully!');
         } catch (\Exception $e) {
+            event(new RecordDeleted('App\Models\InvTracking', auth()->id(), 'fail', $logiTrackId, $e->getMessage()));
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
     public function exportOverall()
     {
-        $invTrackings = InvTracking::with('user', 'updatedUser')->get();
-        $mappedData = $invTrackings->map(function ($invTracking, $index) {
-            return [
-                'no' => $index + 1,
-                'logi_track_id' => $invTracking->logi_track_id,
-                'driver_or_sent_to' => $invTracking->driver_or_sent_to,
-                'erp_document' => $invTracking->erp_document,
-                'invoice_id' => $invTracking->invoice_id,
-                'created_date' => $invTracking->created_date ? Carbon::parse($invTracking->created_date)->format('d/m/Y') : null,
-                'delivery_date' => $invTracking->delivery_date ? Carbon::parse($invTracking->delivery_date)->format('d/m/Y') : null,
-                'type' => $invTracking->type,
-                'created_by' => $invTracking->user->username,
-                'updated_by' => $invTracking->updatedUser->username ?? null,
-                'remark' => $invTracking->remark ?? ''
-            ];
-        });
-        return Excel::download(new OverAllExport($mappedData->toArray()), 'overall_document_' . Carbon::now()->format('Ymd') . '.xlsx');
+        $fileName = 'overall_document_' . Carbon::now()->format('Ymd') . '.xlsx';
+
+        try {
+            $invTrackings = InvTracking::with('user', 'updatedUser')->get();
+            $mappedData = $invTrackings->map(function ($invTracking, $index) {
+                return [
+                    'no' => $index + 1,
+                    'logi_track_id' => $invTracking->logi_track_id,
+                    'driver_or_sent_to' => $invTracking->driver_or_sent_to,
+                    'erp_document' => $invTracking->erp_document,
+                    'invoice_id' => $invTracking->invoice_id,
+                    'created_date' => $invTracking->created_date ? Carbon::parse($invTracking->created_date)->format('d/m/Y') : null,
+                    'delivery_date' => $invTracking->delivery_date ? Carbon::parse($invTracking->delivery_date)->format('d/m/Y') : null,
+                    'type' => $invTracking->type,
+                    'created_by' => $invTracking->user->username,
+                    'updated_by' => $invTracking->updatedUser->username ?? null,
+                    'remark' => $invTracking->remark ?? ''
+                ];
+            });
+
+            event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'pass', $fileName, null));
+            return Excel::download(new OverAllExport($mappedData->toArray()), $fileName);
+        } catch (\Throwable $th) {
+            event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'fail', $fileName, null, $th->getMessage()));
+            return back()->with('error', '❌ An error occurred during export: ' . $th->getMessage());
+        }
     }
 
     public function exportPending()
     {
-        $invTrackings = InvTracking::query()
-            ->select('erp_document', 'invoice_id')
-            ->selectRaw('MIN(delivery_date) as oldest_delivery_date')
-            ->selectRaw('DATEDIFF(CURDATE(), MIN(delivery_date)) as days_since_delivery')
-            ->selectSub(function ($query) {
-                $query->select('driver_or_sent_to')
-                    ->from('inv_trackings as sub')
-                    ->whereColumn('sub.erp_document', 'inv_trackings.erp_document')
-                    ->where('sub.type', 'deliver')
-                    ->where('sub.status', 'pending')
-                    ->orderByDesc('sub.delivery_date')
-                    ->limit(1);
-            }, 'driver_or_sent_to')
-            ->where('type', 'deliver')
-            ->where('status', 'pending')
-            ->groupBy('erp_document', 'invoice_id')
-            ->get();
+        $fileName = 'pending_document_' . Carbon::now()->format('Ymd') . '.xlsx';
 
-        $mappedData = $invTrackings->map(function ($invTracking, $index) {
-            return [
-                'delivery_date' => $invTracking->oldest_delivery_date,
-                'erp_document' => $invTracking->erp_document,
-                'invoice_id' => $invTracking->invoice_id,
-                'driver_or_sent_to' => $invTracking->driver_or_sent_to,
-                'duration' => $invTracking->days_since_delivery ?? ''
-            ];
-        });
+        try {
+            $invTrackings = InvTracking::query()
+                ->select('erp_document', 'invoice_id')
+                ->selectRaw('MIN(delivery_date) as oldest_delivery_date')
+                ->selectRaw('DATEDIFF(CURDATE(), MIN(delivery_date)) as days_since_delivery')
+                ->selectSub(function ($query) {
+                    $query->select('driver_or_sent_to')
+                        ->from('inv_trackings as sub')
+                        ->whereColumn('sub.erp_document', 'inv_trackings.erp_document')
+                        ->where('sub.type', 'deliver')
+                        ->where('sub.status', 'pending')
+                        ->orderByDesc('sub.delivery_date')
+                        ->limit(1);
+                }, 'driver_or_sent_to')
+                ->where('type', 'deliver')
+                ->where('status', 'pending')
+                ->groupBy('erp_document', 'invoice_id')
+                ->get();
 
-        return Excel::download(new PendingExport($mappedData->toArray()), 'pending_document_' . Carbon::now()->format('Ymd') . '.xlsx');
+            $mappedData = $invTrackings->map(function ($invTracking, $index) {
+                return [
+                    'delivery_date' => $invTracking->oldest_delivery_date,
+                    'erp_document' => $invTracking->erp_document,
+                    'invoice_id' => $invTracking->invoice_id,
+                    'driver_or_sent_to' => $invTracking->driver_or_sent_to,
+                    'duration' => $invTracking->days_since_delivery ?? ''
+                ];
+            });
+
+            event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'pass', $fileName, null));
+            return Excel::download(new PendingExport($mappedData->toArray()), $fileName);
+        } catch (\Throwable $th) {
+            event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'fail', $fileName, null, $th->getMessage()));
+            return back()->with('error', '❌ An error occurred during export: ' . $th->getMessage());
+        }
     }
 }

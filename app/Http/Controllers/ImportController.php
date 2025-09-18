@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FileImported;
 use App\Imports\AddressImport;
 use App\Imports\HuDetailImport;
 use App\Imports\InvoiceImport;
@@ -43,6 +44,8 @@ class ImportController extends Controller
 
         $file = request()->file('file');
         $fileType = request()->input('type');
+        $fileName = $file->getClientOriginalName();
+        $fileSize = $file->getSize();
 
         $fileImportLog = null;
 
@@ -64,11 +67,23 @@ class ImportController extends Controller
             }
 
             $fileImportLog->update(['status' => 'processed']);
+
+            event(new FileImported('App\Models\FileImportLog', auth()->id(), 'import', 'pass', $fileName, $fileSize));
             return redirect()->back()->with('success', 'Data uploaded and imported successfully!');
         } catch (ValidationException $e) {
+            if ($fileImportLog) {
+                $fileImportLog->update(['status' => 'failed']);
+            }
+
             $failures = $e->failures();
+            event(new FileImported('App\Models\FileImportLog', auth()->id(), 'import', 'fail', $fileName, $fileSize, $e->getMessage()));
             return redirect()->back()->with('error', "Validation failed: " . count($failures) . " row(s) have errors.");
         } catch (\Exception $e) {
+            if ($fileImportLog) {
+                $fileImportLog->update(['status' => 'failed']);
+            }
+            
+            event(new FileImported('App\Models\FileImportLog', auth()->id(), 'import', 'fail', $fileName, $fileSize, $e->getMessage()));
             return redirect()->back()->with('error', 'An error occurred. Please check the file.');
         }
     }

@@ -10,24 +10,28 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserLoggedIn
+class RoleUpdated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user_id;
-    public $event;
+    public $userId;
     public $status;
-    public $error_message;
+    public $roleId;
+    public $oldRoleName;
+    public $newRoleName;
+    public $errorMessage;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($user_id, $event, $status, $error_message = null)
+    public function __construct($userId, $status, $roleId, $oldRoleName, $newRoleName, $errorMessage = null)
     {
-        $this->user_id = $user_id;
-        $this->event = $event;
+        $this->userId = $userId;
         $this->status = $status;
-        $this->error_message = $error_message;
+        $this->roleId = $roleId;
+        $this->oldRoleName = $oldRoleName;
+        $this->newRoleName = $newRoleName;
+        $this->errorMessage = $errorMessage;
     }
 
     /**

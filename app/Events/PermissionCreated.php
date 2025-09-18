@@ -10,24 +10,26 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserLoggedIn
+class PermissionCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user_id;
-    public $event;
+    public $userId;
+    public $permissionId;
     public $status;
-    public $error_message;
+    public $permissionName;
+    public $errorMessage;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($user_id, $event, $status, $error_message = null)
+    public function __construct($userId, $permissionId, $status, $permissionName, $errorMessage = null)
     {
-        $this->user_id = $user_id;
-        $this->event = $event;
+        $this->userId = $userId;
+        $this->permissionId = $permissionId;
         $this->status = $status;
-        $this->error_message = $error_message;
+        $this->permissionName = $permissionName;
+        $this->errorMessage = $errorMessage;
     }
 
     /**

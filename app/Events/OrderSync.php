@@ -10,24 +10,25 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserLoggedIn
+class OrderSync
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $user_id;
-    public $event;
+    public $userId;
     public $status;
-    public $error_message;
+    public $message;
+    public $newOrderCount;
+    public $fileName;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($user_id, $event, $status, $error_message = null)
+    public function __construct($userId, $status, $message, $newOrderCount = 0, $fileName = null)
     {
-        $this->user_id = $user_id;
-        $this->event = $event;
+        $this->userId = $userId;
         $this->status = $status;
-        $this->error_message = $error_message;
+        $this->message = $message;
+        $this->newOrderCount = $newOrderCount;
+        $this->fileName = $fileName;
     }
 
     /**

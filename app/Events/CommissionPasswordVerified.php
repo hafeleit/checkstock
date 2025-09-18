@@ -10,24 +10,22 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserLoggedIn
+class CommissionPasswordVerified
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user_id;
-    public $event;
+    public $userId;
     public $status;
-    public $error_message;
+    public $errorMessage;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($user_id, $event, $status, $error_message = null)
+    public function __construct($userId, $status, $errorMessage = null)
     {
-        $this->user_id = $user_id;
-        $this->event = $event;
+        $this->userId = $userId;
         $this->status = $status;
-        $this->error_message = $error_message;
+        $this->errorMessage = $errorMessage;
     }
 
     /**

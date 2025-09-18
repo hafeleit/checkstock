@@ -10,24 +10,26 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserLoggedIn
+class RecordDeleted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user_id;
-    public $event;
+    public $model;
+    public $userId;
     public $status;
-    public $error_message;
+    public $recordId;
+    public $errorMessage;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($user_id, $event, $status, $error_message = null)
+    public function __construct($model, $userId, $status, $recordId, $errorMessage = null)
     {
-        $this->user_id = $user_id;
-        $this->event = $event;
+        $this->model = $model;
+        $this->userId = $userId;
         $this->status = $status;
-        $this->error_message = $error_message;
+        $this->recordId = $recordId;
+        $this->errorMessage = $errorMessage;
     }
 
     /**
