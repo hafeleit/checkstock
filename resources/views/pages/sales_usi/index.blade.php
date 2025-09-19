@@ -55,7 +55,7 @@
                             <div class="col-md-3">
                                 <div class="form-group relative" >
                                     <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Item Code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
-                                    <a href="javascript:;" onclick="search_usi()">
+                                    <a href="#" id="searchButton">
                                       <img src="./img/icons/search.png" alt="Country flag" width="25px" class="icon-search">
                                     </a>
                                 </div>
@@ -349,6 +349,14 @@
         $('#item_code').mask('000.00.000');
     </script>
 <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+  // ค้นหา Element ของปุ่ม search
+  const searchButton = document.getElementById('searchButton');
+  if (searchButton) {
+      searchButton.addEventListener('click', (event) => {
+          event.preventDefault();
+          search_usi();
+      });
+  }
 
   $(function(){
     $('#item_code').on('keypress', function(event) {
