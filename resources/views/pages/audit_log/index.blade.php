@@ -42,7 +42,7 @@
                         <th scope="col" class="px-3">file name</th>
                         <th scope="col" class="px-3">file size</th>
                         <th scope="col" class="px-3">error message</th>
-                        <th scope="col" class="px-3">Created By</th>
+                        <th scope="col" class="px-3">Created By ID</th>
                         <th scope="col" class="px-3">created at</th>
                     </tr>
                 </thead>
@@ -64,7 +64,7 @@
                         <td class="px-3">{{ $log->file_size }}</td>
                         <td class="px-3">{{ $log->error_message }}</td>
                         <td class="px-3">{{ $log->user_id }}</td>
-                        <td class="px-3">{{ $log->created_at->format('y-m-d h:i:s') }}</td>
+                        <td class="px-3">{{ $log->created_at }}</td>
                     </tr>
                     <tr id="collapse-{{ $log->id }}" class="collapse text-xs">
                         <td colspan="10">

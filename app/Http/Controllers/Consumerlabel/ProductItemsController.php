@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Consumerlabel;
 
+use App\Events\FileExported;
+use App\Events\FileImported;
+use App\Exports\ProductitemsExport;
 use App\Http\Controllers\Controller;
+use App\Imports\ProductitemsImport;
 use Illuminate\Http\Request;
 use App\Models\ProductItem;
 use App\Models\CMLColour;
@@ -14,6 +18,8 @@ use App\Models\CMLWarning;
 use Auth;
 use PDF;
 use DB;
+use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductItemsController extends Controller
 {
@@ -190,5 +196,40 @@ class ProductItemsController extends Controller
   public function destroy(string $id)
   {
     //
+  }
+
+  public function import(Request $request)
+  {
+    $fileName = $request->file('file') ? $request->file('file')->getClientOriginalName() : '';
+    $fileSize = $request->file('file') ? $request->file('file')->getSize() : null;
+
+    try {
+      $request->validate([
+        'file' => 'required|mimes:xlsx,csv',
+      ]);
+
+      Excel::import(new ProductitemsImport, $request->file('file'));
+
+      event(new FileImported('App\Models\ProductItem', auth()->id(), 'import', 'pass', $fileName, $fileSize));
+      return back()->with('succes', 'Import ข้อมูลสำเร็จ!');
+    } catch (ValidationException $e) {
+      event(new FileImported('App\Models\ProductItem', auth()->id(), 'import', 'fail', $fileName, $fileSize, $e->getMessage()));
+      return back()->with('error', '❌ Please select a valid file.');
+    } catch (\Throwable $th) {
+      event(new FileImported('App\Models\ProductItem', auth()->id(), 'import', 'fail', $fileName, $fileSize, $th->getMessage()));
+      return back()->with('error', '❌ ' . $th->getMessage());
+    }
+  }
+
+  public function export()
+  {
+    $fileName = 'ProductItems.xlsx';
+    try {
+      event(new FileExported('App\Models\ProductItem', auth()->id(), 'export', 'pass', $fileName, null));
+      return Excel::download(new ProductitemsExport, 'ProductItems.xlsx');
+    } catch (\Throwable $th) {
+      event(new FileExported('App\Models\ProductItem', auth()->id(), 'export', 'fail', $fileName, null, $th->getMessage()));
+      return back()->with('error', '❌ An error occurred during export: ' . $th->getMessage());
+    }
   }
 }

@@ -121,7 +121,7 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   Route::resource('asset_types', ITAssetTypeController::class);
   Route::resource('onlineorder', OrderController::class);
   Route::resource('checkstock', CheckStockController::class);
-  
+
   Route::resource('commissions', CommissionController::class);
   Route::post('/commission/verify-password', [CommissionController::class, 'verifyPassword'])->name('commission.verify-password');
   Route::put('/commissions/{id}/status', [CommissionController::class, 'updateStatus'])->name('commissions.updateStatus');
@@ -135,27 +135,17 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   Route::get('/commissions/{id}/check', [CommissionController::class, 'check'])->name('commissions.check');
   Route::get('/commissions/{id}/summary-sales-export', [CommissionController::class, 'summarySalesExport'])->name('commissions.summary-sales-export');
 
-  Route::get('checkstockhww-export', [CheckStockController::class,'export'])->name('checkstockhww-export');
-  Route::post('product-new-price-list-import', [CheckStockController::class,'import'])->name('product-new-price-list-import');
-  Route::get('onlineorder/download/{file}', [OrderController::class,'download'])->name('onlineorder-download');
-  Route::get('onlineorder-manual-get', [OrderController::class,'onlineorder_manual_get'])->name('onlineorder-manual-get');
+  Route::get('checkstockhww-export', [CheckStockController::class, 'export'])->name('checkstockhww-export');
+  Route::post('product-new-price-list-import', [CheckStockController::class, 'import'])->name('product-new-price-list-import');
+  Route::get('onlineorder/download/{file}', [OrderController::class, 'download'])->name('onlineorder-download');
+  Route::get('onlineorder-manual-get', [OrderController::class, 'onlineorder_manual_get'])->name('onlineorder-manual-get');
 
   //Consumerlabel
   Route::resource('product-items', ProductItemsController::class);
-  Route::get('/export-product-items', function () {
-    return Excel::download(new ProductitemsExport, 'ProductItems.xlsx');
-  })->name('productitems_export');
-  Route::post('/import-product-items', function (Request $request) {
-    $request->validate([
-      'file' => 'required|mimes:xlsx,csv', // ตรวจสอบชนิดไฟล์
-    ]);
-
-    // Import ไฟล์
-    Excel::import(new ProductitemsImport, $request->file('file'));
-
-    return back()->with('succes', 'Import ข้อมูลสำเร็จ!');
-  })->name('productitems_import');
+  Route::post('/import-product-items', [ProductItemsController::class, 'import'])->name('productitems_import');
+  Route::get('/export-product-items', [ProductItemsController::class, 'export'])->name('productitems_export');
   Route::get('consumerlabel-barcode', [ProductItemsController::class, 'pdfbarcode'])->name('pdfbarcode');
+  
   //routes template
   Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
   Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
