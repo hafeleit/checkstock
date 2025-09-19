@@ -1,18 +1,18 @@
 <!-- Navbar -->
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl
-        {{ str_contains(Request::url(), 'virtual-reality') == true ? ' mt-3 mx-3 bg-primary' : '' }}" id="navbarBlur"
-    data-scroll="false">
+        {{ str_contains(Request::url(), 'virtual-reality') == true ? ' mt-3 mx-3 bg-primary' : '' }}"
+    id="navbarBlur" data-scroll="false">
     <div class="container-fluid py-1 px-3">
         <div class="d-flex align-items-center gap-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="#">Pages</a></li>
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ $title }}</li>
                 </ol>
                 <h3 class="font-weight-bolder text-white mb-0">{{ $title }}</h3>
             </nav>
             <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none me-auto" id="sidenavToggler">
-                <a href="javascript:;" class="nav-link text-body p-0">
+                <a href="#" class="nav-link text-body p-0">
                     <div class="sidenav-toggler-inner">
                         <i class="sidenav-toggler-line bg-white"></i>
                         <i class="sidenav-toggler-line bg-white"></i>
@@ -37,25 +37,24 @@
                     </a>
                 </li>
                 <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-                  .btn-logout{
-                    background: none;
-                    border: none;
-                    padding: 0;
-                    cursor: pointer;
-                    text-decoration: none;
-                  }
+                    .btn-logout {
+                        background: none;
+                        border: none;
+                        padding: 0;
+                        cursor: pointer;
+                        text-decoration: none;
+                    }
                 </style>
                 <li class="nav-item d-flex align-items-center ps-3">
-                  <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit"
-                            class="nav-link text-white font-weight-bold px-0 btn-logout">
-                        <i class="fa fa-sign-out me-sm-1"></i>
-                    </button>
-                </form>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="nav-link text-white font-weight-bold px-0 btn-logout">
+                            <i class="fa fa-sign-out me-sm-1"></i>
+                        </button>
+                    </form>
                 </li>
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                    <a href="#" class="nav-link text-white p-0" id="iconNavbarSidenav">
                         <div class="sidenav-toggler-inner">
                             <i class="sidenav-toggler-line bg-white"></i>
                             <i class="sidenav-toggler-line bg-white"></i>
@@ -68,3 +67,23 @@
     </div>
 </nav>
 <!-- End Navbar -->
+
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+    const sidenavToggler = document.querySelector('.sidenav-toggler');
+    const sidenav = document.querySelector('.g-sidenav-show');
+
+    if (sidenavToggler) {
+        sidenavToggler.addEventListener('click', function(e) {
+            e.preventDefault();
+            sidenav.classList.toggle('g-sidenav-hidden');
+        });
+    }
+
+    const iconNavbarSidenav = document.getElementById('iconNavbarSidenav');
+    if (iconNavbarSidenav) {
+        iconNavbarSidenav.addEventListener('click', function(e) {
+            e.preventDefault();
+            sidenav.classList.toggle('g-sidenav-hidden');
+        });
+    }
+</script>
