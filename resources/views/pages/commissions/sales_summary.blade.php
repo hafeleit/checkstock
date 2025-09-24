@@ -2,7 +2,7 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'ยอดรวม Commission ราย Sales Rep'])
-<style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+<style>
   .table-scroll-wrapper {
       position: relative;
   }
@@ -290,13 +290,8 @@
                     </div>
                 <div class="table-scroll-wrapper">
                 <!-- Scrollbar ด้านบน -->
-                <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-                  .sc-top{
-                    height:1px;
-                  }
-                </style>
                   <div class="table-scroll-top">
-                      <div class="sc-top"></div> <!-- จะกำหนดความกว้างด้วย JS -->
+                      <div style="height:1px;"></div> <!-- จะกำหนดความกว้างด้วย JS -->
                   </div>
                     <div class="table-responsive table-scroll-bottom">
                         <table class="table table-hover align-items-center" id="sortableTable">
@@ -363,7 +358,7 @@
                         </table>
                     </div>
                   </div>
-                  <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+                  <script>
                     document.addEventListener("DOMContentLoaded", function () {
                         const topScroll = document.querySelector(".table-scroll-top");
                         const spacer = topScroll.querySelector("div");
@@ -459,7 +454,7 @@
         </form>
     </div>
 </div>
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
   document.getElementById('export-btn')?.addEventListener('click', function () {
       const url = this.getAttribute('data-url');
 
@@ -516,7 +511,7 @@
 
   });
 </script>
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
     let sortDirection = {};
 
     function sortTable(colIndex) {
@@ -557,7 +552,7 @@
       });
     }
 </script>
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
 
 document.getElementById('checkAll').addEventListener('change', function () {
     document.querySelectorAll('.row-check').forEach(chk => chk.checked = this.checked);
@@ -625,7 +620,7 @@ function approveSwal_Summary(id) {
 }
 </script>
 
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
 document.addEventListener("DOMContentLoaded", function () {
     const goTopBtn = document.getElementById("goTopBtn");
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+    <style media="screen">
     .page_404 {
       padding:40px 0; background:#fff; font-family: 'Arvo', serif;
     }
@@ -14,7 +14,7 @@
 
     .four_zero_four_bg{
 
-     background-image: url("{{ asset('img/dribbble_1.gif') }}");
+     background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
         height: 400px;
         background-position: center;
         background-repeat: repeat-y;

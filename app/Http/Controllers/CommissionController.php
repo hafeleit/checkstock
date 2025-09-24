@@ -421,7 +421,11 @@ class CommissionController extends Controller
          }
 
          // ส่งเมล
-         Mail::to($to)->cc($cc)->send(new CommissionStatusMail($commission->sub_id, $request->status));
+         Mail::to($to)
+             ->cc($cc)
+             ->send(new CommissionStatusMail($commission->sub_id, $request->status));
+         //Mail::to('apirak@hafele.co.th')->send(new CommissionStatusMail($commission->sub_id, $request->status));
+
          return back()->with('succes', "✅ Commission #{$commission->sub_id} เปลี่ยนสถานะเป็น {$request->status} และส่งอีเมลแจ้งแล้ว");
      }
 

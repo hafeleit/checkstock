@@ -2,21 +2,15 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'New Asset'])
-    <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-      .z-1{
-        z-index: 1;
-      }
-
-    </style>
     <div class="container-fluid py-4">
       <form action="{{ route('asset_types.store') }}" method="post" >
       @csrf
       <div class="row">
 
-        <div class="col-lg-6 z-1">
+        <div class="col-lg-6" style="z-index: 1;">
           <a href="{{ route('asset_types.index') }}" type="button" class="btn btn-dark mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Back</a>
         </div>
-        <div class="col-lg-6 text-end z-1">
+        <div class="col-lg-6 text-end" style="z-index: 1;">
           @can('itasset update')
           <a href="{{ route('asset_types.edit',$assetType->id) }}" class="btn btn-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Edit</a>
           @endcan

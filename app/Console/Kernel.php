@@ -20,7 +20,6 @@ class Kernel extends ConsoleKernel
         
         $schedule->command('cron:getorder')->everyMinute();
         $schedule->command('users:check-last-login')->daily();
-        $schedule->command('import:clean-up-old-imports')->everyMinute();
     }
 
     /**

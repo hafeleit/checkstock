@@ -2,7 +2,7 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'SO Status'])
-    <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+    <style>
     .loader{
       display: block;
       position: relative;
@@ -127,7 +127,7 @@
                       <script src="{{ asset('js/jquery-ui.js') }}"></script>
                       <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
 
-                      <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+                      <script>
                           $(document).ready(function() {
                               $(".datepicker").datepicker({
                                   dateFormat: "yy-mm-dd", // กำหนดรูปแบบวันที่
@@ -143,7 +143,7 @@
                           &nbsp
                           <button type="button" id='btn-reset' class="btn btn-light btn-sm ms-auto text-uppercase text-secondary text-xxs">CLEAR</button>
                       </div>
-                      <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+                      <script type="text/javascript">
                         $(function(){
                           $('#btn-reset').click(function(){
                              $('input[type="text"]').val('');
@@ -234,7 +234,7 @@
         <div id="load_detail"></div>
         </div>
 
-        <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+        <script type="text/javascript">
 
           $(function(){
             //$('#myModal').modal('show');

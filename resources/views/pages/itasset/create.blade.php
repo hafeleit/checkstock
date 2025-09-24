@@ -2,26 +2,15 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'New Asset'])
-<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-  .z-1{
-    z-index: 1;
-  }
-
-  .btn-add{
-    position: absolute;
-    width: 100px;
-    right: 40px;
-  }
-</style>
 <div class="container-fluid py-4">
   <form action="{{ route('itasset.store') }}" method="post">
     @csrf
     <div class="row">
-      <div class="col-lg-6 z-1">
+      <div class="col-lg-6" style="z-index: 1;">
         <h4 class="text-white">Make the changes below</h4>
 
       </div>
-      <div class="col-lg-6 text-end z-1">
+      <div class="col-lg-6 text-end" style="z-index: 1;">
         <a href="{{ route('itasset.index') }}" type="button" class="btn btn-secondary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
         <button type="submit" class="btn btn-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
       </div>
@@ -82,7 +71,7 @@
                 <input class="form-control" type="text" name="tel" value="{{ old('tel') }}">
               </div>
             </div>
-            <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+            <script>
             function toggleTelField() {
                 let val = $('#type').val();
                 if (val === 'T17' || val === 'T18') {
@@ -199,7 +188,7 @@
                 </select>
               </div>
             </div>
-            <div class="row reason_broken d-none">
+            <div class="row reason_broken" style="display: none">
               <div class="col-12 col-sm-6">
                 <label class="mt-4 text-danger">Reason Broken</label>
                 <input class="form-control" type="text" name="reason_broken">
@@ -240,7 +229,7 @@
           <div class="card-body">
             <div class="row">
               <h5 class="font-weight-bolder">Software</h5>
-              <button id="addSoftwareBtn" class="btn btn-sm mb-0 btn-add" type="button">Add</button>
+              <button id="addSoftwareBtn" class="btn btn-sm mb-0" type="button" style="position: absolute;width: 100px; right: 40px;">Add</button>
 
               <div class="col-4">
                 <label>Software Name</label>
@@ -254,7 +243,7 @@
             </div>
 
 
-            <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+            <script type="text/javascript">
               $("#addSoftwareBtn").click(function() {
 
                 let content = '<div class="row mt-2">\
@@ -350,14 +339,18 @@
   </form>
 </div>
 
-<script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script type="text/javascript">
   $(function() {
     $("#pdate, #license_expiry_date").flatpickr({
       disableMobile: "true",
     });
 
-    $('#status').on('change', function () {
-      $('.reason_broken').toggleClass('d-none', $(this).val() !== 'BROKEN');
+    $('#status').on('change', function() {
+      if ($(this).val() == 'BROKEN') {
+        $('.reason_broken').css('display', 'block');
+      } else {
+        $('.reason_broken').css('display', 'none');
+      }
     });
 
   });

@@ -4,7 +4,7 @@
 
 @include('layouts.navbars.auth.topnav', ['title' => 'Role'])
 
-<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+<style media="screen">
     .card-header__user,
     .card__active_status {
         display: flex;
@@ -153,7 +153,7 @@
 <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}">
 
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
     $('#roles-select').select2({
         theme: "bootstrap-5",
         width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',

@@ -3,7 +3,7 @@
 @section('content')
 
 @include('layouts.navbars.auth.topnav', ['title' => 'Online Order'])
-<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+<style media="screen">
   .dt-layout-row{
     padding: 1.5rem;
   }
@@ -124,7 +124,7 @@
 <script src="{{ asset('js/dataTables.min.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('css/dataTables.dataTables.min.css') }}">
 
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
     $(document).ready(function () {
         $("#orders-list").DataTable({
           order: [[1, 'desc']]

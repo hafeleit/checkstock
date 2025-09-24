@@ -1,33 +1,11 @@
 @extends('layouts.appform')
 
 @section('content')
-<style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-    .header-content {
-        width: 100%;
-        z-index: 9;
-        text-align: center;
-    }
-
-    .header-logo {
-        z-index: 9;
-        width: 250px;
-    }
-
-    .warranty-bg {
-        background-image: url('/img/bg_warranty.jpg');
-        background-position: top;
-    }
-
-    .hidden-file-input {
-        display: none;
-    }
-</style>
-
 <!-- End Navbar -->
 <main class="main-content  mt-0">
-    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg warranty-bg">
-        <div class="header-content">
-            <img src="/img/hafele_logo_white.png" class="header-logo">
+    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('/img/bg_warranty.jpg'); background-position: top;">
+        <div style="width: 100%;z-index: 9;text-align: center;">
+            <img src="/img/hafele_logo_white.png" style="z-index: 9;width: 250px;">
         </div>
         <span class="mask bg-primary opacity-6"></span>
     </div>
@@ -95,22 +73,20 @@
                                     <label class="text-sm">แนบรูปใบเสร็จ หรือ serial no. (Attach file)<span class="text-danger">*</span></label>
                                     <div class="col-8">
                                         <input name="file" type="file" class="form-control" placeholder="Attach file" aria-label="Attach file" required>
-                                        <input name="file2" type="file" class="form-control files hidden-file-input" placeholder="Attach file" aria-label="Attach file">
-                                        <input name="file3" type="file" class="form-control files hidden-file-input" placeholder="Attach file" aria-label="Attach file">
-                                        <input name="file4" type="file" class="form-control files hidden-file-input" placeholder="Attach file" aria-label="Attach file">
-                                        <input name="file5" type="file" class="form-control files hidden-file-input" placeholder="Attach file" aria-label="Attach file">
+                                        <input name="file2" type="file" class="form-control files" placeholder="Attach file" aria-label="Attach file" style="display: none">
+                                        <input name="file3" type="file" class="form-control files" placeholder="Attach file" aria-label="Attach file" style="display: none">
+                                        <input name="file4" type="file" class="form-control files" placeholder="Attach file" aria-label="Attach file" style="display: none">
+                                        <input name="file5" type="file" class="form-control files" placeholder="Attach file" aria-label="Attach file" style="display: none">
                                     </div>
                                     <div class="col-4">
-                                        <button class="btn btn-sm btn-outline-dark mb-0 add-more-btn" type="button">Add</button>
+                                        <button class="btn btn-sm btn-outline-dark mb-0" type="button" onclick="add_more_upload()">Add</button>
                                     </div>
                                 </div>
                             </div>
-                            <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+                            <script type="text/javascript">
                                 function add_more_upload() {
-                                    $('.hidden-file-input').first().removeClass('hidden-file-input').removeClass('files');
+                                    $('.files').first().css('display', 'unset').removeClass('files');
                                 }
-
-                                document.querySelector('.add-more-btn').addEventListener('click', add_more_upload);
                             </script>
                             <p class="text-danger text-sm">*แนบไฟลได้เฉพาะ ไฟล์ pdf และ jpg ไฟล์ขนาดสูงสุดไม่เกิน 5MB (Only pdf and jpg files with a maximum file size of 5MB.)</p>
                             <p class="text-sm">บริษัท เฮเฟเล่ (ประเทศไทย) จำกัด ("เฮเฟเล่") จะเก็บ รวบรวม ใช้ เปิดเผยข้อมูลส่วนบุคคลของท่านเพื่อติดต่อ นำเสนอ และประชาสัมพันธ์ผลิตภัณฑ์และบริการที่ท่านสนใจโปรดศึกษารายละเอียดและสิทธิใน <a target="_blank" href="https://www.hafelethailand.com/policy/">นโยบายคุ้มครองข้อมูลส่วนบุคคล (Privacy Policy) ของเฮเฟเล่</a></p>
@@ -132,7 +108,7 @@
     </div>
 </main>
 <script src="{{ asset('js/jquery.mask.js') }}"></script>
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
     $('#article_no').mask('000.00.000');
 </script>
 @endsection

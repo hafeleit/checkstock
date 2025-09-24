@@ -147,7 +147,7 @@
 @endsection
 
 @section('scripts')
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
     // Toggle password visibility
     function togglePassword(fieldId) {
         const field = document.getElementById(fieldId);

@@ -76,7 +76,7 @@
     <script src="{{ asset('js/dataTables.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/dataTables.dataTables.min.css') }}">
 
-    <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+    <script>
         $(document).ready(function () {
 
             $("#products-list").DataTable({

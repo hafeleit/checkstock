@@ -95,7 +95,7 @@
 @endsection
 
 @section('scripts')
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
     document.getElementById('item_code').addEventListener('input', function(e) {
         let input = e.target.value.replace(/\D/g, '');
         let formattedInput = '';

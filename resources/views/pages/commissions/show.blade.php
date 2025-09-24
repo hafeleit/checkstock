@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{{ asset('css/tom-select.bootstrap5.css') }}">
 
 
-<style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+<style>
   .table-scroll-wrapper {
       position: relative;
   }
@@ -286,13 +286,8 @@
 
                     <div class="table-scroll-wrapper">
                     <!-- Scrollbar ด้านบน -->
-                    <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-                      .sc-top{
-                        height:1px;
-                      }
-                    </style>
                       <div class="table-scroll-top">
-                          <div class="sc-top"></div> <!-- จะกำหนดความกว้างด้วย JS -->
+                          <div style="height:1px;"></div> <!-- จะกำหนดความกว้างด้วย JS -->
                       </div>
                         <div class="table-responsive table-scroll-bottom">
                             <table class="table table-hover align-items-center" id="sortableTable">
@@ -424,7 +419,7 @@
 </div>
 
 <!-- TomSelect scripts -->
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
 document.addEventListener("DOMContentLoaded", function () {
   // Sales Rep
   new TomSelect("#sales_rep_edit_{{ $ar->id }}", {
@@ -448,7 +443,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <!-- Bootstrap validation -->
-<script nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+<script>
 (() => {
   'use strict'
   const forms = document.querySelectorAll('.needs-validation')
@@ -474,7 +469,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             </table>
                         </div>
                     </div>
-                    <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+                    <script>
                       document.addEventListener("DOMContentLoaded", function () {
                           const topScroll = document.querySelector(".table-scroll-top");
                           const spacer = topScroll.querySelector("div");
@@ -561,7 +556,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 
 <!-- TomSelect scripts -->
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
 document.addEventListener("DOMContentLoaded", function () {
   // Sales Rep
   new TomSelect("#sales_rep", {
@@ -585,7 +580,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <!-- Bootstrap validation -->
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
 (() => {
   'use strict'
   const forms = document.querySelectorAll('.needs-validation')
@@ -649,7 +644,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 @if(session('adjust_success'))
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
     Swal.fire({
         icon: 'success',
         title: 'ปรับค่าคอมมิชชั่นสำเร็จ!',
@@ -660,7 +655,7 @@ document.addEventListener("DOMContentLoaded", function () {
 @endif
 
 @if(session('adjust_updated'))
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
   Swal.fire({
       icon: 'success',
       title: 'บันทึกสำเร็จ',
@@ -670,7 +665,7 @@ document.addEventListener("DOMContentLoaded", function () {
 @endif
 
 
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
 $(document).ready(function() {
     $('.btn-delete').click(function(e) {
         e.preventDefault();
@@ -693,7 +688,7 @@ $(document).ready(function() {
     });
 });
 </script>
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
 document.getElementById('export-btn')?.addEventListener('click', function () {
     const url = this.getAttribute('data-url');
 
@@ -750,7 +745,7 @@ document.getElementById('export-btn')?.addEventListener('click', function () {
 
 });
 </script>
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
 document.addEventListener("DOMContentLoaded", function () {
     const calculatedForm = document.getElementById('calculated-form');
     if (calculatedForm) {
@@ -769,7 +764,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
     let sortDirection = {};
 
     function sortTable(colIndex) {
@@ -843,7 +838,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 </script>
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script>
 document.addEventListener("DOMContentLoaded", function () {
     const goTopBtn = document.getElementById("goTopBtn");
 

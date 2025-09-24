@@ -1,12 +1,6 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-<style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-  .z-index-1 {
-    z-index: 1;
-  }
-</style>
-
 @include('layouts.navbars.auth.topnav', ['title' => 'Detail Asset'])
 <div class="container-fluid py-4">
   @if ($message = Session::get('success'))
@@ -17,10 +11,10 @@
 
   @csrf
   <div class="row">
-    <div class="col-lg-6 z-index-1">
+    <div class="col-lg-6" style="z-index: 1;">
       <a href="{{ route('itasset.index') }}" type="button" class="btn btn-dark mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Back</a>
     </div>
-    <div class="col-lg-6 text-end z-index-1">
+    <div class="col-lg-6 text-end" style="z-index: 1;">
       @can('itasset update')
       <a href="{{ route('itasset.edit',$itasset->id) }}" class="btn btn-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Edit</a>
       @endcan
@@ -33,31 +27,31 @@
           <h5 class="font-weight-bolder">Asset Image</h5>
           <div class="row">
             <div class="col-12">
-              @php
-              $images = [
-              'T01' => 'macbook-pro.jpg',
-              'T02' => 'pc.jpg',
-              'T03' => 'printer-fuji.jpg',
-              'T05' => 'headset.jpg',
-              'T06' => 'telephone_sim.jpg',
-              'T07' => 'tv.png',
-              'T08' => 'copy_machine.png',
-              'T09' => 'handheld.png',
-              'T10' => 'mobile_printer.jpg',
-              'T11' => 'pos.png',
-              'T12' => 'phone_number.png',
-              'T13' => 'microphone.png',
-              'T14' => 'usb_flash_drive.png',
-              'T15' => 'video_conference.png',
-              'T16' => 'speaker.png',
-              'T17' => 'mobile_phone.png',
-              'T18' => 'tablet.png',
-              ];
+                @php
+                    $images = [
+                        'T01' => 'macbook-pro.jpg',
+                        'T02' => 'pc.jpg',
+                        'T03' => 'printer-fuji.jpg',
+                        'T05' => 'headset.jpg',
+                        'T06' => 'telephone_sim.jpg',
+                        'T07' => 'tv.png',
+                        'T08' => 'copy_machine.png',
+                        'T09' => 'handheld.png',
+                        'T10' => 'mobile_printer.jpg',
+                        'T11' => 'pos.png',
+                        'T12' => 'phone_number.png',
+                        'T13' => 'microphone.png',
+                        'T14' => 'usb_flash_drive.png',
+                        'T15' => 'video_conference.png',
+                        'T16' => 'speaker.png',
+                        'T17' => 'mobile_phone.png',
+                        'T18' => 'tablet.png',
+                    ];
 
-              $image = $images[$itasset->type] ?? null;
-              @endphp
+                    $image = $images[$itasset->type] ?? null;
+                @endphp
 
-              <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ $image ? URL::to('/').'/img/itasset/'.$image : '' }}" alt="itasset">
+                <img class="w-100 border-radius-lg shadow-lg mt-3" src="{{ $image ? URL::to('/').'/img/itasset/'.$image : '' }}" alt="itasset">
             </div>
             <div class="col-12 mt-5">
               <div class="d-flex">
@@ -115,20 +109,20 @@
               </div>
             </div>
           </div>
-          <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-            function toggleTelField() {
+          <script>
+          function toggleTelField() {
               let val = $('#type').val();
               if (val === 'T17' || val === 'T18') {
-                $('#col-tel').removeClass('d-none'); // Show
+                  $('#col-tel').removeClass('d-none'); // Show
               } else {
-                $('#col-tel').addClass('d-none'); // Hide
+                  $('#col-tel').addClass('d-none'); // Hide
               }
-            }
+          }
 
-            $(document).ready(function() {
+          $(document).ready(function(){
               toggleTelField(); // check once when page load
               $('#type').on('change', toggleTelField); // check again when user change
-            });
+          });
           </script>
           <div class="row">
             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
@@ -346,7 +340,7 @@
   </div>
 </div>
 
-<script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+<script type="text/javascript">
   $(function() {
     $("#pdate").flatpickr({
       disableMobile: "true",
