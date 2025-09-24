@@ -68,10 +68,8 @@
                                       <a href="javascript:void(0)" class="btn btn-sm btn-success commissions-link" data-id="{{ $c->id }}">
                                           <i class="fas fa-check-circle me-1"></i> ตรวจสอบ Commission
                                       </a>
-                                      <script>
-                                      document.querySelectorAll('.commissions-link').forEach(function(button) {
-                                      button.addEventListener('click', function() {
-                                          const commissionId = this.dataset.id; // ดึงจาก data-id
+                                      <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+                                      document.getElementById('commissions-link').addEventListener('click', function() {
                                           Swal.fire({
                                               title: 'Confirm Password',
                                               input: 'password',
@@ -182,7 +180,7 @@
 
     </div>
 
-    <script>
+    <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     document.querySelectorAll('.btn-delete').forEach(button => {
         button.addEventListener('click', function () {
             Swal.fire({

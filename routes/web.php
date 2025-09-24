@@ -120,8 +120,7 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   Route::resource('asset_types', ITAssetTypeController::class);
   Route::resource('onlineorder', OrderController::class);
   Route::resource('checkstock', CheckStockController::class);
-
-
+  
   Route::resource('commissions', CommissionController::class);
   Route::post('/commission/verify-password', [CommissionController::class, 'verifyPassword'])->name('commission.verify-password');
   Route::put('/commissions/{id}/status', [CommissionController::class, 'updateStatus'])->name('commissions.updateStatus');
