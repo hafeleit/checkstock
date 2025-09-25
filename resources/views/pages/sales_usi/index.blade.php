@@ -4,25 +4,22 @@
 
 @include('layouts.navbars.auth.topnav', ['title' => 'SALES USI'])
 <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-  .border-usi{
-    border-left: 1px solid #e9ecef !important;
+  .border-usi {
+      border-left: 1px solid #e9ecef !important;
   }
   .form-check-input.no-click {
-    pointer-events: none;   /* ป้องกันการคลิก */
-    transform: scale(1.4);  /* ขยาย checkbox */
-    margin-right: 0.5rem;
+      pointer-events: none;
+      transform: scale(1.4);
+      margin-right: 0.5rem;
   }
-
-  .h-400{
-    height: 400px;
+  .h-400 {
+      height: 400px;
   }
-
-  .icon-search{
-    position: absolute;
-    top: 18%;
-    right: 3%;
+  .icon-search {
+      position: absolute;
+      top: 18%;
+      right: 3%;
   }
-
   .relative {
       position: relative;
   }
@@ -30,11 +27,14 @@
   .h-475 {
       height: 475px;
   }
-
-  .wss-table{
-   text-decoration: underline;
-   cursor: pointer;
+  .wss-table {
+      text-decoration: underline;
+      cursor: pointer;
   }
+  .pt-0 {
+    padding-top: 0px;
+  }
+</style>
 </style>
     <div class="container-fluid">
         <div class="row">
@@ -50,8 +50,14 @@
                         <p class="text-uppercase text-secondary text-xxs font-weight-bolder">LAST UPDATE: {{ $yesterday }} 20:00</p>
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body pt-0">
                         <div class="row">
+                          <!--
+                            <div class="col-md-2">
+                                <div class="form-group ">
+                                    <span class="mb-2 text-sm">Item Code: </span>
+                                </div>
+                            </div> -->
                             <div class="col-md-3">
                                 <div class="form-group relative" >
                                     <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Item Code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
@@ -148,7 +154,7 @@
                             <span>MRP Type : <label class="item_dm text-sm"></label></span>
                           </div>-->
                         </div>
-                        <div class="row mt-3 bom_show_flg d-none" >
+                        <div class="row mt-3 bom_show_flg" >
                           <div class="col-auto">
                             <div class="form-check fs-5">
                               <input class="form-check-input no-click" type="checkbox" id="chk_parent" name="option" value="P">
@@ -218,7 +224,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-6 mb-lg-0 mt-4 bom_show_flg d-none">
+          <div class="col-lg-6 mb-lg-0 mt-4 bom_show_flg">
               <div class="card h-475">
                   <div class="card-header pb-0">
                       <div class="">
@@ -345,18 +351,7 @@
       </div>
     </div>
 
-    <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-        $('#item_code').mask('000.00.000');
-    </script>
 <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-  // ค้นหา Element ของปุ่ม search
-  const searchButton = document.getElementById('searchButton');
-  if (searchButton) {
-      searchButton.addEventListener('click', (event) => {
-          event.preventDefault();
-          search_usi();
-      });
-  }
 
   $(function(){
     $('#item_code').on('keypress', function(event) {
@@ -369,6 +364,28 @@
   });
 
   $('#item_code').mask('000.00.000');
+
+  $('.bom_show_flg').hide();
+
+  // ค้นหา Element ของปุ่ม search
+  const searchButton = document.getElementById('searchButton');
+  if (searchButton) {
+      searchButton.addEventListener('click', (event) => {
+          event.preventDefault();
+          search_usi();
+      });
+  }
+
+  $('#wss_table').on('click', '.inbound-link', function() {
+    const weekNumber = $(this).data('week-number');
+    search_usi_inbound(weekNumber);
+  })
+
+  $('#wss_table').on('click', '.outbound-link', function() {
+    const weekNumber = $(this).data('week-number');
+    const yearNumber = $(this).data('year-number');
+    search_usi_outbound(weekNumber, yearNumber);
+  });
 
   function addCommas(nStr)
   {
@@ -506,6 +523,7 @@
         $('#mss_table').append(tbody);
       });
       let forecast = 0;
+
       $.each(res['wss'], function(key, val) {
         //let wss = val["week_number"].split(" ").join("");
         //let week_no = "'" + wss.split("/").join("") + "'";
@@ -524,32 +542,32 @@
         forecast = forecast + val["WSS_INCOMING_QTY"] - val["WSS_RES_QTY"];
 
         let tbody = '<tr>\
-          <td class="border-usi">\
-            <p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["year_number"]+'/'+val["week_number"]+'</p>\
-          </td>\
-          <td class="border-usi">\
-            @can('salesusi iodetail')
-            <p class="wss-table" onclick="search_usi_inbound('+val["week_number"]+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
-            @else
-            <p class="wss-table" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
-            @endcan
-          </td>\
-          <td class="border-usi">\
-            @can('salesusi iodetail')
-            <p class="wss-table" onclick="search_usi_outbound('+val["week_number"]+','+val["year_number"]+')" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
-            @else
-            <p class="wss-table" class="'+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
-            @endcan
-          </td>\
-          <td class="border-usi">\
-            <p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_AVAIL_QTY"]+'</p>\
-          </td>\
-          <td class="border-usi">\
-            <p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
-          </td>\
-          <td class="border-usi">\
-            <p class="text-end text-xs font-weight-bold mb-0 px-3">'+forecast+'</p>\
-          </td>\
+            <td class="border-usi">\
+                <p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["year_number"]+'/'+val["week_number"]+'</p>\
+            </td>\
+            <td class="border-usi">\
+                @can('salesusi iodetail')
+                <p data-week-number="'+val["week_number"]+'" class="'+text_danger_in+' wss-table text-end text-xs font-weight-bold mb-0 px-3 inbound-link">'+val["WSS_INCOMING_QTY"]+'</p>\
+                @else
+                <p class="wss-table '+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
+                @endcan
+            </td>\
+            <td class="border-usi">\
+                @can('salesusi iodetail')
+                <p data-week-number="'+val["week_number"]+'" data-year-number="'+val["year_number"]+'" class="'+text_danger_out+' wss-table text-end text-xs font-weight-bold mb-0 px-3 outbound-link">'+val["WSS_RES_QTY"]+'</p>\
+                @else
+                <p class="wss-table '+text_danger_out+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
+                @endcan
+            </td>\
+            <td class="border-usi">\
+                <p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["WSS_AVAIL_QTY"]+'</p>\
+            </td>\
+            <td class="border-usi">\
+                <p class="text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_RES_QTY"]+'</p>\
+            </td>\
+            <td class="border-usi">\
+                <p class="text-end text-xs font-weight-bold mb-0 px-3">'+forecast+'</p>\
+            </td>\
         </tr>';
         $('#wss_table').append(tbody);
       });
