@@ -10,11 +10,11 @@
             <div class="row gx-3 align-items-end">
                 <div class="col-md-3">
                     <label for="logi_track_id" class="form-label">LogiTrack ID</label>
-                    <input onchange="handleSearch()" type="search" class="form-control form-control-sm" id="logi_track_id" value="{{ $params['logi_track_id'] ?? '' }}">
+                    <input type="search" class="form-control form-control-sm search-trigger" id="logi_track_id" value="{{ $params['logi_track_id'] ?? '' }}">
                 </div>
                 <div class="col-md-3">
                     <label for="driver_or_sent_to" class="form-label">Driver/Sent To</label>
-                    <select class="form-control form-control-sm" id="driver_or_sent_to" name="driver_or_sent_to" onchange="handleSearch()">
+                    <select class="form-control form-control-sm search-trigger" id="driver_or_sent_to" name="driver_or_sent_to">
                         <option value=""></option>
                         @foreach($drivers as $driver)
                         <option value="{{ $driver->code }}" {{ ($params['driver_or_sent_to'] ?? '') == $driver->code ? 'selected' : '' }}>
@@ -25,15 +25,15 @@
                 </div>
                 <div class="col-md-3">
                     <label for="erp_document" class="form-label">Outbound No.</label>
-                    <input onchange="handleSearch()" type="search" class="form-control form-control-sm" id="erp_document" value="{{ $params['erp_document'] ?? '' }}">
+                    <input type="search" class="form-control form-control-sm search-trigger" id="erp_document" value="{{ $params['erp_document'] ?? '' }}">
                 </div>
                 <div class="col-md-3">
                     <label for="bill_no" class="form-label">Invoice No.</label>
-                    <input onchange="handleSearch()" type="search" class="form-control form-control-sm" id="bill_no" value="{{ $params['invoice_id'] ?? '' }}">
+                    <input type="search" class="form-control form-control-sm search-trigger" id="bill_no" value="{{ $params['invoice_id'] ?? '' }}">
                 </div>
                 <div class="col-md-3">
                     <label for="type" class="form-label">Type</label>
-                    <select onchange="handleSearch()" class="form-select form-select-sm" id="type" name="type">
+                    <select class="form-select form-select-sm" id="type" name="type">
                         <option value="">All</option>
                         <option value="return" {{ (isset($params['type']) && $params['type'] === 'return') ? 'selected' : '' }}>Return</option>
                         <option value="deliver" {{ (isset($params['type']) && $params['type'] === 'deliver') ? 'selected' : '' }}>Deliver</option>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-md-3">
                     <label for="status" class="form-label">Status</label>
-                    <select onchange="handleSearch()" class="form-select form-select-sm" id="status" name="status">
+                    <select class="form-select form-select-sm search-trigger" id="status" name="status">
                         <option value="">All</option>
                         <option value="pending" {{ (isset($params['status']) && $params['status'] === 'pending') ? 'selected' : '' }}>Pending</option>
                         <option value="completed" {{ (isset($params['status']) && $params['status'] === 'completed') ? 'selected' : '' }}>Completed</option>
@@ -49,11 +49,11 @@
                 </div>
                 <div class="col-md-3">
                     <label for="delivery_date" class="form-label">Delivery Date</label>
-                    <input onchange="handleSearch()" type="date" class="form-control form-control-sm" id="delivery_date" value="{{ $params['delivery_date'] ?? '' }}">
+                    <input type="date" class="form-control form-control-sm search-trigger" id="delivery_date" value="{{ $params['delivery_date'] ?? '' }}">
                 </div>
                 <div class="col-md-3">
-                    <button type="button" class="btn btn-dark uppercase mb-0" onclick="handleSearch()">search</button>
-                    <button type="button" class="btn btn-outline-dark uppercase mb-0" onclick="handleClear()">clear</button>
+                    <button type="button" class="btn btn-dark uppercase mb-0" id="searchBtn">search</button>
+                    <button type="button" class="btn btn-outline-dark uppercase mb-0" id="clear-btn">clear</button>
                 </div>
             </div>
         </div>
@@ -138,6 +138,24 @@
             placeholder: 'Search for a driver',
             allowClear: true
         });
+    });
+
+    document.querySelectorAll('.search-trigger').forEach(function(element) {
+        element.addEventListener('change', function() {
+            handleSearch();
+        });
+    });
+
+
+    const searchBtn = document.getElementById('searchBtn');
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function() {
+            handleSearch();
+        });
+    }
+
+    document.getElementById('clear-btn').addEventListener('click', function() {
+       handleClear()
     });
 
     const handleSearch = () => {

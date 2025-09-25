@@ -5,7 +5,6 @@
     <script src="{{ asset('js/tom-select.complete.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/tom-select.bootstrap5.css') }}">
 
-
     <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
         .table-scroll-wrapper {
             position: relative;
@@ -225,8 +224,7 @@
                                             @csrf
                                             @method('PUT')
                                             <input type="hidden" name="status" value="AR Approved">
-                                            <button type="button" class="btn btn-sm bg-gradient-info px-3"
-                                                onclick="approveSwal('{{ $commission->id }}')">
+                                            <button type="button" data-id="{{ $commission->id }}" class="btn btn-sm bg-gradient-info px-3 approve-btn">
                                                 <i class="fas fa-check me-1"></i>AR Approve
                                             </button>
                                         </form>
@@ -306,22 +304,22 @@
                                 <table class="table table-hover align-items-center" id="sortableTable">
                                     <thead>
                                         <tr>
-                                            <th onclick="sortTable(0)">Type <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(1)">Account<i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(2)">Reference <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(3)">Reference Document <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(4)">Document Date <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(5)">Clearing Date <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(6)">Amount <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(7)">Clearing Document <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(8)">Document Type <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(9)">Text <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(10)">Sales Rep <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(11)">Team <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(12)">Rate (days) <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(13)">Rate (%) <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(14)">Commission <i class="fas fa-sort"></i></th>
-                                            <th onclick="sortTable(15)">Remark <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="0">Type <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="1">Account<i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="2">Reference <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="3">Reference Document <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="4">Document Date <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="5">Clearing Date <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="6">Amount <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="7">Clearing Document <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="8">Document Type <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="9">Text <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="10">Sales Rep <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="11">Team <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="12">Rate (days) <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="13">Rate (%) <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="14">Commission <i class="fas fa-sort"></i></th>
+                                            <th class="sortable-header" data-column-index="15">Remark <i class="fas fa-sort"></i></th>
                                             <th></th> <!-- ปุ่มหรือ action อื่นๆ -->
                                         </tr>
                                     </thead>
@@ -826,8 +824,25 @@
     </script>
 
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-        let sortDirection = {};
+        document.addEventListener('DOMContentLoaded', function() {
+            const approveBtns = document.querySelectorAll('.approve-btn');
+            approveBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const commissionId = this.dataset.id;
+                    approveSwal(commissionId);
+                });
+            });
 
+            const sortableHeaders = document.querySelectorAll('.sortable-header');
+                sortableHeaders.forEach(header => {
+                    header.addEventListener('click', function() {
+                        const columnIndex = this.dataset.columnIndex;
+                        sortTable(columnIndex);
+                    });
+            });
+        });
+
+        let sortDirection = {};
         function sortTable(colIndex) {
             const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
             const rows = Array.from(table.rows).slice(1);

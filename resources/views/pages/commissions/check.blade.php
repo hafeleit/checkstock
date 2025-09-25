@@ -218,18 +218,18 @@
                         <table class="table table-hover align-items-center" id="sortableTable">
                             <thead>
                                     <tr>
-                                        <th onclick="sortTable(0)">Type <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(1)">Account <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(2)">Reference Document <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(3)">Document Date <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(4)">Clearing Date <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(5)">Amount <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(6)">Clearing Document <i class="fas fa-sort"></i></th>
+                                        <th class="sortable-header" data-column-index="0">Type <i class="fas fa-sort"></i></th>
+                                        <th class="sortable-header" data-column-index="1">Account <i class="fas fa-sort"></i></th>
+                                        <th class="sortable-header" data-column-index="2">Reference Document <i class="fas fa-sort"></i></th>
+                                        <th class="sortable-header" data-column-index="3">Document Date <i class="fas fa-sort"></i></th>
+                                        <th class="sortable-header" data-column-index="4">Clearing Date <i class="fas fa-sort"></i></th>
+                                        <th class="sortable-header" data-column-index="5">Amount <i class="fas fa-sort"></i></th>
+                                        <th class="sortable-header" data-column-index="6">Clearing Document <i class="fas fa-sort"></i></th>
 
-                                        <th onclick="sortTable(7)">Rate (days) <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(8)">Rate (%) <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(9)">Commission <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(10)">Remark <i class="fas fa-sort"></i></th>
+                                        <th class="sortable-header" data-column-index="7">Rate (days) <i class="fas fa-sort"></i></th>
+                                        <th class="sortable-header" data-column-index="8">Rate (%) <i class="fas fa-sort"></i></th>
+                                        <th class="sortable-header" data-column-index="9">Commission <i class="fas fa-sort"></i></th>
+                                        <th class="sortable-header" data-column-index="10">Remark <i class="fas fa-sort"></i></th>
                                     </tr>
                             </thead>
                             <tbody>
@@ -378,8 +378,15 @@
   </div>
 </div>
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-    let sortDirection = {};
+    const sortableHeaders = document.querySelectorAll('.sortable-header');
+      sortableHeaders.forEach(header => {
+          header.addEventListener('click', function() {
+              const columnIndex = this.dataset.columnIndex;
+              sortTable(columnIndex);
+          });
+    });
 
+    let sortDirection = {};
     function sortTable(colIndex) {
       const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
       const rows = Array.from(table.rows).slice(1);

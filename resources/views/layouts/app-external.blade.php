@@ -9,8 +9,8 @@
 
     <title>Product Information System</title>
 
-    <script src="{{ asset('js/alpinejs.csp.min.js') }}"></script>
-    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('js/alpinejs.csp.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}" defer></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
     <link href="{{ URL::to('/') }}/css/tailwind.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/css/external.css">
 </head>
