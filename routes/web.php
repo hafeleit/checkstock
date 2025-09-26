@@ -45,6 +45,7 @@ use App\Http\Controllers\Consumerlabel\ProductItemsController;
 use App\Http\Controllers\ITAssetTypeController;
 use App\Http\Controllers\InvRecordController;
 use App\Http\Controllers\CommissionController;
+use App\Http\Controllers\EtaxFormController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
@@ -59,6 +60,10 @@ Route::get('warranty', function () {
 Route::resource('register-warranty', WarrantyController::class);
 Route::get('check-warranty', [WarrantyController::class, 'check_warranty'])->name('check_warranty');
 Route::get('warranty-search-ajax', [WarrantyController::class, 'search_warranty'])->name('warranty.search_warranty');
+
+// E-Tax form
+Route::get('/e-tax-form', [EtaxFormController::class, 'index'])->name('e-tax-form.index');
+Route::post('/e-tax-form', [EtaxFormController::class, 'store'])->name('e-tax-form.store');
 
 //dashboard
 Route::get('ass_dashboard', [HomeController::class, 'ass_dashboard'])->name('ass_dashboard');
