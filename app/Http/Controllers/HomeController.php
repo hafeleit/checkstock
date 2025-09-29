@@ -197,9 +197,9 @@ class HomeController extends Controller
 
     public function clr_dashboard()
     {
-        $day1 = '2024-10-31';
-        $day2 = '2024-11-01';
-        $day3 = '2024-11-02';
+        $day1 = '2025-10-02';
+        $day2 = '2025-10-03';
+        $day3 = '2025-10-04';
 
         $query = DB::select("
           SELECT

@@ -10,18 +10,17 @@
         HAFELE APPLICATION
     </title>
     <!--     Fonts and icons-->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+
     <!-- Nucleo Icons -->
     <link href="{{ env('APP_URL') }}/assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="{{ env('APP_URL') }}/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/40a18bc2d2.js?v=2" crossorigin="anonymous"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet" />
+
     <link href="{{ env('APP_URL') }}/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ env('APP_URL') }}/assets/css/argon-dashboard.css" rel="stylesheet" />
 
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
 </head>
 
 <body class="{{ $class ?? '' }} g-sidenav-hidden">
@@ -32,7 +31,7 @@
         </div>
         @else
           @if (in_array(request()->route()->getName(), ['clr_dashboard']))
-          <div class="min-height-600 bg-primary position-absolute w-100"></div>
+          <div class="min-height-600 bg-success position-absolute w-100"></div>
           @endif
         @endif
 
