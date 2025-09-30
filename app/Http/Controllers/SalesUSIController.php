@@ -14,336 +14,332 @@ class SalesUSIController extends Controller
     {
         $q = DB::table('ZHWWMM_OPEN_ORDERS')->select('created_at')->first();
         $created_at = $q->created_at;
-        return view('pages.sales_usi.index',['created_at' => $created_at]);
+        return view('pages.sales_usi.index', ['created_at' => $created_at]);
     }
 
-    public function search_usi(Request $request){
+    public function search_usi(Request $request)
+    {
+        $item_code = $request->item_code ?? '';
 
-      $item_code = $request->item_code ?? '';
-
-      $query = DB::table('ZHWWBCQUERYDIR as m')
-      ->select([
-        DB::raw("CASE WHEN m.material IS NULL OR m.material = '' THEN 'N/A' ELSE m.material END AS NSU_ITEM_CODE"),
-        DB::raw("CASE WHEN m.kurztext IS NULL OR m.kurztext = '' THEN 'N/A' ELSE m.kurztext END AS NSU_ITEM_NAME"),
-        DB::raw("CASE WHEN m.dm IS NULL OR m.dm = '' THEN 'N/A' ELSE m.dm END AS NSU_ITEM_DM"),
-        DB::raw("CASE WHEN m.bun IS NULL OR m.bun = '' THEN 'N/A' ELSE m.bun END AS NSU_ITEM_UOM_CODE"),
-        //DB::raw("CASE WHEN m.pgr IS NULL OR m.pgr = '' THEN 'N/A' ELSE m.pgr END AS NSU_PURCHASER"),
-        DB::raw("
-            CASE
-                WHEN m.pgr IS NULL OR m.pgr = '' THEN 'N/A'
-                WHEN m.pgr = 'T01' THEN 'T01-Unchalee Yensawad'
-                WHEN m.pgr = 'T02' THEN 'T02-Ruthairat K.'
-                WHEN m.pgr = 'T03' THEN 'T03-Vacant 1'
-                WHEN m.pgr = 'T04' THEN 'T04-Supasinee Kanyamee'
-                WHEN m.pgr = 'T05' THEN 'T05-Sucharee Sripa'
-                WHEN m.pgr = 'T06' THEN 'T06-Benjamas Boonfak'
-                WHEN m.pgr = 'T07' THEN 'T07-Kanokporn Chalaem'
-                WHEN m.pgr = 'T08' THEN 'T08-Hathaipat Buangam'
-                WHEN m.pgr = 'T09' THEN 'T09-Thitiluk Apichaiwo'
-                WHEN m.pgr = 'T10' THEN 'T10-Monchaya Somsuk'
-                WHEN m.pgr = 'T11' THEN 'T11-Vipavin Nisayun'
-                WHEN m.pgr = 'T12' THEN 'T12-Rapeepan Soongrang'
-                WHEN m.pgr = 'T13' THEN 'T13-Pornpimol K.'
-                WHEN m.pgr = 'T14' THEN 'T14-Wannisa Kongin'
-                WHEN m.pgr = 'T15' THEN 'T15-Siriporn Pinkaew'
-                WHEN m.pgr = 'T16' THEN 'T16-Wanthana S.'
-                WHEN m.pgr = 'T17' THEN 'T17-Chaninat Kongkarun'
-                WHEN m.pgr = 'T18' THEN 'T18-Kanokon Pakaedam'
-                WHEN m.pgr = 'T19' THEN 'T19-Chanikarn Yati'
-                WHEN m.pgr = 'T20' THEN 'T20-Vacant 3'
-                WHEN m.pgr = 'T21' THEN 'T21-Vacant 4'
-                WHEN m.pgr = 'T22' THEN 'T22-Vacant 5'
-                WHEN m.pgr = 'T23' THEN 'T23-Vacant 6'
-                WHEN m.pgr = 'T24' THEN 'T24-Kotchaporn S.'
-                WHEN m.pgr = 'T25' THEN 'T25-Thanat A.'
-                WHEN m.pgr = 'T26' THEN 'T26-Khwanvalee P.'
-                WHEN m.pgr = 'T31' THEN 'T31-HTH EHK PurGrp 1'
-                WHEN m.pgr = 'T32' THEN 'T32-HTH EHK PurGrp 2'
-                WHEN m.pgr = 'T33' THEN 'T33-HTH EHK PurGrp 3'
-                WHEN m.pgr = 'T99' THEN 'T99-Relocation'
-                WHEN m.pgr = 'TH1' THEN 'TH1-SCM (Non-trade)'
-                WHEN m.pgr = 'TH2' THEN 'TH2-IT (Non-trade)'
-                WHEN m.pgr = 'TH3' THEN 'TH3-Fin.&Adm. (NT)'
-                WHEN m.pgr = 'TH4' THEN 'TH4-Retail Sales (NT)'
-                WHEN m.pgr = 'TH5' THEN 'TH5-Project Sales (NT)'
-                WHEN m.pgr = 'TH6' THEN 'TH6-PCM (NT)'
-                WHEN m.pgr = 'TH7' THEN 'TH7-CS (Non-trade)'
-                WHEN m.pgr = 'TH8' THEN 'TH8-Logistics (NT)'
-                WHEN m.pgr = 'TH9' THEN 'TH9-HR-POA (NT)'
-                WHEN m.pgr = 'THA' THEN 'THA-HR-POD (NT)'
-                WHEN m.pgr = 'THB' THEN 'THB-HR-TA&HRBP (NT)'
-                WHEN m.pgr = 'THC' THEN 'THC-Marketing (NT)'
-                ELSE 'Unknown'
-            END AS NSU_PURCHASER
-        "),
-        //DB::raw("CASE WHEN m.product_group_manager IS NULL OR m.product_group_manager = '' THEN 'N/A' ELSE m.product_group_manager END AS NSU_PROD_MGR"),
-        DB::raw("CONCAT(m.product_group_manager, '-', um.name_en) as NSU_PROD_MGR"),
-        DB::raw("CASE WHEN u.uom_text IS NULL OR u.uom_text = '' THEN 'N/A' ELSE u.uom_text END AS NSU_PACK_UOM_CODE"),
-        DB::raw("CASE WHEN m.numer IS NULL OR m.numer = '' THEN 'N/A' ELSE m.numer END AS NSU_CONV_BASE_UOM"),
-        DB::raw("CASE WHEN m.gross_weight IS NULL OR m.gross_weight = '' THEN 'N/A' ELSE CONCAT(m.gross_weight, ' ', m.wun) END AS NSU_PACK_WEIGHT"),
-        DB::raw("CASE WHEN m.volume IS NULL OR m.volume = '' THEN 'N/A' ELSE CONCAT(m.volume, ' ', m.vun) END AS NSU_PACK_VOLUME"),
-        DB::raw("CASE
-
-                  WHEN m.st = 'Z1' THEN 'Z1-Basic data not compl'
-                  WHEN m.st = 'Z2' THEN 'Z2-Article not distrib.'
-                  WHEN m.st = 'ZB' THEN 'ZB-Sales Blocked'
-                  WHEN m.st = 'ZC' THEN 'ZC-Sales Blocked for QC'
-                  WHEN m.st = 'ZD' THEN 'ZD-Arranged for Delet.'
-                  WHEN m.st = 'ZL' THEN 'ZL-Unpacked'
-                  WHEN m.st = 'ZM' THEN 'ZM-Sell no minim.quant.'
-                  WHEN m.st = 'ZR' THEN 'ZR-Sell out & delete'
-                  WHEN m.st = 'ZS' THEN 'ZS-Sales Stopped'
-                  WHEN m.st IS NULL OR m.st = '' THEN 'Active'
-                  ELSE m.st
-              END AS NSU_ITEM_STATUS"),
-        //DB::raw("CASE WHEN m.lage IS NULL OR m.lage = '' THEN 'N/A' ELSE m.lage END AS NSU_ITEM_INV_CODE"),
-        DB::raw("
-            CASE
-                WHEN m.lage IS NULL OR m.lage = '' THEN 'N/A'
-                WHEN m.lage = 'NLW' THEN 'NLW-Not storage goods'
-                WHEN m.lage = 'LW' THEN 'LW-Stock goods'
-                ELSE m.lage
-            END AS NSU_ITEM_INV_CODE
-        "),
-        DB::raw("
-            CASE
-                WHEN m.lage = 'LW' AND (m.dm = 'Z4' OR m.dm = 'ZM') THEN CONCAT(m.dm,'-','Stock Item')
-                WHEN m.lage = 'LW' AND m.dm = 'PD' THEN CONCAT(m.dm,'-','C Item')
-                WHEN m.lage = 'NLW' AND (m.dm = 'ZX' OR m.dm = 'ZD') THEN CONCAT(m.dm,'-','C Item')
-                ELSE NULL
-            END AS NSU_ITEM_DM_DESC
-        "),
-
-        DB::raw("CASE WHEN p.planned_deliv_time IS NULL OR p.planned_deliv_time = '' THEN 'N/A' ELSE p.planned_deliv_time END AS NSU_SUPP_REPL_TIME"),
-        DB::raw("CASE WHEN p.minimum_order_qty IS NULL OR p.minimum_order_qty = '' THEN 'N/A' ELSE p.minimum_order_qty END AS NSU_PURC_MOQ"),
-        DB::raw("CASE WHEN p.vendor_material_number IS NULL OR p.vendor_material_number = '' THEN 'N/A' ELSE p.vendor_material_number END AS NSU_SUPP_ITEM_CODE"),
-        DB::raw("CASE WHEN p.ean_upc IS NULL OR p.ean_upc = '' THEN 'N/A' ELSE p.ean_upc END AS ean_upc"),
-        DB::raw("CASE WHEN i.unrestricted IS NULL OR i.unrestricted = '' THEN '0' ELSE FORMAT(i.unrestricted,0) END AS NSU_FREE_STK_QTY"),
-        DB::raw("CASE WHEN mf.TDLINE IS NULL OR mf.TDLINE = '' THEN 'N/A' ELSE mf.TDLINE END AS NSU_EXCL_REMARK"),
-        DB::raw("CASE WHEN pm.certificate IS NULL OR pm.certificate = '' THEN 'N/A' ELSE pm.certificate END AS NSU_ITEM_BRAND"),
-        DB::raw("CASE WHEN m.follow_up_material IS NULL OR m.follow_up_material = '' THEN 'N/A' ELSE m.follow_up_material END AS NSU_NEW_ITEM_CODE")
-    ])
-    ->selectRaw("
-        CASE
-            WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
-            WHEN zpl.amount IS NULL OR zpl.per IS NULL OR zpl.per = 0 THEN '0 THB'
-            ELSE CONCAT(FORMAT(zpl.amount / zpl.per, 2), ' THB')
-        END AS NSU_BASE_PRICE
-    ")
-    ->selectRaw("
-        CASE
-            WHEN zplv.amount IS NULL OR zplv.Pricing_unit IS NULL OR zplv.Pricing_unit = 0 THEN '0 THB'
-            ELSE CONCAT(FORMAT(zplv.amount / zplv.Pricing_unit, 2), ' THB')
-        END AS NSU_BASE_PRICE_ZPLV
-    ")
-        ->leftJoin('ZHAAMM_IFVMG as p', 'p.material', '=', 'm.material')
-        ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'm.material')
-        ->leftJoin('user_masters as um', function($join) {
-            $join->on(DB::raw("m.product_group_manager"), '=', DB::raw("CONCAT('HTH', um.job_code)"))
-                 ->where('um.status', '=', 'Current');
-        })
-        ->leftJoin('MB52 as i', function ($join) {
-            $join->on('i.material', '=', 'm.material')
-                 ->where('i.storage_location', '=', 'TH02')
-                 ->whereNull('i.special_stock');
-        })
-        ->leftJoin('FIS_MPM_OUT as mf', 'mf.MATNR', '=', 'm.material')
-        ->leftJoin('ZMM_MATZERT as pm', 'pm.material', '=', 'm.material')
-        ->leftJoin('ZHAASD_ORD as od', 'od.material', '=', 'm.material')
-        ->leftJoin('ZORDPOSKONV_ZPL as zpl', 'zpl.material', '=', 'm.material')
-        ->leftJoin('zplv', 'zplv.material', '=', 'm.material')
-        ->leftJoin('UOM_Mapping as u', 'u.uom', '=', 'm.aun')
-        ->where('m.material', '=', $item_code)
-        //->whereColumn('m.bun', '!=', 'm.aun')
-        //->where('m.aun', '!=', 'ZPU')
-        ->orderBy('m.numer','asc')
-        //->limit(1)
+        $query = DB::table('ZHWWBCQUERYDIR as m')
+            ->select([
+                DB::raw("CASE WHEN m.material IS NULL OR m.material = '' THEN 'N/A' ELSE m.material END AS NSU_ITEM_CODE"),
+                DB::raw("CASE WHEN m.kurztext IS NULL OR m.kurztext = '' THEN 'N/A' ELSE m.kurztext END AS NSU_ITEM_NAME"),
+                DB::raw("CASE WHEN m.dm IS NULL OR m.dm = '' THEN 'N/A' ELSE m.dm END AS NSU_ITEM_DM"),
+                DB::raw("CASE WHEN m.bun IS NULL OR m.bun = '' THEN 'N/A' ELSE m.bun END AS NSU_ITEM_UOM_CODE"),
+                //DB::raw("CASE WHEN m.pgr IS NULL OR m.pgr = '' THEN 'N/A' ELSE m.pgr END AS NSU_PURCHASER"),
+                DB::raw("
+                    CASE
+                        WHEN m.pgr IS NULL OR m.pgr = '' THEN 'N/A'
+                        WHEN m.pgr = 'T01' THEN 'T01-Unchalee Yensawad'
+                        WHEN m.pgr = 'T02' THEN 'T02-Ruthairat K.'
+                        WHEN m.pgr = 'T03' THEN 'T03-Vacant 1'
+                        WHEN m.pgr = 'T04' THEN 'T04-Supasinee Kanyamee'
+                        WHEN m.pgr = 'T05' THEN 'T05-Sucharee Sripa'
+                        WHEN m.pgr = 'T06' THEN 'T06-Benjamas Boonfak'
+                        WHEN m.pgr = 'T07' THEN 'T07-Kanokporn Chalaem'
+                        WHEN m.pgr = 'T08' THEN 'T08-Hathaipat Buangam'
+                        WHEN m.pgr = 'T09' THEN 'T09-Thitiluk Apichaiwo'
+                        WHEN m.pgr = 'T10' THEN 'T10-Monchaya Somsuk'
+                        WHEN m.pgr = 'T11' THEN 'T11-Vipavin Nisayun'
+                        WHEN m.pgr = 'T12' THEN 'T12-Rapeepan Soongrang'
+                        WHEN m.pgr = 'T13' THEN 'T13-Pornpimol K.'
+                        WHEN m.pgr = 'T14' THEN 'T14-Wannisa Kongin'
+                        WHEN m.pgr = 'T15' THEN 'T15-Siriporn Pinkaew'
+                        WHEN m.pgr = 'T16' THEN 'T16-Wanthana S.'
+                        WHEN m.pgr = 'T17' THEN 'T17-Chaninat Kongkarun'
+                        WHEN m.pgr = 'T18' THEN 'T18-Kanokon Pakaedam'
+                        WHEN m.pgr = 'T19' THEN 'T19-Chanikarn Yati'
+                        WHEN m.pgr = 'T20' THEN 'T20-Vacant 3'
+                        WHEN m.pgr = 'T21' THEN 'T21-Vacant 4'
+                        WHEN m.pgr = 'T22' THEN 'T22-Vacant 5'
+                        WHEN m.pgr = 'T23' THEN 'T23-Vacant 6'
+                        WHEN m.pgr = 'T24' THEN 'T24-Kotchaporn S.'
+                        WHEN m.pgr = 'T25' THEN 'T25-Thanat A.'
+                        WHEN m.pgr = 'T26' THEN 'T26-Khwanvalee P.'
+                        WHEN m.pgr = 'T31' THEN 'T31-HTH EHK PurGrp 1'
+                        WHEN m.pgr = 'T32' THEN 'T32-HTH EHK PurGrp 2'
+                        WHEN m.pgr = 'T33' THEN 'T33-HTH EHK PurGrp 3'
+                        WHEN m.pgr = 'T99' THEN 'T99-Relocation'
+                        WHEN m.pgr = 'TH1' THEN 'TH1-SCM (Non-trade)'
+                        WHEN m.pgr = 'TH2' THEN 'TH2-IT (Non-trade)'
+                        WHEN m.pgr = 'TH3' THEN 'TH3-Fin.&Adm. (NT)'
+                        WHEN m.pgr = 'TH4' THEN 'TH4-Retail Sales (NT)'
+                        WHEN m.pgr = 'TH5' THEN 'TH5-Project Sales (NT)'
+                        WHEN m.pgr = 'TH6' THEN 'TH6-PCM (NT)'
+                        WHEN m.pgr = 'TH7' THEN 'TH7-CS (Non-trade)'
+                        WHEN m.pgr = 'TH8' THEN 'TH8-Logistics (NT)'
+                        WHEN m.pgr = 'TH9' THEN 'TH9-HR-POA (NT)'
+                        WHEN m.pgr = 'THA' THEN 'THA-HR-POD (NT)'
+                        WHEN m.pgr = 'THB' THEN 'THB-HR-TA&HRBP (NT)'
+                        WHEN m.pgr = 'THC' THEN 'THC-Marketing (NT)'
+                        ELSE 'Unknown'
+                    END AS NSU_PURCHASER
+                "),
+                //DB::raw("CASE WHEN m.product_group_manager IS NULL OR m.product_group_manager = '' THEN 'N/A' ELSE m.product_group_manager END AS NSU_PROD_MGR"),
+                DB::raw("CONCAT(m.product_group_manager, '-', um.name_en) as NSU_PROD_MGR"),
+                DB::raw("CASE WHEN u.uom_text IS NULL OR u.uom_text = '' THEN 'N/A' ELSE u.uom_text END AS NSU_PACK_UOM_CODE"),
+                DB::raw("CASE WHEN m.numer IS NULL OR m.numer = '' THEN 'N/A' ELSE m.numer END AS NSU_CONV_BASE_UOM"),
+                DB::raw("CASE WHEN m.gross_weight IS NULL OR m.gross_weight = '' THEN 'N/A' ELSE CONCAT(m.gross_weight, ' ', m.wun) END AS NSU_PACK_WEIGHT"),
+                DB::raw("CASE WHEN m.volume IS NULL OR m.volume = '' THEN 'N/A' ELSE CONCAT(m.volume, ' ', m.vun) END AS NSU_PACK_VOLUME"),
+                DB::raw("
+                    CASE
+                        WHEN m.st = 'Z1' THEN 'Z1-Basic data not compl'
+                        WHEN m.st = 'Z2' THEN 'Z2-Article not distrib.'
+                        WHEN m.st = 'ZB' THEN 'ZB-Sales Blocked'
+                        WHEN m.st = 'ZC' THEN 'ZC-Sales Blocked for QC'
+                        WHEN m.st = 'ZD' THEN 'ZD-Arranged for Delet.'
+                        WHEN m.st = 'ZL' THEN 'ZL-Unpacked'
+                        WHEN m.st = 'ZM' THEN 'ZM-Sell no minim.quant.'
+                        WHEN m.st = 'ZR' THEN 'ZR-Sell out & delete'
+                        WHEN m.st = 'ZS' THEN 'ZS-Sales Stopped'
+                        WHEN m.st IS NULL OR m.st = '' THEN 'Active'
+                        ELSE m.st
+                    END AS NSU_ITEM_STATUS"
+                ),
+                //DB::raw("CASE WHEN m.lage IS NULL OR m.lage = '' THEN 'N/A' ELSE m.lage END AS NSU_ITEM_INV_CODE"),
+                DB::raw("
+                    CASE
+                        WHEN m.lage IS NULL OR m.lage = '' THEN 'N/A'
+                        WHEN m.lage = 'NLW' THEN 'NLW-Not storage goods'
+                        WHEN m.lage = 'LW' THEN 'LW-Stock goods'
+                        ELSE m.lage
+                    END AS NSU_ITEM_INV_CODE
+                "),
+                DB::raw("
+                    CASE
+                        WHEN m.lage = 'LW' AND (m.dm = 'Z4' OR m.dm = 'ZM') THEN CONCAT(m.dm,'-','Stock Item')
+                        WHEN m.lage = 'LW' AND m.dm = 'PD' THEN CONCAT(m.dm,'-','C Item')
+                        WHEN m.lage = 'NLW' AND (m.dm = 'ZX' OR m.dm = 'ZD') THEN CONCAT(m.dm,'-','C Item')
+                        ELSE NULL
+                    END AS NSU_ITEM_DM_DESC
+                "),
+                DB::raw("CASE WHEN p.planned_deliv_time IS NULL OR p.planned_deliv_time = '' THEN 'N/A' ELSE p.planned_deliv_time END AS NSU_SUPP_REPL_TIME"),
+                DB::raw("CASE WHEN p.minimum_order_qty IS NULL OR p.minimum_order_qty = '' THEN 'N/A' ELSE p.minimum_order_qty END AS NSU_PURC_MOQ"),
+                DB::raw("CASE WHEN p.vendor_material_number IS NULL OR p.vendor_material_number = '' THEN 'N/A' ELSE p.vendor_material_number END AS NSU_SUPP_ITEM_CODE"),
+                DB::raw("CASE WHEN p.ean_upc IS NULL OR p.ean_upc = '' THEN 'N/A' ELSE p.ean_upc END AS ean_upc"),
+                DB::raw("CASE WHEN i.unrestricted IS NULL OR i.unrestricted = '' THEN '0' ELSE FORMAT(i.unrestricted,0) END AS NSU_FREE_STK_QTY"),
+                DB::raw("CASE WHEN mf.TDLINE IS NULL OR mf.TDLINE = '' THEN 'N/A' ELSE mf.TDLINE END AS NSU_EXCL_REMARK"),
+                DB::raw("CASE WHEN pm.certificate IS NULL OR pm.certificate = '' THEN 'N/A' ELSE pm.certificate END AS NSU_ITEM_BRAND"),
+                DB::raw("CASE WHEN m.follow_up_material IS NULL OR m.follow_up_material = '' THEN 'N/A' ELSE m.follow_up_material END AS NSU_NEW_ITEM_CODE")
+            ])
+            ->selectRaw("
+                CASE
+                    WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
+                    WHEN zpl.amount IS NULL OR zpl.per IS NULL OR zpl.per = 0 THEN '0 THB'
+                    ELSE CONCAT(FORMAT(zpl.amount / zpl.per, 2), ' THB')
+                END AS NSU_BASE_PRICE
+            ")
+            ->selectRaw("
+                CASE
+                    WHEN zplv.amount IS NULL OR zplv.Pricing_unit IS NULL OR zplv.Pricing_unit = 0 THEN '0 THB'
+                    ELSE CONCAT(FORMAT(zplv.amount / zplv.Pricing_unit, 2), ' THB')
+                END AS NSU_BASE_PRICE_ZPLV
+            ")
+            ->leftJoin('ZHAAMM_IFVMG as p', 'p.material', '=', 'm.material')
+            ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'm.material')
+            ->leftJoin('user_masters as um', function ($join) {
+                $join->on(DB::raw("m.product_group_manager"), '=', DB::raw("CONCAT('HTH', um.job_code)"))
+                    ->where('um.status', '=', 'Current');
+            })
+            ->leftJoin('MB52 as i', function ($join) {
+                $join->on('i.material', '=', 'm.material')
+                    ->where('i.storage_location', '=', 'TH02')
+                    ->whereNull('i.special_stock');
+            })
+            ->leftJoin('FIS_MPM_OUT as mf', 'mf.MATNR', '=', 'm.material')
+            ->leftJoin('ZMM_MATZERT as pm', 'pm.material', '=', 'm.material')
+            ->leftJoin('ZHAASD_ORD as od', 'od.material', '=', 'm.material')
+            ->leftJoin('ZORDPOSKONV_ZPL as zpl', 'zpl.material', '=', 'm.material')
+            ->leftJoin('zplv', 'zplv.material', '=', 'm.material')
+            ->leftJoin('UOM_Mapping as u', 'u.uom', '=', 'm.aun')
+            ->where('m.material', '=', $item_code)
+            //->whereColumn('m.bun', '!=', 'm.aun')
+            //->where('m.aun', '!=', 'ZPU')
+            ->orderBy('m.numer', 'asc')
+            //->limit(1)
         ;
         $usi_sql = $query->toSql();
         $usis = $query->get();
         $count = $query->count();
+        // END NEW SALES USI //
 
-      // END NEW SALES USI //
+        // MONTH //
+        $query = DB::table('OW_MONTHWISE_STK_SUM_WEB_HAFL')->where('MSS_ITEM_CODE', $item_code);
+        $monthwise = $query->first();
+        $mss = [];
+        $tot = [];
+        $tot_qty_fields = 'MSS_TOT_QTY_';
+        $tot_qty_ls_fields = 'MSS_TOT_QTY_LS_';
+        $sold = [];
+        $sold_qty_fields = 'MSS_SOLD_QTY_';
+        $sold_qty_ls_fields = 'MSS_SOLD_QTY_LS_';
 
-      // MONTH //
-      $query = DB::table('OW_MONTHWISE_STK_SUM_WEB_HAFL')->where('MSS_ITEM_CODE', $item_code);
-      $monthwise = $query->first();
-      $mss = [];
-      $tot = [];
-      $tot_qty_fields = 'MSS_TOT_QTY_';
-      $tot_qty_ls_fields = 'MSS_TOT_QTY_LS_';
-      $sold = [];
-      $sold_qty_fields = 'MSS_SOLD_QTY_';
-      $sold_qty_ls_fields = 'MSS_SOLD_QTY_LS_';
+        $inv_fields = 'MSS_INV_COUNT_';
+        $cust_fields = 'MSS_CUST_COUNT_';
 
-      $inv_fields = 'MSS_INV_COUNT_';
-      $cust_fields = 'MSS_CUST_COUNT_';
+        for ($i = 1; $i <= 13; $i++) {
+            $seq = str_pad($i, 2, "0", STR_PAD_LEFT);
+            $tot_qty = $tot_qty_fields . $seq ?? '';
+            $tot_qty_ls = $tot_qty_ls_fields . $seq ?? '';
+            $inv = $inv_fields . $seq ?? '';
+            $cust = $cust_fields . $seq ?? '';
+            $tot['qty'][] = $monthwise->$tot_qty ?? '';
+            $tot['ls'][] = $monthwise->$tot_qty_ls ?? '';
+            $sold_qty = $sold_qty_fields . $seq ?? '';
+            $sold_qty_ls = $sold_qty_ls_fields . $seq ?? '';
+            $sold['qty'][] = $monthwise->$sold_qty ?? '';
+            $sold['ls'][] = $monthwise->$sold_qty_ls ?? '';
+            $mss['inv'][] = $monthwise->$inv ?? '';
+            $mss['cust'][] = $monthwise->$cust ?? '';
+        }
 
-      for ($i=1; $i <= 13; $i++) {
-        $seq = str_pad($i, 2, "0", STR_PAD_LEFT);
-        $tot_qty = $tot_qty_fields.$seq ?? '';
-        $tot_qty_ls = $tot_qty_ls_fields.$seq ?? '';
-        $inv = $inv_fields.$seq ?? '';
-        $cust = $cust_fields.$seq ?? '';
-        $tot['qty'][] = $monthwise->$tot_qty ?? '';
-        $tot['ls'][] = $monthwise->$tot_qty_ls ?? '';
-        $sold_qty = $sold_qty_fields.$seq ?? '';
-        $sold_qty_ls = $sold_qty_ls_fields.$seq ?? '';
-        $sold['qty'][] = $monthwise->$sold_qty ?? '';
-        $sold['ls'][] = $monthwise->$sold_qty_ls ?? '';
-        $mss['inv'][] = $monthwise->$inv ?? '';
-        $mss['cust'][] = $monthwise->$cust ?? '';
-      }
+        $mss['tot'] = $tot;
+        $mss['sold'] = $sold;
+        // END MONTH //
 
-      $mss['tot'] = $tot;
-      $mss['sold'] = $sold;
-      // END MONTH //
+        //$wss = DB::table('OW_WEEKWISE_STK_SUM_WEB_HAFL')->where('WSS_ITEM_CODE', $item_code)->get();
+        $material = $item_code;
 
-      //$wss = DB::table('OW_WEEKWISE_STK_SUM_WEB_HAFL')->where('WSS_ITEM_CODE', $item_code)->get();
-      $material = $item_code;
+        // สร้าง Common Table Expression (CTE) เพื่อสร้างลำดับสัปดาห์
+        $weekSequence = DB::table(DB::raw('(WITH RECURSIVE week_sequence AS (
+            SELECT WEEK(DATE_SUB(CURDATE(), INTERVAL 1 WEEK), 1) AS week_number, -1 AS week_offset, RIGHT(YEAR(DATE_SUB(CURDATE(), INTERVAL 1 WEEK)), 2) AS year_number
+            UNION ALL
+            SELECT WEEK(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK), 1), week_offset + 1, RIGHT(YEAR(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK)), 2) AS year_number
+            FROM week_sequence
+            WHERE week_offset < 52
+        ) SELECT * FROM week_sequence) as week_sequence'))
+        ->select('week_number', 'week_offset', 'year_number');
 
-      // สร้าง Common Table Expression (CTE) เพื่อสร้างลำดับสัปดาห์
-      $weekSequence = DB::table(DB::raw('(WITH RECURSIVE week_sequence AS (
-          SELECT WEEK(DATE_SUB(CURDATE(), INTERVAL 1 WEEK), 1) AS week_number, -1 AS week_offset, RIGHT(YEAR(DATE_SUB(CURDATE(), INTERVAL 1 WEEK)), 2) AS year_number
-          UNION ALL
-          SELECT WEEK(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK), 1), week_offset + 1, RIGHT(YEAR(DATE_ADD(CURDATE(), INTERVAL week_offset + 1 WEEK)), 2) AS year_number
-          FROM week_sequence
-          WHERE week_offset < 52
-      ) SELECT * FROM week_sequence) as week_sequence'))
-          ->select('week_number', 'week_offset', 'year_number');
-
-      // Query สำหรับ PO (การสั่งซื้อ)
-      $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
-
-          ->leftJoin(
-              DB::raw("(SELECT DISTINCT material, purch_doc, vdr_outp_date, production_time_in_days
+        // Query สำหรับ PO (การสั่งซื้อ)
+        $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
+            ->leftJoin(
+                DB::raw("(SELECT DISTINCT material, purch_doc, vdr_outp_date, production_time_in_days, po_quantity
                         FROM 574_ekko_expo
                         WHERE material = '{$material}') as b"),
-              function($join) {
-                  $join->on('a.material', '=', 'b.material')
-                       ->on('a.purchasing_document', '=', 'b.purch_doc');
-              }
-          )
-          ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
-          //->leftJoin('ZHWWBCQUERYDIR as d', 'd.material', '=', 'a.material')
-          ->leftJoin(DB::raw("(SELECT d1.war, d1.material FROM ZHWWBCQUERYDIR d1 WHERE d1.material = '{$material}' GROUP BY d1.material) as d"), 'd.material', '=', 'a.material')
-          ->select([
-              'a.material',
-              /*DB::raw('RIGHT(YEAR(STR_TO_DATE(a.created_on_purchasing_doc, "%m/%d/%Y")), 2) AS years'),*/
-              DB::raw("
-                RIGHT(
-                  YEAR(
+                function ($join) {
+                    $join->on('a.material', '=', 'b.material')
+                        ->on('a.purchasing_document', '=', 'b.purch_doc');
+                }
+            )
+            ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
+            //->leftJoin('ZHWWBCQUERYDIR as d', 'd.material', '=', 'a.material')
+            ->leftJoin(DB::raw("(SELECT d1.war, d1.material FROM ZHWWBCQUERYDIR d1 WHERE d1.material = '{$material}' GROUP BY d1.material) as d"), 'd.material', '=', 'a.material')
+            ->select([
+                'a.material',
+                /*DB::raw('RIGHT(YEAR(STR_TO_DATE(a.created_on_purchasing_doc, "%m/%d/%Y")), 2) AS years'),*/
+                DB::raw("
+                    RIGHT(
+                    YEAR(
+                        DATE_ADD(
+                        STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
+                        INTERVAL (c.planned_deliv_time - b.production_time_in_days + COALESCE(d.war,0)) DAY
+                        )
+                    ),
+                    2
+                    ) as years
+                "),
+                DB::raw("
+                    WEEK(
                     DATE_ADD(
-                      STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-                      INTERVAL (c.planned_deliv_time - b.production_time_in_days + COALESCE(d.war,0)) DAY
-                    )
-                  ),
-                  2
-                ) as years
-              "),
-              DB::raw("
-                WEEK(
-                  DATE_ADD(
-                    STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-                    INTERVAL (c.planned_deliv_time - b.production_time_in_days + COALESCE(d.war,0)) DAY
-                  ),
-                  1
-                ) as weeks
-              "),
-              /*DB::raw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'), 1) AS weeks"),*/
-              'a.po_order_unit AS WSS_ITEM_UOM_CODE',
-              DB::raw("COALESCE(SUM(a.quantity_po) - SUM(a.delivered_quantity), 0) AS WSS_INCOMING_QTY"),
-              DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY"),
-          ])
-          ->where('a.material', $material)
-          ->groupBy('a.material', DB::raw('weeks'), DB::raw('years'));
+                        STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
+                        INTERVAL (c.planned_deliv_time - b.production_time_in_days + COALESCE(d.war,0)) DAY
+                    ),
+                    1
+                    ) as weeks
+                "),
+                /*DB::raw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'), 1) AS weeks"),*/
+                'a.po_order_unit AS WSS_ITEM_UOM_CODE',
+                DB::raw("COALESCE(b.po_quantity, 0) AS WSS_INCOMING_QTY"),
+                // DB::raw("COALESCE(SUM(a.quantity_po) - SUM(a.delivered_quantity), 0) AS WSS_INCOMING_QTY"),
+                DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY"),
+            ])
+            ->where('a.material', $material)
+            ->groupBy('a.material', DB::raw('weeks'), DB::raw('years'));
 
-              // Subquery t1
-              $t1 = DB::table('ZHINSD_VA05 as a')
-                  ->select(
-                      'a.material',
-                      DB::raw("COALESCE(a.sd_document, '') AS ISD_DOC_NO"),
-                      DB::raw("COALESCE(SUM(a.confirmed_quantity), 0) AS sum_order_qty"),
-                      DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) AS years"),
-                      DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) AS weeks")
-                  )
-                  ->where('a.material', $material)
-                  ->where('a.status','!=', 'Completed')
-                  ->groupBy(
-                      DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1)"),
-                      DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2)")
-                  );
+        // Subquery t1
+        $t1 = DB::table('ZHINSD_VA05 as a')
+            ->select(
+                'a.material',
+                DB::raw("COALESCE(a.sd_document, '') AS ISD_DOC_NO"),
+                DB::raw("COALESCE(SUM(a.confirmed_quantity), 0) AS sum_order_qty"),
+                DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) AS years"),
+                DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) AS weeks")
+            )
+            ->where('a.material', $material)
+            ->where('a.status', '!=', 'Completed')
+            ->groupBy(
+                DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1)"),
+                DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2)")
+            );
 
-              // Subquery t2
-              $t2 = DB::table('ZHAASD_INV as b')
-                  ->select(
-                      'b.sales_document',
-                      'b.material',
-                      DB::raw('SUM(b.invoiced_quantity) AS sum_inv_qty')
-                  )
-                  ->where('b.material', $material)
-                  ->groupBy('b.sales_document', 'b.material');
+        // Subquery t2
+        $t2 = DB::table('ZHAASD_INV as b')
+            ->select(
+                'b.sales_document',
+                'b.material',
+                DB::raw('SUM(b.invoiced_quantity) AS sum_inv_qty')
+            )
+            ->where('b.material', $material)
+            ->groupBy('b.sales_document', 'b.material');
 
-              // Main query
-              $soQuery = DB::table(DB::raw("({$t1->toSql()}) as t1"))
-                  ->mergeBindings($t1) // VERY IMPORTANT!
-                  ->leftJoin(DB::raw("({$t2->toSql()}) as t2"), function ($join) {
-                      $join->on('t1.material', '=', 't2.material')
-                           ->on('t1.ISD_DOC_NO', '=', 't2.sales_document');
-                  })
-                  ->mergeBindings($t2) // VERY IMPORTANT!
-                  ->select(
-                      't1.material',
-                      't1.years',
-                      't1.weeks',
-                      't1.sum_order_qty',
-                      't2.sum_inv_qty',
-                      DB::raw('COALESCE(t1.sum_order_qty, 0) - COALESCE(t2.sum_inv_qty, 0) AS WSS_RES_QTY')
-                  );
-
-
-      // Query สำหรับ Stock (สินค้าคงคลัง)
-      $stockQuery = DB::table('MB52 as a')
-          ->select(DB::raw("COALESCE(SUM(a.unrestricted), 0) AS WSS_AVAIL_QTY"))
-          ->where('a.material', $material)
-          ->where('a.storage_location', 'TH02')
-          ->whereNull('a.special_stock')
-          ->groupBy('a.material');
-
-      // รวมทั้งหมดเข้าด้วยกัน
-      $wss = DB::table(DB::raw("({$weekSequence->toSql()}) as week_sequence"))
-          ->mergeBindings($weekSequence)
-          //->leftJoin(DB::raw("({$poQuery->toSql()}) as po"), 'po.weeks', '=', 'week_sequence.week_number')
-          ->leftJoin(DB::raw('(' . $poQuery->toSql() . ') as po'), function($join) {
-            $join->on('po.weeks', '=', 'week_sequence.week_number')
-                ->on('po.years', '=', 'week_sequence.year_number');
+        // Main query
+        $soQuery = DB::table(DB::raw("({$t1->toSql()}) as t1"))
+            ->mergeBindings($t1) // VERY IMPORTANT!
+            ->leftJoin(DB::raw("({$t2->toSql()}) as t2"), function ($join) {
+                $join->on('t1.material', '=', 't2.material')
+                    ->on('t1.ISD_DOC_NO', '=', 't2.sales_document');
             })
-          ->mergeBindings($poQuery)
-          //->leftJoin(DB::raw("({$soQuery->toSql()}) as so"), 'so.weeks', '=', 'week_sequence.week_number')
-          ->leftJoin(DB::raw('(' . $soQuery->toSql() . ') as so'), function($join) {
-              $join->on('so.weeks', '=', 'week_sequence.week_number')
-                   ->on('so.years', '=', 'week_sequence.year_number');
-          })
-          ->mergeBindings($soQuery)
-          ->leftJoin(DB::raw("({$stockQuery->toSql()}) as un"), DB::raw('1'), DB::raw('1')) // ทำให้ stockQuery ใช้ค่าเดียวกันกับทุก row
-          ->mergeBindings($stockQuery)
-          ->select([
-              'week_sequence.week_number',
-              'week_sequence.year_number',
-              DB::raw("COALESCE(po.WSS_ITEM_UOM_CODE, '') AS WSS_ITEM_UOM_CODE"),
-              DB::raw("COALESCE(po.WSS_INCOMING_QTY, 0) AS WSS_INCOMING_QTY"),
-              DB::raw("COALESCE(so.WSS_RES_QTY, 0) AS WSS_RES_QTY"),
-              DB::raw("COALESCE(un.WSS_AVAIL_QTY, 0) AS WSS_AVAIL_QTY"),
-              DB::raw("COALESCE(po.WSS_RCV_QTY, 0) AS WSS_RCV_QTY"),
-          ])
-          ->get();
+            ->mergeBindings($t2) // VERY IMPORTANT!
+            ->select(
+                't1.material',
+                't1.years',
+                't1.weeks',
+                't1.sum_order_qty',
+                't2.sum_inv_qty',
+                DB::raw('COALESCE(t1.sum_order_qty, 0) - COALESCE(t2.sum_inv_qty, 0) AS WSS_RES_QTY')
+            );
 
+        // Query สำหรับ Stock (สินค้าคงคลัง)
+        $stockQuery = DB::table('MB52 as a')
+            ->select(DB::raw("COALESCE(SUM(a.unrestricted), 0) AS WSS_AVAIL_QTY"))
+            ->where('a.material', $material)
+            ->where('a.storage_location', 'TH02')
+            ->whereNull('a.special_stock')
+            ->groupBy('a.material');
 
+        // รวมทั้งหมดเข้าด้วยกัน
+        $wss = DB::table(DB::raw("({$weekSequence->toSql()}) as week_sequence"))
+            ->mergeBindings($weekSequence)
+            //->leftJoin(DB::raw("({$poQuery->toSql()}) as po"), 'po.weeks', '=', 'week_sequence.week_number')
+            ->leftJoin(DB::raw('(' . $poQuery->toSql() . ') as po'), function ($join) {
+                $join->on('po.weeks', '=', 'week_sequence.week_number')
+                    ->on('po.years', '=', 'week_sequence.year_number');
+            })
+            ->mergeBindings($poQuery)
+            //->leftJoin(DB::raw("({$soQuery->toSql()}) as so"), 'so.weeks', '=', 'week_sequence.week_number')
+            ->leftJoin(DB::raw('(' . $soQuery->toSql() . ') as so'), function ($join) {
+                $join->on('so.weeks', '=', 'week_sequence.week_number')
+                    ->on('so.years', '=', 'week_sequence.year_number');
+            })
+            ->mergeBindings($soQuery)
+            ->leftJoin(DB::raw("({$stockQuery->toSql()}) as un"), DB::raw('1'), DB::raw('1')) // ทำให้ stockQuery ใช้ค่าเดียวกันกับทุก row
+            ->mergeBindings($stockQuery)
+            ->select([
+                'week_sequence.week_number',
+                'week_sequence.year_number',
+                DB::raw("COALESCE(po.WSS_ITEM_UOM_CODE, '') AS WSS_ITEM_UOM_CODE"),
+                DB::raw("COALESCE(po.WSS_INCOMING_QTY, 0) AS WSS_INCOMING_QTY"),
+                DB::raw("COALESCE(so.WSS_RES_QTY, 0) AS WSS_RES_QTY"),
+                DB::raw("COALESCE(un.WSS_AVAIL_QTY, 0) AS WSS_AVAIL_QTY"),
+                DB::raw("COALESCE(po.WSS_RCV_QTY, 0) AS WSS_RCV_QTY"),
+            ])
+            ->get();
 
-      //dd($wss);
-      //$uom = DB::table('OW_ITEM_UOM_WEB_HAFL')->where('IUW_ITEM_CODE', $item_code)->orderBy('IUW_CONV_FACTOR','ASC')->get();
-      //$t20_3 = DB::table('OW_LAST3MON_T20_CUST_WEB_HAFL')->where('LTC_ITEM_CODE', $item_code)->get();
-      //$t20_12 = DB::table('OW_LAST12MON_T20_CUST_WEB_HAFL')->where('LT_ITEM_CODE', $item_code)->get();
+        //dd($wss);
+        //$uom = DB::table('OW_ITEM_UOM_WEB_HAFL')->where('IUW_ITEM_CODE', $item_code)->orderBy('IUW_CONV_FACTOR','ASC')->get();
+        //$t20_3 = DB::table('OW_LAST3MON_T20_CUST_WEB_HAFL')->where('LTC_ITEM_CODE', $item_code)->get();
+        //$t20_12 = DB::table('OW_LAST12MON_T20_CUST_WEB_HAFL')->where('LT_ITEM_CODE', $item_code)->get();
 
     //   $uom = DB::table('ZHWWBCQUERYDIR as a')
     //   ->select([
@@ -402,25 +398,25 @@ class SalesUSIController extends Controller
         ->groupBy('c.material', 'c.uom')
         ->get();
 
-      $stocks = DB::table('MB52')
-          ->selectRaw("
-              COALESCE(SUM(CASE WHEN storage_location = 'TH02' THEN unrestricted ELSE 0 END), 0) AS TH02,
-              COALESCE(SUM(CASE WHEN storage_location = 'THS2' THEN unrestricted ELSE 0 END), 0) AS THS2,
-              COALESCE(SUM(CASE WHEN storage_location = 'THS3' THEN unrestricted ELSE 0 END), 0) AS THS3,
-              COALESCE(SUM(CASE WHEN storage_location = 'THS4' THEN unrestricted ELSE 0 END), 0) AS THS4,
-              COALESCE(SUM(CASE WHEN storage_location = 'THS5' THEN unrestricted ELSE 0 END), 0) AS THS5,
-              COALESCE(SUM(CASE WHEN storage_location = 'THS6' THEN unrestricted ELSE 0 END), 0) AS THS6
-          ")
-          ->where('material', $item_code)
-          ->whereIn('storage_location', ['TH02','THS2','THS3','THS4','THS5','THS6'])
-          ->first(); // ดึงแถวเดียว
+        $stocks = DB::table('MB52')
+            ->selectRaw("
+                COALESCE(SUM(CASE WHEN storage_location = 'TH02' THEN unrestricted ELSE 0 END), 0) AS TH02,
+                COALESCE(SUM(CASE WHEN storage_location = 'THS2' THEN unrestricted ELSE 0 END), 0) AS THS2,
+                COALESCE(SUM(CASE WHEN storage_location = 'THS3' THEN unrestricted ELSE 0 END), 0) AS THS3,
+                COALESCE(SUM(CASE WHEN storage_location = 'THS4' THEN unrestricted ELSE 0 END), 0) AS THS4,
+                COALESCE(SUM(CASE WHEN storage_location = 'THS5' THEN unrestricted ELSE 0 END), 0) AS THS5,
+                COALESCE(SUM(CASE WHEN storage_location = 'THS6' THEN unrestricted ELSE 0 END), 0) AS THS6
+            ")
+            ->where('material', $item_code)
+            ->whereIn('storage_location', ['TH02', 'THS2', 'THS3', 'THS4', 'THS5', 'THS6'])
+            ->first(); // ดึงแถวเดียว
 
-          // ตรวจสอบว่ามีข้อมูลจาก material หรือไม่
-          $flg = '';
-          $check = DB::table('zhwwmm_bom_vko')->where('material', $item_code)->exists();
+        // ตรวจสอบว่ามีข้อมูลจาก material หรือไม่
+        $flg = '';
+        $check = DB::table('zhwwmm_bom_vko')->where('material', $item_code)->exists();
 
-          // ตั้งค่า flag
-          $flg = $check ? 'material' : 'component';
+        // ตั้งค่า flag
+        $flg = $check ? 'material' : 'component';
 
           // เริ่ม query
           $query = DB::table('zhwwmm_bom_vko as a')
@@ -443,118 +439,118 @@ class SalesUSIController extends Controller
                   DB::raw('CONCAT(FORMAT(SUM(CASE WHEN im.mvgr4 = "Z00" THEN 0 WHEN c.amount IS NOT NULL THEN (c.amount / c.per) ELSE 0 END), 2), " THB") as price_per_unit')
               );
 
-          // ใส่เงื่อนไข where ตาม flag
-          if ($flg === 'material') {
-              $query->where('a.material', $item_code)
-                    ->where(function ($q) {
-                        $q->where('a.bom_usg', '!=', 1)  // ถ้า bom_usg ไม่ใช่ 1 => ผ่าน
-                          ->orWhere(function ($q2) {
-                              $q2->where('a.bom_usg', 1)   // ถ้า bom_usg เป็น 1
-                                 ->where('a.proc_type', 'E'); // ต้องมี proc_type = E
-                          });
-                    })
-                    ->groupBy('a.component');
-          } else {
-              $query->where('a.component', $item_code)
-                    ->groupBy('a.material');
-          }
+        // ใส่เงื่อนไข where ตาม flag
+        if ($flg === 'material') {
+            $query->where('a.material', $item_code)
+                ->where(function ($q) {
+                    $q->where('a.bom_usg', '!=', 1)  // ถ้า bom_usg ไม่ใช่ 1 => ผ่าน
+                        ->orWhere(function ($q2) {
+                            $q2->where('a.bom_usg', 1)   // ถ้า bom_usg เป็น 1
+                                ->where('a.proc_type', 'E'); // ต้องมี proc_type = E
+                        });
+                })
+                ->groupBy('a.component');
+        } else {
+            $query->where('a.component', $item_code)
+                ->groupBy('a.material');
+        }
 
-          // สั่งเรียงลำดับ
-          $bom = $query->orderBy('cal_stk', 'asc')
-              ->get()
-              ->map(function ($item) {
-                  $item->comp_stk = number_format($item->comp_stk, 0);
-                  $item->cal_stk = number_format($item->cal_stk, 0);
-                  return $item;
-              });
+        // สั่งเรียงลำดับ
+        $bom = $query->orderBy('cal_stk', 'asc')
+            ->get()
+            ->map(function ($item) {
+                $item->comp_stk = number_format($item->comp_stk, 0);
+                $item->cal_stk = number_format($item->cal_stk, 0);
+                return $item;
+            });
 
-      return response()->json([
-        'status' => true,
-        'count' => $count,
-        'data' => $usis,
-        'usi_sql' => $usi_sql,
-        'so_sql' => $soQuery->toSql(),
-        'mss' => $mss,
-        'wss' => $wss,
-        'uom' => $uom,
-        'stocks' => $stocks,
-        'bom' => $bom,
-        //'t20_3' => $t20_3,
-        //'t20_12' => $t20_12,
-      ]);
-
+        return response()->json([
+            'status' => true,
+            'count' => $count,
+            'data' => $usis,
+            'usi_sql' => $usi_sql,
+            'so_sql' => $soQuery->toSql(),
+            'mss' => $mss,
+            'wss' => $wss,
+            'uom' => $uom,
+            'stocks' => $stocks,
+            'bom' => $bom,
+            //'t20_3' => $t20_3,
+            //'t20_12' => $t20_12,
+        ]);
     }
 
-    public function inbound(Request $request){
+    public function inbound(Request $request)
+    {
+        $item_code = $request->item_code ?? '940.99.961';
+        $ipd_week_no = $request->ipd_week_no ?? '2346';
 
-      $item_code = $request->item_code ?? '940.99.961';
-      $ipd_week_no = $request->ipd_week_no ?? '2346';
-
-      //$query = DB::table('OW_ITEMWISE_PO_DTLS_WEB_HAFL')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
-      $query = DB::table('ZHWWMM_OPEN_ORDERS as a')
-        /*->leftJoin('574_ekko_expo as b', function($join) {
-            $join->on('a.material', '=', 'b.material')
-                 ->on('a.purchasing_document', '=', 'b.purch_doc');
-        })*/
-        ->leftJoin(
-                DB::raw("(SELECT DISTINCT material, purch_doc, vdr_outp_date, production_time_in_days
+        //$query = DB::table('OW_ITEMWISE_PO_DTLS_WEB_HAFL')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
+        $query = DB::table('ZHWWMM_OPEN_ORDERS as a')
+            /*->leftJoin('574_ekko_expo as b', function($join) {
+                $join->on('a.material', '=', 'b.material')
+                    ->on('a.purchasing_document', '=', 'b.purch_doc');
+            })*/
+            ->leftJoin(
+                DB::raw("(SELECT DISTINCT material, purch_doc, vdr_outp_date, production_time_in_days, po_quantity
                           FROM 574_ekko_expo
                           WHERE material = '{$item_code}') as b"),
-                function($join) {
+                function ($join) {
                     $join->on('a.material', '=', 'b.material')
-                         ->on('a.purchasing_document', '=', 'b.purch_doc');
+                        ->on('a.purchasing_document', '=', 'b.purch_doc');
                 }
             )
-        ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
-        ->leftJoin(DB::raw("(SELECT d1.war, d1.material FROM ZHWWBCQUERYDIR d1 WHERE d1.material = '{$item_code}' GROUP BY d1.material) as d"), 'd.material', '=', 'a.material')
-        ->select([
-          DB::raw("IFNULL(a.purchasing_document, '') as IPD_DOC_NO"),
-          DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_DOC_DT"),
-          DB::raw("IFNULL(a.po_order_unit, '') as IPD_UOM_CODE"),
-          DB::raw("IFNULL(SUM(a.quantity_po), '') as IPD_QTY"),
-          DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.vendor_output_date, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_ETS"),
-          DB::raw("IF(a.delivered_quantity > 0, 'S',IF(a.confirmed_issue_date IS NOT NULL, 'C', 'U')) as IPD_STATUS"),
-          DB::raw("
-            DATE_FORMAT(
-              DATE_ADD(
-                STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-                INTERVAL (c.planned_deliv_time - b.production_time_in_days + COALESCE(d.war,0)) DAY
-              ),
-              '%d/%m/%Y'
-            ) as IPD_ETA
-          ")
-        ])
+            ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
+            ->leftJoin(DB::raw("(SELECT d1.war, d1.material FROM ZHWWBCQUERYDIR d1 WHERE d1.material = '{$item_code}' GROUP BY d1.material) as d"), 'd.material', '=', 'a.material')
+            ->select([
+                DB::raw("IFNULL(a.purchasing_document, '') as IPD_DOC_NO"),
+                DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_DOC_DT"),
+                DB::raw("IFNULL(a.po_order_unit, '') as IPD_UOM_CODE"),
+                DB::raw("IFNULL(b.po_quantity, '') as IPD_QTY"),
+                // DB::raw("IFNULL(SUM(a.quantity_po), '') as IPD_QTY"),
+                DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.vendor_output_date, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_ETS"),
+                DB::raw("IF(a.delivered_quantity > 0, 'S',IF(a.confirmed_issue_date IS NOT NULL, 'C', 'U')) as IPD_STATUS"),
+                DB::raw("
+                    DATE_FORMAT(
+                    DATE_ADD(
+                        STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
+                        INTERVAL (c.planned_deliv_time - b.production_time_in_days + COALESCE(d.war,0)) DAY
+                    ),
+                    '%d/%m/%Y'
+                    ) as IPD_ETA
+                ")
+            ])
+            ->where('a.material', $item_code)
+            /*->whereRaw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'), 1) = ?", [$ipd_week_no]);*/
+            ->whereRaw("
+                WEEK(
+                    DATE_ADD(
+                    STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
+                    INTERVAL (c.planned_deliv_time - b.production_time_in_days + COALESCE(d.war,0)) DAY
+                    ),
+                    1
+                ) = ?
+                ", [$ipd_week_no])
+            ->groupBy('a.purchasing_document');
 
-        ->where('a.material', $item_code)
-        /*->whereRaw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'), 1) = ?", [$ipd_week_no]);*/
-        ->whereRaw("
-          WEEK(
-            DATE_ADD(
-              STR_TO_DATE(b.vdr_outp_date, '%m/%d/%Y'),
-              INTERVAL (c.planned_deliv_time - b.production_time_in_days + COALESCE(d.war,0)) DAY
-            ),
-            1
-          ) = ?
-        ", [$ipd_week_no])
-        ->groupBy('a.purchasing_document');
-
-      $count = $query->count();
-      $inbound = $query->get();
-      //dd($inbound);
-      return response()->json([
-        'status' => true,
-        'count' => $count,
-        'data' => $inbound,
-      ]);
+        $count = $query->count();
+        $inbound = $query->get();
+        //dd($inbound);
+        return response()->json([
+            'status' => true,
+            'count' => $count,
+            'data' => $inbound,
+        ]);
     }
 
-    public function outbound(Request $request){
+    public function outbound(Request $request)
+    {
 
-      $material = $request->item_code ?? '';
-      $week = $request->week_no ?? '';
-      $year = $request->year_no ?? '';
+        $material = $request->item_code ?? '';
+        $week = $request->week_no ?? '';
+        $year = $request->year_no ?? '';
 
-      $data = DB::table(DB::raw("(
+        $data = DB::table(DB::raw("(
           SELECT
               a.material,
               a.status,
@@ -596,7 +592,7 @@ class SalesUSIController extends Controller
           AND WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) = $week
           GROUP BY a.sd_document
       ) AS t1"))
-      ->leftJoin(DB::raw("(
+            ->leftJoin(DB::raw("(
           SELECT
               b.sales_document,
               b.material,
@@ -605,10 +601,10 @@ class SalesUSIController extends Controller
           WHERE b.material = '$material'
           GROUP BY b.sales_document, b.material
       ) AS t2"), function ($join) {
-          $join->on('t1.material', '=', 't2.material')
-               ->on('t1.ISD_DOC_NO', '=', 't2.sales_document');
-      })
-      ->select(DB::raw("
+                $join->on('t1.material', '=', 't2.material')
+                    ->on('t1.ISD_DOC_NO', '=', 't2.sales_document');
+            })
+            ->select(DB::raw("
           t1.*,
           COALESCE(t2.ISD_INV_QTY, 0) AS ISD_INV_QTY,
           CASE
@@ -618,16 +614,16 @@ class SalesUSIController extends Controller
       "));
 
 
-      $sql = '';
-      $count = $data->count();
-      $outbound = $data->get();
-      //dd($inbound);
-      return response()->json([
-        'status' => true,
-        'count' => $count,
-        'data' => $outbound,
-        'sql' => $sql,
-      ]);
+        $sql = '';
+        $count = $data->count();
+        $outbound = $data->get();
+        //dd($inbound);
+        return response()->json([
+            'status' => true,
+            'count' => $count,
+            'data' => $outbound,
+            'sql' => $sql,
+        ]);
     }
 
     /**
