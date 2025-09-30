@@ -498,7 +498,7 @@
         if(key == 0){
           forecast = val["WSS_AVAIL_QTY"];
         }
-        forecast = forecast + val["WSS_INCOMING_QTY"] - val["WSS_RES_QTY"];
+        forecast = forecast + parseInt(val["WSS_INCOMING_QTY"]) - val["WSS_RES_QTY"];
 
         let tbody = '<tr>\
           <td class="border-usi">\
