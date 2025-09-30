@@ -341,30 +341,62 @@ class SalesUSIController extends Controller
         //$t20_3 = DB::table('OW_LAST3MON_T20_CUST_WEB_HAFL')->where('LTC_ITEM_CODE', $item_code)->get();
         //$t20_12 = DB::table('OW_LAST12MON_T20_CUST_WEB_HAFL')->where('LT_ITEM_CODE', $item_code)->get();
 
-        $uom = DB::table('ZHWWBCQUERYDIR as a')
-            ->select([
-                DB::raw('CASE WHEN a.material IS NOT NULL THEN a.material ELSE "N/A" END as IUW_ITEM_CODE'),
-                DB::raw('CASE WHEN a.bun IS NOT NULL THEN a.bun ELSE "N/A" END as IUW_UOM_CODE'),
-                DB::raw('CASE
-                    WHEN im.mvgr4 = "Z00" THEN "Check price with BD/PCM"
-                    WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2)," THB")
-                    ELSE "0 TH"
-                    END as IUW_PRICE'),
-                DB::raw('CASE
-                    WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2)," THB")
-                    ELSE "0 TH"
-                    END as NEW_ZPLV_COST'),
-                DB::raw('CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount / c.per, 2) ELSE "0" END as NEW_ZPE_COST'),
-                DB::raw('CASE WHEN a.mov_avg_price IS NOT NULL THEN FORMAT(a.mov_avg_price / a.per, 2) ELSE "0" END as NEW_MAP_COST')
-            ])
-            ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
-            ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
-            ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
-            ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
-            ->where('a.material', '=', $item_code)
-            ->groupBy('c.material', 'c.uom')
-            ->get();
+    //   $uom = DB::table('ZHWWBCQUERYDIR as a')
+    //   ->select([
+    //       DB::raw('CASE WHEN a.material IS NOT NULL THEN a.material ELSE "N/A" END as IUW_ITEM_CODE'),
+    //       DB::raw('CASE WHEN a.bun IS NOT NULL THEN a.bun ELSE "N/A" END as IUW_UOM_CODE'),
+    //       DB::raw('CASE
+    //                 WHEN im.mvgr4 = "Z00" THEN "Check price with BD/PCM"
+    //                 WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2)," THB")
+    //                 ELSE "0 THB"
+    //                 END as IUW_PRICE'),
+    //       DB::raw('CASE
+    //                 WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2)," THB")
+    //                 ELSE "0 THB"
+    //                 END as NEW_ZPLV_COST'),
+    //       DB::raw('CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount / c.per, 2) ELSE "0" END as NEW_ZPE_COST'),
+    //       DB::raw('CASE WHEN a.mov_avg_price IS NOT NULL THEN FORMAT(a.mov_avg_price / a.per, 2) ELSE "0" END as NEW_MAP_COST')
+    //   ])
+    //   ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
+    //   ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
+    //   ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
+    //   ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
+    //   ->where('a.material', '=', $item_code)
+    //   ->groupBy('c.material', 'c.uom')
+    //   ->get();
 
+    $subquery = DB::table('zhwwmm_bom_vko as bom')
+        ->selectRaw('SUM(CASE WHEN im.mvgr4 = "Z00" THEN 0 WHEN b.amount IS NOT NULL THEN (b.amount / b.per) * bom.quantity ELSE 0 END)')
+        ->leftJoin('ZORDPOSKONV_ZPL as b', 'bom.component', '=', 'b.material')
+        ->leftJoin('zhaamm_ifvmg_mat as im', 'bom.component', '=', 'im.matnr')
+        ->whereColumn('bom.material', 'a.material');
+
+    $uom = DB::table('ZHWWBCQUERYDIR as a')
+        ->select([
+            'a.material as IUW_ITEM_CODE',
+            'a.bun as IUW_UOM_CODE',
+            DB::raw('
+                CASE
+                    WHEN im.mvgr4 = "Z00" THEN "Check price with BD/PCM"
+                    WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2), " THB")
+                    ELSE CONCAT(FORMAT((' . $subquery->toSql() . '), 2), " THB")
+                END as IUW_PRICE'),
+            DB::raw('
+                CASE
+                    WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2)," THB")
+                    ELSE "0 THB"
+                END as NEW_ZPLV_COST'),
+            DB::raw('CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount / c.per, 2) ELSE "0" END as NEW_ZPE_COST'),
+            DB::raw('CASE WHEN a.mov_avg_price IS NOT NULL THEN FORMAT(a.mov_avg_price / a.per, 2) ELSE "0" END as NEW_MAP_COST')
+        ])
+        ->mergeBindings($subquery)
+        ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
+        ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
+        ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
+        ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
+        ->where('a.material', '=', $item_code)
+        ->groupBy('c.material', 'c.uom')
+        ->get();
 
         $stocks = DB::table('MB52')
             ->selectRaw("
@@ -386,23 +418,26 @@ class SalesUSIController extends Controller
         // ตั้งค่า flag
         $flg = $check ? 'material' : 'component';
 
-        // เริ่ม query
-        $query = DB::table('zhwwmm_bom_vko as a')
-            //->leftJoin('MB52 as b', 'b.material', '=', 'a.component')
-            ->leftJoin('MB52 as b', function ($join) {
-                $join->on('b.material', '=', 'a.component')
-                    ->where('b.storage_location', '=', 'TH02');
-            })
-            ->select(
-                'a.material as parent',
-                'a.bom_usg',
-                'a.base_quantity as parent_qty',
-                'a.component as comp',
-                'a.quantity as comp_qty',
-                'b.unrestricted as comp_stk',
-                DB::raw('(b.unrestricted / a.quantity) * a.base_quantity as cal_stk'),
-                DB::raw("'" . $flg . "' as flg")
-            );
+          // เริ่ม query
+          $query = DB::table('zhwwmm_bom_vko as a')
+              //->leftJoin('MB52 as b', 'b.material', '=', 'a.component')
+              ->leftJoin('MB52 as b', function($join) {
+                  $join->on('b.material', '=', 'a.component')
+                       ->where('b.storage_location', '=', 'TH02');
+              })
+              ->leftJoin('ZORDPOSKONV_ZPL as c', 'a.component', '=', 'c.material')
+              ->leftJoin('zhaamm_ifvmg_mat as im', 'a.component', '=', 'im.matnr')
+              ->select(
+                  'a.material as parent',
+                  'a.bom_usg',
+                  'a.base_quantity as parent_qty',
+                  'a.component as comp',
+                  'a.quantity as comp_qty',
+                  'b.unrestricted as comp_stk',
+                  DB::raw('(b.unrestricted / a.quantity) * a.base_quantity as cal_stk'),
+                  DB::raw("'" . $flg . "' as flg"),
+                  DB::raw('CONCAT(FORMAT(SUM(CASE WHEN im.mvgr4 = "Z00" THEN 0 WHEN c.amount IS NOT NULL THEN (c.amount / c.per) ELSE 0 END), 2), " THB") as price_per_unit')
+              );
 
         // ใส่เงื่อนไข where ตาม flag
         if ($flg === 'material') {

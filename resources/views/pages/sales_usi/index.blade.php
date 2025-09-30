@@ -218,6 +218,7 @@
                                   <th class="text-center border-usi text-uppercase text-sm font-weight-bolder ps-2"> Parent Qty</th>
                                   <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Comp</th>
                                   <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Comp Qty</th>
+                                  <th class="d-none border-usi text-center text-uppercase text-sm font-weight-bolder"> Price/Unit</th>
                                   <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Comp STK</th>
                                   <th class="border-usi text-center text-uppercase text-sm font-weight-bolder"> Cal STK</th>
                               </tr>
@@ -546,6 +547,7 @@
           <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["parent_qty"]+'</p></td>\
           <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["comp"]+'</p></td>\
           <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["comp_qty"]+'</p></td>\
+          <td class="d-none border-usi"><p class="float-end text-xs font-weight-bold mb-0 px-3">'+val["price_per_unit"]+'</p></td>\
           <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["comp_stk"]+'</p></td>\
           <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["cal_stk"]+'</p></td></tr>';
           $('#bom_table').append(tbody);

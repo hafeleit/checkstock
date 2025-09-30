@@ -7,7 +7,7 @@
         <div class="row">
 
             <div class="col-12" style="z-index: 9;text-align: center;margin-bottom: 14px;">
-              <h3 class="font-weight-bolder text-white mb-0">Big Clearance Sale 2024</h3>
+              <h3 class="font-weight-bolder text-white mb-0">Big Clearance Sale 2025</h3>
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
 
@@ -63,7 +63,8 @@
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 3</p>
                                     <h2 class="font-weight-bolder">
                                         {{ ($clr_total['day3_total'] > 0) ? number_format($clr_total['day3_total']) : '-' }}
-                                        <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 20:00</p>
+                                        <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;"></p>
+                                        <?php /* <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 20:00</p> */ ?>
                                     </h2>
 
                                 </div>
@@ -116,7 +117,7 @@
             <div class="col-lg-6 mb-lg-0 mb-4">
                 <div class="card z-index-2 h-80">
                     <div class="card-header pb-0 pt-3 bg-transparent">
-                        <h6 class="text-capitalize">Turnover All (POS,ORION)</h6>
+                        <h6 class="text-capitalize">Turnover (POS,ZOS)</h6>
                     </div>
                     <div class="card-body p-3">
                         <div class="chart">
@@ -126,11 +127,12 @@
                 </div>
             </div>
         </div>
+        <?php  /* ?>
         <div class="row mt-4">
             <div class="col-lg-6 mb-lg-0 mb-4">
                 <div class="card z-index-2 h-100">
                     <div class="card-body p-3">
-                        <h6 class="text-capitalize">Summary (Today)</h6>
+                        <h6 class="text-capitalize">Amount Summary (Today)</h6>
                         <div class="chart">
                             <canvas id="BarChart" class="chart-canvas" height="70"></canvas>
                         </div>
@@ -140,7 +142,7 @@
             <div class="col-lg-6 mb-lg-0 mb-4">
                 <div class="card z-index-2 h-100">
                     <div class="card-body p-3">
-                        <h6 class="text-capitalize">Transaction (Today)</h6>
+                        <h6 class="text-capitalize">Transaction Summary (Today)</h6>
                         <div class="chart">
                             <canvas id="BarChart2" class="chart-canvas" height="70"></canvas>
                         </div>
@@ -148,7 +150,7 @@
                 </div>
             </div>
         </div>
-        <?php  /* ?>
+
         <div class="row mt-4">
 
             <div class="col-lg-12 mb-lg-0 mb-4">
@@ -177,31 +179,13 @@
               <div class="card " style="height: 100%;">
                   <div class="card-header pb-0 p-3">
                       <div class="d-flex justify-content-between">
-                          <h6 class="mb-2">Summary All (POS,ORION)</h6>
+                          <h6 class="mb-2">Summary All (POS,ZOS)</h6>
                       </div>
                   </div>
                   <div class="table-responsive">
                       <table class="table align-items-center ">
                           <tbody>
-                              <tr>
-                                  <td class="w-30">
-                                      <div class="d-flex px-2 py-1 align-items-center">
-                                          <div>
-                                              <img src="./img/icons/clr/orion.png" alt="Country flag" width="40px">
-                                          </div>
-                                          <div class="ms-4">
-                                              <p class="text-xs font-weight-bold mb-0">Type</p>
-                                              <h6 class="text-sm mb-0">ORION</h6>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">Total</p>
-                                          <h3 class="mb-0">{{ number_format($clr_total['orion_total']) }}</h3>
-                                      </div>
-                                  </td>
-                              </tr>
+
                               <tr>
                                   <td class="w-30">
                                       <div class="d-flex px-2 py-1 align-items-center">
@@ -221,6 +205,25 @@
                                       </div>
                                   </td>
                               </tr>
+                              <tr>
+                                  <td class="w-30">
+                                      <div class="d-flex px-2 py-1 align-items-center">
+                                          <div>
+                                              <img src="./img/icons/clr/orion.png" alt="Country flag" width="40px">
+                                          </div>
+                                          <div class="ms-4">
+                                              <p class="text-xs font-weight-bold mb-0">Type</p>
+                                              <h6 class="text-sm mb-0">ZOS</h6>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="text-center">
+                                          <p class="text-xs font-weight-bold mb-0">Total</p>
+                                          <h3 class="mb-0">{{ number_format($clr_total['orion_total']) }}</h3>
+                                      </div>
+                                  </td>
+                              </tr>
                           </tbody>
                       </table>
                   </div>
@@ -231,7 +234,7 @@
                     <div class="table-responsive">
                         <div class="card-header pb-0 p-3">
                             <div class="d-flex justify-content-between">
-                                <h6 class="mb-2">Summary All</h6>
+                                <h6 class="mb-2">Day Summary</h6>
                             </div>
                         </div>
                         <table class="table align-items-center ">
@@ -275,7 +278,7 @@
                                             </div>
                                             <div class="ms-4">
                                                 <p class="text-xs font-weight-bold mb-0">Sales</p>
-                                                <h4 class="mb-0">ORION (IN_CLR)</h4>
+                                                <h4 class="mb-0">ZOS</h4>
                                             </div>
                                         </div>
                                     </td>
@@ -298,68 +301,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td class="w-30">
-                                        <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="./img/icons/clr/orion.png" alt="Country flag" width="40px">
-                                            </div>
-                                            <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Sales</p>
-                                                <h4 class="mb-0">ORION (SO_PRI)</h4>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">DAY1</p>
-                                            <h3 class="mb-0 text-info">{{ number_format($clr_total['day1_orion_so_pri']) }}</h3>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">DAY2</p>
-                                            <h3 class="mb-0 text-info">{{ number_format($clr_total['day2_orion_so_pri']) }}</h3></h3>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">DAY3</p>
-                                            <h3 class="mb-0 text-info">{{ number_format($clr_total['day3_orion_so_pri']) }}</h3></h3>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="w-30">
-                                        <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="./img/icons/clr/orion.png" alt="Country flag" width="40px">
-                                            </div>
-                                            <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Sales</p>
-                                                <h4 class="mb-0">ORION (IN_DEP)</h4>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">DAY1</p>
-                                            <h3 class="mb-0 text-secondary">{{ number_format($clr_total['day1_orion_in_dep']) }}</h3>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">DAY2</p>
-                                            <h3 class="mb-0 text-secondary">{{ number_format($clr_total['day2_orion_in_dep']) }}</h3></h3>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">DAY3</p>
-                                            <h3 class="mb-0 text-secondary">{{ number_format($clr_total['day3_orion_in_dep']) }}</h3></h3>
-                                        </div>
-                                    </td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -579,7 +521,7 @@
 
                 },
                 {
-                    label: "ORION",
+                    label: "ZOS",
                     tension: 0.4,
                     borderWidth: 0,
                     pointRadius: 0,
