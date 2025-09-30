@@ -62,7 +62,7 @@ Route::get('warranty-search-ajax', [WarrantyController::class, 'search_warranty'
 
 //dashboard
 Route::get('ass_dashboard', [HomeController::class, 'ass_dashboard'])->name('ass_dashboard');
-Route::get('clr_dashboard', [HomeController::class, 'clr_dashboard'])->name('clr_dashboard');
+
 
 //check stock
 //Route::resource('products', ProductController::class);
@@ -97,6 +97,7 @@ Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middle
 
 Route::middleware(['auth', 'check.status'])->group(function () {
   //Route::group(['middleware' => ['role:super-admin|admin|staff|supplier|user']], function() {
+  Route::get('clr_dashboard', [HomeController::class, 'clr_dashboard'])->name('clr_dashboard');
   Route::get('/change-password', [ChangePassword::class, 'show'])->name('change-password');
   Route::post('/change-password', [ChangePassword::class, 'update'])->name('change.perform');
 

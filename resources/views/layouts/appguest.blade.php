@@ -43,17 +43,17 @@
             @yield('content')
         @else
             @if (!in_array(request()->route()->getName(), ['profile', 'profile-static','products.index']))
-                <div class="min-height-300 bg-primary position-absolute w-100"></div>
+                <div class="min-height-300 bg-success position-absolute w-100"></div>
             @elseif (in_array(request()->route()->getName(), ['profile-static', 'profile','products.index']))
-                <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('/img/bg-hafele.jpg'); background-position-y: 50%;">
+                <div class="position-absolute w-100 min-height-300 top-0">
                     <span class="bg-primary opacity-6"></span>
                 </div>
             @endif
-            @include('layouts.navbars.auth.sidenav')
+
                 <main class="main-content border-radius-lg">
                     @yield('content')
                 </main>
-            @include('components.fixed-plugin')
+
         @endif
     @endauth
 
