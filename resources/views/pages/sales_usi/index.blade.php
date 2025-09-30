@@ -488,7 +488,7 @@
         //let week_no = "'" + wss.split("/").join("") + "'";
         let text_danger_in = '';
         let text_danger_out = '';
-        if(val["WSS_INCOMING_QTY"] > 0){
+        if(parseInt(val["WSS_INCOMING_QTY"]) > 0){
           text_danger_in = 'text-danger';
         }
         if(val["WSS_RES_QTY"] > 0){
@@ -506,9 +506,9 @@
           </td>\
           <td class="border-usi">\
             @can('salesusi iodetail')
-            <p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_inbound('+val["week_number"]+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
+            <p style="text-decoration: underline;cursor: pointer;" onclick="search_usi_inbound('+val["week_number"]+')" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+parseInt(val["WSS_INCOMING_QTY"])+'</p>\
             @else
-            <p style="text-decoration: underline;cursor: pointer;" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
+            <p style="text-decoration: underline;cursor: pointer;" class="'+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+parseInt(val["WSS_INCOMING_QTY"])+'</p>\
             @endcan
           </td>\
           <td class="border-usi">\
