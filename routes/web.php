@@ -82,9 +82,6 @@ Route::get('send-mail', [MailController::class, 'index']);
 Route::get('picking', [LoginController::class, 'picking']);
 Route::get('test_db_crm', [HomeController::class, 'test_db']);
 
-Route::get('/itservice-rating/{task_id}', [RegisterController::class, 'itservice_rating'])->name('itservice-rating');
-Route::post('/itservice-rating/{task_id}', [RegisterController::class, 'save_itservice_rating'])->name('save-itservice-rating');
-
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
 Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
