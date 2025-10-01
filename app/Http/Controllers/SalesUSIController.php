@@ -231,9 +231,9 @@ class SalesUSIController extends Controller
                     RIGHT(
                         YEAR(
                             CASE
-                                WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%d/%m/%Y')
-                                WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%d/%m/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
-                                WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%d/%m/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                                WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y')
+                                WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                                WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                             END
                         ),
                         2
@@ -242,9 +242,9 @@ class SalesUSIController extends Controller
                 DB::raw("
                     WEEK(
                         CASE
-                            WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%d/%m/%Y')
-                            WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%d/%m/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
-                            WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%d/%m/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                            WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y')
+                            WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                            WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                         END,
                         1
                     ) as weeks
@@ -515,9 +515,9 @@ class SalesUSIController extends Controller
                 DB::raw("
                     DATE_FORMAT(
                         CASE
-                            WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%d/%m/%Y')
-                            WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%d/%m/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
-                            WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%d/%m/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                            WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y')
+                            WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                            WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                         END
                     ),
                     '%d/%m/%Y'
@@ -529,9 +529,9 @@ class SalesUSIController extends Controller
             ->whereRaw("
                 WEEK(
                     CASE
-                        WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%d/%m/%Y')
-                        WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%d/%m/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
-                        WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%d/%m/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                        WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y')
+                        WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                        WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                     END
                     ),
                     1
