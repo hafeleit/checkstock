@@ -214,7 +214,7 @@ class SalesUSIController extends Controller
         // Query สำหรับ PO (การสั่งซื้อ)
         $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
             ->leftJoin(
-                DB::raw("(SELECT DISTINCT material, purch_doc, scheduled_quantity, po_prod_time, po_exp_out_date, cf_exp_out_date, confirm_category
+                DB::raw("(SELECT DISTINCT material, purch_doc, scheduled_quantity, po_prod_time, po_exp_out_date, cf_exp_out_date, inb_act_arrival_date, confirm_category
                         FROM zhtrmm_pol
                         WHERE material = '{$material}') as b"),
                 function ($join) {
@@ -223,7 +223,6 @@ class SalesUSIController extends Controller
                 }
             )
             ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
-            //->leftJoin('ZHWWBCQUERYDIR as d', 'd.material', '=', 'a.material')
             ->leftJoin(DB::raw("(SELECT d1.war, d1.material FROM ZHWWBCQUERYDIR d1 WHERE d1.material = '{$material}' GROUP BY d1.material) as d"), 'd.material', '=', 'a.material')
             ->select([
                 'a.material',
@@ -231,7 +230,7 @@ class SalesUSIController extends Controller
                     RIGHT(
                         YEAR(
                             CASE
-                                WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y')
+                                WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
                                 WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                                 WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                             END
@@ -242,21 +241,20 @@ class SalesUSIController extends Controller
                 DB::raw("
                     WEEK(
                         CASE
-                            WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y')
+                            WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
                             WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                             WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                         END,
                         1
                     ) as weeks
                 "),
-                /*DB::raw("WEEK(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'), 1) AS weeks"),*/
                 'a.po_order_unit AS WSS_ITEM_UOM_CODE',
                 DB::raw("COALESCE(b.scheduled_quantity, 0) AS WSS_INCOMING_QTY"),
-                // DB::raw("COALESCE(SUM(a.quantity_po) - SUM(a.delivered_quantity), 0) AS WSS_INCOMING_QTY"),
                 DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY"),
             ])
             ->where('a.material', $material)
-            ->groupBy('a.material', DB::raw('weeks'), DB::raw('years'));
+            ->groupBy('a.material', DB::raw('weeks'), DB::raw('years'))
+            ->orderByRaw("CASE WHEN b.confirm_category = 'LA' THEN 1 WHEN b.confirm_category = 'AB' THEN 2 WHEN b.confirm_category IS NULL THEN 3 ELSE 4 END");
 
         // Subquery t1
         $t1 = DB::table('ZHINSD_VA05 as a')
@@ -490,7 +488,7 @@ class SalesUSIController extends Controller
         //$query = DB::table('OW_ITEMWISE_PO_DTLS_WEB_HAFL')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
         $query = DB::table('ZHWWMM_OPEN_ORDERS as a')
             ->leftJoin(
-                DB::raw("(SELECT DISTINCT material, purch_doc, scheduled_quantity, po_prod_time, po_exp_out_date, cf_exp_out_date, confirm_category
+                DB::raw("(SELECT DISTINCT material, purch_doc, scheduled_quantity, po_prod_time, po_exp_out_date, cf_exp_out_date, inb_act_arrival_date, confirm_category
                         FROM zhtrmm_pol
                         WHERE material = '{$item_code}') as b"),
                 function ($join) {
@@ -511,7 +509,7 @@ class SalesUSIController extends Controller
                 DB::raw("
                     DATE_FORMAT(
                         CASE
-                            WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y')
+                            WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
                             WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                             WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                         END,
@@ -524,14 +522,15 @@ class SalesUSIController extends Controller
             ->whereRaw("
                 WEEK(
                     CASE
-                        WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y')
+                        WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
                         WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                         WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                     END,
                     1
                 ) = ?
                 ", [$ipd_week_no])
-            ->groupBy('a.purchasing_document');
+            ->groupBy('a.purchasing_document')
+            ->orderByRaw("CASE WHEN b.confirm_category = 'LA' THEN 1 WHEN b.confirm_category = 'AB' THEN 2 WHEN b.confirm_category IS NULL THEN 3 ELSE 4 END");
 
         $count = $query->count();
         $inbound = $query->get();
