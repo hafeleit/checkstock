@@ -489,10 +489,6 @@ class SalesUSIController extends Controller
 
         //$query = DB::table('OW_ITEMWISE_PO_DTLS_WEB_HAFL')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
         $query = DB::table('ZHWWMM_OPEN_ORDERS as a')
-            /*->leftJoin('574_ekko_expo as b', function($join) {
-                $join->on('a.material', '=', 'b.material')
-                    ->on('a.purchasing_document', '=', 'b.purch_doc');
-            })*/
             ->leftJoin(
                 DB::raw("(SELECT DISTINCT material, purch_doc, scheduled_quantity, po_prod_time, po_exp_out_date, cf_exp_out_date, confirm_category
                         FROM zhtrmm_pol
@@ -518,8 +514,7 @@ class SalesUSIController extends Controller
                             WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y')
                             WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                             WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
-                        END
-                    ),
+                        END,
                     '%d/%m/%Y'
                     ) as IPD_ETA
                 ")
@@ -532,8 +527,7 @@ class SalesUSIController extends Controller
                         WHEN b.confirm_category = 'LA' THEN STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y')
                         WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                         WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
-                    END
-                    ),
+                    END,
                     1
                 ) = ?
                 ", [$ipd_week_no])
