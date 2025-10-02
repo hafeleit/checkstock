@@ -43,7 +43,7 @@
             @yield('content')
         @else
             @if (!in_array(request()->route()->getName(), ['profile', 'profile-static','products.index']))
-                <div class="min-height-300 bg-success position-absolute w-100"></div>
+                <div class="min-height-600 bg-success position-absolute w-100"></div>
             @elseif (in_array(request()->route()->getName(), ['profile-static', 'profile','products.index']))
                 <div class="position-absolute w-100 min-height-300 top-0">
                     <span class="bg-primary opacity-6"></span>
