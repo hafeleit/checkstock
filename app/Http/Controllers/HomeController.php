@@ -352,7 +352,8 @@ class HomeController extends Controller
           'day1_orion_in_dep' => $day1_orion_in_dep ?? 0,
           'day2_orion_in_dep' => $day2_orion_in_dep ?? 0,
           'day3_orion_in_dep' => $day3_orion_in_dep ?? 0,
-          'orion_total' => $day1_orion_in_clr+$day2_orion_in_clr+$day3_orion_in_clr + $day1_orion_so_pri+$day2_orion_so_pri+$day3_orion_so_pri + $day1_orion_in_dep+$day2_orion_in_dep+$day3_orion_in_dep,
+          'orion_total' => $day1_orion_in_clr+$day2_orion_in_clr+$day3_orion_in_clr,
+          'golden_hour' => $day1_orion_so_pri+$day2_orion_so_pri+$day3_orion_so_pri,
           'pos_total' => $day1_pos+$day2_pos+$day3_pos,
         ];
 

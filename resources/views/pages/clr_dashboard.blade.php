@@ -15,17 +15,12 @@
 
                     <div class="card-body p-3">
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-11">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 1</p>
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 1 (2025 | 2024)</p>
                                     <h2 class="font-weight-bolder">
-                                        {{ ($clr_total['day1_total'] > 0) ? number_format($clr_total['day1_total']) : '-' }}
+                                        {{ ($clr_total['day1_total'] > 0) ? number_format($clr_total['day1_total']) : '-' }} | <span class="text-secondary"> 12,943,663</span>
                                     </h2>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </div>
@@ -185,7 +180,6 @@
                   <div class="table-responsive">
                       <table class="table align-items-center ">
                           <tbody>
-
                               <tr>
                                   <td class="w-30">
                                       <div class="d-flex px-2 py-1 align-items-center">
@@ -221,6 +215,25 @@
                                       <div class="text-center">
                                           <p class="text-xs font-weight-bold mb-0">Total</p>
                                           <h3 class="mb-0">{{ number_format($clr_total['orion_total']) }}</h3>
+                                      </div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td class="w-30">
+                                      <div class="d-flex px-2 py-1 align-items-center">
+                                          <div>
+                                              <img src="./img/icons/clr/pos.png" alt="Country flag" width="40px">
+                                          </div>
+                                          <div class="ms-4">
+                                              <p class="text-xs font-weight-bold mb-0">Type</p>
+                                              <h6 class="text-sm mb-0">Golden Hour</h6>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <div class="text-center">
+                                          <p class="text-xs font-weight-bold mb-0">Total</p>
+                                          <h3 class="mb-0">{{ number_format($clr_total['golden_hour']) }}</h3>
                                       </div>
                                   </td>
                               </tr>
@@ -301,7 +314,37 @@
                                         </div>
                                     </td>
                                 </tr>
-
+                                <tr>
+                                    <td class="w-30">
+                                        <div class="d-flex px-2 py-1 align-items-center">
+                                            <div>
+                                                <img src="./img/icons/clr/pos.png" alt="Country flag" width="40px">
+                                            </div>
+                                            <div class="ms-4">
+                                                <p class="text-xs font-weight-bold mb-0">Sales</p>
+                                                <h4 class="mb-0">Golden Hour</h4>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-center">
+                                            <p class="text-xs font-weight-bold mb-0">DAY1</p>
+                                            <h3 class="mb-0 text-success">{{ number_format($clr_total['day1_orion_so_pri']) }}</h3>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-center">
+                                            <p class="text-xs font-weight-bold mb-0">DAY2</p>
+                                            <h3 class="mb-0 text-success">{{ number_format($clr_total['day2_orion_so_pri']) }}</h3></h3>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-center">
+                                            <p class="text-xs font-weight-bold mb-0">DAY3</p>
+                                            <h3 class="mb-0 text-success">{{ number_format($clr_total['day3_orion_so_pri']) }}</h3></h3>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
