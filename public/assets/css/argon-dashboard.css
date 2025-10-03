@@ -32200,3 +32200,9 @@ ul li.editMode input[type=text] {
     transition-property: all;
     transition-timing-function: linear
 }
+
+.required::after {
+    content: "*";
+    color: red;
+    margin-left: 4px;
+}

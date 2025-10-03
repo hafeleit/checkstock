@@ -65,7 +65,7 @@
     </div>
 </main>
 
-<script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     function togglePassword() {
         const passwordInput = document.getElementById('password');
         const eyeOpen = document.getElementById('eye-open');
