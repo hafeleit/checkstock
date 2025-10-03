@@ -65,61 +65,11 @@
                                   @endcan
                                   @if(in_array($c->status, ['Summary Confirmed', 'Summary Approved', 'Final Approved']))
                                     @can('Commissions Check')
-                                      <a href="javascript:void(0)" class="btn btn-sm btn-success commissions-link" data-id="{{ $c->id }}">
-                                          <i class="fas fa-check-circle me-1"></i> ตรวจสอบ Commission
-                                      </a>
-                                      <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-                                      document.getElementById('commissions-link').addEventListener('click', function() {
-                                          Swal.fire({
-                                              title: 'Confirm Password',
-                                              input: 'password',
-                                              inputLabel: 'Password',
-                                              inputPlaceholder: 'Enter your password',
-                                              inputAttributes: {
-                                                  autocapitalize: 'off',
-                                                  autocorrect: 'off',
-                                                  autocomplete: 'off',
-                                              },
-                                              showCancelButton: true,
-                                              confirmButtonText: 'Confirm',
-                                              showLoaderOnConfirm: true,
-                                              inputValidator: (value) => {
-                                                  if (!value) {
-                                                      return 'กรุณากรอกรหัสผ่านก่อน';
-                                                  }
-                                              },
-                                              preConfirm: (password) => {
-                                                  return fetch('{{ route("commission.verify-password") }}', {
-                                                      method: 'POST',
-                                                      headers: {
-                                                          'Content-Type': 'application/json',
-                                                          'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                                      },
-                                                      body: JSON.stringify({ password: password })
-                                                  })
-                                                  .then(async response => {
-                                                      const data = await response.json();
-                                                      if (!response.ok) {
-                                                          throw new Error(data.error || 'เกิดข้อผิดพลาด');
-                                                      }
-                                                      return data;
-                                                  })
-                                                  .catch(error => {
-                                                      Swal.showValidationMessage(error.message);
-                                                  });
-                                              },
-                                              allowOutsideClick: () => !Swal.isLoading()
-                                          }).then((result) => {
-                                              if (result.isConfirmed && result.value.success) {
-                                                  window.location.href = '/commissions/' + commissionId + '/check';
-                                              } else if(result.isConfirmed) {
-                                                  Swal.fire('Error', 'Incorrect password', 'error');
-                                              }
-                                          });
-                                      });
-                                  });
-
-                                      </script>
+                                    <a href="#"
+                                       class="btn btn-sm btn-success commissions-link"
+                                       data-id="{{ $c->id }}">
+                                        <i class="fas fa-check-circle me-1"></i> ตรวจสอบ Commission
+                                    </a>
                                     @endcan
                                   @endif
                                   @can('Commissions Delete')
@@ -144,6 +94,61 @@
                 </table>
             </div>
         </div>
+        <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.commissions-link')) {
+                const button = e.target.closest('.commissions-link');
+                const commissionId = button.dataset.id;
+
+                Swal.fire({
+                    title: 'Confirm Password',
+                    input: 'password',
+                    inputLabel: 'Password',
+                    inputPlaceholder: 'Enter your password',
+                    inputAttributes: {
+                        autocapitalize: 'off',
+                        autocorrect: 'off',
+                        autocomplete: 'off',
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Confirm',
+                    showLoaderOnConfirm: true,
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'กรุณากรอกรหัสผ่านก่อน';
+                        }
+                    },
+                    preConfirm: (password) => {
+                        return fetch('{{ route("commission.verify-password") }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({ password: password })
+                        })
+                        .then(async response => {
+                            const data = await response.json();
+                            if (!response.ok) {
+                                throw new Error(data.error || 'เกิดข้อผิดพลาด');
+                            }
+                            return data;
+                        })
+                        .catch(error => {
+                            Swal.showValidationMessage(error.message);
+                        });
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                    if (result.isConfirmed && result.value.success) {
+                        window.location.href = '/commissions/' + commissionId + '/check';
+                    } else if(result.isConfirmed) {
+                        Swal.fire('Error', 'Incorrect password', 'error');
+                    }
+                })
+            }
+        });
+        </script>
 
         <!-- Import Modal -->
         <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
