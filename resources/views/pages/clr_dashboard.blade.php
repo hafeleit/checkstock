@@ -36,7 +36,7 @@
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 2 (2025 | 2024)</p>
                                     <h2 class="font-weight-bolder">
                                         {{ ($clr_total['day2_total'] > 0) ? number_format($clr_total['day2_total']) : '-' }} | <span class="text-secondary"> 12,868,543</span>
-                                        <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 10:00</p>
+                                        
                                     </h2>
 
                                 </div>
@@ -49,13 +49,12 @@
                 <div class="card">
                     <div class="card-body p-3">
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-12">
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 3</p>
                                     <h2 class="font-weight-bolder">
-                                        {{ ($clr_total['day3_total'] > 0) ? number_format($clr_total['day3_total']) : '-' }}
-                                        <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;"></p>
-                                        <?php /* <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 20:00</p> */ ?>
+                                        {{ ($clr_total['day3_total'] > 0) ? number_format($clr_total['day3_total']) : '-' }}  | <span class="text-secondary"> 20,687,940</span>
+                                        <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 10:00</p>
                                     </h2>
 
                                 </div>
