@@ -1,12 +1,25 @@
 @extends('layouts.appguest', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
+<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+  .txt-last-upd{
+    position: absolute;
+    bottom: 4px;
+    right: 20px;
+    font-size: 14px;
+  }
 
+  .txt-title{
+    z-index: 9;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+</style>
     <div class="container-fluid py-4">
 
         <div class="row">
 
-            <div class="col-12" style="z-index: 9;text-align: center;margin-bottom: 14px;">
+            <div class="col-12 txt-title">
               <h3 class="font-weight-bolder text-white mb-0">Big Clearance Sale 2025</h3>
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -27,6 +40,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
                     <div class="card-body p-3">
@@ -36,7 +50,7 @@
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 2 (2025 | 2024)</p>
                                     <h2 class="font-weight-bolder">
                                         {{ ($clr_total['day2_total'] > 0) ? number_format($clr_total['day2_total']) : '-' }} | <span class="text-secondary"> 12,868,543</span>
-                                        <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 10:00</p>
+                                        <p class="mb-0 txt-last-upd">Last update: 10:00</p>
                                     </h2>
 
                                 </div>
@@ -54,8 +68,6 @@
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Day 3</p>
                                     <h2 class="font-weight-bolder">
                                         {{ ($clr_total['day3_total'] > 0) ? number_format($clr_total['day3_total']) : '-' }}
-                                        <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;"></p>
-                                        <?php /* <p class="mb-0" style="position: absolute;bottom: 4px;right: 20px;font-size: 14px;">Last update: 20:00</p> */ ?>
                                     </h2>
 
                                 </div>
@@ -108,56 +120,10 @@
                 </div>
             </div>
         </div>
-        <?php  /* ?>
-        <div class="row mt-4">
-            <div class="col-lg-6 mb-lg-0 mb-4">
-                <div class="card z-index-2 h-100">
-                    <div class="card-body p-3">
-                        <h6 class="text-capitalize">Amount Summary (Today)</h6>
-                        <div class="chart">
-                            <canvas id="BarChart" class="chart-canvas" height="70"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 mb-lg-0 mb-4">
-                <div class="card z-index-2 h-100">
-                    <div class="card-body p-3">
-                        <h6 class="text-capitalize">Transaction Summary (Today)</h6>
-                        <div class="chart">
-                            <canvas id="BarChart2" class="chart-canvas" height="70"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="row mt-4">
-
-            <div class="col-lg-12 mb-lg-0 mb-4">
-                <div class="card z-index-2 h-100">
-                    <div class="card-body p-3">
-                        <div class="progress-info" style="display: flex;margin-bottom: 0.5rem;align-items: center;justify-content: space-between;">
-                          <div class="progress-label">
-                            <span>Target Mission</span>
-                          </div>
-                          <div class="progress-percentage">
-                            <span>90%</span>
-                          </div>
-                        </div>
-                        <div>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 90%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php */ ?>
         <div class="row mt-4">
           <div class="col-lg-6 mb-lg-0 mb-4">
-              <div class="card " style="height: 100%;">
+              <div class="card full-height">
                   <div class="card-header pb-0 p-3">
                       <div class="d-flex justify-content-between">
                           <h6 class="mb-2">Summary All (POS,ZOS)</h6>
@@ -337,190 +303,13 @@
                 </div>
             </div>
         </div>
-        <!--
-        <div class="row mt-4">
-            <div class="col-lg-12 mb-lg-0 mb-4">
-              <div class="card ">
-                  <div class="card-header pb-0 p-3">
-                      <div class="d-flex justify-content-between">
-                          <h6 class="mb-2">Summary (Today)</h6>
-                      </div>
-                  </div>
-                  <div class="table-responsive">
-                      <table class="table align-items-center ">
-                          <tbody>
-                              <tr>
-                                  <td class="w-10">
-                                      <div class="d-flex px-2 py-1 align-items-center">
-                                          <div>
-                                              <img src="./img/icons/clr/pos.png" alt="Country flag" width="40px">
-                                          </div>
-                                          <div class="ms-4">
-                                              <p class="text-xs font-weight-bold mb-0">POS</p>
-                                              <h6 class="text-sm mb-0">Total / Trans</h6>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[0]->BY_CUST ?? 0 }}) #1</p>
-                                          <h6 class="mb-0">{{ number_format($pos_today[0]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[0]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[1]->BY_CUST ?? 0 }}) #2</p>
-                                          <h6 class="mb-0">{{ number_format($pos_today[1]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[1]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[2]->BY_CUST ?? 0 }}) #3</p>
-                                          <h6 class="mb-0">{{ number_format($pos_today[2]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[2]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[3]->BY_CUST ?? 0 }}) #4</p>
-                                          <h6 class="mb-0">{{ number_format($pos_today[3]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[3]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[4]->BY_CUST ?? 0 }}) #5</p>
-                                          <h6 class="mb-0">{{ number_format($pos_today[4]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[4]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[5]->BY_CUST ?? 0 }}) #6</p>
-                                          <h6 class="mb-0">{{ number_format($pos_today[5]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[5]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[6]->BY_CUST ?? 0 }}) #7</p>
-                                          <h6 class="mb-0">{{ number_format($pos_today[6]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[6]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[7]->BY_CUST ?? 0 }}) #8</p>
-                                          <h6 class="mb-0">{{ number_format($pos_today[7]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[7]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pos_today[8]->BY_CUST ?? 0 }}) #9</p>
-                                          <h6 class="mb-0">{{ number_format($pos_today[8]->SUM_IN_VAT ?? 0) }} / {{ number_format($pos_today[8]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td class="w-10">
-                                      <div class="d-flex px-2 py-1 align-items-center">
-                                          <div>
-                                              <img src="./img/icons/clr/orion.png" alt="Country flag" width="40px">
-                                          </div>
-                                          <div class="ms-4">
-                                              <p class="text-xs font-weight-bold mb-0">ORION (SO_PRI)</p>
-                                              <h6 class="text-sm mb-0">Total / Trans</h6>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[0]->BY_CUST ?? 0 }}) #1</p>
-                                          <h6 class="mb-0">{{ number_format($pri_today[0]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[0]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[1]->BY_CUST ?? 0 }}) #2</p>
-                                          <h6 class="mb-0">{{ number_format($pri_today[1]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[1]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[2]->BY_CUST ?? 0 }}) #3</p>
-                                          <h6 class="mb-0">{{ number_format($pri_today[2]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[2]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[3]->BY_CUST ?? 0 }}) #4</p>
-                                          <h6 class="mb-0">{{ number_format($pri_today[3]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[3]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[4]->BY_CUST ?? 0 }}) #5</p>
-                                          <h6 class="mb-0">{{ number_format($pri_today[4]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[4]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[5]->BY_CUST ?? 0 }}) #6</p>
-                                          <h6 class="mb-0">{{ number_format($pri_today[5]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[5]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[6]->BY_CUST ?? 0 }}) #7</p>
-                                          <h6 class="mb-0">{{ number_format($pri_today[6]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[6]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $pri_today[7]->BY_CUST ?? 0 }}) #8</p>
-                                          <h6 class="mb-0">{{ number_format($pri_today[7]->SUM_IN_VAT ?? 0) }} / {{ number_format($pri_today[7]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td class="w-10">
-                                      <div class="d-flex px-2 py-1 align-items-center">
-                                          <div>
-                                              <img src="./img/icons/clr/orion.png" alt="Country flag" width="40px">
-                                          </div>
-                                          <div class="ms-4">
-                                              <p class="text-xs font-weight-bold mb-0">ORION (IN_CLR)</p>
-                                              <h6 class="text-sm mb-0">Total / Trans</h6>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $clr_today[0]->BY_CUST ?? 0 }}) #1</p>
-                                          <h6 class="mb-0">{{ number_format($clr_today[0]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[0]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $clr_today[1]->BY_CUST ?? 0 }}) #2</p>
-                                          <h6 class="mb-0">{{ number_format($clr_today[1]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[1]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                                  <td>
-                                      <div class="text-center">
-                                          <p class="text-xs font-weight-bold mb-0">({{ $clr_today[2]->BY_CUST ?? 0 }}) #3</p>
-                                          <h6 class="mb-0">{{ number_format($clr_today[2]->SUM_IN_VAT ?? 0) }} / {{ number_format($clr_today[2]->CNT_IN_VAT ?? 0) }}</h6>
-                                      </div>
-                                  </td>
-                              </tr>
-                            </tbody>
-                        </table>
-                    </div>
-              </div>
-            </div>
-        </div>-->
 
     </div>
 @endsection
 
 @push('js')
     <script src="{{ env('APP_URL') }}/assets/js/plugins/chartjs.min.js"></script>
-    <script>
+    <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
        setTimeout(function(){
            window.location.reload();
        }, 600000);

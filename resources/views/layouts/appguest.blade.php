@@ -62,7 +62,7 @@
     <script src="{{ env('APP_URL') }}/assets/js/core/bootstrap.min.js"></script>
     <script src="{{ env('APP_URL') }}/assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="{{ env('APP_URL') }}/assets/js/plugins/smooth-scrollbar.min.js"></script>
-    <script>
+    <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
             var options = {
