@@ -217,19 +217,18 @@
                     <div class="table-responsive  table-scroll-bottom">
                         <table class="table table-hover align-items-center" id="sortableTable">
                             <thead>
-                                    <tr>
-                                        <th onclick="sortTable(0)">Type <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(1)">Account <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(2)">Reference Document <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(3)">Document Date <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(4)">Clearing Date <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(5)">Amount <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(6)">Clearing Document <i class="fas fa-sort"></i></th>
-
-                                        <th onclick="sortTable(7)">Rate (days) <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(8)">Rate (%) <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(9)">Commission <i class="fas fa-sort"></i></th>
-                                        <th onclick="sortTable(10)">Remark <i class="fas fa-sort"></i></th>
+                                    <tr id="tableHeader">
+                                        <th data-column-index="0">Type <i class="fas fa-sort"></i></th>
+                                        <th data-column-index="1">Account <i class="fas fa-sort"></i></th>
+                                        <th data-column-index="2">Reference Document <i class="fas fa-sort"></i></th>
+                                        <th data-column-index="3">Document Date <i class="fas fa-sort"></i></th>
+                                        <th data-column-index="4">Clearing Date <i class="fas fa-sort"></i></th>
+                                        <th data-column-index="5">Amount <i class="fas fa-sort"></i></th>
+                                        <th data-column-index="6">Clearing Document <i class="fas fa-sort"></i></th>
+                                        <th data-column-index="7">Rate (days) <i class="fas fa-sort"></i></th>
+                                        <th data-column-index="8">Rate (%) <i class="fas fa-sort"></i></th>
+                                        <th data-column-index="9">Commission <i class="fas fa-sort"></i></th>
+                                        <th data-column-index="10">Remark <i class="fas fa-sort"></i></th>
                                     </tr>
                             </thead>
                             <tbody>
@@ -377,63 +376,72 @@
     </div>
   </div>
 </div>
+
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-    let sortDirection = {};
-
-    function sortTable(colIndex) {
-      const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
-      const rows = Array.from(table.rows).slice(1);
-      const isAsc = sortDirection[colIndex] = !sortDirection[colIndex];
-
-      rows.sort((a, b) => {
-        const aText = a.cells[colIndex]?.innerText.trim();
-        const bText = b.cells[colIndex]?.innerText.trim();
-
-        const parseValue = (text) => {
-          const cleanText = text.replace(/,/g, '').trim(); // ลบ comma
-          const number = parseFloat(cleanText);
-          return isNaN(number) ? cleanText.toLowerCase() : number;
-        };
-
-        const aVal = parseValue(aText);
-        const bVal = parseValue(bText);
-
-
-        return isAsc ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
-      });
-
-      const tbody = table.tBodies[0];
-      rows.forEach(row => tbody.appendChild(row));
-
-      // เปลี่ยน icon
-      const headers = table.querySelectorAll("th");
-      headers.forEach((th, idx) => {
-        const icon = th.querySelector("i");
-        if (icon) {
-          icon.className = "fas fa-sort";
-          if (idx === colIndex) {
-            icon.className = isAsc ? "fas fa-sort-up" : "fas fa-sort-down";
+  document.addEventListener("DOMContentLoaded", function () {
+      // Go to Top Button
+      const goTopBtn = document.getElementById("goTopBtn");
+      window.addEventListener("scroll", () => {
+          if (window.scrollY > 300) {
+              goTopBtn.classList.add("show");
+          } else {
+              goTopBtn.classList.remove("show");
           }
-        }
       });
-    }
-</script>
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-document.addEventListener("DOMContentLoaded", function () {
-    const goTopBtn = document.getElementById("goTopBtn");
+      goTopBtn.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+      });
 
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 300) {
-            goTopBtn.classList.add("show");
-        } else {
-            goTopBtn.classList.remove("show");
-        }
-    });
+      // SortTable
+      const headerRow = document.getElementById('tableHeader'); 
+      if (headerRow) {
+          const headerCells = headerRow.querySelectorAll('th');
+          headerCells.forEach(headerCell => {
+              headerCell.addEventListener('click', function() {
+                  const columnIndex = this.getAttribute('data-column-index');
+                  if (columnIndex !== null) {
+                      sortTable(parseInt(columnIndex));
+                  }
+              });
+          });
+      }
 
-    goTopBtn.addEventListener("click", () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-});
+      let sortDirection = {};
+      function sortTable(colIndex) {
+        const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
+        const rows = Array.from(table.rows).slice(1);
+        const isAsc = sortDirection[colIndex] = !sortDirection[colIndex];
 
+        rows.sort((a, b) => {
+          const aText = a.cells[colIndex]?.innerText.trim();
+          const bText = b.cells[colIndex]?.innerText.trim();
+
+          const parseValue = (text) => {
+            const cleanText = text.replace(/,/g, '').trim(); // ลบ comma
+            const number = parseFloat(cleanText);
+            return isNaN(number) ? cleanText.toLowerCase() : number;
+          };
+
+          const aVal = parseValue(aText);
+          const bVal = parseValue(bText);
+          return isAsc ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
+        });
+
+        const tbody = table.tBodies[0];
+        rows.forEach(row => tbody.appendChild(row));
+
+        // เปลี่ยน icon
+        const headers = table.querySelectorAll("th");
+        headers.forEach((th, idx) => {
+          const icon = th.querySelector("i");
+          if (icon) {
+            icon.className = "fas fa-sort";
+            if (idx === colIndex) {
+              icon.className = isAsc ? "fas fa-sort-up" : "fas fa-sort-down";
+            }
+          }
+        });
+      }
+  });
 </script>
 @endsection

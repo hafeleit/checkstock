@@ -30,11 +30,11 @@
                                         @csrf
                                         @method('post')
                                         <input type="hidden" name="from" value="{{ request()->query('from') }}">
-                                        <div class="flex flex-col mb-3">
+                                        <div class="mb-3">
                                             <input autofocus type="text" name="email" class="form-control form-control-lg" value="{{ old('email') ?? '' }}" aria-label="Email" autocomplete="off">
                                             @error('email') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
-                                        <div class="flex flex-col mb-3 position-relative">
+                                        <div class="mb-3 position-relative">
                                             <input id="password" type="password" name="password" class="form-control form-control-lg" aria-label="Password" value="" autocomplete="off">
 
                                             <!-- Font Awesome eye icon -->

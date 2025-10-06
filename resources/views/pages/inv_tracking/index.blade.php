@@ -32,11 +32,11 @@
             <div class="row g-3 align-items-end">
                 <div class="col-md-3">
                     <label for="logi_track_id" class="form-label">LogiTrack ID</label>
-                    <input onchange="handleSearch()" type="search" class="form-control form-control-sm" id="logi_track_id" value="{{ $params['logi_track_id'] ?? '' }}">
+                    <input type="search" class="form-control form-control-sm search-field" id="logi_track_id" value="{{ $params['logi_track_id'] ?? '' }}">
                 </div>
                 <div class="col-md-3">
                     <label for="driver_or_sent_to" class="form-label">Driver/Sent To</label>
-                    <select class="form-control form-control-sm" id="driver_or_sent_to" name="driver_or_sent_to" onchange="handleSearch()">
+                    <select class="form-control form-control-sm search-field" id="driver_or_sent_to" name="driver_or_sent_to">
                         <option value=""></option>
                         @foreach($drivers as $driver)
                         <option value="{{ $driver->code }}" {{ ($params['driver_or_sent_to'] ?? '') == $driver->code ? 'selected' : '' }}>
@@ -47,10 +47,10 @@
                 </div>
                 <div class="col-md-3">
                     <label for="delivery_date" class="form-label">Delivery Date</label>
-                    <input onchange="handleSearch()" type="date" class="form-control form-control-sm" id="delivery_date" value="{{ $params['delivery_date'] ?? '' }}">
+                    <input type="date" class="form-control form-control-sm search-field" id="delivery_date" value="{{ $params['delivery_date'] ?? '' }}">
                 </div>
                 <div class="col-md-auto">
-                    <button type="button" class="btn btn-dark uppercase mb-0" onclick="handleSearch()">search</button>
+                    <button type="button" class="btn btn-dark uppercase mb-0" id="searchButton">search</button>
                 </div>
             </div>
         </div>
@@ -159,7 +159,7 @@
                                 <form id="delete-form-{{ $item['logi_track_id'] }}" action="{{ route('delivery-trackings.destroy', $item['logi_track_id']) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <a href="#" class="text-danger" onclick="confirmDelete('{{ $item['logi_track_id'] }}')">
+                                    <a href="#" class="text-danger delete-item-btn" data-track-id="{{ $item['logi_track_id'] }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
                                             <polyline points="3 6 5 6 21 6"></polyline>
                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -225,6 +225,18 @@
         window.location.href = url;
     };
 
+    const searchButton = document.getElementById('searchButton');
+    if (searchButton) {
+        searchButton.addEventListener('click', handleSearch);
+    }
+
+    document.querySelectorAll('.search-field').forEach(field => {
+        field.addEventListener('change', handleSearch);
+        if (field.type === 'search' || field.type === 'text') {
+             field.addEventListener('blur', handleSearch); 
+        }
+    });
+
     function confirmDelete(logiTrackId) {
         Swal.fire({
             title: 'Are you sure?',
@@ -254,6 +266,13 @@
             }
         });
     }
+    document.querySelectorAll('.delete-item-btn').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            const trackId = this.getAttribute('data-track-id');
+            confirmDelete(trackId);
+        });
+    });
 </script>
 
 @if(session('success'))

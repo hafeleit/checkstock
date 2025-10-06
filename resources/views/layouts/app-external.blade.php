@@ -9,7 +9,7 @@
 
     <title>Product Information System</title>
 
-    <script src="{{ asset('js/alpinejs.csp.min.js') }}"></script>
+    <script defer src="{{ asset('js/alpinejs.csp.min.js') }}"></script>
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     <link href="{{ URL::to('/') }}/css/tailwind.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/css/external.css">
