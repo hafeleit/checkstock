@@ -3,7 +3,7 @@
 @section('content')
 
 @include('layouts.navbars.auth.topnav', ['title' => 'Asset List'])
-<style media="screen">
+<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
   .dt-layout-row {
     padding: 1.5rem 0;
   }
@@ -259,7 +259,7 @@
 <script src="{{ asset('js/dataTables.min.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('css/dataTables.dataTables.min.css') }}">
 
-<script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
   $(document).ready(function() {
     $("#products-list").DataTable();
   });

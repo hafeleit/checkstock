@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-<style media="screen">
+<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
     .card-header__user,
     .card__active_status {
         display: flex;
@@ -142,7 +142,7 @@
 <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}">
 
-<script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     $('#roles-select').select2({
         theme: "bootstrap-5",
         width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',

@@ -2,7 +2,7 @@
 
 @section('content')
 <!-- End Navbar -->
-<style media="screen">
+<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
   #fullpage {
     display: none;
     position: absolute;
@@ -17,12 +17,27 @@
     background-position: center center;
     background-color: black;
   }
+  .warranty-header-bg {
+    background-image: url('/img/bg_warranty.jpg');
+    background-position: top;
+  }
+  
+  .header-content {
+    width: 100%;
+    z-index: 9;
+    text-align: center;
+  }
+  
+  .header-logo {
+    z-index: 9;
+    width: 250px;
+  }
 </style>
 
 <main class="main-content  mt-0">
-  <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('/img/bg_warranty.jpg'); background-position: top;">
-    <div style="width: 100%;z-index: 9;text-align: center;">
-      <img src="/img/hafele_logo_white.png" style="z-index: 9;width: 250px;">
+  <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg warranty-header-bg">
+    <div class="header-content">
+      <img src="/img/hafele_logo_white.png" class="header-logo">
     </div>
     <span class="mask bg-primary opacity-6"></span>
   </div>
@@ -59,7 +74,7 @@
     </div>
   </div>
 </main>
-<script type="text/javascript">
+<script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
   $(function() {
 
     $("#btn_search").on("click", function() {
