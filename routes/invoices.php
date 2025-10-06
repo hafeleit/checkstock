@@ -24,4 +24,4 @@ Route::middleware(['auth:sanctum', 'role:super-admin|delivery admin|delivery'])
         Route::resource('/imports', ImportController::class)->only('index', 'store');
     });
 
-Route::resource('delivery-trackings', InvTrackingController::class)->except(['create']);
+Route::resource('delivery-trackings', InvTrackingController::class)->except(['create', 'show']);

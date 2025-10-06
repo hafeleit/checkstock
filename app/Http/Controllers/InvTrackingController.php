@@ -123,7 +123,8 @@ class InvTrackingController extends Controller
     public function edit($logiTrackId)
     {
         $invTrackings = InvTracking::where('logi_track_id', $logiTrackId)->get();
-        if (!$invTrackings) {
+        
+        if ($invTrackings->isEmpty()) {
             abort(404);
         }
 
