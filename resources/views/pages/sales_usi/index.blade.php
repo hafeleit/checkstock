@@ -548,9 +548,9 @@
             </td>\
             <td class="border-usi">\
                 @can('salesusi iodetail')
-                <p data-week-number="'+val["week_number"]+'" class="'+text_danger_in+' wss-table text-end text-xs font-weight-bold mb-0 px-3 inbound-link">'+val["WSS_INCOMING_QTY"]+'</p>\
+                <p data-week-number="'+val["week_number"]+'" class="'+text_danger_in+' wss-table text-end text-xs font-weight-bold mb-0 px-3 inbound-link">'+Math.floor(val["WSS_INCOMING_QTY"])+'</p>\
                 @else
-                <p class="wss-table '+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+val["WSS_INCOMING_QTY"]+'</p>\
+                <p class="wss-table '+text_danger_in+' text-end text-xs font-weight-bold mb-0 px-3">'+Math.floor(val["WSS_INCOMING_QTY"])+'</p>\
                 @endcan
             </td>\
             <td class="border-usi">\
