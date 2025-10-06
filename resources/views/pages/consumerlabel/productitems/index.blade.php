@@ -173,7 +173,7 @@
     <div class="modal fade" id="modal-barcode" tabindex="-1" role="dialog" aria-labelledby="modal-default"
         aria-hidden="true">
         <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-            <form class="" action="http://127.0.0.1:8000/consumerlabel-barcode" method="get" target="_blank"
+            <form class="" action="{{ route('pdfbarcode')}}" method="get" target="_blank"
                 id="barcode-form">
                 <div class="modal-content">
                     <div class="modal-header">
