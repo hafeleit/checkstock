@@ -218,8 +218,9 @@
                                 @method('PUT')
                                 <input type="hidden" name="status" value="Final Approved">
                                 <button type="button"
-                                        class="btn btn-sm bg-gradient-info px-3 me-2"
-                                        onclick="approveSwal_final('{{ $commission->id }}')">
+                                        class="btn btn-sm bg-gradient-info px-3 me-2 approve-final-btn"
+                                        data-commission-id="{{ $commission->id }}"
+                                        id="approve-final-{{ $commission->id }}">
                                     <i class="fas fa-check me-1"></i>Final Approve
                                 </button>
                             </form>
@@ -243,8 +244,9 @@
                                 @method('PUT')
                                 <input type="hidden" name="status" value="Summary Approved">
                                 <button type="button"
-                                        class="btn btn-sm bg-gradient-info px-3 me-2"
-                                        onclick="approveSwal_Summary('{{ $commission->id }}')">
+                                        class="btn btn-sm bg-gradient-info px-3 me-2 approve-summary-btn"
+                                        data-commission-id="{{ $commission->id }}"
+                                        id="approve-summary-{{ $commission->id }}">
                                     <i class="fas fa-check me-1"></i>Summary Approve
                                 </button>
                             </form>
@@ -269,8 +271,9 @@
                                 <input type="hidden" name="status" value="Summary Confirmed">
                                 <input type="hidden" id="selected_sales_{{ $commission->id }}" name="selected_sales">
                                 <button type="button"
-                                        class="btn btn-sm bg-gradient-info px-3 me-2"
-                                        onclick="approveSwal('{{ $commission->id }}')">
+                                        class="btn btn-sm bg-gradient-info px-3 me-2 approve-confirm-btn"
+                                        data-commission-id="{{ $commission->id }}"
+                                        id="approve-confirm-{{ $commission->id }}">
                                     <i class="fas fa-check me-1"></i>Summary Confirm
                                 </button>
                             </form>
@@ -301,7 +304,7 @@
                     <div class="table-responsive table-scroll-bottom">
                         <table class="table table-hover align-items-center" id="sortableTable">
                             <thead>
-                                <tr>
+                                <tr id="commissionTableHeader">
                                     @can('Commissions Summary-Confirm')
                                     <th >
                                       All <input type="checkbox" id="checkAll" {{ !in_array($commission->status, ['AR Approved','Summary Rejected(Manager)']) ? 'disabled' : '' }}>
@@ -309,18 +312,18 @@
                                     @endcan
 
                                     @canany(['Commissions Summary-Approve','Commissions Approve'])
-                                    <th onclick="sortTable(0)">Clear<i class="fas fa-sort"></i></th>
+                                    <th data-column-index="0">Clear<i class="fas fa-sort"></i></th>
                                     @endcan
 
-                                    <th onclick="sortTable(1)">Employee Status <i class="fas fa-sort"></i></th>
-                                    <th onclick="sortTable(2)">Effecttive Date <i class="fas fa-sort"></i></th>
-                                    <th onclick="sortTable(3)">Sales Rep <i class="fas fa-sort"></i></th>
-                                    <th onclick="sortTable(4)">Sales Name <i class="fas fa-sort"></i></th>
-                                    <th onclick="sortTable(5)">Position <i class="fas fa-sort"></i></th>
-                                    <th onclick="sortTable(6)">Team <i class="fas fa-sort"></i></th>
-                                    <th class="text-end" onclick="sortTable(7)">Total Initial <i class="fas fa-sort"></i></th>
-                                    <th class="text-end" onclick="sortTable(8)">Total Adjustment <i class="fas fa-sort"></i></th>
-                                    <th class="text-end" onclick="sortTable(9)">Total Commissions <i class="fas fa-sort"></i></th>
+                                    <th data-column-index="1">Employee Status <i class="fas fa-sort"></i></th>
+                                    <th data-column-index="2">Effecttive Date <i class="fas fa-sort"></i></th>
+                                    <th data-column-index="3">Sales Rep <i class="fas fa-sort"></i></th>
+                                    <th data-column-index="4">Sales Name <i class="fas fa-sort"></i></th>
+                                    <th data-column-index="5">Position <i class="fas fa-sort"></i></th>
+                                    <th data-column-index="6">Team <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" data-column-index="7">Total Initial <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" data-column-index="8">Total Adjustment <i class="fas fa-sort"></i></th>
+                                    <th class="text-end" data-column-index="9">Total Commissions <i class="fas fa-sort"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -517,8 +520,21 @@
   });
 </script>
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-    let sortDirection = {};
+    // SortTable
+    const headerRow = document.getElementById('commissionTableHeader'); 
+    if (headerRow) {
+        const headerCells = headerRow.querySelectorAll('th');
+        headerCells.forEach(headerCell => {
+            headerCell.addEventListener('click', function() {
+                const columnIndex = this.getAttribute('data-column-index');
+                if (columnIndex !== null) {
+                    sortTable(parseInt(columnIndex));
+                }
+            });
+        });
+    }
 
+    let sortDirection = {};
     function sortTable(colIndex) {
       const table = document.getElementById("sortableTable"); // เปลี่ยน id ให้ตรงกับตาราง
       const rows = Array.from(table.rows).slice(1);
@@ -558,71 +574,89 @@
     }
 </script>
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-
-document.getElementById('checkAll').addEventListener('change', function () {
-    document.querySelectorAll('.row-check').forEach(chk => chk.checked = this.checked);
-});
-
-function approveSwal(id) {
-    let selected = [];
-    document.querySelectorAll('.row-check:checked').forEach(cb => {
-        selected.push(cb.value);
+    document.getElementById('checkAll').addEventListener('change', function () {
+        document.querySelectorAll('.row-check').forEach(chk => chk.checked = this.checked);
     });
 
-    if (selected.length === 0) {
-        Swal.fire('กรุณาเลือกอย่างน้อย 1 รายการ', '', 'warning');
-        return;
+    document.querySelectorAll('.approve-final-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const commissionId = this.getAttribute('data-commission-id');
+            approveSwal_final(commissionId);
+        });
+    });
+
+    document.querySelectorAll('.approve-summary-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const commissionId = this.getAttribute('data-commission-id');
+            approveSwal_Summary(commissionId);
+        });
+    });
+
+    document.querySelectorAll('.approve-confirm-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const commissionId = this.getAttribute('data-commission-id');
+            approveSwal(commissionId);
+        });
+    });
+
+    function approveSwal(id) {
+        let selected = [];
+        document.querySelectorAll('.row-check:checked').forEach(cb => {
+            selected.push(cb.value);
+        });
+
+        if (selected.length === 0) {
+            Swal.fire('กรุณาเลือกอย่างน้อย 1 รายการ', '', 'warning');
+            return;
+        }
+
+        // set ค่าใน hidden input
+        document.getElementById('selected_sales_' + id).value = selected.join(',');
+
+        Swal.fire({
+            title: 'ยืนยันการ Confirm?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'ยืนยัน',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('approve-form-' + id).submit();
+            }
+        });
     }
 
-    // set ค่าใน hidden input
-    document.getElementById('selected_sales_' + id).value = selected.join(',');
+    function approveSwal_final(id) {
+        Swal.fire({
+            title: 'ยืนยันการ Final Approve?',
+            text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น Final Approved",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'ใช่, Approve เลย!',
+            cancelButtonText: 'ยกเลิก',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('approve-form-' + id).submit();
+            }
+        });
+    }
 
-    Swal.fire({
-        title: 'ยืนยันการ Confirm?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'ยืนยัน',
-        cancelButtonText: 'ยกเลิก'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('approve-form-' + id).submit();
-        }
-    });
-}
-
-
-
-function approveSwal_final(id) {
-    Swal.fire({
-        title: 'ยืนยันการ Final Approve?',
-        text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น Final Approved",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'ใช่, Approve เลย!',
-        cancelButtonText: 'ยกเลิก',
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('approve-form-' + id).submit();
-        }
-    });
-}
-
-function approveSwal_Summary(id) {
-    Swal.fire({
-        title: 'ยืนยันการ Summary Approve?',
-        text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น Summary Approved",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'ใช่, Approve เลย!',
-        cancelButtonText: 'ยกเลิก',
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('approve-form-' + id).submit();
-        }
-    });
-}
+    function approveSwal_Summary(id) {
+        Swal.fire({
+            title: 'ยืนยันการ Summary Approve?',
+            text: "เมื่ออนุมัติแล้วสถานะจะถูกเปลี่ยนเป็น Summary Approved",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'ใช่, Approve เลย!',
+            cancelButtonText: 'ยกเลิก',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('approve-form-' + id).submit();
+            }
+        });
+    }
 </script>
 
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">

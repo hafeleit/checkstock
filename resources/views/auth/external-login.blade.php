@@ -33,8 +33,8 @@
                         Password
                     </label>
                     <div class="relative">
-                        <input id="password" type="password" name="password" required placeholder="Enter your password" class="w-full h-11 px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm @error('password') border-red-500 @enderror">
-                        <button type="button" onclick="togglePassword()" class="absolute right-0 top-0 h-full px-3 py-2 text-gray-400 hover:text-gray-600 focus:outline-none">
+                        <input id="password" type="password" name="password" required autocomplete placeholder="Enter your password" class="w-full h-11 px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm @error('password') border-red-500 @enderror">
+                        <button type="button" id="togglePasswordButton" class="absolute right-0 top-0 h-full px-3 py-2 text-gray-400 hover:text-gray-600 focus:outline-none">
                             <svg id="eye-open" class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -66,21 +66,29 @@
 </main>
 
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-    function togglePassword() {
-        const passwordInput = document.getElementById('password');
-        const eyeOpen = document.getElementById('eye-open');
-        const eyeClosed = document.getElementById('eye-closed');
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleButton = document.getElementById('togglePasswordButton');
 
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            eyeOpen.classList.add('hidden');
-            eyeClosed.classList.remove('hidden');
-        } else {
-            passwordInput.type = 'password';
-            eyeOpen.classList.remove('hidden');
-            eyeClosed.classList.add('hidden');
+        if (toggleButton) {
+            toggleButton.addEventListener('click', togglePassword);
         }
-    }
+        
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeOpen = document.getElementById('eye-open');
+            const eyeClosed = document.getElementById('eye-closed');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeOpen.classList.add('hidden');
+                eyeClosed.classList.remove('hidden');
+            } else {
+                passwordInput.type = 'password';
+                eyeOpen.classList.remove('hidden');
+                eyeClosed.classList.add('hidden');
+            }
+        }
+    });
 </script>
 
 @endsection
