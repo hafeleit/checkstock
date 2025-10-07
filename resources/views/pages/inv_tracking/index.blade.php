@@ -75,9 +75,13 @@
                         @foreach ($invTrackings as $item)
                         <tr>
                             <td class="py-3 px-3">
+                                @can('delivery view details')
                                 <a href="/delivery-trackings/details?logi_track_id={{ $item['logi_track_id'] }}">
                                     {{ $item['logi_track_id'] }}
                                 </a>
+                                @else
+                                {{ $item['logi_track_id'] }}
+                                @endcan
                             </td>
                             <td class="py-3 px-3">{{ $item['driver_or_sent_to'] }}</td>
                             <td class="py-3 px-3">{{ $item['delivery_date'] ? $item['delivery_date']->format('d-m-Y H:i:s') : '-' }}</td>

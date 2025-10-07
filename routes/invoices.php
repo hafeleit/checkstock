@@ -6,7 +6,7 @@ use App\Http\Controllers\InvTrackingController;
 use App\Http\Controllers\ReturnController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum', 'role:super-admin|delivery admin|delivery'])
+Route::middleware(['auth', 'check.status'])
     ->prefix('delivery-trackings')
     ->name('delivery-trackings.')
     ->group(function () {
