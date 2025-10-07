@@ -290,8 +290,7 @@ class SalesUSIController extends Controller
                 DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY"),
             ])
             ->where('a.material', $material)
-            ->groupBy('a.material', DB::raw('weeks'), DB::raw('years'))
-            ->orderByRaw("CASE WHEN b.confirm_category = 'LA' THEN 1 WHEN b.confirm_category = 'AB' THEN 2 WHEN b.confirm_category IS NULL THEN 3 ELSE 4 END");
+            ->groupBy('a.material', DB::raw('weeks'), DB::raw('years'));
 
         // Subquery t1
         $t1 = DB::table('ZHINSD_VA05 as a')
