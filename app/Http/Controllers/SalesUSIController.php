@@ -211,7 +211,7 @@ class SalesUSIController extends Controller
         ) SELECT * FROM week_sequence) as week_sequence'))
         ->select('week_number', 'week_offset', 'year_number');
 
-        $subqueryPol = DB::table('zhtrmm_pol AS sub_pol')
+        $subqueryPol = DB::table('zhtrmm_pol')
             ->select(
                 'material',
                 'purch_doc',
@@ -220,40 +220,24 @@ class SalesUSIController extends Controller
                 'po_exp_out_date',
                 'cf_exp_out_date',
                 'inb_act_arrival_date',
-                'confirm_category',
                 'planned_delivery_time',
-                DB::raw("ROW_NUMBER() OVER (
-                    PARTITION BY purch_doc
-                    ORDER BY
-                        CASE confirm_category
-                            WHEN 'LA' THEN 1
-                            WHEN 'AB' THEN 2
-                            WHEN NULL THEN 3
-                            ELSE 4
-                        END
-                ) as rn")
+                DB::raw("SUBSTRING_INDEX(
+                    GROUP_CONCAT(confirm_category ORDER BY 
+                    CASE 
+                        WHEN confirm_category = 'LA' THEN 1
+                        WHEN confirm_category = 'AB' THEN 2
+                        ELSE 3
+                    END
+                    ), ',', 1
+                ) AS confirm_category")
             )
-            ->where('material', $material);
-
-        $rankedSubquery = DB::query()
-            ->fromSub($subqueryPol, 'subquery')
-            ->where('rn', 1)
-            ->select(
-                'material',
-                'purch_doc',
-                'scheduled_quantity',
-                'po_prod_time',
-                'po_exp_out_date',
-                'cf_exp_out_date',
-                'inb_act_arrival_date',
-                'confirm_category',
-                'planned_delivery_time'
-            );
+            ->where('material', $material)
+            ->groupBy('purch_doc');
 
         // Query สำหรับ PO (การสั่งซื้อ)
         $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
             ->leftJoinSub(
-                $rankedSubquery,
+                $subqueryPol,
                 'b',
                 function ($join) {
                     $join->on('a.purchasing_document', '=', 'b.purch_doc')
@@ -494,7 +478,7 @@ class SalesUSIController extends Controller
 
         //$query = DB::table('OW_ITEMWISE_PO_DTLS_WEB_HAFL')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
 
-        $subqueryPol = DB::table('zhtrmm_pol AS sub_pol')
+        $subqueryPol = DB::table('zhtrmm_pol')
             ->select(
                 'material',
                 'purch_doc',
@@ -503,39 +487,23 @@ class SalesUSIController extends Controller
                 'po_exp_out_date',
                 'cf_exp_out_date',
                 'inb_act_arrival_date',
-                'confirm_category',
                 'planned_delivery_time',
-                DB::raw("ROW_NUMBER() OVER (
-                    PARTITION BY purch_doc
-                    ORDER BY
-                        CASE confirm_category
-                            WHEN 'LA' THEN 1
-                            WHEN 'AB' THEN 2
-                            WHEN NULL THEN 3
-                            ELSE 4
-                        END
-                ) as rn")
+                DB::raw("SUBSTRING_INDEX(
+                    GROUP_CONCAT(confirm_category ORDER BY 
+                    CASE 
+                        WHEN confirm_category = 'LA' THEN 1
+                        WHEN confirm_category = 'AB' THEN 2
+                        ELSE 3
+                    END
+                    ), ',', 1
+                ) AS confirm_category")
             )
-            ->where('material', $item_code);
-
-        $rankedSubquery = DB::query()
-            ->fromSub($subqueryPol, 'subquery')
-            ->where('rn', 1)
-            ->select(
-                'material',
-                'purch_doc',
-                'scheduled_quantity',
-                'po_prod_time',
-                'po_exp_out_date',
-                'cf_exp_out_date',
-                'inb_act_arrival_date',
-                'confirm_category',
-                'planned_delivery_time'
-            );
+            ->where('material', $item_code)
+            ->groupBy('purch_doc');
 
         $query = DB::table('ZHWWMM_OPEN_ORDERS as a')
             ->leftJoinSub(
-                $rankedSubquery,
+                $subqueryPol,
                 'b',
                 function ($join) {
                     $join->on('a.purchasing_document', '=', 'b.purch_doc')
