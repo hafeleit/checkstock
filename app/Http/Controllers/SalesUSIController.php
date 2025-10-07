@@ -526,7 +526,7 @@ class SalesUSIController extends Controller
                             WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
                             WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                             WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
-                        END
+                        END,
                     '%d/%m/%Y'
                     ) as IPD_ETA
                 ")
