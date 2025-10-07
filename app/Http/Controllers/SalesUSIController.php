@@ -215,7 +215,7 @@ class SalesUSIController extends Controller
             ->select(
                 'material',
                 'purch_doc',
-                'scheduled_quantity',
+                'order_quantity',
                 'po_prod_time',
                 'po_exp_out_date',
                 'cf_exp_out_date',
@@ -270,7 +270,7 @@ class SalesUSIController extends Controller
                     ) as weeks
                 "),
                 'a.po_order_unit AS WSS_ITEM_UOM_CODE',
-                DB::raw("COALESCE(b.scheduled_quantity, 0) AS WSS_INCOMING_QTY"),
+                DB::raw("COALESCE(b.order_quantity, 0) AS WSS_INCOMING_QTY"),
                 DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY"),
             ])
             ->where('a.material', $material)
@@ -482,7 +482,7 @@ class SalesUSIController extends Controller
             ->select(
                 'material',
                 'purch_doc',
-                'scheduled_quantity',
+                'order_quantity',
                 'po_prod_time',
                 'po_exp_out_date',
                 'cf_exp_out_date',
@@ -516,7 +516,7 @@ class SalesUSIController extends Controller
                 DB::raw("IFNULL(a.purchasing_document, '') as IPD_DOC_NO"),
                 DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.created_on_purchasing_doc, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_DOC_DT"),
                 DB::raw("IFNULL(a.po_order_unit, '') as IPD_UOM_CODE"),
-                DB::raw("IFNULL(b.scheduled_quantity, '') as IPD_QTY"),
+                DB::raw("IFNULL(b.order_quantity, '') as IPD_QTY"),
                 // DB::raw("IFNULL(SUM(a.quantity_po), '') as IPD_QTY"),
                 DB::raw("IFNULL(DATE_FORMAT(STR_TO_DATE(a.vendor_output_date, '%m/%d/%Y'),'%d/%m/%Y'),'') as IPD_ETS"),
                 DB::raw("IF(a.delivered_quantity > 0, 'S',IF(a.confirmed_issue_date IS NOT NULL, 'C', 'U')) as IPD_STATUS"),
