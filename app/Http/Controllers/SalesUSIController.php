@@ -211,18 +211,55 @@ class SalesUSIController extends Controller
         ) SELECT * FROM week_sequence) as week_sequence'))
         ->select('week_number', 'week_offset', 'year_number');
 
+        $subqueryPol = DB::table('zhtrmm_pol AS sub_pol')
+            ->select(
+                'material',
+                'purch_doc',
+                'scheduled_quantity',
+                'po_prod_time',
+                'po_exp_out_date',
+                'cf_exp_out_date',
+                'inb_act_arrival_date',
+                'confirm_category',
+                'planned_delivery_time',
+                DB::raw("ROW_NUMBER() OVER (
+                    PARTITION BY purch_doc
+                    ORDER BY
+                        CASE confirm_category
+                            WHEN 'LA' THEN 1
+                            WHEN 'AB' THEN 2
+                            WHEN NULL THEN 3
+                            ELSE 4
+                        END
+                ) as rn")
+            )
+            ->where('material', $material);
+
+        $rankedSubquery = DB::query()
+            ->fromSub($subqueryPol, 'subquery')
+            ->where('rn', 1)
+            ->select(
+                'material',
+                'purch_doc',
+                'scheduled_quantity',
+                'po_prod_time',
+                'po_exp_out_date',
+                'cf_exp_out_date',
+                'inb_act_arrival_date',
+                'confirm_category',
+                'planned_delivery_time'
+            );
+
         // Query สำหรับ PO (การสั่งซื้อ)
         $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
-            ->leftJoin(
-                DB::raw("(SELECT DISTINCT material, purch_doc, scheduled_quantity, po_prod_time, po_exp_out_date, cf_exp_out_date, inb_act_arrival_date, confirm_category
-                        FROM zhtrmm_pol
-                        WHERE material = '{$material}') as b"),
+            ->leftJoinSub(
+                $rankedSubquery,
+                'b',
                 function ($join) {
-                    $join->on('a.material', '=', 'b.material')
-                        ->on('a.purchasing_document', '=', 'b.purch_doc');
+                    $join->on('a.purchasing_document', '=', 'b.purch_doc')
+                        ->on('a.material', '=', 'b.material');
                 }
             )
-            ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
             ->leftJoin(DB::raw("(SELECT d1.war, d1.material FROM ZHWWBCQUERYDIR d1 WHERE d1.material = '{$material}' GROUP BY d1.material) as d"), 'd.material', '=', 'a.material')
             ->select([
                 'a.material',
@@ -231,8 +268,8 @@ class SalesUSIController extends Controller
                         YEAR(
                             CASE
                                 WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
-                                WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
-                                WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                                WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                                WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                             END
                         ),
                         2
@@ -242,8 +279,8 @@ class SalesUSIController extends Controller
                     WEEK(
                         CASE
                             WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
-                            WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
-                            WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (c.planned_deliv_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                            WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                            WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
                         END,
                         1
                     ) as weeks
@@ -335,35 +372,6 @@ class SalesUSIController extends Controller
                 DB::raw("COALESCE(po.WSS_RCV_QTY, 0) AS WSS_RCV_QTY"),
             ])
             ->get();
-
-        // dd($wss);
-        //$uom = DB::table('OW_ITEM_UOM_WEB_HAFL')->where('IUW_ITEM_CODE', $item_code)->orderBy('IUW_CONV_FACTOR','ASC')->get();
-        //$t20_3 = DB::table('OW_LAST3MON_T20_CUST_WEB_HAFL')->where('LTC_ITEM_CODE', $item_code)->get();
-        //$t20_12 = DB::table('OW_LAST12MON_T20_CUST_WEB_HAFL')->where('LT_ITEM_CODE', $item_code)->get();
-
-    //   $uom = DB::table('ZHWWBCQUERYDIR as a')
-    //   ->select([
-    //       DB::raw('CASE WHEN a.material IS NOT NULL THEN a.material ELSE "N/A" END as IUW_ITEM_CODE'),
-    //       DB::raw('CASE WHEN a.bun IS NOT NULL THEN a.bun ELSE "N/A" END as IUW_UOM_CODE'),
-    //       DB::raw('CASE
-    //                 WHEN im.mvgr4 = "Z00" THEN "Check price with BD/PCM"
-    //                 WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2)," THB")
-    //                 ELSE "0 THB"
-    //                 END as IUW_PRICE'),
-    //       DB::raw('CASE
-    //                 WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2)," THB")
-    //                 ELSE "0 THB"
-    //                 END as NEW_ZPLV_COST'),
-    //       DB::raw('CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount / c.per, 2) ELSE "0" END as NEW_ZPE_COST'),
-    //       DB::raw('CASE WHEN a.mov_avg_price IS NOT NULL THEN FORMAT(a.mov_avg_price / a.per, 2) ELSE "0" END as NEW_MAP_COST')
-    //   ])
-    //   ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
-    //   ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
-    //   ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
-    //   ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
-    //   ->where('a.material', '=', $item_code)
-    //   ->groupBy('c.material', 'c.uom')
-    //   ->get();
 
     $subquery = DB::table('zhwwmm_bom_vko as bom')
         ->selectRaw('SUM(CASE WHEN im.mvgr4 = "Z00" THEN 0 WHEN b.amount IS NOT NULL THEN (b.amount / b.per) * bom.quantity ELSE 0 END)')
@@ -486,14 +494,53 @@ class SalesUSIController extends Controller
         $ipd_week_no = $request->ipd_week_no ?? '2346';
 
         //$query = DB::table('OW_ITEMWISE_PO_DTLS_WEB_HAFL')->where('IPD_ITEM_CODE', $item_code)->where('IPD_WEEK_NO', $ipd_week_no);
+
+        $subqueryPol = DB::table('zhtrmm_pol AS sub_pol')
+            ->select(
+                'material',
+                'purch_doc',
+                'scheduled_quantity',
+                'po_prod_time',
+                'po_exp_out_date',
+                'cf_exp_out_date',
+                'inb_act_arrival_date',
+                'confirm_category',
+                'planned_delivery_time',
+                DB::raw("ROW_NUMBER() OVER (
+                    PARTITION BY purch_doc
+                    ORDER BY
+                        CASE confirm_category
+                            WHEN 'LA' THEN 1
+                            WHEN 'AB' THEN 2
+                            WHEN NULL THEN 3
+                            ELSE 4
+                        END
+                ) as rn")
+            )
+            ->where('material', $item_code);
+
+        $rankedSubquery = DB::query()
+            ->fromSub($subqueryPol, 'subquery')
+            ->where('rn', 1)
+            ->select(
+                'material',
+                'purch_doc',
+                'scheduled_quantity',
+                'po_prod_time',
+                'po_exp_out_date',
+                'cf_exp_out_date',
+                'inb_act_arrival_date',
+                'confirm_category',
+                'planned_delivery_time'
+            );
+
         $query = DB::table('ZHWWMM_OPEN_ORDERS as a')
-            ->leftJoin(
-                DB::raw("(SELECT DISTINCT material, purch_doc, scheduled_quantity, po_prod_time, po_exp_out_date, cf_exp_out_date, inb_act_arrival_date, confirm_category
-                        FROM zhtrmm_pol
-                        WHERE material = '{$item_code}') as b"),
+            ->leftJoinSub(
+                $rankedSubquery,
+                'b',
                 function ($join) {
-                    $join->on('a.material', '=', 'b.material')
-                        ->on('a.purchasing_document', '=', 'b.purch_doc');
+                    $join->on('a.purchasing_document', '=', 'b.purch_doc')
+                        ->on('a.material', '=', 'b.material');
                 }
             )
             ->leftJoin('ZHAAMM_IFVMG as c', 'c.material', '=', 'a.material')
