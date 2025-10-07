@@ -575,8 +575,7 @@ class SalesUSIController extends Controller
                     1
                 ) = ?
                 ", [$ipd_week_no])
-            ->groupBy('a.purchasing_document')
-            ->orderByRaw("CASE WHEN b.confirm_category = 'LA' THEN 1 WHEN b.confirm_category = 'AB' THEN 2 WHEN b.confirm_category IS NULL THEN 3 ELSE 4 END");
+            ->groupBy('a.purchasing_document');
 
         $count = $query->count();
         $inbound = $query->get();
