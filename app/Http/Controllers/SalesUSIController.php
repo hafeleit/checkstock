@@ -140,7 +140,7 @@ class SalesUSIController extends Controller
             ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'm.material')
             ->leftJoin('user_masters as um', function ($join) {
                 $join->on(DB::raw("m.product_group_manager"), '=', DB::raw("CONCAT('HTH', um.job_code)"))
-                    ->where('LOWER(um.status)', '=', 'current');
+                    ->where(DB::raw('LOWER(um.status)'), 'current');
             })
             ->leftJoin('MB52 as i', function ($join) {
                 $join->on('i.material', '=', 'm.material')
