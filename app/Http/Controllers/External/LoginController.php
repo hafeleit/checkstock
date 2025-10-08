@@ -26,6 +26,12 @@ class LoginController extends Controller
         if (Auth::guard('customer')->attempt($credentials, $request->boolean('remember'))) {
             $user = Auth::guard('customer')->user();
 
+            if ($user->is_active === 0) {
+                return back()->withErrors([
+                    'email' => 'Your account is not active. Please contact the administrator.',
+                ]);
+            }
+
             // check if user is a customer
             if ($user->type === 'customer') {
                 $request->session()->regenerate();
