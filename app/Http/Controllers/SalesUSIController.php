@@ -308,7 +308,7 @@ class SalesUSIController extends Controller
                     ) as weeks
                 "),
                 'a.po_order_unit AS WSS_ITEM_UOM_CODE',
-                DB::raw("COALESCE(b.order_quantity, 0) AS WSS_INCOMING_QTY"),
+                DB::raw("COALESCE(SUM(b.order_quantity), 0) AS WSS_INCOMING_QTY"),
                 DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY"),
             ])
             ->where('a.material', $material)
