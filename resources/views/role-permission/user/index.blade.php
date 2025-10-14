@@ -102,15 +102,17 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
-                                <th>Email</th>
+                                <th>Account</th>
                                 <th>Roles</th>
+                                <th>Type</th>
+                                <th>Last Logged in</th>
                                 <th>Is Active</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($users as $user)
-                            <tr>
+                            <tr class="text-sm">
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->email }}</td>
@@ -121,6 +123,8 @@
                                     @endforeach
                                     @endif
                                 </td>
+                                <td>{{ ucfirst($user->type) }}</td>
+                                <td class="text-center">{{ $user->last_logged_in_at ?? '-' }}</td>
                                 <td>
                                     @if ($user->is_active)
                                     <span class="badge badge-success">Active</span>

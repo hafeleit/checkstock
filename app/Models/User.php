@@ -32,7 +32,8 @@ class User extends Authenticatable
         'supp_code',
         'is_active',
         'last_logged_in_at',
-        'type'
+        'type',
+        'emp_code',
     ];
 
     /**

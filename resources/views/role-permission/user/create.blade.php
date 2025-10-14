@@ -75,25 +75,31 @@
                     <form action="{{ url('users') }}" method="POST">
                         @csrf
 
-                        <div class="mb-3">
-                            <label for="">Name</label>
-                            <input type="text" name="username" class="form-control" />
+                        <div class="row">
+                            <div class="col-3 mb-3">
+                                <label class="required" for="emp_code">Employee Code</label>
+                                <input type="text" name="emp_code" class="form-control" maxlength="5" required />
+                            </div>
+                            <div class="col-9 mb-3">
+                                <label for="username" class="required">Name</label>
+                                <input type="text" name="username" class="form-control" required />
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <label for="">Email</label>
-                            <input type="text" name="email" class="form-control" />
+                            <label for="email" class="required">Account</label>
+                            <input type="text" name="email" class="form-control" required />
                         </div>
                         <div class="mb-3">
-                            <label for="">Password</label>
-                            <input type="password" name="password" class="form-control" />
+                            <label for="password" class="required">Password</label>
+                            <input type="password" name="password" class="form-control" required />
                         </div>
                         <div class="mb-3">
-                            <label for="">Supplier Code</label>
+                            <label for="supp_code">Supplier Code</label>
                             <input type="text" name="supp_code" class="form-control" />
                         </div>
                         <div class="mb-3">
-                            <label for="roles-select">Roles</label>
-                            <select name="roles[]" class="form-select" id="roles-select" data-placeholder="Choose anything" multiple>
+                            <label for="roles-select" class="required">Roles</label>
+                            <select name="roles[]" class="form-select" id="roles-select" data-placeholder="Choose anything" multiple required>
                                 <option value="">select role</option>
                                 @foreach ($roles as $role)
                                 <option value="{{ $role }}">{{ $role }}</option>
@@ -101,10 +107,10 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="type-select">Type</label>
-                            <select name="type" id="type-select" class="form-control" data-placeholder="Choose type">
+                            <label for="type-select" class="required">Type</label>
+                            <select name="type" id="type-select" class="form-control" data-placeholder="Choose type" required>
                                 <option value="">select type</option>
-                                <option value="employee">Employee</option>
+                                <option value="employee" selected>Employee</option>
                                 <option value="customer">Customer</option>
                             </select>
                         </div>

@@ -77,29 +77,36 @@
                         @csrf
                         @method('PUT')
 
-                        <div class="mb-3">
-                            <label for="">Name</label>
-                            <input type="text" name="username" value="{{ $user->username }}" class="form-control" />
-                            @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                        <div class="row">
+                            <div class="col-3 mb-3">
+                                <label class="required" for="emp_code">Employee Code</label>
+                                <input type="text" name="emp_code" value="{{ $user->emp_code }}" class="form-control" maxlength="5" required />
+                                @error('emp_code') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="col-9 mb-3">
+                                <label for="username" class="required">Name</label>
+                                <input type="text" name="username" value="{{ $user->username }}" class="form-control" required />
+                                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <label for="">Email</label>
-                            <input type="text" name="email" readonly value="{{ $user->email }}" class="form-control" />
+                            <label for="email" class="required">Account</label>
+                            <input type="text" name="email" readonly value="{{ $user->email }}" class="form-control" required />
                             @error('email') <span class="text-danger">{{ $email }}</span> @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="">Password</label>
+                            <label for="password">Password</label>
                             <input type="password" name="password" class="form-control" />
                             @error('password') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="">Supplier Code</label>
+                            <label for="supp_code">Supplier Code</label>
                             <input type="text" name="supp_code" value="{{ $user->supp_code }}" class="form-control" />
                             @error('supp_code') <span class="text-danger">{{ $supp_code }}</span> @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label for="roles-select">roles</label>
+                            <label for="roles-select" class="required">roles</label>
                             <select name="roles[]" class="form-select" id="roles-select" data-placeholder="Choose anything" multiple>
                                 <option value="">select role</option>
                                 @foreach ($roles as $role)
@@ -113,7 +120,7 @@
                             @error('roles') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="type-select">Type</label>
+                            <label for="type-select" class="required">Type</label>
                             <select name="type" id="type-select" class="form-control" data-placeholder="Choose type">
                                 <option value="">select type</option>
                                 <option value="employee" @if($user->type == 'employee') selected @endif>Employee</option>
