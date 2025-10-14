@@ -19,7 +19,7 @@
     }
 </style>
 
-@include('layouts.navbars.auth.topnav', ['title' => 'Role'])
+@include('layouts.navbars.auth.topnav', ['title' => 'User'])
 
 <div class="card shadow-lg mx-4 card-profile-bottom">
     <div class="card-body p-3">

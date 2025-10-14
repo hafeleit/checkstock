@@ -6,13 +6,13 @@
         <div class="d-flex align-items-center gap-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="#">Pages</a></li>
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ $title }}</li>
                 </ol>
                 <h3 class="font-weight-bolder text-white mb-0">{{ $title }}</h3>
             </nav>
             <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none me-auto" id="sidenavToggler">
-                <a href="javascript:;" class="nav-link text-body p-0">
+                <a href="#" class="nav-link text-body p-0">
                     <div class="sidenav-toggler-inner">
                         <i class="sidenav-toggler-line bg-white"></i>
                         <i class="sidenav-toggler-line bg-white"></i>
@@ -55,7 +55,7 @@
                 </form>
                 </li>
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                    <a href="#" class="nav-link text-white p-0" id="iconNavbarSidenav">
                         <div class="sidenav-toggler-inner">
                             <i class="sidenav-toggler-line bg-white"></i>
                             <i class="sidenav-toggler-line bg-white"></i>
@@ -68,3 +68,6 @@
     </div>
 </nav>
 <!-- End Navbar -->
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+    
+</script>
