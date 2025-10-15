@@ -46,6 +46,8 @@ use App\Http\Controllers\ITAssetTypeController;
 use App\Http\Controllers\InvRecordController;
 use App\Http\Controllers\CommissionController;
 use App\Http\Controllers\UserController;
+use Milon\Barcode\DNS1D;
+use Milon\Barcode\DNS2D;
 
 Route::get('/', function () {
   //abort(404);
@@ -138,6 +140,9 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   Route::get('onlineorder-manual-get', [OrderController::class,'onlineorder_manual_get'])->name('onlineorder-manual-get');
 
   //Consumerlabel
+  Route::get('/barcode/{barcode}', [ProductItemsController::class, 'generateBarcode'])->name('generate-barcode');
+  Route::get('/qrcode/{qrcode}', [ProductItemsController::class, 'generateQrcode'])->name('generate-qrcode');
+
   Route::resource('product-items', ProductItemsController::class);
   Route::get('/export-product-items', function () {
     return Excel::download(new ProductitemsExport, 'ProductItems.xlsx');

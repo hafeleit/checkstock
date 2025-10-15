@@ -14,6 +14,9 @@ use App\Models\CMLWarning;
 use Auth;
 use PDF;
 use DB;
+use Milon\Barcode\DNS1D;
+use Milon\Barcode\DNS2D;
+
 class ProductItemsController extends Controller
 {
     /**
@@ -190,5 +193,21 @@ class ProductItemsController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function generateBarcode($barcode)
+    {
+      if (strlen($barcode) == 13) {
+          $img = DNS1D::getBarcodePNG($barcode, 'EAN13');
+          return response(base64_decode($img))->header('Content-Type', 'image/png');
+      }
+    }
+
+    public function generateQrcode($qrcode)
+    {
+       if (strlen($qrcode) == 13) {
+          $img = DNS2D::getBarcodePNG($qrcode, 'QRCODE');
+          return response(base64_decode($img))->header('Content-Type', 'image/png');
+      }
     }
 }

@@ -370,7 +370,7 @@
 
         }
 
-		.t0-style {
+        .t0-style {
             padding: -2px 0px 0px 0px;
         }
 
@@ -590,7 +590,7 @@
                         <tr>
                             <td class="tr9 td4 barcode-cell-style" valign="top" align="center">
                                 @if (strlen($productItems->bar_code) == 13)
-                                    <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($productItems['bar_code'], 'EAN13') . '" width="94" height="26.25" class="barcode-img"   />'; ?>
+                                    <img src="{{ url('/barcode/' . $productItems['bar_code']) }}" width="94" height="26.25" class="barcode-img" />
                                     <p class="barcode-text"><B>
                                             {{ $productItems['bar_code'][0] }}&nbsp;&nbsp;
                                             {{ $productItems['bar_code'][1] }}
