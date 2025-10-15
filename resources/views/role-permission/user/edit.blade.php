@@ -79,8 +79,8 @@
 
                         <div class="row">
                             <div class="col-3 mb-3">
-                                <label class="required" for="emp_code">Employee Code</label>
-                                <input type="text" name="emp_code" value="{{ $user->emp_code }}" class="form-control" maxlength="5" required />
+                                <label class="" for="emp_code">Employee Code</label>
+                                <input type="text" name="emp_code" value="{{ $user->emp_code }}" class="form-control" maxlength="5"  />
                                 @error('emp_code') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                             <div class="col-9 mb-3">

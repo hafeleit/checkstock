@@ -38,7 +38,7 @@ class UserController extends Controller
             'password' => 'required|string|min:8|max:20',
             'roles' => 'required',
             'type' => 'required|string|in:employee,customer',
-            'emp_code' => 'required|string|max:5',
+            'emp_code' => 'nullable|string|max:5',
         ]);
 
         $user = User::create([
@@ -75,7 +75,7 @@ class UserController extends Controller
             'password' => 'nullable|string|min:8|max:20',
             'roles' => 'required',
             'type' => 'required|string|in:employee,customer',
-            'emp_code' => 'required|string|max:5',
+            'emp_code' => 'nullable|string|max:5',
         ]);
 
         $data = [
