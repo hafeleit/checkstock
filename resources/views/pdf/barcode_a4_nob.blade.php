@@ -436,9 +436,7 @@
                     <P class="p4 ft1 item-code-margin">{{ $productItems['item_code'] }}</P>
                 </TD>
                 <TD class="tr1 tdLeft_1">
-                    <P class="p4 ft1">
-                        <img src="img/logos/Logo-HAFELE-02.jpg" width="55" class="logo-margin">
-                    </P>
+                    <P class="p4 ft1"><img src="img/logos/Logo-HAFELE-02.jpg" width="55" class="logo-margin"></P>
                 </TD>
             </TR>
             <TR>

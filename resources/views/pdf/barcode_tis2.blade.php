@@ -57,12 +57,19 @@
     }
 
     .lead-logo img {
-        margin-top: -20px;
+        width: 60px;
+        margin-bottom: -20px;
     }
 
-    .lead-text {
+    .lead-logo span {
         text-align: center;
-        font-weight: Bold;
+        font-weight: bold;
+    }
+
+    .qr-code {
+        position: absolute;
+        right: -30px;
+        top: 55px;
     }
 
     .qr-code {
@@ -102,7 +109,7 @@
         $tis_1 = $productItems['tis_1'];
     }
     ?>
-    <span class="lead-text">{{ $tis_1 }}</span>
+    <span>{{ $tis_1 }}</span>
 </div>
 @if ($productItems['qr_code'] != '')
     <div class="qr-code">

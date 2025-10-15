@@ -38,7 +38,6 @@
         line-height: 8px;
     }
 
-    /* ในไฟล์ CSS หรือใน <style> block */
     .hafele-logo {
         position: absolute;
         right: -30px;
@@ -57,12 +56,13 @@
     }
 
     .lead-logo img {
-        margin-top: -20px;
+        width: 60px;
+        margin-bottom: -20px;
     }
 
-    .lead-text {
+    .lead-logo span {
         text-align: center;
-        font-weight: Bold;
+        font-weight: bold;
     }
 
     .qr-code {
@@ -100,16 +100,18 @@
     <img src="img/logos/Logo-HAFELE-02.jpg" width="120">
 </div>
 <div class="lead-logo">
-    <img src="img/logos/LEAD.png" width="60"></br>
-    <?php
-    $tis_1 = '';
-    if (strpos($productItems['tis_1'], 'มอก.') === false) {
-        $tis_1 = 'มอก.' . $productItems['tis_1'];
-    } else {
-        $tis_1 = $productItems['tis_1'];
-    }
-    ?>
-    <span class="lead-text">{{ $tis_1 }}</span>
+    <img src="img/logos/LEAD.png">
+    <div>
+        <?php
+        $tis_1 = '';
+        if (strpos($productItems['tis_1'], 'มอก.') === false) {
+            $tis_1 = 'มอก.' . $productItems['tis_1'];
+        } else {
+            $tis_1 = $productItems['tis_1'];
+        }
+        ?>
+        <span>{{ $tis_1 }}</span>
+    </div>
 </div>
 @if ($productItems['qr_code'] != '')
     <div class="qr-code">
