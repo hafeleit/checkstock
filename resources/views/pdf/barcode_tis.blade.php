@@ -115,13 +115,13 @@
 </div>
 @if ($productItems['qr_code'] != '')
     <div class="qr-code">
-        <img src="{{ url('/qrcode/' . $productItems['qr_code']) }}" width="50" height="50" />
+        <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($productItems['qr_code'], 'QRCODE') }}" alt="Barcode" width="50" height="50" >
     </div>
 @endif
 @if ($productItems['bar_code'] != '')
     <div class="barcode-container">
         @if (strlen($productItems->bar_code) == 13)
-            <img src="{{ url('/barcode/' . $productItems['bar_code']) }}" width="120" />
+            <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($productItems['bar_code'], 'EAN13') }}" alt="Barcode" width="120" >
             <p class="barcode-text">
                 <B>
                     {{ $productItems['bar_code'][0] }}&nbsp;&nbsp; {{ $productItems['bar_code'][1] }}
