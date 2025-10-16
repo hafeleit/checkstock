@@ -103,7 +103,7 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   Route::resource('inv-record', InvRecordController::class);
   Route::get('inv-record/export/{id}', [InvRecordController::class, 'export'])->name('inv-record.export');
 
-  Route::resource('sales-usi', SalesUSIController::class);
+  Route::resource('sales-usi', SalesUSIController::class)->only('index');
   Route::resource('so-status', SoStatusController::class);
   Route::resource('permissions',  App\Http\Controllers\PermissionController::class);
   Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);
