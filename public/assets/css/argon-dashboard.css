@@ -32206,3 +32206,8 @@ ul li.editMode input[type=text] {
     color: red;
     margin-left: 4px;
 }
+
+input[readonly] {
+    cursor: not-allowed;
+    pointer-events: none;
+}
