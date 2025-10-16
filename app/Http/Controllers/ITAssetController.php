@@ -21,7 +21,7 @@ class ITAssetController extends Controller
    */
   public function __construct()
   {
-    $this->middleware('permission:itasset view', ['only' => ['index']]);
+    $this->middleware('permission:itasset view', ['only' => ['index', 'export', 'show']]);
     $this->middleware('permission:itasset create', ['only' => ['create', 'store']]);
     $this->middleware('permission:itasset update', ['only' => ['update', 'edit']]);
     $this->middleware('permission:itasset delete', ['only' => ['destroy']]);
