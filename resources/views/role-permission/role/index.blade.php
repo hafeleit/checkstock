@@ -1,8 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-
-@include('layouts.navbars.auth.topnav', ['title' => 'Role'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Role'])
 
     <div class="card shadow-lg mx-4 card-profile-bottom">
         <div class="card-body p-3">
@@ -13,9 +12,9 @@
                     <div class="h-100">
                         <p class="mb-0 font-weight-bold text-sm mt-3">
 
-                          <a href="{{ url('roles') }}" class="btn btn-primary mx-1">Roles</a>
-                          <a href="{{ url('permissions') }}" class="btn btn-info mx-1">Permissions</a>
-                          <a href="{{ url('users') }}" class="btn btn-success mx-1">Users</a>
+                            <a href="{{ url('roles') }}" class="btn btn-primary mx-1">Roles</a>
+                            <a href="{{ url('permissions') }}" class="btn btn-info mx-1">Permissions</a>
+                            <a href="{{ url('users') }}" class="btn btn-success mx-1">Users</a>
                         </p>
                     </div>
                 </div>
@@ -35,7 +34,7 @@
                         <h4>
                             Roles
                             @can('role create')
-                            <a href="{{ url('roles/create') }}" class="btn btn-primary float-end">Add Role</a>
+                                <a href="{{ url('roles/create') }}" class="btn btn-primary float-end">Add Role</a>
                             @endcan
                         </h4>
                     </div>
@@ -51,27 +50,31 @@
                             </thead>
                             <tbody>
                                 @foreach ($roles as $role)
-                                <tr>
-                                    <td>{{ $role->id }}</td>
-                                    <td>{{ $role->name }}</td>
-                                    <td>
-                                        <a href="{{ url('roles/'.$role->id.'/give-permissions') }}" class="btn btn-warning">
-                                            Add / Edit Role Permission
-                                        </a>
+                                    <tr>
+                                        <td>{{ $role->id }}</td>
+                                        <td>{{ $role->name }}</td>
+                                        <td class="d-flex">
+                                            <a href="{{ url('roles/' . $role->id . '/give-permissions') }}"
+                                                class="btn btn-warning mx-2">
+                                                Add / Edit Role Permission
+                                            </a>
 
-                                        @can('role update')
-                                        <a href="{{ url('roles/'.$role->id.'/edit') }}" class="btn btn-success">
-                                            Edit
-                                        </a>
-                                        @endcan
+                                            @can('role update')
+                                                <a href="{{ url('roles/' . $role->id . '/edit') }}" class="btn btn-success mx-2">
+                                                    Edit
+                                                </a>
+                                            @endcan
 
-                                        @can('role delete')
-                                        <a href="{{ url('roles/'.$role->id.'/delete') }}" class="btn btn-danger mx-2">
-                                            Delete
-                                        </a>
-                                        @endcan
-                                    </td>
-                                </tr>
+                                            @can('role delete')
+                                                <form action="{{ url('roles/' . $role->id . '/delete') }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="btn btn-danger mx-2">Delete</button>
+                                                </form>
+                                            @endcan
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -86,10 +89,11 @@
     <link rel="stylesheet" href="{{ asset('css/dataTables.dataTables.min.css') }}">
 
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-        $(document).ready(function () {
-
+        $(document).ready(function() {
             $("#products-list").DataTable({
-              order: [[0, 'asc']]
+                order: [
+                    [0, 'asc']
+                ]
             });
 
         });

@@ -99,14 +99,6 @@ class UserController extends Controller
         return redirect('/users')->with('status', 'User Updated Successfully with roles');
     }
 
-    public function destroy($userId)
-    {
-        $user = User::findOrFail($userId);
-        $user->delete();
-
-        return redirect('/users')->with('status', 'User Delete Successfully');
-    }
-
     public function importUser()
     {
 
@@ -164,7 +156,7 @@ class UserController extends Controller
                 }
                 // ** uat ยังไม่ assign role ให้ customer user ที่ import เข้าไปใหม่ **
                 // if (env("CUSTOMER_PROD")) {
-                    // $user->assignRole($role);
+                // $user->assignRole($role);
                 // }
 
                 $importedCount++;

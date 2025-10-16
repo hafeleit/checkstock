@@ -12,14 +12,14 @@ class RoleController extends Controller
     public function __construct()
     {
         $this->middleware('permission:role view', ['only' => ['index']]);
-        $this->middleware('permission:role create', ['only' => ['create','store','addPermissionToRole','givePermissionToRole']]);
-        $this->middleware('permission:role update', ['only' => ['update','edit']]);
+        $this->middleware('permission:role create', ['only' => ['create', 'store', 'addPermissionToRole', 'givePermissionToRole']]);
+        $this->middleware('permission:role update', ['only' => ['update', 'edit']]);
         $this->middleware('permission:role delete', ['only' => ['destroy']]);
     }
 
     public function index()
     {
-        $roles = Role::orderBy('name','asc')->get();
+        $roles = Role::orderBy('name', 'asc')->get();
         return view('role-permission.role.index', ['roles' => $roles]);
     }
 
@@ -42,12 +42,12 @@ class RoleController extends Controller
             'name' => $request->name
         ]);
 
-        return redirect('roles')->with('status','Role Created Successfully');
+        return redirect('roles')->with('status', 'Role Created Successfully');
     }
 
     public function edit(Role $role)
     {
-        return view('role-permission.role.edit',[
+        return view('role-permission.role.edit', [
             'role' => $role
         ]);
     }
@@ -58,7 +58,7 @@ class RoleController extends Controller
             'name' => [
                 'required',
                 'string',
-                'unique:roles,name,'.$role->id
+                'unique:roles,name,' . $role->id
             ]
         ]);
 
@@ -66,24 +66,24 @@ class RoleController extends Controller
             'name' => $request->name
         ]);
 
-        return redirect('roles')->with('status','Role Updated Successfully');
+        return redirect('roles')->with('status', 'Role Updated Successfully');
     }
 
     public function destroy($roleId)
     {
         $role = Role::find($roleId);
         $role->delete();
-        return redirect('roles')->with('status','Role Deleted Successfully');
+        return redirect('roles')->with('status', 'Role Deleted Successfully');
     }
 
     public function addPermissionToRole($roleId)
     {
-        $permissions = Permission::orderBy('name','asc')->get();
+        $permissions = Permission::orderBy('name', 'asc')->get();
         $role = Role::findOrFail($roleId);
         $rolePermissions =  DB::table('role_has_permissions')
-                                ->where('role_has_permissions.role_id', $role->id)
-                                ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
-                                ->all();
+            ->where('role_has_permissions.role_id', $role->id)
+            ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
+            ->all();
 
         return view('role-permission.role.add-permissions', [
             'role' => $role,
@@ -101,6 +101,6 @@ class RoleController extends Controller
         $role = Role::findOrFail($roleId);
         $role->syncPermissions($request->permission);
 
-        return redirect()->back()->with('status','Permissions added to role');
+        return redirect()->back()->with('status', 'Permissions added to role');
     }
 }
