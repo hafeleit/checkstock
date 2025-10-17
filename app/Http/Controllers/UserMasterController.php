@@ -17,18 +17,22 @@ class UserMasterController extends Controller
 
     public function import(Request $request)
     {
-        $file = $request->file('file');
-        if (!$file) {
-            return back()->with('error', '❌ กรุณาเลือกไฟล์ก่อนนำเข้า');
-        }
+        try {
+            $request->validate([
+                'file' => 'required|file|mimes:xlsx,xls',
+            ]);
 
-        // ✅ ตรวจสอบเฉพาะ .xlsx
-        if ($file->getClientOriginalExtension() !== 'xlsx') {
-            return back()->with('error', '❌ กรุณาเลือกไฟล์ที่เป็น .xlsx เท่านั้น');
-        }
-        UserMaster::truncate();
-        Excel::import(new UserMasterImport,request()->file('file'));
+            \DB::beginTransaction();
 
-        return back()->with('succes','Import successfully');;
+            UserMaster::truncate();
+            Excel::import(new UserMasterImport, request()->file('file'));
+
+            \DB::commit();
+
+            return back()->with('success', 'Import successfully');
+        } catch (\Throwable $th) {
+            \DB::rollBack();
+            return back()->with('error', '❌ เกิดข้อผิดพลาดในการนำเข้าไฟล์ กรุณาตรวจสอบรูปแบบข้อมูล');
+        }
     }
 }

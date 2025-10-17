@@ -8,13 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-use function Symfony\Component\String\b;
-
 class ProfileController extends Controller
 {
     public function show($id)
     {
         $user = User::findOrFail($id);
+
+        $this->authorize('view', $user);
+        
         return view("external.profile.show", [
             "user" => $user,
         ]);
@@ -23,6 +24,9 @@ class ProfileController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
+
+        $this->authorize('update', $user);
+        
         return view('external.profile.edit', [
             'user' => $user
         ]);
@@ -44,6 +48,9 @@ class ProfileController extends Controller
         ]);
 
         $user = User::findOrFail($id);
+
+        $this->authorize('update', $user);
+
         $user->update(request()->all());
 
         return redirect()->route('customer.profile.show', $user->id)->with('success', '');
@@ -77,6 +84,8 @@ class ProfileController extends Controller
         ], $messages);
 
         $user = Auth::guard('customer')->user();
+
+        $this->authorize('update', $user);
 
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'current password is incorrect']);

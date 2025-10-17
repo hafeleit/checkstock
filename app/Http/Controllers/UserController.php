@@ -32,14 +32,27 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'password.min' => 'password must be at least 15 characters long.',
+            'password.regex' => 'password must include lowercase, uppercase, numbers, and special characters.',
+        ];
+
         $request->validate([
             'username' => 'required|string|max:255',
             'email' => 'required|max:255|unique:users,email',
-            'password' => 'required|string|min:8|max:20',
+            'password' => [
+                'required',
+                'string',
+                'min:15',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[^a-zA-Z0-9]/',
+            ],
             'roles' => 'required',
             'type' => 'required|string|in:employee,customer',
             'emp_code' => 'nullable|string|max:5',
-        ]);
+        ], $messages);
 
         $user = User::create([
             'username' => $request->username,
@@ -70,13 +83,27 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        $messages = [
+            'password.min' => 'password must be at least 15 characters long.',
+            'password.regex' => 'password must include lowercase, uppercase, numbers, and special characters.',
+        ];
+
         $request->validate([
             'username' => 'required|string|max:255',
-            'password' => 'nullable|string|min:8|max:20',
+            'password' => [
+                'nullable',
+                'string',
+                'min:15',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[^a-zA-Z0-9]/',
+            ],
             'roles' => 'required',
             'type' => 'required|string|in:employee,customer',
             'emp_code' => 'nullable|string|max:5',
-        ]);
+            'supp_code' => 'nullable|string',
+        ], $messages);
 
         $data = [
             'name' => $request->name,

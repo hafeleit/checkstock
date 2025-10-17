@@ -40,7 +40,7 @@ Route::get('/', function () {
 
 // authentication
 Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
-Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
+Route::post('/login', [LoginController::class, 'login'])->middleware(['guest', 'throttle:5,5'])->name('login.perform');
 
 // warranty routes
 Route::get('warranty', function () {
@@ -60,7 +60,7 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   // dashboard & user profile
   Route::get('/clr_dashboard', [homecontroller::class, 'clr_dashboard'])->name('clr_dashboard');
   Route::get('/change-password', [changepassword::class, 'show'])->name('change-password');
-  Route::put('/change-password', [changepassword::class, 'update'])->name('change.perform');
+  Route::put('/change-password', [changepassword::class, 'update'])->middleware('throttle:5,1')->name('change.perform');
   Route::get('/profile', [userprofilecontroller::class, 'show'])->name('profile');
   Route::put('/profile', [userprofilecontroller::class, 'update'])->name('profile.update');
   Route::post('/logout', [logincontroller::class, 'logout'])->name('logout');

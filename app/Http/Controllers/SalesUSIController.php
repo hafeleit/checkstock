@@ -27,6 +27,9 @@ class SalesUSIController extends Controller
 
     public function search_usi(Request $request)
     {
+        if (!auth()->check()) {
+            abort(403);
+        }
         // Validator
         request()->validate([
             'item_code' => 'required|string|max:10'
@@ -99,7 +102,6 @@ class SalesUSIController extends Controller
             ->orderBy('m.numer', 'asc');
 
         $usis = $usiQuery->get();
-        $usi_sql = $usiQuery->toSql();
         $count = $usis->count();
 
         // Part 2: Monthly Stock (MSS)
@@ -148,8 +150,6 @@ class SalesUSIController extends Controller
             'status' => true,
             'count' => $count,
             'data' => $usis,
-            'usi_sql' => $usi_sql,
-            'so_sql' => $soQuery->toSql(),
             'mss' => $mss,
             'wss' => $wss,
             'uom' => $uom,
