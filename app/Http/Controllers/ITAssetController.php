@@ -31,7 +31,10 @@ class ITAssetController extends Controller
   {
     $itassets = ITAsset::where('i_t_assets.delete', '0')
       ->leftjoin('i_t_asset_owns', 'i_t_assets.computer_name', 'i_t_asset_owns.computer_name')
-      ->leftjoin('user_masters', 'i_t_asset_owns.user', 'user_masters.job_code')
+      ->leftJoin('user_masters', function($join) {
+          $join->on('i_t_asset_owns.user', '=', 'user_masters.job_code')
+               ->where('user_masters.status', '=', 'Current');
+      })
       ->leftjoin('softwares', 'softwares.computer_name', 'i_t_assets.computer_name')
       ->leftjoin('i_t_asset_types', 'i_t_asset_types.type_code', 'i_t_assets.type')
       ->select(DB::raw("
@@ -135,7 +138,12 @@ class ITAssetController extends Controller
     $itasset = ITAsset::where('i_t_assets.id', $id)->leftJoin('i_t_asset_types', 'i_t_asset_types.type_code', 'i_t_assets.type')
       ->select('i_t_assets.*', 'i_t_asset_types.type_desc', 'i_t_asset_types.type_code')->first();
     $itassetspec = ITAssetSpec::where('computer_name', $itasset->computer_name)->first();
-    $itassetown = ITAssetOwn::where('computer_name', $itasset->computer_name)->leftJoin('user_masters', 'i_t_asset_owns.user', '=', 'user_masters.job_code')->get();
+    $itassetown = ITAssetOwn::where('computer_name', $itasset->computer_name)
+    ->leftJoin('user_masters', function($join) {
+        $join->on('i_t_asset_owns.user', '=', 'user_masters.job_code')
+             ->where('user_masters.status', '=', 'Current');
+    })
+    ->get();
     $softwares = Softwares::where('computer_name', $itasset->computer_name)->get();
     return view('pages.itasset.show', compact('itasset', 'itassetspec', 'itassetown', 'softwares'));
   }

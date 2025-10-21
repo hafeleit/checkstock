@@ -181,6 +181,7 @@ class SalesUSIController extends Controller
                 'inb_act_arrival_date',
                 'confirm_category',
                 'planned_delivery_time',
+                'po_transport_time',
                 DB::raw("ROW_NUMBER() OVER (
                     PARTITION BY purch_doc
                     ORDER BY CASE confirm_category WHEN 'LA' THEN 1 WHEN 'AB' THEN 2 WHEN NULL THEN 3 ELSE 4 END
@@ -200,7 +201,8 @@ class SalesUSIController extends Controller
                 'cf_exp_out_date',
                 'inb_act_arrival_date',
                 'confirm_category',
-                'planned_delivery_time'
+                'planned_delivery_time',
+                'po_transport_time'
             );
 
         $subqueryWar = DB::table('ZHWWBCQUERYDIR')
@@ -232,9 +234,9 @@ class SalesUSIController extends Controller
                 DB::raw("
                     DATE_FORMAT(
                         CASE
-                            WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war, 0)) DAY)
-                            WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war, 0)) DAY)
-                            WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war, 0)) DAY)
+                            WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
+                            WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
+                            WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
                         END,
                     '%d/%m/%Y'
                     ) AS IPD_ETA
@@ -245,8 +247,8 @@ class SalesUSIController extends Controller
                 WEEK(
                     CASE
                         WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war, 0)) DAY)
-                        WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war, 0)) DAY)
-                        WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war, 0)) DAY)
+                        WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war, 0)) DAY)
+                        WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war, 0)) DAY)
                     END, 1
                 ) = ?", [$ipd_week_no])
             ->groupBy('a.purchasing_document');
@@ -506,6 +508,7 @@ class SalesUSIController extends Controller
                 'inb_act_arrival_date',
                 'confirm_category',
                 'planned_delivery_time',
+                'po_transport_time',
                 DB::raw("ROW_NUMBER() OVER (
                     PARTITION BY purch_doc
                     ORDER BY
@@ -547,15 +550,15 @@ class SalesUSIController extends Controller
                 DB::raw("RIGHT(YEAR(
                     CASE
                         WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
-                        WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
-                        WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                        WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
+                        WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
                     END
                 ), 2) AS years"),
                 DB::raw("WEEK(
                 CASE
                     WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
-                    WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
-                    WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.planned_delivery_time - b.po_prod_time + COALESCE(d.war,0)) DAY)
+                    WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
+                    WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
                 END, 1) AS weeks"),
                 'a.po_order_unit AS WSS_ITEM_UOM_CODE',
                 DB::raw("COALESCE(SUM(b.order_quantity), 0) AS WSS_INCOMING_QTY"),
