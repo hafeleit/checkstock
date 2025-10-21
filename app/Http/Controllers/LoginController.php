@@ -36,13 +36,7 @@ class LoginController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user) {
-            return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
-            ]);
-        }
-
-        if ($user->is_active === 0) {
+        if (!$user || !$user->is_active) {
             return back()->withErrors([
                 'email' => 'Your account is not active. Please contact the administrator.',
             ]);
