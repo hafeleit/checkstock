@@ -73,8 +73,8 @@
                                 Please wait a few minutes before trying again.
                             </p>
 
-                            <a href="/" class="link_429">
-                                Go to Homepage
+                            <a href="{{ url()->previous() }}" class="link_429">
+                                ⬅️Back
                             </a>
                         </div>
                     </div>
