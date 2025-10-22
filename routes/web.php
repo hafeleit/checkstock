@@ -110,9 +110,9 @@ Route::middleware(['auth', 'check.status'])->group(function () {
 
   // so status & sales usi
   Route::resource('sales-usi', SalesUSIController::class)->only('index');
-  Route::get('search-usi', [SalesUSIController::class, 'search_usi'])->name('search_usi');
-  Route::get('search-usi-inbound', [SalesUSIController::class, 'inbound'])->name('search_inbound');
-  Route::get('search-usi-outbound', [SalesUSIController::class, 'outbound'])->name('search_outbound');
+  Route::post('search-usi', [SalesUSIController::class, 'search_usi'])->name('search_usi');
+  Route::post('search-usi-inbound', [SalesUSIController::class, 'inbound'])->name('search_inbound');
+  Route::post('search-usi-outbound', [SalesUSIController::class, 'outbound'])->name('search_outbound');
   Route::resource('so-status', SoStatusController::class);
 
   // consumerlabel

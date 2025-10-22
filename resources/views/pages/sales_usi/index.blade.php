@@ -35,7 +35,6 @@
     padding-top: 0px;
   }
 </style>
-</style>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 mt-4">
@@ -60,10 +59,13 @@
                             </div> -->
                             <div class="col-md-3">
                                 <div class="form-group relative" >
-                                    <input class="form-control" id="item_code" name="item_code" type="text" placeholder="Item Code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
-                                    <a href="#" id="searchButton">
-                                      <img src="./img/icons/search.png" alt="Country flag" width="25px" class="icon-search">
-                                    </a>
+                                  <form id="searchForm" action="" method="post">
+                                      @csrf
+                                      <input class="form-control" id="item_code" name="item_code" type="text" placeholder="item code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
+                                      <a href="#" id="searchButton">
+                                          <img src="./img/icons/search.png" alt="country flag" width="25px" class="icon-search">
+                                      </a>
+                                  </form>
                                 </div>
                             </div>
                         </div>
@@ -353,7 +355,6 @@
     </div>
 
 <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-
   $(function(){
     $('#item_code').on('keypress', function(event) {
         if (event.which === 13) { // 13 คือ keycode ของ Enter
@@ -419,6 +420,7 @@
 
   function search_usi(){
     let item_code = $('#item_code').val();
+    let _token = $('#searchForm input[name="_token"]').val();
 
     Swal.fire({
         title: 'กำลังค้นหา...',
@@ -430,10 +432,11 @@
     });
 
     $.ajax({
-      method: 'GET',
+      method: 'POST',
       url: '{{ ROUTE('search_usi')}}',
       data:{
-        item_code: item_code
+        item_code: item_code,
+        _token: _token
       }
     }).done(function(res){
       Swal.close();
@@ -642,6 +645,8 @@
   }
 
   function search_usi_inbound(week_no){
+    let _token = $('meta[name="csrf-token"]').attr('content');
+
     Swal.fire({
         title: 'กำลังค้นหา...',
         text: 'โปรดรอสักครู่',
@@ -651,12 +656,14 @@
         }
     });
     $("#po_table > tbody").html("");
+    
     $.ajax({
-      method: 'GET',
+      method: 'POST',
       url: '{{ ROUTE('search_inbound') }}',
       data: {
         item_code: $('#item_code').val(),
         ipd_week_no: week_no,
+        _token: _token
       }
     }).done(function(res){
       Swal.close();
@@ -686,6 +693,8 @@
   }
 
   function search_usi_outbound(week_no, year_no){
+    let _token = $('meta[name="csrf-token"]').attr('content');
+
     Swal.fire({
         title: 'กำลังค้นหา...',
         text: 'โปรดรอสักครู่',
@@ -696,12 +705,13 @@
     });
     $("#so_table > tbody").html("");
     $.ajax({
-      method: 'GET',
+      method: 'POST',
       url: '{{ ROUTE('search_outbound') }}',
       data: {
         item_code: $('#item_code').val(),
         week_no: week_no,
         year_no: year_no,
+        _token: _token
       }
     }).done(function(res){
       Swal.close();
