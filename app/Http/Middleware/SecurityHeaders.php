@@ -43,6 +43,9 @@ class SecurityHeaders
 
         // HTTPS
         $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+        
+        // Permissions-Policy
+        $response->headers->set('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), fullscreen=(self)');
 
         return $response;
     }
