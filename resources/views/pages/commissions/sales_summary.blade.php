@@ -521,7 +521,7 @@
 </script>
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     // SortTable
-    const headerRow = document.getElementById('commissionTableHeader'); 
+    const headerRow = document.getElementById('commissionTableHeader');
     if (headerRow) {
         const headerCells = headerRow.querySelectorAll('th');
         headerCells.forEach(headerCell => {
@@ -574,9 +574,12 @@
     }
 </script>
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-    document.getElementById('checkAll').addEventListener('change', function () {
-        document.querySelectorAll('.row-check').forEach(chk => chk.checked = this.checked);
-    });
+    const checkAll = document.getElementById('checkAll');
+    if (checkAll) {
+        checkAll.addEventListener('change', function () {
+            document.querySelectorAll('.row-check').forEach(chk => chk.checked = this.checked);
+        });
+    }
 
     document.querySelectorAll('.approve-final-btn').forEach(button => {
         button.addEventListener('click', function() {
