@@ -5,7 +5,8 @@
     @include('layouts.navbars.auth.topnav', ['title' => 'Customer Label'])
     <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
         a.disabled {
-            pointer-events: none;
+            pointer-events: auto !important;
+            background-color: #f9f9f9;
             cursor: default;
         }
     </style>
@@ -380,6 +381,7 @@
             });
             $("#pdate").flatpickr({
                 disableMobile: "true",
+                allowInput: true
             });
         });
     </script>

@@ -102,7 +102,8 @@
         flatpickr("#delivery_date", {
             enableTime: true,
             dateFormat: "d-m-Y H:i",
-            defaultDate: "{{ \Carbon\Carbon::now()->format('d-m-Y H:i') }}"
+            defaultDate: "{{ \Carbon\Carbon::now()->format('d-m-Y H:i') }}",
+            allowInput: true
         });
         $('#driver_or_sent_to').select2({
             tags: true,
