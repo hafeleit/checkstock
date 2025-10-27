@@ -54,6 +54,10 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
             $user->update(['last_logged_in_at' => Carbon::now()]);
+            
+            if ($request->redirect) {
+                return redirect()->to($request->redirect); 
+            }
 
             return redirect()->intended('profile');
         }

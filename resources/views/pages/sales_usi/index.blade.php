@@ -637,10 +637,25 @@
                     <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS5']+' </p></td>\
                     <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS6']+' </p></td></tr>';
       $('#stk_table').append(tbody);
-
-
     }).fail(function(jqXHR, textStatus, errorThrown) {
+      if (jqXHR.status == '419') {
+        const currentPath = window.location.pathname + window.location.search; 
+        const loginUrl = `/login?redirect=${encodeURIComponent(currentPath)}`; 
+
+        Swal.fire({
+            title: 'หมดเวลาการใช้งาน',
+            html: `<p>เนื่องจากไม่มีการใช้งานระบบเกิน 15 นาที <strong>เพื่อรักษาความปลอดภัยของข้อมูล</strong> ระบบจึงได้ออกจากระบบโดยอัตโนมัติ</p>`,
+            icon: 'warning',
+            confirmButtonText: 'ตกลง',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            willClose: () => {
+                window.location.href = loginUrl;
+            }
+        });
+      } else {
         Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดข้อมูลได้: ' + errorThrown, 'error');
+      }
     });
   }
 
