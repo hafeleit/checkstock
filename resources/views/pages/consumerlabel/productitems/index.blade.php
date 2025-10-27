@@ -4,11 +4,12 @@
 
     @include('layouts.navbars.auth.topnav', ['title' => 'Customer Label'])
     <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-        a.disabled {
+        a.disabled, .datepicker {
             pointer-events: auto !important;
             background-color: #f9f9f9;
             cursor: default;
         }
+
     </style>
     <div id="alert">
         @include('components.alert')
@@ -185,7 +186,7 @@
                     </div>
                     <div class="modal-body">
                         <p>
-                            <input class="form-control datepicker" id="pdate" name="man_date"
+                            <input class="form-control datepicker" id="pdate" name="man_date" readonly="readonly"
                                 placeholder="Please select manufacturing date if you need" type="text"
                                 value="{{ date('Y-m-d') }}">
                         <div class="clear-btn">
@@ -381,7 +382,6 @@
             });
             $("#pdate").flatpickr({
                 disableMobile: "true",
-                allowInput: true
             });
         });
     </script>

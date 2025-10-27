@@ -17,6 +17,11 @@
         text-align: left;
         padding: 0 1rem;
     }
+    #delivery_date {
+        pointer-events: auto !important;
+        background-color: #f9f9f9;
+        cursor: pointer;
+    }
 </style>
 <div class="container-fluid py-4">
     <div class="card">
@@ -103,7 +108,6 @@
             enableTime: true,
             dateFormat: "d-m-Y H:i",
             defaultDate: "{{ \Carbon\Carbon::now()->format('d-m-Y H:i') }}",
-            allowInput: true
         });
         $('#driver_or_sent_to').select2({
             tags: true,
