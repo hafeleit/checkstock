@@ -252,14 +252,14 @@
             </li>
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'audit-logs.activities' ? 'active' : '' }}" href="{{ route('audit-logs.activities') }}">
-                <span class="sidenav-mini-icon text-xs"> D </span>
+                <span class="sidenav-mini-icon text-xs"> A </span>
                 <span class="sidenav-normal"> Activity Logs </span>
               </a>
             </li>
             
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'audit-logs.errors' ? 'active' : '' }}" href="{{ route('audit-logs.errors') }}">
-                <span class="sidenav-mini-icon text-xs"> I </span>
+                <span class="sidenav-mini-icon text-xs"> E </span>
                 <span class="sidenav-normal"> Error Logs </span>
               </a>
             </li>
