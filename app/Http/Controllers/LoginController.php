@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserLoggedIn;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,12 +38,14 @@ class LoginController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
+            event(new UserLoggedIn($user->id, 'login', 'fail', 'The provided credentials do not match our records.'));
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
             ]);
         }
 
         if ($user->is_active === 0) {
+            event(new UserLoggedIn($user->id, 'login', 'fail', 'Your account is not active. Please contact the administrator.'));
             return back()->withErrors([
                 'email' => 'Your account is not active. Please contact the administrator.',
             ]);
@@ -55,9 +58,12 @@ class LoginController extends Controller
             $request->session()->regenerate();
             $user->update(['last_logged_in_at' => Carbon::now()]);
 
+            event(new UserLoggedIn(Auth::id(), 'login', 'pass'));
+
             return redirect()->intended('profile');
         }
 
+        event(new UserLoggedIn($user->id, 'login', 'fail', 'The provided credentials do not match our records.'));
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);

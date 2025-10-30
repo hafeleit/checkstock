@@ -283,7 +283,7 @@
             }
         });
 
-        if (updateUserForm) {
+        if (updateUserForm && passwordField.value) {
             updateUserForm.addEventListener('submit', function(event) {
                 const password = passwordField.value;
                 const validation = isPasswordStrong(password);

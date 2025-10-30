@@ -31,6 +31,7 @@ use App\Http\Controllers\CommissionController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Models\AuditLog;
 use Illuminate\Support\Facades\Redirect;
 
 // public routes
@@ -130,4 +131,12 @@ Route::middleware(['auth', 'check.status'])->group(function () {
     return back()->with('succes', 'Import ข้อมูลสำเร็จ!');
   })->name('productitems_import');
   Route::get('consumerlabel-barcode', [ProductItemsController::class, 'pdfbarcode'])->name('pdfbarcode');
+
+  // Audit Logs
+  Route::get('/audit-logs', function () {
+    $logs = AuditLog::latest()->paginate(50);
+    return view('pages.audit-log.index', [
+      'logs' => $logs
+    ]);
+  });
 });

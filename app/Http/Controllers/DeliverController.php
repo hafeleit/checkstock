@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FileExported;
 use App\Exports\DeliverExport;
 use App\Exports\RTTExport;
 use App\Helpers\LogiTrackIdHelper;
@@ -75,72 +76,87 @@ class DeliverController extends Controller
     public function export()
     {
         $logiTrackId = request()->query('logi_track_id');
+        $fileName = 'deliver_job_sheet_' . $logiTrackId . '.xlsx';
 
-        $invTrackings = InvTracking::with('user')
-            ->where('logi_track_id', $logiTrackId)
-            ->where('type', 'deliver')
-            ->get();
+        try {
+            $invTrackings = InvTracking::with('user')
+                ->where('logi_track_id', $logiTrackId)
+                ->where('type', 'deliver')
+                ->get();
 
-        $mappedData = $invTrackings->map(function ($invTracking, $index) {
-            return [
-                'no' => $index + 1,
-                'erp_document' => $invTracking->erp_document,
-                'created_date' => Carbon::parse($invTracking->created_date)->format('d/m/Y'),
-                'invoice_id' => $invTracking->invoice_id,
-                'remark' => $invTracking->remark ?? ''
+            $mappedData = $invTrackings->map(function ($invTracking, $index) {
+                return [
+                    'no' => $index + 1,
+                    'erp_document' => $invTracking->erp_document,
+                    'created_date' => Carbon::parse($invTracking->created_date)->format('d/m/Y'),
+                    'invoice_id' => $invTracking->invoice_id,
+                    'remark' => $invTracking->remark ?? ''
+                ];
+            });
+
+            $headerData = [
+                'job_no' => $logiTrackId,
+                'exported_on' => Carbon::now()->format('Y-m-d'),
+                'driver_id' => $invTrackings[0]->driver_or_sent_to,
+                'created_by' => $invTrackings[0]->user->username,
             ];
-        });
 
-        $headerData = [
-            'job_no' => $invTrackings[0]->logi_track_id,
-            'exported_on' => Carbon::now()->format('Y-m-d'),
-            'driver_id' => $invTrackings[0]->driver_or_sent_to,
-            'created_by' => $invTrackings[0]->user->username,
-        ];
-
-        return Excel::download(new DeliverExport($mappedData->toArray(), $headerData), 'deliver_job_sheet_' . $invTrackings[0]->logi_track_id . '.xlsx');
+            event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'pass', $fileName, null));
+            return Excel::download(new DeliverExport($mappedData->toArray(), $headerData), $fileName);
+        } catch (\Throwable $th) {
+            event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'fail', $fileName, null, $th->getMessage()));
+            return back()->with('error', '❌ An error occurred during export: ' . $th->getMessage());
+        }
     }
 
     public function exportRTT()
     {
         $logiTrackId = request()->query('logi_track_id');
-        $invTrackings = InvTracking::with('user')
-            ->where('logi_track_id', $logiTrackId)
-            ->where('type', 'deliver')
-            ->get();
+        $fileName = 'RTT_document_' . $logiTrackId . '.xlsx';
 
-        $ercDocuments = $invTrackings->pluck('erp_document');
+        try {
+            $invTrackings = InvTracking::with('user')
+                ->where('logi_track_id', $logiTrackId)
+                ->where('type', 'deliver')
+                ->get();
 
-        $huDetails = HuDetail::query()
-            ->select('erp_document', 'shipment_number', 'weight_unit')
-            ->selectRaw('SUM(total_weight) as total_weight, SUM(total_volume) as total_volume, COUNT(*) as handling_units')
-            ->whereIn('erp_document', $ercDocuments)
-            ->groupBy('erp_document', 'shipment_number', 'weight_unit')
-            ->get();
+            $ercDocuments = $invTrackings->pluck('erp_document');
 
-        $mappedData = $invTrackings->map(function ($invTracking) use ($huDetails) {
-            $huDetail = $huDetails->where('erp_document', $invTracking['erp_document'])->first();
-            $address = Address::query()->where('delivery', $invTracking['erp_document'])->first();
-            if ($address) {
-                $postal = PostalMaster::query()->where('postal', $address['postal_code'])->first();
-            } else {
-                $postal = null;
-            }
+            $huDetails = HuDetail::query()
+                ->select('erp_document', 'shipment_number', 'weight_unit')
+                ->selectRaw('SUM(total_weight) as total_weight, SUM(total_volume) as total_volume, COUNT(*) as handling_units')
+                ->whereIn('erp_document', $ercDocuments)
+                ->groupBy('erp_document', 'shipment_number', 'weight_unit')
+                ->get();
 
-            return [
-                'erp_document' => $invTracking['erp_document'] ?? null,
-                'job_number' => $invTracking['logi_track_id'] ?? null,
-                'shipment_number' => $huDetail['shipment_number'] ?? null,
-                'weight' => $huDetail['total_weight'] ?? null,
-                'volume' => ($huDetail['total_volume'] ?? null) ? ($huDetail['total_volume'] / 1000000) : null,
-                'handling_units' => $huDetail['handling_units'] ?? null,
-                'address' => $address['street'] ?? null,
-                'city' => $address['city'] ?? null,
-                'province' => $postal['province'] ?? null,
-                'postal_code' => $address['postal_code'] ?? null
-            ];
-        });
+            $mappedData = $invTrackings->map(function ($invTracking) use ($huDetails) {
+                $huDetail = $huDetails->where('erp_document', $invTracking['erp_document'])->first();
+                $address = Address::query()->where('delivery', $invTracking['erp_document'])->first();
+                if ($address) {
+                    $postal = PostalMaster::query()->where('postal', $address['postal_code'])->first();
+                } else {
+                    $postal = null;
+                }
 
-        return Excel::download(new RTTExport($mappedData->toArray()), 'RTT_document_' . Carbon::now()->format('Ymd') . '.xlsx');
+                return [
+                    'erp_document' => $invTracking['erp_document'] ?? null,
+                    'job_number' => $invTracking['logi_track_id'] ?? null,
+                    'shipment_number' => $huDetail['shipment_number'] ?? null,
+                    'weight' => $huDetail['total_weight'] ?? null,
+                    'volume' => ($huDetail['total_volume'] ?? null) ? ($huDetail['total_volume'] / 1000000) : null,
+                    'handling_units' => $huDetail['handling_units'] ?? null,
+                    'address' => $address['street'] ?? null,
+                    'city' => $address['city'] ?? null,
+                    'province' => $postal['province'] ?? null,
+                    'postal_code' => $address['postal_code'] ?? null
+                ];
+            });
+
+            event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'pass', $fileName, null));
+            return Excel::download(new RTTExport($mappedData->toArray()), $fileName);
+        } catch (\Throwable $th) {
+            event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'fail', $fileName, null, $th->getMessage()));
+            return back()->with('error', '❌ An error occurred during export: ' . $th->getMessage());
+        }
     }
 }

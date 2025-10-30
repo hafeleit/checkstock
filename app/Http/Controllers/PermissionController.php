@@ -2,7 +2,11 @@
 
 namespace  App\Http\Controllers;
 
+use App\Events\PermissionCreated;
+use App\Events\PermissionDeleted;
+use App\Events\PermissionUpdated;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use  Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
@@ -28,19 +32,22 @@ class PermissionController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'unique:permissions,name'
-            ]
-        ]);
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'unique:permissions,name']
+            ]);
 
-        Permission::create([
-            'name' => $request->name
-        ]);
+            $permission = Permission::create(['name' => $request->name]);
 
-        return redirect('permissions')->with('status', 'Permission Created Successfully');
+            event(new PermissionCreated(auth()->id(), $permission->id, 'pass', $request->name));
+            return redirect('permissions')->with('status', 'Permission Created Successfully');
+        } catch (ValidationException $e) {
+            event(new PermissionCreated(auth()->id(), null, 'fail', $request->name, $e->getMessage()));
+            return back()->withErrors($e->errors())->withInput();
+        } catch (\Throwable $th) {
+            event(new PermissionCreated(auth()->id(), null, 'fail', $request->name, $th->getMessage()));
+            return redirect('permissions')->with('error', $th->getMessage());
+        }
     }
 
     public function edit(Permission $permission)
@@ -50,25 +57,39 @@ class PermissionController extends Controller
 
     public function update(Request $request, Permission $permission)
     {
-        $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'unique:permissions,name,' . $permission->id
-            ]
-        ]);
+        $oldPermissionName = $permission->name;
 
-        $permission->update([
-            'name' => $request->name
-        ]);
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'unique:permissions,name,' . $permission->id]
+            ]);
 
-        return redirect('permissions')->with('status', 'Permission Updated Successfully');
+            $permission->update(['name' => $request->name]);
+
+            event(new PermissionUpdated(auth()->id(), 'pass', $permission->id, $oldPermissionName, $request->name));
+            return redirect('permissions')->with('status', 'Permission Updated Successfully');
+        } catch (ValidationException $e) {
+            event(new PermissionUpdated(auth()->id(), 'fail', $permission->id, $oldPermissionName, $request->name, $e->getMessage()));
+            return back()->withErrors($e->errors())->withInput();
+        } catch (\Throwable $th) {
+            event(new PermissionUpdated(auth()->id(), 'fail', $permission->id, $oldPermissionName, $request->name, $th->getMessage()));
+            return redirect('permissions')->with('error', $th->getMessage());
+        }
     }
 
     public function destroy($permissionId)
     {
-        $permission = Permission::find($permissionId);
-        $permission->delete();
-        return redirect('permissions')->with('status', 'Permission Deleted Successfully');
+        try {
+            $permission = Permission::findOrFail($permissionId);
+            $permissionName = $permission->name;
+            $permission->delete();
+
+            event(new PermissionDeleted(auth()->id(), 'pass', $permissionId, $permissionName));
+            return redirect('permissions')->with('status', 'Permission Deleted Successfully');
+        } catch (\Throwable $th) {
+            $permissionName = null;
+            event(new PermissionDeleted(auth()->id(), 'fail', $permissionId, $permissionName, $th->getMessage()));
+            return redirect('permissions')->with('error', 'Permission Delete Failed');
+        }
     }
 }

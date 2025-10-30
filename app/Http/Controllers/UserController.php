@@ -2,6 +2,7 @@
 
 namespace  App\Http\Controllers;
 
+use App\Events\FileImported;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -106,7 +107,7 @@ class UserController extends Controller
         ], $messages);
 
         $data = [
-            'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'supp_code' => $request->supp_code,
             'is_active' => $request->is_active ? true : false,
@@ -128,14 +129,19 @@ class UserController extends Controller
 
     public function importUser()
     {
-
         $file = request()->file('user_file');
+        $fileName = $file->getClientOriginalName();
+        $fileSize = $file->getSize();
 
         if (!file_exists($file)) {
             return back()->withErrors('File not found: ' . $file->getClientOriginalName());
         }
 
         try {
+            request()->validate([
+                'user_file' => 'required|file|mimes:csv,xls,xlsx'
+            ]);
+
             $rows = Excel::toArray([], $file)[0];
             $header = collect(array_shift($rows))->map('strtolower')->toArray();
 
@@ -181,17 +187,15 @@ class UserController extends Controller
                 if (!$user->hasRole($roleName)) {
                     $user->assignRole($role);
                 }
-                // ** uat ยังไม่ assign role ให้ customer user ที่ import เข้าไปใหม่ **
-                // if (env("CUSTOMER_PROD")) {
-                // $user->assignRole($role);
-                // }
 
                 $importedCount++;
             }
 
+            event(new FileImported('App\Models\User', auth()->id(), 'import', 'pass', $fileName, $fileSize));
             $successMessage = "Successfully imported {$importedCount} users";
             return redirect('/users')->with('status', $successMessage);
         } catch (\Throwable $th) {
+            event(new FileImported('App\Models\User', auth()->id(), 'import', 'fail', $fileName, $fileSize, $th->getMessage()));
             return back()->withErrors('An error occurred while processing the file: ' . $th->getMessage());
         }
     }

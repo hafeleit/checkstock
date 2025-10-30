@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FileExported;
 use App\Exports\ReturnExport;
 use App\Helpers\LogiTrackIdHelper;
 use App\Models\Driver;
@@ -77,29 +78,36 @@ class ReturnController extends Controller
     public function export()
     {
         $logiTrackId = request()->query('logi_track_id');
+        $fileName = 'return_document_sheet_' . $logiTrackId . '.xlsx';
 
-        $invTrackings = InvTracking::with('user')
-            ->where('logi_track_id', $logiTrackId)
-            ->where('type', 'return')
-            ->get();
+        try {
+            $invTrackings = InvTracking::with('user')
+                ->where('logi_track_id', $logiTrackId)
+                ->where('type', 'return')
+                ->get();
 
-        $mappedData = $invTrackings->map(function ($invTracking, $index) {
-            return [
-                'no' => $index + 1,
-                'erp_document' => $invTracking->erp_document,
-                'created_date' => Carbon::parse($invTracking->created_date)->format('d/m/Y'),
-                'invoice_id' => $invTracking->invoice_id,
-                'remark' => $invTracking->remark ?? ''
+            $mappedData = $invTrackings->map(function ($invTracking, $index) {
+                return [
+                    'no' => $index + 1,
+                    'erp_document' => $invTracking->erp_document,
+                    'created_date' => Carbon::parse($invTracking->created_date)->format('d/m/Y'),
+                    'invoice_id' => $invTracking->invoice_id,
+                    'remark' => $invTracking->remark ?? ''
+                ];
+            });
+
+            $headerData = [
+                'job_no' => $invTrackings[0]->logi_track_id,
+                'exported_on' => Carbon::now()->format('Y-m-d'),
+                'driver_id' => $invTrackings[0]->driver_or_sent_to,
+                'created_by' => $invTrackings[0]->user->username,
             ];
-        });
 
-        $headerData = [
-            'job_no' => $invTrackings[0]->logi_track_id,
-            'exported_on' => Carbon::now()->format('Y-m-d'),
-            'driver_id' => $invTrackings[0]->driver_or_sent_to,
-            'created_by' => $invTrackings[0]->user->username,
-        ];
-
-        return Excel::download(new ReturnExport($mappedData->toArray(), $headerData), 'return_document_sheet_' . $invTrackings[0]->logi_track_id . '.xlsx');
+            event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'pass', $fileName, null));
+            return Excel::download(new ReturnExport($mappedData->toArray(), $headerData), $fileName);
+        } catch (\Throwable $th) {
+            event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'fail', $fileName, null, $th->getMessage()));
+            return back()->with('error', '❌ An error occurred during export: ' . $th->getMessage());
+        }
     }
 }
