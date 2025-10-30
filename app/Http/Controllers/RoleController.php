@@ -40,7 +40,7 @@ class RoleController extends Controller
                 'name' => ['required', 'string', 'unique:roles,name']
             ]);
 
-            Role::create(['name' => $request->name]);
+            $role = Role::create(['name' => $request->name]);
 
             event(new RoleCreated(auth()->id(), $role->id, 'pass', $request->name));
             return redirect('roles')->with('status', 'Role Created Successfully');
