@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Exports\ProductitemsExport;
+use App\Http\Controllers\AuditLogController;
 use App\Imports\ProductitemsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
@@ -133,10 +134,9 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   Route::get('consumerlabel-barcode', [ProductItemsController::class, 'pdfbarcode'])->name('pdfbarcode');
 
   // Audit Logs
-  Route::get('/audit-logs', function () {
-    $logs = AuditLog::latest()->paginate(50);
-    return view('pages.audit-log.index', [
-      'logs' => $logs
-    ]);
+  Route::middleware(['role:super-admin'])->group(function () {
+    Route::get('/audit-logs/login', [AuditLogController::class, 'loginLog'])->name('audit-logs.login');
+    Route::get('/audit-logs/activities', [AuditLogController::class, 'activityLog'])->name('audit-logs.activities');
+    Route::get('/audit-logs/errors', [AuditLogController::class, 'errorLog'])->name('audit-logs.errors');
   });
 });

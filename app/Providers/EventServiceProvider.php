@@ -15,6 +15,7 @@ use App\Events\RoleCreated;
 use App\Events\RoleDeleted;
 use App\Events\RolePermissionsUpdated;
 use App\Events\RoleUpdated;
+use App\Events\UserLoggedIn;
 use App\Listeners\LogCommissionPasswordVerify;
 use App\Listeners\LogCommissionStatusUpdate;
 use App\Listeners\LogFileExport;
@@ -28,6 +29,7 @@ use App\Listeners\LogRoleCreate;
 use App\Listeners\LogRoleDelete;
 use App\Listeners\LogRolePermissionsUpdate;
 use App\Listeners\LogRoleUpdate;
+use App\Listeners\LogUserLoggedIn;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -82,6 +84,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PermissionDeleted::class => [
             LogPermissionDelete::class
+        ],
+        UserLoggedIn::class => [
+            LogUserLoggedIn::class
         ]
     ];
 
