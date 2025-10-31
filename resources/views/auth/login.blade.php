@@ -35,6 +35,7 @@
                                         @csrf
                                         @method('post')
                                         <input type="hidden" name="from" value="{{ request()->query('from') }}">
+                                        <input type="hidden" name="redirect" value="{{ request()->query('redirect') }}">
                                         <div class="mb-3">
                                             <input autofocus type="text" name="email"
                                                 class="form-control form-control-lg" value="{{ old('email') ?? '' }}"
