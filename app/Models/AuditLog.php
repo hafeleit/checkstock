@@ -20,4 +20,9 @@ class AuditLog extends Model
         'file_size',
         'error_message',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -56,7 +56,7 @@
                                                 @endif
                                             </td>
                                             <td class="px-3">{{ $log->event }}</td>
-                                            <td class="px-3">{{ $log->auditable_type }}</td>
+                                            <td class="px-3">{{ class_basename($log->auditable_type) }}</td>
                                             <td class="px-3">{{ $log->auditable_id }}</td>
                                             <td class="px-3">{{ $log->file_name }}</td>
                                             <td class="px-3">{{ $log->file_size }}</td>
