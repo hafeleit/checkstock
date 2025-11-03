@@ -30,8 +30,7 @@
                             <table class="table table-hover w-full">
                                 <thead>
                                     <tr class="text-sm">
-                                        <th scope="col" class="px-3">ID</th>
-                                        <th scope="col" class="px-3">Model</th>
+                                        <th scope="col" class="px-3">Model / ID</th>
                                         <th scope="col" class="px-3">Event</th>
                                         <th scope="col" class="px-3">Field</th>
                                         <th scope="col" class="px-3">Old Value</th>
@@ -44,12 +43,31 @@
                                     @if ($logs && count($logs) > 0)
                                         @foreach ($logs as $log)
                                             <tr class="text-xs">
-                                                <td class="px-3">{{ $log['auditable_id'] }}</td>
-                                                <td class="px-3">{{ class_basename($log['auditable_type']) }}</td>
+                                                <td class="px-3">{{ class_basename($log['auditable_type']) }} / {{ $log['auditable_id'] }} </td>
                                                 <td class="px-3">{{ $log['event'] }}</td>
                                                 <td class="px-3">{{ $log['field'] }}</td>
-                                                <td class="px-3">{{ $log['old_value'] }}</td>
-                                                <td class="px-3">{{ $log['new_value'] }}</td>
+                                                <td class="px-3">
+                                                    @if ($log['event'] == 'role_permissions_updated')
+                                                        <ul>
+                                                            @foreach ($log['old_value'] as $oldValue)
+                                                                <li>{{ $oldValue }}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @else
+                                                        {{ $log['old_value'] }}
+                                                    @endif
+                                                </td>
+                                                <td class="px-3">
+                                                    @if ($log['event'] == 'role_permissions_updated')
+                                                        <ul>
+                                                            @foreach ($log['new_value'] as $oldValue)
+                                                                <li>{{ $oldValue }}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @else
+                                                        {{ $log['new_value'] }}
+                                                    @endif
+                                                </td>
                                                 <td class="px-3">{{ $log['email'] }}</td>
                                                 <td class="px-3">{{ $log['date'] }}</td>
                                             </tr>

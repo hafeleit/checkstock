@@ -35,25 +35,39 @@ class AuditLogController extends Controller
             $oldValues = json_decode($log->old_values, true) ?? [];
             $newValues = json_decode($log->new_values, true) ?? [];
 
-            unset($oldValues['updated_at']);
-            unset($newValues['updated_at']);
-
-            $updatedFields = array_diff_assoc($newValues, $oldValues);
             $updates = [];
 
-            foreach ($updatedFields as $field => $newValue) {
-                $oldValue = $oldValues[$field] ?? null;
-
+            if ($log->event == 'role_permissions_updated') {
                 $updates[] = [
                     'auditable_id' => $log->auditable_id,
                     'auditable_type' => $log->auditable_type,
                     'event' => $log->event,
-                    'field' => $field,
-                    'old_value' => $oldValue,
-                    'new_value' => $newValue,
+                    'field' => 'permissions',
+                    'old_value' => $oldValues,
+                    'new_value' => $newValues,
                     'email' => $log->user->email ?? '-',
                     'date' => $log->created_at,
                 ];
+            } else {
+                unset($oldValues['updated_at']);
+                unset($newValues['updated_at']);
+
+                $updatedFields = array_diff_assoc($newValues, $oldValues);
+
+                foreach ($updatedFields as $field => $newValue) {
+                    $oldValue = $oldValues[$field] ?? null;
+
+                    $updates[] = [
+                        'auditable_id' => $log->auditable_id,
+                        'auditable_type' => $log->auditable_type,
+                        'event' => $log->event,
+                        'field' => $field,
+                        'old_value' => $oldValue,
+                        'new_value' => $newValue,
+                        'email' => $log->user->email ?? '-',
+                        'date' => $log->created_at,
+                    ];
+                }
             }
             return $updates;
         });
