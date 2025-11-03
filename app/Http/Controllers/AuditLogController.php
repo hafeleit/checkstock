@@ -43,8 +43,8 @@ class AuditLogController extends Controller
                     'auditable_type' => $log->auditable_type,
                     'event' => $log->event,
                     'field' => 'permissions',
-                    'old_value' => $oldValues,
-                    'new_value' => $newValues,
+                    'old_value' => collect($oldValues)->sort()->values()->all(),
+                    'new_value' => collect($newValues)->sort()->values()->all(),
                     'email' => $log->user->email ?? '-',
                     'date' => $log->created_at,
                 ];
