@@ -666,28 +666,51 @@ class SalesUSIController extends Controller
             ->leftJoin('zhaamm_ifvmg_mat as im', 'bom.component', '=', 'im.matnr')
             ->whereColumn('bom.material', 'a.material');
 
-        return DB::table('ZHWWBCQUERYDIR as a')
-            ->select([
-                'a.material as IUW_ITEM_CODE',
-                'a.bun as IUW_UOM_CODE',
-                DB::raw("
-                CASE
-                    WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
-                    WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2), ' THB')
-                    ELSE CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
-                END as IUW_PRICE
-            "),
-                DB::raw("CASE WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2),' THB') ELSE '0 THB' END as NEW_ZPLV_COST"),
-                DB::raw("CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount / c.per, 2) ELSE '0' END as NEW_ZPE_COST"),
-                DB::raw("CASE WHEN a.mov_avg_price IS NOT NULL THEN FORMAT(a.mov_avg_price / a.per, 2) ELSE '0' END as NEW_MAP_COST")
-            ])
-            ->mergeBindings($subquery)
-            ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
-            ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
-            ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
-            ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
-            ->where('a.material', $item_code)
-            ->groupBy('c.material', 'c.uom');
+        if (auth()->user()->hasPermissionTo('salesusi manager')) {
+            return DB::table('ZHWWBCQUERYDIR as a')
+                ->select([
+                    'a.material as IUW_ITEM_CODE',
+                    'a.bun as IUW_UOM_CODE',
+                    DB::raw("
+                        CASE
+                            WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
+                            WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2), ' THB')
+                            ELSE CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
+                        END as IUW_PRICE
+                    "),
+                    DB::raw("CASE WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2),' THB') ELSE '0 THB' END as NEW_ZPLV_COST"),
+                    DB::raw("CASE WHEN c.Amount IS NOT NULL THEN FORMAT(c.Amount / c.per, 2) ELSE '0' END as NEW_ZPE_COST"),
+                    DB::raw("CASE WHEN a.mov_avg_price IS NOT NULL THEN FORMAT(a.mov_avg_price / a.per, 2) ELSE '0' END as NEW_MAP_COST")
+                ])
+                ->mergeBindings($subquery)
+                ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
+                ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
+                ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
+                ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
+                ->where('a.material', $item_code)
+                ->groupBy('c.material', 'c.uom');
+        } else {
+            return DB::table('ZHWWBCQUERYDIR as a')
+                ->select([
+                    'a.material as IUW_ITEM_CODE',
+                    'a.bun as IUW_UOM_CODE',
+                    DB::raw("
+                        CASE
+                            WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
+                            WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2), ' THB')
+                            ELSE CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
+                        END as IUW_PRICE
+                    "),
+                    DB::raw("CASE WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2),' THB') ELSE '0 THB' END as NEW_ZPLV_COST")
+                ])
+                ->mergeBindings($subquery)
+                ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
+                ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
+                ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
+                ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
+                ->where('a.material', $item_code)
+                ->groupBy('c.material', 'c.uom');
+        }
     }
 
     private function buildBomQuery(string $item_code, string $flg)
