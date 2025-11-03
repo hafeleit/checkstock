@@ -33,12 +33,11 @@
                                     <tr class="text-sm">
                                         <th scope="col" class="px-3">status</th>
                                         <th scope="col" class="px-3">event</th>
-                                        <th scope="col" class="px-3">auditable type</th>
-                                        <th scope="col" class="px-3">auditable ID</th>
+                                        <th scope="col" class="px-3">Model / ID</th>
                                         <th scope="col" class="px-3">file name</th>
                                         <th scope="col" class="px-3">file size</th>
                                         <th scope="col" class="px-3">error message</th>
-                                        <th scope="col" class="px-3">Created By ID</th>
+                                        <th scope="col" class="px-3">Change By</th>
                                         <th scope="col" class="px-3">created at</th>
                                     </tr>
                                 </thead>
@@ -56,12 +55,11 @@
                                                 @endif
                                             </td>
                                             <td class="px-3">{{ $log->event }}</td>
-                                            <td class="px-3">{{ class_basename($log->auditable_type) }}</td>
-                                            <td class="px-3">{{ $log->auditable_id }}</td>
+                                            <td class="px-3">{{ class_basename($log->auditable_type) }} / {{ $log->auditable_id }}</td>
                                             <td class="px-3">{{ $log->file_name }}</td>
                                             <td class="px-3">{{ $log->file_size }}</td>
                                             <td class="px-3">{{ $log->error_message }}</td>
-                                            <td class="px-3">{{ $log->user_id }}</td>
+                                            <td class="px-3">{{ $log->user->email }}</td>
                                             <td class="px-3">{{ $log->created_at }}</td>
                                         </tr>
                                         <tr id="collapse-{{ $log->id }}" class="collapse text-xs">
