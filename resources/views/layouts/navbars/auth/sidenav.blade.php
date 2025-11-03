@@ -231,4 +231,40 @@
         </div>
       </li>
       @endcan
+
+      @role('super-admin')
+      <li class="nav-item ">
+        <a class="nav-link {{ Request::segment(1) == 'audit-logs' ? 'active' : '' }}" data-bs-toggle="collapse" aria-expanded="{{ Request::segment(1) == 'audit-logs' ? 'true' : 'false' }}" href="#auditLogsDropdown">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="{{ Request::segment(1) == 'audit-logs' ? 'text-primary' : 'text-dark' }} text-sm opacity-10">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+            </svg>
+          </div>
+          <span class="nav-link-text ms-1">Logs</span>
+        </a>
+        <div class="collapse {{ Request::segment(1) == 'audit-logs' ? 'show' : '' }}" id="auditLogsDropdown">
+          <ul class="nav nav-sm flex-column">
+            <li class="nav-item">
+              <a class="nav-link {{ Route::currentRouteName() == 'audit-logs.login' ? 'active' : '' }}" href="{{ route('audit-logs.login') }}">
+                <span class="sidenav-mini-icon text-xs"> L </span>
+                <span class="sidenav-normal"> Login Logs </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ Route::currentRouteName() == 'audit-logs.activities' ? 'active' : '' }}" href="{{ route('audit-logs.activities') }}">
+                <span class="sidenav-mini-icon text-xs"> A </span>
+                <span class="sidenav-normal"> Activity Logs </span>
+              </a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link {{ Route::currentRouteName() == 'audit-logs.errors' ? 'active' : '' }}" href="{{ route('audit-logs.errors') }}">
+                <span class="sidenav-mini-icon text-xs"> E </span>
+                <span class="sidenav-normal"> Error Logs </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      @endrole
 </aside>

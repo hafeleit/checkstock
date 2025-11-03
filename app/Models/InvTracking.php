@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class InvTracking extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditable;
     protected $fillable = [
         'logi_track_id',
         'erp_document',

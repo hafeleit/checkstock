@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\External;
 
+use App\Events\UserLoggedIn;
 use App\Http\Controllers\Controller;
-use App\Models\External\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Date;
 use Illuminate\Http\Request;
@@ -43,14 +44,22 @@ class LoginController extends Controller
             if ($user->type === 'employee' && $user->hasRole('super-admin')) {
                 $request->session()->regenerate();
                 $user->update(['last_logged_in_at' => Carbon::now()]);
+
+                event(new UserLoggedIn($user->id, 'external_login', 'pass'));
                 return redirect('/customer/products');
             }
 
+            event(new UserLoggedIn($user->id, 'external_login', 'fail', 'Permission denied.'));
+
             Auth::logout();
+
             return back()->withErrors([
                 'email' => 'You do not have permission to access this area.',
             ])->onlyInput('email');
         }
+
+        $user = User::where('email', $request->email)->first();
+        event(new UserLoggedIn($user->id, 'external_login', 'fail', 'Invalid email or password.'));
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
