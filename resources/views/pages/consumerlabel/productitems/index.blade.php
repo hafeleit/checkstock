@@ -44,7 +44,7 @@
                                                     <div class="modal-body">
                                                         <p>You can browse your computer for a file.</p>
                                                         <input type="file" placeholder="Browse file..."
-                                                            class="form-control mb-3" name="file" id="file-input">
+                                                            class="form-control mb-3" name="file" id="file-input" accept=".xlsx, .xls">
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn bg-gradient-secondary btn-sm"
