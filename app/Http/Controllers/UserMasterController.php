@@ -14,7 +14,7 @@ class UserMasterController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:user import', ['only' => ['import']]);
+        $this->middleware('permission:hthemployee import', ['only' => ['import']]);
     }
 
     public function import(Request $request)

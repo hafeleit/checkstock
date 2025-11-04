@@ -9,7 +9,7 @@ class PageController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:usermanagement view', ['only' => ['user_management']]);
+        $this->middleware('permission:hthemployee view', ['only' => ['user_management']]);
     }
 
     public function index(string $page)
