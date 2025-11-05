@@ -54,9 +54,10 @@ class CommissionsArImport implements WithMultipleSheets, ToModel
             return null;
         }
 
-        // 👉 ถอด VAT 7%
-        $amount = floatval(str_replace(',', '', $row[24] ?? 0)); // ป้องกัน , หรือค่าว่าง
-        $amountExVat = round($amount / 1.07, 2); // ถอด VAT 7%
+        // 👉 ถอด VAT 7% เฉพาะเมื่อช่อง AK == 121000
+        $amountExVat = (trim($row[36] ?? '') == '121000')
+            ? round(floatval(str_replace(',', '', $row[24] ?? 0)) / 1.07, 2)
+            : floatval(str_replace(',', '', $row[24] ?? 0));
 
         return new CommissionsAr([
             'commissions_id'           => $this->commissionId,
