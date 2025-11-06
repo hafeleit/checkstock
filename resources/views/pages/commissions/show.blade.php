@@ -226,7 +226,7 @@
                                             @method('PUT')
                                             <input type="hidden" name="status" value="AR Approved">
                                             <button type="button" class="btn btn-sm bg-gradient-info px-3 ar-approve-btn"
-                                                id="ar-approve-{{ $commission->id }}" 
+                                                id="ar-approve-{{ $commission->id }}"
                                                 data-commission-id="{{ $commission->id }}">
                                                 <i class="fas fa-check me-1"></i>AR Approve
                                             </button>
@@ -276,10 +276,11 @@
                                 @endcan
                             @endif
                             @can('Commissions AR-Adjust')
+                              <?php /*
                                 <button type="button" class="btn btn-sm bg-gradient-info px-3 me-2" id="export-btn"
                                     data-url="{{ route('commissions.export', $commission->id) }}">
                                     <i class="fas fa-file-export me-1"></i> Export
-                                </button>
+                                </button> */?>
                             @endcan
                             @can('Commissions Summary-View')
                                 <div class="ms-auto">
@@ -828,7 +829,7 @@
 
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         // SortTable
-        const headerRow = document.getElementById('tableHeader'); 
+        const headerRow = document.getElementById('tableHeader');
         if (headerRow) {
             const headerCells = headerRow.querySelectorAll('th');
             headerCells.forEach(headerCell => {
