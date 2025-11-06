@@ -13,6 +13,7 @@
 
         .bg-fail {
             background-color: #FFEBEB;
+            color: red;
         }
     </style>
 
@@ -59,34 +60,59 @@
                                 <tbody>
                                     @if ($logs && count($logs) > 0)
                                         @foreach ($logs as $log)
-                                            <tr class="text-xs">
-                                                <td class="px-3">{{ class_basename($log['auditable_type']) }} / {{ $log['auditable_id'] }} </td>
+                                            <tr class="text-xs {{ $log['status'] == 'fail' ? 'bg-fail' : '' }}">
+                                                <td class="px-3">{{ class_basename($log['auditable_type']) }} /
+                                                    {{ $log['auditable_id'] }} </td>
                                                 <td class="px-3">{{ $log['event'] }}</td>
-                                                <td class="px-3">{{ $log['event'] == 'login' || $log['event'] == 'external_login' ? $log['user']->email : '-' }}</td>
-                                                <td class="px-3">{{ $log['event'] == 'login' || $log['event'] == 'external_login' ? (json_decode($log->new_values))->ip_address : '-' }}</td>
-                                                <td class="px-3">{{ $log['event'] == 'login' || $log['event'] == 'external_login' ? (json_decode($log->new_values))->device_type : '-' }}</td>
-                                                <td class="px-3">{{ $log['event'] == 'login' || $log['event'] == 'external_login' ? $log['created_at'] : '-' }}</td>
+                                                <td class="px-3">
+                                                    {{ $log['event'] == 'login' || $log['event'] == 'external_login' ? $log['user']->email : '-' }}
+                                                </td>
+                                                <td class="px-3">
+                                                    {{ $log['event'] == 'login' || $log['event'] == 'external_login' ? json_decode($log->new_values)->ip_address : '-' }}
+                                                </td>
+                                                <td class="px-3">
+                                                    {{ $log['event'] == 'login' || $log['event'] == 'external_login' ? json_decode($log->new_values)->device_type : '-' }}
+                                                </td>
+                                                <td class="px-3">
+                                                    {{ $log['event'] == 'login' || $log['event'] == 'external_login' ? $log['created_at'] : '-' }}
+                                                </td>
                                                 <td class="px-3">{{ $log['field'] ?? '-' }}</td>
                                                 <td class="px-3">
                                                     @if ($log['event'] == 'role_permissions_updated')
-                                                        <ul>
+                                                        <ul class="mb-0">
                                                             @foreach ($log['old_value'] as $oldValue)
                                                                 <li>{{ $oldValue ?? '-' }}</li>
                                                             @endforeach
                                                         </ul>
                                                     @else
-                                                        {{ $log['old_value'] ?? '-' }}
+                                                        @if ($log['field'] == 'roles' && $log['old_value'])
+                                                            <ul class="mb-0">
+                                                                @foreach ($log['old_value'] as $oldValue)
+                                                                    <li>{{ $oldValue ?? '-' }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @else
+                                                            {{ $log['old_value'] ?? '-' }}
+                                                        @endif
                                                     @endif
                                                 </td>
                                                 <td class="px-3">
                                                     @if ($log['event'] == 'role_permissions_updated')
-                                                        <ul>
+                                                        <ul class="mb-0">
                                                             @foreach ($log['new_value'] as $oldValue)
                                                                 <li>{{ $oldValue ?? '-' }}</li>
                                                             @endforeach
                                                         </ul>
                                                     @else
-                                                        {{ $log['new_value'] ?? '-' }}
+                                                        @if ($log['field'] == 'roles' && $log['new_value'])
+                                                            <ul class="mb-0">
+                                                                @foreach ($log['new_value'] as $oldValue)
+                                                                    <li>{{ $oldValue ?? '-' }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @else
+                                                            {{ $log['new_value'] ?? '-' }}
+                                                        @endif
                                                     @endif
                                                 </td>
                                                 <td class="px-3">{{ $log['email'] ?? $log['user']->email }}</td>

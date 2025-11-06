@@ -21,7 +21,6 @@ class AuditLogController extends Controller
                         $r->where('email', 'LIKE', '%' . request()->search_account . '%');
                     });
                 })
-                ->where('status', 'pass')
                 ->latest()
                 ->get();
 
@@ -36,6 +35,7 @@ class AuditLogController extends Controller
                         'auditable_id' => $log->auditable_id,
                         'auditable_type' => $log->auditable_type,
                         'event' => $log->event,
+                        'status' => $log->status,
                         'field' => 'permissions',
                         'old_value' => collect($oldValues)->sort()->values()->all(),
                         'new_value' => collect($newValues)->sort()->values()->all(),
@@ -58,6 +58,7 @@ class AuditLogController extends Controller
                                 'auditable_id' => $log->auditable_id,
                                 'auditable_type' => $log->auditable_type,
                                 'event' => $log->event,
+                                'status' => $log->status,
                                 'field' => $field,
                                 'old_value' => $oldValue,
                                 'new_value' => $newValue,
@@ -85,7 +86,6 @@ class AuditLogController extends Controller
                 ['path' => request()->url(), 'query' => request()->query()]
             );
         }
-        //  return response()->json($mappedData);
 
         return view('pages.audit-log.details', [
             'logs' => $mappedData,
