@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class CommissionsSchemaDetail extends Model
 {
-    use HasFactory, Auditable;
+    use HasFactory;
 }

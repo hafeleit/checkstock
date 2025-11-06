@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\CommissionAdjusted;
+use App\Events\CommissionAdjustUpdated;
+use App\Events\CommissionDeleted;
 use App\Events\CommissionPasswordVerified;
 use App\Events\CommissionStatusUpdated;
+use App\Events\CommissionUpdated;
 use App\Events\FileExported;
 use App\Events\FileImported;
 use App\Events\OrderSync;
@@ -15,9 +19,15 @@ use App\Events\RoleCreated;
 use App\Events\RoleDeleted;
 use App\Events\RolePermissionsUpdated;
 use App\Events\RoleUpdated;
+use App\Events\UserCreated;
 use App\Events\UserLoggedIn;
+use App\Events\UserUpdated;
+use App\Listeners\LogCommissionAdjust;
+use App\Listeners\LogCommissionAdjustUpdate;
+use App\Listeners\LogCommissionDelete;
 use App\Listeners\LogCommissionPasswordVerify;
 use App\Listeners\LogCommissionStatusUpdate;
+use App\Listeners\LogCommissionUpdate;
 use App\Listeners\LogFileExport;
 use App\Listeners\LogFileImport;
 use App\Listeners\LogOrderSync;
@@ -29,7 +39,9 @@ use App\Listeners\LogRoleCreate;
 use App\Listeners\LogRoleDelete;
 use App\Listeners\LogRolePermissionsUpdate;
 use App\Listeners\LogRoleUpdate;
+use App\Listeners\LogUserCreate;
 use App\Listeners\LogUserLoggedIn;
+use App\Listeners\LogUserUpdate;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -61,6 +73,18 @@ class EventServiceProvider extends ServiceProvider
         CommissionPasswordVerified::class => [
             LogCommissionPasswordVerify::class
         ],
+        CommissionAdjusted::class => [
+            LogCommissionAdjust::class
+        ],
+        CommissionAdjustUpdated::class => [
+            LogCommissionAdjustUpdate::class
+        ],
+        CommissionUpdated::class => [
+            LogCommissionUpdate::class
+        ],
+        CommissionDeleted::class => [
+            LogCommissionDelete::class
+        ],
         RecordDeleted::class => [
             LogRecordDelete::class
         ],
@@ -87,7 +111,13 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserLoggedIn::class => [
             LogUserLoggedIn::class
-        ]
+        ],
+        UserCreated::class => [
+            LogUserCreate::class
+        ],
+        UserUpdated::class => [
+            LogUserUpdate::class
+        ],
     ];
 
     /**

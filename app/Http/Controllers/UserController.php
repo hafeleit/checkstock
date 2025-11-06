@@ -3,9 +3,12 @@
 namespace  App\Http\Controllers;
 
 use App\Events\FileImported;
+use App\Events\UserCreated;
+use App\Events\UserUpdated;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 
@@ -33,41 +36,50 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $messages = [
-            'password.min' => 'password must be at least 15 characters long.',
-            'password.regex' => 'password must include lowercase, uppercase, numbers, and special characters.',
-        ];
+        try {
+            $messages = [
+                'password.min' => 'password must be at least 15 characters long.',
+                'password.regex' => 'password must include lowercase, uppercase, numbers, and special characters.',
+            ];
 
-        $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|max:255|unique:users,email',
-            'password' => [
-                'required',
-                'string',
-                'min:15',
-                'regex:/[a-z]/',
-                'regex:/[A-Z]/',
-                'regex:/[0-9]/',
-                'regex:/[^a-zA-Z0-9]/',
-            ],
-            'roles' => 'required',
-            'type' => 'required|string|in:employee,customer',
-            'emp_code' => 'nullable|string|max:5',
-        ], $messages);
+            $request->validate([
+                'username' => 'required|string|max:255',
+                'email' => 'required|max:255|unique:users,email',
+                'password' => [
+                    'required',
+                    'string',
+                    'min:15',
+                    'regex:/[a-z]/',
+                    'regex:/[A-Z]/',
+                    'regex:/[0-9]/',
+                    'regex:/[^a-zA-Z0-9]/',
+                ],
+                'roles' => 'required',
+                'type' => 'required|string|in:employee,customer',
+                'emp_code' => 'nullable|string|max:5',
+            ], $messages);
 
-        $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => $request->password,
-            'supp_code' => $request->supp_code,
-            'is_active' => $request->is_active ? true : false,
-            'type' => $request->type,
-            'emp_code' => $request->emp_code,
-        ]);
+            $user = User::create([
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => $request->password,
+                'supp_code' => $request->supp_code,
+                'is_active' => $request->is_active ? true : false,
+                'type' => $request->type,
+                'emp_code' => $request->emp_code,
+            ]);
 
-        $user->syncRoles($request->roles);
+            $user->syncRoles($request->roles);
 
-        return redirect('/users')->with('status', 'User created successfully with roles');
+            event(new UserCreated(auth()->user()->id, $user, 'pass'));
+            return redirect('/users')->with('status', 'User created successfully with roles');
+        } catch (ValidationException $e) {
+            event(new UserCreated(auth()->user()->id, request()->all(), 'fail', $e->getMessage()));
+            return back()->withErrors($e->errors())->withInput();
+        } catch (\Throwable $th) {
+            event(new UserCreated(auth()->user()->id, request()->all(), 'fail', $th->getMessage()));
+            return  back()->with('error', $th->getMessage());
+        }
     }
 
     public function edit(User $user)
@@ -84,47 +96,57 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $messages = [
-            'password.min' => 'password must be at least 15 characters long.',
-            'password.regex' => 'password must include lowercase, uppercase, numbers, and special characters.',
-        ];
-
-        $request->validate([
-            'username' => 'required|string|max:255',
-            'password' => [
-                'nullable',
-                'string',
-                'min:15',
-                'regex:/[a-z]/',
-                'regex:/[A-Z]/',
-                'regex:/[0-9]/',
-                'regex:/[^a-zA-Z0-9]/',
-            ],
-            'roles' => 'required',
-            'type' => 'required|string|in:employee,customer',
-            'emp_code' => 'nullable|string|max:5',
-            'supp_code' => 'nullable|string',
-        ], $messages);
-
-        $data = [
-            'username' => $request->username,
-            'email' => $request->email,
-            'supp_code' => $request->supp_code,
-            'is_active' => $request->is_active ? true : false,
-            'type' => $request->type,
-            'emp_code' => $request->emp_code,
-        ];
-
-        if (!empty($request->password)) {
-            $data += [
-                'password' => $request->password,
+        $oldUser = $user;
+        try {
+            $messages = [
+                'password.min' => 'password must be at least 15 characters long.',
+                'password.regex' => 'password must include lowercase, uppercase, numbers, and special characters.',
             ];
+
+            $request->validate([
+                'username' => 'required|string|max:255',
+                'password' => [
+                    'nullable',
+                    'string',
+                    'min:15',
+                    'regex:/[a-z]/',
+                    'regex:/[A-Z]/',
+                    'regex:/[0-9]/',
+                    'regex:/[^a-zA-Z0-9]/',
+                ],
+                'roles' => 'required',
+                'type' => 'required|string|in:employee,customer',
+                'emp_code' => 'nullable|string|max:5',
+                'supp_code' => 'nullable|string',
+            ], $messages);
+
+            $data = [
+                'username' => $request->username,
+                'email' => $request->email,
+                'supp_code' => $request->supp_code,
+                'is_active' => $request->is_active ? true : false,
+                'type' => $request->type,
+                'emp_code' => $request->emp_code,
+            ];
+
+            if (!empty($request->password)) {
+                $data += [
+                    'password' => $request->password,
+                ];
+            }
+
+            $user->update($data);
+            $user->syncRoles($request->roles);
+
+            event(new UserUpdated(auth()->user()->id, $user->id, $data, $oldUser, 'pass'));
+            return redirect('/users')->with('status', 'User Updated Successfully with roles');
+        } catch (ValidationException $e) {
+            event(new UserUpdated(auth()->user()->id, $user->id, request()->all(), $oldUser, 'fail', $e->getMessage()));
+            return back()->withErrors($e->errors())->withInput();
+        } catch (\Throwable $th) {
+            event(new UserUpdated(auth()->user()->id, $user->id, request()->all(), $oldUser, 'fail', $th->getMessage()));
+            return  back()->with('error', $th->getMessage());
         }
-
-        $user->update($data);
-        $user->syncRoles($request->roles);
-
-        return redirect('/users')->with('status', 'User Updated Successfully with roles');
     }
 
     public function importUser()

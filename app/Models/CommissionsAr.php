@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CommissionsAr extends Model
 {
-    use HasFactory, Auditable;
+    use HasFactory;
 
     protected $fillable = [
         'commissions_id',

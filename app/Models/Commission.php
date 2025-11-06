@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Commission extends Model
 {
-    use HasFactory, Auditable;
+    use HasFactory;
 
     protected $fillable = [
         'sub_id',
