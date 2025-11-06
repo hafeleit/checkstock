@@ -693,6 +693,7 @@ class CommissionController extends Controller
         try {
             // ดึง Commission
             $commission = Commission::where('id', $id)->first();
+            $oldCommission = $commission;
 
             // ดึงข้อมูล commissions_ars พร้อม diffDays ที่คำนวณจาก SQL
             $entries = CommissionsAr::select(
@@ -759,7 +760,6 @@ class CommissionController extends Controller
 
             // ✅ อัปเดต status ของ Commission เป็น "calculated"
             $commission = Commission::find($id);
-            $oldCommission = $commission;
 
             if ($commission) {
                 $commission->status = 'calculated';

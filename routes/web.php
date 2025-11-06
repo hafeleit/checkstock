@@ -135,8 +135,7 @@ Route::middleware(['auth', 'check.status'])->group(function () {
 
   // Audit Logs
   Route::middleware(['role:super-admin'])->group(function () {
-    Route::get('/audit-logs/login', [AuditLogController::class, 'loginLog'])->name('audit-logs.login');
-    Route::get('/audit-logs/activities', [AuditLogController::class, 'activityLog'])->name('audit-logs.activities');
+    Route::get('/audit-logs/details', [AuditLogController::class, 'details'])->name('audit-logs.details');
     Route::get('/audit-logs/errors', [AuditLogController::class, 'errorLog'])->name('audit-logs.errors');
   });
 });
