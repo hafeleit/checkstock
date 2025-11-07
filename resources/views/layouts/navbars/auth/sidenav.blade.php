@@ -245,18 +245,11 @@
         <div class="collapse {{ Request::segment(1) == 'audit-logs' ? 'show' : '' }}" id="auditLogsDropdown">
           <ul class="nav nav-sm flex-column">
             <li class="nav-item">
-              <a class="nav-link {{ Route::currentRouteName() == 'audit-logs.login' ? 'active' : '' }}" href="{{ route('audit-logs.login') }}">
+              <a class="nav-link {{ Route::currentRouteName() == 'audit-logs.details' ? 'active' : '' }}" href="{{ route('audit-logs.details') }}">
                 <span class="sidenav-mini-icon text-xs"> L </span>
-                <span class="sidenav-normal"> Login Logs </span>
+                <span class="sidenav-normal">  Log Details </span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link {{ Route::currentRouteName() == 'audit-logs.activities' ? 'active' : '' }}" href="{{ route('audit-logs.activities') }}">
-                <span class="sidenav-mini-icon text-xs"> A </span>
-                <span class="sidenav-normal"> Activity Logs </span>
-              </a>
-            </li>
-            
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'audit-logs.errors' ? 'active' : '' }}" href="{{ route('audit-logs.errors') }}">
                 <span class="sidenav-mini-icon text-xs"> E </span>

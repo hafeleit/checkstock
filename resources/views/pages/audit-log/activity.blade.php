@@ -25,7 +25,19 @@
                             <h5 class="mb-0">{{ $title }}</h5>
                         </div>
                     </div>
+
                     <div class="card-body px-4">
+                        <div class="row g-3 align-items-end mb-3">
+                            <div class="col-md-4">
+                                <label for="search-text" class="form-label">Search</label>
+                                <input type="search" class="form-control form-control-sm search-field" id="search-text">
+                            </div>
+                            <div class="col-md-auto">
+                                <button type="button" class="btn btn-sm btn-dark uppercase mb-0" id="searchButton">search</button>
+                            </div>
+                        </div>
+
+
                         <div class="table-responsive">
                             <table class="table table-hover w-full">
                                 <thead>
@@ -43,7 +55,8 @@
                                     @if ($logs && count($logs) > 0)
                                         @foreach ($logs as $log)
                                             <tr class="text-xs">
-                                                <td class="px-3">{{ class_basename($log['auditable_type']) }} / {{ $log['auditable_id'] }} </td>
+                                                <td class="px-3">{{ class_basename($log['auditable_type']) }} /
+                                                    {{ $log['auditable_id'] }} </td>
                                                 <td class="px-3">{{ $log['event'] }}</td>
                                                 <td class="px-3">{{ $log['field'] }}</td>
                                                 <td class="px-3">

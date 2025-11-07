@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommissionAdjusted;
+use App\Events\CommissionAdjustUpdated;
+use App\Events\CommissionDeleted;
 use App\Events\CommissionPasswordVerified;
 use App\Events\CommissionStatusUpdated;
+use App\Events\CommissionUpdated;
 use App\Events\FileExported;
 use App\Events\FileImported;
 use App\Events\RecordDeleted;
@@ -107,13 +111,13 @@ class CommissionController extends Controller
 
         try {
             if (!$file) {
-                event(new FileImported('App\Models\CommissionsAr', auth()->id(), 'import', 'fail', $fileName, $fileSize, 'Invalid file.'));
+                event(new FileImported('App\Models\Commissions', auth()->id(), 'import', 'fail', $fileName, $fileSize, 'Invalid file.'));
                 return redirect()->back()->with('error', '❌ กรุณาเลือกไฟล์ก่อนนำเข้า');
             }
 
             // ✅ check ว่าเป็น .xlsx เท่านั้น
             if ($file->getClientOriginalExtension() !== 'xlsx') {
-                event(new FileImported('App\Models\CommissionsAr', auth()->id(), 'import', 'fail', $fileName, $fileSize, 'Wrong file format.'));
+                event(new FileImported('App\Models\Commissions', auth()->id(), 'import', 'fail', $fileName, $fileSize, 'Wrong file format.'));
                 return back()->with('error', '❌ กรุณาเลือกไฟล์ที่เป็น .xlsx เท่านั้น');
             }
 
@@ -162,60 +166,72 @@ class CommissionController extends Controller
                 Excel::import(new CommissionsArImport($commission->id), $request->file('file1'));
             }
 
-            event(new FileImported('App\Models\CommissionsAr', auth()->id(), 'import', 'pass', $fileName, $fileSize));
+            event(new FileImported('App\Models\Commissions', auth()->id(), 'import', 'pass', $fileName, $fileSize));
             return back()->with('succes', 'Import สำเร็จ!');
         } catch (\Throwable $th) {
-            event(new FileImported('App\Models\CommissionsAr', auth()->id(), 'import', 'fail', $fileName, $fileSize, $th->getMessage()));
+            event(new FileImported('App\Models\Commissions', auth()->id(), 'import', 'fail', $fileName, $fileSize, $th->getMessage()));
             return redirect()->back()->with('error', 'An error occurred. Please check the file.');
         }
     }
 
     public function adjust(Request $request, $id)
     {
-        $request->validate([
-            'sales_rep' => 'required|string|max:255',
-            /*'reference_key' => 'required|string|max:255|unique:commissions_ars,reference_key',*/
-            'reference_key' => 'required|string|max:255',
-            'commissions' => 'required|numeric',
-            'remark' => 'nullable|string|max:1000',
-        ], [
-            'reference_key.unique' => 'Invoice นี้มีอยู่ในระบบแล้ว',
-        ]);
+        try {
+            $request->validate([
+                'sales_rep' => 'required|string|max:255',
+                'reference_key' => 'required|string|max:255',
+                'commissions' => 'required|numeric',
+                'remark' => 'nullable|string|max:1000',
+            ], [
+                'reference_key.unique' => 'Invoice นี้มีอยู่ในระบบแล้ว',
+            ]);
 
-        CommissionsAr::create([
-            'commissions_id' => $id,
-            'sales_rep' => $request->sales_rep,
-            'reference_key' => $request->reference_key,
-            'commissions' => $request->commissions,
-            'remark' => $request->remark,
-            'type' => 'Adjust',
-            'adjuster' => Auth::user()->username,
-        ]);
+            $commissionArs = CommissionsAr::create([
+                'commissions_id' => $id,
+                'sales_rep' => $request->sales_rep,
+                'reference_key' => $request->reference_key,
+                'commissions' => $request->commissions,
+                'remark' => $request->remark,
+                'type' => 'Adjust',
+                'adjuster' => Auth::user()->username,
+            ]);
 
-        return redirect()->back()->with('adjust_success', true);
+            event(new CommissionAdjusted(auth()->user()->id, $commissionArs, 'pass'));
+            return redirect()->back()->with('adjust_success', true);
+        } catch (\Throwable $th) {
+            event(new CommissionAdjusted(auth()->user()->id, request()->all(), 'fail', $th->getMessage()));
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     public function adjustUpdate(Request $request, $id)
     {
-        $request->validate([
-            'sales_rep' => 'required|string|max:255',
-            /*'reference_key' => 'required|string|max:255|unique:commissions_ars,reference_key,' . $id,*/
-            'reference_key' => 'required|string|max:255',
-            'commissions' => 'required|numeric',
-            'remark' => 'nullable|string|max:1000',
-        ], [
-            'reference_key.unique' => 'Invoice นี้มีอยู่ในระบบแล้ว',
-        ]);
+        try {
+            $request->validate([
+                'sales_rep' => 'required|string|max:255',
+                'reference_key' => 'required|string|max:255',
+                'commissions' => 'required|numeric',
+                'remark' => 'nullable|string|max:1000',
+            ], [
+                'reference_key.unique' => 'Invoice นี้มีอยู่ในระบบแล้ว',
+            ]);
 
-        $adjust = CommissionsAr::findOrFail($id);
-        $adjust->update([
-            'sales_rep' => $request->sales_rep,
-            'reference_key' => $request->reference_key,
-            'commissions' => $request->commissions,
-            'remark' => $request->remark,
-        ]);
+            $adjust = CommissionsAr::findOrFail($id);
+            $oldAdjust = CommissionsAr::findOrFail($id);
 
-        return redirect()->back()->with('adjust_updated', true);
+            $adjust->update([
+                'sales_rep' => $request->sales_rep,
+                'reference_key' => $request->reference_key,
+                'commissions' => $request->commissions,
+                'remark' => $request->remark,
+            ]);
+
+            event(new CommissionAdjustUpdated(auth()->user()->id, $adjust, $oldAdjust, 'pass'));
+            return redirect()->back()->with('adjust_updated', true);
+        } catch (\Throwable $th) {
+            event(new CommissionAdjustUpdated(auth()->user()->id, request()->all(), null, 'fail', $th->getMessage()));
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     public function salesSummary(Request $request, $id)
@@ -465,7 +481,6 @@ class CommissionController extends Controller
 
     public function index(Request $request)
     {
-
         $commissions = Commission::where('delete', false)
             ->with('creator')
             ->orderByDesc('created_at')
@@ -675,29 +690,31 @@ class CommissionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // ดึง Commission
-        $commission = Commission::where('id', $id)->first();
+        try {
+            // ดึง Commission
+            $commission = Commission::where('id', $id)->first();
+            $oldCommission = $commission;
 
-        // ดึงข้อมูล commissions_ars พร้อม diffDays ที่คำนวณจาก SQL
-        $entries = CommissionsAr::select(
-            'commissions_ars.*',
-            DB::raw('DATEDIFF(clearing_date, document_date) as diffDays')
-        )
-            ->where('commissions_id', $id)
-            ->get();
+            // ดึงข้อมูล commissions_ars พร้อม diffDays ที่คำนวณจาก SQL
+            $entries = CommissionsAr::select(
+                'commissions_ars.*',
+                DB::raw('DATEDIFF(clearing_date, document_date) as diffDays')
+            )
+                ->where('commissions_id', $id)
+                ->get();
 
-        foreach ($entries as $entry) {
-            $salesRep = $entry->sales_rep;
+            foreach ($entries as $entry) {
+                $salesRep = $entry->sales_rep;
 
-            if (!$salesRep || strlen($salesRep) < 4) {
-                continue;
-            }
+                if (!$salesRep || strlen($salesRep) < 4) {
+                    continue;
+                }
 
-            // ตัด 3 ตัวหน้า
-            $jobCode = substr($salesRep, 3);
+                // ตัด 3 ตัวหน้า
+                $jobCode = substr($salesRep, 3);
 
-            $user = UserMaster::where('job_code', $jobCode)
-                ->orderByRaw("
+                $user = UserMaster::where('job_code', $jobCode)
+                    ->orderByRaw("
                      CASE
                          WHEN status = 'Current' THEN 1
                          WHEN status = 'Probation' THEN 2
@@ -705,109 +722,121 @@ class CommissionController extends Controller
                          ELSE 4
                      END
                  ")
-                ->orderByDesc('effecttive_date')
-                ->first();
+                    ->orderByDesc('effecttive_date')
+                    ->first();
 
-            if (!$user) {
-                continue;
+                if (!$user) {
+                    continue;
+                }
+
+                $division = $user->division;
+
+                // ข้ามถ้า docDate หรือ clearDate ว่าง
+                if (!$entry->document_date || !$entry->clearing_date) continue;
+
+                $diffDays = (int) $entry->diffDays;
+
+                // หา schema
+                $schema = CommissionsSchemaDetail::where('commissions_schemas_id', $commission->schema_id)
+                    ->where('division_name', $division)
+                    ->where('ar_start', '<=', $diffDays)
+                    ->where('ar_end', '>=', $diffDays)
+                    ->first();
+                $oldSchema = $schema;
+
+                if ($schema) {
+                    $ratePercent = (float) $schema->rate_percent;
+                    $amount = (float) $entry->amount_in_local_currency;
+                    $commissionAmount = $amount * $ratePercent / 100;
+
+                    $entry->ar_rate_percent = $ratePercent;
+                    $entry->ar_rate = $diffDays;
+                    $entry->commissions = round($commissionAmount, 2);
+                    $entry->save();
+
+                    event(new CommissionUpdated(auth()->user()->id, 'App\Models\CommissionsSchemaDetail', $oldSchema, $schema, 'pass'));
+                }
             }
 
-            $division = $user->division;
+            // ✅ อัปเดต status ของ Commission เป็น "calculated"
+            $commission = Commission::find($id);
 
-            // ข้ามถ้า docDate หรือ clearDate ว่าง
-            if (!$entry->document_date || !$entry->clearing_date) continue;
+            if ($commission) {
+                $commission->status = 'calculated';
+                $commission->save();
 
-            $diffDays = (int) $entry->diffDays;
+                // ***** update status *****
+                event(new CommissionUpdated(auth()->user()->id, 'App\Models\Commission', $oldCommission, $commission, 'pass'));
 
-            // หา schema
-            $schema = CommissionsSchemaDetail::where('commissions_schemas_id', $commission->schema_id)
-                ->where('division_name', $division)
-                ->where('ar_start', '<=', $diffDays)
-                ->where('ar_end', '>=', $diffDays)
-                ->first();
+                // หา commission id เก่า (ล่าสุด - 1)
+                $latestId = Commission::where('delete', 0)->max('id');
 
-            if ($schema) {
-                $ratePercent = (float) $schema->rate_percent;
-                $amount = (float) $entry->amount_in_local_currency;
-                $commissionAmount = $amount * $ratePercent / 100;
+                $oldCommissionId = Commission::where('delete', 0)
+                    ->where('id', '<', $latestId)
+                    ->max('id');
 
-                $entry->ar_rate_percent = $ratePercent;
-                $entry->ar_rate = $diffDays;
-                $entry->commissions = round($commissionAmount, 2);
-                $entry->save();
+                $ars = DB::table('commissions_ars')
+                    ->select(
+                        'account',
+                        'name',
+                        'document_type',
+                        'reference',
+                        'reference_key',
+                        'document_date',
+                        'clearing_date',
+                        'amount_in_local_currency',
+                        'local_currency',
+                        'clearing_document',
+                        'text',
+                        'posting_key',
+                        'sales_rep',
+                        'ar_rate',
+                        'ar_rate_percent',
+                        'commissions'
+                    )
+                    ->where('commissions_id', $oldCommissionId)
+                    ->where('commissions', '!=', '')
+                    ->whereNull('status')
+                    ->get();
+
+                if ($ars->isNotEmpty()) {
+                    $insertData = $ars->map(function ($ar) use ($id) {
+                        return [
+                            'type'                     => 'AR Old',
+                            'commissions_id'           => $id,
+                            'account'                  => $ar->account,
+                            'name'                     => $ar->name,
+                            'document_type'            => $ar->document_type,
+                            'reference'                => $ar->reference,
+                            'reference_key'            => $ar->reference_key,
+                            'document_date'            => $ar->document_date,
+                            'clearing_date'            => $ar->clearing_date,
+                            'amount_in_local_currency' => $ar->amount_in_local_currency,
+                            'local_currency'           => $ar->local_currency,
+                            'clearing_document'        => $ar->clearing_document,
+                            'text'                     => $ar->text,
+                            'posting_key'              => $ar->posting_key,
+                            'sales_rep'                => $ar->sales_rep,
+                            'ar_rate'                  => $ar->ar_rate,
+                            'ar_rate_percent'          => $ar->ar_rate_percent,
+                            'commissions'              => $ar->commissions,
+                            'status'                   => null,
+                            'created_at'               => now(),
+                            'updated_at'               => now(),
+                        ];
+                    })->toArray();
+
+                    $insertArs = DB::table('commissions_ars')->insert($insertData);
+
+                    event(new CommissionUpdated(auth()->user()->id, 'App\Models\CommissionsAr', null, $insertArs, 'pass'));
+                }
             }
+
+            return back()->with('success', 'คำนวณค่าคอมมิชชั่นสำเร็จแล้ว');
+        } catch (\Throwable $th) {
+            event(new CommissionUpdated(auth()->user()->id, 'App\Models\Commission', null, null, 'fail', $th->getMessage()));
+            return back()->with('error', $th->getMessage());
         }
-
-        // ✅ อัปเดต status ของ Commission เป็น "calculated"
-        $commission = Commission::find($id);
-
-        if ($commission) {
-            $commission->status = 'calculated';
-            $commission->save();
-
-            // หา commission id เก่า (ล่าสุด - 1)
-            $latestId = Commission::where('delete', 0)->max('id');
-
-            $oldCommissionId = Commission::where('delete', 0)
-                ->where('id', '<', $latestId)
-                ->max('id');
-
-            $ars = DB::table('commissions_ars')
-                ->select(
-                    'account',
-                    'name',
-                    'document_type',
-                    'reference',
-                    'reference_key',
-                    'document_date',
-                    'clearing_date',
-                    'amount_in_local_currency',
-                    'local_currency',
-                    'clearing_document',
-                    'text',
-                    'posting_key',
-                    'sales_rep',
-                    'ar_rate',
-                    'ar_rate_percent',
-                    'commissions'
-                )
-                ->where('commissions_id', $oldCommissionId)
-                ->where('commissions', '!=', '')
-                ->whereNull('status')
-                ->get();
-
-            if ($ars->isNotEmpty()) {
-                $insertData = $ars->map(function ($ar) use ($id) {
-                    return [
-                        'type'                     => 'AR Old',
-                        'commissions_id'           => $id,
-                        'account'                  => $ar->account,
-                        'name'                     => $ar->name,
-                        'document_type'            => $ar->document_type,
-                        'reference'                => $ar->reference,
-                        'reference_key'            => $ar->reference_key,
-                        'document_date'            => $ar->document_date,
-                        'clearing_date'            => $ar->clearing_date,
-                        'amount_in_local_currency' => $ar->amount_in_local_currency,
-                        'local_currency'           => $ar->local_currency,
-                        'clearing_document'        => $ar->clearing_document,
-                        'text'                     => $ar->text,
-                        'posting_key'              => $ar->posting_key,
-                        'sales_rep'                => $ar->sales_rep,
-                        'ar_rate'                  => $ar->ar_rate,
-                        'ar_rate_percent'          => $ar->ar_rate_percent,
-                        'commissions'              => $ar->commissions,
-                        'status'                   => null,
-                        'created_at'               => now(),
-                        'updated_at'               => now(),
-                    ];
-                })->toArray();
-
-                DB::table('commissions_ars')->insert($insertData);
-            }
-        }
-
-        return back()->with('succes', 'คำนวณค่าคอมมิชชั่นสำเร็จแล้ว');
     }
 
     /**
@@ -815,10 +844,16 @@ class CommissionController extends Controller
      */
     public function destroy(Commission $commission)
     {
-        // ตัวอย่าง: update flag delete = true
-        $commission->update(['delete' => true]);
+        try {
+            // ตัวอย่าง: update flag delete = true
+            $commission->update(['delete' => true]);
 
-        return redirect()->route('commissions.index')->with('succes', 'ลบ Commission สำเร็จ');
+            event(new CommissionDeleted(auth()->user()->id, $commission->id, 'pass'));
+            return redirect()->route('commissions.index')->with('success', 'ลบ Commission สำเร็จ');
+        } catch (\Throwable $th) {
+            event(new CommissionDeleted(auth()->user()->id, $commission->id, 'fail', $th->getMessage()));
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     public function adjust_delete($id)
@@ -837,7 +872,7 @@ class CommissionController extends Controller
             return redirect()->back()->with('success', 'ลบรายการเรียบร้อยแล้ว');
         } catch (\Throwable $th) {
             event(new RecordDeleted('App\Models\CommissionsAr', auth()->id(), 'fail', $id, $e->getMessage()));
-            return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $th->getMessage());
         }
     }
 }

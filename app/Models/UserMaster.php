@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserMaster extends Model
 {
-    use HasFactory, Auditable;
+    use HasFactory;
 
     protected $fillable = [
       'employee_code',
