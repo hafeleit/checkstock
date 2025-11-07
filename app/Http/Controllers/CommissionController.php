@@ -386,7 +386,8 @@ class CommissionController extends Controller
                     $to = ['warisara@hafele.co.th', 'pimnada@hafele.co.th']; //warisara, pimnada
                     $cc = array_merge($cc, [
                         'apirak@hafele.co.th',
-                        'chanida@hafele.co.th',
+                        'pariyanuch@hafele.co.th',
+                        'ratchanee@hafele.co.th',
                         'nattawan@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
@@ -396,18 +397,20 @@ class CommissionController extends Controller
                     $to = ['sarunya@hafele.co.th']; //sarunya
                     $cc = array_merge($cc, [
                         'apirak@hafele.co.th',
-                        'chanida@hafele.co.th',
+                        'pariyanuch@hafele.co.th',
+                        'ratchanee@hafele.co.th',
                         'nattawan@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Summary Confirmed':
-                    $to = ['chanida@hafele.co.th']; //chanida
+                    $to = ['pariyanuch@hafele.co.th']; //chanida
                     $cc = array_merge($cc, [
                         'apirak@hafele.co.th',
                         'warisara@hafele.co.th',
                         'pimnada@hafele.co.th',
+                        'ratchanee@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
@@ -417,6 +420,7 @@ class CommissionController extends Controller
                     $cc = array_merge($cc, [
                         'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
+                        'ratchanee@hafele.co.th',
                     ]);
                     break;
 
@@ -426,26 +430,29 @@ class CommissionController extends Controller
                         'apirak@hafele.co.th',
                         'warisara@hafele.co.th',
                         'pimnada@hafele.co.th',
+                        'ratchanee@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Final Rejected':
-                    $to = ['chanida@hafele.co.th']; //chanida
+                    $to = ['pariyanuch@hafele.co.th']; //chanida
                     $cc = array_merge($cc, [
                         'apirak@hafele.co.th',
                         'sarunya@hafele.co.th',
                         'pokpong@hafele.co.th',
+                        'ratchanee@hafele.co.th',
                     ]);
                     break;
 
                 case 'Final Approved':
-                    $to = ['chanida@hafele.co.th'];
+                    $to = ['pariyanuch@hafele.co.th'];
                     $cc = array_merge($cc, [
                         'apirak@hafele.co.th',
                         'warisara@hafele.co.th',
                         'pimnada@hafele.co.th',
                         'sarunya@hafele.co.th',
+                        'ratchanee@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
