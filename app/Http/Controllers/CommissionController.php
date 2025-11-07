@@ -355,6 +355,8 @@ class CommissionController extends Controller
                 $commission->fin_comment = $request->fin_comment;
             }
 
+            $salesReps = [];
+            
             if (empty($request->hr_comment) && empty($request->fin_comment)) {
                 if (!empty($request->selected_sales)) {
                     $salesReps = explode(',', $request->selected_sales);
