@@ -276,11 +276,10 @@
                                 @endcan
                             @endif
                             @can('Commissions AR-Adjust')
-                              <?php /*
                                 <button type="button" class="btn btn-sm bg-gradient-info px-3 me-2" id="export-btn"
                                     data-url="{{ route('commissions.export', $commission->id) }}">
                                     <i class="fas fa-file-export me-1"></i> Export
-                                </button> */?>
+                                </button>
                             @endcan
                             @can('Commissions Summary-View')
                                 <div class="ms-auto">
