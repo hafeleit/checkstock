@@ -356,7 +356,7 @@ class CommissionController extends Controller
             }
 
             $salesReps = [];
-            
+
             if (empty($request->hr_comment) && empty($request->fin_comment)) {
                 if (!empty($request->selected_sales)) {
                     $salesReps = explode(',', $request->selected_sales);
@@ -388,6 +388,7 @@ class CommissionController extends Controller
                         'apirak@hafele.co.th',
                         'chanida@hafele.co.th',
                         'nattawan@hafele.co.th',
+                        'pokpong@hafele.co.th',
                     ]);
                     break;
 
@@ -397,6 +398,7 @@ class CommissionController extends Controller
                         'apirak@hafele.co.th',
                         'chanida@hafele.co.th',
                         'nattawan@hafele.co.th',
+                        'pokpong@hafele.co.th',
                     ]);
                     break;
 
@@ -405,7 +407,8 @@ class CommissionController extends Controller
                     $cc = array_merge($cc, [
                         'apirak@hafele.co.th',
                         'warisara@hafele.co.th',
-                        'pimnada@hafele.co.th'
+                        'pimnada@hafele.co.th',
+                        'pokpong@hafele.co.th',
                     ]);
                     break;
 
@@ -413,6 +416,7 @@ class CommissionController extends Controller
                     $to = ['warisara@hafele.co.th', 'pimnada@hafele.co.th']; //warisara, pimnada
                     $cc = array_merge($cc, [
                         'apirak@hafele.co.th',
+                        'pokpong@hafele.co.th',
                     ]);
                     break;
 
@@ -421,7 +425,8 @@ class CommissionController extends Controller
                     $cc = array_merge($cc, [
                         'apirak@hafele.co.th',
                         'warisara@hafele.co.th',
-                        'pimnada@hafele.co.th'
+                        'pimnada@hafele.co.th',
+                        'pokpong@hafele.co.th',
                     ]);
                     break;
 
@@ -429,7 +434,8 @@ class CommissionController extends Controller
                     $to = ['chanida@hafele.co.th']; //chanida
                     $cc = array_merge($cc, [
                         'apirak@hafele.co.th',
-                        'sarunya@hafele.co.th'
+                        'sarunya@hafele.co.th',
+                        'pokpong@hafele.co.th',
                     ]);
                     break;
 
@@ -440,6 +446,7 @@ class CommissionController extends Controller
                         'warisara@hafele.co.th',
                         'pimnada@hafele.co.th',
                         'sarunya@hafele.co.th',
+                        'pokpong@hafele.co.th',
                     ]);
                     break;
             }
