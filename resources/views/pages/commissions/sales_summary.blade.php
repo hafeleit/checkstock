@@ -251,13 +251,15 @@
                                 </button>
                             </form>
                         </div>
+                        @endcan
+                        @canany(['Commissions Summary-Approve', 'Commissions Summary-Confirm'])
                         <button type="button"
                                 class="btn btn-sm bg-gradient-danger px-3"
                                 data-bs-toggle="modal"
                                 data-bs-target="#summary-rejectModal-{{ $commission->id }}">
-                            <i class="fas fa-times me-1"></i> Reject
+                            <i class="fas fa-times me-1"></i> Reject Confirm
                         </button>
-                        @endcan
+                        @endcanany
                       @endif
 
                       @if ($commission->status === 'AR Approved' || $commission->status === 'Summary Rejected(Manager)')
@@ -284,7 +286,7 @@
                                 class="btn btn-sm bg-gradient-danger px-3"
                                 data-bs-toggle="modal"
                                 data-bs-target="#rejectModal-{{ $commission->id }}">
-                            <i class="fas fa-times me-1"></i>Reject
+                            <i class="fas fa-times me-1"></i>Reject AR
                         </button>
                         @endcan
 
