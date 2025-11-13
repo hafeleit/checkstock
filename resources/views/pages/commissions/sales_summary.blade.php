@@ -197,7 +197,7 @@
                          class="btn btn-sm bg-gradient-info px-3 me-2">
                           <i class="fas fa-file-export me-1"></i> ดูรายละเอียด
                       </a>
-                      @if ($commission->status === 'Final Approved')
+                      @if ($commission->status === 'Summary Approved')
                         @can('Commissions Summary-Export')
                         <button type="button"
                                 class="btn btn-sm bg-gradient-success px-3 me-2"
@@ -210,6 +210,7 @@
 
                       @if ($commission->status === 'Summary Approved')
                         @can('Commissions Approve')
+                        <?php /*
                         <div class="ms-auto">
                             <form id="approve-form-{{ $commission->id }}"
                                   action="{{ route('commissions.updateStatus', $commission->id) }}"
@@ -225,12 +226,14 @@
                                 </button>
                             </form>
                         </div>
+
                         <button type="button"
                                 class="btn btn-sm bg-gradient-danger px-3"
                                 data-bs-toggle="modal"
                                 data-bs-target="#final-rejectModal-{{ $commission->id }}">
                             <i class="fas fa-times me-1"></i> Reject
                         </button>
+                        */ ?>
                         @endcan
                       @endif
 
