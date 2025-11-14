@@ -247,7 +247,7 @@ class SalesUSIController extends Controller
                         WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war, 0)) DAY)
                         WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war, 0)) DAY)
                         WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war, 0)) DAY)
-                    END, 1
+                    END, 3
                 ) = ?", [$ipd_week_no])
             ->groupBy('a.purchasing_document');
 
@@ -292,8 +292,8 @@ class SalesUSIController extends Controller
                 DB::raw("COALESCE(a.order_quantity * a.pricing_unit, 0) AS ISD_VALUE"),
                 DB::raw("COALESCE(CONCAT_WS(' ', d.ZI, d.ISD_ADMIN), '') AS ISD_ADMIN"),
                 DB::raw("COALESCE(CONCAT_WS(' ', d.ZE, d.ISD_REP), '') AS ISD_REP"),
-                DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) AS years"),
-                DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) AS weeks")
+                DB::raw("RIGHT(LEFT(YEARWEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 3), 4), 2) AS years"),
+                DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 3) AS weeks")
             )
             ->leftJoinSub(
                 DB::table('ZHAASD_ORD')
@@ -318,11 +318,11 @@ class SalesUSIController extends Controller
 
         // Conditions: week, year
         if ($year !== null) {
-            $subquery1->whereRaw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) = ?", [$year]);
+            $subquery1->whereRaw("LEFT(YEARWEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 3), 4) = ?", ['20' . $year]);
         }
 
         if ($week !== null) {
-            $subquery1->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) = ?", [$week]);
+            $subquery1->whereRaw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 3) = ?", [$week]);
         }
 
         $subquery1->groupBy('a.sd_document');
@@ -531,6 +531,12 @@ class SalesUSIController extends Controller
             ->where('material', $material)
             ->groupBy('material');
 
+        $date_expression = "CASE
+                WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
+                WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
+                WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
+            END";
+
         $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
             ->leftJoinSub($subquery, 'b', function ($join) {
                 $join->on('a.purchasing_document', '=', 'b.purch_doc')
@@ -545,19 +551,8 @@ class SalesUSIController extends Controller
             )
             ->select([
                 'a.material',
-                DB::raw("RIGHT(YEAR(
-                    CASE
-                        WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
-                        WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
-                        WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
-                    END
-                ), 2) AS years"),
-                DB::raw("WEEK(
-                CASE
-                    WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
-                    WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
-                    WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
-                END, 1) AS weeks"),
+                DB::raw("RIGHT(LEFT(YEARWEEK($date_expression, 3), 4), 2) AS years"),
+                DB::raw("WEEK($date_expression, 3) AS weeks"),
                 'a.po_order_unit AS WSS_ITEM_UOM_CODE',
                 DB::raw("COALESCE(SUM(b.order_quantity), 0) AS WSS_INCOMING_QTY"),
                 DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY"),
@@ -575,14 +570,14 @@ class SalesUSIController extends Controller
                 'a.material',
                 DB::raw("COALESCE(a.sd_document, '') AS ISD_DOC_NO"),
                 DB::raw("COALESCE(SUM(a.confirmed_quantity), 0) AS sum_order_qty"),
-                DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2) AS years"),
-                DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1) AS weeks")
+                DB::raw("RIGHT(LEFT(YEARWEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 3), 4), 2) AS years"),
+                DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 3) AS weeks")
             )
             ->where('a.material', $material)
             ->where('a.status', '!=', 'Completed')
             ->groupBy(
-                DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 1)"),
-                DB::raw("RIGHT(YEAR(STR_TO_DATE(a.delivery_date, '%m/%d/%Y')), 2)")
+                DB::raw("WEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 3)"),
+                DB::raw("RIGHT(LEFT(YEARWEEK(STR_TO_DATE(a.delivery_date, '%m/%d/%Y'), 3), 4), 2)")
             );
 
         $t2 = DB::table('ZHAASD_INV as b')
