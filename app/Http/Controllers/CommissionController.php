@@ -731,17 +731,23 @@ class CommissionController extends Controller
 
                 $user = UserMaster::where('job_code', $jobCode)
                     ->orderByRaw("
-                     CASE
-                         WHEN status = 'Current' THEN 1
-                         WHEN status = 'Probation' THEN 2
-                         WHEN status = 'Resign' THEN 3
-                         ELSE 4
-                     END
-                 ")
+                        CASE
+                            WHEN status = 'Current' THEN 1
+                            WHEN status = 'Probation' THEN 2
+                            WHEN status = 'Resign' THEN 3
+                            ELSE 4
+                        END
+                    ")
                     ->orderByDesc('effecttive_date')
                     ->first();
 
                 if (!$user) {
+                    continue;
+                }
+
+                // เช็ค job grade code N05 ขึ้นไป -> ไม่ถูกคำนวณ commission
+                $checkJobGrade = $this->checkJobGradeCode($user->job_grade_code);
+                if (!$checkJobGrade) {
                     continue;
                 }
 
@@ -890,5 +896,13 @@ class CommissionController extends Controller
             event(new RecordDeleted('App\Models\CommissionsAr', auth()->id(), 'fail', $id, $e->getMessage()));
             return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $th->getMessage());
         }
+    }
+
+    private function checkJobGradeCode($jobGradeCode)
+    {
+        $trimCode = trim($jobGradeCode, 'N');
+        $value = intVal($trimCode);
+
+        return $value >= 5 ? false : true;
     }
 }
