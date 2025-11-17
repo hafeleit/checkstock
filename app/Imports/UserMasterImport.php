@@ -46,6 +46,7 @@ class UserMasterImport implements ToModel, WithStartRow, WithMultipleSheets, Wit
             'dept' => $row[5] ?? '',
             'position' => $row[12] ?? '',
             'email' => $row[11] ?? '',
+            'job_grade_code' => $row[13] ?? '',
         ]);
       }
 

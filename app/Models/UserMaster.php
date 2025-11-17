@@ -26,5 +26,6 @@ class UserMaster extends Model
       'position',
       'location',
       'email',
+      'job_grade_code'
     ];
 }
