@@ -24,13 +24,21 @@ class WarrantyController extends Controller
 
   public function search_warranty(Request $request)
   {
+    request()->validate([
+      'search' => 'required|string|max:50|regex:/^[a-z0-9\s\-\(\)\+]+$/i'
+    ]);
+
     if ($request->search != '') {
-      $query = Warranty::where('serial_no', $request->search)
+      $query = Warranty::query()
+        ->where('serial_no', $request->search)
         ->orWhere('tel', $request->search);
+
       $count = $query->count();
       $data = $query->get();
+
       return view('pages.warranty.search', ['data' => $data, 'count' => $count]);
     }
+    return view('pages.warranty.search', ['data' => [], 'count' => 0]);
   }
 
   /**
@@ -43,7 +51,7 @@ class WarrantyController extends Controller
    */
   public function store(Request $request)
   {
-    $request->validate([
+    $validatedData = $request->validate([
       'file' => 'required|image|mimes:jpeg,png,jpg|max:10048',
       'file2' => 'image|mimes:jpeg,png,jpg|max:10048',
       'file3' => 'image|mimes:jpeg,png,jpg|max:10048',
@@ -52,15 +60,21 @@ class WarrantyController extends Controller
       'name' => 'required',
       'addr' => 'required',
       'tel' => 'required',
+      'article_no' => 'required',
+      'email' => 'nullable|email',
       'serial_no' => 'nullable|unique:warranties,serial_no',
       'order_channel' => 'required',
+      'other_channel' => 'required_if:order_channel,other|nullable|string|max:255',
       'order_number' => 'required',
+      'is_consent' => 'required|in:true',
     ], [
-      'unique' => 'หมายเลขซีเรียลได้ถูกนำไปใช้แล้ว'
+      'unique' => 'หมายเลขซีเรียลได้ถูกนำไปใช้แล้ว',
+      'other_channel.required_if' => 'กรุณากรอกช่องทางการสั่งซื้ออื่นๆ',
+      'is_consent.in' => 'กรุณายอมรับเงื่อนไขเพื่อดำเนินการต่อ',
     ]);
 
     // หาก serial_no ว่างเปล่า จะใช้ชื่อไฟล์ที่สร้างจาก uniqid() แทน
-    $baseFilename = $request->serial_no ? $request->serial_no : 'warranty-' . uniqid();
+    $baseFilename = $validatedData['serial_no'] ?? 'warranty-' . uniqid();
 
     // สร้าง dir สำหรับเก็บไฟล์ (ถ้ายังไม่มี)
     $path = 'storage/img/warranty/';
@@ -73,27 +87,23 @@ class WarrantyController extends Controller
     foreach ($files as $index => $fileKey) {
       if ($request->hasFile($fileKey)) {
         $image = $request->file($fileKey);
-        $extension = $image->getClientOriginalExtension();
-        $filename = $baseFilename . ($index > 0 ? '_' . ($index + 1) : '') . '.' . $extension;
+        $filename = $baseFilename . ($index > 0 ? '_' . ($index + 1) : '') . '.jpg';
 
-        Image::make($image)->save('storage/img/warranty/' . $filename, 60, 'jpg');
+        Image::make($image)->save($path . $filename, 60);
         $fileNames[$fileKey] = $filename;
       }
     }
 
-    $warrantyData = $request->all();
-    $warrantyData['file_name'] = $fileNames['file'] ?? '';
-    $warrantyData['file_name2'] = $fileNames['file2'] ?? '';
-    $warrantyData['file_name3'] = $fileNames['file3'] ?? '';
-    $warrantyData['file_name4'] = $fileNames['file4'] ?? '';
-    $warrantyData['file_name5'] = $fileNames['file5'] ?? '';
+    $warrantyData = array_merge($validatedData, [
+      'is_consent' => $validatedData['is_consent'] == 'true',
+      'file_name'  => $fileNames['file'] ?? null,
+      'file_name2' => $fileNames['file2'] ?? null,
+      'file_name3' => $fileNames['file3'] ?? null,
+      'file_name4' => $fileNames['file4'] ?? null,
+      'file_name5' => $fileNames['file5'] ?? null,
+    ]);
 
-    unset($warrantyData['_token']);
-    foreach ($files as $fileKey) {
-      unset($warrantyData[$fileKey]);
-    }
-
-    Warranty::insert($warrantyData);
+    Warranty::create($warrantyData);
 
     return back()->with('success', 'You have successfully applied for a warranty.');
   }
