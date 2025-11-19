@@ -383,76 +383,79 @@ class CommissionController extends Controller
 
             switch ($request->status) {
                 case 'AR Approved':
-                    $to = ['warisara@hafele.co.th', 'pimnada@hafele.co.th']; //warisara, pimnada
+                    $to = ['pimnada@hafele.co.th']; //hr staff
                     $cc = array_merge($cc, [
-                        'apirak@hafele.co.th',
-                        'pariyanuch@hafele.co.th',
                         'ratchanee@hafele.co.th',
-                        'nattawan@hafele.co.th',
+
+                        'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Summary Rejected':
-                    $to = ['sarunya@hafele.co.th']; //sarunya
+                    $to = ['sarunya@hafele.co.th']; //finance staff
                     $cc = array_merge($cc, [
-                        'apirak@hafele.co.th',
-                        'pariyanuch@hafele.co.th',
                         'ratchanee@hafele.co.th',
-                        'nattawan@hafele.co.th',
+
+                        'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Summary Confirmed':
-                    $to = ['pariyanuch@hafele.co.th']; //chanida
+                    $to = ['pariyanuch@hafele.co.th']; //hr manager
                     $cc = array_merge($cc, [
-                        'apirak@hafele.co.th',
-                        'warisara@hafele.co.th',
-                        'pimnada@hafele.co.th',
                         'ratchanee@hafele.co.th',
+
+                        'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Summary Rejected(Manager)':
-                    $to = ['warisara@hafele.co.th', 'pimnada@hafele.co.th']; //warisara, pimnada
+                    $to = ['pimnada@hafele.co.th']; //hr staff
                     $cc = array_merge($cc, [
+                        'pariyanuch@hafele.co.th',
+                        'ratchanee@hafele.co.th',
+
                         'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
-                        'ratchanee@hafele.co.th',
                     ]);
                     break;
 
                 case 'Summary Approved':
-                    $to = ['nattawan@hafele.co.th']; //nattawan
+                    $to = ['pariyanuch@hafele.co.th']; //hr director
                     $cc = array_merge($cc, [
-                        'apirak@hafele.co.th',
-                        'warisara@hafele.co.th',
+                        'pariyanuch@hafele.co.th', //hr manager
                         'pimnada@hafele.co.th',
                         'ratchanee@hafele.co.th',
+
+                        'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Final Rejected':
-                    $to = ['pariyanuch@hafele.co.th']; //chanida
+                    $to = ['pariyanuch@hafele.co.th']; //hr manager
                     $cc = array_merge($cc, [
-                        'apirak@hafele.co.th',
-                        'sarunya@hafele.co.th',
-                        'pokpong@hafele.co.th',
+                        'pimnada@hafele.co.th',
                         'ratchanee@hafele.co.th',
+                        'pariyanuch@hafele.co.th',
+
+                        'apirak@hafele.co.th',
+                        'pokpong@hafele.co.th',
+
                     ]);
                     break;
 
                 case 'Final Approved':
-                    $to = ['pariyanuch@hafele.co.th'];
+                    $to = ['pimnada@hafele.co.th']; //hr staff
                     $cc = array_merge($cc, [
-                        'apirak@hafele.co.th',
-                        'warisara@hafele.co.th',
+                        'pariyanuch@hafele.co.th',
                         'pimnada@hafele.co.th',
-                        'sarunya@hafele.co.th',
                         'ratchanee@hafele.co.th',
+
+                        'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
