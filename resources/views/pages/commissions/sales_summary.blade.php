@@ -227,13 +227,14 @@
                             </form>
                         </div>
 
+
+                        */ ?>
                         <button type="button"
                                 class="btn btn-sm bg-gradient-danger px-3"
                                 data-bs-toggle="modal"
                                 data-bs-target="#final-rejectModal-{{ $commission->id }}">
                             <i class="fas fa-times me-1"></i> Reject
                         </button>
-                        */ ?>
                         @endcan
                       @endif
 
