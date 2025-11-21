@@ -134,27 +134,20 @@
                             <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
-                            <span>MRP : <label class="mrp_desc text-sm"></label></span>
+                            <span>MRP : <label class="mrp_desc text-sm badge bg-success mb-0 py-1"></label></span>
                           </div>
-                          <!--<div class="col-12 col-sm-4">
-                            <span>Supp Item Code : <label class="supplier_item_code text-sm"></label></span>
-                          </div>-->
                         </div>
 
                         <div class="row">
                           <div class="col-12 col-sm-4">
-                            <span>Item Status : <label class="item_status text-sm"></label></span>
+                            <span>Item Status : <label class="item_status text-sm mb-0 py-1"></label></span>
                           </div>
                           <div class="col-12 col-sm-3">
                             <span>Barcode : <label class="barcode text-sm"></label></span>
                           </div>
                           <div class="col-12 col-sm-5">
-                            <span>Storage indicator : <label class="inventory_code text-sm"></label></span>
+                            <span>Storage indicator : <label class="inventory_code text-sm badge bg-success mb-0 py-1"></label></span>
                           </div>
-                          <!--
-                          <div class="col-12 col-sm-5">
-                            <span>MRP Type : <label class="item_dm text-sm"></label></span>
-                          </div>-->
                         </div>
                         <div class="row mt-3 bom_show_flg" >
                           <div class="col-auto">
@@ -466,6 +459,16 @@
       $("#po_table > tbody").html("");
       $("#so_table > tbody").html("");
 
+      // Badge color : item_status
+      var item_status_value = res['data'][0]['NSU_ITEM_STATUS'];
+      var $item_status = $('.item_status');
+      $item_status.html(item_status_value);
+      if (item_status_value === 'Active') {
+          $item_status.addClass('badge bg-success');
+      } else {
+          $item_status.addClass('badge bg-danger');
+      }
+
       $('.item_code').html(res['data'][0]['NSU_ITEM_CODE']);
       $('.item_desc').html(res['data'][0]['NSU_ITEM_NAME']);
       $('.item_dm').html(res['data'][0]['NSU_ITEM_DM']);
@@ -473,14 +476,10 @@
       $('.purchaser').html(res['data'][0]['NSU_PURCHASER']);
       $('.pm_contact').html(res['data'][0]['NSU_PROD_MGR']);
       $('.uom').html(res['data'][0]['NSU_ITEM_UOM_CODE']);
-      //$('.pack_code1').html(res['data'][0]['NSU_PACK_UOM_CODE']);
       $('.pack_code2').html(res['data'][0]['NSU_CONV_BASE_UOM'] + ' ' + res['data'][0]['NSU_ITEM_UOM_CODE']);
       $('.weight_volume1').html(res['data'][0]['NSU_PACK_WEIGHT']);
       $('.weight_volume2').html(res['data'][0]['NSU_PACK_VOLUME']);
-      $('.item_status').html(res['data'][0]['NSU_ITEM_STATUS']);
       $('.repl_time').html(res['data'][0]['NSU_SUPP_REPL_TIME']);
-      //$('.bash_price').html(res['data'][0]['NSU_BASE_PRICE']);
-      //$('.zplv').html(res['data'][0]['NSU_BASE_PRICE_ZPLV']);
       $('.purchase_moq').html(addCommas(res['data'][0]['NSU_PURC_MOQ']));
       $('.inventory_code').html(res['data'][0]['NSU_ITEM_INV_CODE']);
       $('.barcode').html(res['data'][0]['ean_upc']);
