@@ -24,6 +24,7 @@ class Warranty extends Model
         'file_name3', 
         'file_name4', 
         'file_name5',
-        'is_consent',
+        'is_consent_policy',
+        'is_consent_marketing',
     ];
 }
