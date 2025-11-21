@@ -248,7 +248,6 @@
 
                             @if (
                                 $commission->status === 'AR Approved' ||
-                                    $commission->status === 'Summary Confirmed' ||
                                     $commission->status === 'Summary Rejected(Manager)')
                                 @can('Commissions AR-Adjust')
                                     <button type="button" class="btn btn-sm bg-gradient-warning px-3 me-2"
@@ -278,7 +277,7 @@
                             @can('Commissions AR-Adjust')
                                 <button type="button" class="btn btn-sm bg-gradient-info px-3 me-2" id="export-btn"
                                     data-url="{{ route('commissions.export', $commission->id) }}">
-                                    <i class="fas fa-file-export me-1"></i> Export
+                                    <i class="fas fa-file-export me-1"></i>AR Export 
                                 </button>
                             @endcan
                             @can('Commissions Summary-View')

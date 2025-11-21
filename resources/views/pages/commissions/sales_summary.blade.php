@@ -210,7 +210,7 @@
 
                       @if ($commission->status === 'Summary Approved')
                         @can('Commissions Approve')
-                        <?php /*
+
                         <div class="ms-auto">
                             <form id="approve-form-{{ $commission->id }}"
                                   action="{{ route('commissions.updateStatus', $commission->id) }}"
@@ -227,8 +227,6 @@
                             </form>
                         </div>
 
-
-                        */ ?>
                         <button type="button"
                                 class="btn btn-sm bg-gradient-danger px-3"
                                 data-bs-toggle="modal"
