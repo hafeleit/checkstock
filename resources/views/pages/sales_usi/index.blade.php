@@ -463,6 +463,7 @@
       var item_status_value = res['data'][0]['NSU_ITEM_STATUS'];
       var $item_status = $('.item_status');
       $item_status.html(item_status_value);
+      $item_status.removeClass('badge bg-success bg-danger');
       if (item_status_value === 'Active') {
           $item_status.addClass('badge bg-success');
       } else {
@@ -638,8 +639,8 @@
       $('#stk_table').append(tbody);
     }).fail(function(jqXHR, textStatus, errorThrown) {
       if (jqXHR.status == '419') {
-        const currentPath = window.location.pathname + window.location.search; 
-        const loginUrl = `/login?redirect=${encodeURIComponent(currentPath)}`; 
+        const currentPath = window.location.pathname + window.location.search;
+        const loginUrl = `/login?redirect=${encodeURIComponent(currentPath)}`;
 
         Swal.fire({
             title: 'หมดเวลาการใช้งาน',
@@ -670,7 +671,7 @@
         }
     });
     $("#po_table > tbody").html("");
-    
+
     $.ajax({
       method: 'POST',
       url: '{{ ROUTE('search_inbound') }}',
