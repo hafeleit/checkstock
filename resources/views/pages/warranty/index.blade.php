@@ -125,9 +125,8 @@
                                 <div class="mb-3">
                                     <label class="text-sm">ช่องทางการสั่งซื้อ (Order channel)<span
                                             class="text-danger">*</span></label>
-                                    <select name="order_channel" id="order_channel" class="form-control">
-                                        <option value="" selected disabled>กรุณาเลือกช่องทางการสั่งซื้อ (Please
-                                            select)</option>
+                                    <select name="order_channel" id="order_channel" class="form-control" required>
+                                        <option value="" disabled selected>กรุณาเลือกช่องทางการสั่งซื้อ (Please select)</option>
                                         <option value="showroom">โชว์รูม (Showroom)</option>
                                         <option value="shopee">ช้อปปี้ (Shopee Mall)</option>
                                         <option value="lazada">ลาซาด้า (Lazada Mall)</option>
@@ -154,7 +153,7 @@
                                 <div class="mb-3">
                                     <label class="text-sm">อีเมล (Email)</label>
                                     <input name="email" type="email" class="form-control"
-                                        placeholder="กรุณากรอกอีเมล (ถ้ามี)" value="{{ old('email') }}" required>
+                                        placeholder="กรุณากรอกอีเมล (ถ้ามี)" value="{{ old('email') }}">
                                 </div>
                                 <div class="mb-3">
                                     <div class="row">
@@ -190,7 +189,7 @@
                                     role="alert">
                                     * กรุณาทำเครื่องหมายยอมรับนโยบายความเป็นส่วนตัวของบริษัท *
                                 </div>
-                                
+
                                 <div class="form-consent" id="consentPolicyForm">
                                     <input class="mt-1" type="checkbox" value="true" name="is_consent_policy"
                                         id="isConsentPolicyCheckbox" checked />
@@ -325,7 +324,7 @@
                 } else {
                     errorDisplay.classList.add('d-none');
                     consentPolicyForm.classList.remove('border-requierd')
-                    
+
                     return true;
                 }
             });
