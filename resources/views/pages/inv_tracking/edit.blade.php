@@ -53,7 +53,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="remark" class="form-label">Remark</label>
-                    <input type="text" class="form-control form-control-sm" id="remark" name="remark">
+                    <input type="text" class="form-control form-control-sm" id="remark" name="remark" value="{{ $invTracking['remark'] }}">
                 </div>
 
                 <div class="d-grid">
@@ -165,9 +165,14 @@
                             _method: 'PUT'
                         })
                     })
-                    .then(response => {})
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Server returned an unexpected response. Check the console for details.');
+                        }
+                    })
                     .then(data => {
-                        swal.fire('Success', 'Data saved successfully!', 'success');
+                        Swal.close(); 
+                        Swal.fire('Success', 'Data saved successfully!', 'success');
                         window.location.href = '/delivery-trackings';
                     })
                     .catch(error => {
