@@ -214,12 +214,22 @@ class InvTrackingController extends Controller
         try {
             DB::transaction(function () use ($logiTrackId) {
                 $invTrackings = InvTracking::where('logi_track_id', $logiTrackId)->get();
+                $erpDocs = $invTrackings->pluck('erp_document')->toArray();
 
                 if ($invTrackings->isEmpty()) {
                     throw new \Exception('Record not found.');
                 }
 
                 InvTracking::where('logi_track_id', $logiTrackId)->delete();
+
+                if ($invTrackings[0]->type === 'return') {
+                    InvTracking::where('type', 'deliver')
+                        ->whereIn('erp_document', $erpDocs)
+                        ->update([
+                            'status' => 'pending',
+                            'updated_by' => auth()->user()->id
+                        ]);
+                }
 
                 $deletedIds = $invTrackings->pluck('id')->all();
                 foreach ($deletedIds as $id) {
