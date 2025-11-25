@@ -41,6 +41,13 @@ class CommissionController extends Controller
     {
         $this->middleware('permission:Commissions Summary-View', ['only' => ['salesSummary']]);
         $this->middleware('permission:Commissions AR-View', ['only' => ['show']]);
+        $this->middleware('permission:Commissions List', ['only' => ['index']]);
+        $this->middleware('permission:Commissions Import', ['only' => ['importAll']]);
+        $this->middleware('permission:Commissions Delete', ['only' => ['destroy']]);
+        $this->middleware('permission:Commissions AR-Approve|Commissions Summary-Approve|Commissions Approve|Commissions Summary-Confirm', ['only' => ['updateStatus']]);
+        $this->middleware('permission:Commissions Check', ['only' => ['check']]);
+        $this->middleware('permission:Commissions AR-Adjust', ['only' => ['adjust']]);
+        $this->middleware('permission:Commissions Summary-Export', ['only' => ['summary_export']]);
     }
 
     public function export($id)

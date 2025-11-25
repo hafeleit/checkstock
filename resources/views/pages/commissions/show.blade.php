@@ -216,7 +216,7 @@
                                 data-bs-target="#schemaModal">
                                 <i class="fas fa-table me-1"></i> ดู Schema
                             </button>
-                            @if ($commission->status === 'calculated')
+                            @if ($commission->status === 'calculated' || $commission->status === 'Summary Rejected')
                                 @can('Commissions AR-Approve')
                                     <div class="ms-auto">
                                         <form id="approve-form-{{ $commission->id }}"
@@ -277,7 +277,7 @@
                             @can('Commissions AR-Adjust')
                                 <button type="button" class="btn btn-sm bg-gradient-info px-3 me-2" id="export-btn"
                                     data-url="{{ route('commissions.export', $commission->id) }}">
-                                    <i class="fas fa-file-export me-1"></i>AR Export 
+                                    <i class="fas fa-file-export me-1"></i>AR Export
                                 </button>
                             @endcan
                             @can('Commissions Summary-View')
