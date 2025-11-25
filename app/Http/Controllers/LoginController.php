@@ -38,7 +38,7 @@ class LoginController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            event(new UserLoggedIn($user->id, 'login', 'fail', 'The provided credentials do not match our records.'));
+            event(new UserLoggedIn(0, 'login', 'fail', 'The provided credentials do not match our records.'));
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
             ]);
