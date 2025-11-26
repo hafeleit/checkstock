@@ -59,7 +59,7 @@
                                             <td class="px-3">{{ $log->file_name }}</td>
                                             <td class="px-3">{{ $log->file_size }}</td>
                                             <td class="px-3">{{ $log->error_message }}</td>
-                                            <td class="px-3">{{ $log->user->email }}</td>
+                                            <td class="px-3">{{ $log->user ? $log->user->email : '-' }}</td>
                                             <td class="px-3">{{ $log->created_at }}</td>
                                         </tr>
                                         <tr id="collapse-{{ $log->id }}" class="collapse text-xs">
