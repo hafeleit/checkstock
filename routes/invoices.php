@@ -12,7 +12,7 @@ Route::middleware(['auth', 'check.status'])
     ->group(function () {
         Route::resource('', InvTrackingController::class)
             ->except(['create', 'show'])
-            ->parameters(['' => 'tracking_id']);
+            ->parameters(['' => 'logi_track_id']);
 
         Route::get('/details', [InvTrackingController::class, 'detail'])->name('details');
         Route::get('/export-overall', [InvTrackingController::class, 'exportOverall'])->name('export-overall');
