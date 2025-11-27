@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-md-3">
                     <label for="status" class="form-label">Status</label>
-                    m search-fie<select class="form-select form-select-sld" id="status" name="status">
+                    <select class="form-select form-select-sm search-field" id="status" name="status">
                         <option value="">All</option>
                         <option value="pending" {{ (isset($params['status']) && $params['status'] === 'pending') ? 'selected' : '' }}>Pending</option>
                         <option value="completed" {{ (isset($params['status']) && $params['status'] === 'completed') ? 'selected' : '' }}>Completed</option>
@@ -60,6 +60,7 @@
 
         <div class="px-4 py-4">
 
+            @if (!$params)
             <div class="d-flex align-items-center justify-content-end gap-2">
                 @can('delivery export overall report')
                 <a href="/delivery-trackings/export-overall" class="btn btn-export btn-sm d-flex align-items-center gap-2">
@@ -74,7 +75,8 @@
                 </a>
                 @endcan
             </div>
-
+            @endif
+            
             <div class="table-responsive custom-shadow rounded">
                 <table class="table table-hover mb-0">
                     <thead class="text-xs text-muted text-uppercase bg-light">

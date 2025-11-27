@@ -197,7 +197,7 @@
                          class="btn btn-sm bg-gradient-info px-3 me-2">
                           <i class="fas fa-file-export me-1"></i> ดูรายละเอียด
                       </a>
-                      @if ($commission->status === 'Summary Approved')
+                      @if ($commission->status === 'Summary Approved' || $commission->status === 'Final Approved')
                         @can('Commissions Summary-Export')
                         <button type="button"
                                 class="btn btn-sm bg-gradient-success px-3 me-2"
@@ -210,7 +210,7 @@
 
                       @if ($commission->status === 'Summary Approved')
                         @can('Commissions Approve')
-                        <?php /*
+
                         <div class="ms-auto">
                             <form id="approve-form-{{ $commission->id }}"
                                   action="{{ route('commissions.updateStatus', $commission->id) }}"
@@ -233,7 +233,6 @@
                                 data-bs-target="#final-rejectModal-{{ $commission->id }}">
                             <i class="fas fa-times me-1"></i> Reject
                         </button>
-                        */ ?>
                         @endcan
                       @endif
 
@@ -324,8 +323,8 @@
                                     <th data-column-index="2">Effecttive Date <i class="fas fa-sort"></i></th>
                                     <th data-column-index="3">Sales Rep <i class="fas fa-sort"></i></th>
                                     <th data-column-index="4">Sales Name <i class="fas fa-sort"></i></th>
-                                    <th data-column-index="5">Position <i class="fas fa-sort"></i></th>
-                                    <th data-column-index="6">Team <i class="fas fa-sort"></i></th>
+                                    <th data-column-index="5">Team <i class="fas fa-sort"></i></th>
+                                    <th data-column-index="6">Position <i class="fas fa-sort"></i></th>
                                     <th class="text-end" data-column-index="7">Total Initial <i class="fas fa-sort"></i></th>
                                     <th class="text-end" data-column-index="8">Total Adjustment <i class="fas fa-sort"></i></th>
                                     <th class="text-end" data-column-index="9">Total Commissions <i class="fas fa-sort"></i></th>

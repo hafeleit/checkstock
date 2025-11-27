@@ -41,6 +41,13 @@ class CommissionController extends Controller
     {
         $this->middleware('permission:Commissions Summary-View', ['only' => ['salesSummary']]);
         $this->middleware('permission:Commissions AR-View', ['only' => ['show']]);
+        $this->middleware('permission:Commissions List', ['only' => ['index']]);
+        $this->middleware('permission:Commissions Import', ['only' => ['importAll']]);
+        $this->middleware('permission:Commissions Delete', ['only' => ['destroy']]);
+        $this->middleware('permission:Commissions AR-Approve|Commissions Summary-Approve|Commissions Approve|Commissions Summary-Confirm', ['only' => ['updateStatus']]);
+        $this->middleware('permission:Commissions Check', ['only' => ['check']]);
+        $this->middleware('permission:Commissions AR-Adjust', ['only' => ['adjust']]);
+        $this->middleware('permission:Commissions Summary-Export', ['only' => ['summary_export']]);
     }
 
     public function export($id)
@@ -383,76 +390,79 @@ class CommissionController extends Controller
 
             switch ($request->status) {
                 case 'AR Approved':
-                    $to = ['warisara@hafele.co.th', 'pimnada@hafele.co.th']; //warisara, pimnada
+                    $to = ['pimnada@hafele.co.th']; //hr staff
                     $cc = array_merge($cc, [
-                        'apirak@hafele.co.th',
-                        'pariyanuch@hafele.co.th',
                         'ratchanee@hafele.co.th',
-                        'nattawan@hafele.co.th',
+
+                        'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Summary Rejected':
-                    $to = ['sarunya@hafele.co.th']; //sarunya
+                    $to = ['sarunya@hafele.co.th']; //finance staff
                     $cc = array_merge($cc, [
-                        'apirak@hafele.co.th',
-                        'pariyanuch@hafele.co.th',
                         'ratchanee@hafele.co.th',
-                        'nattawan@hafele.co.th',
+
+                        'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Summary Confirmed':
-                    $to = ['pariyanuch@hafele.co.th']; //chanida
+                    $to = ['pariyanuch@hafele.co.th']; //hr manager
                     $cc = array_merge($cc, [
-                        'apirak@hafele.co.th',
-                        'warisara@hafele.co.th',
-                        'pimnada@hafele.co.th',
                         'ratchanee@hafele.co.th',
+
+                        'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Summary Rejected(Manager)':
-                    $to = ['warisara@hafele.co.th', 'pimnada@hafele.co.th']; //warisara, pimnada
+                    $to = ['pimnada@hafele.co.th']; //hr staff
                     $cc = array_merge($cc, [
+                        'pariyanuch@hafele.co.th',
+                        'ratchanee@hafele.co.th',
+
                         'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
-                        'ratchanee@hafele.co.th',
                     ]);
                     break;
 
                 case 'Summary Approved':
-                    $to = ['nattawan@hafele.co.th']; //nattawan
+                    $to = ['pariyanuch@hafele.co.th']; //hr director
                     $cc = array_merge($cc, [
-                        'apirak@hafele.co.th',
-                        'warisara@hafele.co.th',
+                        'pariyanuch@hafele.co.th', //hr manager
                         'pimnada@hafele.co.th',
                         'ratchanee@hafele.co.th',
+
+                        'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Final Rejected':
-                    $to = ['pariyanuch@hafele.co.th']; //chanida
+                    $to = ['pariyanuch@hafele.co.th']; //hr manager
                     $cc = array_merge($cc, [
-                        'apirak@hafele.co.th',
-                        'sarunya@hafele.co.th',
-                        'pokpong@hafele.co.th',
+                        'pimnada@hafele.co.th',
                         'ratchanee@hafele.co.th',
+                        'pariyanuch@hafele.co.th',
+
+                        'apirak@hafele.co.th',
+                        'pokpong@hafele.co.th',
+
                     ]);
                     break;
 
                 case 'Final Approved':
-                    $to = ['pariyanuch@hafele.co.th'];
+                    $to = ['pimnada@hafele.co.th']; //hr staff
                     $cc = array_merge($cc, [
-                        'apirak@hafele.co.th',
-                        'warisara@hafele.co.th',
+                        'pariyanuch@hafele.co.th',
                         'pimnada@hafele.co.th',
-                        'sarunya@hafele.co.th',
                         'ratchanee@hafele.co.th',
+
+                        'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
@@ -731,17 +741,23 @@ class CommissionController extends Controller
 
                 $user = UserMaster::where('job_code', $jobCode)
                     ->orderByRaw("
-                     CASE
-                         WHEN status = 'Current' THEN 1
-                         WHEN status = 'Probation' THEN 2
-                         WHEN status = 'Resign' THEN 3
-                         ELSE 4
-                     END
-                 ")
+                        CASE
+                            WHEN status = 'Current' THEN 1
+                            WHEN status = 'Probation' THEN 2
+                            WHEN status = 'Resign' THEN 3
+                            ELSE 4
+                        END
+                    ")
                     ->orderByDesc('effecttive_date')
                     ->first();
 
                 if (!$user) {
+                    continue;
+                }
+
+                // เช็ค job grade code N05 ขึ้นไป -> ไม่ถูกคำนวณ commission
+                $checkJobGrade = $this->checkJobGradeCode($user->job_grade_code);
+                if (!$checkJobGrade) {
                     continue;
                 }
 
@@ -890,5 +906,13 @@ class CommissionController extends Controller
             event(new RecordDeleted('App\Models\CommissionsAr', auth()->id(), 'fail', $id, $e->getMessage()));
             return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $th->getMessage());
         }
+    }
+
+    private function checkJobGradeCode($jobGradeCode)
+    {
+        $trimCode = trim($jobGradeCode, 'N');
+        $value = intVal($trimCode);
+
+        return $value >= 5 ? false : true;
     }
 }

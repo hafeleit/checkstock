@@ -10,6 +10,10 @@ Route::middleware(['auth', 'check.status'])
     ->prefix('delivery-trackings')
     ->name('delivery-trackings.')
     ->group(function () {
+        Route::resource('', InvTrackingController::class)
+            ->except(['create', 'show'])
+            ->parameters(['' => 'logi_track_id']);
+
         Route::get('/details', [InvTrackingController::class, 'detail'])->name('details');
         Route::get('/export-overall', [InvTrackingController::class, 'exportOverall'])->name('export-overall');
         Route::get('/export-pending', [InvTrackingController::class, 'exportPending'])->name('export-pending');
@@ -23,5 +27,3 @@ Route::middleware(['auth', 'check.status'])
 
         Route::resource('/imports', ImportController::class)->only('index', 'store');
     });
-
-Route::resource('delivery-trackings', InvTrackingController::class)->except(['create', 'show']);

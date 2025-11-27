@@ -12,6 +12,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
+use function PHPUnit\Framework\isEmpty;
+
 class InvTrackingController extends Controller
 {
 
@@ -142,39 +144,69 @@ class InvTrackingController extends Controller
 
     public function update($logiTrackId)
     {
-        request()->validate([
-            'finalData.erp_documents' => 'required|array',
-            'finalData.remark' => 'nullable|string',
-        ]);
+        try {
+            request()->validate([
+                'finalData.erp_documents' => 'required|array',
+                'finalData.remark' => 'nullable|string',
+            ]);
 
-        $finalData = request()->input('finalData');
+            $finalData = request()->input('finalData');
 
-        DB::transaction(function () use ($logiTrackId, $finalData) {
-            $invTracking = InvTracking::where('logi_track_id', $logiTrackId)->first();
-            if (!$invTracking) {
-                abort(404);
-            }
+            DB::transaction(function () use ($logiTrackId, $finalData) {
+                $invTracking = InvTracking::where('logi_track_id', $logiTrackId)->first();
+                if (!$invTracking) {
+                    abort(404);
+                }
 
-            InvTracking::where('logi_track_id', $logiTrackId)->delete();
+                $oldErpDocs = InvTracking::where('logi_track_id', $logiTrackId)
+                    ->pluck('erp_document')
+                    ->toArray();
 
-            foreach ($finalData['erp_documents'] as $item) {
-                InvTracking::create([
-                    'logi_track_id' => $logiTrackId,
-                    'erp_document' => $item,
-                    'invoice_id' => null,
-                    'driver_or_sent_to' => $invTracking['driver_or_sent_to'],
-                    'type' => $invTracking['type'],
-                    'status' => $invTracking['type'] === 'deliver' ? 'pending' : 'completed',
-                    'delivery_date' => $invTracking['delivery_date'] ?? null,
-                    'created_date' => $invTracking['created_date'],
-                    'created_by' => $invTracking['created_by'],
-                    'updated_by' => Auth()->user()->id,
-                    'remark' => $finalData['remark'] ?? $invTracking->remark
-                ]);
-            }
+                $removedErpDocs = array_diff($oldErpDocs, $finalData['erp_documents']);
+                $addedErpDocs = array_diff($finalData['erp_documents'], $oldErpDocs);
 
-            return redirect()->back();
-        });
+                if (!empty($removedErpDocs)) {
+                    InvTracking::query()
+                        ->where('type', 'deliver')
+                        ->whereIn('erp_document', $removedErpDocs)
+                        ->update([
+                            'status' => 'pending',
+                            'updated_by' => auth()->user()->id
+                        ]);
+                }
+
+                InvTracking::where('logi_track_id', $logiTrackId)->delete();
+
+                foreach ($finalData['erp_documents'] as $item) {
+                    InvTracking::create([
+                        'logi_track_id' => $logiTrackId,
+                        'erp_document' => $item,
+                        'invoice_id' => null,
+                        'driver_or_sent_to' => $invTracking['driver_or_sent_to'],
+                        'type' => $invTracking['type'],
+                        'status' => $invTracking['type'] === 'deliver' ? 'pending' : 'completed',
+                        'delivery_date' => $invTracking['delivery_date'] ?? null,
+                        'created_date' => $invTracking['created_date'],
+                        'created_by' => $invTracking['created_by'],
+                        'updated_by' => Auth()->user()->id,
+                        'remark' => $finalData['remark'] ?? $invTracking->remark
+                    ]);
+
+                    if ($invTracking['type'] === 'return' && !empty($addedErpDocs)) {
+                        InvTracking::where('type', 'deliver')
+                            ->whereIn('erp_document', $addedErpDocs)
+                            ->update([
+                                'status' => 'completed',
+                                'updated_by' => auth()->user()->id
+                            ]);
+                    }
+                }
+
+                return redirect()->back();
+            });
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     public function destroy($logiTrackId)
@@ -182,12 +214,22 @@ class InvTrackingController extends Controller
         try {
             DB::transaction(function () use ($logiTrackId) {
                 $invTrackings = InvTracking::where('logi_track_id', $logiTrackId)->get();
+                $erpDocs = $invTrackings->pluck('erp_document')->toArray();
 
                 if ($invTrackings->isEmpty()) {
                     throw new \Exception('Record not found.');
                 }
 
                 InvTracking::where('logi_track_id', $logiTrackId)->delete();
+
+                if ($invTrackings[0]->type === 'return') {
+                    InvTracking::where('type', 'deliver')
+                        ->whereIn('erp_document', $erpDocs)
+                        ->update([
+                            'status' => 'pending',
+                            'updated_by' => auth()->user()->id
+                        ]);
+                }
 
                 $deletedIds = $invTrackings->pluck('id')->all();
                 foreach ($deletedIds as $id) {

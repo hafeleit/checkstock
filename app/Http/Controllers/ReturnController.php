@@ -52,7 +52,10 @@ class ReturnController extends Controller
                 $existingDeliver = InvTracking::query()
                     ->where('erp_document', $erpDocument)
                     ->where('type', 'deliver')
-                    ->first();
+                    ->update([
+                        'status' => 'completed',
+                        'updated_by' => auth()->user()->id
+                    ]);
 
                 InvTracking::create([
                     'logi_track_id' => $logiTrackId,
@@ -65,10 +68,6 @@ class ReturnController extends Controller
                     'created_by' => Auth()->user()->id,
                     'remark' => $request->remark ?? null
                 ]);
-
-                if ($existingDeliver) {
-                    $existingDeliver->update(['status' => 'completed']);
-                }
             }
         });
 
