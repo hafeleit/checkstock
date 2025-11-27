@@ -99,8 +99,9 @@
                                 <div class="mb-3">
                                     <label class="text-sm">ที่อยู่จัดส่งสินค้า (Delivery address)<span
                                             class="text-danger">*</span></label>
-                                    <textarea name="addr" class="form-control" rows="3" placeholder="กรุณากรอกที่อยู่จัดส่งสินค้า (Please fill in)"
-                                        value="{{ old('addr') }}" required></textarea>
+                                    <textarea name="addr" class="form-control" rows="3" placeholder="กรุณากรอกที่อยู่จัดส่งสินค้า (Please fill in)" required>
+                                        {{ old('addr') }}
+                                    </textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label class="text-sm">เบอร์โทรศัพท์ที่ติดต่อได้ (Contact number)<span
@@ -127,20 +128,39 @@
                                             class="text-danger">*</span></label>
                                     <select name="order_channel" id="order_channel" class="form-control" required>
                                         <option value="" disabled selected>กรุณาเลือกช่องทางการสั่งซื้อ (Please select)</option>
-                                        <option value="showroom">โชว์รูม (Showroom)</option>
-                                        <option value="shopee">ช้อปปี้ (Shopee Mall)</option>
-                                        <option value="lazada">ลาซาด้า (Lazada Mall)</option>
-                                        <option value="website-hafele-home">เว็บไซต์บริษัท (Website: Hafele Home)</option>
-                                        <option value="line-hafele-home">LINE Official (LINE: Hafele Home)</option>
-                                        <option value="modern-trade">ห้างโมเดิร์นเทรด (Modern Trade)</option>
-                                        <option value="dealer">ร้านค้าวัสดุ / ร้านตัวแทนจำหน่าย (Dealer)</option>
-                                        <option value="project-contractor">เซลล์โครงการ / งานโครงการ (Project) / ผู้รับเหมา (Contractor)</option>
-                                        <option value="other">อื่นๆ (Other)</option>
+                                        <option value="showroom" @if(old('order_channel') === 'showroom') selected @endif>
+                                            โชว์รูม (Showroom)
+                                        </option>
+                                        <option value="shopee" @if(old('order_channel') === 'shopee') selected @endif>
+                                            ช้อปปี้ (Shopee Mall)
+                                        </option>
+                                        <option value="lazada" @if(old('order_channel') === 'lazada') selected @endif>
+                                            ลาซาด้า (Lazada Mall)
+                                        </option>
+                                        <option value="website-hafele-home" @if(old('order_channel') === 'website-hafele-home') selected @endif>
+                                            เว็บไซต์บริษัท (Website: Hafele Home)
+                                        </option>
+                                        <option value="line-hafele-home" @if(old('order_channel') === 'line-hafele-home') selected @endif>
+                                            LINE Official (LINE: Hafele Home)
+                                        </option>
+                                        <option value="modern-trade" @if(old('order_channel') === '"modern-trade') selected @endif>
+                                            ห้างโมเดิร์นเทรด (Modern Trade)
+                                        </option>
+                                        <option value="dealer" @if(old('order_channel') === 'dealer') selected @endif>
+                                            ร้านค้าวัสดุ / ร้านตัวแทนจำหน่าย (Dealer)
+                                        </option>
+                                        <option value="project-contractor" @if(old('order_channel') === 'project-contractor') selected @endif>
+                                            เซลล์โครงการ / งานโครงการ (Project) / ผู้รับเหมา (Contractor)
+                                        </option>
+                                        <option value="other" @if(old('order_channel') === 'other') selected @endif>
+                                            อื่นๆ (Other)
+                                        </option>
                                     </select>
                                     <div id="otherChannelWrapper">
                                         <input type="text" name="other_channel" id="other_channel"
                                             class="form-control mt-3"
-                                            placeholder="กรุณากรอกช่องทางการสั่งซื้ออื่นๆ (Please fill in)">
+                                            placeholder="กรุณากรอกช่องทางการสั่งซื้ออื่นๆ (Please fill in)"
+                                            value="{{ old('other_channel') }}">
                                     </div>
                                 </div>
                                 <div class="mb-3">
