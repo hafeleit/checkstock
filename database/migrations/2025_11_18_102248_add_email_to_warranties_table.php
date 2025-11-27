@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::table('warranties', function (Blueprint $table) {
             $table->string('email')->after('serial_no')->nullable();
             $table->string('other_channel')->after('order_channel')->nullable();
-            $table->boolean('is_consent_policy')->default(true);
-            $table->boolean('is_consent_marketing')->default(false);
+            $table->string('is_consent_policy')->default('yes');
+            $table->string('is_consent_marketing')->default('no');
         });
     }
 

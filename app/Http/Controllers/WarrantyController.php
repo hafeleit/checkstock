@@ -96,8 +96,8 @@ class WarrantyController extends Controller
     }
 
     $warrantyData = array_merge($validatedData, [
-      'is_consent_policy' => $validatedData['is_consent_policy'] == 'true',
-      'is_consent_marketing' => request()->is_consent_marketing ? $validatedData['is_consent_policy'] == 'true' : false,
+      'is_consent_policy' => $validatedData['is_consent_policy'] == 'true' ? 'yes' : 'no',
+      'is_consent_marketing' => request()->is_consent_marketing && $validatedData['is_consent_policy'] == 'true' ? 'yes' : 'no',
       'order_channel'  => $this->getChannelName($validatedData['order_channel']) ?? null,
       'file_name'  => $fileNames['file'] ?? null,
       'file_name2' => $fileNames['file2'] ?? null,
