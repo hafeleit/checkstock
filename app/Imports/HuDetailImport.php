@@ -24,10 +24,10 @@ class HuDetailImport implements ToModel, WithValidation, WithHeadingRow, WithBat
         return [
             'shipment_number' => strval($row['shipment_number']),
             'erp_original_delivery_number' => strval($row['erp_original_delivery_number']),
-            'total_weight' => number_format($row['total_weight'], 2),
+            'total_weight' => floatval($row['total_weight']),
             'weight_unit' => $row['weight_unit'],
-            'total_volume' => number_format($row['total_volume'], 2),
-            'handling_units' => number_format(1, 2),
+            'total_volume' => floatval($row['total_volume']),
+            'handling_units' => floatval(1),
             'file_import_log_id' => $this->fileImportLogId,
         ];
     }
