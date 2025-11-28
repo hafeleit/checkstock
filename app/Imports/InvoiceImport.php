@@ -13,9 +13,12 @@ class InvoiceImport implements ToCollection, WithHeadingRow, WithValidation
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            $invTracking = InvTracking::where('erp_document', $row['delivery'])->first();
-            if ($invTracking) {
-                $invTracking->update(['invoice_id' => $row['billdoc']]);
+            $invTrackings = InvTracking::where('erp_document', $row['delivery'])->get();
+
+            if ($invTrackings->isNotEmpty()) {
+                $invTrackings->each(function ($invTracking) use ($row) {
+                    $invTracking->update(['invoice_id' => $row['billdoc']]);
+                });
             }
         }
     }
