@@ -5,7 +5,7 @@
             <div class="d-flex flex-column">
 
                 <span class="mb-2 text-xs">Serial No.: <span class="text-dark ms-sm-2 font-weight-bold text-lg">{{ $value->serial_no }}</span></span>
-                <span class="mb-2 text-xs">Register Date: <span class="text-dark ms-sm-2 font-weight-bold text-lg">{{ $value->created_at }}</span></span>
+                <span class="mb-2 text-xs">Register Date: <span class="text-dark ms-sm-2 font-weight-bold text-lg">{{ $value->created_at->format('d M Y') }}</span></span>
                 <span class="mb-2 text-xs">Phone number: <span class="text-dark ms-sm-2 font-weight-bold text-lg">{{ $value->tel }}</span></span>
                 <span class="mb-2 text-xs">Order channel: <span class="text-dark ms-sm-2 font-weight-bold text-lg">{{ $value->order_channel }}</span></span>
                 @if ($value->other_channel)
