@@ -6,7 +6,9 @@ use App\Events\FileImported;
 use App\Imports\AddressImport;
 use App\Imports\HuDetailImport;
 use App\Imports\InvoiceImport;
+use App\Models\Address;
 use App\Models\FileImportLog;
+use App\Models\HuDetail;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
@@ -60,8 +62,10 @@ class ImportController extends Controller
             if ($fileType === 'invoice') {
                 Excel::import(new InvoiceImport, $file);
             } else if ($fileType === 'address') {
+                Address::query()->delete();
                 Excel::import(new AddressImport($fileImportLog->id), $file);
             } else if ($fileType === 'hu_detail') {
+                HuDetail::query()->delete();
                 Excel::import(new HuDetailImport($fileImportLog->id), $file);
             }
 

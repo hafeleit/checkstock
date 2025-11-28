@@ -33,8 +33,6 @@ class HuDetailImport implements ToModel, WithValidation, WithHeadingRow, WithBat
     }
     public function model(array $row)
     {
-        HuDetail::query()->delete();
-
         return new HuDetail([
             'shipment_number' => $row['shipment_number'],
             'erp_document' => $row['erp_original_delivery_number'],

@@ -32,8 +32,6 @@ class AddressImport implements ToModel, WithValidation, WithHeadingRow, WithBatc
     }
     public function model(array $row)
     {
-        Address::query()->delete();
-        
         return new Address([
             'delivery' => $row['delivery'],
             'name' => $row['name'],
