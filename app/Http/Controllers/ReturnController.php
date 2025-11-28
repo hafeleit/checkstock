@@ -49,7 +49,7 @@ class ReturnController extends Controller
             }
 
             foreach ($request->erp_documents as $erpDocument) {
-                $existingDeliver = InvTracking::query()
+                InvTracking::query()
                     ->where('erp_document', $erpDocument)
                     ->where('type', 'deliver')
                     ->update([
@@ -57,10 +57,15 @@ class ReturnController extends Controller
                         'updated_by' => auth()->user()->id
                     ]);
 
+                $existingInvoice = InvTracking::query()
+                    ->where('erp_document', $erpDocument)
+                    ->where('type', 'deliver')
+                    ->first();
+
                 InvTracking::create([
                     'logi_track_id' => $logiTrackId,
                     'erp_document' => $erpDocument,
-                    'invoice_id' => $existingDeliver['invoice_id'] ?? null,
+                    'invoice_id' => $existingInvoice['invoice_id'] ?? null,
                     'driver_or_sent_to' => $request->driver_or_sent_to,
                     'type' => 'return',
                     'status' => 'completed',
