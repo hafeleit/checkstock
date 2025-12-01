@@ -197,7 +197,7 @@
                          class="btn btn-sm bg-gradient-info px-3 me-2">
                           <i class="fas fa-file-export me-1"></i> ดูรายละเอียด
                       </a>
-                      @if ($commission->status === 'Summary Approved' || $commission->status === 'Final Approved')
+                      @if ($commission->status === 'Final Approved')
                         @can('Commissions Summary-Export')
                         <button type="button"
                                 class="btn btn-sm bg-gradient-success px-3 me-2"
