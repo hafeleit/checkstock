@@ -6,7 +6,13 @@
             z-index: 1;
         }
     </style>
+
     @include('layouts.navbars.auth.topnav', ['title' => 'Edit Product Item'])
+
+    <div id="alert">
+        @include('components.alert')
+    </div>
+    
     <div class="container-fluid py-4">
         <form action="{{ route('product-items.update', $productitem->id) }}" method="post">
             @csrf
@@ -15,14 +21,11 @@
                 <div class="col-lg-6 z-index-1">
                 </div>
                 <div class="col-lg-6 text-end z-index-1">
-                    <a href="{{ route('product-items.show', $productitem->id) }}" type="button"
-                        class="btn btn-secondary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
-                    <button type="submit"
-                        class="btn btn-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
+                    <a href="{{ route('product-items.show', $productitem->id) }}" type="button" class="btn btn-secondary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Cancel</a>
+                    <button type="submit" class="btn btn-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
                 </div>
             </div>
             <div class="row mt-4">
-
                 <div class="col-lg-12 mt-4">
                     <div class="card">
                         <div class="card-body">
@@ -41,7 +44,12 @@
                                     </ul>
                                 </div>
                             @endif
-                            <h5 class="font-weight-bolder">Product Item Information</h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="fw-bolder mb-0">Product Item Information</h5>
+                                @can('consumerlabel delete')
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"> Delete </button>
+                                @endcan
+                            </div>
 
                             <div class="row mt-4">
                                 <div class="col-12 col-sm-6">
@@ -361,28 +369,22 @@
         <!-- delete modal -->
         <div class="row mt-3">
             <div class="col-12 text-end">
-
-                {{-- <button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import"> Delete </button> --}}
-
-                <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog mt-lg-10">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="ModalLabel">Delete</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <h5 class="modal-title" id="ModalLabel">Confirm Deletion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form action="{{ route('product-items.destroy', $productitem->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <div class="modal-body text-start">
-                                    <p>Are you sure you want to delete this item?</p>
+                                    <p>Are you sure you want to delete this product item?</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-sm bg-gradient-secondary "
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-sm bg-gradient-danger"
-                                        name="button">Confirm</button>
+                                    <button type="button" class="btn btn-sm bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-sm bg-gradient-danger" name="button">Confirm</button>
                                 </div>
                             </form>
                         </div>
