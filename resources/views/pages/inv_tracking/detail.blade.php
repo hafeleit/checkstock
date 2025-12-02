@@ -100,9 +100,9 @@
                             <td class="py-3 px-3">{{ $item['erp_document'] }}</td>
                             <td class="py-3 px-3">{{ $item['invoice_id'] ?? null }}</td>
                             <td class="py-3 px-3">{{ $item['driver_or_sent_to'] }}</td>
-                            <td class="py-3 px-3">{{ $item['delivery_date'] ? $item['delivery_date']->format('d-m-Y H:i:s') : '-' }}</td>
+                            <td class="py-3 px-3">{{ $item['delivery_date'] ? $item['delivery_date']->format('d-m-Y H:i') : '-' }}</td>
                             <td class="py-3 px-3">{{ $item['user']['username'] }}</td>
-                            <td class="py-3 px-3">{{ $item['created_date']->format('d-m-Y H:i:s') }}</td>
+                            <td class="py-3 px-3">{{ $item['created_date']->format('d-m-Y H:i') }}</td>
                             <td class="py-3 px-3">
                                 <span class="fw-semibold capitalize @if($item['type'] === 'return') text-success @else text-muted @endif">
                                     {{ $item['type'] }}
