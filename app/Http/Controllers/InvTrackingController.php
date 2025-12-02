@@ -126,6 +126,7 @@ class InvTrackingController extends Controller
 
     public function edit($logiTrackId)
     {
+        $drivers = Driver::get();
         $invTrackings = InvTracking::where('logi_track_id', $logiTrackId)->get();
 
         if ($invTrackings->isEmpty()) {
@@ -138,7 +139,8 @@ class InvTrackingController extends Controller
         return view('pages.inv_tracking.edit', [
             'user' => Auth()->user(),
             'invTracking' => $invTracking,
-            'erpDocuments' => $erpDocuments
+            'erpDocuments' => $erpDocuments,
+            'drivers' => $drivers,
         ]);
     }
 

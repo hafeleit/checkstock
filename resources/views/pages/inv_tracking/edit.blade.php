@@ -7,6 +7,9 @@
         text-align: left;
         padding: 0 1rem;
     }
+    #delivery_date:disabled {
+        background-color: #E9ECEF !important;
+    }
 </style>
 
 <div class="container-fluid py-4">
@@ -31,12 +34,42 @@
                 <div class="row">
                     <div class="mb-3 {{ $invTracking['type'] === 'deliver' ? 'col-6' : 'col-12'}}">
                         <label for="driver_or_sent_to" class="form-label required">{{ $invTracking['type'] === 'deliver' ? 'Driver' : 'Sent to' }}</label>
-                        <input type="text" class="form-control form-control-sm" id="driver_or_sent_to" name="driver_or_sent_to" value="{{ $invTracking['driver_or_sent_to'] }}" disabled>
+                        @if (auth()->user()->can('delivery edit driver/receiver'))
+                            <select class="form-control form-control-sm" id="driver_or_sent_to" name="driver_or_sent_to" required>
+                                <option value="" @if (old('driver_or_sent_to') == '' && $invTracking['driver_or_sent_to'] == '') selected @endif></option>
+                                @foreach ($drivers as $driver)
+                                    <option value="{{ $driver->code }}" 
+                                        @if (old('driver_or_sent_to') == $driver->code || $invTracking['driver_or_sent_to'] == $driver->code)
+                                            selected
+                                        @endif
+                                    >
+                                        {{ $driver->code }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @else
+                            <select class="form-control form-control-sm" id="driver_or_sent_to" name="driver_or_sent_to" required disabled>
+                                <option value="" @if (old('driver_or_sent_to') == '' && $invTracking['driver_or_sent_to'] == '') selected @endif></option>
+                                @foreach ($drivers as $driver)
+                                    <option value="{{ $driver->code }}" 
+                                        @if (old('driver_or_sent_to') == $driver->code || $invTracking['driver_or_sent_to'] == $driver->code)
+                                            selected
+                                        @endif
+                                    >
+                                        {{ $driver->code }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @endif
                     </div>
                     @if ($invTracking['type'] ==='deliver')
                     <div class="mb-3 col-6">
                         <label for="delivery_date" class="form-label required">Delivery Date</label>
-                        <input type="date" class="form-control form-control-sm" id="delivery_date" name="delivery_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" disabled>
+                        @if (auth()->user()->can('delivery edit delivery date'))
+                            <input type="datetime-local" class="form-control form-control-sm bg-white" id="delivery_date" name="delivery_date" value="{{ $invTracking['delivery_date'] ?? \Carbon\Carbon::now()->format('Y-m-d\TH:i') }}" required>
+                        @else
+                            <input type="datetime-local" class="form-control form-control-sm bg-white" id="delivery_date" name="delivery_date" value="{{ $invTracking['delivery_date'] ?? \Carbon\Carbon::now()->format('Y-m-d\TH:i') }}" required disabled>
+                        @endif
                     </div>
                     @endif
                 </div>
