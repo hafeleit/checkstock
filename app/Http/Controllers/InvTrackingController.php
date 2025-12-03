@@ -39,7 +39,9 @@ class InvTrackingController extends Controller
                 $q->where('driver_or_sent_to', 'LIKE', '%' . request()->driver_or_sent_to . '%');
             })
             ->when(request()->delivery_date, function ($q) {
-                $q->where('delivery_date', request()->delivery_date);
+                $startDate = Carbon::parse(request()->delivery_date)->startOfDay();
+                $endDate = Carbon::parse(request()->delivery_date)->endOfDay();
+                $q->whereBetween('delivery_date', [$startDate, $endDate]);
             })
             ->get();
 
