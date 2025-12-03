@@ -150,6 +150,7 @@ class InvTrackingController extends Controller
     {
         try {
             request()->validate([
+                'finalData.driver_or_sent_to' => 'required|string',
                 'finalData.erp_documents' => 'required|array',
                 'finalData.remark' => 'nullable|string',
             ]);
@@ -186,7 +187,7 @@ class InvTrackingController extends Controller
                         'logi_track_id' => $logiTrackId,
                         'erp_document' => $item,
                         'invoice_id' => null,
-                        'driver_or_sent_to' => $invTracking['driver_or_sent_to'],
+                        'driver_or_sent_to' => $finalData['driver_or_sent_to'],
                         'type' => $invTracking['type'],
                         'status' => $invTracking['type'] === 'deliver' ? 'pending' : 'completed',
                         'delivery_date' => $invTracking['delivery_date'] ?? null,

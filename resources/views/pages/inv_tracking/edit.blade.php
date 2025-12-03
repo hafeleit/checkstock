@@ -174,6 +174,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 const finalData = {
+                    driver_or_sent_to: form.querySelector('#driver_or_sent_to').value,
                     remark: form.querySelector('#remark').value,
                     erp_documents: erpDocumentsArray,
                 };
