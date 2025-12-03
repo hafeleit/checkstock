@@ -152,6 +152,7 @@ class InvTrackingController extends Controller
     {
         try {
             request()->validate([
+                'finalData.delivery_date' => 'required|string',
                 'finalData.driver_or_sent_to' => 'required|string',
                 'finalData.erp_documents' => 'required|array',
                 'finalData.remark' => 'nullable|string',
@@ -192,7 +193,7 @@ class InvTrackingController extends Controller
                         'driver_or_sent_to' => $finalData['driver_or_sent_to'],
                         'type' => $invTracking['type'],
                         'status' => $invTracking['type'] === 'deliver' ? 'pending' : 'completed',
-                        'delivery_date' => $invTracking['delivery_date'] ?? null,
+                        'delivery_date' => request()->finalData['delivery_date'] ? Carbon::createFromFormat('Y-m-d\TH:i', request()->finalData['delivery_date']) : null,
                         'created_date' => $invTracking['created_date'],
                         'created_by' => $invTracking['created_by'],
                         'updated_by' => Auth()->user()->id,
