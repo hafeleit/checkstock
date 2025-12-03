@@ -39,7 +39,9 @@ class InvTrackingController extends Controller
                 $q->where('driver_or_sent_to', 'LIKE', '%' . request()->driver_or_sent_to . '%');
             })
             ->when(request()->delivery_date, function ($q) {
-                $q->where('delivery_date', request()->delivery_date);
+                $startDate = Carbon::parse(request()->delivery_date)->startOfDay();
+                $endDate = Carbon::parse(request()->delivery_date)->endOfDay();
+                $q->whereBetween('delivery_date', [$startDate, $endDate]);
             })
             ->get();
 
@@ -102,8 +104,8 @@ class InvTrackingController extends Controller
             ->when(request()->erp_document, function ($q) {
                 $q->where('erp_document', 'LIKE', '%' . request()->erp_document . '%');
             })
-            ->when(request()->bill_no, function ($q) {
-                $q->where('invoice_id', 'LIKE', '%' . request()->bill_no . '%');
+            ->when(request()->invoice_id, function ($q) {
+                $q->where('invoice_id', 'LIKE', '%' . request()->invoice_id . '%');
             })
             ->when(request()->type, function ($q) {
                 $q->where('type', request()->type);
@@ -112,7 +114,9 @@ class InvTrackingController extends Controller
                 $q->where('status', request()->status);
             })
             ->when(request()->delivery_date, function ($q) {
-                $q->where('delivery_date', request()->delivery_date);
+                $startDate = Carbon::parse(request()->delivery_date)->startOfDay();
+                $endDate = Carbon::parse(request()->delivery_date)->endOfDay();
+                $q->whereBetween('delivery_date', [$startDate, $endDate]);
             })
             ->latest()
             ->paginate(10);
@@ -148,6 +152,8 @@ class InvTrackingController extends Controller
     {
         try {
             request()->validate([
+                'finalData.delivery_date' => 'required|string',
+                'finalData.driver_or_sent_to' => 'required|string',
                 'finalData.erp_documents' => 'required|array',
                 'finalData.remark' => 'nullable|string',
             ]);
@@ -184,10 +190,10 @@ class InvTrackingController extends Controller
                         'logi_track_id' => $logiTrackId,
                         'erp_document' => $item,
                         'invoice_id' => null,
-                        'driver_or_sent_to' => $invTracking['driver_or_sent_to'],
+                        'driver_or_sent_to' => $finalData['driver_or_sent_to'],
                         'type' => $invTracking['type'],
                         'status' => $invTracking['type'] === 'deliver' ? 'pending' : 'completed',
-                        'delivery_date' => $invTracking['delivery_date'] ?? null,
+                        'delivery_date' => request()->finalData['delivery_date'] ? Carbon::createFromFormat('Y-m-d\TH:i', request()->finalData['delivery_date']) : null,
                         'created_date' => $invTracking['created_date'],
                         'created_by' => $invTracking['created_by'],
                         'updated_by' => Auth()->user()->id,
