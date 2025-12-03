@@ -102,8 +102,8 @@ class InvTrackingController extends Controller
             ->when(request()->erp_document, function ($q) {
                 $q->where('erp_document', 'LIKE', '%' . request()->erp_document . '%');
             })
-            ->when(request()->bill_no, function ($q) {
-                $q->where('invoice_id', 'LIKE', '%' . request()->bill_no . '%');
+            ->when(request()->invoice_id, function ($q) {
+                $q->where('invoice_id', 'LIKE', '%' . request()->invoice_id . '%');
             })
             ->when(request()->type, function ($q) {
                 $q->where('type', request()->type);
@@ -112,7 +112,9 @@ class InvTrackingController extends Controller
                 $q->where('status', request()->status);
             })
             ->when(request()->delivery_date, function ($q) {
-                $q->where('delivery_date', request()->delivery_date);
+                $startDate = Carbon::parse(request()->delivery_date)->startOfDay();
+                $endDate = Carbon::parse(request()->delivery_date)->endOfDay();
+                $q->whereBetween('delivery_date', [$startDate, $endDate]);
             })
             ->latest()
             ->paginate(10);
