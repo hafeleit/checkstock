@@ -3,14 +3,18 @@
 namespace App\Imports;
 
 use App\Models\Address;
+use App\Models\FileImportLog;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Events\AfterImport;
 
-class AddressImport implements ToModel, WithValidation, WithHeadingRow, WithBatchInserts, WithChunkReading, WithMapping
+class AddressImport implements ToModel, WithValidation, WithHeadingRow, WithBatchInserts, WithChunkReading, WithMapping, ShouldQueue, WithEvents
 {
     private $fileImportLogId;
 
@@ -68,5 +72,17 @@ class AddressImport implements ToModel, WithValidation, WithHeadingRow, WithBatc
     public function chunkSize(): int
     {
         return 1000;
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterImport::class => function(AfterImport $event) {
+                $log = FileImportLog::find($this->fileImportLogId);
+                if ($log) {
+                    $log->update(['status' => 'processed']);
+                }
+            },
+        ];
     }
 }

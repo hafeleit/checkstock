@@ -60,16 +60,14 @@ class ImportController extends Controller
             ]);
 
             if ($fileType === 'invoice') {
-                Excel::import(new InvoiceImport, $file);
+                Excel::queueImport(new InvoiceImport($fileImportLog->id), $file);
             } else if ($fileType === 'address') {
                 Address::query()->delete();
-                Excel::import(new AddressImport($fileImportLog->id), $file);
+                Excel::queueImport(new AddressImport($fileImportLog->id), $file);
             } else if ($fileType === 'hu_detail') {
                 HuDetail::query()->delete();
-                Excel::import(new HuDetailImport($fileImportLog->id), $file);
+                Excel::queueImport(new HuDetailImport($fileImportLog->id), $file);
             }
-
-            $fileImportLog->update(['status' => 'processed']);
 
             event(new FileImported('App\Models\FileImportLog', auth()->id(), 'import', 'pass', $fileName, $fileSize));
             return redirect()->back()->with('success', 'Data uploaded and imported successfully!');
@@ -88,7 +86,7 @@ class ImportController extends Controller
             }
 
             event(new FileImported('App\Models\FileImportLog', auth()->id(), 'import', 'fail', $fileName, $fileSize, $e->getMessage()));
-            return redirect()->back()->with('error', 'An error occurred. Please check the file.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }
