@@ -29,6 +29,8 @@ class HuDetailImport implements ToModel, WithValidation, WithHeadingRow, WithBat
             'total_volume' => floatval($row['total_volume']),
             'handling_units' => floatval(1),
             'file_import_log_id' => $this->fileImportLogId,
+            'ship_to_party_text' => $row['ship_to_party_text'],
+            'ship_to' => $row['ship_to'],
         ];
     }
     public function model(array $row)
@@ -41,6 +43,8 @@ class HuDetailImport implements ToModel, WithValidation, WithHeadingRow, WithBat
             'total_volume' => $row['total_volume'],
             'handling_units' => $row['handling_units'],
             'file_import_log_id' => $row['file_import_log_id'],
+            'ship_to_party_text' => $row['ship_to_party_text'],
+            'ship_to' => $row['ship_to'],
         ]);
     }
 
@@ -52,6 +56,8 @@ class HuDetailImport implements ToModel, WithValidation, WithHeadingRow, WithBat
             'total_weight' => 'nullable',
             'weight_unit' => 'nullable',
             'total_volume' => 'nullable',
+            'ship_to_party_text' => 'nullable',
+            'ship_to' => 'nullable',
         ];
     }
 

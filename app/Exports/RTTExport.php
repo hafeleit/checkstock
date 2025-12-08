@@ -35,7 +35,12 @@ class RTTExport implements FromCollection, WithHeadings, WithMapping, WithStyles
             'Shipment number',
             'Weight',
             'Volume',
+            'Volume Unit',
+            'Number of Items',
             'Number of Handling Units',
+            'Number of Products',
+            'Ship-To Party Description',
+            'Ship-To',
             'Address',
             'Sub District + District(City)',
             'ORION Province (ENG)',
@@ -50,7 +55,12 @@ class RTTExport implements FromCollection, WithHeadings, WithMapping, WithStyles
             $row['shipment_number'],
             $row['weight'],
             $row['volume'],
+            null,
+            null,
             $row['handling_units'],
+            null,
+            $row['ship_to_party_text'],
+            $row['ship_to'],
             $row['address'],
             $row['city'],
             $row['province'],
@@ -66,21 +76,21 @@ class RTTExport implements FromCollection, WithHeadings, WithMapping, WithStyles
     public function styles(Worksheet $sheet)
     {
         // จัดรูปแบบหัวตาราง
-        $sheet->getStyle('A1:J1')->getFont()->setBold(true);
-        $sheet->getStyle('A1:J1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFDBDBDB');
-        $sheet->getStyle('A1:J1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A1:O1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:O1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFDBDBDB');
+        $sheet->getStyle('A1:O1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-        // *** เพิ่มเส้นขอบให้กับหัวตาราง (A1:J1) ***
-        $sheet->getStyle('A1:J1')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+        // *** เพิ่มเส้นขอบให้กับหัวตาราง (A1:O1) ***
+        $sheet->getStyle('A1:O1')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 
         // *** เพิ่มเส้นขอบให้กับข้อมูลในตาราง ***
         $lastRow = count($this->mappedData) + 1;
-        $range = 'A1:J' . $lastRow;
+        $range = 'A1:O' . $lastRow;
 
         $sheet->getStyle($range)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 
         // จัดความกว้างคอลัมน์
-        foreach (range('A', 'J') as $column) {
+        foreach (range('A', 'O') as $column) {
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
     }
