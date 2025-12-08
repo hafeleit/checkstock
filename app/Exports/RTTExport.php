@@ -35,10 +35,7 @@ class RTTExport implements FromCollection, WithHeadings, WithMapping, WithStyles
             'Shipment number',
             'Weight',
             'Volume',
-            'Volume Unit',
-            'Number of Items',
             'Number of Handling Units',
-            'Number of Products',
             'Ship-To Party Description',
             'Ship-To',
             'Address',
@@ -55,10 +52,7 @@ class RTTExport implements FromCollection, WithHeadings, WithMapping, WithStyles
             $row['shipment_number'],
             $row['weight'],
             $row['volume'],
-            null,
-            null,
             $row['handling_units'],
-            null,
             $row['ship_to_party_text'],
             $row['ship_to'],
             $row['address'],
@@ -76,21 +70,21 @@ class RTTExport implements FromCollection, WithHeadings, WithMapping, WithStyles
     public function styles(Worksheet $sheet)
     {
         // จัดรูปแบบหัวตาราง
-        $sheet->getStyle('A1:O1')->getFont()->setBold(true);
-        $sheet->getStyle('A1:O1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFDBDBDB');
-        $sheet->getStyle('A1:O1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A1:L1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:L1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFDBDBDB');
+        $sheet->getStyle('A1:L1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-        // *** เพิ่มเส้นขอบให้กับหัวตาราง (A1:O1) ***
-        $sheet->getStyle('A1:O1')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+        // *** เพิ่มเส้นขอบให้กับหัวตาราง (A1:L1) ***
+        $sheet->getStyle('A1:L1')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 
         // *** เพิ่มเส้นขอบให้กับข้อมูลในตาราง ***
         $lastRow = count($this->mappedData) + 1;
-        $range = 'A1:O' . $lastRow;
+        $range = 'A1:L' . $lastRow;
 
         $sheet->getStyle($range)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 
         // จัดความกว้างคอลัมน์
-        foreach (range('A', 'O') as $column) {
+        foreach (range('A', 'L') as $column) {
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
     }
