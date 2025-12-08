@@ -21,11 +21,12 @@ class FileImported
     public $file_name;
     public $file_size;
     public $error_message;
+    public $file_id;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($model, $user_id, $event, $status, $file_name, $file_size = null, $error_message = null)
+    public function __construct($model, $user_id, $event, $status, $file_name, $file_size = null, $error_message = null, $file_id = null)
     {
         $this->model = $model;
         $this->user_id = $user_id;
@@ -34,6 +35,7 @@ class FileImported
         $this->file_name = $file_name;
         $this->file_size = $file_size;
         $this->error_message = $error_message;
+        $this->file_id = $file_id;
     }
 
     /**

@@ -27,6 +27,7 @@ class LogFileImport
             'event' => $event->event,
             'status' => $event->status,
             'auditable_type' => $event->model,
+            'auditable_id' => $event->file_id ?? 0,
             'file_name' => $event->file_name,
             'file_size' => $event->file_size,
             'error_message' => $event->error_message,
