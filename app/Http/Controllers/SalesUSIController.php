@@ -507,8 +507,9 @@ class SalesUSIController extends Controller
                 'confirm_category',
                 'planned_delivery_time',
                 'po_transport_time',
+                'position_no',
                 DB::raw("ROW_NUMBER() OVER (
-                    PARTITION BY purch_doc
+                    PARTITION BY purch_doc, position_no
                     ORDER BY
                         CASE confirm_category
                             WHEN 'LA' THEN 1 
