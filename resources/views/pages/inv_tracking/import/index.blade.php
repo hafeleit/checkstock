@@ -123,8 +123,7 @@
         title: 'Success!',
         text: "{{ session('success') }}",
         icon: 'success',
-        timer: 3000,
-        showConfirmButton: false
+        showConfirmButton: true
     });
 </script>
 @endif

@@ -123,7 +123,7 @@ class DeliverController extends Controller
             $ercDocuments = $invTrackings->pluck('erp_document');
 
             $huDetails = HuDetail::query()
-                ->select('erp_document', 'shipment_number', 'weight_unit')
+                ->select('erp_document', 'shipment_number', 'ship_to', 'ship_to_party_text', 'weight_unit')
                 ->selectRaw('SUM(total_weight) as total_weight, SUM(total_volume) as total_volume, COUNT(*) as handling_units')
                 ->whereIn('erp_document', $ercDocuments)
                 ->groupBy('erp_document', 'shipment_number', 'weight_unit')
@@ -142,6 +142,8 @@ class DeliverController extends Controller
                     'erp_document' => $invTracking['erp_document'] ?? null,
                     'job_number' => $invTracking['logi_track_id'] ?? null,
                     'shipment_number' => $huDetail['shipment_number'] ?? null,
+                    'ship_to' => $huDetail['ship_to'] ?? null,
+                    'ship_to_party_text' => $huDetail['ship_to_party_text'] ?? null,
                     'weight' => $huDetail['total_weight'] ?? null,
                     'volume' => ($huDetail['total_volume'] ?? null) ? ($huDetail['total_volume'] / 1000000) : null,
                     'handling_units' => $huDetail['handling_units'] ?? null,

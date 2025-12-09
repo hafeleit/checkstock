@@ -12,6 +12,8 @@ class HuDetail extends Model
     protected $fillable = [
         'file_import_log_id',
         'shipment_number',
+        'ship_to',
+        'ship_to_party_text',
         'erp_document',
         'total_weight',
         'weight_unit',
