@@ -180,9 +180,16 @@ class SalesUSIController extends Controller
                 'confirm_category',
                 'planned_delivery_time',
                 'po_transport_time',
+                'position_no',
                 DB::raw("ROW_NUMBER() OVER (
-                    PARTITION BY purch_doc
-                    ORDER BY CASE confirm_category WHEN 'LA' THEN 1 WHEN 'AB' THEN 2 WHEN NULL THEN 3 ELSE 4 END
+                    PARTITION BY purch_doc, position_no
+                    ORDER BY 
+                        CASE confirm_category 
+                            WHEN 'LA' THEN 1 
+                            WHEN 'AB' THEN 2 
+                            WHEN NULL THEN 3 
+                            ELSE 4 
+                        END
                 ) as rn")
             )
             ->where('material', $item_code);
@@ -200,7 +207,8 @@ class SalesUSIController extends Controller
                 'inb_act_arrival_date',
                 'confirm_category',
                 'planned_delivery_time',
-                'po_transport_time'
+                'po_transport_time',
+                'position_no',
             );
 
         $subqueryWar = DB::table('ZHWWBCQUERYDIR')
@@ -249,7 +257,7 @@ class SalesUSIController extends Controller
                         WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war, 0)) DAY)
                     END, 3
                 ) = ?", [$ipd_week_no])
-            ->groupBy('a.purchasing_document');
+            ->groupBy('a.purchasing_document', 'b.position_no');
 
         $inbound = $query->get();
         $count = $inbound->count();
@@ -495,7 +503,7 @@ class SalesUSIController extends Controller
 
     private function buildPoQuery(string $material)
     {
-        $rankedSubquery = DB::table('zhtrmm_pol')
+        $rankedPoItemsQuery = DB::table('zhtrmm_pol')
             ->select(
                 'material',
                 'purch_doc',
@@ -522,12 +530,12 @@ class SalesUSIController extends Controller
             )
             ->where('material', $material);
 
-        $subquery = DB::query()
-            ->fromSub($rankedSubquery, 'subquery')
+        $poItemSubquery = DB::query()
+            ->fromSub($rankedPoItemsQuery, 'poItemsQuery')
             ->where('rn', 1)
             ->select('*');
 
-        $subqueryForJoin = DB::table('ZHWWBCQUERYDIR')
+        $warSubquery = DB::table('ZHWWBCQUERYDIR')
             ->select('war', 'material')
             ->where('material', $material)
             ->groupBy('material');
@@ -539,12 +547,12 @@ class SalesUSIController extends Controller
             END";
 
         $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
-            ->leftJoinSub($subquery, 'b', function ($join) {
+            ->leftJoinSub($poItemSubquery, 'b', function ($join) {
                 $join->on('a.purchasing_document', '=', 'b.purch_doc')
                     ->on('a.material', '=', 'b.material');
             })
             ->leftJoinSub(
-                $subqueryForJoin,
+                $warSubquery,
                 'd',
                 function ($join) {
                     $join->on('d.material', '=', 'a.material');
@@ -552,16 +560,30 @@ class SalesUSIController extends Controller
             )
             ->select([
                 'a.material',
+                'b.position_no',
                 DB::raw("RIGHT(LEFT(YEARWEEK($date_expression, 3), 4), 2) AS years"),
                 DB::raw("WEEK($date_expression, 3) AS weeks"),
                 'a.po_order_unit AS WSS_ITEM_UOM_CODE',
-                DB::raw("COALESCE(SUM(b.order_quantity), 0) AS WSS_INCOMING_QTY"),
-                DB::raw("COALESCE(SUM(a.delivered_quantity), 0) AS WSS_RCV_QTY"),
+                'b.order_quantity',
+                'a.delivered_quantity'
             ])
             ->where('a.material', $material)
-            ->groupBy('a.material', DB::raw('weeks'), DB::raw('years'));
+            ->groupBy('a.material', 'b.position_no', 'years', 'weeks');
 
-        return $poQuery;
+        $aggregatedPoQuery = DB::query()
+            ->fromSub($poQuery, 'poquery')
+            ->select([
+                'material',
+                'years',
+                'weeks',
+                'WSS_ITEM_UOM_CODE',
+                DB::raw("COALESCE(SUM(order_quantity), 0) AS WSS_INCOMING_QTY"),
+                DB::raw("COALESCE(SUM(delivered_quantity), 0) AS WSS_RCV_QTY"),
+            ])
+            ->where('material', $material)
+            ->groupBy('material', 'years', 'weeks');
+
+        return $aggregatedPoQuery;
     }
 
     private function buildSoQuery(string $material)
