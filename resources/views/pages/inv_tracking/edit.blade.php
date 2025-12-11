@@ -123,12 +123,6 @@
     erp_documents.addEventListener('input', updateLineCount);
     updateLineCount();
 
-    // --- Input Sanitation ---
-    document.getElementById('erp_documents').addEventListener('input', function(event) {
-        let value = event.target.value;
-        event.target.value = value.replace(/[^a-zA-Z0-9\n]/g, '');
-    });
-
     // --- Form Submission Handler ---
     document.getElementById('edit-form').addEventListener('submit', function(event) {
         event.preventDefault();
@@ -256,7 +250,6 @@
         }
     }
 
-    // --- Check Duplicate Outbound No. ---
     document.addEventListener('DOMContentLoaded', function() {
         const textarea = document.getElementById('erp_documents');
         const messageElement = document.getElementById('duplicate_message');
@@ -267,7 +260,18 @@
             return;
         }
 
-        textarea.addEventListener('blur', function() {
+        textarea.addEventListener('input', sanitizeInput);
+        textarea.addEventListener('input', checkDuplicates);
+        checkDuplicates.call(textarea);
+
+        // --- Input Sanitation ---
+        function sanitizeInput(event) {
+            let value = event.target.value;
+            event.target.value = value.replace(/[^a-zA-Z0-9\n]/g, '');
+        }
+
+        // --- Check Duplicate Outbound No. ---
+        function checkDuplicates() {
             const input = this.value;
             const numbers = input.split('\n').map(line => line.trim()).filter(line => line.length > 0);
             const seenNumbers = {};
@@ -292,7 +296,7 @@
                 messageElement.classList.add('d-none');
                 submitButton.disabled = false;
             }
-        });
+        }
     });
 </script>
 @endsection
