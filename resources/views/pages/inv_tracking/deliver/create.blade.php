@@ -22,6 +22,14 @@
         background-color: #f9f9f9;
         cursor: pointer;
     }
+    #duplicate_message {
+        background-color: #feeef1;
+        padding: 3px;
+        border-radius: 5px;
+    }
+    #submit_button:disabled {
+        color: #ffffff !important;
+    }
 </style>
 <div class="container-fluid py-4">
     <div class="card">
@@ -60,6 +68,8 @@
                 <div class="mb-3">
                     <label for="erp_documents" class="form-label required">Outbound No.</label>
                     <textarea class="form-control" id="erp_documents" name="erp_documents" rows="10" placeholder="#000000001&#10;#000000002&#10;#000000003" required></textarea>
+
+                    <p id="duplicate_message" class="text-danger fw-bold text-xs mt-2 d-none"></p>
                     <p class="form-text text-xs mt-1">
                         Enter each outbound number on a separate line. Each document will create a separate job record.
                     </p>
@@ -73,7 +83,7 @@
                 </div>
 
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary uppercase d-flex align-items-center justify-content-center gap-2">
+                    <button type="submit" id="submit_button" class="btn btn-primary uppercase d-flex align-items-center justify-content-center gap-2">
                         <i class="fa fa-plus-circle"></i>
                         <span>GENERATE DELIVERY DOCUMENT</span>
                     </button>
@@ -232,6 +242,45 @@
                         console.error('Error:', error);
                         Swal.fire('Error', 'An error occurred while saving the data. Please check the console for more details.', 'error');
                     });
+            }
+        });
+    });
+
+    // --- Check Duplicate Outbound No. ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.getElementById('erp_documents');
+        const messageElement = document.getElementById('duplicate_message');
+        const submitButton = document.getElementById('submit_button');
+
+        if (!textarea || !messageElement || !submitButton) {
+            console.error("One or more required elements not found.");
+            return;
+        }
+
+        textarea.addEventListener('blur', function() {
+            const input = this.value;
+            const numbers = input.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+            const seenNumbers = {};
+            const duplicates = [];
+
+            numbers.forEach(number => {
+                if (seenNumbers[number] && !duplicates.includes(number)) {
+                    duplicates.push(number);
+                } else {
+                    seenNumbers[number] = true; 
+                }
+            });
+            
+            if (duplicates.length > 0) {
+                const duplicateList = duplicates.join(', ');
+                const alertMessage = `⚠️ Duplicate data found: ${duplicateList}. Please remove the duplicates to proceed.`;
+                
+                messageElement.textContent = alertMessage;
+                messageElement.classList.remove('d-none');
+                submitButton.disabled = true;
+            } else {
+                messageElement.classList.add('d-none');
+                submitButton.disabled = false;
             }
         });
     });
