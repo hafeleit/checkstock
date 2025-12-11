@@ -175,7 +175,7 @@
             if (result.isConfirmed) {
                 const finalData = {
                     driver_or_sent_to: form.querySelector('#driver_or_sent_to').value,
-                    delivery_date: form.querySelector('#delivery_date').value,
+                    delivery_date: form.querySelector('#delivery_date')?.value || null,
                     remark: form.querySelector('#remark').value,
                     erp_documents: erpDocumentsArray,
                 };

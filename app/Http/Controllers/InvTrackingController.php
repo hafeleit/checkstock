@@ -152,7 +152,7 @@ class InvTrackingController extends Controller
     {
         try {
             request()->validate([
-                'finalData.delivery_date' => 'required|string',
+                'finalData.delivery_date' => 'nullable|string',
                 'finalData.driver_or_sent_to' => 'required|string',
                 'finalData.erp_documents' => 'required|array',
                 'finalData.remark' => 'nullable|string',
