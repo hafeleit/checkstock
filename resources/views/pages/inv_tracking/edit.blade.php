@@ -206,9 +206,11 @@
                         }
                     })
                     .then(data => {
-                        Swal.close(); 
-                        Swal.fire('Success', 'Data saved successfully!', 'success');
-                        window.location.href = '/delivery-trackings';
+                        Swal.close();
+                        Swal.fire('Success', 'Data saved successfully!', 'success')
+                            .then(() => {
+                                window.location.href = '/delivery-trackings';
+                            });
                     })
                     .catch(error => {
                         swal.fire('Error', 'An error occurred while saving the data.', 'error');
