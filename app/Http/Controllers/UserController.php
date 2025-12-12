@@ -24,8 +24,20 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::get();
-        return view('role-permission.user.index', ['users' => $users]);
+        $users = User::query()
+            ->when(request()->search, function ($q) {
+                $q->where('email', 'LIKE', '%' . request()->search . '%')
+                    ->orWhere('username', 'LIKE', '%' . request()->search . '%')
+                    ->orWhere('firstname', 'LIKE', '%' . request()->search . '%')
+                    ->orWhere('lastname', 'LIKE', '%' . request()->search . '%')
+                    ->orWhere('emp_code', 'LIKE', '%' . request()->search . '%');
+            })
+            ->paginate(50);
+
+        return view('role-permission.user.index', [
+            'users' => $users,
+            'params' => request()->all()
+        ]);
     }
 
     public function create()

@@ -186,7 +186,7 @@
             </div>
             <!-- Pagination Links -->
             <div class="mt-4">
-                {{ $invTrackings->withQueryString()->links() }}
+                {{ $invTrackings->withQueryString()->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>
