@@ -120,7 +120,20 @@
                             <table class="table table-hover mb-0">
                                 <thead class="text-sm text-muted fw-bold">
                                     <tr>
-                                        <th scope="col" class="py-3 px-3">ID</th>
+                                        <th scope="col" class="py-3 px-3">
+                                            <a href="{{ url()->current() }}?sort=id&direction={{ request('direction') === 'asc' ? 'desc' : 'asc' }}" class="text-decoration-none text-muted fw-bold">
+                                                ID
+                                                @if (request('sort') === 'id')
+                                                    @if (request('direction') === 'asc')
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+                                                    @else
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                                                    @endif
+                                                @else
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up-down"><polyline points="7 15 12 20 17 15"></polyline><polyline points="17 9 12 4 7 9"></polyline></svg>
+                                                @endif
+                                            </a>
+                                        </th>
                                         <th scope="col" class="py-3 px-3">Employee Code</th>
                                         <th scope="col" class="py-3 px-3">Name</th>
                                         <th scope="col" class="py-3 px-3">Account</th>
