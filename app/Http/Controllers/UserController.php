@@ -32,6 +32,7 @@ class UserController extends Controller
                     ->orWhere('lastname', 'LIKE', '%' . request()->search . '%')
                     ->orWhere('emp_code', 'LIKE', '%' . request()->search . '%');
             })
+            ->orderBy('id','desc')
             ->paginate(50);
 
         return view('role-permission.user.index', [
