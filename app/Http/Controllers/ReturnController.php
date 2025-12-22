@@ -95,7 +95,7 @@ class ReturnController extends Controller
                     'no' => $index + 1,
                     'erp_document' => $invTracking->erp_document,
                     'created_date' => Carbon::parse($invTracking->created_date)->format('d/m/Y'),
-                    'invoice_id' => $invTracking->invoice_id,
+                    'invoice_id' => '0' . $invTracking->invoice_id,
                     'remark' => $invTracking->remark ?? ''
                 ];
             });
