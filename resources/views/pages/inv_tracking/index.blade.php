@@ -3,6 +3,16 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Delivery Tracking'])
 
+<style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+    .td-action::before {
+        content: "";
+        display: inline-block;
+        vertical-align: middle;
+        height: 2.5rem; 
+        width: 0;
+    }
+</style>
+
 <div class="container-fluid py-4">
     <div class="card">
         <div class="d-flex justify-content-between align-items-center py-4 px-4">
@@ -97,7 +107,7 @@
                                     {{ $item['status'] }}
                                 </span>
                             </td>
-                            <td class="py-3 px-3 text-end d-flex gap-3 align-items-center justify-content-end">
+                            <td class="td-action py-3 px-3 text-end d-flex gap-3 align-items-center justify-content-end">
                                 @canany(['delivery edit deliver', 'delivery edit return'])
                                 <a href="/delivery-trackings/{{ $item['logi_track_id'] }}/edit" class="text-dark">
                                     <!-- Edit SVG Icon -->
@@ -181,6 +191,10 @@
                             <td colspan="8" class="text-center py-3">No Data</td>
                         </tr>
                         @endif
+
+                        <div class="opacity-0 user-select-none" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><rect width="18" height="18" fill="none"/></svg>
+                        </div>
                     </tbody>
                 </table>
             </div>
