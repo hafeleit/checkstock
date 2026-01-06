@@ -57,22 +57,26 @@ class ReturnController extends Controller
                         'updated_by' => auth()->user()->id
                     ]);
 
-                $existingInvoice = InvTracking::query()
+                $existingDeliver = InvTracking::query()
                     ->where('erp_document', $erpDocument)
                     ->where('type', 'deliver')
-                    ->first();
+                    ->get();
 
-                InvTracking::create([
-                    'logi_track_id' => $logiTrackId,
-                    'erp_document' => $erpDocument,
-                    'invoice_id' => $existingInvoice['invoice_id'] ?? null,
-                    'driver_or_sent_to' => $request->driver_or_sent_to,
-                    'type' => 'return',
-                    'status' => 'completed',
-                    'created_date' => Carbon::now(),
-                    'created_by' => Auth()->user()->id,
-                    'remark' => $request->remark ?? null
-                ]);
+                if ($existingDeliver->isNotEmpty()) {
+                    foreach ($existingDeliver as $deliver) {
+                        InvTracking::create([
+                            'logi_track_id' => $logiTrackId,
+                            'erp_document' => $erpDocument,
+                            'invoice_id' => $deliver['invoice_id'] ?? null,
+                            'driver_or_sent_to' => $request->driver_or_sent_to,
+                            'type' => 'return',
+                            'status' => 'completed',
+                            'created_date' => Carbon::now(),
+                            'created_by' => Auth()->user()->id,
+                            'remark' => $request->remark ?? null
+                        ]);
+                    }
+                }
             }
         });
 

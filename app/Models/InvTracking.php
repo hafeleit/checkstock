@@ -20,7 +20,8 @@ class InvTracking extends Model
         'created_date',
         'created_by',
         'updated_by',
-        'remark'
+        'remark',
+        'is_system_generated'
     ];
     protected $casts = [
         'delivery_date' => 'datetime',

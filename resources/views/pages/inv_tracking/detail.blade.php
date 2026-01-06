@@ -3,6 +3,29 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Delivery Tracking'])
 
+<style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+    .tooltip-sys {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f1f5f9;
+        color: #64748b;
+        font-size: 10px;
+        font-weight: bold;
+        padding: 1px 4px;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        margin-left: 4px;
+        cursor: help;
+        line-height: 1;
+    }
+
+    .tooltip-sys:hover {
+        background-color: #e2e8f0;
+        color: #334155;
+    }
+</style>
+
 <div class="container-fluid py-4">
     <div class="card">
         <div class="my-3 px-4">
@@ -98,7 +121,14 @@
                         <tr>
                             <td class="py-3 px-3">{{ $item['logi_track_id'] }}</td>
                             <td class="py-3 px-3">{{ $item['erp_document'] }}</td>
-                            <td class="py-3 px-3">{{ $item['invoice_id'] ?? null }}</td>
+                            <td class="py-3 px-3">
+                                {{ $item['invoice_id'] ?? null }}
+                                @if ($item['is_system_generated'])
+                                    <span class="tooltip-sys" data-bs-toggle="tooltip" data-bs-html="true" title="This item was created automatically due to multiple invoices.">
+                                        SYS
+                                    </span>
+                                @endif
+                            </td>
                             <td class="py-3 px-3">{{ $item['driver_or_sent_to'] }}</td>
                             <td class="py-3 px-3">{{ $item['delivery_date'] ? $item['delivery_date']->format('d-m-Y H:i') : '-' }}</td>
                             <td class="py-3 px-3">{{ $item['user']['username'] }}</td>
