@@ -267,7 +267,7 @@
         // --- Input Sanitation ---
         function sanitizeInput(event) {
             let value = event.target.value;
-            event.target.value = value.replace(/[^a-zA-Z0-9\n]/g, '');
+            event.target.value = value.replace(/[^a-zA-Z0-9\n-]/g, '');
         }
 
         // --- Check Duplicate Outbound No. ---
