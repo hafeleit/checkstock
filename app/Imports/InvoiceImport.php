@@ -26,7 +26,7 @@ class InvoiceImport implements ToCollection, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            'billdoc' => 'required|string',
+            'billdoc' => 'required',
             'delivery' => 'required',
         ];
     }
