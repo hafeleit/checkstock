@@ -34,6 +34,24 @@
   .pt-0 {
     padding-top: 0px;
   }
+  .img-container {
+    position: relative;
+  }
+  .button-product-info {
+    width: 100%;
+  }
+  #item_preview {
+    width: 100%;
+  }
+  @media (min-width: 768px) {
+    #product-image-container {
+      max-width: 250px;
+      overflow: hidden;
+    }
+    #item_preview {
+      width: 250px;
+    }
+  }
 </style>
     <div class="container-fluid">
         <div class="row">
@@ -50,105 +68,99 @@
                     </div>
 
                     <div class="card-body pt-0">
-                        <div class="row">
-                          <!--
-                            <div class="col-md-2">
-                                <div class="form-group ">
-                                    <span class="mb-2 text-sm">Item Code: </span>
-                                </div>
-                            </div> -->
-                            <div class="col-md-3">
-                                <div class="form-group relative" >
-                                  <form id="searchForm" action="" method="post">
-                                      @csrf
-                                      <input class="form-control" id="item_code" name="item_code" type="text" placeholder="item code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
-                                      <a href="#" id="searchButton">
-                                          <img src="./img/icons/search.png" alt="country flag" width="25px" class="icon-search">
-                                      </a>
-                                  </form>
-                                </div>
+                      <div class="row">
+                        <div class="col-12 col-lg-9 text-sm">
+                          <div class="col-md-6">
+                            <div class="form-group relative">
+                              <form id="searchForm" action="" method="post">
+                                  @csrf
+                                  <input class="form-control" id="item_code" name="item_code" type="text" placeholder="item code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
+                                  <a href="#" id="searchButton">
+                                      <img src="./img/icons/search.png" alt="country flag" width="25px" class="icon-search">
+                                  </a>
+                              </form>
                             </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <span>Item Code : <label class="item_code text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>MOQ : <label class="purchase_moq text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-5">
-                            <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
-                          </div>
-                          <!--
-                          <div class="col-12 col-sm-4">
-                            <span>Base Price : <label class="bash_price text-sm"></label></span>
-                          </div>-->
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-7">
-                            <span>Item Desc : <label class="item_desc text-sm"></label></span>
                           </div>
 
-                          <!--
-                          <div class="col-12 col-sm-4">
-                            <span>Base Price RSP (ZPLV) Incl. VAT : <label class="zplv text-sm"></label></span>
-                          </div>-->
-                          <div class="col-12 col-sm-5">
-                            <span>Purchasing Group : <label class="purchaser text-sm"></label></span>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <span>UOM Code : <label class="uom text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>Conv Base UOM : <label class="pack_code2 text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-5">
-                            <span>Product manager : <label class="pm_contact text-sm"></label></span>
-                          </div>
-
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <span>New Item Code : <label class="new_item_code text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>Pack Volume : <label class="weight_volume2 text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-5">
-                            <span>Excl Remark : <label class="exclusivity_remark text-sm"></label></span>
-                          </div>
-
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <span>Item Brand : <label class="item_brand text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>MRP : <label class="mrp_desc text-sm badge bg-success mb-0 py-1"></label></span>
+                          <div class="row">
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Item Code : <label class="m-0 item_code"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>MOQ : <label class="m-0 purchase_moq"></label></span>
+                            </div>
+                            <div class="col-12 py-1">
+                              <span>Item Desc : <label class="m-0 item_desc"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Supp Repl Time : <label class="m-0 repl_time"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Purchasing Group : <label class="m-0 purchaser"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>UOM Code : <label class="m-0 uom"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Conv Base UOM : <label class="m-0 pack_code2"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Product manager : <label class="m-0 pm_contact"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>New Item Code : <label class="m-0 new_item_code"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Pack Volume : <label class="m-0 weight_volume2"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Excl Remark : <label class="m-0 exclusivity_remark"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Item Brand : <label class="m-0 item_brand"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Pack Weight : <label class="m-0 weight_volume1"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>MRP : <label class="m-0 mrp_desc text-xs badge bg-success mb-0 py-1"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Item Status : <label class="m-0 item_status text-xs mb-0 py-1"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Barcode : <label class="m-0 barcode"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Storage indicator : <label class="m-0 inventory_code text-xs badge bg-success mb-0 py-1"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Project Item : <label class="m-0 project_item mb-0 py-1"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Super ceed : <label class="m-0 super_ceed"></label></span>
+                            </div>
                           </div>
                         </div>
 
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <span>Item Status : <label class="item_status text-sm mb-0 py-1"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>Barcode : <label class="barcode text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-5">
-                            <span>Storage indicator : <label class="inventory_code text-sm badge bg-success mb-0 py-1"></label></span>
+                        <div class="col-12 col-lg-3">
+                          <div class="col-md-12 d-none" id="product-image-container">
+                            <div class="img-container">
+                              <div class="d-flex justify-center">
+                                <img id="item_preview" src="/img/495.06.101.jpg" class="img-thumbnail" width="450" >
+                              </div>
+                              <div>
+                                <a href="#" id="info-link" type="button" class="button-product-info btn btn-sm btn-dark mt-3">
+                                  Product Information
+                                </a>
+                              </div>
+                            </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
+
+                    <div class="card-body pt-0">
                         <div class="row mt-3 bom_show_flg" >
                           <div class="col-auto">
                             <div class="form-check fs-5">
@@ -284,8 +296,6 @@
                                   <th class="border-usi text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> Document Date</th>
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> UOM</th>
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Qty</th>
-                                  <!--<th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> ETS</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Status</th>-->
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> ETA</th>
                               </tr>
                           </thead>
@@ -313,8 +323,6 @@
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Invoiced</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Pending</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Delivery Date</th>
-                                  <!--<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Rate</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Value</th>-->
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Admin</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Rep</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Customer</th>
@@ -434,6 +442,7 @@
     }).done(function(res){
       Swal.close();
       if(res['count'] == 0){
+        $('#product-image-container').addClass('d-none');
 
         $('.text-input').html('');
         $(':checkbox').prop('checked', false);
@@ -448,12 +457,16 @@
         $("#t20_3_table > tbody").html("");
         $("#t20_12_table > tbody").html("");
         $('#errorModal').modal('show');
-        $('#errorModal').on('shown.bs.modal', function () {
-            $('#btnCloseModal').focus();
-        });
+        $('#errorModal').on('shown.bs.modal', function () {$('#btnCloseModal').focus();});
         $('#product_img').attr('src','/storage/img/products/coming_soon.jpg');
         $('.card-body div div span label').text('');
         return false;
+      } else {
+        let code = item_code;
+        let newUrl = 'sales-usi/product-info?item_code=' + code;
+
+        $('#product-image-container').removeClass('d-none');
+        $('.button-product-info').attr('href', newUrl);
       }
 
       $("#po_table > tbody").html("");
@@ -529,8 +542,6 @@
       let forecast = 0;
 
       $.each(res['wss'], function(key, val) {
-        //let wss = val["week_number"].split(" ").join("");
-        //let week_no = "'" + wss.split("/").join("") + "'";
         let text_danger_in = '';
         let text_danger_out = '';
         if(parseInt(val["WSS_INCOMING_QTY"]) > 0){
@@ -692,10 +703,6 @@
           <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETA"]+'</p></td>\
           </tr>';
         $('#po_table').append(tbody);
-        /*
-        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETS"]+'</p></td>\
-        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_STATUS"]+'</p></td>\
-        */
       });
 
       $('html, body').animate({
@@ -747,10 +754,6 @@
         <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["sold_to_party"]+'-'+val["name1"]+'</p></td>\
         </tr>';
         $('#so_table').append(tbody);
-        /*
-        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_RATE"]+'</p></td>\
-        <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_VALUE"])+'</p></td>\
-        */
       });
 
       $('html, body').animate({
@@ -767,10 +770,6 @@
       $("#errorModal").modal('hide');
       $('#item_code').focus();
     } );
-    //$('#p').prop('checked', true);
-    //var d = new Date();
-    //var month = d.getMonth()+1;
-    //console.log(monthNames[d.getMonth()-1]);
   });
 
 </script>

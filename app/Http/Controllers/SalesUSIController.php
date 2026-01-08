@@ -23,6 +23,17 @@ class SalesUSIController extends Controller
         return view('pages.sales_usi.index', ['created_at' => $created_at]);
     }
 
+    public function indexPC()
+    {
+        $query = DB::table('ZHWWMM_OPEN_ORDERS')
+            ->select('created_at')
+            ->first();
+
+        $created_at = $query->created_at;
+
+        return view('pages.sales_usi.index-pc', ['created_at' => $created_at]);
+    }
+
     public function search_usi(Request $request)
     {
         if (!auth()->check()) {
@@ -368,6 +379,18 @@ class SalesUSIController extends Controller
             'data' => $outbound,
             'sql' => $data->toSql(),
         ]);
+    }
+
+    public function showProductInfo()
+    {
+        return view('pages.sales_usi.show-product-info', [
+            'item_code' => request()->item_code
+        ]);
+    }
+
+    public function editProductInfo()
+    {
+        return view('pages.sales_usi.edit-product-info');
     }
 
     private function getPgrMapping(): array

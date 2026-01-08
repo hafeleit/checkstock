@@ -2,12 +2,12 @@
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
     <a class="navbar-brand m-0" href="#">
-      <img src="{{ URL::to('/') }}/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo"> <?php /*
-				<span class="ms-1 font-weight-bold">Argon Dashboard 2 Laravel</span>*/ ?> </a>
+      <img src="{{ URL::to('/') }}/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo"></a>
   </div>
   <hr class="horizontal dark mt-0">
   <div class="collapse navbar-collapse h-auto w-auto " id="sidenav-collapse-main">
     <ul class="navbar-nav">
+      {{-- Profile --}}
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" href="{{ route('profile') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -16,19 +16,8 @@
           <span class="nav-link-text ms-1">Profile</span>
         </a>
       </li>
-      <?php /*
-      @can('dashboard view')
-      <li class="nav-item">
-        <a class="nav-link {{ Route::currentRouteName() == 'home' ? 'active' : '' }}" href="{{ route('home') }}">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-tv-2 {{ Route::currentRouteName() == 'home' ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
-          </div>
-          <span class="nav-link-text ms-1">Dashboard</span>
-        </a>
-      </li>
-      @endcan
-      */ ?>
 
+      {{-- User Management --}}
       @can('usermanagement view')
       <li class="nav-item ">
         <a class="nav-link {{ in_array(Request::segment(1), ['users','permissions','roles']) ? 'active' : '' }}" data-bs-toggle="collapse"
@@ -62,6 +51,8 @@
         </div>
       </li>
       @endcan
+
+      {{-- IT Asset --}}
       @can('itasset view')
       <li class="nav-item ">
         <a class="nav-link {{ Request::segment(1) == 'itasset' ? 'active' : '' }}" data-bs-toggle="collapse" aria-expanded="{{ Request::segment(1) == 'itasset' ? 'true' : 'false' }}" href="#productsExample">
@@ -99,6 +90,7 @@
       </li>
       @endcan
 
+      {{-- HTH Employee --}}
       @can('hthemployee view')
       <li class="nav-item">
         <a class="nav-link {{ str_contains(request()->url(), 'user-management') == true ? 'active' : '' }}" href="{{ route('user-management') }}">
@@ -109,6 +101,8 @@
         </a>
       </li>
       @endcan
+
+      {{-- Online Order --}}
       @can('onlineorder view')
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'onlineorder.index' ? 'active' : '' }}" href="{{ route('onlineorder.index') }}">
@@ -120,18 +114,7 @@
       </li>
       @endcan
 
-      <?php /*
-      @can('checkstockrsa view')
-      <li class="nav-item">
-        <a class="nav-link {{ Route::currentRouteName() == 'checkstock.index' ? 'active' : '' }}" href="{{ route('checkstock.index') }}">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-archive-2 {{ Request::segment(1) == 'checkstock' ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
-          </div>
-          <span class="nav-link-text ms-1">Check Stock RSA</span>
-        </a>
-      </li>
-      @endcan
-    */ ?>
+      {{-- Consumer Label --}}
       @can('consumerlabel view')
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'product-items' ? 'active' : '' }}" href="{{ route('product-items.index') }}">
@@ -143,17 +126,41 @@
       </li>
       @endcan
 
+      {{-- Sales USI --}}
       @can('salesusi view')
       <li class="nav-item">
-        <a class="nav-link {{ Route::currentRouteName() == 'sales-usi.index' ? 'active' : '' }}" href="{{ route('sales-usi.index') }}">
+        <a class="nav-link {{ Request::segment(1) == 'sales-usi' ? 'active' : '' }}" data-bs-toggle="collapse" aria-expanded="{{ Request::segment(1) == 'sales-usi' ? 'true' : 'false' }}" href="#salesUsiExample">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-archive-2 {{ Request::segment(1) == 'sales-usi' ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
           </div>
           <span class="nav-link-text ms-1">Sales USI</span>
         </a>
+        <div class="collapse {{ Request::segment(1) == 'sales-usi' ? 'show' : '' }}" id="salesUsiExample">
+          <ul class="nav nav-sm flex-column">
+            <li class="nav-item">
+              <a class="nav-link {{ Route::currentRouteName() == 'sales-usi.index' ? 'active' : '' }}" href="{{ route('sales-usi.index') }}">
+                <span class="sidenav-mini-icon text-xs"> S </span>
+                <span class="sidenav-normal"> Sale USI </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ Route::currentRouteName() == 'sales-usi.pc' ? 'active' : '' }}" href="{{ route('sales-usi.pc') }}">
+                <span class="sidenav-mini-icon text-xs"> S </span>
+                <span class="sidenav-normal"> Sale USI - PC </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ Route::currentRouteName() == 'sales-usi.product-info.edit' ? 'active' : '' }}" href="{{ route('sales-usi.product-info.edit') }}">
+                <span class="sidenav-mini-icon text-xs"> P </span>
+                <span class="sidenav-normal"> Product Info </span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </li>
       @endcan
 
+      {{-- SO Status --}}
       @can('sostatus view')
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'so-status-usi.index' ? 'active' : '' }}" href="{{ route('so-status.index') }}">
@@ -165,19 +172,7 @@
       </li>
       @endcan
 
-      <?php /*
-      @can('invrecord view')
-      <li class="nav-item">
-        <a class="nav-link {{ Route::currentRouteName() == 'inv-record.index' ? 'active' : '' }}" href="{{ route('inv-record.index') }}">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-money-coins {{ Request::segment(1) == 'inv-record' ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
-          </div>
-          <span class="nav-link-text ms-1">INV Record</span>
-        </a>
-      </li>
-      @endcan
-      */ ?>
-
+      {{-- Commissions --}}
       @can('Commissions List')
       <li class="nav-item">
         <a href="{{ route('commissions.index') }}" class="nav-link">
@@ -232,6 +227,7 @@
       </li>
       @endcan
 
+      {{-- Audit Logs --}}
       @role('super-admin')
       <li class="nav-item ">
         <a class="nav-link {{ Request::segment(1) == 'audit-logs' ? 'active' : '' }}" data-bs-toggle="collapse" aria-expanded="{{ Request::segment(1) == 'audit-logs' ? 'true' : 'false' }}" href="#auditLogsDropdown">
