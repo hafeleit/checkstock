@@ -45,6 +45,10 @@ class ExportOrdersSAP extends DefaultValueBinder implements FromArray, WithColum
             $cell->setValueExplicit($value, DataType::TYPE_STRING);
             return true;
         }
+        if ($cell->getColumn() == 'AL') {
+            $cell->setValueExplicit($value, DataType::TYPE_STRING);
+            return true;
+        }
 
         // else return default behavior
         return parent::bindValue($cell, $value);
@@ -64,6 +68,7 @@ class ExportOrdersSAP extends DefaultValueBinder implements FromArray, WithColum
             'AC' => NumberFormat::FORMAT_TEXT,
             'AG' => NumberFormat::FORMAT_TEXT,
             'AH' => NumberFormat::FORMAT_TEXT,
+            'AL' => NumberFormat::FORMAT_TEXT,
         ];
     }
 
