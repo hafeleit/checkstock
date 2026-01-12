@@ -47,9 +47,9 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-dark table-hover">
+                            <table class="table table-hover">
                                 <thead>
-                                    <tr>
+                                    <tr class="table-secondary ">
                                         <th class="px-2">Item Code</th>
                                         <th class="px-2">Project Item</th>
                                         <th class="px-2">Super Ceed</th>
@@ -57,7 +57,7 @@
                                         <th></th>
                                     </tr>
                                 </thead>
-                                <tbody class="table-light">
+                                <tbody>
                                     <tr>
                                         <td>101.22.001</td>
                                         <td>Solar panel mount</td>
