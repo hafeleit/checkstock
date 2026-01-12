@@ -383,14 +383,24 @@ class SalesUSIController extends Controller
 
     public function showProductInfo()
     {
-        return view('pages.sales_usi.show-product-info', [
+        return view('pages.sales_usi.product-info.show', [
             'item_code' => request()->item_code
         ]);
     }
 
     public function editProductInfo()
     {
-        return view('pages.sales_usi.edit-product-info');
+        return view('pages.sales_usi.product-info.edit');
+    }
+
+    public function indexProductInfo()
+    {
+        // get data from new table => product information (item_code, project item, super seed, spare part ...)
+        $productInformations = [];
+        
+        return view('pages.sales_usi.product-info.index', [
+            'productInformations' => $productInformations
+        ]);
     }
 
     private function getPgrMapping(): array

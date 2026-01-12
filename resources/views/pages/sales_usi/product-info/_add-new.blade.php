@@ -26,14 +26,18 @@
                 <form id="productInfoForm">
                     @csrf
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="project-item-input" class="form-label required">Project item</label>
                             <input class="form-control" type="text" id="project-item-input" name="project_item"
                                 required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="super-ceed-input" class="form-label required">Super ceed</label>
                             <input class="form-control" type="text" id="super-ceed-input" name="super_ceed" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="spare-part-input" class="form-label required">Spare part</label>
+                            <input class="form-control" type="text" id="spare-part-input" name="spare_part" required>
                         </div>
                     </div>
                     <div class="mt-3">
@@ -91,12 +95,13 @@
         saveBtn.addEventListener('click', async () => {
             const projectItem = document.getElementById('project-item-input').value.trim();
             const superCeed = document.getElementById('super-ceed-input').value.trim();
+            const sparePart = document.getElementById('spare-part-input').value.trim();
 
-            if (!projectItem || !superCeed) {
+            if (!projectItem || !superCeed || !superCeed) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Required fields missing',
-                    text: 'Please enter project item and super ceed.'
+                    text: 'Please enter project item or super ceed or spare part.'
                 });
                 return;
             }

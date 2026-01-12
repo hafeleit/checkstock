@@ -34,6 +34,10 @@
                             <label for="super-ceed" class="form-label required">Super ceed</label>
                             <input class="form-control" type="text" id="super-ceed" name="super_ceed" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="spare-part" class="form-label required">Spare part</label>
+                            <input class="form-control" type="text" id="spare-part" name="spare_part" required>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -45,12 +49,16 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6 mb-3">
-            <label class="form-label">Project Item</label>
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Project item</label>
             <input class="form-control" type="text" value="Lorem ipsum dolor sit amet" readonly>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-4 mb-3">
             <label class="form-label">Super ceed</label>
+            <input class="form-control" type="text" value="Lorem ipsum dolor sit amet" readonly>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Spare part</label>
             <input class="form-control" type="text" value="Lorem ipsum dolor sit amet" readonly>
         </div>
     </div>
@@ -65,8 +73,9 @@
         saveInfoBtn.addEventListener('click', async () => {
             const projectItem = updateInfoForm.querySelector('#project-item').value.trim();
             const superCeed = updateInfoForm.querySelector('#super-ceed').value.trim();
+            const sparePart = updateInfoForm.querySelector('#spare-part').value.trim();
 
-            if (!projectItem || !superCeed) {
+            if (!projectItem || !superCeed || !sparePart) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Missing data',

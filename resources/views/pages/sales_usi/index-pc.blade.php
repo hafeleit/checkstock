@@ -78,7 +78,7 @@
 
                     <div class="card-body pt-0">
                         <div class="row">
-                            <div class="col-12 col-lg-9 text-sm">
+                            <div class="col-12">
                                 <div class="col-md-6">
                                     <div class="form-group relative">
                                         <form id="searchForm" action="" method="post">
@@ -92,7 +92,9 @@
                                         </form>
                                     </div>
                                 </div>
+                            </div>
 
+                            <div class="col-12 col-lg-9 text-sm">
                                 <div class="row">
                                     <div class="col-12">
                                         <span>Item Code : <label class="item_code"></label></span>
@@ -109,6 +111,9 @@
                                     <div class="col-12">
                                         <span>Supp Repl Time : <label class="repl_time"></label></span>
                                     </div>
+                                    <div class="col-12">
+                                        <span>stock : <label class="stock"></label></span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -118,33 +123,7 @@
                                         <div class="d-flex justify-center">
                                             <img id="item_preview" src="/img/495.06.101.jpg" class="img-thumbnail" width="450">
                                         </div>
-                                        <div>
-                                            <a href="#" id="info-link" type="button" class="button-product-info btn btn-sm btn-dark mt-3">
-                                                Product Information
-                                            </a>
-                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 mb-lg-0 mt-4">
-                            <div class="card ">
-                                <div class="table-responsive">
-                                    <table id="stk_table" class="table align-items-center ">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-uppercase text-sm font-weight-bolder ">TH02-DC</th>
-                                                <th class="text-end text-uppercase text-sm font-weight-bolder">THS2-BKK DIY</th>
-                                                <th class="text-end text-uppercase text-sm font-weight-bolder">THS3-Pattaya S/R</th>
-                                                <th class="text-end text-uppercase text-sm font-weight-bolder">THS4-Phuket S/R</th>
-                                                <th class="text-end text-uppercase text-sm font-weight-bolder">THS5-HuaHin S/R</th>
-                                                <th class="text-end text-uppercase text-sm font-weight-bolder">THS6-ChiangMai S/R</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -251,6 +230,7 @@
                 $('.item_desc').html(res['data'][0]['NSU_ITEM_NAME']);
                 $('.repl_time').html(res['data'][0]['NSU_SUPP_REPL_TIME']);
                 $('.barcode').html(res['data'][0]['ean_upc']);
+                $('.stock').html(res['stocks']['TH02']);
                 $("#stk_table > tbody").html("");
 
                 let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">' + res['stocks']['TH02'] + '</p></td>\

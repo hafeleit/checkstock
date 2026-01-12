@@ -69,7 +69,7 @@
 
                     <div class="card-body pt-0">
                       <div class="row">
-                        <div class="col-12 col-lg-9 text-sm">
+                        <div class="col-12">
                           <div class="col-md-6">
                             <div class="form-group relative">
                               <form id="searchForm" action="" method="post">
@@ -81,7 +81,9 @@
                               </form>
                             </div>
                           </div>
+                        </div>
 
+                        <div class="col-12 col-lg-9 text-sm">
                           <div class="row">
                             <div class="col-12 col-sm-6 py-1">
                               <span>Item Code : <label class="m-0 item_code"></label></span>
@@ -357,27 +359,22 @@
 
 <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
   $(function(){
+    const searchForm = document.getElementById('searchForm');
+    const searchButton = document.getElementById('searchButton');
+    const itemInput = document.getElementById('item_code');
+
+    // จัดการการกด Enter ในช่อง input
     $('#item_code').on('keypress', function(event) {
-        if (event.which === 13) { // 13 คือ keycode ของ Enter
-            event.preventDefault(); // ป้องกันการ submit form
+        if (event.which === 13) {
+            event.preventDefault();
             search_usi();
         }
     });
+
     $('#item_code').focus();
+    $('#item_code').mask('000.00.000');
+    $('.bom_show_flg').hide();
   });
-
-  $('#item_code').mask('000.00.000');
-
-  $('.bom_show_flg').hide();
-
-  // ค้นหา Element ของปุ่ม search
-  const searchButton = document.getElementById('searchButton');
-  if (searchButton) {
-      searchButton.addEventListener('click', (event) => {
-          event.preventDefault();
-          search_usi();
-      });
-  }
 
   $('#wss_table').on('click', '.inbound-link', function() {
     const weekNumber = $(this).data('week-number');
@@ -463,7 +460,7 @@
         return false;
       } else {
         let code = item_code;
-        let newUrl = 'sales-usi/product-info?item_code=' + code;
+        let newUrl = 'sales-usi/product-info/' + code;
 
         $('#product-image-container').removeClass('d-none');
         $('.button-product-info').attr('href', newUrl);
