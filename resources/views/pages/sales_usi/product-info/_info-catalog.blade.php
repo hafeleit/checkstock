@@ -49,7 +49,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>sample_catelog_version_03.pdf</td>
+                    <td>
+                        <a href="/files/sample_pdf.pdf" target="_blank">sample_catelog_version_03.pdf</a>
+                    </td>
                     <td class="text-end">
                         <a class="delete-btn cursor-pointer" data-filename="sample_catelog_version_03.pdf">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
@@ -60,7 +62,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>sample_catelog_version_02.pdf</td>
+                    <td>
+                        <a href="/files/sample_pdf.pdf" target="_blank">sample_catelog_version_02.pdf</a>
+                    </td>
                     <td class="text-end">
                         <a class="delete-btn cursor-pointer" data-filename="sample_catelog_version_02.pdf">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
@@ -71,7 +75,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>sample_catelog_version_01.pdf</td>
+                    <td>
+                        <a href="/files/sample_pdf.pdf" target="_blank">sample_catelog_version_01.pdf</a>
+                    </td>
                     <td class="text-end">
                         <a class="delete-btn cursor-pointer" data-filename="sample_catelog_version_01.pdf">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
