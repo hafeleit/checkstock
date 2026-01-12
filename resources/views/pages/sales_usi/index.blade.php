@@ -142,6 +142,9 @@
                             <div class="col-12 col-sm-6 py-1">
                               <span>Super ceed : <label class="m-0 super_ceed"></label></span>
                             </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Spare part : <label class="m-0 spare_part"></label></span>
+                            </div>
                           </div>
                         </div>
 
@@ -499,6 +502,10 @@
       $('.exclusivity_remark').html(res['data'][0]['NSU_EXCL_REMARK']);
       $('.new_item_code').html(res['data'][0]['NSU_NEW_ITEM_CODE']);
       $('.free_stk_qty').html(res['data'][0]['NSU_FREE_STK_QTY']);
+
+      $('.project_item').html('Sample');
+      $('.super_ceed').html('Sample');
+      $('.spare_part').html('Sample');
 
       let path_img = '/storage/img/products/' + item_code + '.jpg';
       $('#product_img').attr('src',path_img);
