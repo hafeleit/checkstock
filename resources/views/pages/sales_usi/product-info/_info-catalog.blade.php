@@ -11,7 +11,7 @@
         </button>
     </div>
 
-    <div class="modal fade" id="changeCatalogModal" tabindex="-1" aria-labelledby="changeCatalogModalLabel" aria-hidden="true">
+    <div class="modal fade" id="changeCatalogModal" tabindex="-1" aria-labelledby="changeCatalogModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -26,8 +26,9 @@
                     <form id="uploadCatalogForm">
                         @csrf
                         <div class="mb-3">
-                            <label for="catalogInput" class="form-label">Choose catalog</label>
-                            <input class="form-control" type="file" id="catalogInput" accept="application/pdf">
+                            <label for="catalog-files-input" class="form-label">Choose catalog</label>
+                            <input class="form-control" type="file" id="catalog-files-input" accept="application/pdf" multiple>
+                            <div id="catalog-file-list" class="text-xs mt-1 text-muted"></div>
                         </div>
                     </form>
                 </div>
@@ -99,36 +100,39 @@
 </style>
 
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+    // Save import
     document.addEventListener('DOMContentLoaded', () => {
-        const catalogInput = document.getElementById('catalogInput');
+        const catalogInput = document.getElementById('catalog-files-input');
         const saveBtn = document.getElementById('saveCatalogBtn');
 
-        // Save import
         saveBtn.addEventListener('click', async () => {
-            const file = catalogInput.files[0];
-            if (!file) {
+            const files = catalogInput.files;
+        
+            if (files.length === 0) {
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Please select a file',
-                    text: 'You need to choose an file first.'
+                    title: 'please select files',
+                    text: 'you need to choose at least one pdf file.'
                 });
                 return;
+            }
+
+            const formData = new FormData();
+            for (let i = 0; i < files.length; i++) {
+                formData.append('catalog_files[]', files[i]);
             }
 
             Swal.fire({
                 icon: 'success',
                 title: 'success',
-                text: 'Catalog file has been updated.',
+                text: `${files.length} files have been updated.`,
                 timer: 2000,
                 showConfirmButton: false
             }).then(() => {
                 document.getElementById('uploadCatalogForm').reset();
-
-                imagePreview.classList.add('d-none');
-                imagePreview.setAttribute('src', '#');
+                document.getElementById('catalog-file-list').innerHTML = '';
 
                 $('#changeCatalogModal').modal('hide');
-
             });
 
             // const formData = new FormData();
@@ -149,9 +153,6 @@
             //         }).then(() => {
             //             document.getElementById('uploadCatalogForm').reset();
 
-            //             imagePreview.classList.add('d-none');
-            //             imagePreview.setAttribute('src', '#');
-
             //             $('#changeCatalogModal').modal('hide');
             //         });
             //     } else {
@@ -167,6 +168,7 @@
         });
     });
 
+    // Delete button
     document.addEventListener('click', function(e) {
         const deleteBtn = e.target.closest('.delete-btn');
 
@@ -206,5 +208,27 @@
                 }
             });
         }
+    });
+
+    // Display files
+    const updateCatalogFileList = (input, listElementId) => {
+        const listElement = document.getElementById(listElementId);
+        listElement.innerHTML = '';
+        
+        if (input.files.length > 0) {
+            const ol = document.createElement('ol');
+            ol.className = 'mb-0';
+            
+            Array.from(input.files).forEach(file => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="bi bi-file-earmark-pdf text-danger"></i> ${file.name} <span class="text-muted">(${(file.size / 1024).toFixed(1)} KB)</span>`;
+                ol.appendChild(li);
+            });
+            
+            listElement.appendChild(ol);
+        }
+    };
+    document.getElementById('catalog-files-input').addEventListener('change', function() {
+        updateCatalogFileList(this, 'catalog-file-list');
     });
 </script>

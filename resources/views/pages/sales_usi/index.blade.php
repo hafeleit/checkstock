@@ -43,6 +43,9 @@
   #item_preview {
     width: 100%;
   }
+  .w-20 {
+    width: 20%;
+  }
   @media (min-width: 768px) {
     #product-image-container {
       max-width: 250px;
@@ -107,7 +110,7 @@
                               <span>Conv Base UOM : <label class="m-0 pack_code2"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
-                              <span>Product manager : <label class="m-0 pm_contact"></label></span>
+                              <span>Product Manager : <label class="m-0 pm_contact"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
                               <span>New Item Code : <label class="m-0 new_item_code"></label></span>
@@ -134,20 +137,16 @@
                               <span>Barcode : <label class="m-0 barcode"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
-                              <span>Storage indicator : <label class="m-0 inventory_code text-xs badge bg-success mb-0 py-1"></label></span>
+                              <span>Storage Indicator : <label class="m-0 inventory_code text-xs badge bg-success mb-0 py-1"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
                               <span>Project Item : <label class="m-0 project_item mb-0 py-1"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
-                              <span>Super ceed : <label class="m-0 super_ceed"></label></span>
-                            </div>
-                            <div class="col-12 col-sm-6 py-1">
-                              <span>Spare part : <label class="m-0 spare_part"></label></span>
+                              <span>Superseded : <label class="m-0 superseded"></label></span>
                             </div>
                           </div>
                         </div>
-
                         <div class="col-12 col-lg-3">
                           <div class="col-md-12 d-none" id="product-image-container">
                             <div class="img-container">
@@ -160,6 +159,24 @@
                                 </a>
                               </div>
                             </div>
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-sm-12 py-2 text-sm"> <span class="fw-bold d-block mb-2">Spare Parts :</span>
+                          <div class="table-responsive">
+                              <table class="table table-sm table-bordered mb-0">
+                                  <thead class="table-light text-xs">
+                                      <tr>
+                                          <th class="w-20 px-2">Item Code</th>
+                                          <th class="px-2">Description</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody class="spare_parts">
+                                    <tr>
+                                      <td colspan="2">No spare parts selected</td>
+                                    </tr>
+                                  </tbody>
+                              </table>
                           </div>
                         </div>
                       </div>
@@ -344,7 +361,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -503,9 +520,22 @@
       $('.new_item_code').html(res['data'][0]['NSU_NEW_ITEM_CODE']);
       $('.free_stk_qty').html(res['data'][0]['NSU_FREE_STK_QTY']);
 
-      $('.project_item').html('Sample');
-      $('.super_ceed').html('Sample');
-      $('.spare_part').html('Sample');
+      $('.project_item').html('000.00.000');
+      $('.superseded').html('000.00.000');
+      // $('.spare_parts').html('000.00.000');
+
+      const spare_parts = [
+          { code: "000.00.001", desc: "Lorem ipsum dolor sit amet" },
+          { code: "000.00.002", desc: "Lorem ipsum dolor sit amet" },
+          { code: "000.00.003", desc: "Lorem ipsum dolor sit amet" }
+      ];
+      const sparePartsRows = spare_parts.map(item => `
+          <tr>
+              <td class="font-monospace">${item.code}</td>
+              <td>${item.desc}</td>
+          </tr>
+      `).join('');
+      $('.spare_parts').html(sparePartsRows);
 
       let path_img = '/storage/img/products/' + item_code + '.jpg';
       $('#product_img').attr('src',path_img);

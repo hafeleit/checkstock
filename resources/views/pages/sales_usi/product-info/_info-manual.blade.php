@@ -10,7 +10,7 @@
         </button>
     </div>
 
-    <div class="modal fade" id="changeManualModal" tabindex="-1" aria-labelledby="changeManualModalLabel" aria-hidden="true">
+    <div class="modal fade" id="changeManualModal" tabindex="-1" aria-labelledby="changeManualModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -25,8 +25,9 @@
                     <form id="uploadManualForm">
                         @csrf
                         <div class="mb-3">
-                            <label for="manualInput" class="form-label">Choose manual</label>
-                            <input class="form-control" type="file" id="manualInput" accept="application/pdf">
+                            <label for="manual-files-input" class="form-label">Choose manual</label>
+                            <input class="form-control" type="file" id="manual-files-input" accept="application/pdf" multiple>
+                            <div id="manual-file-list" class="text-xs mt-1 text-muted"></div>
                         </div>
                     </form>
                 </div>
@@ -93,19 +94,25 @@
 
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     document.addEventListener('DOMContentLoaded', () => {
-        const manualInput = document.getElementById('manualInput');
+        const manualInput = document.getElementById('manual-files-input');
         const saveBtn = document.getElementById('saveManualBtn');
 
         // Save import
         saveBtn.addEventListener('click', async () => {
-            const file = manualInput.files[0];
-            if (!file) {
+            const files = manualInput.files;
+
+            if (files.length === 0) {
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Please select a file',
-                    text: 'You need to choose an file first.'
+                    title: 'please select files',
+                    text: 'you need to choose at least one pdf file.'
                 });
                 return;
+            }
+
+            const formData = new FormData();
+            for (let i = 0; i < files.length; i++) {
+                formData.append('manual_files[]', files[i]);
             }
 
             Swal.fire({
@@ -116,9 +123,7 @@
                 showConfirmButton: false
             }).then(() => {
                 document.getElementById('uploadManualForm').reset();
-
-                imagePreview.classList.add('d-none');
-                imagePreview.setAttribute('src', '#');
+                document.getElementById('manual-file-list').innerHTML = '';
 
                 $('#changeManualModal').modal('hide');
 
@@ -142,9 +147,6 @@
             //         }).then(() => {
             //             document.getElementById('uploadManualForm').reset();
 
-            //             imagePreview.classList.add('d-none');
-            //             imagePreview.setAttribute('src', '#');
-
             //             $('#changeManualModal').modal('hide');
             //         });
             //     } else {
@@ -160,6 +162,7 @@
         });
     });
 
+    // Delete button
     document.addEventListener('click', function(e) {
         const deleteBtn = e.target.closest('.delete-btn');
 
@@ -199,5 +202,27 @@
                 }
             });
         }
+    });
+
+    // Display files
+    const updateManualFileList = (input, listElementId) => {
+        const listElement = document.getElementById(listElementId);
+        listElement.innerHTML = '';
+        
+        if (input.files.length > 0) {
+            const ol = document.createElement('ol');
+            ol.className = 'mb-0';
+            
+            Array.from(input.files).forEach(file => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="bi bi-file-earmark-pdf text-danger"></i> ${file.name} <span class="text-muted">(${(file.size / 1024).toFixed(1)} KB)</span>`;
+                ol.appendChild(li);
+            });
+            
+            listElement.appendChild(ol);
+        }
+    };
+    document.getElementById('manual-files-input').addEventListener('change', function() {
+        updateManualFileList(this, 'manual-file-list');
     });
 </script>

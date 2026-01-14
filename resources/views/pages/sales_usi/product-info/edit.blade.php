@@ -27,8 +27,7 @@
                                 @php
                                     $yesterday = date('d/m/Y', strtotime('-1 day'));
                                 @endphp
-                                <p class="text-uppercase text-secondary text-xxs font-weight-bolder">LAST UPDATE:
-                                    {{ $yesterday }} 20:00</p>
+                                <p class="text-uppercase text-secondary text-xxs font-weight-bolder">LAST UPDATE: {{ $yesterday }} 20:00</p>
                             </div>
                             <div>
                                 <a href="" id="backButton" type="button"
@@ -47,10 +46,10 @@
 
                     <div class="card-body pt-0">
                         <div>
-                            <h4>Item Code : 000.00.000</h4>
+                            <h4>Item Code : {{ request()->item_code }}</h4>
                         </div>
                         <div class="detail-info col-12 mb-lg-0 mt-4">
-                            {{-- Project item / Super ceed / Spare part --}}
+                            {{-- Product Information --}}
                             @include('pages.sales_usi.product-info._info-product')
 
                             {{-- Image --}}

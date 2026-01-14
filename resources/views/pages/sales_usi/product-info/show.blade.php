@@ -58,8 +58,33 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="fw-bold text-lg">Spare part</label>
-                                    <div class="mx-3"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    <label class="fw-bold text-lg">Spare Parts</label>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-bordered mb-0">
+                                            <thead class="table-light text-xs">
+                                                <tr>
+                                                    <th class="w-20 px-2">Item Code</th>
+                                                    <th class="px-2">Description</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="spare_parts">
+                                                {{-- <tr>
+                                                    <td colspan="2">No spare parts selected</td>
+                                                </tr> --}}
+                                                <tr>
+                                                    <td class="font-monospace">000.00.001</td>
+                                                    <td>Lorem ipsum dolor sit amet</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-monospace">000.00.002</td>
+                                                    <td>Lorem ipsum dolor sit amet</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-monospace">000.00.003</td>
+                                                    <td>Lorem ipsum dolor sit amet</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
