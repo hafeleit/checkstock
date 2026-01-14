@@ -60,15 +60,27 @@
                                 <tbody>
                                     <tr>
                                         <td>000.00.001</td>
-                                        <td>Lorem ipsum dolor sit amet</td>
+                                        <td>111.00.201</td>
                                         <td>101.22.001</td>
                                         <td>
-                                            <ul class="list-unstyled">
-                                                <li>100.00.101</li>
-                                                <li>100.00.102</li>
-                                                <li>100.00.103</li>
-                                                <li>100.00.104</li>
-                                            </ul>
+                                            @php
+                                                $spareParts = ['100.00.101', '100.00.102', '100.00.103']; 
+                                                $count = count($spareParts);
+                                                $spareList = implode('<br>', $spareParts);
+                                            @endphp
+                                            @if($count > 0)
+                                                <button type="button" 
+                                                    class="btn btn-sm btn-outline-secondary mb-0 px-2 py-1" 
+                                                    data-bs-toggle="popover" 
+                                                    data-bs-placement="top" 
+                                                    data-bs-html="true"
+                                                    title="Spare Parts List" 
+                                                    data-bs-content="{{ $spareList }}">
+                                                        View Parts ({{ $count }})
+                                                </button>
+                                            @else
+                                                <span class="text-secondary text-xs">-</span>
+                                            @endif
                                         </td>
                                         <td class="text-end">
                                             <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
@@ -80,13 +92,27 @@
                                     </tr>
                                     <tr>
                                         <td>000.00.002</td>
-                                        <td>Lorem ipsum dolor sit amet</td>
+                                        <td>111.00.202</td>
                                         <td>101.22.002</td>
                                         <td>
-                                            <ul class="list-unstyled">
-                                                <li>100.00.101</li>
-                                                <li>100.00.102</li>
-                                            </ul>
+                                            @php
+                                                $spareParts = ['100.00.101']; 
+                                                $count = count($spareParts);
+                                                $spareList = implode('<br>', $spareParts);
+                                            @endphp
+                                            @if($count > 0)
+                                                <button type="button" 
+                                                    class="btn btn-sm btn-outline-secondary mb-0 px-2 py-1" 
+                                                    data-bs-toggle="popover" 
+                                                    data-bs-placement="top" 
+                                                    data-bs-html="true"
+                                                    title="Spare Parts List" 
+                                                    data-bs-content="{{ $spareList }}">
+                                                        View Parts ({{ $count }})
+                                                </button>
+                                            @else
+                                                <span class="text-secondary text-xs">-</span>
+                                            @endif
                                         </td>
                                         <td class="text-end">
                                             <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
@@ -98,12 +124,27 @@
                                     </tr>
                                     <tr>
                                         <td>000.00.003</td>
-                                        <td>Lorem ipsum dolor sit amet</td>
+                                        <td>111.00.203</td>
                                         <td>101.22.003</td>
                                         <td>
-                                            <ul class="list-unstyled">
-                                                <li>100.00.101</li>
-                                            </ul>
+                                            @php
+                                                $spareParts = ['100.00.101', '100.00.102', '100.00.103', '100.00.104']; 
+                                                $count = count($spareParts);
+                                                $spareList = implode('<br>', $spareParts);
+                                            @endphp
+                                            @if($count > 0)
+                                                <button type="button" 
+                                                    class="btn btn-sm btn-outline-secondary mb-0 px-2 py-1" 
+                                                    data-bs-toggle="popover" 
+                                                    data-bs-placement="top" 
+                                                    data-bs-html="true"
+                                                    title="Spare Parts List" 
+                                                    data-bs-content="{{ $spareList }}">
+                                                        View Parts ({{ $count }})
+                                                </button>
+                                            @else
+                                                <span class="text-secondary text-xs">-</span>
+                                            @endif
                                         </td>
                                         <td class="text-end">
                                             <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
@@ -115,9 +156,28 @@
                                     </tr>
                                     <tr>
                                         <td>000.00.004</td>
-                                        <td>Lorem ipsum dolor sit amet</td>
+                                        <td>111.00.204</td>
                                         <td>101.22.004</td>
-                                        <td>-</td>
+                                        <td>
+                                            @php
+                                                $spareParts = []; 
+                                                $count = count($spareParts);
+                                                $spareList = implode('<br>', $spareParts);
+                                            @endphp
+                                            @if($count > 0)
+                                                <button type="button" 
+                                                    class="btn btn-sm btn-outline-secondary mb-0 px-2 py-1" 
+                                                    data-bs-toggle="popover" 
+                                                    data-bs-placement="top" 
+                                                    data-bs-html="true"
+                                                    title="Spare Parts List" 
+                                                    data-bs-content="{{ $spareList }}">
+                                                        View Parts ({{ $count }})
+                                                </button>
+                                            @else
+                                                <span class="text-secondary text-xs">-</span>
+                                            @endif
+                                        </td>
                                         <td class="text-end">
                                             <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
@@ -128,83 +188,27 @@
                                     </tr>
                                     <tr>
                                         <td>000.00.005</td>
-                                        <td>Lorem ipsum dolor sit amet</td>
+                                        <td>111.00.205</td>
                                         <td>101.22.005</td>
                                         <td>
-                                            <ul class="list-unstyled">
-                                                <li>100.00.101</li>
-                                                <li>100.00.102</li>
-                                            </ul>
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-                                                </svg>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>000.00.006</td>
-                                        <td>Lorem ipsum dolor sit amet</td>
-                                        <td>101.22.006</td>
-                                        <td>
-                                            <ul class="list-unstyled">
-                                                <li>100.00.101</li>
-                                                <li>100.00.102</li>
-                                                <li>100.00.103</li>
-                                            </ul>
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-                                                </svg>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>000.00.007</td>
-                                        <td>Lorem ipsum dolor sit amet</td>
-                                        <td>101.22.007</td>
-                                        <td>-</td>
-                                        <td class="text-end">
-                                            <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-                                                </svg>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>000.00.008</td>
-                                        <td>Lorem ipsum dolor sit amet</td>
-                                        <td>101.22.008</td>
-                                        <td>
-                                            <ul class="list-unstyled">
-                                                <li>100.00.101</li>
-                                                <li>100.00.102</li>
-                                                <li>100.00.103</li>
-                                                <li>100.00.104</li>
-                                            </ul>
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-                                                </svg>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>000.00.009</td>
-                                        <td>Lorem ipsum dolor sit amet</td>
-                                        <td>101.22.009</td>
-                                        <td>
-                                            <ul class="list-unstyled">
-                                                <li>100.00.101</li>
-                                                <li>100.00.102</li>
-                                            </ul>
+                                            @php
+                                                $spareParts = ['100.00.101', '100.00.102']; 
+                                                $count = count($spareParts);
+                                                $spareList = implode('<br>', $spareParts);
+                                            @endphp
+                                            @if($count > 0)
+                                                <button type="button" 
+                                                    class="btn btn-sm btn-outline-secondary mb-0 px-2 py-1" 
+                                                    data-bs-toggle="popover" 
+                                                    data-bs-placement="top" 
+                                                    data-bs-html="true"
+                                                    title="Spare Parts List" 
+                                                    data-bs-content="{{ $spareList }}">
+                                                        View Parts ({{ $count }})
+                                                </button>
+                                            @else
+                                                <span class="text-secondary text-xs">-</span>
+                                            @endif
                                         </td>
                                         <td class="text-end">
                                             <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
@@ -231,8 +235,6 @@
 
         function performSearch() {
             const searchText = $itemInput.val().trim();
-
-            // sample data search
             $tableRows.each(function() {
                 const itemCode = $(this).find('td:first').text().trim();
                 if (searchText === "" || itemCode.includes(searchText)) {
@@ -257,6 +259,31 @@
 
         $itemInput.focus();
         $itemInput.mask('000.00.000');
+    });
+
+    // Popover spareLists
+    $(function() {
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        });
+
+        const $itemInput = $('#item_code');
+        const $tableRows = $('tbody tr');
+        const $searchButton = $('#searchButton');
+
+        function performSearch() {
+            const searchText = $itemInput.val().trim();
+            $tableRows.each(function() {
+                const itemCode = $(this).find('td:first').text().trim();
+                if (searchText === "" || itemCode.includes(searchText)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                    $(this).find('[data-bs-toggle="popover"]').popover('hide');
+                }
+            });
+        }
     });
 </script>
 @endsection
