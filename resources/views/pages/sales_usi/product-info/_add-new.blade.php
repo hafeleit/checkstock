@@ -143,7 +143,18 @@
                 showConfirmButton: false
             }).then(() => {
                 productForm.reset();
+
+                const tableBody = document.querySelector('#spare-parts-table tbody');
+                tableBody.innerHTML = ''; 
+                
+                document.getElementById('spare-parts-container').classList.add('d-none');
+
+                document.getElementById('catalog-file-list').innerHTML = '';
+                document.getElementById('manual-file-list').innerHTML = '';
+
                 imagePreview.classList.add('d-none');
+                imagePreview.setAttribute('src', '#');
+                
                 $('#AddNewProductInfoModal').modal('hide');
             });
             
