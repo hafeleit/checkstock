@@ -161,24 +161,6 @@
                             </div>
                           </div>
                         </div>
-
-                        <div class="col-12 col-sm-12 py-2 text-sm"> <span class="fw-bold d-block mb-2">Spare Parts :</span>
-                          <div class="table-responsive">
-                              <table class="table table-sm mb-0">
-                                  <thead class="table-light text-xs">
-                                      <tr>
-                                          <th class="w-20 px-2">Item Code</th>
-                                          <th class="px-2">Description</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody class="spare_parts">
-                                    <tr>
-                                      <td colspan="2">No spare parts selected</td>
-                                    </tr>
-                                  </tbody>
-                              </table>
-                          </div>
-                        </div>
                       </div>
                     </div>
 
@@ -519,26 +501,8 @@
       $('.exclusivity_remark').html(res['data'][0]['NSU_EXCL_REMARK']);
       $('.new_item_code').html(res['data'][0]['NSU_NEW_ITEM_CODE']);
       $('.free_stk_qty').html(res['data'][0]['NSU_FREE_STK_QTY']);
-
       $('.project_item').html('000.00.000');
       $('.superseded').html('000.00.000');
-      // $('.spare_parts').html('000.00.000');
-
-      const spare_parts = [
-          { code: "532.86.564", desc: "Lorem ipsum dolor sit amet" },
-          { code: "532.86.336", desc: "Lorem ipsum dolor sit amet" },
-          { code: "532.83.404", desc: "Lorem ipsum dolor sit amet" },
-          { code: "532.84.919", desc: "Lorem ipsum dolor sit amet" },
-          { code: "534.01.987", desc: "Lorem ipsum dolor sit amet" },
-          { code: "532.87.596", desc: "Lorem ipsum dolor sit amet" },
-      ];
-      const sparePartsRows = spare_parts.map(item => `
-          <tr>
-              <td class="font-monospace">${item.code}</td>
-              <td>${item.desc}</td>
-          </tr>
-      `).join('');
-      $('.spare_parts').html(sparePartsRows);
 
       let path_img = '/storage/img/products/' + item_code + '.jpg';
       $('#product_img').attr('src',path_img);
