@@ -1,6 +1,6 @@
 <div class="card border p-4 mt-3">
     <div class="d-flex align-items-center justify-between">
-        <label class="fw-bold text-lg">Manual</label>
+        <label class="fw-bold text-lg">Manuals</label>
         <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#changeManualModal">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
                 <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
@@ -14,7 +14,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 m-0" id="changeManualModalLabel">Import new manual</h1>
+                    <h1 class="modal-title fs-5 m-0" id="changeManualModalLabel">Import new manuals</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-x" viewBox="0 0 16 16">
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
@@ -25,7 +25,7 @@
                     <form id="uploadManualForm">
                         @csrf
                         <div class="mb-3">
-                            <label for="manual-files-input" class="form-label">Choose manual</label>
+                            <label for="manual-files-input" class="form-label">Choose manuals</label>
                             <input class="form-control" type="file" id="manual-files-input" accept="application/pdf" multiple>
                             <div id="manual-file-list" class="text-xs mt-1 text-muted"></div>
                         </div>

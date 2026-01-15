@@ -60,7 +60,7 @@
                                 <div>
                                     <label class="fw-bold text-lg">Spare Parts</label>
                                     <div class="table-responsive">
-                                        <table class="table table-sm table-bordered mb-0">
+                                        <table class="table table-sm mb-0">
                                             <thead class="table-light text-xs">
                                                 <tr>
                                                     <th class="w-20 px-2">Item Code</th>
@@ -72,17 +72,29 @@
                                                     <td colspan="2">No spare parts selected</td>
                                                 </tr> --}}
                                                 <tr>
-                                                    <td class="font-monospace">000.00.001</td>
+                                                    <td class="font-monospace">532.86.564</td>
                                                     <td>Lorem ipsum dolor sit amet</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="font-monospace">000.00.002</td>
+                                                    <td class="font-monospace">532.86.336</td>
                                                     <td>Lorem ipsum dolor sit amet</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="font-monospace">000.00.003</td>
+                                                    <td class="font-monospace">532.83.404</td>
                                                     <td>Lorem ipsum dolor sit amet</td>
                                                 </tr>
+                                                <tr>
+                                                    <td class="font-monospace">532.84.919</td>
+                                                    <td>Lorem ipsum dolor sit amet</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-monospace">534.01.987</td>
+                                                    <td>Lorem ipsum dolor sit amet</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-monospace">532.87.596</td>
+                                                    <td>Lorem ipsum dolor sit amet</td>
+                                                </tr>    
                                             </tbody>
                                         </table>
                                     </div>

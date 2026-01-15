@@ -53,7 +53,6 @@
                                         <th class="px-2">Item Code</th>
                                         <th class="px-2">Project Item</th>
                                         <th class="px-2">Superseded</th>
-                                        <th class="px-2">Spare Parts</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -62,26 +61,6 @@
                                         <td>000.00.001</td>
                                         <td>111.00.201</td>
                                         <td>101.22.001</td>
-                                        <td>
-                                            @php
-                                                $spareParts = ['100.00.101', '100.00.102', '100.00.103']; 
-                                                $count = count($spareParts);
-                                                $spareList = implode('<br>', $spareParts);
-                                            @endphp
-                                            @if($count > 0)
-                                                <button type="button" 
-                                                    class="btn btn-sm btn-outline-secondary mb-0 px-2 py-1" 
-                                                    data-bs-toggle="popover" 
-                                                    data-bs-placement="top" 
-                                                    data-bs-html="true"
-                                                    title="Spare Parts List" 
-                                                    data-bs-content="{{ $spareList }}">
-                                                        View Parts ({{ $count }})
-                                                </button>
-                                            @else
-                                                <span class="text-secondary text-xs">-</span>
-                                            @endif
-                                        </td>
                                         <td class="text-end">
                                             <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
@@ -94,26 +73,6 @@
                                         <td>000.00.002</td>
                                         <td>111.00.202</td>
                                         <td>101.22.002</td>
-                                        <td>
-                                            @php
-                                                $spareParts = ['100.00.101']; 
-                                                $count = count($spareParts);
-                                                $spareList = implode('<br>', $spareParts);
-                                            @endphp
-                                            @if($count > 0)
-                                                <button type="button" 
-                                                    class="btn btn-sm btn-outline-secondary mb-0 px-2 py-1" 
-                                                    data-bs-toggle="popover" 
-                                                    data-bs-placement="top" 
-                                                    data-bs-html="true"
-                                                    title="Spare Parts List" 
-                                                    data-bs-content="{{ $spareList }}">
-                                                        View Parts ({{ $count }})
-                                                </button>
-                                            @else
-                                                <span class="text-secondary text-xs">-</span>
-                                            @endif
-                                        </td>
                                         <td class="text-end">
                                             <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
@@ -126,26 +85,6 @@
                                         <td>000.00.003</td>
                                         <td>111.00.203</td>
                                         <td>101.22.003</td>
-                                        <td>
-                                            @php
-                                                $spareParts = ['100.00.101', '100.00.102', '100.00.103', '100.00.104']; 
-                                                $count = count($spareParts);
-                                                $spareList = implode('<br>', $spareParts);
-                                            @endphp
-                                            @if($count > 0)
-                                                <button type="button" 
-                                                    class="btn btn-sm btn-outline-secondary mb-0 px-2 py-1" 
-                                                    data-bs-toggle="popover" 
-                                                    data-bs-placement="top" 
-                                                    data-bs-html="true"
-                                                    title="Spare Parts List" 
-                                                    data-bs-content="{{ $spareList }}">
-                                                        View Parts ({{ $count }})
-                                                </button>
-                                            @else
-                                                <span class="text-secondary text-xs">-</span>
-                                            @endif
-                                        </td>
                                         <td class="text-end">
                                             <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
@@ -158,26 +97,6 @@
                                         <td>000.00.004</td>
                                         <td>111.00.204</td>
                                         <td>101.22.004</td>
-                                        <td>
-                                            @php
-                                                $spareParts = []; 
-                                                $count = count($spareParts);
-                                                $spareList = implode('<br>', $spareParts);
-                                            @endphp
-                                            @if($count > 0)
-                                                <button type="button" 
-                                                    class="btn btn-sm btn-outline-secondary mb-0 px-2 py-1" 
-                                                    data-bs-toggle="popover" 
-                                                    data-bs-placement="top" 
-                                                    data-bs-html="true"
-                                                    title="Spare Parts List" 
-                                                    data-bs-content="{{ $spareList }}">
-                                                        View Parts ({{ $count }})
-                                                </button>
-                                            @else
-                                                <span class="text-secondary text-xs">-</span>
-                                            @endif
-                                        </td>
                                         <td class="text-end">
                                             <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
@@ -190,26 +109,6 @@
                                         <td>000.00.005</td>
                                         <td>111.00.205</td>
                                         <td>101.22.005</td>
-                                        <td>
-                                            @php
-                                                $spareParts = ['100.00.101', '100.00.102']; 
-                                                $count = count($spareParts);
-                                                $spareList = implode('<br>', $spareParts);
-                                            @endphp
-                                            @if($count > 0)
-                                                <button type="button" 
-                                                    class="btn btn-sm btn-outline-secondary mb-0 px-2 py-1" 
-                                                    data-bs-toggle="popover" 
-                                                    data-bs-placement="top" 
-                                                    data-bs-html="true"
-                                                    title="Spare Parts List" 
-                                                    data-bs-content="{{ $spareList }}">
-                                                        View Parts ({{ $count }})
-                                                </button>
-                                            @else
-                                                <span class="text-secondary text-xs">-</span>
-                                            @endif
-                                        </td>
                                         <td class="text-end">
                                             <a href="{{ route('sales-usi.product-info.edit', '101.22.001') }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
