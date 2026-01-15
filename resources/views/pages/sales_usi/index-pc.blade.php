@@ -33,7 +33,6 @@
 
         .wss-table {
             text-decoration: underline;
-            cursor: pointer;
         }
 
         .pt-0 {
@@ -224,62 +223,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        @can('salesusi iodetail')
-                        <div class="row">
-                            <div class="col-lg-6 mb-lg-0 mt-4">
-                                <div class="card">
-                                    <div class="card-header p-2">
-                                        <h6>PO Details</h6>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table id="po_table" class="table align-items-center ">
-                                            <thead>
-                                                <tr>
-                                                    <th class="p-2 text-uppercase text-secondary text-xxs font-weight-bolder"> Document</th>
-                                                    <th class="p-2 border-usi text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> Document Date</th>
-                                                    <th class="p-2 border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> UOM</th>
-                                                    <th class="p-2 border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Qty</th>
-                                                    <th class="p-2 border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> ETA</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="col-lg-6 mb-lg-0 mt-4">
-                                    <div class="card">
-                                        <div class="card-header p-2">
-                                            <h6>SO Details</h6>
-                                        </div>
-                                        <div class="table-responsive">
-                                            <table id="so_table" class="table align-items-center ">
-                                                <thead>
-                                                    <tr>
-                                                    <th class="p-2 text-uppercase text-secondary text-xxs font-weight-bolder"> SO Detail</th>
-                                                    <th class="p-2 text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> SO Date</th>
-                                                    <th class="p-2 text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Uom</th>
-                                                    <th class="p-2 text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Order Qty</th>
-                                                    <th class="p-2 text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Confirmed</th>
-                                                    <th class="p-2 text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Delivered</th>
-                                                    <th class="p-2 text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Invoiced</th>
-                                                    <th class="p-2 text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Pending</th>
-                                                    <th class="p-2 text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Delivery Date</th>
-                                                    <th class="p-2 text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Admin</th>
-                                                    <th class="p-2 text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Rep</th>
-                                                    <th class="p-2 text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Customer</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endcan
                     </div>
                 </div>
             </div>
@@ -325,19 +268,6 @@
                 search_usi();
             });
         }
-
-        // Inbound link
-        $('#wss_table').on('click', '.inbound-link', function() {
-            const weekNumber = $(this).data('week-number');
-            search_usi_inbound(weekNumber);
-        })
-
-        // Outbound link
-        $('#wss_table').on('click', '.outbound-link', function() {
-            const weekNumber = $(this).data('week-number');
-            const yearNumber = $(this).data('year-number');
-            search_usi_outbound(weekNumber, yearNumber);
-        });
 
         $(document).on('click', '.search-parent-item', function(e) {
             let parentCode = $(this).data('item-code');
@@ -494,18 +424,18 @@
                             <p class="text-start text-xs font-weight-bold mb-0">'+val["year_number"]+'/'+val["week_number"]+'</p>\
                         </td>\
                         <td class="border-usi">\
-                            @can('salesusi iodetail')
+                            @can('salesusi iodetail')\
                             <p data-week-number="'+val["week_number"]+'" class="'+text_danger_in+' wss-table text-end text-xs font-weight-bold mb-0 inbound-link">'+parseInt(val["WSS_INCOMING_QTY"])+'</p>\
-                            @else
+                            @else\
                             <p class="wss-table '+text_danger_in+' text-end text-xs font-weight-bold mb-0">'+parseInt(val["WSS_INCOMING_QTY"])+'</p>\
-                            @endcan
+                            @endcan\
                         </td>\
                         <td class="border-usi">\
-                            @can('salesusi iodetail')
+                            @can('salesusi iodetail')\
                             <p data-week-number="'+val["week_number"]+'" data-year-number="'+val["year_number"]+'" class="'+text_danger_out+' wss-table text-end text-xs font-weight-bold mb-0 outbound-link">'+val["WSS_RES_QTY"]+'</p>\
-                            @else
+                            @else\
                             <p class="wss-table '+text_danger_out+' text-end text-xs font-weight-bold mb-0">'+val["WSS_RES_QTY"]+'</p>\
-                            @endcan
+                            @endcan\
                         </td>\
                         <td class="border-usi">\
                             <p class="text-start text-xs font-weight-bold mb-0">'+val["WSS_AVAIL_QTY"]+'</p>\
@@ -545,98 +475,6 @@
                 }
             });
         }
-
-        // Function: Search Inbound
-        function search_usi_inbound(week_no) {
-            let _token = $('meta[name="csrf-token"]').attr('content');
-
-            Swal.fire({
-                title: 'กำลังค้นหา...',
-                text: 'โปรดรอสักครู่',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            $("#po_table > tbody").html("");
-
-            $.ajax({
-                method: 'POST',
-                url: '{{ ROUTE('search_inbound') }}',
-                data: {
-                    item_code: $('#item_code').val(),
-                    ipd_week_no: week_no,
-                    _token: _token
-                }
-            }).done(function(res) {
-                Swal.close();
-                if (res['count'] == 0) { return false; }
-                $.each(res['data'], function(key, val) {
-                    let tbody = '<tr>\
-                        <td><p class="text-start text-xs font-weight-bold mb-0">'+val["IPD_DOC_NO"]+'</p></td>\
-                        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0">'+val["IPD_DOC_DT"]+'</p></td>\
-                        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0">'+val["IPD_UOM_CODE"]+'</p></td>\
-                        <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0">'+val["IPD_QTY"]+'</p></td>\
-                        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0">'+val["IPD_ETA"]+'</p></td>\
-                    </tr>';
-                    $('#po_table').append(tbody);
-                });
-                $('html, body').animate({ scrollTop: $("#po_table").offset().top }, 500);
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดข้อมูลได้: ' + errorThrown, 'error');
-            });
-        }
-
-        // Function: Search Outbound
-        function search_usi_outbound(week_no, year_no) {
-            let _token = $('meta[name="csrf-token"]').attr('content');
-
-            Swal.fire({
-                title: 'กำลังค้นหา...',
-                text: 'โปรดรอสักครู่',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            $("#so_table > tbody").html("");
-
-            $.ajax({
-                method: 'POST',
-                url: '{{ ROUTE('search_outbound') }}',
-                data: {
-                    item_code: $('#item_code').val(),
-                    week_no: week_no,
-                    year_no: year_no,
-                    _token: _token
-                }
-            }).done(function(res){
-                    Swal.close();
-                    if (res['count'] == 0) { return false; }
-                    $.each(res['data'], function(key, val) {
-                        let tbody = '<tr>\
-                            <td><p class="text-start text-xs font-weight-bold mb-0">'+val["ISD_DOC_NO"]+'</p></td>\
-                            <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0">'+val["ISD_DOC_DT"]+'</p></td>\
-                            <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0">'+val["ISD_UOM_CODE"]+'</p></td>\
-                            <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0">'+addCommas(val["ISD_ORD_QTY"])+'</p></td>\
-                            <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0">'+addCommas(val["ISD_RESV_QTY"])+'</p></td>\
-                            <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0">'+addCommas(val["ISD_DEL_QTY"])+'</p></td>\
-                            <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0">'+addCommas(val["ISD_INV_QTY"])+'</p></td>\
-                            <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0">'+(val["ISD_ORD_QTY"] - val["ISD_INV_QTY"])+'</p></td>\
-                            <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0">'+val["ISD_DEL_DT"]+'</p></td>\
-                            <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0">'+val["ISD_ADMIN"]+'</p></td>\
-                            <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0">'+val["ISD_REP"]+'</p></td>\
-                            <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0">'+val["sold_to_party"]+'-'+val["name1"]+'</p></td>\
-                        </tr>';
-                        $('#so_table').append(tbody);
-                    });
-                    $('html, body').animate({ scrollTop: $("#so_table").offset().top }, 500);
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดข้อมูลได้: ' + errorThrown, 'error');
-                });
-            }
 
         $(function() {
             $(".error-close").on("click", function() {
