@@ -309,8 +309,6 @@
                 if (res['count'] == 0) {
                     $("#bom_table > tbody").html("");
                     $("#wss_table > tbody").html("");
-                    $("#po_table > tbody").html("");
-                    $("#so_table > tbody").html("");
 
                     $('#product-image-container').addClass('d-none');
                     $('#errorModal').modal('show');
