@@ -28,6 +28,7 @@
                         <div class="d-md-flex align-items-center justify-between">
                             <h6 class="mb-0 h3">Product Information</h6>
                             <div class="d-flex gap-2">
+                                @include('pages.sales_usi.product-info._import')
                                 @include('pages.sales_usi.product-info._export')
                                 @include('pages.sales_usi.product-info._add-new')
                             </div>
