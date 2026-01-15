@@ -131,6 +131,12 @@
                                     <div class="col-12 mt-2">
                                         <span>Available Stock : <label class="m-0 available_stock"></label></span>
                                     </div>
+                                    <div class="col-12 mt-2">
+                                        <span>Manual : </span>
+                                        <a href="/files/sample_pdf.pdf" target="_blank">
+                                          เปิดไฟล์ manual
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <div class="card-body p-2">
@@ -408,7 +414,7 @@
                     if(parseInt(val["WSS_INCOMING_QTY"]) > 0) {
                         text_danger_in = 'text-danger';
                     }
-                    
+
                     if(val["WSS_RES_QTY"] > 0) {
                         text_danger_out = 'text-danger';
                     }
@@ -452,7 +458,7 @@
 
                 $("#po_table > tbody").html("");
                 $("#so_table > tbody").html("");
-                
+
 
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == '419') {
