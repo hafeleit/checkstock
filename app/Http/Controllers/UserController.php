@@ -149,6 +149,12 @@ class UserController extends Controller
                 ];
             }
 
+            if (request()->is_active) {
+                $data += [
+                    'last_logged_in_at' => null,
+                ];
+            }
+
             $user->update($data);
             $user->syncRoles($request->roles);
 
