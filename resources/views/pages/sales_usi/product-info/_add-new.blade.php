@@ -23,11 +23,14 @@
                 <form id="productInfoForm">
                     @csrf
                     <div>
+                         <label for="image-input" class="form-label required">Item code</label>
+                         <input type="text" name="item_code" id="item-code-input" class="form-control" required>
+                    </div>
+                    <div class="mt-3">
                         <div>
                             <label for="image-input" class="form-label">Choose image</label>
-                            <div class="mb-2">
-                                <img id="image-preview" src="#" alt="preview"
-                                    class="img-fluid d-none border rounded" width="250">
+                            <div>
+                                <img id="image-preview" src="#" alt="preview" class="img-fluid d-none border rounded mb-2" width="250">
                             </div>
                             <input class="form-control" type="file" id="image-input" accept="image/*">
                         </div>
@@ -53,11 +56,12 @@
 </div>
 
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-    $('#item-code-input').mask('000.00.000');
+    $('#itemC-code-input').mask('000.00.000');
 
     // Submit Form
     document.addEventListener('DOMContentLoaded', () => {
         const productForm = document.getElementById('productInfoForm');
+        const itemCodeInput = document.getElementById('item-code-input');
         const imageInput = document.getElementById('image-input');
         const imagePreview = document.getElementById('image-preview');
         const saveBtn = document.getElementById('saveNewBtn');
@@ -80,6 +84,16 @@
 
         // Save form
         saveBtn.addEventListener('click', async () => {
+
+            if (!itemCodeInput.value.trim()) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Missing data',
+                    text: 'Please fill in all required fields.'
+                });
+                return;
+            }
+            
             Swal.fire({
                 icon: 'success',
                 title: 'Success!',
