@@ -131,12 +131,6 @@
                                     <div class="col-12 mt-2">
                                         <span>Available Stock : <label class="m-0 available_stock"></label></span>
                                     </div>
-                                    <div class="col-12 mt-2">
-                                        <span>Manual : </span>
-                                        <a href="/files/sample_pdf.pdf" target="_blank">
-                                          เปิดไฟล์ manual
-                                        </a>
-                                    </div>
                                 </div>
 
                                 <div class="card-body p-2">
@@ -170,6 +164,11 @@
                                     <div class="img-container">
                                         <div class="d-flex justify-center">
                                             <img id="item_preview" src="/img/495.06.101.jpg" class="img-thumbnail" width="450">
+                                        </div>
+                                        <div>
+                                            <a href="#" id="info-link" type="button" class="button-product-info btn btn-sm btn-dark mt-3">
+                                                Product Information
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -320,7 +319,7 @@
                     return false;
                 } else {
                     let code = item_code;
-                    let newUrl = '/sales-usi/product-info?item_code=' + code;
+                    let newUrl = '/sales-usi/product-info/' + code;
 
                     $('#product-image-container').removeClass('d-none');
                     $('.button-product-info').attr('href', newUrl);

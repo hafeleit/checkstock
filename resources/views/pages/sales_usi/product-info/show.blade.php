@@ -35,6 +35,32 @@
                                 <img id="item_preview" src="/img/495.06.101.jpg" class="img-thumbnail">
                             </div>
                             <div class="col-md-9">
+                                <div class="card bg-gray-200 p-3 mb-3">
+                                    <div>
+                                        <label class="m-0">Item Code:</label>
+                                        <span>{{ request()->item_code }}</span>
+                                    </div>
+                                    <div class="mt-1">
+                                        <label class="m-0">Item Desc:</label>
+                                        <span>Lorem ipsum dolor sit amet</span>
+                                    </div>
+                                    <div class="mt-1">
+                                        <label class="m-0">Item Brand:</label>
+                                        <span>Lorem ipsum dolor sit amet</span>
+                                    </div>
+                                    <div class="mt-1">
+                                        <label class="m-0">Item Status:</label>
+                                        <span class="text-xs badge bg-success m-0 py-1">ACTIVE</span>
+                                    </div>
+                                    <div class="mt-1">
+                                        <label class="m-0">MRP:</label>
+                                        <span class="text-xs badge bg-success m-0 py-1">Lorem ipsum</span>
+                                    </div>
+                                    <div class="mt-1">
+                                        <label class="m-0">Storage Indicator:</label>
+                                        <span class="text-xs badge bg-success m-0 py-1">Lorem ipsum</span>
+                                    </div>
+                                </div>
                                 <div class="mb-3">
                                     <label class="fw-bold text-lg">Catalog <span class="text-xs gray">(Last version)</span></label>
                                     <div class="mx-3 underline">

@@ -27,11 +27,11 @@
                     <div class="card-header pb-0">
                         <div class="d-md-flex align-items-center justify-between">
                             <h6 class="mb-0 h3">Product Information</h6>
-                            <div class="d-flex gap-2">
+                            {{-- <div class="d-flex gap-2">
                                 @include('pages.sales_usi.product-info._import')
                                 @include('pages.sales_usi.product-info._export')
                                 @include('pages.sales_usi.product-info._add-new')
-                            </div>
+                            </div> --}}
                         </div>
                         @php
                             $yesterday = date('d/m/Y', strtotime('-1 day'));
@@ -61,6 +61,8 @@
                                     <tr class="table-secondary ">
                                         <th class="px-2">Item Code</th>
                                         <th class="px-2">Image</th>
+                                        <th class="px-2">Project Item</th>
+                                        <th class="px-2">Superseded</th>
                                         <th class="px-2">Catalogue</th>
                                         <th class="px-2">Manual</th>
                                         <th></th>
@@ -72,6 +74,8 @@
                                         <td>
                                             <img src="/img/495.06.101.jpg" class="img-thumbnail" width="50">
                                         </td>
+                                        <td>000.00.000</td>
+                                        <td>000.00.000</td>
                                         <td>
                                             <a href="/files/sample_pdf.pdf" target="_blank" id="downloadManual" class="download-link">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
@@ -108,6 +112,8 @@
                                         <td>
                                             <img src="/img/495.06.101.jpg" class="img-thumbnail" width="50">
                                         </td>
+                                        <td>000.00.000</td>
+                                        <td>000.00.000</td>
                                         <td>
                                             <a href="/files/sample_pdf.pdf" target="_blank" id="downloadManual" class="download-link">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
@@ -144,6 +150,8 @@
                                         <td>
                                             <img src="/img/495.06.101.jpg" class="img-thumbnail" width="50">
                                         </td>
+                                        <td>000.00.000</td>
+                                        <td>000.00.000</td>
                                         <td>
                                             <a href="/files/sample_pdf.pdf" target="_blank" id="downloadManual" class="download-link">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
@@ -180,6 +188,8 @@
                                         <td>
                                             <img src="/img/495.06.101.jpg" class="img-thumbnail" width="50">
                                         </td>
+                                        <td>000.00.000</td>
+                                        <td>000.00.000</td>
                                         <td>
                                             <a href="/files/sample_pdf.pdf" target="_blank" id="downloadManual" class="download-link">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
@@ -216,6 +226,8 @@
                                         <td>
                                             <img src="/img/495.06.101.jpg" class="img-thumbnail" width="50">
                                         </td>
+                                        <td>000.00.000</td>
+                                        <td>000.00.000</td>
                                         <td>
                                             <a href="/files/sample_pdf.pdf" target="_blank" id="downloadManual" class="download-link">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">

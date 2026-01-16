@@ -50,7 +50,7 @@
                         </div>
                         <div class="detail-info col-12 mb-lg-0 mt-4">
                             {{-- Product Information --}}
-                            {{-- @include('pages.sales_usi.product-info._info-product') --}}
+                            @include('pages.sales_usi.product-info._info-product')
 
                             {{-- Image --}}
                             @include('pages.sales_usi.product-info._info-image')

@@ -128,19 +128,19 @@
                               <span>Pack Weight : <label class="m-0 weight_volume1"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
-                              <span>MRP : <label class="m-0 mrp_desc text-xs badge bg-success mb-0 py-1"></label></span>
+                              <span>MRP : <label class="m-0 mrp_desc text-xs badge bg-success py-1"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
-                              <span>Item Status : <label class="m-0 item_status text-xs mb-0 py-1"></label></span>
+                              <span>Item Status : <label class="m-0 item_status text-xs py-1"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
                               <span>Barcode : <label class="m-0 barcode"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
-                              <span>Storage Indicator : <label class="m-0 inventory_code text-xs badge bg-success mb-0 py-1"></label></span>
+                              <span>Storage Indicator : <label class="m-0 inventory_code text-xs badge bg-success py-1"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
-                              <span>Project Item : <label class="m-0 project_item mb-0 py-1"></label></span>
+                              <span>Project Item : <label class="m-0 project_item py-1"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
                               <span>Superseded : <label class="m-0 superseded"></label></span>
