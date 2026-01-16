@@ -173,40 +173,50 @@ class InvTrackingController extends Controller
                 $removedErpDocs = array_diff($oldErpDocs, $finalData['erp_documents']);
                 $addedErpDocs = array_diff($finalData['erp_documents'], $oldErpDocs);
 
-                if (!empty($removedErpDocs)) {
-                    InvTracking::query()
-                        ->where('type', 'deliver')
-                        ->whereIn('erp_document', $removedErpDocs)
+                if (empty($removedErpDocs) && empty($addedErpDocs)) {
+                    InvTracking::where('logi_track_id', $logiTrackId)
                         ->update([
-                            'status' => 'pending',
-                            'updated_by' => auth()->user()->id
+                            'driver_or_sent_to' => $finalData['driver_or_sent_to'],
+                            'delivery_date' => $finalData['delivery_date'],
+                            'updated_by' => auth()->user()->id,
+                            'remark' => $finaldata['remark'] ?? $invTracking->remark,
                         ]);
-                }
-
-                InvTracking::where('logi_track_id', $logiTrackId)->delete();
-
-                foreach ($finalData['erp_documents'] as $item) {
-                    InvTracking::create([
-                        'logi_track_id' => $logiTrackId,
-                        'erp_document' => $item,
-                        'invoice_id' => null,
-                        'driver_or_sent_to' => $finalData['driver_or_sent_to'],
-                        'type' => $invTracking['type'],
-                        'status' => $invTracking['type'] === 'deliver' ? 'pending' : 'completed',
-                        'delivery_date' => request()->finalData['delivery_date'] ? Carbon::createFromFormat('Y-m-d\TH:i', request()->finalData['delivery_date']) : null,
-                        'created_date' => $invTracking['created_date'],
-                        'created_by' => $invTracking['created_by'],
-                        'updated_by' => Auth()->user()->id,
-                        'remark' => $finalData['remark'] ?? $invTracking->remark
-                    ]);
-
-                    if ($invTracking['type'] === 'return' && !empty($addedErpDocs)) {
-                        InvTracking::where('type', 'deliver')
-                            ->whereIn('erp_document', $addedErpDocs)
+                } else {
+                    if (!empty($removedErpDocs)) {
+                        InvTracking::query()
+                            ->where('type', 'deliver')
+                            ->whereIn('erp_document', $removedErpDocs)
                             ->update([
-                                'status' => 'completed',
+                                'status' => 'pending',
                                 'updated_by' => auth()->user()->id
                             ]);
+                    }
+
+                    InvTracking::where('logi_track_id', $logiTrackId)->delete();
+
+                    foreach ($finalData['erp_documents'] as $item) {
+                        InvTracking::create([
+                            'logi_track_id' => $logiTrackId,
+                            'erp_document' => $item,
+                            'invoice_id' => null,
+                            'driver_or_sent_to' => $finalData['driver_or_sent_to'],
+                            'type' => $invTracking['type'],
+                            'status' => $invTracking['type'] === 'deliver' ? 'pending' : 'completed',
+                            'delivery_date' => request()->finalData['delivery_date'] ? Carbon::createFromFormat('Y-m-d\TH:i', request()->finalData['delivery_date']) : null,
+                            'created_date' => $invTracking['created_date'],
+                            'created_by' => $invTracking['created_by'],
+                            'updated_by' => Auth()->user()->id,
+                            'remark' => $finalData['remark'] ?? $invTracking->remark
+                        ]);
+
+                        if ($invTracking['type'] === 'return' && !empty($addedErpDocs)) {
+                            InvTracking::where('type', 'deliver')
+                                ->whereIn('erp_document', $addedErpDocs)
+                                ->update([
+                                    'status' => 'completed',
+                                    'updated_by' => auth()->user()->id
+                                ]);
+                        }
                     }
                 }
 
