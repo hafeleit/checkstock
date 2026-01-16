@@ -14,7 +14,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 m-0" id="changeInfoModalLabel">Update product information</h1>
+                    <h1 class="modal-title fs-5 m-0" id="changeInfoModalLabel">Update information</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
                             class="bi bi-x" viewBox="0 0 16 16">
