@@ -145,6 +145,13 @@ class UserController extends Controller
             if (!empty($request->password)) {
                 $data += [
                     'password' => $request->password,
+                    'last_logged_in_at' => null,
+                ];
+            }
+
+            if (request()->is_active) {
+                $data += [
+                    'last_logged_in_at' => null,
                 ];
             }
 
