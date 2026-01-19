@@ -13,7 +13,8 @@ class ITAssetExport implements FromCollection, WithHeadings
      */
     public function collection()
     {
-        $res = ITAsset::leftJoin('i_t_asset_owns', 'i_t_assets.computer_name', 'i_t_asset_owns.computer_name')
+        $res = ITAsset::query()
+            ->leftJoin('i_t_asset_owns', 'i_t_assets.computer_name', 'i_t_asset_owns.computer_name')
             ->leftJoin('user_masters', 'i_t_asset_owns.user', 'user_masters.job_code')
             ->leftJoin('i_t_asset_types', 'i_t_asset_types.type_code', 'i_t_assets.type')
             ->leftjoin('softwares', 'softwares.computer_name', 'i_t_assets.computer_name')
@@ -48,6 +49,7 @@ class ITAssetExport implements FromCollection, WithHeadings
             )
             ->groupBy('i_t_assets.computer_name')
             ->where('i_t_assets.delete', '0')
+            ->where('user_masters.status', 'Current')
             ->get();
 
         return $res;
