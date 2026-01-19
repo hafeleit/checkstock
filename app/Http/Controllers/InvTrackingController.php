@@ -182,39 +182,93 @@ class InvTrackingController extends Controller
                             'remark' => $finalData['remark'] ?? $invTracking->remark,
                         ]);
                 } else {
-                    if (!empty($removedErpDocs)) {
-                        InvTracking::query()
-                            ->where('type', 'deliver')
-                            ->whereIn('erp_document', $removedErpDocs)
-                            ->update([
-                                'status' => 'pending',
-                                'updated_by' => auth()->user()->id
-                            ]);
-                    }
+                    if ($invTracking->type === 'deliver') {
+                        if (!empty($removedErpDocs)) {
+                            InvTracking::query()
+                                ->where('logi_track_id', $logiTrackId)
+                                ->where('type', 'deliver')
+                                ->whereIn('erp_document', $removedErpDocs)
+                                ->delete();
+                        }
 
-                    InvTracking::where('logi_track_id', $logiTrackId)->delete();
+                        if (!empty($addedErpDocs)) {
+                            foreach ($finalData['erp_documents'] as $item) {
+                                $existingItem = InvTracking::query()
+                                    ->where('erp_document', $item)
+                                    ->where('logi_track_id', $logiTrackId)
+                                    ->where('type', 'deliver')
+                                    ->first();
 
-                    foreach ($finalData['erp_documents'] as $item) {
-                        InvTracking::create([
-                            'logi_track_id' => $logiTrackId,
-                            'erp_document' => $item,
-                            'invoice_id' => null,
-                            'driver_or_sent_to' => $finalData['driver_or_sent_to'],
-                            'type' => $invTracking['type'],
-                            'status' => $invTracking['type'] === 'deliver' ? 'pending' : 'completed',
-                            'delivery_date' => request()->finalData['delivery_date'] ? Carbon::createFromFormat('Y-m-d\TH:i', request()->finalData['delivery_date']) : null,
-                            'created_date' => $invTracking['created_date'],
-                            'created_by' => $invTracking['created_by'],
-                            'updated_by' => Auth()->user()->id,
-                            'remark' => $finalData['remark'] ?? $invTracking->remark
-                        ]);
+                                if (!$existingItem) {
+                                    InvTracking::create([
+                                        'logi_track_id' => $logiTrackId,
+                                        'erp_document' => $item,
+                                        'invoice_id' => null,
+                                        'driver_or_sent_to' => $finalData['driver_or_sent_to'],
+                                        'type' => $invTracking['type'],
+                                        'status' => $invTracking['type'] === 'deliver' ? 'pending' : 'completed',
+                                        'delivery_date' => $finalData['delivery_date'] ? Carbon::createFromFormat('Y-m-d\TH:i', $finalData['delivery_date']) : null,
+                                        'created_date' => $invTracking['created_date'],
+                                        'created_by' => $invTracking['created_by'],
+                                        'updated_by' => Auth()->user()->id,
+                                        'remark' => $finalData['remark'] ?? $invTracking->remark
+                                    ]);
+                                }
+                            }
+                        }
 
-                        if ($invTracking['type'] === 'return' && !empty($addedErpDocs)) {
-                            InvTracking::where('type', 'deliver')
-                                ->whereIn('erp_document', $addedErpDocs)
+                        if ($finalData['driver_or_sent_to'] || $finalData['delivery_date'] || $finalData['remark']) {
+                            InvTracking::where('logi_track_id', $logiTrackId)
                                 ->update([
-                                    'status' => 'completed',
+                                    'driver_or_sent_to' => $finalData['driver_or_sent_to'],
+                                    'delivery_date' => $finalData['delivery_date'] ? Carbon::createFromFormat('Y-m-d\TH:i', $finalData['delivery_date']) : null,
+                                    'remark' => $finalData['remark'] ?? $invTracking->remark
+                                ]);
+                        }
+                    } else if ($invTracking->type === 'return') {
+                        if (!empty($removedErpDocs)) {
+                            InvTracking::query()
+                                ->where('type', 'deliver')
+                                ->whereIn('erp_document', $removedErpDocs)
+                                ->update([
+                                    'status' => 'pending',
                                     'updated_by' => auth()->user()->id
+                                ]);
+                        }
+
+                        InvTracking::where('logi_track_id', $logiTrackId)->delete();
+
+                        foreach ($finalData['erp_documents'] as $item) {
+                            InvTracking::create([
+                                'logi_track_id' => $logiTrackId,
+                                'erp_document' => $item,
+                                'invoice_id' => null,
+                                'driver_or_sent_to' => $finalData['driver_or_sent_to'],
+                                'type' => $invTracking['type'],
+                                'status' => $invTracking['type'] === 'deliver' ? 'pending' : 'completed',
+                                'delivery_date' => request()->finalData['delivery_date'] ? Carbon::createFromFormat('Y-m-d\TH:i', request()->finalData['delivery_date']) : null,
+                                'created_date' => $invTracking['created_date'],
+                                'created_by' => $invTracking['created_by'],
+                                'updated_by' => Auth()->user()->id,
+                                'remark' => $finalData['remark'] ?? $invTracking->remark
+                            ]);
+
+                            if (!empty($addedErpDocs)) {
+                                InvTracking::where('type', 'deliver')
+                                    ->whereIn('erp_document', $addedErpDocs)
+                                    ->update([
+                                        'status' => 'completed',
+                                        'updated_by' => auth()->user()->id
+                                    ]);
+                            }
+                        }
+
+                        if ($finalData['driver_or_sent_to'] || $finalData['delivery_date'] || $finalData['remark']) {
+                            InvTracking::where('logi_track_id', $logiTrackId)
+                                ->update([
+                                    'driver_or_sent_to' => $finalData['driver_or_sent_to'],
+                                    'delivery_date' => $finalData['delivery_date'] ? Carbon::createFromFormat('Y-m-d\TH:i', $finalData['delivery_date']) : null,
+                                    'remark' => $finalData['remark'] ?? $invTracking->remark
                                 ]);
                         }
                     }
