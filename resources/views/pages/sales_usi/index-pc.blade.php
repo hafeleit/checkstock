@@ -166,7 +166,7 @@
                                             <img id="item_preview" src="/img/495.06.101.jpg" class="img-thumbnail" width="450">
                                         </div>
                                         <div>
-                                            <a href="#" id="info-link" type="button" class="button-product-info btn btn-sm btn-dark mt-3">
+                                            <a href="#" id="info-link" target="_blank" type="button" class="button-product-info btn btn-sm btn-dark mt-3">
                                                 Product Information
                                             </a>
                                         </div>
