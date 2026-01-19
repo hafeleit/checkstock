@@ -179,7 +179,7 @@ class InvTrackingController extends Controller
                             'driver_or_sent_to' => $finalData['driver_or_sent_to'],
                             'delivery_date' => $finalData['delivery_date'],
                             'updated_by' => auth()->user()->id,
-                            'remark' => $finaldata['remark'] ?? $invTracking->remark,
+                            'remark' => $finalData['remark'] ?? $invTracking->remark,
                         ]);
                 } else {
                     if (!empty($removedErpDocs)) {
