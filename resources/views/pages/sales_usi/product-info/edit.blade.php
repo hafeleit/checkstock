@@ -60,6 +60,9 @@
 
                             {{-- Manual --}}
                             @include('pages.sales_usi.product-info._info-manual')
+
+                            {{-- Spec Sheet --}}
+                            @include('pages.sales_usi.product-info._info-specsheet')
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,234 @@
+<div class="card border p-4 mt-3">
+    <div class="d-flex align-items-center justify-between">
+        <label class="fw-bold text-lg">Spec Sheets</label>
+        <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#changeSpecSheetModal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload"
+                viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
+            </svg>
+            <div>Import new version</div>
+        </button>
+    </div>
+
+    <div class="modal fade" id="changeSpecSheetModal" tabindex="-1" aria-labelledby="changeSpecSheetModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 m-0" id="changeSpecSheetModalLabel">Import new spec sheets</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-x" viewBox="0 0 16 16">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="uploadSpecSheetForm">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="specsheet-files-input" class="form-label">Choose spec sheets</label>
+                            <input class="form-control" type="file" id="specsheet-files-input" accept="application/pdf" multiple>
+                            <div id="specsheet-file-list" class="text-xs mt-1 text-muted"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="saveSpecSheetBtn" class="btn btn-primary">Import</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark text-sm">
+                <tr>
+                    <th class="px-2">File name</th>
+                    <th class="px-2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <a href="/files/sample_pdf.pdf" target="_blank">sample_specsheet_version_03.pdf</a>
+                    </td>
+                    <td class="text-end">
+                        <a class="delete-btn cursor-pointer" data-filename="sample_specsheet_version_03.pdf">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="/files/sample_pdf.pdf" target="_blank">sample_specsheet_version_02.pdf</a>
+                    </td>
+                    <td class="text-end">
+                        <a class="delete-btn cursor-pointer" data-filename="sample_specsheet_version_02.pdf">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="/files/sample_pdf.pdf" target="_blank">sample_specsheet_version_01.pdf</a>
+                    </td>
+                    <td class="text-end">
+                        <a class="delete-btn cursor-pointer" data-filename="sample_specsheet_version_01.pdf">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+    .swal2-styled.swal2-confirm {
+        border-radius: .25em;
+    }
+</style>
+
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+    // Save import
+    document.addEventListener('DOMContentLoaded', () => {
+        const specSheetInput = document.getElementById('specsheet-files-input');
+        const saveBtn = document.getElementById('saveSpecSheetBtn');
+
+        saveBtn.addEventListener('click', async () => {
+            const files = specSheetInput.files;
+        
+            if (files.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Please select files',
+                    text: 'You need to choose at least one pdf file.'
+                });
+                return;
+            }
+
+            const formData = new FormData();
+            for (let i = 0; i < files.length; i++) {
+                formData.append('specsheet_files[]', files[i]);
+            }
+
+            Swal.fire({
+                icon: 'success',
+                title: 'success',
+                text: `${files.length} files have been updated.`,
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => {
+                document.getElementById('uploadSpecSheetForm').reset();
+                document.getElementById('specsheet-file-list').innerHTML = '';
+
+                $('#changeSpecSheetModal').modal('hide');
+            });
+
+            // const formData = new FormData();
+            // formData.append('catalog_file', file);
+            // try {
+            //     const response = await fetch('/api/upload-endpoint', {
+            //         method: 'POST',
+            //         body: formData
+            //     });
+
+            //     if (response.ok) {
+            //         Swal.fire({
+            //             icon: 'success',
+            //             title: 'success',
+            //             text: 'Catalog file has been updated.',
+            //             timer: 2000,
+            //             showConfirmButton: false
+            //         }).then(() => {
+            //             document.getElementById('uploadSpecSheetForm').reset();
+
+            //             $('#changeSpecSheetModal').modal('hide');
+            //         });
+            //     } else {
+            //         throw new Error('upload failed');
+            //     }
+            // } catch (error) {
+            //     Swal.fire({
+            //         icon: 'error',
+            //         title: 'error',
+            //         text: 'something went wrong, please try again.'
+            //     });
+            // }
+        });
+    });
+
+    // Delete button
+    document.addEventListener('click', function(e) {
+        const deleteBtn = e.target.closest('.delete-btn');
+
+        if (deleteBtn) {
+            e.preventDefault();
+            const fileName = deleteBtn.getAttribute('data-filename');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `Do you want to delete ${fileName}?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                reverseButtons: true
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    Swal.fire('Deleted!', 'Your file has been deleted.', 'success')
+                        .then(() => {
+                            deleteBtn.closest('tr').remove();
+                        });
+                    // try {
+                    //     const response = await fetch(`/api/delete/${fileName}`, { method: 'DELETE' });
+
+                    //     if (response.ok) {
+                    //         Swal.fire('Deleted!', 'Your file has been deleted.', 'success')
+                    //             .then(() => {
+                    //                 deleteBtn.closest('tr').remove();
+                    //             });
+                    //     } else {
+                    //         throw new Error();
+                    //     }
+                    // } catch (error) {
+                    //     Swal.fire('error', 'could not delete the file.', 'error');
+                    // }
+                }
+            });
+        }
+    });
+
+    // Display files
+    const updateSpecsheetFileList = (input, listElementId) => {
+        const listElement = document.getElementById(listElementId);
+        listElement.innerHTML = '';
+        
+        if (input.files.length > 0) {
+            const ol = document.createElement('ol');
+            ol.className = 'mb-0';
+            
+            Array.from(input.files).forEach(file => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="bi bi-file-earmark-pdf text-danger"></i> ${file.name} <span class="text-muted">(${(file.size / 1024).toFixed(1)} KB)</span>`;
+                ol.appendChild(li);
+            });
+            
+            listElement.appendChild(ol);
+        }
+    };
+    document.getElementById('specsheet-files-input').addEventListener('change', function() {
+        updateSpecsheetFileList(this, 'specsheet-file-list');
+    });
+</script>
