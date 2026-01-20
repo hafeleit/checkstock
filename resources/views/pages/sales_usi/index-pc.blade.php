@@ -123,10 +123,10 @@
                                         <span>Storage Indicator : <label class="m-0 inventory_code text-xs badge bg-success py-1"></label></span>
                                     </div>
                                     <div class="col-12 mt-2">
-                                        <span>Base Price (ZPL) : <label class="m-0 zpl"></label></span>
+                                        <span>Base Price : <label class="m-0 zpl"></label></span>
                                     </div>
                                     <div class="col-12 mt-2">
-                                        <span>Retail Selling Price (ZPLV) : <label class="m-0 zplv"></label></span>
+                                        <span>Retail Selling Price : <label class="m-0 zplv"></label></span>
                                     </div>
                                     <div class="col-12 mt-2">
                                         <span>Available Stock : <label class="m-0 available_stock"></label></span>
