@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TemplateExport;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SalesUSIController extends Controller
 {
@@ -401,6 +403,13 @@ class SalesUSIController extends Controller
         return view('pages.sales_usi.product-info.index', [
             'productInformations' => $productInformations
         ]);
+    }
+
+    public function downloadExcelTemplate($type)
+    {
+        $fileName = "template_{$type}_" . now()->format('Ymd') . ".xlsx";
+        
+        return Excel::download(new TemplateExport($type), $fileName);
     }
 
     private function getPgrMapping(): array

@@ -116,6 +116,7 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   Route::get('/sales-usi/product-info', [SalesUSIController::class, 'indexProductInfo'])->name('sales-usi.product-info.index');
   Route::get('/sales-usi/product-info/{item_code}', [SalesUSIController::class, 'showProductInfo'])->name('sales-usi.product-info.show');
   Route::get('/sales-usi/product-info/{item_code}/edit', [SalesUSIController::class, 'editProductInfo'])->name('sales-usi.product-info.edit');
+  Route::get('/sales-usi/product-info/download-template/{type}', [SalesUSIController::class, 'downloadExcelTemplate'])->name('sales-usi.product-info.download-template');
   Route::post('search-usi', [SalesUSIController::class, 'search_usi'])->name('search_usi');
   Route::post('search-usi-inbound', [SalesUSIController::class, 'inbound'])->name('search_inbound');
   Route::post('search-usi-outbound', [SalesUSIController::class, 'outbound'])->name('search_outbound');
