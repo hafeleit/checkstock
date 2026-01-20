@@ -126,7 +126,7 @@
                                         <span>Base Price (ZPL) : <label class="m-0 zpl"></label></span>
                                     </div>
                                     <div class="col-12 mt-2">
-                                        <span>RSP (ZPLV) : <label class="m-0 zplv"></label></span>
+                                        <span>Retail Selling Price (ZPLV) : <label class="m-0 zplv"></label></span>
                                     </div>
                                     <div class="col-12 mt-2">
                                         <span>Available Stock : <label class="m-0 available_stock"></label></span>
