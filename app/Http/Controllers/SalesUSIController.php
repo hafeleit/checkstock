@@ -183,12 +183,12 @@ class SalesUSIController extends Controller
                 'position_no',
                 DB::raw("ROW_NUMBER() OVER (
                     PARTITION BY purch_doc, position_no
-                    ORDER BY 
-                        CASE confirm_category 
-                            WHEN 'LA' THEN 1 
-                            WHEN 'AB' THEN 2 
-                            WHEN NULL THEN 3 
-                            ELSE 4 
+                    ORDER BY
+                        CASE confirm_category
+                            WHEN 'LA' THEN 1
+                            WHEN 'AB' THEN 2
+                            WHEN NULL THEN 3
+                            ELSE 4
                         END
                 ) as rn")
             )
@@ -520,9 +520,9 @@ class SalesUSIController extends Controller
                     PARTITION BY purch_doc, position_no
                     ORDER BY
                         CASE confirm_category
-                            WHEN 'LA' THEN 1 
-                            WHEN 'AB' THEN 2 
-                            WHEN NULL THEN 3 
+                            WHEN 'LA' THEN 1
+                            WHEN 'AB' THEN 2
+                            WHEN NULL THEN 3
                             ELSE 4
                         END
                     ) as rn
@@ -567,8 +567,8 @@ class SalesUSIController extends Controller
                 'b.order_quantity',
                 'a.delivered_quantity'
             ])
-            ->where('a.material', $material)
-            ->groupBy('a.material', 'b.position_no', 'years', 'weeks');
+            ->where('a.material', $material);
+            /*->groupBy('a.material', 'b.position_no', 'years', 'weeks');*/
 
         $aggregatedPoQuery = DB::query()
             ->fromSub($poQuery, 'poquery')
