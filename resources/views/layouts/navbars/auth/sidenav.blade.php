@@ -150,7 +150,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {{ Route::currentRouteName() == 'sales-usi.product-info.index' ? 'active' : '' }}" href="{{ route('sales-usi.product-info.index') }}">
+              <a class="nav-link {{ Route::currentRouteName() == 'product-infos.index' ? 'active' : '' }}" href="{{ route('product-infos.index') }}">
                 <span class="sidenav-mini-icon text-xs"> P </span>
                 <span class="sidenav-normal"> Product Info </span>
               </a>

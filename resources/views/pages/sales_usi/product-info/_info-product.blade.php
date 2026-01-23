@@ -24,16 +24,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="updateInfoForm">
+                    <form method="POST" id="updateInfoForm">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="project-item" class="form-label required">Project item</label>
-                                <input class="form-control" type="text" id="project-item" name="project_item" value="000.00.000" required>
+                                <label for="project-item" class="form-label">Project item</label>
+                                <input class="form-control" type="text" id="project-item" name="project_item" value="{{ $product->project_item }}">
                             </div>
                             <div class="col-md-6">
-                                <label for="superseded" class="form-label required">Superseded</label>
-                                <input class="form-control" type="text" id="superseded" name="superseded" value="000.00.000" required>
+                                <label for="superseded" class="form-label">Superseded</label>
+                                <input class="form-control" type="text" id="superseded" name="superseded" value="{{ $product->superseded }}">
                             </div>
                         </div>
                     </form>
@@ -49,11 +49,11 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label class="form-label">Project item</label>
-            <input class="form-control" type="text" value="000.00.000" readonly>
+            <input class="form-control" type="text" value="{{ $product->project_item }}" readonly>
         </div>
         <div class="col-md-6 mb-3">
             <label class="form-label">Superseded</label>
-            <input class="form-control" type="text" value="000.00.000" readonly>
+            <input class="form-control" type="text" value="{{ $product->superseded }}" readonly>
         </div>
     </div>
 </div>
@@ -70,61 +70,42 @@
         const modalElement = document.getElementById('changeInfoModal');
 
         saveInfoBtn.addEventListener('click', async () => {
-            const projectItem = updateInfoForm.querySelector('#project-item').value.trim();
-            const superCeed = updateInfoForm.querySelector('#superseded').value.trim();
-
-            if (!projectItem || !superCeed) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Missing data',
-                    text: 'Please fill in all required fields.'
-                });
-                return;
-            }
-
             Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Data has been saved successfully.',
-                timer: 2000,
-                showConfirmButton: false
-            }).then(() => {
-                document.getElementById('updateInfoForm').reset();
-                $('#changeInfoModal').modal('hide');
+                title: 'Uploading...',
+                text: 'Please wait while we process your file.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
             });
 
-            // try {
-            //     const formData = new FormData(updateInfoForm);
-            //     const response = await fetch('/your-import-url', {
-            //         method: 'POST',
-            //         body: formData,
-            //         headers: {
-            //             'X-CSRF-TOKEN': updateInfoForm.querySelector('input[name="_token"]')
-            //                 .value
-            //         }
-            //     });
+            const formData = new FormData(updateInfoForm);
+            formData.append('_method', 'PUT');
 
-            //     if (response.ok) {
-            //         Swal.fire({
-            //             icon: 'success',
-            //             title: 'Success',
-            //             text: 'Data has been saved successfully.',
-            //             timer: 2000,
-            //             showConfirmButton: false
-            //         }).then(() => {
-            //             document.getElementById('updateInfoForm').reset();
-            //             $('#changeInfoModal').modal('hide');
-            //         });
-            //     } else {
-            //         throw new Error('upload failed');
-            //     }
-            // } catch (error) {
-            //     Swal.fire({
-            //         icon: 'error',
-            //         title: 'error',
-            //         text: 'something went wrong, please try again.'
-            //     });
-            // }
+            axios.post(`/product-infos/${item_code}`, formData)
+                .then(resonse => {
+                     Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Data has been saved successfully.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        document.getElementById('updateInfoForm').reset();
+                        $('#changeInfoModal').modal('hide');
+                        window.location.reload();
+                    });
+                })
+                .catch(error => {
+                    const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'error',
+                        text: errorMessage
+                    });
+                    console.error('Upload Error:', error);
+                })
         });
     });
 </script>

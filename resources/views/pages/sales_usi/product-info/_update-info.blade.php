@@ -25,7 +25,7 @@
                         <p class="text-secondary small mb-2">
                             You can download the template to prepare your data for importing into the system from the link below.
                         </p>
-                        <a href="{{ route('sales-usi.product-info.download-template', 'project-item') }}" class="btn btn-sm btn-outline-secondary m-0">
+                        <a href="{{ route('product-infos.download-template', 'project-item') }}" class="btn btn-sm btn-outline-secondary m-0">
                             Download template (.xlsx)
                         </a>
                     </div>
@@ -35,7 +35,7 @@
                     <form action="" method="post" id="projectItemForm">
                         @csrf
                         <div>
-                            <label for="importFile" class="form-label fw-bold">Select file to import</label>
+                            <label class="form-label fw-bold">Select file to import</label>
                             <input class="form-control" type="file" id="import-project-item-file"
                                 accept=".xlsx, .xls">
                             <div class="form-text text-xs">Only .xlsx, or .xls files are supported.</div>
@@ -76,17 +76,17 @@
                         <p class="text-secondary small mb-2">
                             You can download the template to prepare your data for importing into the system from the link below.
                         </p>
-                        <a href="{{ route('sales-usi.product-info.download-template', 'superseded') }}" class="btn btn-sm btn-outline-secondary m-0">
+                        <a href="{{ route('product-infos.download-template', 'superseded') }}" class="btn btn-sm btn-outline-secondary m-0">
                             Download template (.xlsx)
                         </a>
                     </div>
 
                     <hr class="text-secondary opacity-25">
 
-                    <form action="" method="post" id="supersededForm">
+                    <form method="POST" id="supersededForm">
                         @csrf
                         <div>
-                            <label for="importFile" class="form-label fw-bold">Select file to import</label>
+                            <label class="form-label fw-bold">Select file to import</label>
                             <input class="form-control" type="file" id="import-superseded-file" accept=".xlsx, .xls">
                             <div class="form-text text-xs">Only .xlsx, or .xls files are supported.</div>
                         </div>
@@ -108,6 +108,7 @@
         const projectItemFileInput = document.getElementById('import-project-item-file');
         const supersededFileInput = document.getElementById('import-superseded-file');
 
+        // Update Project Item
         uploadProjectItemBtn.addEventListener('click', async () => {
             const files = projectItemFileInput.files;
 
@@ -120,20 +121,46 @@
                 return;
             }
 
-            const formData = new FormData();
-
             Swal.fire({
-                icon: 'success',
-                title: 'success',
-                text: 'Project item file has been updated.',
-                timer: 2000,
-                showConfirmButton: false
-            }).then(() => {
-                document.getElementById('projectItemForm').reset();
-                $('#updateProjectItemModal').modal('hide');
+                title: 'Uploading...',
+                text: 'Please wait while we process your file.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
             });
+
+            const formData = new FormData();
+            formData.append('file', files[0]);
+            formData.append('type', 'project-item');
+
+            axios.post('/product-infos/import-info', formData)
+                .then(res => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'success',
+                        text: 'Project item file has been updated.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        document.getElementById('projectItemForm').reset();
+                        $('#updateProjectItemModal').modal('hide');
+                        window.location.reload();
+                    });
+                })
+                .catch(error => {
+                    const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'error',
+                        text: errorMessage
+                    });
+                    console.error('Upload Error:', error);
+                })
         })
 
+        // Update Superseded
         uploadSupersededBtn.addEventListener('click', async () => {
             const files = supersededFileInput.files;
 
@@ -146,18 +173,43 @@
                 return;
             }
 
-            const formData = new FormData();
-
             Swal.fire({
-                icon: 'success',
-                title: 'success',
-                text: 'Superseded file has been updated.',
-                timer: 2000,
-                showConfirmButton: false
-            }).then(() => {
-                document.getElementById('supersededForm').reset();
-                $('#updateSupersededModal').modal('hide');
+                title: 'Uploading...',
+                text: 'Please wait while we process your file.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
             });
+
+            const formData = new FormData();
+            formData.append('file', files[0]);
+            formData.append('type', 'superseded');
+
+            axios.post('/product-infos/import-info', formData)
+                .then(res => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'success',
+                        text: 'Superseded file has been updated.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        document.getElementById('supersededForm').reset();
+                        $('#updateSupersededModal').modal('hide');
+                        window.location.reload();
+                    });
+                })
+                .catch(error => {
+                    const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'error',
+                        text: errorMessage
+                    });
+                    console.error('Upload Error:', error);
+                })
         })
     })
 </script>

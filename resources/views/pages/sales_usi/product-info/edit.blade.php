@@ -82,7 +82,7 @@
             if (backButton) {
                 backButton.addEventListener('click', (e) => {
                     e.preventDefault();
-                    window.history.back();
+                    window.location.href = "{{ route('product-infos.index') }}";
                 });
             }
 

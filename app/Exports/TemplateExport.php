@@ -17,8 +17,8 @@ class TemplateExport implements FromArray, WithHeadings
     public function headings(): array
     {
         return ($this->type === 'project-item')
-            ? ['item_id']
-            : ['superseded_id'];
+            ? ['item_code', 'project_item']
+            : ['item_code', 'superseded'];
     }
 
     public function array(): array

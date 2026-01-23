@@ -6,6 +6,7 @@ use App\Exports\TemplateExport;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SalesUSIController extends Controller
@@ -47,6 +48,10 @@ class SalesUSIController extends Controller
         ]);
 
         $item_code = request()->item_code ?? '';
+
+        // Image product
+        $filePath = public_path('storage/img/products/' . $item_code . '.jpg');
+        $imgPath = File::exists($filePath) ? '/storage/img/products/' . $item_code . '.jpg' : null;
 
         // Mapping Data to Array
         $pgrMapping = $this->getPgrMapping();
@@ -166,6 +171,7 @@ class SalesUSIController extends Controller
             'uom' => $uom,
             'stocks' => $stocks,
             'bom' => $bom,
+            'imgPath' => $imgPath,
         ]);
     }
 
@@ -381,35 +387,6 @@ class SalesUSIController extends Controller
             'data' => $outbound,
             'sql' => $data->toSql(),
         ]);
-    }
-
-    public function showProductInfo()
-    {
-        return view('pages.sales_usi.product-info.show', [
-            'item_code' => request()->item_code
-        ]);
-    }
-
-    public function editProductInfo()
-    {
-        return view('pages.sales_usi.product-info.edit');
-    }
-
-    public function indexProductInfo()
-    {
-        // get data from new table => product information (item_code, project item, super seed, spare part ...)
-        $productInformations = [];
-        
-        return view('pages.sales_usi.product-info.index', [
-            'productInformations' => $productInformations
-        ]);
-    }
-
-    public function downloadExcelTemplate($type)
-    {
-        $fileName = "template_{$type}_" . now()->format('Ymd') . ".xlsx";
-        
-        return Excel::download(new TemplateExport($type), $fileName);
     }
 
     private function getPgrMapping(): array

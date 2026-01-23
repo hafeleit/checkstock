@@ -151,7 +151,7 @@
                           <div class="col-md-12 d-none" id="product-image-container">
                             <div class="img-container">
                               <div class="d-flex justify-center">
-                                <img id="item_preview" src="/img/495.06.101.jpg" class="img-thumbnail" width="450" >
+                                <img id="item_preview" src="" class="img-thumbnail img-product" width="450" >
                               </div>
                               <div>
                                 <a href="#" target="_blank" id="info-link" type="button" class="button-product-info btn btn-sm btn-dark mt-3">
@@ -462,7 +462,7 @@
         return false;
       } else {
         let code = item_code;
-        let newUrl = 'sales-usi/product-info/' + code;
+        let newUrl = '/product-infos/' + code;
 
         $('#product-image-container').removeClass('d-none');
         $('.button-product-info').attr('href', newUrl);
@@ -470,6 +470,9 @@
 
       $("#po_table > tbody").html("");
       $("#so_table > tbody").html("");
+
+      // IMAGE: product information
+      $(".img-product").attr("src", res['imgPath']);
 
       // Badge color : item_status
       var item_status_value = res['data'][0]['NSU_ITEM_STATUS'];

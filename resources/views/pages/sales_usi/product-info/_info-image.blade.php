@@ -22,11 +22,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="uploadImgForm">
+                    <form method="POST" id="uploadImgForm">
                         @csrf
                         <div class="mb-3">
-                            <label for="imageInput" class="form-label">choose image</label>
-                            <input class="form-control" type="file" id="imageInput" accept="image/*">
+                            <label for="image-product-Input" class="form-label">choose image</label>
+                            <input class="form-control" type="file" id="image-product-Input" name="image-product-Input" accept="image/jpeg">
                         </div>
                         <div class="text-center">
                             <img id="imagePreview" src="#" alt="preview" class="img-fluid d-none border rounded">
@@ -41,12 +41,24 @@
         </div>
     </div>
 
-    <img id="item_preview" src="/img/495.06.101.jpg" class="img-thumbnail" width="250">
+    @if ($imageProduct)
+        <img id="item_preview" src="{{ $imageProduct }}" class="img-thumbnail" width="250">
+    @else
+        <div class="d-flex align-items-center gap-2 img-thumbnail border-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/>
+            </svg>
+            <p class="mb-0 text-secondary">No image</p>
+        </div>
+    @endif
 </div>
 
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+    const item_code = "{{ request()->item_code }}";
+
     document.addEventListener('DOMContentLoaded', () => {
-        const imageInput = document.getElementById('imageInput');
+        const imageInput = document.getElementById('image-product-Input');
         const imagePreview = document.getElementById('imagePreview');
         const saveBtn = document.getElementById('saveImageBtn');
 
@@ -69,6 +81,7 @@
         // Save change image
         saveBtn.addEventListener('click', async () => {
             const file = imageInput.files[0];
+            
             if (!file) {
                 Swal.fire({
                     icon: 'warning',
@@ -79,54 +92,50 @@
             }
 
             Swal.fire({
-                icon: 'success',
-                title: 'success',
-                text: 'Image has been updated.',
-                timer: 2000,
-                showConfirmButton: false
-            }).then(() => {
-                document.getElementById('uploadImgForm').reset();
-
-                imagePreview.classList.add('d-none');
-                imagePreview.setAttribute('src', '#');
-
-                $('#changeImgProductModal').modal('hide');
-
+                title: 'Uploading...',
+                text: 'Please wait while we process your file.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
             });
 
-            // const formData = new FormData();
-            // formData.append('product_image', file);
-            // try {
-            //     const response = await fetch('/api/upload-endpoint', {
-            //         method: 'POST',
-            //         body: formData
-            //     });
+            const formData = new FormData();
+            formData.append('_method', 'PUT');
+            formData.append('file', file);
+            formData.append('type', 'product');
 
-            //     if (response.ok) {
-            //         Swal.fire({
-            //             icon: 'success',
-            //             title: 'success',
-            //             text: 'image has been updated.',
-            //             timer: 2000,
-            //             showConfirmButton: false
-            //         }).then(() => {
-            //             document.getElementById('uploadImgForm').reset();
+            axios.post(`/product-infos/${item_code}/upload-files`, formData)
+                .then(response => {
+                    const result = response.data;
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'success',
+                        text: 'Image has been updated.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        const mainPreview = document.getElementById('item_preview');
+                        if (mainPreview) {
+                            mainPreview.src = result.data[0]; 
+                        }
 
-            //             imagePreview.classList.add('d-none');
-            //             imagePreview.setAttribute('src', '#');
-
-            //             $('#changeImgProductModal').modal('hide');
-            //         });
-            //     } else {
-            //         throw new Error('upload failed');
-            //     }
-            // } catch (error) {
-            //     Swal.fire({
-            //         icon: 'error',
-            //         title: 'error',
-            //         text: 'something went wrong, please try again.'
-            //     });
-            // }
+                        document.getElementById('uploadImgForm').reset();
+                        imagePreview.classList.add('d-none');
+                        $('#changeImgProductModal').modal('hide');
+                        window.location.reload();
+                    });
+                })
+                .catch(error => {
+                    const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'error',
+                        text: errorMessage
+                    });
+                    console.error('Upload Error:', error);
+                })
         });
     });
 </script>

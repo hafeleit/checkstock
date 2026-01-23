@@ -163,7 +163,7 @@
                                 <div class="col-md-12 d-none" id="product-image-container">
                                     <div class="img-container">
                                         <div class="d-flex justify-center">
-                                            <img id="item_preview" src="/img/495.06.101.jpg" class="img-thumbnail" width="450">
+                                            <img id="item_preview" src="" class="img-thumbnail img-product" width="450">
                                         </div>
                                         <div>
                                             <a href="#" id="info-link" target="_blank" type="button" class="button-product-info btn btn-sm btn-dark mt-3">
@@ -319,11 +319,14 @@
                     return false;
                 } else {
                     let code = item_code;
-                    let newUrl = '/sales-usi/product-info/' + code;
+                    let newUrl = '/product-infos/' + code;
 
                     $('#product-image-container').removeClass('d-none');
                     $('.button-product-info').attr('href', newUrl);
                 }
+
+                // IMAGE: product information
+                $(".img-product").attr("src", res['imgPath']);
 
                 // Item Status
                 var item_status_value = res['data'][0]['NSU_ITEM_STATUS'];

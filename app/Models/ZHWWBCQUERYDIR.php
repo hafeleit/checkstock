@@ -92,4 +92,9 @@ class ZHWWBCQUERYDIR extends Model
       'per',
       'valcl',
     ];
+
+    public function  zmm_matzert()
+    {
+      return $this->hasOne(ZMM_MATZERT::class, 'material', 'material');
+    }
 }

@@ -30,6 +30,7 @@ use App\Http\Controllers\ITAssetTypeController;
 use App\Http\Controllers\InvRecordController;
 use App\Http\Controllers\CommissionController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductInformationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Models\AuditLog;
@@ -113,14 +114,21 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   // so status & sales usi
   Route::resource('sales-usi', SalesUSIController::class)->only('index');
   Route::get('/sales-usi/pc', [SalesUSIController::class, 'indexPC'])->name('sales-usi.pc');
-  Route::get('/sales-usi/product-info', [SalesUSIController::class, 'indexProductInfo'])->name('sales-usi.product-info.index');
-  Route::get('/sales-usi/product-info/{item_code}', [SalesUSIController::class, 'showProductInfo'])->name('sales-usi.product-info.show');
-  Route::get('/sales-usi/product-info/{item_code}/edit', [SalesUSIController::class, 'editProductInfo'])->name('sales-usi.product-info.edit');
-  Route::get('/sales-usi/product-info/download-template/{type}', [SalesUSIController::class, 'downloadExcelTemplate'])->name('sales-usi.product-info.download-template');
   Route::post('search-usi', [SalesUSIController::class, 'search_usi'])->name('search_usi');
   Route::post('search-usi-inbound', [SalesUSIController::class, 'inbound'])->name('search_inbound');
   Route::post('search-usi-outbound', [SalesUSIController::class, 'outbound'])->name('search_outbound');
   Route::resource('so-status', SoStatusController::class);
+
+  // Product Information
+  Route::post('/product-infos/import-info', [ProductInformationController::class, 'importInfo'])->name('product-infos.import-info');
+  Route::get('/product-infos/download-template/{type}', [ProductInformationController::class, 'downloadTemplate'])->name('product-infos.download-template');
+  Route::delete('/product-infos/pdf-files/{id}', [ProductInformationController::class, 'deletePdf'])->name('product-infos.pdf-files.delete');
+  Route::get('/product-infos', [ProductInformationController::class, 'index'])->name('product-infos.index');
+  Route::get('/product-infos/{item_code}', [ProductInformationController::class, 'show'])->name('product-infos.show');
+  Route::put('/product-infos/{item_code}', [ProductInformationController::class, 'update'])->name('product-infos.update');
+  Route::delete('/product-infos/{item_code}', [ProductInformationController::class, 'destroy'])->name('product-infos.destroy');
+  Route::get('/product-infos/{item_code}/edit', [ProductInformationController::class, 'edit'])->name('product-infos.edit');
+  Route::put('/product-infos/{item_code}/upload-files', [ProductInformationController::class, 'uploadFiles'])->name('product-infos.upload-files');
 
   // consumerlabel
   Route::get('/barcode/{barcode}', [ProductItemsController::class, 'generateBarcode'])->name('generate-barcode');
