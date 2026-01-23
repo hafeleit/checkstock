@@ -23,6 +23,9 @@
             max-height: 250px;
             overflow-y: auto;
         }
+        .table-responsive {
+            overflow-x: visible;
+        }
     </style>
 
     <div class="container-fluid">
