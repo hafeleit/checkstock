@@ -28,6 +28,8 @@ class ProductInformationController extends Controller
             })
             ->paginate(50);
 
+        session(['product_info_return_url' => request()->fullUrl()]);
+
         return view('pages.sales_usi.product-info.index', [
             'productInformations' => $productInformations,
             'params' => request()->all()

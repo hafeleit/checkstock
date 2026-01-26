@@ -82,7 +82,7 @@
             if (backButton) {
                 backButton.addEventListener('click', (e) => {
                     e.preventDefault();
-                    window.location.href = "{{ route('product-infos.index') }}";
+                    window.location.href = "{{ session('product_info_return_url', route('product-infos.index')) }}";
                 });
             }
 
