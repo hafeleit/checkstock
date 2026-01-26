@@ -26,7 +26,7 @@
 
         .dropdown-item-lists:hover {
             text-decoration: underline;
-            color: var(--bs-primary);
+            color: red;
         }
 
         .table-responsive {
