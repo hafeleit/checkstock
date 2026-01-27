@@ -107,8 +107,8 @@ class ProductInformationController extends Controller
     public function update()
     {
         request()->validate([
-            'project_item' => 'nullable|string',
-            'superseded' => 'nullable|string',
+            'project_item' => 'nullable|string|regex:/^\d{3}\.\d{2}\.\d{3}$/',
+            'superseded' => 'nullable|string|regex:/^\d{3}\.\d{2}\.\d{3}$/',
         ]);
 
         $product = ProductInfo::where('item_code', request()->item_code)->firstOrFail();
