@@ -326,7 +326,11 @@
                 }
 
                 // IMAGE: product information
-                $(".img-product").attr("src", res['imgPath']);
+                if (res['imgPath']) {
+                    $(".img-product").attr("src", res['imgPath']);
+                } else {
+                    $('.img-product').addClass('d-none');
+                }
 
                 // Item Status
                 var item_status_value = res['data'][0]['NSU_ITEM_STATUS'];

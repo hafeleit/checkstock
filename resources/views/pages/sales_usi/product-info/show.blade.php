@@ -40,11 +40,11 @@
                                     </div>
                                     <div class="mt-1">
                                         <label class="m-0">Item Desc:</label>
-                                        <span>{{ $productDetail ? $productDetail->item_desc : '-' }}</span>
+                                        <span>{{ $productDetail ? $productDetail->item_desc : 'N/A' }}</span>
                                     </div>
                                     <div class="mt-1">
                                         <label class="m-0">Item Brand:</label>
-                                        <span>{{ $productDetail ? $productDetail->zmm_matzert['certificate'] : '-' }}</span>
+                                        <span>{{ $productDetail && $productDetail->zmm_matzert ? $productDetail->zmm_matzert['certificate'] : 'N/A' }}</span>
                                     </div>
                                     <div class="mt-1">
                                         <label class="m-0">Item Status:</label>
@@ -52,11 +52,11 @@
                                     </div>
                                     <div class="mt-1">
                                         <label class="m-0">MRP:</label>
-                                        <span class="text-xs {{ $productDetail ? 'badge bg-success' : '' }} m-0 py-1">{{ $productDetail ? $productDetail->mrp : '-' }}</span>
+                                        <span class="text-xs {{ $productDetail && $productDetail->mrp ? 'badge bg-success' : '' }} m-0 py-1">{{ $productDetail && $productDetail->mrp ? $productDetail->mrp : 'N/A' }}</span>
                                     </div>
                                     <div class="mt-1">
                                         <label class="m-0">Storage Indicator:</label>
-                                        <span class="text-xs {{ $productDetail ? 'badge bg-success' : '' }} m-0 py-1">{{ $productDetail ? $productDetail->inventory_code : '-' }}</span>
+                                        <span class="text-xs {{ $productDetail ? 'badge bg-success' : '' }} m-0 py-1">{{ $productDetail ? $productDetail->inventory_code : 'N/A' }}</span>
                                     </div>
                                 </div>
                                 {{-- Catalogues --}}
@@ -161,8 +161,8 @@
                                                 @if (!$spareParts->isEmpty())
                                                     @foreach ($spareParts as $sparePart)
                                                     <tr>
-                                                        <td class="font-monospace">000.00.000</td>
-                                                        <td>Lorem ipsum dolor sit amet</td>
+                                                        <td class="font-monospace">{{ $sparePart->component }}</td>
+                                                        <td>{{ $sparePart->spareparts->kurztext ?? 'N/A' }}</td>
                                                     </tr>
                                                     @endforeach
                                                 @else

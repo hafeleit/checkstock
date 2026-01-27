@@ -472,7 +472,11 @@
       $("#so_table > tbody").html("");
 
       // IMAGE: product information
-      $(".img-product").attr("src", res['imgPath']);
+      if (res['imgPath']) {
+        $(".img-product").attr("src", res['imgPath']);
+      } else {
+        $('.img-product').addClass('d-none');
+      }
 
       // Badge color : item_status
       var item_status_value = res['data'][0]['NSU_ITEM_STATUS'];

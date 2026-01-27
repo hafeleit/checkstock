@@ -8,13 +8,12 @@ use App\Models\FileImportLog;
 use App\Models\ProductInfo;
 use App\Models\ProductInfoFile;
 use App\Models\ZHWWBCQUERYDIR;
-use ErrorException;
+use App\Models\ZHWWMM_BOM_VKO;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductInformationController extends Controller
@@ -54,7 +53,14 @@ class ProductInformationController extends Controller
             ->first();
 
         // spare parts
-        $spareParts = collect();
+        $spareParts = ZHWWMM_BOM_VKO::query()
+            ->with(['spareparts' => function($query) {
+                $query->select('material', 'kurztext');
+            }])
+            ->select('component', 'bom_usg')
+            ->where('material', $itemCode)
+            ->where('bom_usg', 4)
+            ->get();
 
         // Image
         $filePath = public_path('storage/img/products/' . $itemCode . '.jpg');
