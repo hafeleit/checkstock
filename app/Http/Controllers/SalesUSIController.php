@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\TemplateExport;
+use App\Models\ProductInfo;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -162,6 +163,8 @@ class SalesUSIController extends Controller
             return $item;
         });
 
+        $productInfo = ProductInfo::where('item_code', $item_code)->first();
+
         return response()->json([
             'status' => true,
             'count' => $count,
@@ -172,6 +175,7 @@ class SalesUSIController extends Controller
             'stocks' => $stocks,
             'bom' => $bom,
             'imgPath' => $imgPath,
+            'productInfo' => $productInfo,
         ]);
     }
 

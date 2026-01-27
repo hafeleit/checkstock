@@ -508,8 +508,8 @@
       $('.exclusivity_remark').html(res['data'][0]['NSU_EXCL_REMARK']);
       $('.new_item_code').html(res['data'][0]['NSU_NEW_ITEM_CODE']);
       $('.free_stk_qty').html(res['data'][0]['NSU_FREE_STK_QTY']);
-      $('.project_item').html('000.00.000');
-      $('.superseded').html('000.00.000');
+      $('.project_item').html(res['productInfo'] && res['productInfo']['project_item'] ? res['productInfo']['project_item'] : '-');
+      $('.superseded').html(res['productInfo'] && res['productInfo']['superseded'] ? res['productInfo']['superseded'] : '-');
 
       let path_img = '/storage/img/products/' + item_code + '.jpg';
       $('#product_img').attr('src',path_img);
