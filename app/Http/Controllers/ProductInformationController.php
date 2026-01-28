@@ -54,10 +54,7 @@ class ProductInformationController extends Controller
 
         // spare parts
         $spareParts = ZHWWMM_BOM_VKO::query()
-            ->with(['spareparts' => function($query) {
-                $query->select('material', 'kurztext');
-            }])
-            ->select('component', 'bom_usg')
+            ->with('spareparts:material,kurztext')
             ->where('material', $itemCode)
             ->where('bom_usg', 4)
             ->get();
