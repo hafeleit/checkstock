@@ -365,6 +365,10 @@
     const searchButton = document.getElementById('searchButton');
     const itemInput = document.getElementById('item_code');
 
+    if (searchButton) {
+        searchButton.addEventListener('click', search_usi);
+    }
+
     // จัดการการกด Enter ในช่อง input
     $('#item_code').on('keypress', function(event) {
         if (event.which === 13) {
@@ -510,6 +514,12 @@
       $('.free_stk_qty').html(res['data'][0]['NSU_FREE_STK_QTY']);
       $('.project_item').html(res['productInfo'] && res['productInfo']['project_item'] ? res['productInfo']['project_item'] : '-');
       $('.superseded').html(res['productInfo'] && res['productInfo']['superseded'] ? res['productInfo']['superseded'] : '-');
+
+      if (!res['productInfo']) {
+        $('.button-product-info').addClass('d-none');
+      } else {
+        $('.button-product-info').removeClass('d-none');
+      }
 
       let path_img = '/storage/img/products/' + item_code + '.jpg';
       $('#product_img').attr('src',path_img);

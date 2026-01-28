@@ -159,6 +159,8 @@ class ProductInformationController extends Controller
                 File::makeDirectory($fullDirectoryPath, 0775, true);
             }
 
+            $uploadedPaths = [];
+
             foreach ($files as $file) {
                 if (request()->type === 'product') {
                     $extension = $file->getClientOriginalExtension();
@@ -177,6 +179,7 @@ class ProductInformationController extends Controller
 
                 $file->move($fullDirectoryPath, $fileName);
                 $path = '/' . $subPath . '/' . $fileName;
+                $uploadedPaths[] = $path;
 
                 // create new file
                 if (request()->type !== 'product') {
@@ -194,6 +197,7 @@ class ProductInformationController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Uploaded successfully',
+            'data' => $uploadedPaths,
         ]);
     }
 

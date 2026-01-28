@@ -332,6 +332,12 @@
                     $('.img-product').addClass('d-none');
                 }
 
+                if (!res['productInfo']) {
+                    $('.button-product-info').addClass('d-none');
+                } else {
+                    $('.button-product-info').removeClass('d-none');
+                }
+
                 // Item Status
                 var item_status_value = res['data'][0]['NSU_ITEM_STATUS'];
                 var $item_status = $('.item_status');
