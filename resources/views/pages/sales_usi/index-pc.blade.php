@@ -337,10 +337,10 @@
                 // IMAGE: product information
                 if (res['imgPath']) {
                     $(".img-product").attr("src", res['imgPath']).show();
-                    $('#item_preview_placeholder').hide();
+                    $('#item_preview_placeholder').addClass('d-none');
                 } else {
                     $('.img-product').hide();
-                    $('#item_preview_placeholder').show();
+                    $('#item_preview_placeholder').removeClass('d-none');
                 }
 
                 // Item Status
