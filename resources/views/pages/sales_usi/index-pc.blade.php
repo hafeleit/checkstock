@@ -164,6 +164,15 @@
                                     <div class="img-container">
                                         <div class="d-flex justify-center">
                                             <img id="item_preview" src="" class="img-thumbnail img-product" width="450">
+                                            <div class="img-thumbnail py-5 d-flex align-items-center justify-content-center w-100" id="item_preview_placeholder">
+                                                <div class="text-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-image text-muted" viewBox="0 0 16 16">
+                                                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                                        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+                                                    </svg>
+                                                    <p class="text-muted m-0">No Image</p>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div>
                                             <a href="#" id="info-link" target="_blank" type="button" class="button-product-info btn btn-sm btn-dark mt-3">
@@ -327,15 +336,11 @@
 
                 // IMAGE: product information
                 if (res['imgPath']) {
-                    $(".img-product").attr("src", res['imgPath']);
+                    $(".img-product").attr("src", res['imgPath']).show();
+                    $('#item_preview_placeholder').hide();
                 } else {
-                    $('.img-product').addClass('d-none');
-                }
-
-                if (!res['productInfo']) {
-                    $('.button-product-info').addClass('d-none');
-                } else {
-                    $('.button-product-info').removeClass('d-none');
+                    $('.img-product').hide();
+                    $('#item_preview_placeholder').show();
                 }
 
                 // Item Status

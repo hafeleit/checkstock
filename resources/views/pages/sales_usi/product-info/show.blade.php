@@ -29,7 +29,19 @@
                     <div class="card-body pt-0">
                         <div class="row">
                             <div class="col-md-3">
-                                <img id="item_preview" src="{{ $imgPath }}" class="img-thumbnail mb-3">
+                                @if ($imgPath && !empty($imgPath))
+                                    <img id="item_preview" src="{{ $imgPath }}" class="img-thumbnail mb-3" alt="Product Image">
+                                @else
+                                    <div class="img-thumbnail mb-3 py-5 d-flex align-items-center justify-content-center">
+                                        <div class="text-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-image text-muted" viewBox="0 0 16 16">
+                                                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+                                            </svg>
+                                            <p class="text-muted m-0">No Image</p>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                             <div class="col-md-9">
                                 {{-- Product Info --}}
@@ -65,7 +77,7 @@
                                     <div class="table-responsive">
                                         <table class="table table-hover">
                                             <tbody class="text-sm">
-                                                @if (!($productInfo->catalogueFiles)->isEmpty())
+                                                @if ($productInfo && !($productInfo->catalogueFiles)->isEmpty())
                                                     @foreach ($productInfo->catalogueFiles as $catalogue)
                                                     <tr>
                                                         <td>
@@ -94,7 +106,7 @@
                                     <div class="table-responsive">
                                         <table class="table table-hover">
                                             <tbody class="text-sm">
-                                                @if (!($productInfo->manualFiles)->isEmpty())
+                                                @if ($productInfo && !($productInfo->manualFiles)->isEmpty())
                                                     @foreach ($productInfo->manualFiles as $manual)
                                                     <tr>
                                                         <td>
@@ -123,7 +135,7 @@
                                     <div class="table-responsive">
                                         <table class="table table-hover">
                                             <tbody class="text-sm">
-                                                @if (!($productInfo->specsheetFiles)->isEmpty())
+                                                @if ($productInfo && !($productInfo->specsheetFiles)->isEmpty())
                                                     @foreach ($productInfo->specsheetFiles as $specsheet)
                                                     <tr>
                                                         <td>

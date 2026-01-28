@@ -38,7 +38,7 @@ class ProductInformationController extends Controller
     public function show($itemCode)
     {
         $productInfo = ProductInfo::with('catalogueFiles', 'manualFiles', 'specsheetFiles')
-            ->where('item_code', $itemCode)->firstOrFail();
+            ->where('item_code', $itemCode)->first();
 
         $stMapping = $this->getStMapping();
         $dmMapping = $this->getDmMapping();
