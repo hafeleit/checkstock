@@ -37,6 +37,6 @@ class ProductInfo extends Model
 
     public function fileImportLog()
     {
-        return $this->belongsToMany(FileImportLog::class);
+        return $this->belongsToMany(FileImportLog::class, 'file_import_logs', 'id', 'file_import_log_id');
     }
 }
