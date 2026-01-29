@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TemplateExport;
+use App\Models\ProductInfo;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SalesUSIController extends Controller
 {
@@ -23,6 +27,17 @@ class SalesUSIController extends Controller
         return view('pages.sales_usi.index', ['created_at' => $created_at]);
     }
 
+    public function indexPC()
+    {
+        $query = DB::table('ZHWWMM_OPEN_ORDERS')
+            ->select('created_at')
+            ->first();
+
+        $created_at = $query->created_at;
+
+        return view('pages.sales_usi.index-pc', ['created_at' => $created_at]);
+    }
+
     public function search_usi(Request $request)
     {
         if (!auth()->check()) {
@@ -34,6 +49,10 @@ class SalesUSIController extends Controller
         ]);
 
         $item_code = request()->item_code ?? '';
+
+        // Image product
+        $filePath = public_path('storage/img/products/' . $item_code . '.jpg');
+        $imgPath = File::exists($filePath) ? '/storage/img/products/' . $item_code . '.jpg' : null;
 
         // Mapping Data to Array
         $pgrMapping = $this->getPgrMapping();
@@ -51,8 +70,8 @@ class SalesUSIController extends Controller
                 DB::raw("CONCAT(COALESCE(m.product_group_manager, ''), '-', COALESCE(um.name_en, '')) as NSU_PROD_MGR"),
                 DB::raw("CASE WHEN u.uom_text IS NULL OR u.uom_text = '' THEN 'N/A' ELSE u.uom_text END AS NSU_PACK_UOM_CODE"),
                 DB::raw("CASE WHEN m.numer IS NULL OR m.numer = '' THEN 'N/A' ELSE m.numer END AS NSU_CONV_BASE_UOM"),
-                DB::raw("CASE WHEN m.gross_weight IS NULL OR m.gross_weight = '' THEN 'N/A' ELSE CONCAT(m.gross_weight, ' ', m.wun) END AS NSU_PACK_WEIGHT"),
-                DB::raw("CASE WHEN m.volume IS NULL OR m.volume = '' THEN 'N/A' ELSE CONCAT(m.volume, ' ', m.vun) END AS NSU_PACK_VOLUME"),
+                DB::raw("CASE WHEN m.gross_weight IS NULL OR m.gross_weight = '' THEN 'N/A' ELSE CONCAT(FORMAT(m.gross_weight, 2), ' ', m.wun) END AS NSU_PACK_WEIGHT"),
+                DB::raw("CASE WHEN m.volume IS NULL OR m.volume = '' THEN 'N/A' ELSE CONCAT(FORMAT(m.volume, 2), ' ', m.vun) END AS NSU_PACK_VOLUME"),
                 DB::raw("CASE WHEN mf.TDLINE IS NULL OR mf.TDLINE = '' THEN 'N/A' ELSE mf.TDLINE END AS NSU_EXCL_REMARK"),
                 DB::raw("CASE WHEN pm.certificate IS NULL OR pm.certificate = '' THEN 'N/A' ELSE pm.certificate END AS NSU_ITEM_BRAND"),
                 DB::raw("CASE WHEN m.follow_up_material IS NULL OR m.follow_up_material = '' THEN 'N/A' ELSE m.follow_up_material END AS NSU_NEW_ITEM_CODE"),
@@ -144,6 +163,8 @@ class SalesUSIController extends Controller
             return $item;
         });
 
+        $productInfo = ProductInfo::where('item_code', $item_code)->first();
+
         return response()->json([
             'status' => true,
             'count' => $count,
@@ -153,6 +174,8 @@ class SalesUSIController extends Controller
             'uom' => $uom,
             'stocks' => $stocks,
             'bom' => $bom,
+            'imgPath' => $imgPath,
+            'productInfo' => $productInfo,
         ]);
     }
 

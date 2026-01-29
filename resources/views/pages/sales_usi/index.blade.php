@@ -2,7 +2,7 @@
 
 @section('content')
 
-@include('layouts.navbars.auth.topnav', ['title' => 'SALES USI'])
+@include('layouts.navbars.auth.topnav', ['title' => 'Product 360°'])
 <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
   .border-usi {
       border-left: 1px solid #e9ecef !important;
@@ -34,6 +34,27 @@
   .pt-0 {
     padding-top: 0px;
   }
+  .img-container {
+    position: relative;
+  }
+  .button-product-info {
+    width: 100%;
+  }
+  #item_preview {
+    width: 100%;
+  }
+  .w-20 {
+    width: 20%;
+  }
+  @media (min-width: 768px) {
+    #product-image-container {
+      max-width: 250px;
+      overflow: hidden;
+    }
+    #item_preview {
+      width: 250px;
+    }
+  }
 </style>
     <div class="container-fluid">
         <div class="row">
@@ -41,7 +62,7 @@
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
-                            <h6 class="mb-0 h3">SALES USI</h6>
+                            <h6 class="mb-0 h3">Product 360°</h6>
                         </div>
                         @php
                             $yesterday = date('d/m/Y', strtotime('-1 day'));
@@ -50,105 +71,109 @@
                     </div>
 
                     <div class="card-body pt-0">
-                        <div class="row">
-                          <!--
-                            <div class="col-md-2">
-                                <div class="form-group ">
-                                    <span class="mb-2 text-sm">Item Code: </span>
-                                </div>
-                            </div> -->
-                            <div class="col-md-3">
-                                <div class="form-group relative" >
-                                  <form id="searchForm" action="" method="post">
-                                      @csrf
-                                      <input class="form-control" id="item_code" name="item_code" type="text" placeholder="item code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
-                                      <a href="#" id="searchButton">
-                                          <img src="./img/icons/search.png" alt="country flag" width="25px" class="icon-search">
-                                      </a>
-                                  </form>
-                                </div>
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="col-md-6">
+                            <div class="form-group relative">
+                              <form id="searchForm" action="" method="post">
+                                  @csrf
+                                  <input class="form-control" id="item_code" name="item_code" type="text" placeholder="item code" title="กรอกตัวเลขในรูปแบบ 123.12.123" autocomplete="off" >
+                                  <a href="#" id="searchButton">
+                                      <img src="./img/icons/search.png" alt="country flag" width="25px" class="icon-search">
+                                  </a>
+                              </form>
                             </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <span>Item Code : <label class="item_code text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>MOQ : <label class="purchase_moq text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-5">
-                            <span>Supp Repl Time : <label class="repl_time text-sm"></label></span>
-                          </div>
-                          <!--
-                          <div class="col-12 col-sm-4">
-                            <span>Base Price : <label class="bash_price text-sm"></label></span>
-                          </div>-->
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-7">
-                            <span>Item Desc : <label class="item_desc text-sm"></label></span>
-                          </div>
-
-                          <!--
-                          <div class="col-12 col-sm-4">
-                            <span>Base Price RSP (ZPLV) Incl. VAT : <label class="zplv text-sm"></label></span>
-                          </div>-->
-                          <div class="col-12 col-sm-5">
-                            <span>Purchasing Group : <label class="purchaser text-sm"></label></span>
                           </div>
                         </div>
 
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <span>UOM Code : <label class="uom text-sm"></label></span>
+                        <div class="col-12 col-lg-9 text-sm">
+                          <div class="row">
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Item Code : <label class="m-0 item_code"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>MOQ : <label class="m-0 purchase_moq"></label></span>
+                            </div>
+                            <div class="col-12 py-1">
+                              <span>Item Desc : <label class="m-0 item_desc"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Supp Repl Time : <label class="m-0 repl_time"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Purchasing Group : <label class="m-0 purchaser"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>UOM Code : <label class="m-0 uom"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Conv Base UOM : <label class="m-0 pack_code2"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Product Manager : <label class="m-0 pm_contact"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>New Item Code : <label class="m-0 new_item_code"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Pack Volume : <label class="m-0 weight_volume2"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Excl Remark : <label class="m-0 exclusivity_remark"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Item Brand : <label class="m-0 item_brand"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Pack Weight : <label class="m-0 weight_volume1"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>MRP : <label class="m-0 mrp_desc text-xs badge bg-success py-1"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Item Status : <label class="m-0 item_status text-xs py-1"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Barcode : <label class="m-0 barcode"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Storage Indicator : <label class="m-0 inventory_code text-xs badge bg-success py-1"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Project Item : <label class="m-0 project_item py-1"></label></span>
+                            </div>
+                            <div class="col-12 col-sm-6 py-1">
+                              <span>Superseded : <label class="m-0 superseded"></label></span>
+                            </div>
                           </div>
-                          <div class="col-12 col-sm-3">
-                            <span>Conv Base UOM : <label class="pack_code2 text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-5">
-                            <span>Product manager : <label class="pm_contact text-sm"></label></span>
-                          </div>
-
                         </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <span>New Item Code : <label class="new_item_code text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>Pack Volume : <label class="weight_volume2 text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-5">
-                            <span>Excl Remark : <label class="exclusivity_remark text-sm"></label></span>
-                          </div>
-
-                        </div>
-
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <span>Item Brand : <label class="item_brand text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>Pack Weight : <label class="weight_volume1 text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>MRP : <label class="mrp_desc text-sm badge bg-success mb-0 py-1"></label></span>
+                        <div class="col-12 col-lg-3">
+                          <div class="col-md-12 d-none" id="product-image-container">
+                            <div class="img-container">
+                              <div class="d-flex justify-center">
+                                <img id="item_preview" src="" class="img-thumbnail img-product" width="450" >
+                                <div class="img-thumbnail py-5 d-flex align-items-center justify-content-center w-100" id="item_preview_placeholder">
+                                    <div class="text-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-image text-muted" viewBox="0 0 16 16">
+                                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                            <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+                                        </svg>
+                                        <p class="text-muted m-0">No Image</p>
+                                    </div>
+                                </div>
+                              </div>
+                              <div>
+                                <a href="#" target="_blank" id="info-link" type="button" class="button-product-info btn btn-sm btn-dark mt-3">
+                                  Product Information
+                                </a>
+                              </div>
+                            </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
 
-                        <div class="row">
-                          <div class="col-12 col-sm-4">
-                            <span>Item Status : <label class="item_status text-sm mb-0 py-1"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-3">
-                            <span>Barcode : <label class="barcode text-sm"></label></span>
-                          </div>
-                          <div class="col-12 col-sm-5">
-                            <span>Storage indicator : <label class="inventory_code text-sm badge bg-success mb-0 py-1"></label></span>
-                          </div>
-                        </div>
+                    <div class="card-body pt-0">
                         <div class="row mt-3 bom_show_flg" >
                           <div class="col-auto">
                             <div class="form-check fs-5">
@@ -284,8 +309,6 @@
                                   <th class="border-usi text-uppercase text-secondary text-xxs font-weight-bolder ps-2"> Document Date</th>
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> UOM</th>
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Qty</th>
-                                  <!--<th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> ETS</th>
-                                  <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Status</th>-->
                                   <th class="border-usi text-center text-uppercase text-secondary text-xxs font-weight-bolder"> ETA</th>
                               </tr>
                           </thead>
@@ -313,8 +336,6 @@
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Invoiced</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Pending</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Delivery Date</th>
-                                  <!--<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Rate</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Value</th>-->
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Admin</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Rep</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder"> Customer</th>
@@ -331,7 +352,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -349,27 +370,26 @@
 
 <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
   $(function(){
+    const searchForm = document.getElementById('searchForm');
+    const searchButton = document.getElementById('searchButton');
+    const itemInput = document.getElementById('item_code');
+
+    if (searchButton) {
+        searchButton.addEventListener('click', search_usi);
+    }
+
+    // จัดการการกด Enter ในช่อง input
     $('#item_code').on('keypress', function(event) {
-        if (event.which === 13) { // 13 คือ keycode ของ Enter
-            event.preventDefault(); // ป้องกันการ submit form
+        if (event.which === 13) {
+            event.preventDefault();
             search_usi();
         }
     });
+
     $('#item_code').focus();
+    $('#item_code').mask('000.00.000');
+    $('.bom_show_flg').hide();
   });
-
-  $('#item_code').mask('000.00.000');
-
-  $('.bom_show_flg').hide();
-
-  // ค้นหา Element ของปุ่ม search
-  const searchButton = document.getElementById('searchButton');
-  if (searchButton) {
-      searchButton.addEventListener('click', (event) => {
-          event.preventDefault();
-          search_usi();
-      });
-  }
 
   $('#wss_table').on('click', '.inbound-link', function() {
     const weekNumber = $(this).data('week-number');
@@ -434,6 +454,7 @@
     }).done(function(res){
       Swal.close();
       if(res['count'] == 0){
+        $('#product-image-container').addClass('d-none');
 
         $('.text-input').html('');
         $(':checkbox').prop('checked', false);
@@ -448,16 +469,29 @@
         $("#t20_3_table > tbody").html("");
         $("#t20_12_table > tbody").html("");
         $('#errorModal').modal('show');
-        $('#errorModal').on('shown.bs.modal', function () {
-            $('#btnCloseModal').focus();
-        });
+        $('#errorModal').on('shown.bs.modal', function () {$('#btnCloseModal').focus();});
         $('#product_img').attr('src','/storage/img/products/coming_soon.jpg');
         $('.card-body div div span label').text('');
         return false;
+      } else {
+        let code = item_code;
+        let newUrl = '/product-infos/' + code;
+
+        $('#product-image-container').removeClass('d-none');
+        $('.button-product-info').attr('href', newUrl);
       }
 
       $("#po_table > tbody").html("");
       $("#so_table > tbody").html("");
+
+      // IMAGE: product information
+      if (res['imgPath']) {
+          $(".img-product").attr("src", res['imgPath']).show();
+          $('#item_preview_placeholder').addClass('d-none');
+      } else {
+          $('.img-product').hide();
+          $('#item_preview_placeholder').removeClass('d-none');
+      }
 
       // Badge color : item_status
       var item_status_value = res['data'][0]['NSU_ITEM_STATUS'];
@@ -489,6 +523,8 @@
       $('.exclusivity_remark').html(res['data'][0]['NSU_EXCL_REMARK']);
       $('.new_item_code').html(res['data'][0]['NSU_NEW_ITEM_CODE']);
       $('.free_stk_qty').html(res['data'][0]['NSU_FREE_STK_QTY']);
+      $('.project_item').html(res['productInfo'] && res['productInfo']['project_item'] ? res['productInfo']['project_item'] : '-');
+      $('.superseded').html(res['productInfo'] && res['productInfo']['superseded'] ? res['productInfo']['superseded'] : '-');
 
       let path_img = '/storage/img/products/' + item_code + '.jpg';
       $('#product_img').attr('src',path_img);
@@ -529,8 +565,6 @@
       let forecast = 0;
 
       $.each(res['wss'], function(key, val) {
-        //let wss = val["week_number"].split(" ").join("");
-        //let week_no = "'" + wss.split("/").join("") + "'";
         let text_danger_in = '';
         let text_danger_out = '';
         if(parseInt(val["WSS_INCOMING_QTY"]) > 0){
@@ -692,10 +726,6 @@
           <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETA"]+'</p></td>\
           </tr>';
         $('#po_table').append(tbody);
-        /*
-        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_ETS"]+'</p></td>\
-        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["IPD_STATUS"]+'</p></td>\
-        */
       });
 
       $('html, body').animate({
@@ -747,10 +777,6 @@
         <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["sold_to_party"]+'-'+val["name1"]+'</p></td>\
         </tr>';
         $('#so_table').append(tbody);
-        /*
-        <td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["ISD_RATE"]+'</p></td>\
-        <td class="border-usi"><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(val["ISD_VALUE"])+'</p></td>\
-        */
       });
 
       $('html, body').animate({
@@ -767,10 +793,6 @@
       $("#errorModal").modal('hide');
       $('#item_code').focus();
     } );
-    //$('#p').prop('checked', true);
-    //var d = new Date();
-    //var month = d.getMonth()+1;
-    //console.log(monthNames[d.getMonth()-1]);
   });
 
 </script>
