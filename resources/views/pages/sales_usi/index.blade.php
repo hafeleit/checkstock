@@ -2,7 +2,7 @@
 
 @section('content')
 
-@include('layouts.navbars.auth.topnav', ['title' => 'SALES USI'])
+@include('layouts.navbars.auth.topnav', ['title' => 'Product 360°'])
 <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
   .border-usi {
       border-left: 1px solid #e9ecef !important;
@@ -62,7 +62,7 @@
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
-                            <h6 class="mb-0 h3">SALES USI</h6>
+                            <h6 class="mb-0 h3">Product 360°</h6>
                         </div>
                         @php
                             $yesterday = date('d/m/Y', strtotime('-1 day'));

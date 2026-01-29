@@ -126,7 +126,7 @@
       </li>
       @endcan
 
-      {{-- Sales USI --}}
+      {{-- Product 360° --}}
       @can('salesusi view')
       <li class="nav-item">
         <a class="nav-link {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'active' : '' }}" 
@@ -136,20 +136,20 @@
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-archive-2 {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
           </div>
-          <span class="nav-link-text ms-1">Sales USI</span>
+          <span class="nav-link-text ms-1">Product 360°</span>
         </a>
         <div class="collapse {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'show' : '' }}" id="salesUsiExample">
           <ul class="nav nav-sm flex-column">
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'sales-usi.index' ? 'active' : '' }}" href="{{ route('sales-usi.index') }}">
-                <span class="sidenav-mini-icon text-xs"> S </span>
-                <span class="sidenav-normal"> Sale USI </span>
+                <span class="sidenav-mini-icon text-xs"> P </span>
+                <span class="sidenav-normal"> Product 360° </span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'sales-usi.pc' ? 'active' : '' }}" href="{{ route('sales-usi.pc') }}">
-                <span class="sidenav-mini-icon text-xs"> S </span>
-                <span class="sidenav-normal"> Sale USI - PC </span>
+                <span class="sidenav-mini-icon text-xs"> P </span>
+                <span class="sidenav-normal"> Product 360° - PC </span>
               </a>
             </li>
             <li class="nav-item">
