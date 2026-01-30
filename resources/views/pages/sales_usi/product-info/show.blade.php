@@ -19,7 +19,7 @@
                                 <p class="text-uppercase text-secondary text-xxs font-weight-bolder">LAST UPDATE: {{ $yesterday }} 20:00</p>
                             </div>
                             <div>
-                                <a href="{{ url()->previous() }}" id="closeButton" type="button" class="btn btn-secondary d-flex items-center">
+                                <a href="#" id="closeButton" type="button" class="btn btn-secondary d-flex items-center">
                                     <div>CLOSE</div>
                                 </a>
                             </div>
@@ -196,11 +196,7 @@
 
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         document.getElementById('closeButton').addEventListener('click', function() {
-            if (window.opener || window.history.length === 1) {
-                window.close();
-            } else {
-                window.location.href = "{{ url()->previous() }}";
-            }
+            window.close();
         });
     </script>
 @endsection
