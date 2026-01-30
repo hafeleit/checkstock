@@ -199,13 +199,13 @@
                                             <table id="bom_table" class="table align-items-center ">
                                                 <thead>
                                                     <tr>
-                                                        <th class="p-2 text-uppercase text-sm font-weight-bolder">Parent</th>
-                                                        <th class="p-2 text-center border-usi text-uppercase text-sm font-weight-bolder">Parent Qty</th>
-                                                        <th class="p-2 border-usi text-center text-uppercase text-sm font-weight-bolder">Comp</th>
-                                                        <th class="p-2 border-usi text-center text-uppercase text-sm font-weight-bolder">Comp Qty</th>
-                                                        <th class="p-2 d-none border-usi text-center text-uppercase text-sm font-weight-bolder">Price/Unit</th>
-                                                        <th class="p-2 border-usi text-center text-uppercase text-sm font-weight-bolder">Comp STK</th>
-                                                        <th class="p-2 border-usi text-center text-uppercase text-sm font-weight-bolder">Cal STK</th>
+                                                        <th class="text-uppercase text-sm font-weight-bolder">Parent</th>
+                                                        <th class="text-center border-usi text-uppercase text-sm font-weight-bolder">Parent Qty</th>
+                                                        <th class="border-usi text-center text-uppercase text-sm font-weight-bolder">Comp</th>
+                                                        <th class="border-usi text-center text-uppercase text-sm font-weight-bolder">Comp Qty</th>
+                                                        <th class="d-none border-usi text-center text-uppercase text-sm font-weight-bolder">Price/Unit</th>
+                                                        <th class="border-usi text-center text-uppercase text-sm font-weight-bolder">Comp STK</th>
+                                                        <th class="border-usi text-center text-uppercase text-sm font-weight-bolder">Cal STK</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody></tbody>
@@ -412,14 +412,14 @@
                         <td class="border-usi">\
                             <span class="item-link-trigger search-parent-item" \
                                 data-item-code="' + val["parent"] + '">\
-                                <p class="text-start text-xs font-weight-bold mb-0 d-inline">' + val["parent"] + '</p>\
+                                <p class="text-start text-xs font-weight-bold mb-0 px-3">' + val["parent"] + '</p>\
                             </span>\
                         </td>\
                         <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0">'+val["parent_qty"]+'</p></td>\
                         <td class="border-usi">\
                             <span class="item-link-trigger search-comp-item" \
                                 data-item-code="' + val["comp"] + '">\
-                                <p class="text-start text-xs font-weight-bold mb-0 d-inline">' + val["comp"] + '</p>\
+                                <p class="text-start text-xs font-weight-bold mb-0 px-3">' + val["comp"] + '</p>\
                             </span>\
                         </td>\
                         <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0">'+val["comp_qty"]+'</p></td>\
