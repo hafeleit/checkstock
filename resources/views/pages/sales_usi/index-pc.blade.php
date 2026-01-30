@@ -291,6 +291,14 @@
             }
         });
 
+        $(document).on('click', '.search-comp-item', function(e) {
+            let compCode = $(this).data('item-code');
+            if (compCode) {
+                $('#item_code').val(compCode);
+                search_usi();
+            }
+        });
+
         // Function: Search USI
         function search_usi() {
             let item_code = $('#item_code').val();
@@ -408,7 +416,12 @@
                             </span>\
                         </td>\
                         <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0">'+val["parent_qty"]+'</p></td>\
-                        <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0">'+val["comp"]+'</p></td>\
+                        <td class="border-usi">\
+                            <span class="item-link-trigger search-comp-item" \
+                                data-item-code="' + val["comp"] + '">\
+                                <p class="text-start text-xs font-weight-bold mb-0 d-inline">' + val["comp"] + '</p>\
+                            </span>\
+                        </td>\
                         <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0">'+val["comp_qty"]+'</p></td>\
                         <td class="d-none border-usi"><p class="float-end text-xs font-weight-bold mb-0">'+val["price_per_unit"]+'</p></td>\
                         <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0">'+val["comp_stk"]+'</p></td>\

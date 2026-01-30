@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'SALES USI'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Product 360°'])
 
     <div class="container-fluid">
         <div class="row">
@@ -11,7 +11,7 @@
                         <div class="d-flex justify-between">
                             <div>
                                 <div class="d-flex align-items-center">
-                                    <h6 class="mb-0 h3">SALES USI</h6>
+                                    <h6 class="mb-0 h3">Product 360°</h6>
                                 </div>
                                 @php
                                     $yesterday = date('d/m/Y', strtotime('-1 day'));
