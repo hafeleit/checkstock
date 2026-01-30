@@ -419,7 +419,7 @@
                         <td class="border-usi">\
                             <span class="item-link-trigger search-comp-item" \
                                 data-item-code="' + val["comp"] + '">\
-                                <p class="text-start text-xs font-weight-bold mb-0 px-3">' + val["comp"] + '</p>\
+                                <p class="text-center text-xs font-weight-bold mb-0 px-3">' + val["comp"] + '</p>\
                             </span>\
                         </td>\
                         <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0">'+val["comp_qty"]+'</p></td>\
