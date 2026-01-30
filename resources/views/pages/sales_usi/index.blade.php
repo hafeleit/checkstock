@@ -46,6 +46,16 @@
   .w-20 {
     width: 20%;
   }
+
+  .item-link-trigger {
+      cursor: pointer;
+      text-decoration: underline;
+  }
+
+  .item-link-trigger:hover {
+      color: #0d47a1;
+  }
+
   @media (min-width: 768px) {
     #product-image-container {
       max-width: 250px;
@@ -402,6 +412,22 @@
     search_usi_outbound(weekNumber, yearNumber);
   });
 
+  $(document).on('click', '.search-parent-item', function(e) {
+      let parentCode = $(this).data('item-code');
+      if (parentCode) {
+          $('#item_code').val(parentCode);
+          search_usi();
+      }
+  });
+
+  $(document).on('click', '.search-comp-item', function(e) {
+      let compCode = $(this).data('item-code');
+      if (compCode) {
+          $('#item_code').val(compCode);
+          search_usi();
+      }
+  });
+
   function addCommas(nStr)
   {
     nStr += '';
@@ -622,13 +648,25 @@
       if (res['bom'] && res['bom'].length > 0) {
         $('.bom_show_flg').show();
         $.each(res['bom'], function(key, val) {
-          let tbody = '<tr><td class="border-usi"><p class="text-start text-xs font-weight-bold mb-0 px-3">'+val["parent"]+'</p></td>\
-          <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["parent_qty"]+'</p></td>\
-          <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["comp"]+'</p></td>\
-          <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["comp_qty"]+'</p></td>\
-          <td class="d-none border-usi"><p class="float-end text-xs font-weight-bold mb-0 px-3">'+val["price_per_unit"]+'</p></td>\
-          <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["comp_stk"]+'</p></td>\
-          <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["cal_stk"]+'</p></td></tr>';
+          let tbody = '<tr>\
+            <td class="border-usi">\
+                <span class="item-link-trigger search-parent-item" \
+                    data-item-code="' + val["parent"] + '">\
+                    <p class="text-start text-xs font-weight-bold mb-0 d-inline">' + val["parent"] + '</p>\
+                </span>\
+            </td>\
+            <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["parent_qty"]+'</p></td>\
+            <td class="border-usi">\
+                <span class="item-link-trigger search-comp-item" \
+                    data-item-code="' + val["comp"] + '">\
+                    <p class="text-start text-xs font-weight-bold mb-0 d-inline">' + val["comp"] + '</p>\
+                </span>\
+            </td>\
+            <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["comp_qty"]+'</p></td>\
+            <td class="d-none border-usi"><p class="float-end text-xs font-weight-bold mb-0 px-3">'+val["price_per_unit"]+'</p></td>\
+            <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["comp_stk"]+'</p></td>\
+            <td class="border-usi"><p class="text-center text-xs font-weight-bold mb-0 px-3">'+val["cal_stk"]+'</p></td>\
+          </tr>';
           $('#bom_table').append(tbody);
         });
       }else{
