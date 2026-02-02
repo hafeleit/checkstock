@@ -2,6 +2,17 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Product 360°'])
+    <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+        .link_sparepart a {
+            color: #3A416F;
+            text-decoration: none;
+        }
+
+        .link_sparepart a:hover {
+            color: #0d47a1;
+            text-decoration: underline;
+        }
+    </style>
 
     <div class="container-fluid">
         <div class="row">
@@ -173,7 +184,13 @@
                                                 @if (!$spareParts->isEmpty())
                                                     @foreach ($spareParts as $sparePart)
                                                     <tr>
-                                                        <td class="font-monospace">{{ $sparePart->component }}</td>
+                                                        <td class="font-monospace link_sparepart">
+                                                            @if (auth()->user()->hasAnyPermission('salesusi view', 'salesusi manager'))
+                                                                <a href="{{ route('sales-usi.index', ['item_code' => $sparePart->component]) }}">{{ $sparePart->component }}</a>
+                                                            @elseif (auth()->user()->hasPermissionTo('salesusi pc view'))
+                                                                <a href="{{ route('sales-usi.pc', ['item_code' => $sparePart->component]) }}">{{ $sparePart->component }}</a>
+                                                            @endif
+                                                        </td>
                                                         <td>{{ $sparePart->spareparts->kurztext ?? 'N/A' }}</td>
                                                     </tr>
                                                     @endforeach

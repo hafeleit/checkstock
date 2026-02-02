@@ -268,11 +268,19 @@
                     search_usi();
                 }
             });
-            $('#item_code').focus();
-        });
 
-        $('#item_code').mask('000.00.000');
-        $('.bom_show_flg').hide();
+            $('#item_code').focus();
+            $('#item_code').mask('000.00.000');
+            $('.bom_show_flg').hide();
+
+            // search if item_code in url parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const itemCodeParam = urlParams.get('item_code');
+            if (itemCodeParam) {
+                $('#item_code').val(itemCodeParam).trigger('input'); 
+                search_usi();
+            }
+        });
 
         // Search button
         const searchButton = document.getElementById('searchButton');
@@ -322,6 +330,14 @@
                 }
             }).done(function(res) {
                 Swal.close();
+
+                // Remove item_code from URL
+                const url = new URL(window.location);
+                if (url.searchParams.has('item_code')) {
+                    url.searchParams.delete('item_code');
+                    window.history.replaceState({}, document.title, url.pathname);
+                }
+                
                 if (res['count'] == 0) {
                     $("#bom_table > tbody").html("");
                     $("#wss_table > tbody").html("");
