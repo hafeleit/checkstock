@@ -14,7 +14,9 @@ class SalesUSIController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:salesusi view|salesusi manager|salesusi iodetail', ['only' => ['index', 'search_usi', 'inbound', 'outbound']]);
+        $this->middleware('permission:salesusi view|salesusi manager')->only('index');
+        $this->middleware('permission:salesusi pc view')->only('indexPC');
+        $this->middleware('permission:salesusi iodetail')->only('search_usi', 'inbound', 'outbound');
     }
     public function index()
     {
