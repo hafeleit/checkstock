@@ -120,15 +120,15 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   Route::resource('so-status', SoStatusController::class);
 
   // Product Information
-  Route::post('/product-infos/import-info', [ProductInformationController::class, 'importInfo'])->name('product-infos.import-info');
-  Route::get('/product-infos/download-template/{type}', [ProductInformationController::class, 'downloadTemplate'])->name('product-infos.download-template');
-  Route::delete('/product-infos/pdf-files/{id}', [ProductInformationController::class, 'deletePdf'])->name('product-infos.pdf-files.delete');
-  Route::get('/product-infos', [ProductInformationController::class, 'index'])->name('product-infos.index');
+  // Route::post('/product-infos/import-info', [ProductInformationController::class, 'importInfo'])->name('product-infos.import-info');
+  // Route::get('/product-infos/download-template/{type}', [ProductInformationController::class, 'downloadTemplate'])->name('product-infos.download-template');
+  // Route::delete('/product-infos/pdf-files/{id}', [ProductInformationController::class, 'deletePdf'])->name('product-infos.pdf-files.delete');
+  // Route::get('/product-infos', [ProductInformationController::class, 'index'])->name('product-infos.index');
   Route::get('/product-infos/{item_code}', [ProductInformationController::class, 'show'])->name('product-infos.show');
-  Route::put('/product-infos/{item_code}', [ProductInformationController::class, 'update'])->name('product-infos.update');
-  Route::delete('/product-infos/{item_code}', [ProductInformationController::class, 'destroy'])->name('product-infos.destroy');
-  Route::get('/product-infos/{item_code}/edit', [ProductInformationController::class, 'edit'])->name('product-infos.edit');
-  Route::put('/product-infos/{item_code}/upload-files', [ProductInformationController::class, 'uploadFiles'])->name('product-infos.upload-files');
+  // Route::put('/product-infos/{item_code}', [ProductInformationController::class, 'update'])->name('product-infos.update');
+  // Route::delete('/product-infos/{item_code}', [ProductInformationController::class, 'destroy'])->name('product-infos.destroy');
+  // Route::get('/product-infos/{item_code}/edit', [ProductInformationController::class, 'edit'])->name('product-infos.edit');
+  // Route::put('/product-infos/{item_code}/upload-files', [ProductInformationController::class, 'uploadFiles'])->name('product-infos.upload-files');
 
   // consumerlabel
   Route::get('/barcode/{barcode}', [ProductItemsController::class, 'generateBarcode'])->name('generate-barcode');
