@@ -127,7 +127,7 @@
       @endcan
 
       {{-- Product 360° --}}
-      @can('salesusi view')
+      @canany(['salesusi view', 'salesusi pc view'])
       <li class="nav-item">
         <a class="nav-link {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'active' : '' }}" 
           data-bs-toggle="collapse" 
@@ -140,18 +140,23 @@
         </a>
         <div class="collapse {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'show' : '' }}" id="salesUsiExample">
           <ul class="nav nav-sm flex-column">
+            @can('salesusi view')
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'sales-usi.index' ? 'active' : '' }}" href="{{ route('sales-usi.index') }}">
                 <span class="sidenav-mini-icon text-xs"> P </span>
                 <span class="sidenav-normal"> Product 360° </span>
               </a>
             </li>
+            @endcan
+            @can('salesusi pc view')
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'sales-usi.pc' ? 'active' : '' }}" href="{{ route('sales-usi.pc') }}">
                 <span class="sidenav-mini-icon text-xs"> P </span>
                 <span class="sidenav-normal"> Product 360° - PC </span>
               </a>
             </li>
+            @endcan
+
             {{-- <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'product-infos.index' ? 'active' : '' }}" href="{{ route('product-infos.index') }}">
                 <span class="sidenav-mini-icon text-xs"> P </span>
