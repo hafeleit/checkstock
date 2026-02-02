@@ -114,6 +114,12 @@
                                         <span>Item Brand : <label class="m-0 item_brand"></label></span>
                                     </div>
                                     <div class="col-12 mt-2">
+                                        <span>Pack Volume : <label class="m-0 weight_volume2"></label></span>
+                                    </div>
+                                    <div class="col-12 mt-2">
+                                        <span>Pack Weight : <label class="m-0 weight_volume1"></label></span>
+                                    </div>
+                                    <div class="col-12 mt-2">
                                         <span>Supp Repl Time : <label class="m-0 repl_time"></label></span>
                                     </div>
                                     <div class="col-12 mt-2">
@@ -130,6 +136,12 @@
                                     </div>
                                     <div class="col-12 mt-2">
                                         <span>Available Stock : <label class="m-0 available_stock"></label></span>
+                                    </div>
+                                    <div class="col-12 mt-2">
+                                        <span>Project Item : <label class="m-0 project_item"></label></span>
+                                    </div>
+                                    <div class="col-12 mt-2">
+                                        <span>Superseded : <label class="m-0 superseded"></label></span>
                                     </div>
                                 </div>
 
@@ -385,6 +397,10 @@
                 $('.inventory_code').html(res['data'][0]['NSU_ITEM_INV_CODE']); // Storage Indicator
                 $('.zpl').html(res['uom'][0]["IUW_PRICE"]); // Base Price (ZPL)
                 $('.zplv').html(res['uom'][0]["NEW_ZPLV_COST"]); // RSP (ZPLV)
+                $('.project_item').html(res['productInfo'] && res['productInfo']['project_item'] ? res['productInfo']['project_item'] : '-'); // Project Item
+                $('.superseded').html(res['productInfo'] && res['productInfo']['superseded'] ? res['productInfo']['superseded'] : '-'); // Superseded
+                $('.weight_volume1').html(res['data'][0]['NSU_PACK_WEIGHT']); // Pack Weight
+                $('.weight_volume2').html(res['data'][0]['NSU_PACK_VOLUME']); // Pack Volume
 
                 // Available Stock
                 let totalOutbound = res['wss'].reduce((sum, item) => sum + Number(item.WSS_RES_QTY), 0);

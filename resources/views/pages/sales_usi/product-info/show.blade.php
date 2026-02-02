@@ -87,8 +87,14 @@
                                     <label class="fw-bold text-lg">Catalogues</label>
                                     <div class="table-responsive">
                                         <table class="table table-hover">
-                                            <tbody class="text-sm">
-                                                @if ($productInfo && !($productInfo->catalogueFiles)->isEmpty())
+                                            @if ($productInfo && !($productInfo->catalogueFiles)->isEmpty())
+                                                <thead class="text-sm table-dark">
+                                                    <tr>
+                                                        <th class="px-2 w-70">File Name</th>
+                                                        <th class="px-2">Creation Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="text-sm">
                                                     @foreach ($productInfo->catalogueFiles as $catalogue)
                                                     <tr>
                                                         <td>
@@ -99,14 +105,15 @@
                                                                 <u>{{ $catalogue->file_name }}</u>
                                                             </a>
                                                         </td>
+                                                        <td>{{ $catalogue->created_at ? $catalogue->created_at->format('d-m-Y') : 'N/A' }}</td>
                                                     </tr>
                                                     @endforeach
-                                                @else
+                                                </tbody>
+                                            @else
                                                 <tr>
-                                                    <td class="text-muted">No catalogues found.</td>
+                                                    <td colspan="2" class="text-muted text-sm">No catalogues found.</td>
                                                 </tr>
-                                                @endif
-                                            </tbody>
+                                            @endif
                                         </table>
                                     </div>
                                 </div>
@@ -116,8 +123,14 @@
                                     <label class="fw-bold text-lg">Manuals</label>
                                     <div class="table-responsive">
                                         <table class="table table-hover">
-                                            <tbody class="text-sm">
-                                                @if ($productInfo && !($productInfo->manualFiles)->isEmpty())
+                                            @if ($productInfo && !($productInfo->manualFiles)->isEmpty())
+                                                <thead class="text-sm table-dark">
+                                                    <tr>
+                                                        <th class="px-2 w-70">File Name</th>
+                                                        <th class="px-2">Creation Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="text-sm">
                                                     @foreach ($productInfo->manualFiles as $manual)
                                                     <tr>
                                                         <td>
@@ -128,14 +141,15 @@
                                                                 <u>{{ $manual->file_name }}</u>
                                                             </a>
                                                         </td>
+                                                        <td>{{ $manual->created_at ? $manual->created_at->format('d-m-Y') : 'N/A' }}</td>
                                                     </tr>
                                                     @endforeach
-                                                @else
+                                                </tbody>
+                                            @else
                                                 <tr>
-                                                    <td class="text-muted">No manuals found.</td>
+                                                    <td colspan="2" class="text-muted text-sm">No manuals found.</td>
                                                 </tr>
-                                                @endif
-                                            </tbody>
+                                            @endif
                                         </table>
                                     </div>
                                 </div>
@@ -145,8 +159,14 @@
                                     <label class="fw-bold text-lg">Spec Sheets</label>
                                     <div class="table-responsive">
                                         <table class="table table-hover">
-                                            <tbody class="text-sm">
-                                                @if ($productInfo && !($productInfo->specsheetFiles)->isEmpty())
+                                            @if ($productInfo && !($productInfo->specsheetFiles)->isEmpty())
+                                                <thead class="text-sm table-dark">
+                                                    <tr>
+                                                        <th class="px-2 w-70">File Name</th>
+                                                        <th class="px-2">Creation Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="text-sm">
                                                     @foreach ($productInfo->specsheetFiles as $specsheet)
                                                     <tr>
                                                         <td>
@@ -157,14 +177,15 @@
                                                                 <u>{{ $specsheet->file_name }}</u>
                                                             </a>
                                                         </td>
+                                                        <td>{{ $specsheet->created_at ? $specsheet->created_at->format('d-m-Y') : 'N/A' }}</td>
                                                     </tr>
                                                     @endforeach
-                                                @else
+                                                </tbody>
+                                            @else
                                                 <tr>
-                                                    <td class="text-muted">No spec sheets found.</td>
+                                                    <td colspan="2" class="text-muted text-sm">No spec sheets found.</td>
                                                 </tr>
-                                                @endif
-                                            </tbody>
+                                            @endif
                                         </table>
                                     </div>
                                 </div>
