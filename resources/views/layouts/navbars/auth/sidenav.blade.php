@@ -152,12 +152,12 @@
                 <span class="sidenav-normal"> Product 360° - PC </span>
               </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'product-infos.index' ? 'active' : '' }}" href="{{ route('product-infos.index') }}">
                 <span class="sidenav-mini-icon text-xs"> P </span>
                 <span class="sidenav-normal"> Product Info </span>
               </a>
-            </li>
+            </li> --}}
           </ul>
         </div>
       </li>
