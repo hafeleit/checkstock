@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Product 360°'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Products 360°'])
 
     <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
         .icon-search {
