@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Product 360°'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Products 360°'])
     <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
         .link_sparepart a {
             color: #3A416F;
@@ -22,7 +22,7 @@
                         <div class="d-flex justify-between">
                             <div>
                                 <div class="d-flex align-items-center">
-                                    <h6 class="mb-0 h3">Product 360°</h6>
+                                    <h6 class="mb-0 h3">Products 360°</h6>
                                 </div>
                                 @php
                                     $yesterday = date('d/m/Y', strtotime('-1 day'));
