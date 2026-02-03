@@ -150,10 +150,10 @@
                               <span>Storage Indicator : <label class="m-0 inventory_code text-xs badge bg-success py-1"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
-                              <span>Project Item : <label class="m-0 project_item py-1"></label></span>
+                              <span>Project Item : <label class="m-0 project_item item-link-trigger search-project-item"></label></span>
                             </div>
                             <div class="col-12 col-sm-6 py-1">
-                              <span>Superseded : <label class="m-0 superseded"></label></span>
+                              <span>Superseded : <label class="m-0 superseded item-link-trigger search-superseded"></label></span>
                             </div>
                           </div>
                         </div>
@@ -421,19 +421,35 @@
   });
 
   $(document).on('click', '.search-parent-item', function(e) {
-      let parentCode = $(this).data('item-code');
-      if (parentCode) {
-          $('#item_code').val(parentCode);
-          search_usi();
-      }
+    let parentCode = $(this).data('item-code');
+    if (parentCode) {
+      $('#item_code').val(parentCode);
+      search_usi();
+    }
   });
 
   $(document).on('click', '.search-comp-item', function(e) {
-      let compCode = $(this).data('item-code');
-      if (compCode) {
-          $('#item_code').val(compCode);
-          search_usi();
-      }
+    let compCode = $(this).data('item-code');
+    if (compCode) {
+      $('#item_code').val(compCode);
+      search_usi();
+    }
+  });
+
+  $(document).on('click', '.search-project-item', function(e) {
+    let itemCode = $(this).text().trim();
+    if (itemCode && itemCode !== '-') {
+      $('#item_code').val(itemCode);
+      search_usi();
+    }
+  });
+
+  $(document).on('click', '.search-superseded', function(e) {
+    let itemCode = $(this).text().trim();
+    if (itemCode && itemCode !== '-') {
+      $('#item_code').val(itemCode);
+      search_usi();
+    }
   });
 
   function addCommas(nStr)
