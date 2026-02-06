@@ -156,13 +156,14 @@
               </a>
             </li>
             @endcan
-
-            {{-- <li class="nav-item">
+            @can('salesusi productinfo view')
+            <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'product-infos.index' ? 'active' : '' }}" href="{{ route('product-infos.index') }}">
                 <span class="sidenav-mini-icon text-xs"> P </span>
                 <span class="sidenav-normal"> Product Info </span>
               </a>
-            </li> --}}
+            </li>
+            @endcan
           </ul>
         </div>
       </li>

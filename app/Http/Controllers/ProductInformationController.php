@@ -18,10 +18,18 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ProductInformationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:salesusi productinfo view')->only(['index']);
+        $this->middleware('permission:salesusi productinfo view detail')->only(['show']);
+        $this->middleware('permission:salesusi productinfo edit')->only(['edit', 'update', 'uploadFiles', 'importInfo', 'downloadTemplate', 'togglePdfStatus', 'deletePdf']);
+        $this->middleware('permission:salesusi productinfo delete')->only(['destroy']);
+    }
+
     public function index()
     {
         $productInformations = ProductInfo::query()
-            ->with('catalogueFiles', 'manualFiles', 'specsheetFiles')
+            ->with('imageFile', 'catalogueFiles', 'manualFiles', 'specsheetFiles')
             ->when(request()->item_code, function ($q) {
                 $q->where('item_code', 'LIKE', '%' . request()->item_code . '%');
             })
@@ -37,7 +45,7 @@ class ProductInformationController extends Controller
 
     public function show($itemCode)
     {
-        $productInfo = ProductInfo::with('catalogueFiles', 'manualFiles', 'specsheetFiles')
+        $productInfo = ProductInfo::with('imageFile', 'catalogueActiveFiles', 'manualActiveFiles', 'specsheetActiveFiles')
             ->where('item_code', $itemCode)->first();
 
         $stMapping = $this->getStMapping();
@@ -59,51 +67,28 @@ class ProductInformationController extends Controller
             ->where('bom_usg', 4)
             ->get();
 
-        // Image
-        $filePath = public_path('storage/img/products/' . $itemCode . '.jpg');
-        $imgPath = File::exists($filePath) ? '/storage/img/products/' . $itemCode . '.jpg' : null;
-
         return view('pages.sales_usi.product-info.show', [
             'productInfo' => $productInfo,
             'productDetail' => $productDetail,
             'spareParts' => $spareParts,
-            'imgPath' => $imgPath,
+            'imgPath' => $productInfo && $productInfo->imageFile ? $productInfo->imageFile->path : null,
         ]);
     }
 
     public function edit($itemCode)
     {
-        $product = ProductInfo::where('item_code', $itemCode)->firstOrFail();
+        $product = ProductInfo::with('imageFile', 'catalogueFiles', 'manualFiles', 'specsheetFiles')
+            ->where('item_code', $itemCode)->firstOrFail();
         if (!$product) {
             abort(404);
         }
 
-        // Product image
-        $fileName = $itemCode . '.jpg';
-        $filePath = public_path('storage/img/products/') . DIRECTORY_SEPARATOR . $fileName;
-        $imageProduct = File::exists($filePath) ? '/storage/img/products/' . $itemCode . '.jpg' : null;
-
-        // Catalogues
-        $catalogues = ProductInfoFile::where('item_code', $itemCode)
-            ->where('type', 'catalogue')
-            ->get();
-
-        // Manuals
-        $manuals = ProductInfoFile::where('item_code', $itemCode)
-            ->where('type', 'manual')
-            ->get();
-
-        // Spec Sheet
-        $specSheets = ProductInfoFile::where('item_code', $itemCode)
-            ->where('type', 'specsheet')
-            ->get();
-
         return view('pages.sales_usi.product-info.edit', [
-            'imageProduct' => $imageProduct,
+            'imageProduct' => $product->imageFile,
             'product' => $product,
-            'catalogues' => $catalogues,
-            'manuals' => $manuals,
-            'specSheets' => $specSheets,
+            'catalogues' => $product->catalogueFiles,
+            'manuals' => $product->manualFiles,
+            'specSheets' => $product->specsheetFiles,
         ]);
     }
 
@@ -140,6 +125,8 @@ class ProductInformationController extends Controller
             'file' => 'required',
             'file.*' => 'mimes:jpg,jpeg,pdf',
             'type' => 'required|in:product,manual,catalogue,specsheet',
+            'bu_detail' => 'required|string',
+            'doc_type' => 'nullable|string',
         ]);
 
         $type = request('type');
@@ -164,33 +151,56 @@ class ProductInformationController extends Controller
             foreach ($files as $file) {
                 if (request()->type === 'product') {
                     $extension = $file->getClientOriginalExtension();
-                    $fileName = request()->item_code . '.' . $extension;
+                    $fileName = request()->bu_detail . '-' . request()->item_code . '-PIC-' . now()->format('YmdHisu') . '.' . $extension;
                 } else {
-                    $fileName = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $fileName = request()->bu_detail . '-' . request()->item_code . '-' . request()->doc_type . '-' . now()->format('YmdHisu') . '.' . $extension;
                 }
 
                 // Delete existing file if name conflicts
-                $filePath = $fullDirectoryPath . DIRECTORY_SEPARATOR . $fileName;
-                if (File::exists($filePath)) {
-                    File::delete($filePath);
+                if (request()->type === 'product') {
+                    $pattern = $fullDirectoryPath . DIRECTORY_SEPARATOR . '*' . request()->item_code . '-PIC-*';
+                    $existingFiles = glob($pattern);
+                    foreach ($existingFiles as $existingFile) {
+                        File::delete($existingFile);
+                    }
+                } else {
+                    $filePath = $fullDirectoryPath . DIRECTORY_SEPARATOR . $fileName;
+                    if (File::exists($filePath)) {
+                        File::delete($filePath);
+                    }
                 }
 
                 // pdf ต้อง update บน db ด้วย -> ชื่อ file pdf
-
                 $file->move($fullDirectoryPath, $fileName);
                 $path = '/' . $subPath . '/' . $fileName;
                 $uploadedPaths[] = $path;
 
-                // create new file
-                if (request()->type !== 'product') {
-                    ProductInfoFile::create([
-                        'item_code' => request()->item_code,
-                        'type' => request()->type,
+                // Check for existing image file
+                $existingImgFile = ProductInfoFile::where('item_code', request()->item_code)
+                    ->where('type', 'image')
+                    ->first();
+
+                // update existing image file
+                if (request()->type === 'product' && $existingImgFile) {
+                    $existingImgFile->update([
                         'path' => $path,
                         'file_name' => $fileName,
-                        'updated_by' => auth()->id()
+                        'bu_detail' => request()->bu_detail,
+                        'updated_by' =>  auth()->id()
                     ]);
+                    continue;
                 }
+
+                // create new file
+                ProductInfoFile::create([
+                    'item_code' => request()->item_code,
+                    'type' => request()->type === 'product' ? 'image' : request()->type,
+                    'path' => $path,
+                    'file_name' => $fileName,
+                    'bu_detail' => request()->bu_detail,
+                    'updated_by' => auth()->id()
+                ]);
             }
         }
 
@@ -304,6 +314,32 @@ class ProductInformationController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Catalogue deleted successfully'
+            ], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong: ' . $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function togglePdfStatus($item_code, $id)
+    {
+        $file = ProductInfoFile::findOrFail($id);
+
+        try {
+            DB::beginTransaction();
+            $file->is_active = !$file->is_active;
+            $file->save();
+            DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'File status updated successfully',
+                'data' => [
+                    'is_active' => $file->is_active
+                ]
             ], 200);
         } catch (\Throwable $th) {
             DB::rollBack();

@@ -87,7 +87,7 @@
                                     <label class="fw-bold text-lg">Catalogues</label>
                                     <div class="table-responsive">
                                         <table class="table table-hover">
-                                            @if ($productInfo && !($productInfo->catalogueFiles)->isEmpty())
+                                            @if ($productInfo && !($productInfo->catalogueActiveFiles)->isEmpty())
                                                 <thead class="text-sm table-dark">
                                                     <tr>
                                                         <th class="px-2 w-70">File Name</th>
@@ -95,7 +95,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="text-sm">
-                                                    @foreach ($productInfo->catalogueFiles as $catalogue)
+                                                    @foreach ($productInfo->catalogueActiveFiles as $catalogue)
                                                     <tr>
                                                         <td>
                                                             <a href="{{ $catalogue->path }}" target="_blank" id="downloadCatalog" class="download-link">
@@ -123,7 +123,7 @@
                                     <label class="fw-bold text-lg">Manuals</label>
                                     <div class="table-responsive">
                                         <table class="table table-hover">
-                                            @if ($productInfo && !($productInfo->manualFiles)->isEmpty())
+                                            @if ($productInfo && !($productInfo->manualActiveFiles)->isEmpty())
                                                 <thead class="text-sm table-dark">
                                                     <tr>
                                                         <th class="px-2 w-70">File Name</th>
@@ -131,7 +131,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="text-sm">
-                                                    @foreach ($productInfo->manualFiles as $manual)
+                                                    @foreach ($productInfo->manualActiveFiles as $manual)
                                                     <tr>
                                                         <td>
                                                             <a href="{{ $manual->path }}" target="_blank" id="downloadCatalog" class="download-link">
@@ -159,7 +159,7 @@
                                     <label class="fw-bold text-lg">Spec Sheets</label>
                                     <div class="table-responsive">
                                         <table class="table table-hover">
-                                            @if ($productInfo && !($productInfo->specsheetFiles)->isEmpty())
+                                            @if ($productInfo && !($productInfo->specsheetActiveFiles)->isEmpty())
                                                 <thead class="text-sm table-dark">
                                                     <tr>
                                                         <th class="px-2 w-70">File Name</th>
@@ -167,7 +167,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="text-sm">
-                                                    @foreach ($productInfo->specsheetFiles as $specsheet)
+                                                    @foreach ($productInfo->specsheetActiveFiles as $specsheet)
                                                     <tr>
                                                         <td>
                                                             <a href="{{ $specsheet->path }}" target="_blank" id="downloadCatalog" class="download-link">
