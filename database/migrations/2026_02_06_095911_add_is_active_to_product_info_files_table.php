@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('product_info_files', function (Blueprint $table) {
-            $table->string('bu_detail')->after('item_code')->nullable();
             $table->boolean('is_active')->default(true)->after('file_name');
         });
     }
@@ -23,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('product_info_files', function (Blueprint $table) {
-            $table->dropColumn(['is_active', 'bu_detail']);
+            $table->dropColumn(['is_active']);
         });
     }
 };

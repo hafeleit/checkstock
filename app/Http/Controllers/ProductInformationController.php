@@ -186,7 +186,6 @@ class ProductInformationController extends Controller
                     $existingImgFile->update([
                         'path' => $path,
                         'file_name' => $fileName,
-                        'bu_detail' => request()->bu_detail,
                         'updated_by' =>  auth()->id()
                     ]);
                     continue;
@@ -198,7 +197,6 @@ class ProductInformationController extends Controller
                     'type' => request()->type === 'product' ? 'image' : request()->type,
                     'path' => $path,
                     'file_name' => $fileName,
-                    'bu_detail' => request()->bu_detail,
                     'updated_by' => auth()->id()
                 ]);
             }
