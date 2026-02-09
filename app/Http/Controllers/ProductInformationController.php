@@ -28,25 +28,50 @@ class ProductInformationController extends Controller
 
     public function index()
     {
+        // product info
         $productInformations = ProductInfo::query()
-            ->with('imageFile', 'catalogueFiles', 'manualFiles', 'specsheetFiles')
             ->when(request()->item_code, function ($q) {
                 $q->where('item_code', 'LIKE', '%' . request()->item_code . '%');
             })
             ->paginate(50);
 
+        // pdf files
+        $catalogueFiles = ProductInfoFile::where('item_code', request()->item_code)
+            ->where('type', 'catalogue')
+            ->get();
+        $manualFiles = ProductInfoFile::where('item_code', request()->item_code)
+            ->where('type', 'manual')
+            ->get();
+        $specsheetFiles = ProductInfoFile::where('item_code', request()->item_code)
+            ->where('type', 'specsheet')
+            ->get();
+
         session(['product_info_return_url' => request()->fullUrl()]);
 
         return view('pages.sales_usi.product-info.index', [
             'productInformations' => $productInformations,
-            'params' => request()->all()
+            'params' => request()->all(),
+            'catalogueFiles' => $catalogueFiles,
+            'manualFiles' => $manualFiles,
+            'specsheetFiles' => $specsheetFiles,
         ]);
     }
 
     public function show($itemCode)
     {
-        $productInfo = ProductInfo::with('imageFile', 'catalogueActiveFiles', 'manualActiveFiles', 'specsheetActiveFiles')
-            ->where('item_code', $itemCode)->first();
+        // product info
+        $productInfo = ProductInfo::where('item_code', $itemCode)->first();
+        
+        // pdf files
+        $catalogueFiles = ProductInfoFile::where('item_code', $itemCode)
+            ->where('type', 'catalogue')
+            ->get();
+        $manualFiles = ProductInfoFile::where('item_code', $itemCode)
+            ->where('type', 'manual')
+            ->get();
+        $specsheetFiles = ProductInfoFile::where('item_code', $itemCode)
+            ->where('type', 'specsheet')
+            ->get();
 
         $stMapping = $this->getStMapping();
         $dmMapping = $this->getDmMapping();
@@ -82,23 +107,39 @@ class ProductInformationController extends Controller
             'productDetail' => $productDetail,
             'spareParts' => $spareParts,
             'imgPath' => $imageFile,
+            'catalogueFiles' => $catalogueFiles,
+            'manualFiles' => $manualFiles,
+            'specsheetFiles' => $specsheetFiles,
         ]);
     }
 
     public function edit($itemCode)
     {
+        // product info
         $product = ProductInfo::with('imageFile', 'catalogueFiles', 'manualFiles', 'specsheetFiles')
             ->where('item_code', $itemCode)->firstOrFail();
+        
         if (!$product) {
             abort(404);
         }
 
+        // pdf files
+        $catalogueFiles = ProductInfoFile::where('item_code', $itemCode)
+            ->where('type', 'catalogue')
+            ->get();
+        $manualFiles = ProductInfoFile::where('item_code', $itemCode)
+            ->where('type', 'manual')
+            ->get();
+        $specsheetFiles = ProductInfoFile::where('item_code', $itemCode)
+            ->where('type', 'specsheet')
+            ->get();
+
         return view('pages.sales_usi.product-info.edit', [
             'imageProduct' => $product->imageFile,
             'product' => $product,
-            'catalogues' => $product->catalogueFiles,
-            'manuals' => $product->manualFiles,
-            'specSheets' => $product->specsheetFiles,
+            'catalogues' => $catalogueFiles,
+            'manuals' => $manualFiles,
+            'specSheets' => $specsheetFiles,
         ]);
     }
 
