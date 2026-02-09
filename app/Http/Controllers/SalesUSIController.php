@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\TemplateExport;
 use App\Models\ProductInfo;
+use App\Models\ProductInfoFile;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,9 +53,10 @@ class SalesUSIController extends Controller
 
         $item_code = request()->item_code ?? '';
 
-        // Image product
-        $filePath = public_path('storage/img/products/' . $item_code . '.jpg');
-        $imgPath = File::exists($filePath) ? '/storage/img/products/' . $item_code . '.jpg' : null;
+        // Image product info file
+        $imgPath = ProductInfoFile::where('item_code', $item_code)
+            ->where('type', 'image')
+            ->first();
 
         // Mapping Data to Array
         $pgrMapping = $this->getPgrMapping();
@@ -176,7 +178,7 @@ class SalesUSIController extends Controller
             'uom' => $uom,
             'stocks' => $stocks,
             'bom' => $bom,
-            'imgPath' => $imgPath,
+            'imgPath' => $imgPath ? $imgPath->path : null,
             'productInfo' => $productInfo,
         ]);
     }

@@ -84,8 +84,8 @@
                                 </div>
 
                             </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Update</button>
+                            <div class="mb-3 float-end">
+                                <button type="submit" class="btn btn-primary btn-lg">Update</button>
                             </div>
                         </form>
                     </div>

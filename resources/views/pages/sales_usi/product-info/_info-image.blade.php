@@ -1,6 +1,6 @@
 <div class="card border p-4 mt-3">
     <div class="d-flex align-items-center justify-between">
-        <label class="fw-bold text-lg">Image</label>
+        <label class="fw-bold text-lg m-0">Image</label>
         <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#changeImgProductModal">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-image" viewBox="0 0 16 16">
                 <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
@@ -25,8 +25,20 @@
                     <form method="POST" id="uploadImgForm">
                         @csrf
                         <div class="mb-3">
-                            <label for="image-product-Input" class="form-label">choose image</label>
-                            <input class="form-control" type="file" id="image-product-Input" name="image-product-Input" accept="image/jpeg">
+                            <label class="form-label required">BU</label>
+                            <select class="form-select" name="bu_detail" id="bu-select" required>
+                                <option value="" selected disabled>Select BU</option>
+                                <option value="AH">AH - Architecture hardware</option>
+                                <option value="FF">FF - Furniture fitting</option>
+                                <option value="SA">SA - Sanitary</option>
+                                <option value="HA">HA - Home appliances</option>
+                                <option value="LI">LI - Lighting</option>
+                                <option value="ST">ST - Smart technology</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image-product-Input" class="form-label required">choose image</label>
+                            <input class="form-control" type="file" id="image-product-Input" name="image-product-Input" accept="image/jpeg" required>
                         </div>
                         <div class="text-center">
                             <img id="imagePreview" src="#" alt="preview" class="img-fluid d-none border rounded">
@@ -42,7 +54,21 @@
     </div>
 
     @if ($imageProduct)
-        <img id="item_preview" src="{{ $imageProduct }}" class="img-thumbnail" width="250">
+        @php
+            $buMeanings = [
+                'AH' => 'Architecture hardware',
+                'FF' => 'Furniture fitting',
+                'SA' => 'Sanitary',
+                'HA' => 'Home appliances',
+                'LI' => 'Lighting',
+                'ST' => 'Smart technology'
+            ];
+            $currentBu = trim($imageProduct->bu_detail);
+        @endphp
+        <span class="text-muted fw-bold mb-2">
+            BU: <span class="bu-meaning text-dark fw-normal">{{ $imageProduct->bu_detail }} - {{ $buMeanings[$currentBu] ?? '' }}</span>
+        </span>
+        <img id="item_preview" src="{{ $imageProduct->path }}" class="img-thumbnail" width="250">
     @else
         <div class="d-flex align-items-center gap-2 img-thumbnail border-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
@@ -81,6 +107,16 @@
         // Save change image
         saveBtn.addEventListener('click', async () => {
             const file = imageInput.files[0];
+            const buDetail = document.getElementById('bu-select').value;
+
+            if (!buDetail) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'BU is required',
+                    text: 'Please select a BU before uploading the image.'
+                });
+                return;
+            }
             
             if (!file) {
                 Swal.fire({
@@ -105,6 +141,7 @@
             formData.append('_method', 'PUT');
             formData.append('file', file);
             formData.append('type', 'product');
+            formData.append('bu_detail', buDetail);
 
             axios.post(`/product-infos/${item_code}/upload-files`, formData)
                 .then(response => {

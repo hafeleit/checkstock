@@ -1,6 +1,6 @@
 <div class="card border p-4 mt-3">
     <div class="d-flex align-items-center justify-between">
-        <label class="fw-bold text-lg">Catalogues</label>
+        <label class="fw-bold text-lg m-0">Catalogues</label>
         <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#changeCatalogModal">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload"
                 viewBox="0 0 16 16">
@@ -26,8 +26,31 @@
                     <form method="POST" id="uploadCatalogForm">
                         @csrf
                         <div class="mb-3">
-                            <label for="catalog-files-input" class="form-label">Choose catalogues</label>
-                            <input class="form-control" type="file" id="catalog-files-input" accept="application/pdf" multiple>
+                            <label class="form-label required">BU</label>
+                            <select class="form-select" name="bu_catalogue_detail" id="bu-catalogue-select" required>
+                                <option value="" selected disabled>Select BU</option>
+                                <option value="AH">AH - Architecture hardware</option>
+                                <option value="FF">FF - Furniture fitting</option>
+                                <option value="SA">SA - Sanitary</option>
+                                <option value="HA">HA - Home appliances</option>
+                                <option value="LI">LI - Lighting</option>
+                                <option value="ST">ST - Smart technology</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required">Document Type</label>
+                            <select class="form-select" name="doc_catalogue_type" id="document-type-catalogue-select" required>
+                                <option value="" selected disabled>Select Document Type</option>
+                                <option value="IPI">IPI - Leaflet/Brochure/Catalogue</option>
+                                <option value="CAT">CAT - Catalogue Page</option>
+                                <option value="INM">INM - Installation Manual</option>
+                                <option value="CERT">CERT - Product Certificate (TIS, EN, DIN, etc.)</option>
+                                <option value="ECERT">ECERT - Product Environmental Certificates</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="catalog-files-input" class="form-label required">Choose catalogues</label>
+                            <input class="form-control" type="file" id="catalog-files-input" accept="application/pdf" multiple required>
                             <div id="catalog-file-list" class="text-xs mt-1 text-muted"></div>
                         </div>
                     </form>
@@ -44,7 +67,9 @@
         <table class="table table-hover">
             <thead class="table-dark text-sm">
                 <tr>
-                    <th class="px-2">File name</th>
+                    <th class="px-2 w-80">File name</th>
+                    <th class="px-2 w-10">BU</th>
+                    <th class="px-2">Active</th>
                     <th class="px-2"></th>
                 </tr>
             </thead>
@@ -59,6 +84,15 @@
                                     </svg>
                                     <div>{{ $catalogue->file_name }}</div>
                                 </a>
+                            </td>
+                            <td>{{ $catalogue->bu_detail ?? '-' }} </td>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input toggle-catalogue-class" 
+                                        type="checkbox" 
+                                        data-id="{{ $catalogue->id }}" 
+                                        {{ $catalogue->is_active ? 'checked' : '' }}>
+                                </div>
                             </td>
                             <td class="text-end">
                                 <a class="delete-catalogue-btn cursor-pointer" data-filename="{{ $catalogue->file_name }}" data-id="{{ $catalogue->id }}" data-item-code="{{ $catalogue->item_code }}">
@@ -94,12 +128,23 @@
 
         saveBtn.addEventListener('click', async () => {
             const files = catalogInput.files;
+            const buDetailInput = document.getElementById('bu-catalogue-select').value;
+            const docTypeInput = document.getElementById('document-type-catalogue-select').value;
+
+            if (!docTypeInput || !buDetailInput) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Please select BU and Document Type',
+                    text: 'You need to choose BU and Document Type before uploading files.'
+                });
+                return;
+            }
         
             if (files.length === 0) {
                 Swal.fire({
                     icon: 'warning',
-                    title: 'please select files',
-                    text: 'you need to choose at least one pdf file.'
+                    title: 'Please select files',
+                    text: 'You need to choose at least one pdf file.'
                 });
                 return;
             }
@@ -117,6 +162,8 @@
             const formData = new FormData();
             formData.append('_method', 'PUT');
             formData.append('type', 'catalogue');
+            formData.append('doc_type', docTypeInput);
+            formData.append('bu_detail', buDetailInput);
             for (let i = 0; i < files.length; i++) {
                 formData.append('file[]', files[i]);
             }
@@ -159,8 +206,6 @@
             const fileName = deleteBtn.getAttribute('data-filename');
             const fileId = deleteBtn.getAttribute('data-id');
             const itemCode = deleteBtn.getAttribute('data-item-code');
-
-            console.log(fileName, fileId)
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -217,4 +262,49 @@
     document.getElementById('catalog-files-input').addEventListener('change', function() {
         updateCatalogFileList(this, 'catalog-file-list');
     });
+
+    // Toggle active/inactive
+    $(function() {
+        $('.toggle-catalogue-class').change(function() {
+            let status = $(this).prop('checked') ? 1 : 0; 
+            let catalogueId = $(this).data('id'); 
+            let label = $(this).siblings('.form-check-label');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `Do you want to ${status ? 'activate' : 'deactivate'} this catalogue?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                reverseButtons: true
+            }).then((result) => {
+                if (!result.isConfirmed) {
+                    $(this).prop('checked', !status);
+                    return;
+                }
+
+                axios.put(`/product-infos/${item_code}/toggle-pdf-status/${catalogueId}`, {
+                    is_active: status
+                }).then(response => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'success',
+                        text: `Catalogue has been ${status ? 'activated' : 'deactivated'}.`,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }).catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'error',
+                        text: 'Something went wrong, please try again.'
+                    });
+                    // revert toggle
+                    $(this).prop('checked', !status);
+                });
+            });
+        });
+    });     
 </script>

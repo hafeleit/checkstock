@@ -17,10 +17,23 @@ class ProductInfo extends Model
         'updated_by'
     ];
 
+    public function imageFile()
+    {
+        return $this->hasOne(ProductInfoFile::class, 'item_code', 'item_code')
+            ->where('type', 'image');
+    }
+
     public function catalogueFiles()
     {
         return $this->hasMany(ProductInfoFile::class, 'item_code', 'item_code')
             ->where('type', 'catalogue');
+    }
+
+    public function catalogueActiveFiles()
+    {
+        return $this->hasMany(ProductInfoFile::class, 'item_code', 'item_code')
+            ->where('type', 'catalogue')
+            ->where('is_active', true);
     }
 
     public function manualFiles()
@@ -29,10 +42,24 @@ class ProductInfo extends Model
             ->where('type', 'manual');
     }
 
+    public function manualActiveFiles()
+    {
+        return $this->hasMany(ProductInfoFile::class, 'item_code', 'item_code')
+            ->where('type', 'manual')
+            ->where('is_active', true);
+    }
+
     public function specsheetFiles()
     {
         return $this->hasMany(ProductInfoFile::class, 'item_code', 'item_code')
             ->where('type', 'specsheet');
+    }
+
+    public function specsheetActiveFiles()
+    {
+        return $this->hasMany(ProductInfoFile::class, 'item_code', 'item_code')
+            ->where('type', 'specsheet')
+            ->where('is_active', true);
     }
 
     public function fileImportLog()

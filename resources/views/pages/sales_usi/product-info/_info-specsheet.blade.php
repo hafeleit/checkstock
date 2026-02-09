@@ -1,6 +1,6 @@
 <div class="card border p-4 mt-3">
     <div class="d-flex align-items-center justify-between">
-        <label class="fw-bold text-lg">Spec Sheets</label>
+        <label class="fw-bold text-lg m-0">Spec Sheets</label>
         <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#changeSpecSheetModal">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload"
                 viewBox="0 0 16 16">
@@ -26,6 +26,29 @@
                     <form id="uploadSpecSheetForm">
                         @csrf
                         <div class="mb-3">
+                            <label class="form-label required">BU</label>
+                            <select class="form-select" name="bu_specsheet_detail" id="bu-specsheet-select" required>
+                                <option value="" selected disabled>Select BU</option>
+                                <option value="AH">AH - Architecture hardware</option>
+                                <option value="FF">FF - Furniture fitting</option>
+                                <option value="SA">SA - Sanitary</option>
+                                <option value="HA">HA - Home appliances</option>
+                                <option value="LI">LI - Lighting</option>
+                                <option value="ST">ST - Smart technology</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required">Document Type</label>
+                            <select class="form-select" name="doc_specsheet_type" id="document-type-specsheet-select" required>
+                                <option value="" selected disabled>Select Document Type</option>
+                                <option value="IPI">IPI - Leaflet/Brochure/Catalogue</option>
+                                <option value="CAT">CAT - Catalogue Page</option>
+                                <option value="INM">INM - Installation Manual</option>
+                                <option value="CERT">CERT - Product Certificate (TIS, EN, DIN, etc.)</option>
+                                <option value="ECERT">ECERT - Product Environmental Certificates</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="specsheet-files-input" class="form-label">Choose spec sheets</label>
                             <input class="form-control" type="file" id="specsheet-files-input" accept="application/pdf" multiple>
                             <div id="specsheet-file-list" class="text-xs mt-1 text-muted"></div>
@@ -44,7 +67,9 @@
         <table class="table table-hover">
             <thead class="table-dark text-sm">
                 <tr>
-                    <th class="px-2">File name</th>
+                    <th class="px-2 w-80">File name</th>
+                    <th class="px-2 w-10">BU</th>
+                    <th class="px-2">Active</th>
                     <th class="px-2"></th>
                 </tr>
             </thead>
@@ -60,13 +85,26 @@
                                     <div>{{ $specSheet->file_name }}</div>
                                 </a>
                             </td>
+                            <td>{{ $specSheet->bu_detail ?? '-' }} </td>
+                            <td>
+                                @can('salesusi productinfo edit')
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input toggle-specsheet-class" 
+                                        type="checkbox" 
+                                        data-id="{{ $specSheet->id }}" 
+                                        {{ $specSheet->is_active ? 'checked' : '' }}>
+                                </div>
+                                @endcan
+                            </td>
                             <td class="text-end">
+                                @can('salesusi productinfo edit')
                                 <a class="delete-specsheet-btn cursor-pointer" data-filename="{{ $specSheet->file_name }}" data-id="{{ $specSheet->id }}" data-item-code="{{ $specSheet->item_code }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
                                         <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                                     </svg>
                                 </a>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach
@@ -94,6 +132,17 @@
 
         saveBtn.addEventListener('click', async () => {
             const files = specSheetInput.files;
+            const buDetailInput = document.getElementById('bu-specsheet-select').value;
+            const docTypeInput = document.getElementById('document-type-specsheet-select').value;
+
+            if (!docTypeInput || !buDetailInput) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Please select BU and Document Type',
+                    text: 'You need to choose BU and Document Type before uploading files.'
+                });
+                return;
+            }
         
             if (files.length === 0) {
                 Swal.fire({
@@ -117,6 +166,9 @@
             const formData = new FormData();
             formData.append('_method', 'PUT');
             formData.append('type', 'specsheet');
+            formData.append('doc_type', docTypeInput);
+            formData.append('bu_detail', buDetailInput);
+
             for (let i = 0; i < files.length; i++) {
                 formData.append('file[]', files[i]);
             }
@@ -216,5 +268,50 @@
     };
     document.getElementById('specsheet-files-input').addEventListener('change', function() {
         updateSpecsheetFileList(this, 'specsheet-file-list');
+    });
+
+    // Toggle active/inactive
+    $(function() {
+        $('.toggle-specsheet-class').change(function() {
+            let status = $(this).prop('checked') ? 1 : 0; 
+            let specsheetId = $(this).data('id'); 
+            let label = $(this).siblings('.form-check-label');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `Do you want to ${status ? 'activate' : 'deactivate'} this specsheet?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                reverseButtons: true
+            }).then((result) => {
+                if (!result.isConfirmed) {
+                    $(this).prop('checked', !status);
+                    return;
+                }
+
+                axios.put(`/product-infos/${item_code}/toggle-pdf-status/${specsheetId}`, {
+                    is_active: status
+                }).then(response => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'success',
+                        text: `Specsheet has been ${status ? 'activated' : 'deactivated'}.`,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }).catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'error',
+                        text: 'Something went wrong, please try again.'
+                    });
+                    // revert toggle
+                    $(this).prop('checked', !status);
+                });
+            });
+        });
     });
 </script>
