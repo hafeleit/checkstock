@@ -66,12 +66,22 @@ class ProductInformationController extends Controller
             ->where('material', $itemCode)
             ->where('bom_usg', 4)
             ->get();
+        
+        // image file
+        $fileImgPath = 'storage/img/products/' . $itemCode . '.jpg';
+        if (File::exists($fileImgPath)) {
+            $imageFile = '/' . $fileImgPath;
+        } else if ($productInfo && $productInfo->imageFile) {
+            $imageFile = $productInfo->imageFile->path;
+        } else {
+            $imageFile = null;
+        }
 
         return view('pages.sales_usi.product-info.show', [
             'productInfo' => $productInfo,
             'productDetail' => $productDetail,
             'spareParts' => $spareParts,
-            'imgPath' => $productInfo && $productInfo->imageFile ? $productInfo->imageFile->path : null,
+            'imgPath' => $imageFile,
         ]);
     }
 
@@ -125,7 +135,7 @@ class ProductInformationController extends Controller
             'file' => 'required',
             'file.*' => 'mimes:jpg,jpeg,pdf',
             'type' => 'required|in:product,manual,catalogue,specsheet',
-            'bu_detail' => 'required|string',
+            'bu_detail' => 'required_if:type,manual,catalogue|string',
             'doc_type' => 'nullable|string',
         ]);
 
@@ -151,7 +161,8 @@ class ProductInformationController extends Controller
             foreach ($files as $file) {
                 if (request()->type === 'product') {
                     $extension = $file->getClientOriginalExtension();
-                    $fileName = request()->bu_detail . '-' . request()->item_code . '-PIC-' . now()->format('YmdHisu') . '.' . $extension;
+                    $fileName = request()->item_code . "." . $extension;
+                    // $fileName = request()->bu_detail . '-' . request()->item_code . '-PIC-' . now()->format('YmdHisu') . '.' . $extension;
                 } else {
                     $extension = $file->getClientOriginalExtension();
                     $fileName = request()->bu_detail . '-' . request()->item_code . '-' . request()->doc_type . '-' . now()->format('YmdHisu') . '.' . $extension;
@@ -159,7 +170,8 @@ class ProductInformationController extends Controller
 
                 // Delete existing file if name conflicts
                 if (request()->type === 'product') {
-                    $pattern = $fullDirectoryPath . DIRECTORY_SEPARATOR . '*' . request()->item_code . '-PIC-*';
+                    // $pattern = $fullDirectoryPath . DIRECTORY_SEPARATOR . '*' . request()->item_code . '-PIC-*';
+                    $pattern = $fullDirectoryPath . DIRECTORY_SEPARATOR . request()->item_code;
                     $existingFiles = glob($pattern);
                     foreach ($existingFiles as $existingFile) {
                         File::delete($existingFile);
