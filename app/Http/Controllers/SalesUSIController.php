@@ -53,10 +53,19 @@ class SalesUSIController extends Controller
 
         $item_code = request()->item_code ?? '';
 
-        // Image product info file
-        $imgPath = ProductInfoFile::where('item_code', $item_code)
+        // Image file
+        $fileImgPath = 'storage/img/products/' . $item_code . '.jpg';
+        $productImg = ProductInfoFile::where('item_code', $item_code)
             ->where('type', 'image')
             ->first();
+        
+        if (File::exists($fileImgPath)) {
+            $imgPath = '/' . $fileImgPath;
+        } else if (!empty($productImg)) {
+            $imgPath = $productImg->path;
+        } else {
+            $imgPath = null;
+        }
 
         // Mapping Data to Array
         $pgrMapping = $this->getPgrMapping();
@@ -178,7 +187,7 @@ class SalesUSIController extends Controller
             'uom' => $uom,
             'stocks' => $stocks,
             'bom' => $bom,
-            'imgPath' => $imgPath ? $imgPath->path : null,
+            'imgPath' => $imgPath,
             'productInfo' => $productInfo,
         ]);
     }

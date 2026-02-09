@@ -24,7 +24,7 @@
                 <div class="modal-body">
                     <form method="POST" id="uploadImgForm">
                         @csrf
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="form-label required">BU</label>
                             <select class="form-select" name="bu_detail" id="bu-select" required>
                                 <option value="" selected disabled>Select BU</option>
@@ -35,7 +35,7 @@
                                 <option value="LI">LI - Lighting</option>
                                 <option value="ST">ST - Smart technology</option>
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="mb-3">
                             <label for="image-product-Input" class="form-label required">choose image</label>
                             <input class="form-control" type="file" id="image-product-Input" name="image-product-Input" accept="image/jpeg" required>
@@ -54,7 +54,7 @@
     </div>
 
     @if ($imageProduct)
-        @php
+        {{-- @php
             $buMeanings = [
                 'AH' => 'Architecture hardware',
                 'FF' => 'Furniture fitting',
@@ -67,7 +67,7 @@
         @endphp
         <span class="text-muted fw-bold mb-2">
             BU: <span class="bu-meaning text-dark fw-normal">{{ $imageProduct->bu_detail }} - {{ $buMeanings[$currentBu] ?? '' }}</span>
-        </span>
+        </span> --}}
         <img id="item_preview" src="{{ $imageProduct->path }}" class="img-thumbnail" width="250">
     @else
         <div class="d-flex align-items-center gap-2 img-thumbnail border-0">
@@ -107,16 +107,16 @@
         // Save change image
         saveBtn.addEventListener('click', async () => {
             const file = imageInput.files[0];
-            const buDetail = document.getElementById('bu-select').value;
+            // const buDetail = document.getElementById('bu-select').value;
 
-            if (!buDetail) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'BU is required',
-                    text: 'Please select a BU before uploading the image.'
-                });
-                return;
-            }
+            // if (!buDetail) {
+            //     Swal.fire({
+            //         icon: 'warning',
+            //         title: 'BU is required',
+            //         text: 'Please select a BU before uploading the image.'
+            //     });
+            //     return;
+            // }
             
             if (!file) {
                 Swal.fire({
@@ -141,7 +141,7 @@
             formData.append('_method', 'PUT');
             formData.append('file', file);
             formData.append('type', 'product');
-            formData.append('bu_detail', buDetail);
+            // formData.append('bu_detail', buDetail);
 
             axios.post(`/product-infos/${item_code}/upload-files`, formData)
                 .then(response => {
