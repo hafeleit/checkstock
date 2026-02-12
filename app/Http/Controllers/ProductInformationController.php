@@ -47,7 +47,7 @@ class ProductInformationController extends Controller
     {
         // product info
         $productInfo = ProductInfo::where('item_code', $itemCode)->first();
-        
+
         // pdf files
         $catalogueFiles = ProductInfoFile::where('item_code', $itemCode)
             ->where('type', 'catalogue')
@@ -80,7 +80,7 @@ class ProductInformationController extends Controller
             ->where('material', $itemCode)
             ->where('bom_usg', 4)
             ->get();
-        
+
         // image file
         $fileImgPath = 'storage/img/products/' . $itemCode . '.jpg';
         if (File::exists($fileImgPath)) {
@@ -105,30 +105,24 @@ class ProductInformationController extends Controller
     public function edit($itemCode)
     {
         // product info
-        $product = ProductInfo::with('imageFile', 'catalogueFiles', 'manualFiles', 'specsheetFiles')
-            ->where('item_code', $itemCode)->firstOrFail();
-        
+        $product = ProductInfo::where('item_code', $itemCode)->firstOrFail();
+
         if (!$product) {
             abort(404);
         }
 
-        // pdf files
-        $catalogueFiles = ProductInfoFile::where('item_code', $itemCode)
-            ->where('type', 'catalogue')
-            ->get();
-        $manualFiles = ProductInfoFile::where('item_code', $itemCode)
-            ->where('type', 'manual')
-            ->get();
-        $specsheetFiles = ProductInfoFile::where('item_code', $itemCode)
-            ->where('type', 'specsheet')
-            ->get();
+        // group files by type
+        $filesByType = ProductInfoFile::where('item_code', $itemCode)
+            ->whereIn('type', ['catalogue', 'manual', 'specsheet'])
+            ->get()
+            ->groupBy('type');
 
         return view('pages.sales_usi.product-info.edit', [
-            'imageProduct' => $product->imageFile,
-            'product' => $product,
-            'catalogues' => $catalogueFiles,
-            'manuals' => $manualFiles,
-            'specSheets' => $specsheetFiles,
+            'imageProduct'  => $product->imageFile,
+            'product'       => $product,
+            'catalogues'    => $filesByType->get('catalogue', collect()),
+            'manuals'       => $filesByType->get('manual', collect()),
+            'specSheets'    => $filesByType->get('specsheet', collect()),
         ]);
     }
 

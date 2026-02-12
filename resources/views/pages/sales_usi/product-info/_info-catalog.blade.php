@@ -69,6 +69,8 @@
                 <tr>
                     <th class="px-2 w-80">File name</th>
                     <th class="px-2 w-10">BU</th>
+                    <th class="px-2 w-10">Doc type</th>
+                    <th class="px-2 w-10">Version</th>
                     <th class="px-2">Active</th>
                     <th class="px-2"></th>
                 </tr>
@@ -85,7 +87,9 @@
                                     <div>{{ $catalogue->file_name }}</div>
                                 </a>
                             </td>
-                            <td>{{ $catalogue->bu_detail ?? '-' }} </td>
+                            <td>{{ $catalogue->bu ?? '-' }} </td>
+                            <td>{{ $catalogue->doc_type ?? '-' }} </td>
+                            <td>{{ $catalogue->version ?? '-' }} </td>
                             <td>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input toggle-catalogue-class" 
