@@ -33,27 +33,13 @@ class ProductInformationController extends Controller
             ->when(request()->item_code, function ($q) {
                 $q->where('item_code', 'LIKE', '%' . request()->item_code . '%');
             })
-            ->paginate(50);
-
-        // pdf files
-        $catalogueFiles = ProductInfoFile::where('item_code', request()->item_code)
-            ->where('type', 'catalogue')
-            ->get();
-        $manualFiles = ProductInfoFile::where('item_code', request()->item_code)
-            ->where('type', 'manual')
-            ->get();
-        $specsheetFiles = ProductInfoFile::where('item_code', request()->item_code)
-            ->where('type', 'specsheet')
-            ->get();
+            ->paginate(20);
 
         session(['product_info_return_url' => request()->fullUrl()]);
 
         return view('pages.sales_usi.product-info.index', [
             'productInformations' => $productInformations,
             'params' => request()->all(),
-            'catalogueFiles' => $catalogueFiles,
-            'manualFiles' => $manualFiles,
-            'specsheetFiles' => $specsheetFiles,
         ]);
     }
 

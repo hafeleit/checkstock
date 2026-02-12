@@ -95,8 +95,13 @@
                                         <tr>
                                             <td>{{ $product->item_code }}</td>
                                             <td>
-                                                @if($product->imageFile)
-                                                    <img src="{{ asset($product->imageFile->path) }}" class="img-thumbnail" width="50">
+                                                @php
+                                                    $imagePath = public_path('storage/img/products/' . $product->item_code . '.jpg');
+                                                    $imageUrl = asset('storage/img/products/' . $product->item_code . '.jpg');
+                                                @endphp
+
+                                                @if(file_exists($imagePath))
+                                                    <img src="{{ asset('/storage/img/products/' . $product->item_code . '.jpg') }}" class="img-thumbnail" width="50">
                                                 @else
                                                     <span class="text-muted italic small">- No image -</span>
                                                 @endif
