@@ -16,5 +16,8 @@ class ProductInfoFile extends Model
         'file_name',
         'updated_by',
         'is_active',
+        'bu',
+        'doc_type',
+        'version',
     ];
 }

@@ -65,12 +65,15 @@ class ProductInformationController extends Controller
         // pdf files
         $catalogueFiles = ProductInfoFile::where('item_code', $itemCode)
             ->where('type', 'catalogue')
+            ->where('is_active', true)
             ->get();
         $manualFiles = ProductInfoFile::where('item_code', $itemCode)
             ->where('type', 'manual')
+            ->where('is_active', true)
             ->get();
         $specsheetFiles = ProductInfoFile::where('item_code', $itemCode)
             ->where('type', 'specsheet')
+            ->where('is_active', true)
             ->get();
 
         $stMapping = $this->getStMapping();
@@ -199,14 +202,34 @@ class ProductInformationController extends Controller
 
             $uploadedPaths = [];
 
+            // counter for versioning
+            $counter = 0;
+            if (request()->type !== 'product') {
+                $existingFiles = ProductInfoFile::where('item_code', request()->item_code)
+                    ->where('bu', request()->bu_detail)
+                    ->where('doc_type', request()->doc_type)
+                    ->where('file_name', 'like', request()->bu_detail . '-' . request()->item_code . '-' . request()->doc_type . '-' . now()->format('Ymd') . '-V%')
+                    ->get();
+
+                if ($existingFiles->isNotEmpty()) {
+                    $counter = $existingFiles->map(function ($file) {
+                        if (preg_match('/-V(\d+)\./', $file->file_name, $matches)) {
+                            return (int) $matches[1];
+                        }
+                        return 0;
+                    })->max();
+                }
+            }
+
             foreach ($files as $file) {
+                $extension = $file->getClientOriginalExtension();
+
                 if (request()->type === 'product') {
-                    $extension = $file->getClientOriginalExtension();
                     $fileName = request()->item_code . "." . $extension;
                     // $fileName = request()->bu_detail . '-' . request()->item_code . '-PIC-' . now()->format('YmdHisu') . '.' . $extension;
                 } else {
-                    $extension = $file->getClientOriginalExtension();
-                    $fileName = request()->bu_detail . '-' . request()->item_code . '-' . request()->doc_type . '-' . now()->format('YmdHisu') . '.' . $extension;
+                    $counter++;
+                    $fileName = request()->bu_detail . '-' . request()->item_code . '-' . request()->doc_type . '-' . now()->format('Ymd') . '-V' . $counter . '.' . $extension;
                 }
 
                 // Delete existing file if name conflicts
@@ -237,9 +260,13 @@ class ProductInformationController extends Controller
                 // update existing image file
                 if (request()->type === 'product' && $existingImgFile) {
                     $existingImgFile->update([
+                        'bu' => request()->bu_detail ?? null,
+                        'doc_type' => 'PIC',
+                        'version' => null,
                         'path' => $path,
                         'file_name' => $fileName,
-                        'updated_by' =>  auth()->id()
+                        'updated_by' =>  auth()->id(),
+                        'updated_at' => now(),
                     ]);
                     continue;
                 }
@@ -248,6 +275,9 @@ class ProductInformationController extends Controller
                 ProductInfoFile::create([
                     'item_code' => request()->item_code,
                     'type' => request()->type === 'product' ? 'image' : request()->type,
+                    'bu' => request()->bu_detail ?? null,
+                    'doc_type' => request()->type === 'product' ? 'PIC' : request()->doc_type,
+                    'version' => request()->type === 'product' ? null : $counter,
                     'path' => $path,
                     'file_name' => $fileName,
                     'updated_by' => auth()->id()
