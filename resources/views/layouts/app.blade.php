@@ -29,6 +29,40 @@
             background-position-y: 32%;
             background-position-x: 30%;
         }
+
+        /* preloader */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #2152ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
     </style>
 
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
@@ -38,6 +72,10 @@
 </head>
 
 <body class="{{ $class ?? '' }} g-sidenav-hidden">
+
+    <div id="loader-wrapper">
+        <div class="loader-spinner"></div>
+    </div>
 
     @guest
         @yield('content')
@@ -81,6 +119,23 @@
 
     <script src="{{ URL::to('/') }}/assets/js/argon-dashboard.js" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
     @stack('js')
+
+    {{-- Preloader --}}
+    <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader-wrapper');
+            loader.classList.add('loader-hidden');
+            
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+
+        window.addEventListener('beforeunload', function() {
+            document.getElementById('loader-wrapper').classList.remove('loader-hidden');
+            document.getElementById('loader-wrapper').style.display = 'flex';
+        });
+    </script>
 </body>
 
 </html>
