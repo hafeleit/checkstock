@@ -37,6 +37,10 @@
             margin: 0;
             transform: none !important; 
         }
+
+        .swal2-html-container {
+            line-height: 1.6 !important;
+        }
     </style>
 
     <div class="container-fluid">

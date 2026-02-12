@@ -285,19 +285,27 @@ class ProductInformationController extends Controller
         $fileSize = $file->getSize();
         $fileImportLog = null;
 
-        $fileImportLog = FileImportLog::create([
-            'file_name'     => $fileName,
-            'file_size'     => $fileSize,
-            'type'          => $fileType,
-            'status'        => 'pending',
-            'created_by'    => auth()->id()
-        ]);
+        DB::beginTransaction();
 
-        Excel::import(new ProductInfoImport($fileImportLog->id, request()->type), request()->file('file'));
+        try {
 
-        $fileImportLog->update(['status' => 'processed']);
+            $fileImportLog = FileImportLog::create([
+                'file_name'     => $fileName,
+                'file_size'     => $fileSize,
+                'type'          => $fileType,
+                'status'        => 'pending',
+                'created_by'    => auth()->id()
+            ]);
 
-        return back()->with('success', 'Updated project items successfully');
+            Excel::import(new ProductInfoImport($fileImportLog->id, request()->type), request()->file('file'));
+            $fileImportLog->update(['status' => 'processed']);
+
+            DB::commit();
+            return response()->json(['message' => 'Updated successfully'], 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
     }
 
     public function downloadTemplate($type)
