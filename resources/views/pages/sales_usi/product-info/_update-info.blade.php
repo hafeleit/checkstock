@@ -35,7 +35,7 @@
                     <form action="" method="post" id="projectItemForm">
                         @csrf
                         <div>
-                            <label class="form-label fw-bold">Select file to import</label>
+                            <label class="form-label fw-bold required">Select file to import</label>
                             <input class="form-control" type="file" id="import-project-item-file"
                                 accept=".xlsx, .xls">
                             <div class="form-text text-xs">Only .xlsx, or .xls files are supported.</div>
@@ -86,7 +86,7 @@
                     <form method="POST" id="supersededForm">
                         @csrf
                         <div>
-                            <label class="form-label fw-bold">Select file to import</label>
+                            <label class="form-label fw-bold required">Select file to import</label>
                             <input class="form-control" type="file" id="import-superseded-file" accept=".xlsx, .xls">
                             <div class="form-text text-xs">Only .xlsx, or .xls files are supported.</div>
                         </div>
@@ -139,7 +139,7 @@
                 .then(res => {
                     Swal.fire({
                         icon: 'success',
-                        title: 'success',
+                        title: 'Success',
                         text: 'Project item file has been updated.',
                         timer: 2000,
                         showConfirmButton: false
@@ -153,8 +153,8 @@
                     const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
                     Swal.fire({
                         icon: 'error',
-                        title: 'error',
-                        text: errorMessage
+                        title: 'Error',
+                        html: errorMessage.replace(/\n/g, '<br>'),
                     });
                     console.error('Upload Error:', error);
                 })
@@ -191,7 +191,7 @@
                 .then(res => {
                     Swal.fire({
                         icon: 'success',
-                        title: 'success',
+                        title: 'Success',
                         text: 'Superseded file has been updated.',
                         timer: 2000,
                         showConfirmButton: false
@@ -205,8 +205,8 @@
                     const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
                     Swal.fire({
                         icon: 'error',
-                        title: 'error',
-                        text: errorMessage
+                        title: 'Error',
+                        html: errorMessage.replace(/\n/g, '<br>'),
                     });
                     console.error('Upload Error:', error);
                 })

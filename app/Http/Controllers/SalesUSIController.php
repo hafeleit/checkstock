@@ -790,8 +790,16 @@ class SalesUSIController extends Controller
 
         if ($flg === 'material') {
             $query->where('a.material', $item_code)
-                ->whereIn('a.bom_usg', [1, 5])
-                ->where('a.proc_type', 'E')
+                ->where(function ($q) {
+                    $q->where(function ($x) {
+                        $x->where('a.bom_usg', 1)
+                            ->where('a.proc_type', 'E');
+                    })
+                    ->orWhere(function ($x) {
+                        $x->where('a.bom_usg', 5)
+                            ->where('a.proc_type', 'F');
+                    });
+                })
                 ->groupBy('a.component');
         } else {
             $query->where('a.component', $item_code)

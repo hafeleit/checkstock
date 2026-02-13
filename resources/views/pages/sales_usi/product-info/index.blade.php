@@ -32,6 +32,15 @@
         .table-responsive {
             overflow-x: auto;
         }
+
+        .dropdown-menu {
+            margin: 0;
+            transform: none !important; 
+        }
+
+        .swal2-html-container {
+            line-height: 1.6 !important;
+        }
     </style>
 
     <div class="container-fluid">
@@ -90,8 +99,13 @@
                                         <tr>
                                             <td>{{ $product->item_code }}</td>
                                             <td>
-                                                @if($product->imageFile)
-                                                    <img src="{{ asset($product->imageFile->path) }}" class="img-thumbnail" width="50">
+                                                @php
+                                                    $imagePath = public_path('storage/img/products/' . $product->item_code . '.jpg');
+                                                    $imageUrl = asset('storage/img/products/' . $product->item_code . '.jpg');
+                                                @endphp
+
+                                                @if(file_exists($imagePath))
+                                                    <img src="{{ asset('/storage/img/products/' . $product->item_code . '.jpg') }}" class="img-thumbnail" width="50">
                                                 @else
                                                     <span class="text-muted italic small">- No image -</span>
                                                 @endif
@@ -113,10 +127,10 @@
                                             <td>
                                                 @if($product->catalogueFiles && $product->catalogueFiles->isNotEmpty())
                                                     <div class="dropdown">
-                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
                                                             PDF Files ({{ count($product->catalogueFiles) }})
                                                         </button>
-                                                        <ul class="dropdown-menu dropdown-file-lists shadow">
+                                                        <ul class="dropdown-menu dropdown-file-lists dropdown-menu-end shadow">
                                                             @foreach($product->catalogueFiles as $file)
                                                                 <li>
                                                                     <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
@@ -136,10 +150,10 @@
                                             <td>
                                                 @if($product->manualFiles && $product->manualFiles->isNotEmpty())
                                                     <div class="dropdown">
-                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
                                                             PDF Files ({{ count($product->manualFiles) }})
                                                         </button>
-                                                        <ul class="dropdown-menu dropdown-file-lists shadow">
+                                                        <ul class="dropdown-menu dropdown-file-lists dropdown-menu-end shadow">
                                                             @foreach($product->manualFiles as $file)
                                                                 <li>
                                                                     <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
@@ -159,10 +173,10 @@
                                             <td>
                                                 @if($product->specsheetFiles && $product->specsheetFiles->isNotEmpty())
                                                     <div class="dropdown">
-                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
                                                             PDF Files ({{ count($product->specsheetFiles) }})
                                                         </button>
-                                                        <ul class="dropdown-menu dropdown-file-lists shadow">
+                                                        <ul class="dropdown-menu dropdown-file-lists dropdown-menu-end shadow">
                                                             @foreach($product->specsheetFiles as $file)
                                                                 <li>
                                                                     <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
