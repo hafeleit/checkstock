@@ -39,7 +39,7 @@
         <!-- Search Results -->
         @if(isset($searched) && $searched)
         @if($product)
-        <div class="bg-gray-50 rounded-lg p-6 mt-6">
+        <div class="bg-gray-50 rounded-lg p-3 md:p-6 mt-6">
             <div class="flex items-center gap-4 mb-4">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
@@ -47,28 +47,70 @@
                 <h2 class="text-xl font-bold text-gray-800">Product Details</h2>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="space-y-6">
                 <!-- Product Information -->
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600">Item Code</label>
-                        <p class="text-lg font-semibold text-gray-800">{{ $product->Material }}</p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600">Item Description</label>
-                        <p class="text-gray-700">{{ $product->kurztext }}</p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600">Base Price</label>
-                        <p class="text-xl font-bold text-green-600">{{ number_format($product->Amount, 2, '.', ',') }} {{ $product->bun }}</p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600">Stock Quantity</label>
-                        <p class="text-gray-800">
-                            <span class="inline-flex items-center px-2.5 py-0.5 mt-2 rounded-full text-sm font-medium {{ $product->unrestricted > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                {{ number_format($product->unrestricted, 0) }} {{ $product->bun }}
-                            </span>
-                        </p>
+                <div class="bg-white p-3 md:p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="w-full md:w-1/3">
+                            <div class="aspect-square bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-4">
+                                <img src="{{ asset('/storage/img/products/' . $product->Material . '.jpg') }}" alt="product image" class="w-full h-full object-cover">
+                            </div>
+                            <a href="/customer/products/product-info/{{ $product->Material }}" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                                Product Information
+                            </a>
+                        </div>
+
+                        <div class="w-full md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="sm:col-span-2 border-b pb-2">
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider">Item Code</label>
+                                <p class="text-lg font-bold text-gray-800">{{ $product->Material }}</p>
+
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mt-3">Item Description</label>
+                                <p class="text-gray-600">{{ $product->kurztext }}</p>
+                            </div>
+
+                            <div class="bg-gray-50 p-3 rounded-md">
+                                <label class="block text-xs font-medium text-gray-500">Base Price</label>
+                                <p class="text-xl font-bold text-green-600">{{ number_format($product->Amount, 2) }} {{ $product->bun }}</p>
+                            </div>
+
+                            <div class="bg-gray-50 p-3 rounded-md">
+                                <label class="block text-xs font-medium text-gray-500">Stock Quantity</label>
+                                <span class="inline-flex items-center px-2.5 py-0.5 mt-1 rounded-full text-sm font-semibold {{ $product->unrestricted > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                    {{ number_format($product->unrestricted, 0) }} {{ $product->bun }}
+                                </span>
+                            </div>
+
+                            <div class="border-l-4 border-blue-200 pl-3">
+                                <label class="block text-xs font-medium text-gray-500">MRP Type</label>
+                                <p class="font-semibold text-gray-800">{{ $product->mrp_type ?? '-' }}</p>
+                            </div>
+
+                            <div class="border-l-4 border-blue-200 pl-3">
+                                @php
+                                    $product->status = "Active";
+                                @endphp
+                                <label class="block text-xs font-medium text-gray-500">Item Status</label>
+                                <span @class([
+                                    'inline-flex items-center px-2.5 py-0.5 rounded-md text-white font-semibold mt-1',
+                                    'bg-green-500' => ($product->status === 'Active'),
+                                    'bg-red-500' => ($product->status !== 'Active'),
+                                    'bg-gray-500' => empty($product->status),
+                                ])>
+                                    {{ $product->status ?? 'N/A' }}
+                                </span>
+                            </div>
+
+                            <div class="border-l-4 border-orange-200 pl-3">
+                                <label class="block text-xs font-medium text-gray-500">MOQ</label>
+                                <p class="font-semibold text-gray-800">{{ number_format($product->moq ?? 0, 0) }}</p>
+                            </div>
+
+                            <div class="border-l-4 border-orange-200 pl-3">
+                                <label class="block text-xs font-medium text-gray-500">Supp Repl Time</label>
+                                <p class="font-semibold text-gray-800">{{ $product->replenishment_time ?? 0 }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
