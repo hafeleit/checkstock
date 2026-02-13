@@ -49,7 +49,7 @@
             width: 50px;
             height: 50px;
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #2152ff;
+            border-top: 5px solid #fb6340;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
