@@ -369,6 +369,7 @@
                 if (res['count'] == 0) {
                     $("#bom_table > tbody").html("");
                     $("#wss_table > tbody").html("");
+                    $(".bom_cal").html("");
 
                     $('#product-image-container').addClass('d-none');
                     $('#errorModal').modal('show');
@@ -453,6 +454,8 @@
 
                 // BOM Information
                 $("#bom_table > tbody").html("");
+                $(".bom_cal").html("");
+
                 if (res['bom'] && res['bom'].length > 0) {
                     $('.bom_show_flg').show();
                     $.each(res['bom'], function(key, val) {
@@ -479,6 +482,12 @@
                     });
                 } else{
                     $('.bom_show_flg').hide();
+                }
+
+                if (res['bom'] && res['bom'].length > 0 && res['bom'][0]['flg'] === 'material') {
+                    $('.bom_cal').html(res['bom'][0]['cal_stk']);
+                } else {
+                    $('.bom_cal').html(0);
                 }
 
                 // Week inbound/outbound
