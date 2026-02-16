@@ -249,8 +249,20 @@
         if (input.files.length > 0) {
             const ol = document.createElement('ol');
             ol.className = 'mb-0';
+
+            const files = Array.from(input.files);
+            const hasInvalidFile = files.some(file => file.type !== 'application/pdf');
+            if (hasInvalidFile) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ไฟล์ไม่ถูกต้อง',
+                    text: 'ต้องเป็นไฟล์ PDF เท่านั้น'
+                });
+                input.value = '';
+                return;
+            }
             
-            Array.from(input.files).forEach(file => {
+            files.forEach(file => {
                 const li = document.createElement('li');
                 li.innerHTML = `<i class="bi bi-file-earmark-pdf text-danger"></i> ${file.name} <span class="text-muted">(${(file.size / 1024).toFixed(1)} KB)</span>`;
                 ol.appendChild(li);
