@@ -31,6 +31,7 @@
 
         .table-responsive {
             overflow-x: auto;
+            overflow-y: hidden;
         }
 
         .dropdown-menu {
