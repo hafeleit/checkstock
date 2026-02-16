@@ -63,12 +63,44 @@
     $('#superseded').mask('000.00.000');
     $('#item-code-input').mask('000.00.000');
 
-    // Submit form
     document.addEventListener('DOMContentLoaded', () => {
         const saveInfoBtn = document.getElementById('saveInfoBtn');
         const updateInfoForm = document.getElementById('updateInfoForm');
         const modalElement = document.getElementById('changeInfoModal');
+        const projectItemInput = document.getElementById('project-item');
+        const supersededInput = document.getElementById('superseded');
 
+        const tooltipList = [projectItemInput, supersededInput].map(el => {
+            return new bootstrap.Tooltip(el, { trigger: 'manual' }); // ใช้ manual เพื่อควบคุมผ่าน JS
+        });
+
+        // Check format : project_item and superseded
+        const formatRegex = /^\d{3}\.\d{2}\.\d{3}$/;
+        const validateInputs = () => {
+            const pValue = projectItemInput.value;
+            const sValue = supersededInput.value;
+
+            const isPValid = !pValue || formatRegex.test(pValue);
+            const isSValid = !sValue || formatRegex.test(sValue);
+
+            if (isPValid && isSValid) {
+                saveInfoBtn.disabled = false;
+                projectItemInput.classList.remove('is-invalid');
+                supersededInput.classList.remove('is-invalid');
+            } else {
+                saveInfoBtn.disabled = true;
+                
+                if (!isPValid) projectItemInput.classList.add('is-invalid');
+                else projectItemInput.classList.remove('is-invalid');
+
+                if (!isSValid) supersededInput.classList.add('is-invalid');
+                else supersededInput.classList.remove('is-invalid');
+            }
+        };
+        projectItemInput.addEventListener('input', validateInputs);
+        supersededInput.addEventListener('input', validateInputs);
+
+        // Submit form
         saveInfoBtn.addEventListener('click', async () => {
             Swal.fire({
                 title: 'Uploading...',
@@ -109,3 +141,9 @@
         });
     });
 </script>
+
+<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+    #saveInfoBtn:disabled {
+        color: white;
+    }
+</style>
