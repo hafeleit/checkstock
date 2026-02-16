@@ -91,6 +91,19 @@
         // Preview image
         imageInput.addEventListener('change', function() {
             const file = this.files[0];
+
+            if (file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ไฟล์ไม่ถูกต้อง',
+                    text: 'ต้องเป็นไฟล์ JPG หรือ JPEG เท่านั้น'
+                });
+                this.value = '';
+                imagePreview.classList.add('d-none');
+                imagePreview.setAttribute('src', '#');
+                return;
+            }
+
             if (file) {
                 const reader = new FileReader();
                 reader.addEventListener('load', function() {

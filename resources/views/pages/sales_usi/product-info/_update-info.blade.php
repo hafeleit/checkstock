@@ -211,5 +211,18 @@
                     console.error('Upload Error:', error);
                 })
         })
+
+        // Hide loader wrapper
+        const downloadLinks = document.querySelectorAll('a[href*="download-template"]');
+        downloadLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                setTimeout(() => {
+                    const loader = document.getElementById('loader-wrapper');
+                    if (loader) {
+                        loader.style.display = 'none'; 
+                    }
+                }, 500); 
+            });
+        });
     })
 </script>
