@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "2.*",
+        "keenthekeen/php-promptpay-qr": "^1.1",
         "laravel-frontend-presets/argon": "^2.0",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
@@ -16,7 +17,9 @@
         "laravel/ui": "^4.2",
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^11.0",
+        "phumin/promptparse": "^1.0",
         "psr/simple-cache": "1.0",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-permission": "^6.9"
     },
     "require-dev": {

@@ -4,8 +4,62 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d45e3fb3ce7744c6acdc768d79d8f3d",
+    "content-hash": "86dd543e4e7c02212db875772b53d8d7",
     "packages": [
+        {
+            "name": "bacon/bacon-qr-code",
+            "version": "2.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Bacon/BaconQrCode.git",
+                "reference": "8674e51bb65af933a5ffaf1c308a660387c35c22"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/8674e51bb65af933a5ffaf1c308a660387c35c22",
+                "reference": "8674e51bb65af933a5ffaf1c308a660387c35c22",
+                "shasum": ""
+            },
+            "require": {
+                "dasprid/enum": "^1.0.3",
+                "ext-iconv": "*",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "phly/keep-a-changelog": "^2.1",
+                "phpunit/phpunit": "^7 | ^8 | ^9",
+                "spatie/phpunit-snapshot-assertions": "^4.2.9",
+                "squizlabs/php_codesniffer": "^3.4"
+            },
+            "suggest": {
+                "ext-imagick": "to generate QR code images"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BaconQrCode\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Scholzen 'DASPRiD'",
+                    "email": "mail@dasprids.de",
+                    "homepage": "https://dasprids.de/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "BaconQrCode is a QR code generator for PHP.",
+            "homepage": "https://github.com/Bacon/BaconQrCode",
+            "support": {
+                "issues": "https://github.com/Bacon/BaconQrCode/issues",
+                "source": "https://github.com/Bacon/BaconQrCode/tree/2.0.8"
+            },
+            "time": "2022-12-07T17:46:57+00:00"
+        },
         {
             "name": "barryvdh/laravel-dompdf",
             "version": "v3.1.1",
@@ -371,6 +425,56 @@
                 }
             ],
             "time": "2024-09-19T14:15:21+00:00"
+        },
+        {
+            "name": "dasprid/enum",
+            "version": "1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DASPRiD/Enum.git",
+                "reference": "b5874fa9ed0043116c72162ec7f4fb50e02e7cce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DASPRiD/Enum/zipball/b5874fa9ed0043116c72162ec7f4fb50e02e7cce",
+                "reference": "b5874fa9ed0043116c72162ec7f4fb50e02e7cce",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1 <9.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7 || ^8 || ^9 || ^10 || ^11",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DASPRiD\\Enum\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Scholzen 'DASPRiD'",
+                    "email": "mail@dasprids.de",
+                    "homepage": "https://dasprids.de/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP 7.1 enum implementation",
+            "keywords": [
+                "enum",
+                "map"
+            ],
+            "support": {
+                "issues": "https://github.com/DASPRiD/Enum/issues",
+                "source": "https://github.com/DASPRiD/Enum/tree/1.0.7"
+            },
+            "time": "2025-09-16T12:23:56+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -1590,6 +1694,101 @@
                 }
             ],
             "time": "2022-05-21T17:30:32+00:00"
+        },
+        {
+            "name": "keenthekeen/php-promptpay-qr",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/keenthekeen/php-promptpay-qr.git",
+                "reference": "50c00625ffa3806a5e2ce96e6e303bb41c412610"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/keenthekeen/php-promptpay-qr/zipball/50c00625ffa3806a5e2ce96e6e303bb41c412610",
+                "reference": "50c00625ffa3806a5e2ce96e6e303bb41c412610",
+                "shasum": ""
+            },
+            "require": {
+                "bacon/bacon-qr-code": "^2.0",
+                "kittinan/php-crc": "1.0.0",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.2",
+                "pestphp/pest": "^1.22",
+                "php-coveralls/php-coveralls": "^2.5",
+                "phpstan/phpstan": "^1.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PromptPayQR\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP Library to generate QR Code payload for PromptPay",
+            "keywords": [
+                "Promptpay"
+            ],
+            "support": {
+                "source": "https://github.com/keenthekeen/php-promptpay-qr/tree/v1.1.0"
+            },
+            "time": "2023-11-17T07:53:32+00:00"
+        },
+        {
+            "name": "kittinan/php-crc",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kittinan/php-crc.git",
+                "reference": "878bab5ee779a20d62c4ebfd800bf10a1779c29f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kittinan/php-crc/zipball/878bab5ee779a20d62c4ebfd800bf10a1779c29f",
+                "reference": "878bab5ee779a20d62c4ebfd800bf10a1779c29f",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "mermshaus\\CRC\\": "src",
+                    "mermshaus\\CRC\\Tests\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marc Ermshaus",
+                    "email": "marc@ermshaus.org",
+                    "homepage": "http://www.ermshaus.org/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Calculates CRC checksums for input data",
+            "keywords": [
+                "ccitt",
+                "crc",
+                "crc1",
+                "crc16",
+                "crc16dnp",
+                "crc16qt",
+                "crc16usb",
+                "modbus",
+                "xmodem",
+                "zmodem"
+            ],
+            "support": {
+                "source": "https://github.com/kittinan/php-crc/tree/master"
+            },
+            "time": "2017-09-02T08:59:05+00:00"
         },
         {
             "name": "laravel-frontend-presets/argon",
@@ -3684,6 +3883,61 @@
             "time": "2024-07-20T21:41:07+00:00"
         },
         {
+            "name": "phumin/promptparse",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phoomin2012/promptparse-php.git",
+                "reference": "5e0301a363989b7f238ee3f7bce0e2692ce76927"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phoomin2012/promptparse-php/zipball/5e0301a363989b7f238ee3f7bce0e2692ce76927",
+                "reference": "5e0301a363989b7f238ee3f7bce0e2692ce76927",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phumin\\PromptParse\\": "src/",
+                    "phumin\\PromptParse\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Phumin Chanthalert",
+                    "email": "phoomin009@gmail.com"
+                }
+            ],
+            "description": "All-in-one PHP library for PromptPay & EMVCo QR Codes",
+            "keywords": [
+                "EMVCo",
+                "Promptpay",
+                "TrueMoney",
+                "emvco-qr",
+                "promptpay-qr",
+                "qr",
+                "qrcode",
+                "thai-qr-payment",
+                "thai-qr-standard"
+            ],
+            "support": {
+                "issues": "https://github.com/phoomin2012/promptparse-php/issues",
+                "source": "https://github.com/phoomin2012/promptparse-php/tree/1.0.2"
+            },
+            "time": "2025-06-03T14:23:59+00:00"
+        },
+        {
             "name": "psr/clock",
             "version": "1.0.0",
             "source": {
@@ -4437,6 +4691,74 @@
                 "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v8.9.0"
             },
             "time": "2025-07-11T13:20:48+00:00"
+        },
+        {
+            "name": "simplesoftwareio/simple-qrcode",
+            "version": "4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SimpleSoftwareIO/simple-qrcode.git",
+                "reference": "916db7948ca6772d54bb617259c768c9cdc8d537"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SimpleSoftwareIO/simple-qrcode/zipball/916db7948ca6772d54bb617259c768c9cdc8d537",
+                "reference": "916db7948ca6772d54bb617259c768c9cdc8d537",
+                "shasum": ""
+            },
+            "require": {
+                "bacon/bacon-qr-code": "^2.0",
+                "ext-gd": "*",
+                "php": ">=7.2|^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~1",
+                "phpunit/phpunit": "~9"
+            },
+            "suggest": {
+                "ext-imagick": "Allows the generation of PNG QrCodes.",
+                "illuminate/support": "Allows for use within Laravel."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "QrCode": "SimpleSoftwareIO\\QrCode\\Facades\\QrCode"
+                    },
+                    "providers": [
+                        "SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SimpleSoftwareIO\\QrCode\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Simple Software LLC",
+                    "email": "support@simplesoftware.io"
+                }
+            ],
+            "description": "Simple QrCode is a QR code generator made for Laravel.",
+            "homepage": "https://www.simplesoftware.io/#/docs/simple-qrcode",
+            "keywords": [
+                "Simple",
+                "generator",
+                "laravel",
+                "qrcode",
+                "wrapper"
+            ],
+            "support": {
+                "issues": "https://github.com/SimpleSoftwareIO/simple-qrcode/issues",
+                "source": "https://github.com/SimpleSoftwareIO/simple-qrcode/tree/4.2.0"
+            },
+            "time": "2021-02-08T20:43:55+00:00"
         },
         {
             "name": "spatie/laravel-permission",

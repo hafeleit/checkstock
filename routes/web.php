@@ -29,6 +29,7 @@ use App\Http\Controllers\Consumerlabel\ProductItemsController;
 use App\Http\Controllers\ITAssetTypeController;
 use App\Http\Controllers\InvRecordController;
 use App\Http\Controllers\CommissionController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -138,4 +139,6 @@ Route::middleware(['auth', 'check.status'])->group(function () {
     Route::get('/audit-logs/details', [AuditLogController::class, 'details'])->name('audit-logs.details');
     Route::get('/audit-logs/errors', [AuditLogController::class, 'errorLog'])->name('audit-logs.errors');
   });
+
+  Route::get('/payment/generate-payment-qr', [PaymentController::class, 'generatePaymentQR'])->name('payment.generate-payment-qr');
 });
