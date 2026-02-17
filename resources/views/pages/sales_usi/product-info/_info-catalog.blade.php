@@ -1,6 +1,6 @@
 <div class="card border p-4 mt-3">
     <div class="d-flex align-items-center justify-between">
-        <label class="fw-bold text-lg m-0">Catalogues</label>
+        <label class="fw-bold text-lg m-0">Catalogue Page & Brochure</label>
         <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#changeCatalogModal">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload"
                 viewBox="0 0 16 16">
@@ -15,7 +15,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 m-0" id="changeCatalogModalLabel">Import new catalogues</h1>
+                    <h1 class="modal-title fs-5 m-0" id="changeCatalogModalLabel">Import new Catalogue Page & Brochure</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-x" viewBox="0 0 16 16">
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
@@ -40,12 +40,7 @@
                         <div class="mb-3">
                             <label class="form-label required">Document Type</label>
                             <select class="form-select" name="doc_catalogue_type" id="document-type-catalogue-select" required>
-                                <option value="" selected disabled>Select Document Type</option>
-                                <option value="IPI">IPI - Leaflet/Brochure/Catalogue</option>
-                                <option value="CAT">CAT - Catalogue Page</option>
-                                <option value="INM">INM - Installation Manual</option>
-                                <option value="CERT">CERT - Product Certificate (TIS, EN, DIN, etc.)</option>
-                                <option value="ECERT">ECERT - Product Environmental Certificates</option>
+                                <option value="CAT" selected>CAT - Catalogue Page</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -92,9 +87,9 @@
                             <td>{{ $catalogue->version ?? '-' }} </td>
                             <td>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input toggle-catalogue-class" 
-                                        type="checkbox" 
-                                        data-id="{{ $catalogue->id }}" 
+                                    <input class="form-check-input toggle-catalogue-class"
+                                        type="checkbox"
+                                        data-id="{{ $catalogue->id }}"
                                         {{ $catalogue->is_active ? 'checked' : '' }}>
                                 </div>
                             </td>
@@ -143,7 +138,7 @@
                 });
                 return;
             }
-        
+
             if (files.length === 0) {
                 Swal.fire({
                     icon: 'warning',
@@ -184,7 +179,7 @@
                     }).then(() => {
                         document.getElementById('uploadCatalogForm').reset();
                         document.getElementById('catalog-file-list').innerHTML = '';
-                        
+
                         $('#changeCatalogModal').modal('hide');
                         window.location.reload();
                     });
@@ -249,7 +244,7 @@
     const updateCatalogFileList = (input, listElementId) => {
         const listElement = document.getElementById(listElementId);
         listElement.innerHTML = '';
-        
+
         if (input.files.length > 0) {
             const ol = document.createElement('ol');
             ol.className = 'mb-0';
@@ -265,13 +260,13 @@
                 input.value = '';
                 return;
             }
-            
+
             files.forEach(file => {
                 const li = document.createElement('li');
                 li.innerHTML = `<i class="bi bi-file-earmark-pdf text-danger"></i> ${file.name} <span class="text-muted">(${(file.size / 1024).toFixed(1)} KB)</span>`;
                 ol.appendChild(li);
             });
-            
+
             listElement.appendChild(ol);
         }
     };
@@ -282,8 +277,8 @@
     // Toggle active/inactive
     $(function() {
         $('.toggle-catalogue-class').change(function() {
-            let status = $(this).prop('checked') ? 1 : 0; 
-            let catalogueId = $(this).data('id'); 
+            let status = $(this).prop('checked') ? 1 : 0;
+            let catalogueId = $(this).data('id');
             let label = $(this).siblings('.form-check-label');
 
             Swal.fire({
@@ -322,5 +317,5 @@
                 });
             });
         });
-    });     
+    });
 </script>

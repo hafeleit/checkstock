@@ -84,7 +84,7 @@
                                 </div>
                                 {{-- Catalogues --}}
                                 <div class="mb-3">
-                                    <label class="fw-bold text-lg">Catalogues</label>
+                                    <label class="fw-bold text-lg">Catalogue Page & Brochure</label>
                                     <div class="table-responsive">
                                         <table class="table table-hover">
                                             @if ($catalogueFiles && !$catalogueFiles->isEmpty())
@@ -219,7 +219,7 @@
                                                 <tr>
                                                     <td colspan="2" class="text-muted text-sm">No spare parts found.</td>
                                                 </tr>
-                                                @endif 
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>
