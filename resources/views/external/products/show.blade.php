@@ -72,7 +72,7 @@
                             </p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <label class="block text-sm font-semibold text-gray-700 tracking-wider">MRP: </label>
+                            <label class="block text-sm font-semibold text-gray-700 tracking-wider">Material Requirements Planning: </label>
                             <p @class([
                                 'inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold mt-1 bg-green-600 text-white' => $productDetail->mrp,
                                 'text-md text-gray-500' => empty($productDetail->mrp),
