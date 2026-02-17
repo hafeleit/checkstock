@@ -54,11 +54,6 @@
                             <div>
                                 @include('pages.sales_usi.product-info._update-info')
                             </div>
-                            {{-- <div class="d-flex gap-2">
-                                @include('pages.sales_usi.product-info._import')
-                                @include('pages.sales_usi.product-info._export')
-                                @include('pages.sales_usi.product-info._add-new')
-                            </div> --}}
                         </div>
                         @php
                             $yesterday = date('d/m/Y', strtotime('-1 day'));
@@ -234,6 +229,9 @@
     </div>
 
     <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+        $('#item_code').focus();
+        $('#item_code').mask('000.00.000');
+
         const handleSearch = () => {
             const searchItemCode = document.getElementById('item_code').value;
 
