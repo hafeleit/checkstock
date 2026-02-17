@@ -1,7 +1,6 @@
 <!-- Navbar -->
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl
-        {{ str_contains(Request::url(), 'virtual-reality') == true ? ' mt-3 mx-3 bg-primary' : '' }}" id="navbarBlur"
-    data-scroll="false">
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl {{ str_contains(Request::url(), 'virtual-reality') == true ? ' mt-3 mx-3 bg-primary' : '' }}"
+    id="navbarBlur" data-scroll="false">
     <div class="container-fluid py-1 px-3">
         <div class="d-flex align-items-center gap-4">
             <nav aria-label="breadcrumb">
@@ -24,10 +23,6 @@
 
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <!--<div class="input-group">
-                    <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                    <input type="text" class="form-control" placeholder="Type here...">
-                </div>-->
             </div>
             <ul class="navbar-nav  justify-content-end">
                 <li class="nav-item d-flex align-items-center">
@@ -36,23 +31,13 @@
                         <span class="d-sm-inline d-none">{{ auth()->user()->username }}</span>
                     </a>
                 </li>
-                <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-                  .btn-logout{
-                    background: none;
-                    border: none;
-                    padding: 0;
-                    cursor: pointer;
-                    text-decoration: none;
-                  }
-                </style>
                 <li class="nav-item d-flex align-items-center ps-3">
-                  <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit"
-                            class="nav-link text-white font-weight-bold px-0 btn-logout">
-                        <i class="fa fa-sign-out me-sm-1"></i>
-                    </button>
-                </form>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="nav-link text-white font-weight-bold px-0 btn-logout">
+                            <i class="fa fa-sign-out me-sm-1"></i>
+                        </button>
+                    </form>
                 </li>
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                     <a href="#" class="nav-link text-white p-0" id="iconNavbarSidenav">
@@ -68,6 +53,35 @@
     </div>
 </nav>
 <!-- End Navbar -->
+
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-    
+    document.addEventListener("DOMContentLoaded", function() {
+        const iconNavbarSidenav = document.getElementById('iconNavbarSidenav');
+        const body = document.getElementsByTagName('body')[0];
+        const className = 'g-sidenav-pinned';
+
+        const navLinks = document.querySelectorAll('#sidenav-main .nav-link');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const isMobile = window.innerWidth < 1200;
+
+                if (isMobile) {
+                    if (this.hasAttribute('data-bs-toggle') && this.getAttribute('data-bs-toggle') === 'collapse') {
+                        e.stopPropagation();
+                    }
+                }
+            });
+        });
+    });
 </script>
+
+<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+    .btn-logout {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        text-decoration: none;
+    }
+</style>
