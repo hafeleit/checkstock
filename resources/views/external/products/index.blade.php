@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="mx-auto">
-    <div class="bg-white rounded-lg shadow p-6">
+    <div class="bg-white rounded-lg shadow p-6 ">
         <h1 class="text-md md:text-xl font-bold text-gray-800 mb-3">Product Search</h1>
 
         <!-- Search Form -->
@@ -70,11 +70,17 @@
                             </div>
 
                             <div class="bg-gray-50 p-3 rounded-md">
+                                @php
+                                    $product->Amount = 6892.52;
+                                @endphp
                                 <label class="block text-xs font-medium text-gray-500">Base Price</label>
-                                <p class="text-xl font-bold text-green-600">{{ number_format($product->Amount, 2) }} {{ $product->bun }}</p>
+                                <p class="text-xl font-bold text-green-600">{{ number_format($product->Amount, 2) }} <span class="text-sm font-normal">per {{ $product->bun }}</span></p>
                             </div>
 
                             <div class="bg-gray-50 p-3 rounded-md">
+                                @php
+                                    $product->unrestricted = 764;
+                                @endphp
                                 <label class="block text-xs font-medium text-gray-500">Stock Quantity</label>
                                 <span class="inline-flex items-center px-2.5 py-0.5 mt-1 rounded-full text-sm font-semibold {{ $product->unrestricted > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                     {{ number_format($product->unrestricted, 0) }} {{ $product->bun }}
@@ -82,8 +88,14 @@
                             </div>
 
                             <div class="border-l-4 border-blue-200 pl-3">
-                                <label class="block text-xs font-medium text-gray-500">MRP Type</label>
-                                <p class="font-semibold text-gray-800">{{ $product->mrp_type ?? '-' }}</p>
+                                <label class="block text-xs font-medium text-gray-500">Inventory Status</label>
+                                @php
+                                    $product->mrp_type = 'ZD-None Stock Item';
+                                @endphp
+                                <p @class([
+                                    'inline-flex items-center px-2.5 py-0.5 rounded-md text-white font-semibold mt-1 bg-green-500' => $product->mrp_type,
+                                    'text-md text-gray-500' => empty($product->mrp_type),
+                                ])>{{ $product->mrp_type ?? '-' }}</p>
                             </div>
 
                             <div class="border-l-4 border-blue-200 pl-3">
@@ -102,12 +114,18 @@
                             </div>
 
                             <div class="border-l-4 border-orange-200 pl-3">
+                                @php
+                                    $product->moq = 5;
+                                @endphp
                                 <label class="block text-xs font-medium text-gray-500">MOQ</label>
                                 <p class="font-semibold text-gray-800">{{ number_format($product->moq ?? 0, 0) }}</p>
                             </div>
 
                             <div class="border-l-4 border-orange-200 pl-3">
-                                <label class="block text-xs font-medium text-gray-500">Supp Repl Time</label>
+                                @php
+                                    $product->replenishment_time = 60;
+                                @endphp
+                                <label class="block text-xs font-medium text-gray-500">Repl Time</label>
                                 <p class="font-semibold text-gray-800">{{ $product->replenishment_time ?? 0 }}</p>
                             </div>
                         </div>
