@@ -39,12 +39,7 @@
                         <div class="mb-3">
                             <label class="form-label required">Document Type</label>
                             <select class="form-select" name="doc_manual_type" id="document-type-manual-select" required>
-                                <option value="" selected disabled>Select Document Type</option>
-                                <option value="IPI">IPI - Leaflet/Brochure/Catalogue</option>
-                                <option value="CAT">CAT - Catalogue Page</option>
-                                <option value="INM">INM - Installation Manual</option>
-                                <option value="CERT">CERT - Product Certificate (TIS, EN, DIN, etc.)</option>
-                                <option value="ECERT">ECERT - Product Environmental Certificates</option>
+                                <option value="INM" selected>INM - Installation Manual</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -91,9 +86,9 @@
                             <td>{{ $manual->version ?? '-' }} </td>
                             <td>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input toggle-manual-class" 
-                                        type="checkbox" 
-                                        data-id="{{ $manual->id }}" 
+                                    <input class="form-check-input toggle-manual-class"
+                                        type="checkbox"
+                                        data-id="{{ $manual->id }}"
                                         {{ $manual->is_active ? 'checked' : '' }}>
                                 </div>
                             </td>
@@ -178,7 +173,7 @@
                     }).then(() => {
                         document.getElementById('uploadManualForm').reset();
                         document.getElementById('manual-file-list').innerHTML = '';
-                        
+
                         $('#changeManualModal').modal('hide');
                         window.location.reload();
                     });
@@ -245,7 +240,7 @@
     const updateManualFileList = (input, listElementId) => {
         const listElement = document.getElementById(listElementId);
         listElement.innerHTML = '';
-        
+
         if (input.files.length > 0) {
             const ol = document.createElement('ol');
             ol.className = 'mb-0';
@@ -261,13 +256,13 @@
                 input.value = '';
                 return;
             }
-            
+
             files.forEach(file => {
                 const li = document.createElement('li');
                 li.innerHTML = `<i class="bi bi-file-earmark-pdf text-danger"></i> ${file.name} <span class="text-muted">(${(file.size / 1024).toFixed(1)} KB)</span>`;
                 ol.appendChild(li);
             });
-            
+
             listElement.appendChild(ol);
         }
     };
@@ -278,8 +273,8 @@
     // Toggle active/inactive
     $(function() {
         $('.toggle-manual-class').change(function() {
-            let status = $(this).prop('checked') ? 1 : 0; 
-            let manualId = $(this).data('id'); 
+            let status = $(this).prop('checked') ? 1 : 0;
+            let manualId = $(this).data('id');
             let label = $(this).siblings('.form-check-label');
 
             Swal.fire({
@@ -318,5 +313,5 @@
                 });
             });
         });
-    });     
+    });
 </script>

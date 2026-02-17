@@ -42,10 +42,9 @@
                             <select class="form-select" name="doc_specsheet_type" id="document-type-specsheet-select" required>
                                 <option value="" selected disabled>Select Document Type</option>
                                 <option value="IPI">IPI - Leaflet/Brochure/Catalogue</option>
-                                <option value="CAT">CAT - Catalogue Page</option>
-                                <option value="INM">INM - Installation Manual</option>
                                 <option value="CERT">CERT - Product Certificate (TIS, EN, DIN, etc.)</option>
                                 <option value="ECERT">ECERT - Product Environmental Certificates</option>
+                                <option value="SPEC">SPEC - Product Specification Sheet</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -93,9 +92,9 @@
                             <td>
                                 @can('salesusi productinfo edit')
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input toggle-specsheet-class" 
-                                        type="checkbox" 
-                                        data-id="{{ $specSheet->id }}" 
+                                    <input class="form-check-input toggle-specsheet-class"
+                                        type="checkbox"
+                                        data-id="{{ $specSheet->id }}"
                                         {{ $specSheet->is_active ? 'checked' : '' }}>
                                 </div>
                                 @endcan
@@ -147,7 +146,7 @@
                 });
                 return;
             }
-        
+
             if (files.length === 0) {
                 Swal.fire({
                     icon: 'warning',
@@ -189,7 +188,7 @@
                     }).then(() => {
                         document.getElementById('uploadSpecSheetForm').reset();
                         document.getElementById('specsheet-file-list').innerHTML = '';
-                        
+
                         $('#changeSpecSheetModal').modal('hide');
                         window.location.reload();
                     });
@@ -256,11 +255,11 @@
     const updateSpecsheetFileList = (input, listElementId) => {
         const listElement = document.getElementById(listElementId);
         listElement.innerHTML = '';
-        
+
         if (input.files.length > 0) {
             const ol = document.createElement('ol');
             ol.className = 'mb-0';
-            
+
             const files = Array.from(input.files);
             const hasInvalidFile = files.some(file => file.type !== 'application/pdf');
             if (hasInvalidFile) {
@@ -272,13 +271,13 @@
                 input.value = '';
                 return;
             }
-            
+
             files.forEach(file => {
                 const li = document.createElement('li');
                 li.innerHTML = `<i class="bi bi-file-earmark-pdf text-danger"></i> ${file.name} <span class="text-muted">(${(file.size / 1024).toFixed(1)} KB)</span>`;
                 ol.appendChild(li);
             });
-            
+
             listElement.appendChild(ol);
         }
     };
@@ -289,8 +288,8 @@
     // Toggle active/inactive
     $(function() {
         $('.toggle-specsheet-class').change(function() {
-            let status = $(this).prop('checked') ? 1 : 0; 
-            let specsheetId = $(this).data('id'); 
+            let status = $(this).prop('checked') ? 1 : 0;
+            let specsheetId = $(this).data('id');
             let label = $(this).siblings('.form-check-label');
 
             Swal.fire({
