@@ -74,7 +74,7 @@
                                     $product->Amount = 6892.52;
                                 @endphp
                                 <label class="block text-xs font-medium text-gray-500">Base Price</label>
-                                <p class="text-xl font-bold text-green-600">{{ number_format($product->Amount, 2) }} <span class="text-sm font-normal">per {{ $product->bun }}</span></p>
+                                <p class="text-xl font-bold text-green-600">{{ number_format($product->Amount, 2) }} <span class="text-md font-normal">/ {{ $product->bun }}</span></p>
                             </div>
 
                             <div class="bg-gray-50 p-3 rounded-md">

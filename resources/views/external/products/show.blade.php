@@ -77,6 +77,9 @@
                                 'inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold mt-1 bg-green-600 text-white' => $productDetail->mrp,
                                 'text-md text-gray-500' => empty($productDetail->mrp),
                             ])>
+                                @php
+                                    $productDetail->mrp = 'ZD-None Stock Item';
+                                @endphp
                                 {{ $productDetail && $productDetail->mrp ? $productDetail->mrp : 'N/A' }}
                             </p>
                         </div>
