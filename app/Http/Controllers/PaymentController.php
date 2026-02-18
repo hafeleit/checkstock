@@ -33,10 +33,10 @@ class PaymentController extends Controller
 
         // ── Lib 2 : PromptPayQR/Builder ─────────────────────────────────────────
         $payload2  = Builder::dynamicQR()
-                        ->billPayment()
-                        ->setBillerIdentifier($billerId, $ref1, $ref2)
-                        ->setAmount($amount)
-                        ->build();
+            ->billPayment()
+            ->setBillerIdentifier($billerId, $ref1, $ref2)
+            ->setAmount($amount)
+            ->build();
         $svg2      = QrCode::format('svg')->size(300)->generate($payload2);
         $qrImage2  = 'data:image/svg+xml;base64,' . base64_encode($svg2);
 
@@ -54,7 +54,7 @@ class PaymentController extends Controller
         // $amount = 1;
         // $ref1 = "Customer Code";
         // $ref2 = "Order Type";
-        
+
         // $billerIds = [
         //     'kbank'     => '010553707695000',
         // ];
@@ -108,8 +108,49 @@ class PaymentController extends Controller
         // ]);
     }
 
+    public function showBillPaymentQr()
+    {
+        $payload = $this->generatePayload(
+            '0105537076950', // Tax ID
+            '00', // Suffix
+            'CUS00001', // Ref 1
+            null, // Ref 2
+            1.00 // Amount
+        );
+
+        $qrCode = QrCode::size(300)->generate($payload);
+
+        return view('pages.payment.qr', [
+            'qrCode' => $qrCode,
+            'payload' => $payload,
+        ]);
+    }
+
     private function svgQr($svgStr)
     {
         return response($svgStr, 200)->header('Content-Type', 'image/svg+xml')->header('Cache-Control', 'no-store');
+    }
+
+    private function generatePayload($taxId, $suffix, $ref1, $ref2, $amount)
+    {
+        // Prefix: 1 หลัก (ใช้ '|')
+        $prefix = "|";
+
+        // TAX ID + Suffix: 13 + 2 หลัก + CR
+        $taxIdFormatted = str_pad($taxId, 13, "0", STR_PAD_LEFT);
+        $suffixFormatted = str_pad($suffix, 2, "0", STR_PAD_LEFT);
+        $field2 = $taxIdFormatted . $suffixFormatted . "\r";
+
+        // Reference No.1: 18 หลัก (สูงสุด) + CR
+        $field3 = str_pad(substr($ref1, 0, 18), 18, "0", STR_PAD_LEFT) . "\r";
+
+        // Reference No.2: 18 หลัก (สูงสุด) + CR
+        $field4 = str_pad(substr($ref2, 0, 18), 18, "0", STR_PAD_LEFT) . "\r";
+
+        // Amount: 10 หลัก
+        $amountInSatangs = number_format($amount, 2, '', '');
+        $field5 = str_pad($amountInSatangs, 10, "0", STR_PAD_LEFT);
+
+        return $prefix . $field2 . $field3 . $field4 . $field5;
     }
 }

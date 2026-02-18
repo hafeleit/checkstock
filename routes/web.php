@@ -141,4 +141,5 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   });
 
   Route::get('/payment/generate-payment-qr', [PaymentController::class, 'generatePaymentQR'])->name('payment.generate-payment-qr');
+  Route::get('/payment/generate-payment-qr-2', [PaymentController::class, 'showBillPaymentQr'])->name('payment.generate-payment-qr-2');
 });
