@@ -256,13 +256,6 @@
         if (searchButton) {
             searchButton.addEventListener('click', handleSearch);
         }
-
-        document.querySelectorAll('.search-field').forEach(field => {
-            field.addEventListener('change', handleSearch);
-            if (field.type === 'search' || field.type === 'text') {
-                field.addEventListener('blur', handleSearch); 
-            }
-        });
         
         document.addEventListener('click', function(e) {
             const deleteItemBtn = e.target.closest('.delete-item-btn');
