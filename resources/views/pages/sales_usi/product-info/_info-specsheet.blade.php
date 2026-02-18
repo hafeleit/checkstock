@@ -1,7 +1,8 @@
 <div class="card border p-4 mt-3">
     <div class="d-flex align-items-center justify-between">
         <label class="fw-bold text-lg m-0">Spec Sheets</label>
-        <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#changeSpecSheetModal">
+        @can('salesusi import specsheets')
+        <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2 m-0" data-bs-toggle="modal" data-bs-target="#changeSpecSheetModal">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload"
                 viewBox="0 0 16 16">
                 <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
@@ -9,6 +10,7 @@
             </svg>
             <div>Import new version</div>
         </button>
+        @endcan
     </div>
 
     <div class="modal fade" id="changeSpecSheetModal" tabindex="-1" aria-labelledby="changeSpecSheetModalLabel">
@@ -62,7 +64,7 @@
         </div>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive mt-3">
         <table class="table table-hover">
             <thead class="table-dark text-sm">
                 <tr>
@@ -121,12 +123,6 @@
     </div>
 </div>
 
-<style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-    .swal2-styled.swal2-confirm {
-        border-radius: .25em;
-    }
-</style>
-
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     // Save import
     document.addEventListener('DOMContentLoaded', () => {
@@ -139,10 +135,14 @@
             const docTypeInput = document.getElementById('document-type-specsheet-select').value;
 
             if (!docTypeInput || !buDetailInput) {
-                Swal.fire({
+                swal.fire({
                     icon: 'warning',
-                    title: 'Please select BU and Document Type',
-                    text: 'You need to choose BU and Document Type before uploading files.'
+                    title: 'Please select BU and Document type',
+                    html: 'You need to choose BU and Document type before uploading files.',
+                    customClass: {
+                        title: 'swal-title-small',
+                        htmlContainer: 'swal-text-small'
+                    }
                 });
                 return;
             }
@@ -312,7 +312,7 @@
                 }).then(response => {
                     Swal.fire({
                         icon: 'success',
-                        title: 'success',
+                        title: 'Success',
                         text: `Specsheet has been ${status ? 'activated' : 'deactivated'}.`,
                         timer: 2000,
                         showConfirmButton: false
@@ -320,7 +320,7 @@
                 }).catch(error => {
                     Swal.fire({
                         icon: 'error',
-                        title: 'error',
+                        title: 'Error',
                         text: 'Something went wrong, please try again.'
                     });
                     // revert toggle

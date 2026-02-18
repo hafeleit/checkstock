@@ -24,6 +24,9 @@ class ProductInformationController extends Controller
         $this->middleware('permission:salesusi productinfo view detail')->only(['show']);
         $this->middleware('permission:salesusi productinfo edit')->only(['edit', 'update', 'uploadFiles', 'importInfo', 'downloadTemplate', 'togglePdfStatus', 'deletePdf']);
         $this->middleware('permission:salesusi productinfo delete')->only(['destroy']);
+        $this->middleware('permission:salesusi update superseded|salesusi update project item')->only(['importInfo', 'downloadTemplate']);
+        $this->middleware('permission:salesusi update info')->only(['update']);
+        $this->middleware('permission:salesusi import catalogues|salesusi import manuals|salesusi import specsheets')->only(['uploadFiles']);
     }
 
     public function index()
@@ -133,7 +136,11 @@ class ProductInformationController extends Controller
             'superseded' => 'nullable|string|regex:/^\d{3}\.\d{2}\.\d{3}$/',
         ]);
 
+        // validated data
         $product = ProductInfo::where('item_code', request()->item_code)->firstOrFail();
+
+        // master data check
+        $this->validateMasterData(request()->only(['project_item', 'superseded']));
 
         try {
             DB::beginTransaction();
@@ -483,5 +490,16 @@ class ProductInformationController extends Controller
                 ELSE NULL
             END AS mrp
         ";
+    }
+
+    private function validateMasterData(array $fields)
+    {
+        foreach ($fields as $key => $value) {
+            $exits = ZHWWBCQUERYDIR::where('material', $value)->exists();
+            if ($value && !$exits) {
+                $label = $key === 'project_item' ? 'project item' : 'superseded';
+                throw new \Exception("Master data not found for $label: $value");
+            }
+        }
     }
 }

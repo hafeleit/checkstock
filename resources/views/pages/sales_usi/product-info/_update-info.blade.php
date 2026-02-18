@@ -1,5 +1,6 @@
 <div class="d-flex gap-2">
     {{-- Update project item --}}
+    @can('salesusi update project item')
     <div>
         <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#updateProjectItemModal">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-upload mx-1" viewBox="0 0 16 16">
@@ -49,8 +50,11 @@
             </div>
         </div>
     </div>
+    @endcan
+    
 
     {{-- Update superseded --}}
+    @can('salesusi update superseded')
     <div>
         <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#updateSupersededModal">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-upload mx-1" viewBox="0 0 16 16">
@@ -99,6 +103,7 @@
             </div>
         </div>
     </div>
+    @endcan
 </div>
 
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
@@ -109,108 +114,113 @@
         const supersededFileInput = document.getElementById('import-superseded-file');
 
         // Update Project Item
-        uploadProjectItemBtn.addEventListener('click', async () => {
-            const files = projectItemFileInput.files;
+        if (uploadProjectItemBtn && projectItemFileInput) {
+            uploadProjectItemBtn.addEventListener('click', async () => {
+                const files = projectItemFileInput.files;
 
-            if (files.length === 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Please select files',
-                    text: 'You need to choose at least one excel file.'
-                });
-                return;
-            }
-
-            Swal.fire({
-                title: 'Uploading...',
-                text: 'Please wait while we process your file.',
-                allowOutsideClick: false,
-                showConfirmButton: false,
-                didOpen: () => {
-                    Swal.showLoading();
+                if (files.length === 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Please select files',
+                        text: 'You need to choose at least one excel file.'
+                    });
+                    return;
                 }
-            });
 
-            const formData = new FormData();
-            formData.append('file', files[0]);
-            formData.append('type', 'project-item');
+                Swal.fire({
+                    title: 'Uploading...',
+                    text: 'Please wait while we process your file.',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
 
-            axios.post('/product-infos/import-info', formData)
-                .then(res => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Project item file has been updated.',
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        document.getElementById('projectItemForm').reset();
-                        $('#updateProjectItemModal').modal('hide');
-                        window.location.reload();
-                    });
-                })
-                .catch(error => {
-                    const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        html: errorMessage.replace(/\n/g, '<br>'),
-                    });
-                    console.error('Upload Error:', error);
-                })
-        })
+                const formData = new FormData();
+                formData.append('file', files[0]);
+                formData.append('type', 'project-item');
+
+                axios.post('/product-infos/import-info', formData)
+                    .then(res => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Project item file has been updated.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => {
+                            document.getElementById('projectItemForm').reset();
+                            $('#updateProjectItemModal').modal('hide');
+                            window.location.reload();
+                        });
+                    })
+                    .catch(error => {
+                        const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            html: errorMessage.replace(/\n/g, '<br>'),
+                        });
+                        console.error('Upload Error:', error);
+                    })
+            })
+        }
+        
 
         // Update Superseded
-        uploadSupersededBtn.addEventListener('click', async () => {
-            const files = supersededFileInput.files;
+        if (uploadSupersededBtn && supersededFileInput) {
+            uploadSupersededBtn.addEventListener('click', async () => {
+                const files = supersededFileInput.files;
 
-            if (files.length === 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Please select files',
-                    text: 'You need to choose at least one excel file.'
-                });
-                return;
-            }
-
-            Swal.fire({
-                title: 'Uploading...',
-                text: 'Please wait while we process your file.',
-                allowOutsideClick: false,
-                showConfirmButton: false,
-                didOpen: () => {
-                    Swal.showLoading();
+                if (files.length === 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Please select files',
+                        text: 'You need to choose at least one excel file.'
+                    });
+                    return;
                 }
-            });
 
-            const formData = new FormData();
-            formData.append('file', files[0]);
-            formData.append('type', 'superseded');
+                Swal.fire({
+                    title: 'Uploading...',
+                    text: 'Please wait while we process your file.',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
 
-            axios.post('/product-infos/import-info', formData)
-                .then(res => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Superseded file has been updated.',
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        document.getElementById('supersededForm').reset();
-                        $('#updateSupersededModal').modal('hide');
-                        window.location.reload();
-                    });
-                })
-                .catch(error => {
-                    const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        html: errorMessage.replace(/\n/g, '<br>'),
-                    });
-                    console.error('Upload Error:', error);
-                })
-        })
+                const formData = new FormData();
+                formData.append('file', files[0]);
+                formData.append('type', 'superseded');
+
+                axios.post('/product-infos/import-info', formData)
+                    .then(res => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Superseded file has been updated.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => {
+                            document.getElementById('supersededForm').reset();
+                            $('#updateSupersededModal').modal('hide');
+                            window.location.reload();
+                        });
+                    })
+                    .catch(error => {
+                        const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            html: errorMessage.replace(/\n/g, '<br>'),
+                        });
+                        console.error('Upload Error:', error);
+                    })
+            })
+        }
 
         // Hide loader wrapper
         const downloadLinks = document.querySelectorAll('a[href*="download-template"]');
