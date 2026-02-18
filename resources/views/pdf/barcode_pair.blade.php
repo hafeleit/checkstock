@@ -60,12 +60,12 @@
 
         .ft1 {
             font: 30px 'AngsanaUPC';
-            line-height: 16px;
+            line-height: 0.6;
         }
 
         .ft2 {
             font: 30px 'AngsanaUPC';
-            line-height: 16px;
+            line-height: 0.6;
         }
 
         .ft3 {
@@ -81,12 +81,12 @@
 
         .ft5 {
             font: 30px 'AngsanaUPC';
-            line-height: 14px;
+            line-height: 0.6;
         }
 
         .ft6 {
             font: 30px 'AngsanaUPC';
-            line-height: 15px;
+            line-height: 0.6;
         }
 
         .ft7 {
