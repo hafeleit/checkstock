@@ -52,7 +52,9 @@
                         <div class="d-md-flex align-items-center justify-between">
                             <h6 class="mb-0 h3">Product Information</h6>
                             <div>
-                                @include('pages.sales_usi.product-info._update-info')
+                                @canany(['salesusi update project item', 'salesusi update superseded'])
+                                    @include('pages.sales_usi.product-info._update-info')
+                                @endcanany
                             </div>
                         </div>
                         @php

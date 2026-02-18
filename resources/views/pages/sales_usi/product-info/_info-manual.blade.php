@@ -1,13 +1,15 @@
 <div class="card border p-4 mt-3">
     <div class="d-flex align-items-center justify-between">
         <label class="fw-bold text-lg m-0">Manuals</label>
-        <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#changeManualModal">
+        @can('salesusi import manuals')
+        <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2 m-0" data-bs-toggle="modal" data-bs-target="#changeManualModal">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
                 <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
                 <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
             </svg>
             <div>Import new version</div>
         </button>
+        @endcan
     </div>
 
     <div class="modal fade" id="changeManualModal" tabindex="-1" aria-labelledby="changeManualModalLabel">
@@ -57,7 +59,7 @@
         </div>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive mt-3">
         <table class="table table-hover">
             <thead class="table-dark text-sm">
                 <tr>
@@ -124,10 +126,14 @@
             const docTypeInput = document.getElementById('document-type-manual-select').value;
 
             if (!docTypeInput || !buDetailInput) {
-                Swal.fire({
+                swal.fire({
                     icon: 'warning',
-                    title: 'Please select BU and Document Type',
-                    text: 'You need to choose BU and Document Type before uploading files.'
+                    title: 'Please select BU and Document type',
+                    html: 'You need to choose BU and Document type before uploading files.',
+                    customClass: {
+                        title: 'swal-title-small',
+                        htmlContainer: 'swal-text-small'
+                    }
                 });
                 return;
             }
@@ -305,7 +311,7 @@
                 }).catch(error => {
                     Swal.fire({
                         icon: 'error',
-                        title: 'error',
+                        title: 'Error',
                         text: 'Something went wrong, please try again.'
                     });
                     // revert toggle

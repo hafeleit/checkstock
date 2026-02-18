@@ -12,6 +12,17 @@
         .relative {
             position: relative;
         }
+
+        .swal2-styled.swal2-confirm {
+            border-radius: .25em;
+        }
+        .swal-title-small {
+            font-size: 1.5rem !important;
+        }
+
+        .swal-text-small {
+            font-size: 0.85rem !important;
+        }
     </style>
 
     <div class="container-fluid">

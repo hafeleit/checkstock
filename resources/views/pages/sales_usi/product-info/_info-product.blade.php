@@ -1,4 +1,5 @@
 <div class="card border p-4 mt-3">
+    @can('salesusi update info')
     <div class="d-flex align-items-center justify-between">
         <label class="fw-bold text-lg">Information</label>
         <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#changeInfoModal">
@@ -9,6 +10,7 @@
             <div>Update info</div>
         </button>
     </div>
+    @endcan
 
     <div class="modal fade" id="changeInfoModal" tabindex="-1" aria-labelledby="changeInfoModalLabel">
         <div class="modal-dialog modal-lg">
@@ -133,7 +135,7 @@
                     const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
                     Swal.fire({
                         icon: 'error',
-                        title: 'error',
+                        title: 'Error',
                         text: errorMessage
                     });
                     console.error('Upload Error:', error);

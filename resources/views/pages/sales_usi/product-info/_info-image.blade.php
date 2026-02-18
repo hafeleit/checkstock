@@ -1,13 +1,15 @@
 <div class="card border p-4 mt-3">
     <div class="d-flex align-items-center justify-between">
         <label class="fw-bold text-lg m-0">Image</label>
-        <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#changeImgProductModal">
+        @can('salesusi update image')
+        <button type="button" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-2 m-0" data-bs-toggle="modal" data-bs-target="#changeImgProductModal">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-image" viewBox="0 0 16 16">
                 <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
                 <path d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1z" />
             </svg>
             <div>change new image</div>
         </button>
+        @endcan
     </div>
 
     <div class="modal fade" id="changeImgProductModal" tabindex="-1" aria-labelledby="changeImgProductModalLabel">
@@ -68,9 +70,9 @@
         <span class="text-muted fw-bold mb-2">
             BU: <span class="bu-meaning text-dark fw-normal">{{ $imageProduct->bu_detail }} - {{ $buMeanings[$currentBu] ?? '' }}</span>
         </span> --}}
-        <img id="item_preview" src="{{ $imageProduct->path }}" class="img-thumbnail" width="250">
+        <img id="item_preview" src="{{ $imageProduct->path }}" class="img-thumbnail mt-3" width="250">
     @else
-        <div class="d-flex align-items-center gap-2 img-thumbnail border-0">
+        <div class="d-flex align-items-center gap-2 img-thumbnail border-0 mt-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
                 <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
                 <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/>
@@ -181,7 +183,7 @@
                     const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
                     Swal.fire({
                         icon: 'error',
-                        title: 'error',
+                        title: 'Error',
                         text: errorMessage
                     });
                     console.error('Upload Error:', error);
