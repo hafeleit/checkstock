@@ -209,12 +209,5 @@
         if (searchButton) {
             searchButton.addEventListener('click', handleSearch);
         }
-
-        document.querySelectorAll('.search-field').forEach(field => {
-            field.addEventListener('change', handleSearch);
-            if (field.type === 'search' || field.type === 'text') {
-                field.addEventListener('blur', handleSearch); 
-            }
-        });
     </script>
 @endsection

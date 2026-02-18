@@ -248,13 +248,6 @@
         searchButton.addEventListener('click', handleSearch);
     }
 
-    document.querySelectorAll('.search-field').forEach(field => {
-        field.addEventListener('change', handleSearch);
-        if (field.type === 'search' || field.type === 'text') {
-             field.addEventListener('blur', handleSearch); 
-        }
-    });
-
     function confirmDelete(logiTrackId) {
         Swal.fire({
             title: 'Are you sure?',
