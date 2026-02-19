@@ -147,44 +147,51 @@
 
             if (btnConfirm && !btnConfirm.classList.contains('disabled')) {
                 btnConfirm.addEventListener('click', function() {
-                    console.log(customerCodeInput.value);
-                    console.log(customerNameInput.value);
-
                     Swal.fire({
-                        title: 'Uploading...',
-                        text: 'Please wait while we process your data.',
-                        allowOutsideClick: false,
-                        showConfirmButton: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'QR code has been saved successfully.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = '/qr-code-customers';
                     });
 
-                    axios.post('/qr-code-customers', {
-                        customer_name: customerNameInput.value,
-                        customer_code: customerCodeInput.value,
-                        payload: payloadInput.value
-                    })
-                    .then(resonse => {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'QR code has been saved successfully.',
-                            timer: 2000,
-                            showConfirmButton: false
-                        }).then(() => {
-                            window.location.href = '/qr-code-customers';
-                        });
-                    })
-                    .catch(error => {
-                        const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: errorMessage
-                        });
-                        console.error('Upload Error:', error);
-                    })
+                    // Swal.fire({
+                    //     title: 'Uploading...',
+                    //     text: 'Please wait while we process your data.',
+                    //     allowOutsideClick: false,
+                    //     showConfirmButton: false,
+                    //     didOpen: () => {
+                    //         Swal.showLoading();
+                    //     }
+                    // });
+
+                    // axios.post('/qr-code-customers', {
+                    //     customer_name: customerNameInput.value,
+                    //     customer_code: customerCodeInput.value,
+                    //     payload: payloadInput.value
+                    // })
+                    // .then(resonse => {
+                    //     Swal.fire({
+                    //         icon: 'success',
+                    //         title: 'Success',
+                    //         text: 'QR code has been saved successfully.',
+                    //         timer: 2000,
+                    //         showConfirmButton: false
+                    //     }).then(() => {
+                    //         window.location.href = '/qr-code-customers';
+                    //     });
+                    // })
+                    // .catch(error => {
+                    //     const errorMessage = error.response?.data?.message || 'Something went wrong, please try again.';
+                    //     Swal.fire({
+                    //         icon: 'error',
+                    //         title: 'Error',
+                    //         text: errorMessage
+                    //     });
+                    //     console.error('Upload Error:', error);
+                    // })
                 });
             }
         });
