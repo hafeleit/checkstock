@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class CustomerQrCode extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'id',
+        'customer_name',
+        'customer_code',
+        'qr_payload',
+        'created_date',
+        'created_by',
+    ];
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+}
