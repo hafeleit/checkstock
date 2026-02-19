@@ -9,12 +9,12 @@
             margin: 0;
         }
 
-        body {
+        /* body {
             font-family: 'sans-serif';
             background-color: #f4f7f6;
             padding: 40px;
             color: #2d3436;
-        }
+        } */
 
         .container {
             max-width: 400px;

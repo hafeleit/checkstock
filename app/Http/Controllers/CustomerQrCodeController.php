@@ -13,29 +13,10 @@ class CustomerQrCodeController extends Controller
 {
     public function index()
     {
-        // $customers = ::orderBy('created_at', 'desc')->get();
-
-        // -------- Mock data -------- //
-        $MockCustomers = collect([
-            new CustomerQrCode([
-                'id' => 1,
-                'customer_name' => 'Flynn Joyner',
-                'customer_code' => '0999999999',
-                'qr_payload' => '|0105537076950000000000009999999990000000000000000000000000000',
-                'created_date' => now()
-            ]),
-            new CustomerQrCode([
-                'id' => 2,
-                'customer_name' => 'Colorado Vazquez',
-                'customer_code' => '0123123123',
-                'qr_payload' => '|0105537076950000000001231231231230000000000000000000000000000',
-                'created_date' => now()->subDay()
-            ])
-        ]);
-        // ---------------------------- //
+        $customers = CustomerQrCode::orderBy('created_at', 'desc')->get();
 
         return view('pages.customer-qrcode.index', [
-            'customers' => $MockCustomers
+            'customers' => $customers
         ]);
     }
 
@@ -100,33 +81,7 @@ class CustomerQrCodeController extends Controller
 
     public function generatePdf($id)
     {
-        // $customer = CustomerQrCode::findOrFail($id);
-
-        // -------- Mock data -------- //
-        $mockData = [
-            1 => [
-                'customer_name' => 'Flynn Joyner',
-                'customer_code' => '0999999999',
-                'qr_payload' => '|0105537076950000000000009999999990000000000000000000000000000'
-            ],
-            2 => [
-                'customer_name' => 'Colorado Vazquez',
-                'customer_code' => '0123123123',
-                'qr_payload' => '|0105537076950000000001231231231230000000000000000000000000000'
-            ]
-        ];
-
-        $data = $mockData[$id] ?? [
-            'customer_name' => 'Guest User',
-            'customer_code' => '0000000000'
-        ];
-
-        $customer = new CustomerQrCode();
-        $customer->customer_name = $data['customer_name'];
-        $customer->customer_code = $data['customer_code'];
-        $customer->qr_payload = $data['qr_payload'];
-        // ---------------------------- //
-
+        $customer = CustomerQrCode::findOrFail($id);
         $fileName = 'QR_Code_' . $customer->customer_code . '.pdf';
 
         $image = QrCode::format('png')

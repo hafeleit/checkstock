@@ -127,8 +127,7 @@
                                                     </a>
                                                 </td>
                                                 <td class="py-3">{{ $customer->created_date }}</td>
-                                                {{-- <td class="py-3">{{ $customer->creator->email }}</td> --}}
-                                                <td class="py-3">Admin</td>
+                                                <td class="py-3">{{ $customer->creator->email }}</td>
                                             </tr>
                                         @endforeach
                                     @else
