@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Milon\Barcode\DNS2D;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CustomerQrCodeController extends Controller
@@ -71,23 +72,20 @@ class CustomerQrCodeController extends Controller
         $customerName = request()->input('customer_name');
         $ref1 = request()->input('customer_code');
 
-        // ข้อมูล Bill payment
         $taxId = '0105537076950';
         $suffix = '00';
         $ref2 = null;
         $amount = 0.00;
 
-        // สร้าง Payload 62 หลัก
         $payload = $this->generatePayload($taxId, $suffix, $ref1, $ref2, $amount);
 
-        // สร้าง QR Code
-        $qrCode = QrCode::size(200)
+        $qrCodeMarkup = QrCode::size(200)
             ->style('round')
             ->margin(1)
             ->generate($payload);
 
         return view('pages.customer-qrcode.create', [
-            'qrCode' => $qrCode,
+            'qrCode' => $qrCodeMarkup,
             'customer_name' => $customerName,
             'customer_code' => $ref1,
             'payload' => $payload
@@ -97,56 +95,19 @@ class CustomerQrCodeController extends Controller
     public function generatePdf($id)
     {
         $customer = CustomerQrCode::findOrFail($id);
-
-        $fileName = 'QR_Code_' . $customer->customer_code . '.pdf';
-        $tempImageName = 'qr_' . $customer->customer_code . '.png';
-        $tempPath = 'tmp/' . $tempImageName;
-
-        // Generate QR Code as PNG
-        // $image = QrCode::format('png')
-        //     ->size(250)
-        //     ->margin(0)
-        //     ->generate($customer->qr_payload);
-
-        // // Save temporary image to public disk
-        // Storage::disk('public')->put($tempPath, $image);
-
-        // // absolute path
-        // $fullPath = storage_path('app/public/' . $tempPath);
-
-        // // Configure and load PDF view
-        // $pdf = Pdf::setOption([
-        //         'isHtml5ParserEnabled' => true,
-        //         'isRemoteEnabled' => true,
-        //         'chroot' => storage_path('app/public')
-        //     ])
-        //     ->loadView('pages.customer-qrcode.pdf', [
-        //         'customer' => $customer,
-        //         'qrCode' => base64_encode($image),
-        //         'path' => $fullPath,
-        //     ]);
-        $customer = CustomerQrCode::findOrFail($id);
         $fileName = 'QR_Code_' . $customer->customer_code . '.pdf';
 
-        $qrCodeSvg = QrCode::format('svg')
-            ->size(200)
-            ->margin(0)
-            ->generate($customer->qr_payload);
+        $dns2d = new DNS2D();
+        $qrBase64 = $dns2d->getBarcodePNG($customer->qr_payload, 'QRCODE', 10, 10);
 
-        $qrCode = str_replace('<?xml version="1.0" encoding="UTF-8"?>', '', $qrCodeSvg);
-
-        $pdf = Pdf::setOption([
-            'isHtml5ParserEnabled' => true,
-            'isRemoteEnabled' => true,
-        ])
-            ->loadView('pages.customer-qrcode.pdf', [
-                'customer' => $customer,
-                'qrCode' => $qrCode,
-            ]);
+        $pdf = PDF::loadView('pages.customer-qrcode.pdf', [
+            'customer' => $customer,
+            'qrCode' => $qrBase64,
+        ]);
 
         return $pdf->stream($fileName);
     }
-
+    
     private function generatePayload($taxId, $suffix, $ref1, $ref2, $amount)
     {
         // 1. Prefix: 1 หลัก

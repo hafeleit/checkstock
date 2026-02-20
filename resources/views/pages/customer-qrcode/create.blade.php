@@ -90,6 +90,7 @@
                                     <h6 class="text-start text-uppercase text-muted text-xxs font-weight-bolder opacity-7 mb-4">QR Code Preview</h6>
                                     
                                     <div class="qr-preview-container">
+                                        
                                         @if(isset($qrCode))
                                             <div class="p-3">
                                                 <div class="mb-4 d-flex justify-content-center">
