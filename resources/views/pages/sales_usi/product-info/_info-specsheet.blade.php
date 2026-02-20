@@ -43,7 +43,7 @@
                             <label class="form-label required">Document Type</label>
                             <select class="form-select" name="doc_specsheet_type" id="document-type-specsheet-select" required>
                                 <option value="" selected disabled>Select Document Type</option>
-                                <option value="IPI">IPI - Leaflet/Brochure/Catalogue</option>
+                                <option value="IPI">IPI - Luanch Pack</option>
                                 <option value="CERT">CERT - Product Certificate (TIS, EN, DIN, etc.)</option>
                                 <option value="ECERT">ECERT - Product Environmental Certificates</option>
                                 <option value="SPEC">SPEC - Product Specification Sheet</option>
