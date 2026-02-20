@@ -57,7 +57,7 @@
                     <div class="card-body pt-0">
                         <div class="row g-3 align-items-end">
                             <div class="col-md-6">
-                                <input type="search" class="form-control form-control-sm search-field" id="search" value="{{ $params['search'] ?? '' }}" placeholder="Search by name or code...">
+                                <input type="search" class="form-control form-control-sm search-field" id="search-input" value="{{ $params['search'] ?? '' }}" placeholder="Search by name or code...">
                             </div>
                             <div class="col-md-auto">
                                 <button type="button" class="btn btn-sm btn-dark uppercase mb-0" id="searchButton">search</button>
@@ -110,7 +110,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (!empty($customers))
+                                    @if (!$customers->isEmpty())
                                         @foreach ($customers as $customer)
                                             <tr class="text-sm td-hover">
                                                 <td class="py-3">{{ $customer->customer_name }}</td>
@@ -138,9 +138,38 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <!-- Pagination Links -->
+                        <div class="mt-4">
+                            {{ $customers->withQueryString()->links('pagination::bootstrap-5') }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+        const handleSearch = () => {
+            const searchInput = document.getElementById('search-input').value;
+            const data = { search: searchInput };
+
+            const filteredData = {};
+            for (const key in data) {
+                if (data[key]) {
+                    filteredData[key] = data[key];
+                }
+            }
+
+            const params = new URLSearchParams(filteredData).toString();
+            const url = `/qr-code-customers${params ? '?' + params : ''}`;
+
+            window.location.href = url;
+        };
+
+        const searchButton = document.getElementById('searchButton');
+        if (searchButton) {
+            searchButton.addEventListener('click', handleSearch);
+        }
+    </script>
 @endsection

@@ -14,10 +14,18 @@ class CustomerQrCodeController extends Controller
 {
     public function index()
     {
-        $customers = CustomerQrCode::orderBy('created_at', 'desc')->get();
+        $customers = CustomerQrCode::query()
+            ->when(request()->search, function ($q) {
+                $search = strtolower(request()->search);
+                $q->whereRaw('LOWER(customer_name) LIKE ?', ["%{$search}%"])
+                    ->orWhereRaw('LOWER(customer_code) LIKE ?', ["%{$search}%"]);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
 
         return view('pages.customer-qrcode.index', [
-            'customers' => $customers
+            'customers' => $customers,
+            'params' => request()->all()
         ]);
     }
 
@@ -102,15 +110,15 @@ class CustomerQrCodeController extends Controller
 
         // Configure and load PDF view
         $pdf = Pdf::setOption([
-            'isHtml5ParserEnabled' => true,
-            'isRemoteEnabled' => true,
-            'chroot' => storage_path('app/public')
-        ])
-        ->loadView('pages.customer-qrcode.pdf', [
-            'customer' => $customer,
-            'qrCode' => base64_encode($image),
-            'path' => $fullPath,
-        ]);
+                'isHtml5ParserEnabled' => true,
+                'isRemoteEnabled' => true,
+                'chroot' => storage_path('app/public')
+            ])
+            ->loadView('pages.customer-qrcode.pdf', [
+                'customer' => $customer,
+                'qrCode' => base64_encode($image),
+                'path' => $fullPath,
+            ]);
 
         return $pdf->stream($fileName);
     }
