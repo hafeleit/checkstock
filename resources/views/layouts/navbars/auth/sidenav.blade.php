@@ -240,7 +240,7 @@
       <li class="nav-item">
         <a href="{{ route('qr-code-customers.index') }}" class="nav-link">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code {{ Request::segment(1) == 'qr-code-customers' ? 'text-primary' : 'text-dark' }}" viewBox="0 0 16 16">
               <path d="M2 2h2v2H2z"/>
               <path d="M6 0v6H0V0zM5 1H1v4h4zM4 12H2v2h2z"/>
               <path d="M6 10v6H0v-6zm-5 1v4h4v-4zm11-9h2v2h-2z"/>

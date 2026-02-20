@@ -41,6 +41,16 @@
             font-weight: 500;
             background-color: #eeeff0;
         }
+
+        .table-responsive {
+            border-radius: .5rem;
+            overflow: hidden;
+        }
+
+        .table {
+            margin-bottom: 0;
+            border: none !important;
+        }
     </style>
 
     <div class="container-fluid">
