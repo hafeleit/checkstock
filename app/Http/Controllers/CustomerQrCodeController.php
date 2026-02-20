@@ -7,6 +7,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CustomerQrCodeController extends Controller
@@ -82,26 +83,34 @@ class CustomerQrCodeController extends Controller
     public function generatePdf($id)
     {
         $customer = CustomerQrCode::findOrFail($id);
-        $fileName = 'QR_Code_' . $customer->customer_code . '.pdf';
 
+        $fileName = 'QR_Code_' . $customer->customer_code . '.pdf';
+        $tempImageName = 'qr_' . $customer->customer_code . '.png';
+        $tempPath = 'tmp/' . $tempImageName;
+
+        // Generate QR Code as PNG
         $image = QrCode::format('png')
             ->size(250)
             ->margin(0)
             ->generate($customer->qr_payload);
 
-        $base64Qr = 'data:image/png;base64,' . base64_encode($image);
+        // Save temporary image to public disk
+        Storage::disk('public')->put($tempPath, $image);
 
-        $pdf = Pdf::loadView('pages.customer-qrcode.pdf', [
+        // absolute path
+        $fullPath = storage_path('app/public/' . $tempPath);
+
+        // Configure and load PDF view
+        $pdf = Pdf::setOption([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+            'chroot' => storage_path('app/public')
+        ])
+        ->loadView('pages.customer-qrcode.pdf', [
             'customer' => $customer,
-            'qrCode' => $base64Qr
+            'qrCode' => base64_encode($image),
+            'path' => $fullPath,
         ]);
-
-        $pdf->setPaper('a4', 'portrait')
-            ->setOption([
-                'isRemoteEnabled' => true,
-                'isHtml5ParserEnabled' => true,
-                'title' => $fileName
-            ]);
 
         return $pdf->stream($fileName);
     }

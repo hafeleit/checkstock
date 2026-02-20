@@ -72,7 +72,7 @@
         <div class="header-title">QR Code Payment</div>
 
         <div class="qr-section">
-            <img src="{{ $qrCode }}" class="qr-img">
+            <img src="{{ $path }}" width="200">
         </div>
 
         <table class="info-table">
