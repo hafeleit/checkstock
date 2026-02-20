@@ -237,6 +237,7 @@
       @endcan
 
       {{-- QR Code Customer --}}
+      @can('qrcode view')
       <li class="nav-item">
         <a href="{{ route('qr-code-customers.index') }}" class="nav-link">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -251,6 +252,7 @@
           <span class="nav-link-text ms-1">QR Code Customer</span>
         </a>
       </li>
+      @endcan
 
       {{-- Audit Logs --}}
       @role('super-admin')

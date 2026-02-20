@@ -12,6 +12,12 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CustomerQrCodeController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:qrcode view')->only(['index', 'create', 'store', 'generateQrCode', 'generatePdf']);
+    }
+
     public function index()
     {
         $customers = CustomerQrCode::query()
@@ -130,9 +136,9 @@ class CustomerQrCodeController extends Controller
         $qrCode = str_replace('<?xml version="1.0" encoding="UTF-8"?>', '', $qrCodeSvg);
 
         $pdf = Pdf::setOption([
-                'isHtml5ParserEnabled' => true,
-                'isRemoteEnabled' => true,
-            ])
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+        ])
             ->loadView('pages.customer-qrcode.pdf', [
                 'customer' => $customer,
                 'qrCode' => $qrCode,
