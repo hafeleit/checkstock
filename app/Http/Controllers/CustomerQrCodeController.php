@@ -97,27 +97,45 @@ class CustomerQrCodeController extends Controller
         $tempPath = 'tmp/' . $tempImageName;
 
         // Generate QR Code as PNG
-        $image = QrCode::format('png')
-            ->size(250)
+        // $image = QrCode::format('png')
+        //     ->size(250)
+        //     ->margin(0)
+        //     ->generate($customer->qr_payload);
+
+        // // Save temporary image to public disk
+        // Storage::disk('public')->put($tempPath, $image);
+
+        // // absolute path
+        // $fullPath = storage_path('app/public/' . $tempPath);
+
+        // // Configure and load PDF view
+        // $pdf = Pdf::setOption([
+        //         'isHtml5ParserEnabled' => true,
+        //         'isRemoteEnabled' => true,
+        //         'chroot' => storage_path('app/public')
+        //     ])
+        //     ->loadView('pages.customer-qrcode.pdf', [
+        //         'customer' => $customer,
+        //         'qrCode' => base64_encode($image),
+        //         'path' => $fullPath,
+        //     ]);
+        $customer = CustomerQrCode::findOrFail($id);
+        $fileName = 'QR_Code_' . $customer->customer_code . '.pdf';
+
+        $qrCodeSvg = QrCode::format('svg')
+            ->size(200)
             ->margin(0)
             ->generate($customer->qr_payload);
 
-        // Save temporary image to public disk
-        Storage::disk('public')->put($tempPath, $image);
+        $qrCode = str_replace('<?xml version="1.0" encoding="UTF-8"?>', '', $qrCodeSvg);
 
-        // absolute path
-        $fullPath = storage_path('app/public/' . $tempPath);
-
-        // Configure and load PDF view
         $pdf = Pdf::setOption([
                 'isHtml5ParserEnabled' => true,
                 'isRemoteEnabled' => true,
-                'chroot' => storage_path('app/public')
             ])
             ->loadView('pages.customer-qrcode.pdf', [
                 'customer' => $customer,
-                'qrCode' => base64_encode($image),
-                'path' => $fullPath,
+                'qrCode' => $qrCode,
             ]);
 
         return $pdf->stream($fileName);
