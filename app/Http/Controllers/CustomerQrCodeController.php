@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomerQrCode;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Milon\Barcode\DNS2D;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use PDF;
 
 class CustomerQrCodeController extends Controller
 {
