@@ -32,6 +32,7 @@ class ProductItemsController extends Controller
 
   public function pdfbarcode(Request $request)
   {
+
     $limit_product_name = 200;
     $productItems = ProductItem::where('item_code', $request->item_code)
       ->leftJoin('cml_suggestions', 'cml_suggestions.suggestion_code', 'product_items.suggest_text')
