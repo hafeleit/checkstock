@@ -35,6 +35,12 @@
         .td-hover:hover {
             background: #f9f9f9;
         }
+
+        .badge-customer-code {
+            font-size: 14px;
+            font-weight: 500;
+            background-color: #eeeff0;
+        }
     </style>
 
     <div class="container-fluid">
@@ -115,7 +121,7 @@
                                             <tr class="text-sm td-hover">
                                                 <td class="py-3">{{ $customer->customer_name }}</td>
                                                 <td class="py-3">
-                                                    <span class="badge badge-secondary">{{ $customer->customer_code }}</span>
+                                                    <span class="badge badge-secondary badge-customer-code">{{ $customer->customer_code }}</span>
                                                 </td>
                                                 <td class="py-3">
                                                     <a href="{{ route('qr-code-customers.pdf', $customer->id) }}" target="_blank" class="btn-qr d-inline-flex align-items-center gap-2 px-3 py-1 m-0">
