@@ -121,7 +121,7 @@
             text-align: center;
             font-size: 12px;
             color: #b2bec3;
-            margin-bottom: 20px;
+            margin: 20px 0;
         }
 
         .qr-header-title, .qr-img-container {

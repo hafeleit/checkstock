@@ -9,8 +9,16 @@
             margin: 0;
         }
 
+        @font-face {
+            font-family: 'AngsanaUPC';
+            font-style: normal;
+            font-weight: normal;
+            src: local('AngsanaUPC'),
+                src: url("{{ asset('fonts/AngsanaUPC.ttf') }}") format('truetype');
+        }
+
         body {
-            font-family: 'sans-serif';
+            font-family: 'AngsanaUPC';
             background-color: #f4f7f6;
             padding: 40px;
             color: #2d3436;
@@ -28,7 +36,7 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             color: #636e72;
-            font-size: 14px;
+            font-size: 24px;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -52,16 +60,14 @@
 
         .label {
             color: #636e72;
-            font-size: 14px;
+            font-size: 20px;
             text-align: left;
-            padding-bottom: 10px;
         }
 
         .value {
             text-align: right;
             font-weight: bold;
-            font-size: 14px;
-            padding-bottom: 10px;
+            font-size: 20px;
         }
 
         .customer-name {
@@ -75,7 +81,7 @@
         .footer-date {
             margin-top: 30px;
             text-align: center;
-            font-size: 12px;
+            font-size: 16px;
             color: #b2bec3;
         }
     </style>
@@ -98,11 +104,11 @@
                 <td class="label">Amount:</td>
                 <td class="value">{{ number_format($customer->amount, 2) }} THB</td>
             </tr>
+            <tr>
+                <td class="label">Customer Name:</td>
+                <td class="value">{{ $customer->customer_name }}</td>
+            </tr>
         </table>
-
-        <div class="customer-name">
-            {{ $customer->customer_name }}
-        </div>
 
         <div class="footer-date">
             Generated on {{ date('F d, Y') }}
