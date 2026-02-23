@@ -158,6 +158,7 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   Route::get('/qr-code-customers', [CustomerQrCodeController::class, 'index'])->name('qr-code-customers.index');
   Route::get('/qr-code-customers/create', [CustomerQrCodeController::class, 'create'])->name('qr-code-customers.create');
   Route::get('/qr-code-customers/{id}/pdf', [CustomerQrCodeController::class, 'generatePdf'])->name('qr-code-customers.pdf');
+  Route::get('/qr-code-customers/{id}/png', [CustomerQrCodeController::class, 'generatePng'])->name('qr-code-customers.png');
   Route::post('/qr-code-customers', [CustomerQrCodeController::class, 'store'])->name('qr-code-customers.store');
   Route::post('/qr-code-customers/generate', [CustomerQrCodeController::class, 'generateQrCode'])->name('qr-code-customers.generate');
 });

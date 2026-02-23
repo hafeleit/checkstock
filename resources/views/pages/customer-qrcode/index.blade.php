@@ -13,22 +13,29 @@
             position: relative;
         }
 
-        .btn-qr {
-            color: #0D6EFD;
+        .btn-qr-trigger {
             border-radius: .45rem;
             font-size: 14px;
-            border: none;
+            border: none !important;
+            outline: none !important;
             transition: all 0.2s ease;
-            box-shadow: none;
+            box-shadow: none !important;
+            background: transparent;
+            padding: 0;
         }
-
-        .btn-qr:hover {
-            background-color: #D0E4FF;
+        .btn-qr-trigger:hover {
             color: #0B5ED7;
-            box-shadow: none;
+            box-shadow: none !important;
+            background: transparent;
         }
 
-        .btn-qr:active {
+        .btn-qr-trigger:active, 
+        .btn-qr-trigger:focus, 
+        .btn-qr-trigger:focus-visible {
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
             transform: scale(0.97);
         }
 
@@ -44,12 +51,81 @@
 
         .table-responsive {
             border-radius: .5rem;
-            overflow: hidden;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            display: block;
         }
 
         .table {
             margin-bottom: 0;
             border: none !important;
+        }
+
+        .qr-modal-content {
+            border-radius: 20px !important;
+            border: none !important;
+        }
+
+        .qr-header-title {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #636e72;
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .qr-img-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .qr-img-container img {
+            width: 200px;
+            border-radius: 10px;
+        }
+
+        .qr-info-table {
+            width: 100%;
+            border-top: 1px solid #f1f2f6;
+            padding-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .qr-info-table td {
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .qr-label {
+            color: #636e72;
+            text-align: left;
+        }
+
+        .qr-value {
+            text-align: right;
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .qr-customer-name {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #0d1b2a;
+            margin-bottom: 10px;
+        }
+
+        .qr-footer-date {
+            text-align: center;
+            font-size: 12px;
+            color: #b2bec3;
+            margin-bottom: 20px;
+        }
+
+        .btn-download-pdf {
+            border-radius: 10px !important;
         }
     </style>
 
@@ -72,10 +148,10 @@
 
                     <div class="card-body pt-0">
                         <div class="row g-3 align-items-end">
-                            <div class="col-md-6">
+                            <div class="col-8 col-md-6">
                                 <input type="search" class="form-control form-control-sm search-field" id="search-input" value="{{ $params['search'] ?? '' }}" placeholder="Search by name or code...">
                             </div>
-                            <div class="col-md-auto">
+                            <div class="col-4 col-md-auto">
                                 <button type="button" class="btn btn-sm btn-dark uppercase mb-0" id="searchButton">search</button>
                             </div>
                         </div>
@@ -134,13 +210,25 @@
                                                     <span class="badge badge-secondary badge-customer-code">{{ $customer->customer_code }}</span>
                                                 </td>
                                                 <td class="py-3">
-                                                    <a href="{{ route('qr-code-customers.pdf', $customer->id) }}" target="_blank" class="btn-qr d-inline-flex align-items-center gap-2 px-3 py-1 m-0">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
-                                                            <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
-                                                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                                    <button type="button" 
+                                                        class="btn-qr-trigger d-inline-flex align-items-center gap-2 px-3 py-1 m-0 border-0"
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#qrCodeModal"
+                                                        data-id="{{ $customer->id }}"
+                                                        data-code="{{ $customer->customer_code }}"
+                                                        data-name="{{ $customer->customer_name }}"
+                                                        data-qr-url="{{ route('qr-code-customers.png', $customer->id) }}"
+                                                        data-url="{{ route('qr-code-customers.pdf', $customer->id) }}">
+                                                        
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code-scan" viewBox="0 0 16 16">
+                                                            <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5M4 4h1v1H4z"/>
+                                                            <path d="M7 2H2v5h5zM3 3h3v3H3zm2 8H4v1h1z"/>
+                                                            <path d="M7 9H2v5h5zM3 10h3v3H3zm8-6h1v1h-1z"/>
+                                                            <path d="M9 2h5v5H9zM10 3h3v3h-3zm1 10h1v1h-1z"/>
+                                                            <path d="M14 9h-5v5h5zM10 10h3v3h-3zm4 1h-1v1h1z"/>
                                                         </svg>
-                                                        <span class="fw-medium">PDF</span>
-                                                    </a>
+                                                        <span class="fw-medium">View QR</span>
+                                                    </button>
                                                 </td>
                                                 <td class="py-3">{{ $customer->created_date }}</td>
                                                 <td class="py-3">{{ $customer->creator->email }}</td>
@@ -158,6 +246,44 @@
                         <!-- Pagination Links -->
                         <div class="mt-4">
                             {{ $customers->withQueryString()->links('pagination::bootstrap-5') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Modal Qr Code --}}
+        <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content qr-modal-content">
+                    <div class="modal-body p-4">
+                        <div class="qr-header-title">QR Code Payment</div>
+                        
+                        <div class="qr-img-container">
+                            <img id="modalQrImg" src="" alt="qr code">
+                        </div>
+
+                        <table class="qr-info-table">
+                            <tr>
+                                <td class="qr-label">Ref1:</td>
+                                <td class="qr-value" id="modalRef1">-</td>
+                            </tr>
+                            <tr>
+                                <td class="qr-label">Amount:</td>
+                                <td class="qr-value">0.00</td>
+                            </tr>
+                        </table>
+
+                        <div class="qr-customer-name" id="modalCustomerName">-</div>
+
+                        <div class="qr-footer-date">Generated on {{ date('F d, Y') }}</div>
+
+                        <hr>
+
+                        <a href="#" id="modalDownloadBtn" target="_blank" class="btn btn-secondary w-100 py-2 btn-download-pdf">Download PDF</a>
+
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-link text-secondary mb-0" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -187,5 +313,27 @@
         if (searchButton) {
             searchButton.addEventListener('click', handleSearch);
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const qrModal = document.getElementById('qrCodeModal');
+            
+            if (qrModal) {
+                qrModal.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+                    
+                    const qrUrl = button.getAttribute('data-qr-url');
+                    const customerCode = button.getAttribute('data-code');
+                    const customerName = button.getAttribute('data-name');
+                    const downloadUrl = button.getAttribute('data-url');
+                    
+                    document.getElementById('modalRef1').textContent = customerCode;
+                    document.getElementById('modalCustomerName').textContent = customerName;
+                    document.getElementById('modalDownloadBtn').href = downloadUrl;
+                    
+                    const qrImgElement = document.getElementById('modalQrImg');
+                    qrImgElement.src = qrUrl;
+                });
+            }
+        });
     </script>
 @endsection

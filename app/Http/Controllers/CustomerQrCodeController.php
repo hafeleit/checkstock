@@ -107,7 +107,21 @@ class CustomerQrCodeController extends Controller
 
         return $pdf->stream($fileName);
     }
-    
+
+    public function generatePng($id)
+    {
+        $customer = CustomerQrCode::findOrFail($id);
+        $dns2d = new DNS2D();
+
+        $qrBase64 = $dns2d->getBarcodePNG($customer->qr_payload, 'QRCODE', 10, 10);
+        $image = base64_decode($qrBase64);
+
+        return response()->make($image, 200, [
+            'Content-Type' => 'image/png',
+            'Content-Disposition' => 'inline; filename="qr-' . $id . '.png"'
+        ]);
+    }
+
     private function generatePayload($taxId, $suffix, $ref1, $ref2, $amount)
     {
         // 1. Prefix: 1 หลัก
