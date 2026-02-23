@@ -46,6 +46,7 @@ class CustomerQrCodeController extends Controller
         request()->validate([
             'customer_name' => 'required|string',
             'customer_code' => 'required|string',
+            'amount' => 'required|numeric',
             'payload' => 'required|string',
         ]);
 
@@ -54,6 +55,7 @@ class CustomerQrCodeController extends Controller
             CustomerQrCode::create([
                 'customer_name' => request()->customer_name,
                 'customer_code' => request()->customer_code,
+                'amount' => request()->amount,
                 'qr_payload' => request()->payload,
                 'created_date' => Carbon::now(),
                 'created_by' => auth()->id()
@@ -71,11 +73,12 @@ class CustomerQrCodeController extends Controller
     {
         $customerName = request()->input('customer_name');
         $ref1 = request()->input('customer_code');
+        $amount = request()->input('amount', 0.00);
 
         $taxId = '0105537076950';
         $suffix = '00';
         $ref2 = null;
-        $amount = 0.00;
+        $amount = (float) $amount;
 
         $payload = $this->generatePayload($taxId, $suffix, $ref1, $ref2, $amount);
 
@@ -88,6 +91,7 @@ class CustomerQrCodeController extends Controller
             'qrCode' => $qrCodeMarkup,
             'customer_name' => $customerName,
             'customer_code' => $ref1,
+            'amount' => $amount,
             'payload' => $payload
         ]);
     }
@@ -120,6 +124,14 @@ class CustomerQrCodeController extends Controller
             'Content-Type' => 'image/png',
             'Content-Disposition' => 'inline; filename="qr-' . $id . '.png"'
         ]);
+    }
+
+    public function destroy($id)
+    {
+        $customer = CustomerQrCode::findOrFail($id);
+        $customer->delete();
+
+        return response()->json(['message' => 'Deleted successfully'], 200);
     }
 
     private function generatePayload($taxId, $suffix, $ref1, $ref2, $amount)

@@ -127,6 +127,30 @@
         .btn-download-pdf {
             border-radius: 10px !important;
         }
+
+        .swal2-styled.swal2-confirm {
+            background-color: #2152ff !important;
+            border-radius: .25em !important;
+        }
+
+        @media (max-width: 576px) {
+            .pagination .page-item {
+                all: unset;
+                display: inline-block;
+            }
+            
+            .pagination .page-link {
+                all: unset;
+                cursor: pointer;
+                padding: 5px 10px;
+                color: #FB6340
+            }
+
+            .pagination .disabled {
+                color: #6c757d;
+                pointer-events: none;
+            }
+        }
     </style>
 
     <div class="container-fluid">
@@ -160,7 +184,7 @@
                             <table class="table border mb-0">
                                 <thead class="table-light text-sm">
                                     <tr>
-                                        <th class="p-2">
+                                        <th class="py-2 px-4">
                                             <div class="d-flex align-items-center gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-buildings" viewBox="0 0 16 16">
                                                     <path d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022M6 8.694 1 10.36V15h5zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5z"/>
@@ -169,7 +193,7 @@
                                                 <p class="m-0 text-sm fw-bold">Customer Name</p>
                                             </div>
                                         </th>
-                                        <th class="p-2">
+                                        <th class="py-2 px-4">
                                             <div class="d-flex align-items-center gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hash" viewBox="0 0 16 16">
                                                     <path d="M8.39 12.648a1 1 0 0 0-.015.18c0 .305.21.508.5.508.266 0 .492-.172.555-.477l.554-2.703h1.204c.421 0 .617-.234.617-.547 0-.312-.188-.53-.617-.53h-.985l.516-2.524h1.265c.43 0 .618-.227.618-.547 0-.313-.188-.524-.618-.524h-1.046l.476-2.304a1 1 0 0 0 .016-.164.51.51 0 0 0-.516-.516.54.54 0 0 0-.539.43l-.523 2.554H7.617l.477-2.304c.008-.04.015-.118.015-.164a.51.51 0 0 0-.523-.516.54.54 0 0 0-.531.43L6.53 5.484H5.414c-.43 0-.617.22-.617.532s.187.539.617.539h.906l-.515 2.523H4.609c-.421 0-.609.219-.609.531s.188.547.61.547h.976l-.516 2.492c-.008.04-.015.125-.015.18 0 .305.21.508.5.508.265 0 .492-.172.554-.477l.555-2.703h2.242zm-1-6.109h2.266l-.515 2.563H6.859l.532-2.563z"/>
@@ -177,12 +201,21 @@
                                                 <p class="m-0 text-sm fw-bold">Customer Code</p>
                                             </div>
                                         </th>
-                                        <th class="p-2">
+                                        <th class="py-2 px-4">
                                             <div class="d-flex align-items-center gap-2">
                                                 <p class="m-0 text-sm fw-bold">Download QR Code</p>
                                             </div>
                                         </th>
-                                        <th class="p-2">
+                                        <th class="py-2 px-4">
+                                            <div class="d-flex align-items-center justify-content-end gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
+                                                    <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                                                    <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2z"/>
+                                                </svg>
+                                                <p class="m-0 text-sm fw-bold">Amount</p>
+                                            </div>
+                                        </th>
+                                        <th class="py-2 px-4">
                                             <div class="d-flex align-items-center gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar4-week" viewBox="0 0 16 16">
                                                     <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
@@ -191,7 +224,7 @@
                                                 <p class="m-0 text-sm fw-bold">Create Date</p>
                                             </div>
                                         </th>
-                                        <th class="p-2">
+                                        <th class="py-2 px-4">
                                             <div class="d-flex align-items-center gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                                                     <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
@@ -199,17 +232,18 @@
                                                 <p class="m-0 text-sm fw-bold">Create By</p>
                                             </div>
                                         </th>
+                                        <th class="py-2 px-4"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if (!$customers->isEmpty())
                                         @foreach ($customers as $customer)
                                             <tr class="text-sm td-hover">
-                                                <td class="py-3">{{ $customer->customer_name }}</td>
-                                                <td class="py-3">
+                                                <td class="py-3 px-4">{{ $customer->customer_name }}</td>
+                                                <td class="py-3 px-4">
                                                     <span class="badge badge-secondary badge-customer-code">{{ $customer->customer_code }}</span>
                                                 </td>
-                                                <td class="py-3">
+                                                <td class="py-3 px-4">
                                                     <button type="button" 
                                                         class="btn-qr-trigger d-inline-flex align-items-center gap-2 px-3 py-1 m-0 border-0"
                                                         data-bs-toggle="modal" 
@@ -217,21 +251,31 @@
                                                         data-id="{{ $customer->id }}"
                                                         data-code="{{ $customer->customer_code }}"
                                                         data-name="{{ $customer->customer_name }}"
+                                                        data-amount="{{ number_format($customer->amount, 2) }}"
                                                         data-qr-url="{{ route('qr-code-customers.png', $customer->id) }}"
                                                         data-url="{{ route('qr-code-customers.pdf', $customer->id) }}">
                                                         
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code-scan" viewBox="0 0 16 16">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-qr-code-scan" viewBox="0 0 16 16">
                                                             <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5M4 4h1v1H4z"/>
                                                             <path d="M7 2H2v5h5zM3 3h3v3H3zm2 8H4v1h1z"/>
                                                             <path d="M7 9H2v5h5zM3 10h3v3H3zm8-6h1v1h-1z"/>
                                                             <path d="M9 2h5v5H9zM10 3h3v3h-3zm1 10h1v1h-1z"/>
                                                             <path d="M14 9h-5v5h5zM10 10h3v3h-3zm4 1h-1v1h1z"/>
                                                         </svg>
-                                                        <span class="fw-medium">View QR</span>
+                                                        <span class="fw-medium">Click Show</span>
                                                     </button>
                                                 </td>
-                                                <td class="py-3">{{ $customer->created_date }}</td>
-                                                <td class="py-3">{{ $customer->creator->email }}</td>
+                                                <td class="py-3 px-4 text-end">{{ number_format($customer->amount, 2) }} THB</td>
+                                                <td class="py-3 px-4">{{ $customer->created_date }}</td>
+                                                <td class="py-3 px-4">{{ $customer->creator->email }}</td>
+                                                <td class="py-3 px-4">
+                                                    <a href="#" id="delete-qr-code" data-id="{{ $customer->id }}" class="text-danger d-inline-flex align-items-center gap-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+                                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                        </svg>
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @else
@@ -270,7 +314,7 @@
                             </tr>
                             <tr>
                                 <td class="qr-label">Amount:</td>
-                                <td class="qr-value">0.00</td>
+                                <td class="qr-value" id="modalAmount">0.00 THB</td>
                             </tr>
                         </table>
 
@@ -329,9 +373,48 @@
                     document.getElementById('modalRef1').textContent = customerCode;
                     document.getElementById('modalCustomerName').textContent = customerName;
                     document.getElementById('modalDownloadBtn').href = downloadUrl;
+                    document.getElementById('modalAmount').textContent = button.getAttribute('data-amount') || '0.00';
                     
                     const qrImgElement = document.getElementById('modalQrImg');
                     qrImgElement.src = qrUrl;
+                });
+            }
+        });
+
+            // Handle delete QR code
+        document.addEventListener('click', function (event) {
+            if (event.target.closest('#delete-qr-code')) {
+                event.preventDefault();
+                const button = event.target.closest('#delete-qr-code');
+                const customerId = button.getAttribute('data-id');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `Do you want to delete?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!',
+                    reverseButtons: true,
+                    showLoaderOnConfirm: true,
+                    preConfirm: async () => {
+                        try {
+                            await axios.delete(`/qr-code-customers/${customerId}`);
+                        } catch (error) {
+                            console.log(error)
+                            const msg = error.response?.data?.message || 'Something went wrong';
+                            Swal.showValidationMessage(`Request failed: ${msg}`);
+                        }
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire('Deleted!', 'QR code has been deleted.', 'success')
+                            .then(() => {
+                                window.location.reload();
+                            });
+                    }
                 });
             }
         });

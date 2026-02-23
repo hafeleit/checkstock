@@ -14,6 +14,7 @@ class CustomerQrCode extends Model
         'customer_name',
         'customer_code',
         'qr_payload',
+        'amount',
         'created_date',
         'created_by',
     ];

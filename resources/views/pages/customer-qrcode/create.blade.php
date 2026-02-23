@@ -61,13 +61,18 @@
                                     <h6 class="text-uppercase text-muted text-xxs font-weight-bolder opacity-7 mb-4">Customer Information</h6>
                                     <form method="POST" action="{{ route('qr-code-customers.generate') }}" id="qr-form">
                                         @csrf
+
                                         <div class="form-group">
-                                            <label for="customer_name" class="form-control-label text-sm">Customer Name</label>
+                                            <label for="customer_name" class="form-control-label text-sm required">Customer Name</label>
                                             <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Enter customer name" value="{{ $customer_name ?? '' }}" required>
                                         </div>
                                         <div class="form-group mt-3">
-                                            <label for="customer_code" class="form-control-label text-sm">Customer Code <span class="text-muted">(Ref1)</span></label>
+                                            <label for="customer_code" class="form-control-label text-sm required">Customer Code <span class="text-muted">(Ref1)</span></label>
                                             <input type="text" class="form-control" name="customer_code" id="customer_code" placeholder="Enter customer code" value="{{ $customer_code ?? '' }}" required>
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <label for="amount" class="form-control-label text-sm">Amount</label>
+                                            <input type="number" class="form-control" name="amount" id="amount" placeholder="Enter amount" value="{{ $amount ?? 0.00 }}" step="any" >
                                         </div>
 
                                         <button type="submit" class="btn btn-gen-qr w-100 mt-4">
@@ -106,7 +111,7 @@
                                                     </div>
                                                     <div class="d-flex justify-content-between mb-2">
                                                         <span class="text-secondary text-xs">Amount:</span>
-                                                        <span class="text-dark fw-bold text-xs">0.00</span>
+                                                        <span class="text-dark fw-bold text-xs">{{ number_format($amount ?? 0, 2) }}</span>
                                                     </div>
                                                     <div class="pt-2 border-top text-center">
                                                         <span class="text-dark font-weight-bold">{{ $customer_name }}</span>
@@ -143,6 +148,7 @@
             const btnConfirm = document.getElementById('btn-confirm');
             const customerNameInput = document.getElementById('customer_name');
             const customerCodeInput = document.getElementById('customer_code');
+            const amountInput = document.getElementById('amount');
             const payloadInput = document.getElementById('generated_payload');
 
             if (btnCancel) {
@@ -166,6 +172,7 @@
                     axios.post('/qr-code-customers', {
                         customer_name: customerNameInput.value,
                         customer_code: customerCodeInput.value,
+                        amount: amountInput.value,
                         payload: payloadInput.value
                     })
                     .then(resonse => {

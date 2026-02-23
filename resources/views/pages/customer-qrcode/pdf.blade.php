@@ -96,7 +96,7 @@
             </tr>
             <tr>
                 <td class="label">Amount:</td>
-                <td class="value">0.00</td>
+                <td class="value">{{ number_format($customer->amount, 2) }} THB</td>
             </tr>
         </table>
 
