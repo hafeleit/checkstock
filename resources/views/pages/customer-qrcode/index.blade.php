@@ -87,34 +87,34 @@
         }
 
         .qr-info-table {
-            width: 100%;
-            border-top: 1px solid #f1f2f6;
-            padding-top: 15px;
-            margin-bottom: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            width: auto;
+            min-width: 200px;
         }
 
         .qr-info-table td {
-            padding: 8px 0;
+            padding: 5px 10px;
             font-size: 14px;
         }
 
         .qr-label {
             color: #636e72;
             text-align: left;
+            padding-right: 20px;
+            text-transform: uppercase;
         }
 
         .qr-value {
-            text-align: right;
             font-weight: bold;
             color: #2d3436;
         }
 
         .qr-customer-name {
             text-align: center;
-            font-size: 22px;
+            margin-top: 15px;
             font-weight: bold;
-            color: #0d1b2a;
-            margin-bottom: 10px;
+            text-transform: uppercase;
         }
 
         .qr-footer-date {
@@ -124,8 +124,45 @@
             margin-bottom: 20px;
         }
 
+        .qr-header-title, .qr-img-container {
+            text-align: center;
+        }
+
         .btn-download-pdf {
             border-radius: 10px !important;
+        }
+
+        .btn-close-custom {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: #888;
+            z-index: 10;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .btn-close-custom:hover {
+            color: #000000;
+        }
+
+        .btn-download-icon {
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-download-icon:hover {
+            background: #c5a059;
+            color: #000;
         }
 
         .swal2-styled.swal2-confirm {
@@ -300,6 +337,12 @@
         <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content qr-modal-content">
+                    <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                        </svg>
+                    </button>
+
                     <div class="modal-body p-4">
                         <div class="qr-header-title">QR Code Payment</div>
                         
@@ -310,25 +353,28 @@
                         <table class="qr-info-table">
                             <tr>
                                 <td class="qr-label">Ref1:</td>
-                                <td class="qr-value" id="modalRef1">-</td>
+                                <td class="qr-value" id="modalRef1"></td>
                             </tr>
                             <tr>
                                 <td class="qr-label">Amount:</td>
-                                <td class="qr-value" id="modalAmount">0.00 THB</td>
+                                <td class="qr-value" id="modalAmount"></td>
+                            </tr>
+                            <tr>
+                                <td class="qr-label">Customer Name:</td>
+                                <td class="qr-value" id="modalCustomerName">-</td>
                             </tr>
                         </table>
-
-                        <div class="qr-customer-name" id="modalCustomerName">-</div>
 
                         <div class="qr-footer-date">Generated on {{ date('F d, Y') }}</div>
 
                         <hr>
 
-                        <a href="#" id="modalDownloadBtn" target="_blank" class="btn btn-secondary w-100 py-2 btn-download-pdf">Download PDF</a>
-
-                        <div class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-link text-secondary mb-0" data-bs-dismiss="modal">Close</button>
-                        </div>
+                        <a href="#" id="modalDownloadBtn" target="_blank" class="btn-download-icon float-end" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download PDF">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                            </svg>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -373,7 +419,7 @@
                     document.getElementById('modalRef1').textContent = customerCode;
                     document.getElementById('modalCustomerName').textContent = customerName;
                     document.getElementById('modalDownloadBtn').href = downloadUrl;
-                    document.getElementById('modalAmount').textContent = button.getAttribute('data-amount') || '0.00';
+                    document.getElementById('modalAmount').textContent = (button.getAttribute('data-amount') || '0.00') + ' THB';
                     
                     const qrImgElement = document.getElementById('modalQrImg');
                     qrImgElement.src = qrUrl;
