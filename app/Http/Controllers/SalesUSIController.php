@@ -54,14 +54,11 @@ class SalesUSIController extends Controller
         $item_code = request()->item_code ?? '';
 
         // Image file
-        $fileImgPath = 'storage/img/products/' . $item_code . '.jpg';
         $productImg = ProductInfoFile::where('item_code', $item_code)
             ->where('type', 'image')
             ->first();
         
-        if (File::exists($fileImgPath)) {
-            $imgPath = '/' . $fileImgPath;
-        } else if (!empty($productImg)) {
+        if (!empty($productImg)) {
             $imgPath = $productImg->path;
         } else {
             $imgPath = null;
