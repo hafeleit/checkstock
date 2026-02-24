@@ -97,4 +97,9 @@ class ZHWWBCQUERYDIR extends Model
     {
       return $this->hasOne(ZMM_MATZERT::class, 'material', 'material');
     }
+
+    public function product_info()
+    {
+      return $this->hasOne(ProductInfo::class, 'item_code', 'material');
+    }
 }

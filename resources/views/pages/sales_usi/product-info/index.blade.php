@@ -20,8 +20,9 @@
         }
 
         .dropdown-file-lists {
-            max-height: 250px;
-            overflow-y: auto;
+            left: 0 !important;
+            right: auto !important;
+            min-width: 100%;
         }
 
         .dropdown-item-lists:hover {
@@ -30,13 +31,13 @@
         }
 
         .table-responsive {
-            overflow-x: auto;
-            overflow-y: hidden;
+            overflow: visible !important;
+            position: relative;
         }
 
         .dropdown-menu {
             margin: 0;
-            transform: none !important; 
+            z-index: 1050;
         }
 
         .swal2-html-container {
@@ -95,41 +96,41 @@
                                     @if (!$productInformations->isEmpty())
                                         @foreach ($productInformations as $product)
                                         <tr>
-                                            <td>{{ $product->item_code }}</td>
+                                            <td>{{ $product->material }}</td>
                                             <td>
                                                 @php
-                                                    $imagePath = public_path('storage/img/products/' . $product->item_code . '.jpg');
-                                                    $imageUrl = asset('storage/img/products/' . $product->item_code . '.jpg');
+                                                    $imageFile = $product->product_info?->imageFile;
+                                                    $imagePath = ($imageFile && $imageFile->path) ? public_path($imageFile->path) : null;
+                                                    $imageUrl = ($imageFile && $imageFile->path) ? asset($imageFile->path) : null;
                                                 @endphp
 
-                                                @if(file_exists($imagePath))
-                                                    <img src="{{ asset('/storage/img/products/' . $product->item_code . '.jpg') }}" class="img-thumbnail" width="50">
+                                                @if($imagePath && file_exists($imagePath))
+                                                    <img src="{{ $imageUrl }}" class="img-thumbnail" width="50">
                                                 @else
                                                     <span class="text-muted italic small">- No image -</span>
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($product->project_item)
-                                                    <span class="text-dark">{{ $product->project_item }}</span>
-                                                @else
-                                                    <span class="text-secondary italic small">-</span>
-                                                @endif
+                                                <span class="{{ $product->product_info?->project_item ? 'text-dark' : 'text-secondary italic small' }}">
+                                                    {{ $product->product_info?->project_item ?? '-' }}
+                                                </span>
                                             </td>
                                             <td>
-                                                @if ($product->superseded)
-                                                    <span class="text-dark">{{ $product->superseded }}</span>
-                                                @else
-                                                    <span class="text-muted italic small">-</span>
-                                                @endif
+                                                <span class="{{ $product->product_info?->superseded ? 'text-dark' : 'text-secondary italic small' }}">
+                                                    {{ $product->product_info?->superseded ?? '-' }}
+                                                </span>
                                             </td>
                                             <td>
-                                                @if($product->catalogueFiles && $product->catalogueFiles->isNotEmpty())
+                                                @if($product->product_info?->catalogueFiles && $product->product_info?->catalogueFiles->isNotEmpty())
                                                     <div class="dropdown">
-                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
-                                                            PDF Files ({{ count($product->catalogueFiles) }})
+                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" 
+                                                            type="button" 
+                                                            data-bs-toggle="dropdown" 
+                                                            aria-expanded="false" >
+                                                            PDF Files ({{ count($product->product_info?->catalogueFiles) }})
                                                         </button>
-                                                        <ul class="dropdown-menu dropdown-file-lists dropdown-menu-end shadow">
-                                                            @foreach($product->catalogueFiles as $file)
+                                                        <ul class="dropdown-menu dropdown-file-lists shadow">
+                                                            @foreach($product->product_info?->catalogueFiles as $file)
                                                                 <li>
                                                                     <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
@@ -146,13 +147,16 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($product->manualFiles && $product->manualFiles->isNotEmpty())
+                                                @if($product->product_info?->manualFiles && $product->product_info?->manualFiles->isNotEmpty())
                                                     <div class="dropdown">
-                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
-                                                            PDF Files ({{ count($product->manualFiles) }})
+                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" 
+                                                            type="button" 
+                                                            data-bs-toggle="dropdown" 
+                                                            aria-expanded="false">
+                                                            PDF Files ({{ count($product->product_info?->manualFiles) }})
                                                         </button>
-                                                        <ul class="dropdown-menu dropdown-file-lists dropdown-menu-end shadow">
-                                                            @foreach($product->manualFiles as $file)
+                                                        <ul class="dropdown-menu dropdown-file-lists shadow">
+                                                            @foreach($product->product_info?->manualFiles as $file)
                                                                 <li>
                                                                     <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
@@ -169,13 +173,16 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($product->specsheetFiles && $product->specsheetFiles->isNotEmpty())
+                                                @if($product->product_info?->specsheetFiles && $product->product_info?->specsheetFiles->isNotEmpty())
                                                     <div class="dropdown">
-                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
-                                                            PDF Files ({{ count($product->specsheetFiles) }})
+                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs"
+                                                            type="button" 
+                                                            data-bs-toggle="dropdown" 
+                                                            aria-expanded="false">
+                                                            PDF Files ({{ count($product->product_info?->specsheetFiles) }})
                                                         </button>
-                                                        <ul class="dropdown-menu dropdown-file-lists dropdown-menu-end shadow">
-                                                            @foreach($product->specsheetFiles as $file)
+                                                        <ul class="dropdown-menu dropdown-file-lists shadow">
+                                                            @foreach($product->product_info?->specsheetFiles as $file)
                                                                 <li>
                                                                     <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
@@ -193,21 +200,21 @@
                                             </td>
                                             <td class="text-end">
                                                 @can('salesusi productinfo edit')
-                                                <a href="{{ route('product-infos.edit', $product->item_code) }}" class="px-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
+                                                <a href="{{ route('product-infos.edit', $product->material) }}" class="px-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                                                     </svg>
                                                 </a>
                                                 @endcan
-                                                @can('salesusi productinfo delete')
+                                                {{-- @can('salesusi productinfo delete')
                                                 <a href="#" class="delete-item-btn px-2" data-item-code="{{ $product->item_code }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
                                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                                                         <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                                     </svg>
                                                 </a>
-                                                @endcan
+                                                @endcan --}}
                                             </td>
                                         </tr>
                                         @endforeach
