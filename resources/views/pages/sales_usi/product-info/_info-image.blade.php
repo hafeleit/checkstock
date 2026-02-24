@@ -83,8 +83,6 @@
 </div>
 
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-    const item_code = "{{ request()->item_code }}";
-
     document.addEventListener('DOMContentLoaded', () => {
         const imageInput = document.getElementById('image-product-Input');
         const imagePreview = document.getElementById('imagePreview');

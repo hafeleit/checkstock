@@ -82,6 +82,8 @@
     </div>
 
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+        const item_code = "{{ request()->item_code }}";
+
         document.addEventListener('DOMContentLoaded', () => {
             const searchForm = document.getElementById('searchForm');
             const searchButton = document.getElementById('searchButton');

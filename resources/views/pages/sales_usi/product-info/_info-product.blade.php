@@ -31,11 +31,11 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="project-item" class="form-label">Project item</label>
-                                <input class="form-control" type="text" id="project-item" name="project_item" value="{{ $product->project_item }}">
+                                <input class="form-control" type="text" id="project-item" name="project_item" value="{{ $product?->project_item ?? '' }}">
                             </div>
                             <div class="col-md-6">
                                 <label for="superseded" class="form-label">Superseded</label>
-                                <input class="form-control" type="text" id="superseded" name="superseded" value="{{ $product->superseded }}">
+                                <input class="form-control" type="text" id="superseded" name="superseded" value="{{ $product?->superseded ?? '' }}">
                             </div>
                         </div>
                     </form>
@@ -51,11 +51,11 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label class="form-label">Project item</label>
-            <input class="form-control" type="text" value="{{ $product->project_item }}" readonly>
+            <input class="form-control" type="text" value="{{ $product?->project_item ?? '' }}" readonly>
         </div>
         <div class="col-md-6 mb-3">
             <label class="form-label">Superseded</label>
-            <input class="form-control" type="text" value="{{ $product->superseded }}" readonly>
+            <input class="form-control" type="text" value="{{ $product?->superseded ?? '' }}" readonly>
         </div>
     </div>
 </div>

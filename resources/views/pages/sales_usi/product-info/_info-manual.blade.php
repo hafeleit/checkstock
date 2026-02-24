@@ -106,7 +106,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="2" class="text-center text-sm text-muted italic">No manuals found.</td>
+                        <td colspan="6" class="text-center text-sm text-muted italic">No manuals found.</td>
                     </tr>
                 @endif
             </tbody>
