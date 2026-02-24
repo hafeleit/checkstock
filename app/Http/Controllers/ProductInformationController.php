@@ -31,12 +31,25 @@ class ProductInformationController extends Controller
 
     public function index()
     {
-        // product info
-        $productInformations = ProductInfo::query()
-            ->when(request()->item_code, function ($q) {
-                $q->where('item_code', 'LIKE', '%' . request()->item_code . '%');
-            })
-            ->paginate(20);
+        $query = ZHWWBCQUERYDIR::query()
+            ->select('material')
+            ->whereNotNull('material')
+            ->groupBy('material');
+
+        if ($itemCode = request('item_code')) {
+            $query->where('material', 'LIKE', '%' . trim($itemCode) . '%');
+        }
+
+        $productInformations = $query->paginate(20);
+
+        if ($productInformations->isNotEmpty()) {
+            $productInformations->getCollection()->load([
+                'product_info.imageFile',
+                'product_info.catalogueFiles',
+                'product_info.manualFiles',
+                'product_info.specsheetFiles',
+            ]);
+        }
 
         session(['product_info_return_url' => request()->fullUrl()]);
 
@@ -107,22 +120,23 @@ class ProductInformationController extends Controller
 
     public function edit($itemCode)
     {
-        // product info
-        $product = ProductInfo::where('item_code', $itemCode)->firstOrFail();
+        $product = ZHWWBCQUERYDIR::where('material', $itemCode)
+            ->with('product_info', 'product_info.imageFile')
+            ->select('material')
+            ->firstOrFail();
 
         if (!$product) {
             abort(404);
         }
 
-        // group files by type
         $filesByType = ProductInfoFile::where('item_code', $itemCode)
             ->whereIn('type', ['catalogue', 'manual', 'specsheet'])
             ->get()
             ->groupBy('type');
 
         return view('pages.sales_usi.product-info.edit', [
-            'imageProduct'  => $product->imageFile,
-            'product'       => $product,
+            'imageProduct'  => $product->product_info ? $product->product_info->imageFile : null,
+            'product'       => $product->product_info,
             'catalogues'    => $filesByType->get('catalogue', collect()),
             'manuals'       => $filesByType->get('manual', collect()),
             'specSheets'    => $filesByType->get('specsheet', collect()),
@@ -136,15 +150,25 @@ class ProductInformationController extends Controller
             'superseded' => 'nullable|string|regex:/^\d{3}\.\d{2}\.\d{3}$/',
         ]);
 
-        // validated data
-        $product = ProductInfo::where('item_code', request()->item_code)->firstOrFail();
-
         // master data check
         $this->validateMasterData(request()->only(['project_item', 'superseded']));
 
         try {
             DB::beginTransaction();
-            $product->update(request()->all());
+
+            $product = ProductInfo::where('item_code', request()->item_code)->first();
+
+            if (!$product) {
+                $product = ProductInfo::create([
+                    'item_code' => request()->item_code,
+                    'project_item' => request()->project_item ?? null,
+                    'superseded' => request()->superseded ?? null,
+                    'updated_by' => auth()->id(),
+                ]);
+            } else {
+                $product->update(request()->all());
+            }
+
             DB::commit();
 
             return response()->json([
