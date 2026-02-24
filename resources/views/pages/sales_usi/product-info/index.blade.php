@@ -99,7 +99,7 @@
                                             <td>{{ $product->material }}</td>
                                             <td>
                                                 @php
-                                                    $imageFile = $product->product_info?->imageFile;
+                                                    $imageFile = $product?->imageFile;
                                                     $imagePath = ($imageFile && $imageFile->path) ? public_path($imageFile->path) : null;
                                                     $imageUrl = ($imageFile && $imageFile->path) ? asset($imageFile->path) : null;
                                                 @endphp

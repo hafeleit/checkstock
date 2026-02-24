@@ -44,10 +44,11 @@ class ProductInformationController extends Controller
 
         if ($productInformations->isNotEmpty()) {
             $productInformations->getCollection()->load([
-                'product_info.imageFile',
-                'product_info.catalogueFiles',
-                'product_info.manualFiles',
-                'product_info.specsheetFiles',
+                'product_info',
+                'imageFile',
+                'catalogueFiles',
+                'manualFiles',
+                'specsheetFiles',
             ]);
         }
 
@@ -121,7 +122,7 @@ class ProductInformationController extends Controller
     public function edit($itemCode)
     {
         $product = ZHWWBCQUERYDIR::where('material', $itemCode)
-            ->with('product_info', 'product_info.imageFile')
+            ->with('product_info', 'imageFile')
             ->select('material')
             ->firstOrFail();
 
@@ -135,7 +136,7 @@ class ProductInformationController extends Controller
             ->groupBy('type');
 
         return view('pages.sales_usi.product-info.edit', [
-            'imageProduct'  => $product->product_info ? $product->product_info->imageFile : null,
+            'imageProduct'  => $product->imageFile ?? null,
             'product'       => $product->product_info,
             'catalogues'    => $filesByType->get('catalogue', collect()),
             'manuals'       => $filesByType->get('manual', collect()),
