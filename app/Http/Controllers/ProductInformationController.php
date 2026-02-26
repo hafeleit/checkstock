@@ -151,10 +151,10 @@ class ProductInformationController extends Controller
             'superseded' => 'nullable|string|regex:/^\d{3}\.\d{2}\.\d{3}$/',
         ]);
 
-        // master data check
-        $this->validateMasterData(request()->only(['project_item', 'superseded']));
-
         try {
+            // master data check
+            $this->validateMasterData(request()->only(['project_item', 'superseded']));
+            
             DB::beginTransaction();
 
             $product = ProductInfo::where('item_code', request()->item_code)->first();
@@ -180,7 +180,7 @@ class ProductInformationController extends Controller
             DB::rollBack();
             return response()->json([
                 'status'  => 'error',
-                'message' => 'Something went wrong. Please try again later.'
+                'message' => $th->getMessage()
             ], 500);
         }
     }
