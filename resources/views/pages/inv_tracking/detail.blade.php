@@ -63,20 +63,32 @@
             @if (!$params)
             <div class="d-flex align-items-center justify-content-end gap-2">
                 @can('delivery export overall report')
-                <a href="/delivery-trackings/export-overall" class="btn btn-export btn-sm d-flex align-items-center gap-2">
+                <!--<a href="/delivery-trackings/export-overall" class="btn btn-export btn-sm d-flex align-items-center gap-2">
                     <i class="fas fa-print"></i>
                     <span>Overall report</span>
-                </a>
+                </a>-->
+                <button
+                    class="btn btn-export btn-sm d-flex align-items-center gap-2 export-btn"
+                    data-url="/delivery-trackings/export-overall"
+                    data-filename="overall-report.xlsx">
+                    <i class="fas fa-print"></i>
+                    <span>Overall report</span>
+                </button>
                 @endcan
                 @can('delivery export pending report')
-                <a href="/delivery-trackings/export-pending" class="btn btn-export btn-sm d-flex align-items-center gap-2">
+                <!--<a href="/delivery-trackings/export-pending" class="btn btn-export btn-sm d-flex align-items-center gap-2">
                     <i class="fas fa-print"></i>
                     <span>Pending ERP report</span>
-                </a>
+                </a>-->
+                <button id="exportBtn"
+                        class="btn btn-export btn-sm d-flex align-items-center gap-2">
+                    <i class="fas fa-print"></i>
+                    <span>Pending ERP report</span>
+                </button>
                 @endcan
             </div>
             @endif
-            
+
             <div class="table-responsive custom-shadow rounded">
                 <table class="table table-hover mb-0">
                     <thead class="text-xs text-muted text-uppercase bg-light">
@@ -140,6 +152,38 @@
             placeholder: 'Search for a driver',
             allowClear: true
         });
+
+        document.querySelectorAll('.export-btn').forEach(button => {
+            button.addEventListener('click', async function () {
+                const loader = document.getElementById('loader-wrapper');
+                try {
+                    loader.classList.remove('loader-hidden');
+                    loader.style.display = 'flex';
+                    const url = this.dataset.url;
+                    const filename = this.dataset.filename;
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error('Export failed');
+                    }
+                    const blob = await response.blob();
+                    const downloadUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = downloadUrl;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(downloadUrl);
+                } catch (error) {
+                    alert('Export error');
+                    console.error(error);
+                } finally {
+                    loader.classList.add('loader-hidden');
+                    loader.style.display = 'none';
+                }
+            });
+        });
+
     });
 
     const handleSearch = () => {
@@ -187,7 +231,7 @@
     document.querySelectorAll('.search-field').forEach(field => {
         field.addEventListener('change', handleSearch);
         if (field.type === 'search' || field.type === 'text') {
-             field.addEventListener('blur', handleSearch); 
+             field.addEventListener('blur', handleSearch);
         }
     });
 </script>

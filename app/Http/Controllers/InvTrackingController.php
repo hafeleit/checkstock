@@ -297,23 +297,36 @@ class InvTrackingController extends Controller
         $fileName = 'pending_document_' . Carbon::now()->format('Ymd') . '.xlsx';
 
         try {
-            $invTrackings = InvTracking::query()
-                ->select('erp_document', 'invoice_id')
-                ->selectRaw('MIN(delivery_date) as oldest_delivery_date')
-                ->selectRaw('DATEDIFF(CURDATE(), MIN(delivery_date)) as days_since_delivery')
-                ->selectSub(function ($query) {
-                    $query->select('driver_or_sent_to')
-                        ->from('inv_trackings as sub')
-                        ->whereColumn('sub.erp_document', 'inv_trackings.erp_document')
-                        ->where('sub.type', 'deliver')
-                        ->where('sub.status', 'pending')
-                        ->orderByDesc('sub.delivery_date')
-                        ->limit(1);
-                }, 'driver_or_sent_to')
-                ->where('type', 'deliver')
-                ->where('status', 'pending')
-                ->groupBy('erp_document', 'invoice_id')
-                ->get();
+            $latestDriver = DB::table('inv_trackings as t1')
+      				->select('t1.erp_document', 't1.driver_or_sent_to')
+      				->join(DB::raw('(
+      					SELECT erp_document, MAX(delivery_date) as max_date
+      					FROM inv_trackings
+      					WHERE type = "deliver"
+      					AND status = "pending"
+      					GROUP BY erp_document
+      				) t2'), function ($join) {
+      					$join->on('t1.erp_document', '=', 't2.erp_document')
+      						 ->on('t1.delivery_date', '=', 't2.max_date');
+      				})
+      				->where('t1.type', 'deliver')
+      				->where('t1.status', 'pending');
+
+      			$invTrackings = DB::table('inv_trackings as main')
+      				->select(
+      					'main.erp_document',
+      					'main.invoice_id',
+      					DB::raw('MIN(main.delivery_date) as oldest_delivery_date'),
+      					DB::raw('DATEDIFF(CURDATE(), MIN(main.delivery_date)) as days_since_delivery'),
+      					'ld.driver_or_sent_to'
+      				)
+      				->leftJoinSub($latestDriver, 'ld', function ($join) {
+      					$join->on('main.erp_document', '=', 'ld.erp_document');
+      				})
+      				->where('main.type', 'deliver')
+      				->where('main.status', 'pending')
+      				->groupBy('main.erp_document', 'main.invoice_id', 'ld.driver_or_sent_to')
+      				->get();
 
             $mappedData = $invTrackings->map(function ($invTracking, $index) {
                 return [
