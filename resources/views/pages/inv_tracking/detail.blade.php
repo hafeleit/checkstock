@@ -80,8 +80,10 @@
                     <i class="fas fa-print"></i>
                     <span>Pending ERP report</span>
                 </a>-->
-                <button id="exportBtn"
-                        class="btn btn-export btn-sm d-flex align-items-center gap-2">
+                <button
+                    class="btn btn-export btn-sm d-flex align-items-center gap-2 export-btn"
+                    data-url="/delivery-trackings/export-pending"
+                    data-filename="pending-report.xlsx">
                     <i class="fas fa-print"></i>
                     <span>Pending ERP report</span>
                 </button>
