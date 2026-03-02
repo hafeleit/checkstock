@@ -73,11 +73,11 @@ class CustomerQrCodeController extends Controller
     {
         $customerName = request()->input('customer_name');
         $ref1 = request()->input('customer_code');
+        $ref2 = request()->input('customer_name');
         $amount = request()->input('amount', 0.00);
 
         $taxId = '0105537076950';
         $suffix = '00';
-        $ref2 = null;
         $amount = (float) $amount;
 
         $payload = $this->generatePayload($taxId, $suffix, $ref1, $ref2, $amount);
@@ -136,6 +136,10 @@ class CustomerQrCodeController extends Controller
 
     private function generatePayload($taxId, $suffix, $ref1, $ref2, $amount)
     {
+        // remove all whitespace characters
+        $ref1 = preg_replace('/\s+/', '', $ref1);
+        $ref2 = preg_replace('/\s+/', '', $ref2);
+
         // 1. Prefix: 1 หลัก
         $prefix = "|";
 
