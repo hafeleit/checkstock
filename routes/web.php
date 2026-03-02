@@ -162,4 +162,6 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   Route::post('/qr-code-customers', [CustomerQrCodeController::class, 'store'])->name('qr-code-customers.store');
   Route::post('/qr-code-customers/generate', [CustomerQrCodeController::class, 'generateQrCode'])->name('qr-code-customers.generate');
   Route::delete('/qr-code-customers/{id}', [CustomerQrCodeController::class, 'destroy'])->name('qr-code-customers.destroy');
+  Route::get('/qr-code-customers/export-template', [CustomerQrCodeController::class, 'exportTemplate'])->name('qr-code-customers.export-template');
+  Route::post('/qr-code-customers/import', [CustomerQrCodeController::class, 'import'])->name('qr-code-customers.import');
 });

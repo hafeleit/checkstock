@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TemplateExport;
+use App\Imports\CustomerQrCodeImport;
 use App\Models\CustomerQrCode;
+use App\Models\FileImportLog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Milon\Barcode\DNS2D;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use PDF;
@@ -132,6 +135,46 @@ class CustomerQrCodeController extends Controller
         $customer->delete();
 
         return response()->json(['message' => 'Deleted successfully'], 200);
+    }
+
+    public function import()
+    {
+        request()->validate([
+            'file' => 'required|file|mimes:xlsx,xls',
+        ]);
+
+        $file = request()->file('file');
+        $fileName = $file->getClientOriginalName();
+        $fileSize = $file->getSize();
+        $fileImportLog = null;
+
+        DB::beginTransaction();
+
+        try {
+            $fileImportLog = FileImportLog::create([
+                'file_name'     => $fileName,
+                'file_size'     => $fileSize,
+                'type'          => 'customer_qr_code',
+                'status'        => 'pending',
+                'created_by'    => auth()->id()
+            ]);
+
+            Excel::import(new CustomerQrCodeImport($fileImportLog->id), request()->file('file'));
+            $fileImportLog->update(['status' => 'processed']);
+
+            DB::commit();
+            return response()->json(['message' => 'Updated successfully'], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(['message' => $th->getMessage()], 400);
+        }
+    }
+
+    public function exportTemplate()
+    {
+        $fileName = "Customer_QR_Code_Template" . now()->format('Ymd') . ".xlsx";
+
+        return Excel::download(new TemplateExport('qr-code'), $fileName);
     }
 
     private function generatePayload($taxId, $suffix, $ref1, $ref2, $amount)

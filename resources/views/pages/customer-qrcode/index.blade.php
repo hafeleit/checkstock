@@ -197,12 +197,22 @@
                     <div class="card-header pb-0">
                         <div class="d-md-flex align-items-center justify-between">
                             <h6 class="mb-0 h3">Customer List</h6>
-                            <a href="/qr-code-customers/create" type="button" class="btn btn-sm btn-primary m-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                                </svg>
-                                Add QR Code Customer
-                            </a>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary m-0" data-bs-toggle="modal" data-bs-target="#updateQrCodeModal">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-upload mx-1" viewBox="0 0 16 16">
+                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
+                                    </svg>
+                                    Import QR Code Customer
+                                </button>
+                                <a href="/qr-code-customers/create" type="button" class="btn btn-sm btn-primary m-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                                    </svg>
+                                    Add QR Code Customer
+                                </a>
+                            </div>
+                            
                         </div>
                         <p class="text-uppercase text-secondary text-xxs">5 customers registered</p>
                     </div>
@@ -333,6 +343,48 @@
             </div>
         </div>
 
+        {{-- Modal import --}}
+        <div class="modal fade" id="updateQrCodeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateQrCodeModalLabel">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="updateQrCodeModalLabel">Update QR Code</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-x" viewBox="0 0 16 16">
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-4">
+                            <p class="text-secondary small mb-2">
+                                You can download the template to prepare your data for importing into the system from the link below.
+                            </p>
+                            <a href="{{ route('qr-code-customers.export-template') }}" class="btn btn-sm btn-outline-secondary m-0">
+                                Download template (.xlsx)
+                            </a>
+                        </div>
+
+                        <hr class="text-secondary opacity-25">
+
+                        <form method="post" id="qrCodeForm">
+                            @csrf
+                            <div>
+                                <label class="form-label fw-bold required">Select file to import</label>
+                                <input class="form-control" type="file" id="import-qr-code-file"
+                                    accept=".xlsx, .xls">
+                                <div class="form-text text-xs">Only .xlsx, or .xls files are supported.</div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="uploadQrCodeBtn" class="btn btn-primary">Upload</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{-- Modal Qr Code --}}
         <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -406,6 +458,7 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             const qrModal = document.getElementById('qrCodeModal');
+            const uploadButton = document.getElementById('uploadQrCodeBtn');
             
             if (qrModal) {
                 qrModal.addEventListener('show.bs.modal', function (event) {
@@ -425,6 +478,45 @@
                     qrImgElement.src = qrUrl;
                 });
             }
+
+            uploadButton.addEventListener('click', function () {
+                const fileInput = document.getElementById('import-qr-code-file');
+                const file = fileInput.files[0];
+
+                if (!file) {
+                    Swal.fire('No file selected', 'Please choose a file to upload.', 'warning');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('file', file);
+
+                Swal.fire({
+                    title: 'Uploading...',
+                    text: 'Please wait while the file is being uploaded.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                axios.post('/qr-code-customers/import', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(response => {
+                    Swal.fire('Success', response.data.message || 'File uploaded successfully.', 'success')
+                        .then(() => {
+                            window.location.reload();
+                        });
+                })
+                .catch(error => {
+                    console.log(error);
+                    const msg = error.response?.data?.message || 'Something went wrong';
+                    Swal.fire('Error', msg, 'error');
+                });
+            });
         });
 
             // Handle delete QR code
@@ -463,6 +555,19 @@
                     }
                 });
             }
+        });
+
+        // Hide loader wrapper
+        const downloadLinks = document.querySelectorAll('a[href*="export-template"]');
+        downloadLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                setTimeout(() => {
+                    const loader = document.getElementById('loader-wrapper');
+                    if (loader) {
+                        loader.style.display = 'none'; 
+                    }
+                }, 500); 
+            });
         });
     </script>
 @endsection

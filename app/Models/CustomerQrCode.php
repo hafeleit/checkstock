@@ -17,6 +17,7 @@ class CustomerQrCode extends Model
         'amount',
         'created_date',
         'created_by',
+        'file_import_log_id',
     ];
 
     public function creator()
