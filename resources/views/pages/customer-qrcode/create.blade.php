@@ -62,13 +62,13 @@
                                     <form method="POST" action="{{ route('qr-code-customers.generate') }}" id="qr-form">
                                         @csrf
 
-                                        <div class="form-group">
-                                            <label for="customer_name" class="form-control-label text-sm required">Customer Name</label>
-                                            <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Enter customer name" value="{{ $customer_name ?? '' }}" required>
-                                        </div>
                                         <div class="form-group mt-3">
-                                            <label for="customer_code" class="form-control-label text-sm required">Customer Code <span class="text-muted">(Ref1)</span></label>
+                                            <label for="customer_code" class="form-control-label text-sm required">Customer Code <span class="text-muted">(REF1)</span></label>
                                             <input type="text" class="form-control" name="customer_code" id="customer_code" placeholder="Enter customer code" value="{{ $customer_code ?? '' }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="customer_name" class="form-control-label text-sm required">Customer Name <span class="text-muted">(REF2)</span></label>
+                                            <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Enter customer name" value="{{ $customer_name ?? '' }}" required>
                                         </div>
                                         <div class="form-group mt-3">
                                             <label for="amount" class="form-control-label text-sm">Amount</label>
@@ -106,15 +106,16 @@
                                                 
                                                 <div class="bg-gray-100 p-3 rounded-3">
                                                     <div class="d-flex justify-content-between mb-1">
-                                                        <span class="text-secondary text-xs">Ref1:</span>
+                                                        <span class="text-secondary text-xs">REF1:</span>
                                                         <span class="text-dark fw-bold text-xs">{{ $customer_code }}</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span class="text-secondary text-xs">REF2:</span>
+                                                        <span class="text-dark fw-bold text-xs">{{ $customer_name }}</span>
                                                     </div>
                                                     <div class="d-flex justify-content-between mb-2">
                                                         <span class="text-secondary text-xs">Amount:</span>
                                                         <span class="text-dark fw-bold text-xs">{{ number_format($amount ?? 0, 2) }}</span>
-                                                    </div>
-                                                    <div class="pt-2 border-top text-center">
-                                                        <span class="text-dark font-weight-bold">{{ $customer_name }}</span>
                                                     </div>
                                                 </div>
                                             </div>
