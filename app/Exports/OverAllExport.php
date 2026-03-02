@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use Illuminate\Database\Eloquent\Collection;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -13,18 +13,19 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class OverAllExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithCustomStartCell
+class OverAllExport implements FromQuery, WithHeadings, WithMapping, WithStyles, WithCustomStartCell
 {
-    private $mappedData;
+    protected $invTrackings;
+    private $rowIndex = 0;
 
-    public function __construct(array $mappedData)
+    public function __construct($invTrackings)
     {
-        $this->mappedData = $mappedData;
+        $this->invTrackings = $invTrackings;
     }
 
-    public function collection()
+    public function query()
     {
-        return new Collection($this->mappedData);
+        return $this->invTrackings;
     }
 
     public function headings(): array
@@ -45,18 +46,20 @@ class OverAllExport implements FromCollection, WithHeadings, WithMapping, WithSt
     }
     public function map($row): array
     {
+        $this->rowIndex++;
+
         return [
-            $row['no'],
-            $row['logi_track_id'],
-            $row['driver_or_sent_to'],
-            $row['erp_document'],
-            $row['invoice_id'],
-            $row['delivery_date'],
-            $row['created_date'],
-            $row['created_by'],
-            $row['updated_by'],
-            $row['type'],
-            $row['remark'],
+            $this->rowIndex,
+            $row->logi_track_id,
+            $row->driver_or_sent_to,
+            $row->erp_document,
+            $row->invoice_id,
+            $row->delivery_date ? Carbon::parse($row->delivery_date)->format('d/m/Y') : '',
+            $row->created_date ? Carbon::parse($row->created_date)->format('d/m/Y') : '',
+            $row->created_by,
+            $row->updated_by,
+            $row->type,
+            $row->remark ?? '',
         ];
     }
 
@@ -72,13 +75,11 @@ class OverAllExport implements FromCollection, WithHeadings, WithMapping, WithSt
         $sheet->getStyle('A1:K1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFDBDBDB');
         $sheet->getStyle('A1:K1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-        // *** เพิ่มเส้นขอบให้กับหัวตาราง (A1:K1) ***
-        $sheet->getStyle('A1:K1')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
-
-        // *** เพิ่มเส้นขอบให้กับข้อมูลในตาราง ***
-        $lastRow = count($this->mappedData) + 1;
+        // หาตำแหน่งแถวสุดท้ายที่มีข้อมูล
+        $lastRow = $sheet->getHighestRow();
         $range = 'A1:K' . $lastRow;
 
+        // ใส่เส้นขอบทีเดียวทั้งตาราง
         $sheet->getStyle($range)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 
         // จัดความกว้างคอลัมน์

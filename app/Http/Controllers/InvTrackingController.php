@@ -267,25 +267,40 @@ class InvTrackingController extends Controller
         $fileName = 'overall_document_' . Carbon::now()->format('Ymd') . '.xlsx';
 
         try {
-            $invTrackings = InvTracking::with('user', 'updatedUser')->get();
-            $mappedData = $invTrackings->map(function ($invTracking, $index) {
-                return [
-                    'no' => $index + 1,
-                    'logi_track_id' => $invTracking->logi_track_id,
-                    'driver_or_sent_to' => $invTracking->driver_or_sent_to,
-                    'erp_document' => $invTracking->erp_document,
-                    'invoice_id' => $invTracking->invoice_id,
-                    'created_date' => $invTracking->created_date ? Carbon::parse($invTracking->created_date)->format('d/m/Y') : null,
-                    'delivery_date' => $invTracking->delivery_date ? Carbon::parse($invTracking->delivery_date)->format('d/m/Y') : null,
-                    'type' => $invTracking->type,
-                    'created_by' => $invTracking->user->username,
-                    'updated_by' => $invTracking->updatedUser->username ?? null,
-                    'remark' => $invTracking->remark ?? ''
-                ];
-            });
+            $invTrackings = InvTracking::query()
+                ->leftJoin('users as created_user', 'inv_trackings.created_by', '=', 'created_user.id')
+                ->leftJoin('users as updated_user', 'inv_trackings.updated_by', '=', 'updated_user.id')
+                ->select(
+                    'inv_trackings.logi_track_id',
+                    'inv_trackings.driver_or_sent_to',
+                    'inv_trackings.erp_document',
+                    'inv_trackings.invoice_id',
+                    'inv_trackings.created_date',
+                    'inv_trackings.delivery_date',
+                    'inv_trackings.type',
+                    'inv_trackings.remark',
+                    'created_user.username as created_by',
+                    'updated_user.username as updated_by',
+                );
+            
+            // $mappedData = $invTrackings->map(function ($invTracking, $index) {
+            //     return [
+            //         'no' => $index + 1,
+            //         'logi_track_id' => $invTracking->logi_track_id,
+            //         'driver_or_sent_to' => $invTracking->driver_or_sent_to,
+            //         'erp_document' => $invTracking->erp_document,
+            //         'invoice_id' => $invTracking->invoice_id,
+            //         'created_date' => $invTracking->created_date ? Carbon::parse($invTracking->created_date)->format('d/m/Y') : null,
+            //         'delivery_date' => $invTracking->delivery_date ? Carbon::parse($invTracking->delivery_date)->format('d/m/Y') : null,
+            //         'type' => $invTracking->type,
+            //         'created_by' => $invTracking->created_by,
+            //         'updated_by' => $invTracking->updated_by ?? null,
+            //         'remark' => $invTracking->remark ?? ''
+            //     ];
+            // });
 
             event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'pass', $fileName, null));
-            return Excel::download(new OverAllExport($mappedData->toArray()), $fileName);
+            return Excel::download(new OverAllExport($invTrackings), $fileName);
         } catch (\Throwable $th) {
             event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'fail', $fileName, null, $th->getMessage()));
             return back()->with('error', '❌ An error occurred during export: ' . $th->getMessage());
