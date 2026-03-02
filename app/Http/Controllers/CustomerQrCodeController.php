@@ -47,8 +47,8 @@ class CustomerQrCodeController extends Controller
     public function store()
     {
         request()->validate([
-            'customer_name' => 'required|string',
-            'customer_code' => 'required|string',
+            'customer_name' => 'required|string|max:18',
+            'customer_code' => 'required|string|max:18',
             'amount' => 'required|numeric',
             'payload' => 'required|string',
         ]);
