@@ -282,22 +282,6 @@ class InvTrackingController extends Controller
                     'created_user.username as created_by',
                     'updated_user.username as updated_by',
                 );
-            
-            // $mappedData = $invTrackings->map(function ($invTracking, $index) {
-            //     return [
-            //         'no' => $index + 1,
-            //         'logi_track_id' => $invTracking->logi_track_id,
-            //         'driver_or_sent_to' => $invTracking->driver_or_sent_to,
-            //         'erp_document' => $invTracking->erp_document,
-            //         'invoice_id' => $invTracking->invoice_id,
-            //         'created_date' => $invTracking->created_date ? Carbon::parse($invTracking->created_date)->format('d/m/Y') : null,
-            //         'delivery_date' => $invTracking->delivery_date ? Carbon::parse($invTracking->delivery_date)->format('d/m/Y') : null,
-            //         'type' => $invTracking->type,
-            //         'created_by' => $invTracking->created_by,
-            //         'updated_by' => $invTracking->updated_by ?? null,
-            //         'remark' => $invTracking->remark ?? ''
-            //     ];
-            // });
 
             event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'pass', $fileName, null));
             return Excel::download(new OverAllExport($invTrackings), $fileName);
