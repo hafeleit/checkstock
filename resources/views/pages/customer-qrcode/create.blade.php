@@ -69,6 +69,7 @@
                                         <div class="form-group">
                                             <label for="customer_name" class="form-control-label text-sm required">Customer Name <span class="text-muted">(REF2)</span></label>
                                             <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Enter customer name" value="{{ $customer_name ?? '' }}" required>
+                                            <small class="form-text text-muted text-xs fst-italic">Recommended to use English characters.</small>
                                         </div>
                                         <div class="form-group mt-3">
                                             <label for="amount" class="form-control-label text-sm">Amount</label>
@@ -112,6 +113,9 @@
                                                     <div class="d-flex justify-content-between mb-1">
                                                         <span class="text-secondary text-xs">REF2:</span>
                                                         <span class="text-dark fw-bold text-xs">{{ $customer_name }}</span>
+                                                    </div>
+                                                    <div class="text-xs text-muted mb-1">
+                                                        (please use English characters)
                                                     </div>
                                                     <div class="d-flex justify-content-between mb-2">
                                                         <span class="text-secondary text-xs">Amount:</span>
