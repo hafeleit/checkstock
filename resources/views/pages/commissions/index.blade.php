@@ -2,6 +2,15 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Commissions'])
+    {{-- <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+        #loader-wrapper {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+    </style> --}}
+
     <div>
         @include('components.alert')
     </div>
@@ -127,6 +136,7 @@
     </div>
 
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+
         document.addEventListener('click', function(e) {
             if (e.target.closest('.commissions-link')) {
                 const button = e.target.closest('.commissions-link');
@@ -204,12 +214,30 @@
         });
 
         document.getElementById('importForm').addEventListener('submit', function(e) {
-            // แสดง loading popup ด้วย SweetAlert2
+            const perloader = document.getElementById('loader-wrapper');
+            
+            // ไม่แสดง preloader
+            if (perloader) {
+                perloader.style.setProperty('display', 'none', 'important');
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                            if (perloader.style.display !== 'none') {
+                                perloader.style.setProperty('display', 'none', 'important');
+                            }
+                        }
+                    });
+                });
+                observer.observe(perloader, { attributes: true });
+            }
+
+            // แสดง SweetAlert
             Swal.fire({
                 title: 'กำลังประมวลผล...',
+                text: 'กรุณารอสักครู่ ระบบกำลังนำเข้าข้อมูล',
                 allowOutsideClick: false,
                 didOpen: () => {
-                    Swal.showLoading()
+                    Swal.showLoading();
                 }
             });
         });
