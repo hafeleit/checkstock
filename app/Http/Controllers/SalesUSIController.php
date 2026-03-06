@@ -715,7 +715,17 @@ class SalesUSIController extends Controller
             ->selectRaw('SUM(CASE WHEN im.mvgr4 = "Z00" THEN 0 WHEN b.amount IS NOT NULL THEN (b.amount / b.per) * bom.quantity ELSE 0 END)')
             ->leftJoin('ZORDPOSKONV_ZPL as b', 'bom.component', '=', 'b.material')
             ->leftJoin('zhaamm_ifvmg_mat as im', 'bom.component', '=', 'im.matnr')
-            ->whereColumn('bom.material', 'a.material');
+            ->whereColumn('bom.material', 'a.material')
+            ->where(function ($q) {
+                $q->where(function ($x) {
+                    $x->where('bom.bom_usg', 1)
+                        ->where('bom.proc_type', 'E');
+                })
+                ->orWhere(function ($x) {
+                    $x->where('bom.bom_usg', 5)
+                        ->where('bom.proc_type', 'F');
+                });
+            });
 
         if (auth()->user()->hasPermissionTo('salesusi manager')) {
             return DB::table('ZHWWBCQUERYDIR as a')
@@ -738,7 +748,18 @@ class SalesUSIController extends Controller
                 ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
                 ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
                 ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
+                ->leftJoin('zhwwmm_bom_vko as bom', 'bom.material', '=', 'a.material')
                 ->where('a.material', $item_code)
+                ->where(function ($q) {
+                    $q->where(function ($x) {
+                        $x->where('bom.bom_usg', 1)
+                            ->where('bom.proc_type', 'E');
+                    })
+                    ->orWhere(function ($x) {
+                        $x->where('bom.bom_usg', 5)
+                            ->where('bom.proc_type', 'F');
+                    });
+                })
                 ->groupBy('c.material', 'c.uom');
         } else {
             return DB::table('ZHWWBCQUERYDIR as a')
@@ -759,7 +780,18 @@ class SalesUSIController extends Controller
                 ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
                 ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
                 ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
+                ->leftJoin('zhwwmm_bom_vko as bom', 'bom.material', '=', 'a.material')
                 ->where('a.material', $item_code)
+                ->where(function ($q) {
+                    $q->where(function ($x) {
+                        $x->where('bom.bom_usg', 1)
+                            ->where('bom.proc_type', 'E');
+                    })
+                    ->orWhere(function ($x) {
+                        $x->where('bom.bom_usg', 5)
+                            ->where('bom.proc_type', 'F');
+                    });
+                })
                 ->groupBy('c.material', 'c.uom');
         }
     }
