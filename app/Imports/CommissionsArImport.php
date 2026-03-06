@@ -61,7 +61,7 @@ class CommissionsArImport implements WithMultipleSheets, ToModel
 
         return new CommissionsAr([
             'commissions_id'           => $this->commissionId,
-            'type'                  => 'AR',
+            'type'                     => 'AR',
             'account'                  => $row[1] ?? null,
             'name'                     => $row[2] ?? null,
             'document_type'            => $row[8] ?? null,
@@ -73,6 +73,7 @@ class CommissionsArImport implements WithMultipleSheets, ToModel
             'local_currency'           => $row[25] ?? null,
             'clearing_document'        => $row[26] ?? null,
             'text'                     => $row[32] ?? null,
+            'header_text'              => $row[33] ?? null,
             'posting_key'              => $row[35] ?? null,
             'sales_rep'                => $row[40] ?? null,
         ]);
