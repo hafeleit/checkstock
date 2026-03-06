@@ -720,23 +720,29 @@ class SalesUSIController extends Controller
                 $q->where(function ($x) {
                     $x->where('bom.bom_usg', 1)
                         ->where('bom.proc_type', 'E');
-                })
-                ->orWhere(function ($x) {
-                    $x->where('bom.bom_usg', 5)
-                        ->where('bom.proc_type', 'F');
-                });
+                    })
+                    ->orWhere(function ($x) {
+                        $x->where('bom.bom_usg', 5)
+                            ->where('bom.proc_type', 'F');
+                    });
             });
 
         if (auth()->user()->hasPermissionTo('salesusi manager')) {
             return DB::table('ZHWWBCQUERYDIR as a')
+                ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
+                ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
+                ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
+                ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
+                ->leftJoin('zhwwmm_bom_vko as bom', 'bom.material', '=', 'a.material')
                 ->select([
                     'a.material as IUW_ITEM_CODE',
                     'a.bun as IUW_UOM_CODE',
                     DB::raw("
-                        CASE
+                        CASE 
                             WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
+                            WHEN (bom.bom_usg = 1 AND bom.proc_type = 'E') OR (bom.bom_usg = 5 AND bom.proc_type = 'F') THEN CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
                             WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2), ' THB')
-                            ELSE CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
+                            ELSE '0.00 THB'
                         END as IUW_PRICE
                     "),
                     DB::raw("CASE WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2),' THB') ELSE '0 THB' END as NEW_ZPLV_COST"),
@@ -744,54 +750,30 @@ class SalesUSIController extends Controller
                     DB::raw("CASE WHEN a.mov_avg_price IS NOT NULL THEN FORMAT(a.mov_avg_price / a.per, 2) ELSE '0' END as NEW_MAP_COST")
                 ])
                 ->mergeBindings($subquery)
+                ->where('a.material', $item_code)
+                ->groupBy('c.material', 'c.uom');
+        } else {
+            return DB::table('ZHWWBCQUERYDIR as a')
                 ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
                 ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
                 ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
                 ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
                 ->leftJoin('zhwwmm_bom_vko as bom', 'bom.material', '=', 'a.material')
-                ->where('a.material', $item_code)
-                ->where(function ($q) {
-                    $q->where(function ($x) {
-                        $x->where('bom.bom_usg', 1)
-                            ->where('bom.proc_type', 'E');
-                    })
-                    ->orWhere(function ($x) {
-                        $x->where('bom.bom_usg', 5)
-                            ->where('bom.proc_type', 'F');
-                    });
-                })
-                ->groupBy('c.material', 'c.uom');
-        } else {
-            return DB::table('ZHWWBCQUERYDIR as a')
                 ->select([
                     'a.material as IUW_ITEM_CODE',
                     'a.bun as IUW_UOM_CODE',
                     DB::raw("
-                        CASE
+                        CASE 
                             WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
+                            WHEN (bom.bom_usg = 1 AND bom.proc_type = 'E') OR (bom.bom_usg = 5 AND bom.proc_type = 'F') THEN CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
                             WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2), ' THB')
-                            ELSE CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
+                            ELSE '0.00 THB'
                         END as IUW_PRICE
                     "),
                     DB::raw("CASE WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2),' THB') ELSE '0 THB' END as NEW_ZPLV_COST")
                 ])
                 ->mergeBindings($subquery)
-                ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
-                ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
-                ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
-                ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
-                ->leftJoin('zhwwmm_bom_vko as bom', 'bom.material', '=', 'a.material')
                 ->where('a.material', $item_code)
-                ->where(function ($q) {
-                    $q->where(function ($x) {
-                        $x->where('bom.bom_usg', 1)
-                            ->where('bom.proc_type', 'E');
-                    })
-                    ->orWhere(function ($x) {
-                        $x->where('bom.bom_usg', 5)
-                            ->where('bom.proc_type', 'F');
-                    });
-                })
                 ->groupBy('c.material', 'c.uom');
         }
     }
