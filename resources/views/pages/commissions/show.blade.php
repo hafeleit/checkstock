@@ -811,6 +811,22 @@
             const calculatedForm = document.getElementById('calculated-form');
             if (calculatedForm) {
                 calculatedForm.addEventListener('submit', function(e) {
+                    // ซ่อน preloader
+                    const perloader = document.getElementById('loader-wrapper');
+                    if (perloader) {
+                        perloader.style.setProperty('display', 'none', 'important');
+                        const observer = new MutationObserver((mutations) => {
+                            mutations.forEach((mutation) => {
+                                if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                                    if (perloader.style.display !== 'none') {
+                                        perloader.style.setProperty('display', 'none', 'important');
+                                    }
+                                }
+                            });
+                        });
+                        observer.observe(perloader, { attributes: true });
+                    }
+                    
                     Swal.fire({
                         title: 'กำลังคำนวณ...',
                         text: 'กรุณารอสักครู่',

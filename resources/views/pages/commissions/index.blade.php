@@ -2,14 +2,6 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Commissions'])
-    {{-- <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-        #loader-wrapper {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-        }
-    </style> --}}
 
     <div>
         @include('components.alert')

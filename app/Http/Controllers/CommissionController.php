@@ -820,6 +820,7 @@ class CommissionController extends Controller
                         'local_currency',
                         'clearing_document',
                         'text',
+                        'header_text',
                         'posting_key',
                         'sales_rep',
                         'ar_rate',
@@ -832,7 +833,22 @@ class CommissionController extends Controller
                     ->get();
 
                 if ($ars->isNotEmpty()) {
-                    $insertData = $ars->map(function ($ar) use ($id) {
+                    $headerTexts = $ars->pluck('header_text')->filter()->unique()->toArray();
+                    $existingSalesDocs = DB::table('hww_sd_06')
+                        ->whereIn('SalesDoc', $headerTexts)
+                        ->pluck('SalesDoc')
+                        ->flip()
+                        ->toArray();
+
+                    $insertData = $ars->map(function ($ar) use ($id, $existingSalesDocs) {
+                        $hasExistingHeader = isset($existingSalesDocs[$ar->header_text]);
+
+                        if ($hasExistingHeader && in_array($ar->document_type, ['DM', 'DG'])) {
+                            $salesRep = 'HWW_SD_06.ZE';
+                        } else {
+                            $salesRep = $ar->sales_rep;
+                        }
+
                         return [
                             'type'                     => 'AR Old',
                             'commissions_id'           => $id,
@@ -847,8 +863,9 @@ class CommissionController extends Controller
                             'local_currency'           => $ar->local_currency,
                             'clearing_document'        => $ar->clearing_document,
                             'text'                     => $ar->text,
+                            'header_text'              => $ar->header_text,
                             'posting_key'              => $ar->posting_key,
-                            'sales_rep'                => $ar->sales_rep,
+                            'sales_rep'                => $salesRep,
                             'ar_rate'                  => $ar->ar_rate,
                             'ar_rate_percent'          => $ar->ar_rate_percent,
                             'commissions'              => $ar->commissions,
