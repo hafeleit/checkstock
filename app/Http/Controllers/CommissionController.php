@@ -729,8 +729,28 @@ class CommissionController extends Controller
                 ->where('commissions_id', $id)
                 ->get();
 
+            $headerTexts = $entries->pluck('header_text')
+                ->filter()
+                ->unique()
+                ->toArray();
+
+            $existingSalesDocs = DB::table('hww_sd_06')
+                ->whereIn('SalesDoc', $headerTexts)
+                ->pluck('SalesDoc')
+                ->flip()
+                ->toArray();
+
             foreach ($entries as $entry) {
-                $salesRep = $entry->sales_rep;
+                $hasExistingHeader = isset($existingSalesDocs[$entry->header_text]);
+
+                if ($hasExistingHeader && in_array($entry->document_type, ['DM', 'DG'])) {
+                    $salesRep = 'HWW_SD_06.ZE';
+
+                    $entry->sales_rep = $salesRep;
+                    $entry->save();
+                } else {
+                    $salesRep = $entry->sales_rep;
+                }
 
                 if (!$salesRep || strlen($salesRep) < 4) {
                     continue;
@@ -806,30 +826,6 @@ class CommissionController extends Controller
                 $oldCommissionId = Commission::where('delete', 0)
                     ->where('id', '<', $latestId)
                     ->max('id');
-
-                $latestArs = DB::table('commissions_ars')
-                    ->where('commissions_id', $latestId)
-                    ->get();
-
-                foreach ($latestArs as $latestAr) {
-                    $headerTexts = $latestArs->pluck('header_text')
-                        ->filter()
-                        ->unique()
-                        ->toArray();
-
-                    $existingSalesDocs = DB::table('hww_sd_06')
-                        ->whereIn('SalesDoc', $headerTexts)
-                        ->pluck('SalesDoc')
-                        ->flip()
-                        ->toArray();
-
-                    if (isset($existingSalesDocs[$latestAr->header_text]) && in_array($latestAr->document_type, ['DM', 'DG'])) {
-                        $salesRep = 'HWW_SD_06.ZE';
-                        DB::table('commissions_ars')
-                            ->where('id', $latestAr->id)
-                            ->update(['sales_rep' => $salesRep]);
-                    }
-                }
 
                 $ars = DB::table('commissions_ars')
                     ->select(
