@@ -150,14 +150,22 @@
                                             <div class="modal-body text-center">
                                                 <p>Please choose which report you want to export:</p>
                                                 @can('delivery export deliver report')
-                                                <a href="/delivery-trackings/delivers/export?logi_track_id={{ $item['logi_track_id'] }}&report_type=summary" class="btn btn-primary m-1">
-                                                    <i class="fas fa-print"></i> Deliver Report
-                                                </a>
+                                                <button
+                                                    class="export-btn btn-sm btn btn-primary m-1"
+                                                    data-url="/delivery-trackings/delivers/export?logi_track_id={{ $item['logi_track_id'] }}&report_type=summary" 
+                                                    data-filename="deliver_job_sheet_{{ $item['logi_track_id'] }}.xlsx">
+                                                    <i class="fas fa-print"></i>
+                                                    <span>Deliver Report</span>
+                                                </button>
                                                 @endcan
                                                 @can('delivery export rtt report')
-                                                <a href="/delivery-trackings/delivers/export-rtt?logi_track_id={{ $item['logi_track_id'] }}&report_type=detail" class="btn btn-export-rtt m-1">
-                                                    <i class="fas fa-print"></i> RTT Report
-                                                </a>
+                                                <button
+                                                    class="export-btn btn-sm btn btn-export-rtt m-1"
+                                                    data-url="/delivery-trackings/delivers/export-rtt?logi_track_id={{ $item['logi_track_id'] }}&report_type=detail" 
+                                                    data-filename="RTT_sheet_{{ $item['logi_track_id'] }}.xlsx">
+                                                    <i class="fas fa-print"></i>
+                                                    <span>RTT Report</span>
+                                                </button>
                                                 @endcan
                                             </div>
                                             <div class="modal-footer">
@@ -212,22 +220,33 @@
 <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
 <script src="{{ asset('js/select2.min.js') }}"></script>
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-    $(document).ready(function() {
-        $('a[href*="export"], .btn-export-rtt, .btn-primary[href*="export"]').on('click', function() {
-            
-            setTimeout(function() {
-                const loader = $('#loader-wrapper');
-                if (loader.length) {
-                    loader.fadeOut(); 
+    document.querySelectorAll('.export-btn').forEach(button => {
+        button.addEventListener('click', async function () {
+            const loader = document.getElementById('loader-wrapper');
+            try {
+                loader.classList.remove('loader-hidden');
+                loader.style.display = 'flex';
+                const url = this.dataset.url;
+                const filename = this.dataset.filename;
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Export failed');
                 }
-            }, 1000);
-        });
-
-        $('.modal-body a').on('click', function() {
-            const modalElement = $(this).closest('.modal');
-            const modalInstance = bootstrap.Modal.getInstance(modalElement[0]);
-            if (modalInstance) {
-                modalInstance.hide();
+                const blob = await response.blob();
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(downloadUrl);
+            } catch (error) {
+                alert('Export error');
+                console.error(error);
+            } finally {
+                loader.classList.add('loader-hidden');
+                loader.style.display = 'none';
             }
         });
     });
