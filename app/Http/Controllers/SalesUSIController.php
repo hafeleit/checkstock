@@ -57,7 +57,7 @@ class SalesUSIController extends Controller
         $productImg = ProductInfoFile::where('item_code', $item_code)
             ->where('type', 'image')
             ->first();
-        
+
         if (!empty($productImg)) {
             $imgPath = $productImg->path;
         } else {
@@ -738,10 +738,10 @@ class SalesUSIController extends Controller
                     'a.material as IUW_ITEM_CODE',
                     'a.bun as IUW_UOM_CODE',
                     DB::raw("
-                        CASE 
+                        CASE
                             WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
-                            WHEN (bom.bom_usg = 1 AND bom.proc_type = 'E') OR (bom.bom_usg = 5 AND bom.proc_type = 'F') THEN CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
                             WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2), ' THB')
+                            WHEN (bom.bom_usg = 1 AND bom.proc_type = 'E') OR (bom.bom_usg = 5 AND bom.proc_type = 'F') THEN CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
                             ELSE '0.00 THB'
                         END as IUW_PRICE
                     "),
@@ -763,10 +763,10 @@ class SalesUSIController extends Controller
                     'a.material as IUW_ITEM_CODE',
                     'a.bun as IUW_UOM_CODE',
                     DB::raw("
-                        CASE 
+                        CASE
                             WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
-                            WHEN (bom.bom_usg = 1 AND bom.proc_type = 'E') OR (bom.bom_usg = 5 AND bom.proc_type = 'F') THEN CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
                             WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2), ' THB')
+                            WHEN (bom.bom_usg = 1 AND bom.proc_type = 'E') OR (bom.bom_usg = 5 AND bom.proc_type = 'F') THEN CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
                             ELSE '0.00 THB'
                         END as IUW_PRICE
                     "),
