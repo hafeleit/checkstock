@@ -58,6 +58,11 @@ Route::get('send-mail', [mailcontroller::class, 'index']);
 Route::get('picking', [logincontroller::class, 'picking']);
 Route::get('test_db_crm', [homecontroller::class, 'test_db']);
 
+// After Sales Dashboards
+Route::get('/after-sales/dashboard', function () {
+  return view('pages.after-sales.display');
+})->name('after-sales-dashboard');
+
 // protected routes (requires authentication and status check)
 Route::middleware(['auth', 'check.status'])->group(function () {
   // dashboard & user profile
