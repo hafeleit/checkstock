@@ -807,6 +807,30 @@ class CommissionController extends Controller
                     ->where('id', '<', $latestId)
                     ->max('id');
 
+                $latestArs = DB::table('commissions_ars')
+                    ->where('commissions_id', $latestId)
+                    ->get();
+
+                foreach ($latestArs as $latestAr) {
+                    $headerTexts = $latestArs->pluck('header_text')
+                        ->filter()
+                        ->unique()
+                        ->toArray();
+
+                    $existingSalesDocs = DB::table('hww_sd_06')
+                        ->whereIn('SalesDoc', $headerTexts)
+                        ->pluck('SalesDoc')
+                        ->flip()
+                        ->toArray();
+
+                    if (isset($existingSalesDocs[$latestAr->header_text]) && in_array($latestAr->document_type, ['DM', 'DG'])) {
+                        $salesRep = 'HWW_SD_06.ZE';
+                        DB::table('commissions_ars')
+                            ->where('id', $latestAr->id)
+                            ->update(['sales_rep' => $salesRep]);
+                    }
+                }
+
                 $ars = DB::table('commissions_ars')
                     ->select(
                         'account',
