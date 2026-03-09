@@ -4,28 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ env('APP_URL') }}/img/hafele_logo.png">
-    <link rel="icon" type="../image/png" href="{{ env('APP_URL') }}/img/hafele_logo.png">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>@yield('title', 'After Sales Dashboard')</title>
-
-    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+    
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ env('APP_URL') }}/img/hafele_logo.png">
+    <link rel="icon" type="image/png" href="{{ env('APP_URL') }}/img/hafele_logo.png">
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
     <link href="{{ URL::to('/') }}/css/tailwind.min.css" rel="stylesheet" />
 
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ env('APP_URL') }}/assets/js/plugins/chartjs.min.js"></script>
 
-    <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-        body {
-            background-color: #f8fafc;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .dashboard-container {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-    </style>
     @stack('styles')
 </head>
 
