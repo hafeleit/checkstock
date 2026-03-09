@@ -213,6 +213,26 @@
 <script src="{{ asset('js/select2.min.js') }}"></script>
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
     $(document).ready(function() {
+        $('a[href*="export"], .btn-export-rtt, .btn-primary[href*="export"]').on('click', function() {
+            
+            setTimeout(function() {
+                const loader = $('#loader-wrapper');
+                if (loader.length) {
+                    loader.fadeOut(); 
+                }
+            }, 1000);
+        });
+
+        $('.modal-body a').on('click', function() {
+            const modalElement = $(this).closest('.modal');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement[0]);
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+        });
+    });
+
+    $(document).ready(function() {
         $('#driver_or_sent_to').select2({
             placeholder: 'Search for a driver',
             allowClear: true
