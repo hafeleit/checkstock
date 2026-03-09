@@ -835,7 +835,6 @@ class CommissionController extends Controller
                 if ($ars->isNotEmpty()) {
                     $headerTexts = $ars->pluck('header_text')
                         ->filter()
-                        ->map(fn($item) => ltrim($item, '0'))
                         ->unique()
                         ->toArray();
 
@@ -846,8 +845,7 @@ class CommissionController extends Controller
                         ->toArray();
 
                     $insertData = $ars->map(function ($ar) use ($id, $existingSalesDocs) {
-                        $cleanHeaderText = ltrim($ar->header_text, '0');
-                        $hasExistingHeader = isset($existingSalesDocs[$cleanHeaderText]);
+                        $hasExistingHeader = isset($existingSalesDocs[$ar->header_text]);
 
                         if ($hasExistingHeader && in_array($ar->document_type, ['DM', 'DG'])) {
                             $salesRep = 'HWW_SD_06.ZE';

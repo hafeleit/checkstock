@@ -59,6 +59,8 @@ class CommissionsArImport implements WithMultipleSheets, ToModel
             ? round(floatval(str_replace(',', '', $row[24] ?? 0)) / 1.07, 2)
             : floatval(str_replace(',', '', $row[24] ?? 0));
 
+        $headerText = ltrim($row[33] ?? '', '0');
+
         return new CommissionsAr([
             'commissions_id'           => $this->commissionId,
             'type'                     => 'AR',
@@ -73,7 +75,7 @@ class CommissionsArImport implements WithMultipleSheets, ToModel
             'local_currency'           => $row[25] ?? null,
             'clearing_document'        => $row[26] ?? null,
             'text'                     => $row[32] ?? null,
-            'header_text'              => $row[33] ?? null,
+            'header_text'              => $headerText,
             'posting_key'              => $row[35] ?? null,
             'sales_rep'                => $row[40] ?? null,
         ]);
