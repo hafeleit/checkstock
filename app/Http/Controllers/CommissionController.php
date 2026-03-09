@@ -833,7 +833,12 @@ class CommissionController extends Controller
                     ->get();
 
                 if ($ars->isNotEmpty()) {
-                    $headerTexts = $ars->pluck('header_text')->filter()->unique()->toArray();
+                    $headerTexts = $ars->pluck('header_text')
+                        ->filter()
+                        ->map(fn($item) => ltrim($item, '0'))
+                        ->unique()
+                        ->toArray();
+
                     $existingSalesDocs = DB::table('hww_sd_06')
                         ->whereIn('SalesDoc', $headerTexts)
                         ->pluck('SalesDoc')
@@ -841,7 +846,8 @@ class CommissionController extends Controller
                         ->toArray();
 
                     $insertData = $ars->map(function ($ar) use ($id, $existingSalesDocs) {
-                        $hasExistingHeader = isset($existingSalesDocs[$ar->header_text]);
+                        $cleanHeaderText = ltrim($ar->header_text, '0');
+                        $hasExistingHeader = isset($existingSalesDocs[$cleanHeaderText]);
 
                         if ($hasExistingHeader && in_array($ar->document_type, ['DM', 'DG'])) {
                             $salesRep = 'HWW_SD_06.ZE';
