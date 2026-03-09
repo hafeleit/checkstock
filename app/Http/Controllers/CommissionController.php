@@ -729,28 +729,16 @@ class CommissionController extends Controller
                 ->where('commissions_id', $id)
                 ->get();
 
-            $headerTexts = $entries->pluck('header_text')
-                ->filter()
-                ->unique()
-                ->toArray();
-
-            $existingSalesDocs = DB::table('hww_sd_06')
-                ->whereIn('SalesDoc', $headerTexts)
-                ->pluck('SalesDoc')
-                ->flip()
-                ->toArray();
-
             foreach ($entries as $entry) {
-                $hasExistingHeader = isset($existingSalesDocs[$entry->header_text]);
 
-                if ($hasExistingHeader && in_array($entry->document_type, ['DM', 'DG'])) {
-                    $salesRep = 'HWW_SD_06.ZE';
+                $salesRep = $entry->sales_rep;
 
-                    $entry->sales_rep = $salesRep;
-                    $entry->save();
-                } else {
-                    $salesRep = $entry->sales_rep;
-                }
+				$ze = DB::table('HWW_SD_06')->where('SalesDoc', $entry->header_text)->value('ZE');
+
+				if (!is_null($ze)) {
+					DB::table('commissions_ars')->where('id', $entry->id)->update(['sales_rep' => $ze]);
+					$salesRep = $ze;
+				}
 
                 if (!$salesRep || strlen($salesRep) < 4) {
                     continue;
@@ -840,7 +828,6 @@ class CommissionController extends Controller
                         'local_currency',
                         'clearing_document',
                         'text',
-                        'header_text',
                         'posting_key',
                         'sales_rep',
                         'ar_rate',
@@ -853,26 +840,7 @@ class CommissionController extends Controller
                     ->get();
 
                 if ($ars->isNotEmpty()) {
-                    $headerTexts = $ars->pluck('header_text')
-                        ->filter()
-                        ->unique()
-                        ->toArray();
-
-                    $existingSalesDocs = DB::table('hww_sd_06')
-                        ->whereIn('SalesDoc', $headerTexts)
-                        ->pluck('SalesDoc')
-                        ->flip()
-                        ->toArray();
-
-                    $insertData = $ars->map(function ($ar) use ($id, $existingSalesDocs) {
-                        $hasExistingHeader = isset($existingSalesDocs[$ar->header_text]);
-
-                        if ($hasExistingHeader && in_array($ar->document_type, ['DM', 'DG'])) {
-                            $salesRep = 'HWW_SD_06.ZE';
-                        } else {
-                            $salesRep = $ar->sales_rep;
-                        }
-
+                    $insertData = $ars->map(function ($ar) use ($id) {
                         return [
                             'type'                     => 'AR Old',
                             'commissions_id'           => $id,
@@ -887,9 +855,8 @@ class CommissionController extends Controller
                             'local_currency'           => $ar->local_currency,
                             'clearing_document'        => $ar->clearing_document,
                             'text'                     => $ar->text,
-                            'header_text'              => $ar->header_text,
                             'posting_key'              => $ar->posting_key,
-                            'sales_rep'                => $salesRep,
+                            'sales_rep'                => $ar->sales_rep,
                             'ar_rate'                  => $ar->ar_rate,
                             'ar_rate_percent'          => $ar->ar_rate_percent,
                             'commissions'              => $ar->commissions,
