@@ -733,11 +733,15 @@ class CommissionController extends Controller
 
                 $salesRep = $entry->sales_rep;
 
-				$ze = DB::table('HWW_SD_06')->where('SalesDoc', $entry->header_text)->value('ZE');
+				if (in_array($entry->document_type, ['DM', 'DG'])) {
 
-				if (!is_null($ze)) {
-					DB::table('commissions_ars')->where('id', $entry->id)->update(['sales_rep' => $ze]);
-					$salesRep = $ze;
+					$ze = DB::table('HWW_SD_06')->where('SalesDoc', $entry->header_text)->value('ZE');
+
+					if (!is_null($ze)) {
+						DB::table('commissions_ars')->where('id', $entry->id)->update(['sales_rep' => $ze]);
+						$salesRep = $ze;
+					}
+
 				}
 
                 if (!$salesRep || strlen($salesRep) < 4) {
