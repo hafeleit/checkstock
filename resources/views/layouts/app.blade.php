@@ -118,6 +118,7 @@
     </script>
 
     <script src="{{ URL::to('/') }}/assets/js/argon-dashboard.js" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
+    <script src="{{ URL::to('/') }}/assets/js/lodash.min.js" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
     @stack('js')
 
     {{-- Preloader --}}
@@ -125,7 +126,7 @@
         window.addEventListener('load', function() {
             const loader = document.getElementById('loader-wrapper');
             loader.classList.add('loader-hidden');
-            
+
             setTimeout(() => {
                 loader.style.display = 'none';
             }, 500);

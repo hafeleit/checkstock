@@ -44,7 +44,7 @@
     <!-- Github buttons -->
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/argon-dashboard.js"></script>
-
+    <script src="{{ URL::to('/') }}/assets/js/lodash.min.js" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
 </body>
 
 </html>
