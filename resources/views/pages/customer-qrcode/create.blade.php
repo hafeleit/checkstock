@@ -67,7 +67,7 @@
                                             <input type="text" class="form-control" name="customer_code" id="customer_code" placeholder="Enter customer code" value="{{ $customer_code ?? '' }}" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="customer_name" class="form-control-label text-sm required">Customer Name <span class="text-muted">(REF2)</span></label>
+                                            <label for="customer_name" class="form-control-label text-sm required">Customer Name </label>
                                             <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Enter customer name" value="{{ $customer_name ?? '' }}" required>
                                             <small class="form-text text-muted text-xs fst-italic">Recommended to use English characters.</small>
                                         </div>
@@ -110,17 +110,13 @@
                                                         <span class="text-secondary text-xs">REF1:</span>
                                                         <span class="text-dark fw-bold text-xs">{{ $customer_code }}</span>
                                                     </div>
-                                                    <div class="d-flex justify-content-between mb-1">
-                                                        <span class="text-secondary text-xs">REF2:</span>
-                                                        <span class="text-dark fw-bold text-xs">{{ $customer_name }}</span>
-                                                    </div>
-                                                    <div class="text-xs text-muted mb-1">
-                                                        (please use English characters)
-                                                    </div>
                                                     <div class="d-flex justify-content-between mb-2">
                                                         <span class="text-secondary text-xs">Amount:</span>
-                                                        <span class="text-dark fw-bold text-xs">{{ number_format($amount ?? 0, 2) }}</span>
+                                                        <span class="text-dark fw-bold text-xs">{{ number_format($amount ?? 0, 2) }} THB</span>
                                                     </div>
+                                                </div>
+                                                <div class="d-flex justify-content-center mb-1">
+                                                    <span class="text-dark fw-bold text-lg">{{ $customer_name }}</span>
                                                 </div>
                                             </div>
                                         @else

@@ -408,14 +408,14 @@
                                 <td class="qr-value" id="modalRef1"></td>
                             </tr>
                             <tr>
-                                <td class="qr-label">Customer Name (REF2):</td>
-                                <td class="qr-value" id="modalRef2"></td>
-                            </tr>
-                            <tr>
                                 <td class="qr-label">Amount:</td>
                                 <td class="qr-value" id="modalAmount"></td>
                             </tr>
                         </table>
+
+                        <div class="d-flex justify-content-center mt-3">
+                            <span class="text-dark fw-bold text-lg" id="modalCustomerName"></span>
+                        </div>
 
                         <div class="qr-footer-date">Generated on {{ date('F d, Y') }}</div>
 
@@ -470,7 +470,7 @@
                     const downloadUrl = button.getAttribute('data-url');
                     
                     document.getElementById('modalRef1').textContent = customerCode;
-                    document.getElementById('modalRef2').textContent = customerName;
+                    document.getElementById('modalCustomerName').textContent = customerName;
                     document.getElementById('modalDownloadBtn').href = downloadUrl;
                     document.getElementById('modalAmount').textContent = (button.getAttribute('data-amount') || '0.00') + ' THB';
                     

@@ -39,7 +39,7 @@ class CustomerQrCodeImport implements ToModel, WithHeadingRow
         // Generate QR payload
         $taxId = '0105537076950';
         $suffix = '00';
-        $payload = $this->generatePayload($taxId, $suffix, $row['customer_code'], $row['customer_name'], $amount);
+        $payload = $this->generatePayload($taxId, $suffix, $row['customer_code'], null, $amount);
 
         return new CustomerQrCode([
             'customer_name' => $row['customer_name'],
@@ -52,10 +52,9 @@ class CustomerQrCodeImport implements ToModel, WithHeadingRow
         ]);
     }
 
-    private function generatePayload($taxId, $suffix, $ref1, $ref2, $amount)
+    private function generatePayload($taxId, $suffix, $ref1, $ref2 = null, $amount)
     {
         $ref1 = preg_replace('/\s+/', '', $ref1);
-        $ref2 = preg_replace('/\s+/', '', $ref2);
 
         $prefix = "|";
         $taxIdFormatted = str_pad($taxId, 13, "0", STR_PAD_LEFT);

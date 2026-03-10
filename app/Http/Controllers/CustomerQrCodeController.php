@@ -76,7 +76,7 @@ class CustomerQrCodeController extends Controller
     {
         $customerName = request()->input('customer_name');
         $ref1 = request()->input('customer_code');
-        $ref2 = request()->input('customer_name');
+        $ref2 = null;
         $amount = request()->input('amount', 0.00);
 
         $taxId = '0105537076950';
@@ -177,11 +177,10 @@ class CustomerQrCodeController extends Controller
         return Excel::download(new TemplateExport('qr-code'), $fileName);
     }
 
-    private function generatePayload($taxId, $suffix, $ref1, $ref2, $amount)
+    private function generatePayload($taxId, $suffix, $ref1, $ref2 = null, $amount)
     {
         // remove all whitespace characters
         $ref1 = preg_replace('/\s+/', '', $ref1);
-        $ref2 = preg_replace('/\s+/', '', $ref2);
 
         // 1. Prefix: 1 หลัก
         $prefix = "|";
