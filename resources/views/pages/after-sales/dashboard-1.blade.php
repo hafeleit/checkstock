@@ -1,372 +1,298 @@
-@extends('layouts.app-dashboard')
-
-@section('content')
-    <div class="space-y-2">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-2">
-            <div class="col-span-9 grid grid-cols-1 md:grid-cols-12 gap-2">
-                {{-- CSI --}}
-                <div class="col-span-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                    <h3 class="font-bold text-center">CSI</h3>
-                    <div class="relative h-32 w-32 mx-auto">
-                        <canvas id="csi-chart"></canvas>
-                    </div>
-                    <div class="py-2">
-                        <table class="w-full text-sm text-left">
-                            <tbody>
-                                <tr>
-                                    <td class="px-2 text-xs text-right font-semibold">TG.</td>
-                                    <td class="px-2 text-center font-bold">95.0%</td>
-                                    <td class="px-2 text-lg text-center">😞</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-2 text-xs text-right font-semibold">Actual</td>
-                                    <td class="px-2 text-center font-bold">94.0%</td>
-                                    <td class="px-2 text-lg text-center font-bold">B</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+<div class="space-y-2">
+    <div class="grid grid-cols-1 2xl:grid-cols-12 gap-2">
+        <div class="col-span-1 2xl:col-span-9 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-12 gap-2">
+            {{-- CSI --}}
+            <div class="lg:col-span-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                <h3 class="font-bold text-center mb-2">CSI</h3>
+                <div class="relative h-32 w-32 mx-auto">
+                    <canvas id="csi-chart"></canvas>
                 </div>
+                <div class="py-2">
+                    <table class="w-full text-sm text-left">
+                        <tbody>
+                            <tr>
+                                <td class="px-2 text-xs text-right font-semibold">TG.</td>
+                                <td class="px-2 text-center font-bold">95.0%</td>
+                                <td class="px-2 text-lg text-center">😞</td>
+                            </tr>
+                            <tr>
+                                <td class="px-2 text-xs text-right font-semibold">Actual</td>
+                                <td class="px-2 text-center font-bold">94.0%</td>
+                                <td class="px-2 text-lg text-center font-bold">B</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                {{-- RTAT --}}
-                <div class="col-span-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                    <h3 class="font-bold text-center">RTAT</h3>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="relative h-32 w-32 mx-auto">
-                            <canvas id="rtat-chart"></canvas>
-                            <div class="py-2">
-                                <table class="w-full text-sm text-left">
-                                    <tbody>
-                                        <tr>
-                                            <td class="px-2 text-xs text-right font-semibold">TG.</td>
-                                            <td class="px-2 text-center font-bold">7.0</td>
-                                            <td class="px-2 text-lg text-center">😞</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="px-2 text-xs text-right font-semibold">Actual</td>
-                                            <td class="px-2 text-center font-bold">7.2</td>
-                                            <td class="px-2 text-lg text-center font-bold">B</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="bg-red-300 border-2 border-red-500 flex p-2 rounded-xl">
+            {{-- RTAT --}}
+            <div class="lg:col-span-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                <h3 class="font-bold text-center mb-2">RTAT</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="relative h-32 w-32 mx-auto">
+                        <canvas id="rtat-chart"></canvas>
+                        <div class="py-2">
                             <table class="w-full text-sm text-left">
                                 <tbody>
                                     <tr>
-                                        <td colspan="2" class="text-center font-bold">BKK</td>
+                                        <td class="px-2 text-xs text-right font-semibold">TG.</td>
+                                        <td class="px-2 text-center font-bold">7.0</td>
+                                        <td class="px-2 text-lg text-center">😞</td>
                                     </tr>
                                     <tr>
-                                        <td class="px-2 text-xs font-semibold">TG.</td>
-                                        <td class="px-2 text-center font-bold">3.0</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-2 text-xs font-semibold">Actual</td>
-                                        <td class="px-2 text-center font-bold">4.2</td>
+                                        <td class="px-2 text-xs text-right font-semibold">Actual</td>
+                                        <td class="px-2 text-center font-bold">7.2</td>
+                                        <td class="px-2 text-lg text-center font-bold">B</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-
-                </div>
-
-                {{-- LTP --}}
-                <div class="col-span-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                    <h3 class="font-bold text-center">LTP</h3>
-                    <div class="relative h-32 w-32 mx-auto">
-                        <canvas id="ltp-chart"></canvas>
-                    </div>
-                    <div class="py-2">
+                    <div class="bg-red-300 border-2 border-red-500 flex p-2 rounded-xl">
                         <table class="w-full text-sm text-left">
                             <tbody>
                                 <tr>
-                                    <td class="px-2 text-xs text-right font-semibold">TG.</td>
-                                    <td class="px-2 text-center font-bold">10.0%</td>
-                                    <td class="px-2 text-lg text-center">😊</td>
+                                    <td colspan="2" class="text-center font-bold">BKK</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-2 text-xs text-right font-semibold">Actual</td>
-                                    <td class="px-2 text-center font-bold text-red-400">9.8%</td>
-                                    <td class="px-2 text-lg text-center font-bold">A</td>
+                                    <td class="px-2 text-xs font-semibold">TG.</td>
+                                    <td class="px-2 text-center font-bold">3.0</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-2 text-xs font-semibold">Actual</td>
+                                    <td class="px-2 text-center font-bold">4.2</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                {{-- FTF --}}
-                <div class="col-span-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                    <h3 class="font-bold text-center">FTF</h3>
-                    <div class="relative h-32 w-32 mx-auto">
-                        <canvas id="ftf-chart"></canvas>
-                    </div>
-                    <div class="py-2">
-                        <table class="w-full text-sm text-left">
-                            <tbody>
-                                <tr>
-                                    <td class="px-2 text-xs text-right font-semibold">TG.</td>
-                                    <td class="px-2 text-center font-bold">80.0%</td>
-                                    <td class="px-2 text-lg text-center">😊</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-2 text-xs text-right font-semibold">Actual</td>
-                                    <td class="px-2 text-center font-bold text-red-400">93.6%</td>
-                                    <td class="px-2 text-lg text-center font-bold">A</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                {{-- Monthly Summary --}}
-                <div class="col-span-12 grid grid-cols-1 md:grid-cols-12 gap-2">
-                    <div class="col-span-2 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                        <h3 class="text-3xl text-center font-bold">February</h3>
-                    </div>
-                    <div
-                        class="col-span-2 grid grid-cols-2 gap-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                        <div>
-                            <p class="text-sm text-center text-pink-600 font-bold">Create</p>
-                            <div class="p-2 mt-2 bg-pink-500 rounded-lg text-center text-white">1426</div>
-                        </div>
-                        <div>
-                            <p class="text-sm text-center text-teal-status-400 font-bold">Closed</p>
-                            <div class="p-2 mt-2 bg-teal-status-400 rounded-lg text-center text-white">1426</div>
-                        </div>
-                    </div>
-                    <div class="p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                        <div>
-                            <p class="text-sm text-center text-red-600 font-bold">On hand</p>
-                            <div class="p-2 mt-2 bg-brown-status-500 rounded-lg text-center text-white">924</div>
-                        </div>
-                    </div>
-                    <div
-                        class="col-span-3 grid grid-cols-3 gap-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                        <div>
-                            <p class="text-sm text-center text-orange-status-200 font-bold">Open</p>
-                            <div class="p-2 mt-2 bg-orange-status-200 rounded-lg text-center text-white">137</div>
-                        </div>
-                        <div>
-                            <p class="text-sm text-center text-orange-status-400 font-bold">Booking</p>
-                            <div class="p-2 mt-2 bg-orange-status-400 rounded-lg text-center text-white">298</div>
-                        </div>
-                        <div>
-                            <p class="text-sm text-center text-orange-status-600 font-bold">Pending</p>
-                            <div class="p-2 mt-2 bg-orange-status-600 rounded-lg text-center text-white">489</div>
-                        </div>
-                    </div>
-                    <div
-                        class="col-span-4 grid grid-cols-5 gap-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                        <div>
-                            <p class="text-sm text-center text-aging-100 font-bold">0-3 D.</p>
-                            <div class="p-2 mt-2 bg-aging-100 rounded-lg text-center text-white">264</div>
-                        </div>
-                        <div>
-                            <p class="text-sm text-center font-bold">4-7 D.</p>
-                            <div class="p-2 mt-2 bg-aging-200 rounded-lg text-center text-white">197</div>
-                        </div>
-                        <div>
-                            <p class="text-sm text-center font-bold">8-15 D.</p>
-                            <div class="p-2 mt-2 bg-aging-300 rounded-lg text-center">189</div>
-                        </div>
-                        <div>
-                            <p class="text-sm text-center font-bold">16-30 D.</p>
-                            <div class="p-2 mt-2 bg-aging-400 rounded-lg text-center text-white">117</div>
-                        </div>
-                        <div>
-                            <p class="text-sm text-center text-aging-500 font-bold">Over 30 D.</p>
-                            <div class="p-2 mt-2 bg-aging-500 rounded-lg text-center text-white">157</div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            {{-- Pending --}}
-            <div class="col-span-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                <h3 class="font-bold text-center">Pending</h3>
+            {{-- LTP --}}
+            <div class="lg:col-span-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                <h3 class="font-bold text-center mb-2">LTP</h3>
                 <div class="relative h-32 w-32 mx-auto">
-                    <canvas id="pending-1-chart"></canvas>
+                    <canvas id="ltp-chart"></canvas>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <div class="relative w-full mx-auto">
-                        <canvas id="pending-bar-1-chart"></canvas>
+                <div class="py-2">
+                    <table class="w-full text-sm text-left">
+                        <tbody>
+                            <tr>
+                                <td class="px-2 text-xs text-right font-semibold">TG.</td>
+                                <td class="px-2 text-center font-bold">10.0%</td>
+                                <td class="px-2 text-lg text-center">😊</td>
+                            </tr>
+                            <tr>
+                                <td class="px-2 text-xs text-right font-semibold">Actual</td>
+                                <td class="px-2 text-center font-bold text-red-600">9.8%</td>
+                                <td class="px-2 text-lg text-center font-bold">A</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {{-- FTF --}}
+            <div class="lg:col-span-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                <h3 class="font-bold text-center mb-2">FTF</h3>
+                <div class="relative h-32 w-32 mx-auto">
+                    <canvas id="ftf-chart"></canvas>
+                </div>
+                <div class="py-2">
+                    <table class="w-full text-sm text-left">
+                        <tbody>
+                            <tr>
+                                <td class="px-2 text-xs text-right font-semibold">TG.</td>
+                                <td class="px-2 text-center font-bold">80.0%</td>
+                                <td class="px-2 text-lg text-center">😊</td>
+                            </tr>
+                            <tr>
+                                <td class="px-2 text-xs text-right font-semibold">Actual</td>
+                                <td class="px-2 text-center font-bold text-red-600">93.6%</td>
+                                <td class="px-2 text-lg text-center font-bold">A</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {{-- Monthly Summary --}}
+            <div class="lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-2">
+                <div class="lg:col-span-2 flex items-center p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                    <h3 class="text-4xl 2xl:text-5xl text-center font-bold">February</h3>
+                </div>
+                <div
+                    class="lg:col-span-2 grid grid-cols-2 gap-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                    <div>
+                        <p class="text-xs 2xl:text-sm text-center text-pink-600 font-bold">Create</p>
+                        <div class="p-2 mt-2 bg-pink-500 rounded-lg text-center text-white">1426</div>
                     </div>
-                    <div class="relative w-full mx-auto">
-                        <canvas id="pending-bar-2-chart"></canvas>
+                    <div>
+                        <p class="text-xs 2xl:text-sm text-center text-teal-status-400 font-bold">Closed</p>
+                        <div class="p-2 mt-2 bg-teal-status-400 rounded-lg text-center text-white">1426</div>
+                    </div>
+                </div>
+                <div class="p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                    <div>
+                        <p class="text-xs 2xl:text-sm text-center text-red-600 font-bold">On hand</p>
+                        <div class="p-2 mt-2 bg-brown-status-500 rounded-lg text-center text-white">924</div>
+                    </div>
+                </div>
+                <div class="lg:col-span-3 grid grid-cols-3 gap-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                    <div>
+                        <p class="text-xs 2xl:text-sm text-center text-orange-status-200 font-bold">Open</p>
+                        <div class="p-2 mt-2 bg-orange-status-200 rounded-lg text-center text-white">137</div>
+                    </div>
+                    <div>
+                        <p class="text-xs 2xl:text-sm text-center text-orange-status-400 font-bold">Booking</p>
+                        <div class="p-2 mt-2 bg-orange-status-400 rounded-lg text-center text-white">298</div>
+                    </div>
+                    <div>
+                        <p class="text-xs 2xl:text-sm text-center text-orange-status-600 font-bold">Pending</p>
+                        <div class="p-2 mt-2 bg-orange-status-600 rounded-lg text-center text-white">489</div>
+                    </div>
+                </div>
+                <div class="lg:col-span-4 grid grid-cols-5 gap-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                    <div>
+                        <p class="text-xs 2xl:text-sm text-center text-aging-100 font-bold">0-3 D.</p>
+                        <div class="p-2 mt-2 bg-aging-100 rounded-lg text-center text-white">264</div>
+                    </div>
+                    <div>
+                        <p class="text-xs 2xl:text-sm text-center font-bold">4-7 D.</p>
+                        <div class="p-2 mt-2 bg-aging-200 rounded-lg text-center text-white">197</div>
+                    </div>
+                    <div>
+                        <p class="text-xs 2xl:text-sm text-center font-bold">8-15 D.</p>
+                        <div class="p-2 mt-2 bg-aging-300 rounded-lg text-center">189</div>
+                    </div>
+                    <div>
+                        <p class="text-xs 2xl:text-sm text-center font-bold">16-30 D.</p>
+                        <div class="p-2 mt-2 bg-aging-400 rounded-lg text-center text-white">117</div>
+                    </div>
+                    <div>
+                        <p class="text-xs 2xl:text-sm text-center text-aging-500 font-bold">Over 30 D.</p>
+                        <div class="p-2 mt-2 bg-aging-500 rounded-lg text-center text-white">157</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {{-- Customer Satisfaction --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                <div class="col-span-2 font-bold">Customer Satisfaction (CSI)</div>
-                <div class="grid grid-cols-6 gap-2 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                    <div class="col-span-2 space-y-2">
-                        <p class="text-red-600 font-bold text-lg">Responses</p>
-                        <div class="bg-red-600 py-4 rounded-lg text-3xl text-center text-white font-bold">400</div>
-                        <div class="bg-red-600 py-2 rounded-lg text-lg text-center text-white">843</div>
-                    </div>
-                    <div class="col-span-4">
-                        <div class="relative w-48 mx-auto">
-                            <canvas id="responses-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid grid-cols-6 gap-2 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                    <div class="col-span-6 space-y-2">
-                        <p class="font-bold text-center">Are you satisfied with the service team?</p>
-                    </div>
-                    <div class="col-span-2">
-                        <canvas id="satisfaction-doughnut-chart"></canvas>
-                    </div>
-                    <div class="col-span-4">
-                        <canvas id="satisfaction-bar-chart"></canvas>
-                    </div>
-                </div>
-                <div class="col-span-2 grid grid-cols-12 gap-2">
-                    <div class="col-span-3 grid grid-rows-1 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                        <div class="font-bold text-sm mb-3">Was your problem resolved?</div>
-                        <div class="relative w-32 h-32 mx-auto">
-                            <canvas id="response-1-chart"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-span-3 grid grid-rows-1 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                        <div class="font-bold text-sm mb-3">Did the service team arrive as scheduled?</div>
-                        <div class="relative w-32 h-32 mx-auto">
-                            <canvas id="response-2-chart"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-span-3 grid grid-rows-1 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                        <div class="font-bold text-sm mb-3">Was the service polite and well mannered?</div>
-                        <div class="relative w-32 h-32 mx-auto">
-                            <canvas id="response-3-chart"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-span-3 grid grid-rows-1 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                        <div class="font-bold text-sm mb-3">Has the official charged any expenses or not?</div>
-                        <div class="relative w-32 h-32 mx-auto">
-                            <canvas id="response-4-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
+        {{-- Pending --}}
+        <div class="col-span-1 2xl:col-span-3 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+            <h3 class="font-bold text-center mb-2">Pending</h3>
+            <div class="relative h-32 w-32 mx-auto">
+                <canvas id="pending-1-chart"></canvas>
             </div>
-
-            {{-- Spare parts --}}
-            <div class="p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm space-y-2">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 h-full">
-                    <div class="col-span-2 flex items-center font-bold text-3xl">Spare parts</div>
-                    <div class="p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                        <div class="font-bold text-center text-gray-500">Black Order</div>
-                        <div class="relative w-full mx-auto">
-                            <canvas id="black-order-chart"></canvas>
-                        </div>
-                    </div>
-                    <div class="p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
-                        <div class="font-bold text-center text-gray-500">STAT</div>
-                        <div class="relative w-full mx-auto">
-                            <canvas id="stat-chart"></canvas>
-                        </div>
-                    </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+                <div class="relative w-full mx-auto">
+                    <canvas id="pending-bar-1-chart" height="200"></canvas>
                 </div>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-            <div class="p-2 border-2 border-gray-300 rounded-xl bg-white shadow-sm">
-                <div class="font-bold text-sm text-center text-gray-600 mb-3">Ticket Open/Close</div>
-                <div class="relative h-72 mx-auto">
-                    <canvas id="ticket-chart"></canvas>
-                </div>
-            </div>
-            <div class="p-2 border-2 border-gray-300 rounded-xl bg-white shadow-sm">
-                <div class="font-bold text-sm text-center text-gray-600 mb-3">Contract Center</div>
-                <div class="relative h-72 mx-auto">
-                    <canvas id="contract-center-chart"></canvas>
+                <div class="relative w-full mx-auto">
+                    <canvas id="pending-bar-2-chart"></canvas>
                 </div>
             </div>
         </div>
     </div>
-@endsection
+
+    <div class="grid grid-cols-1 2xl:grid-cols-2 gap-2">
+        {{-- Customer Satisfaction --}}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+            <div class="lg:col-span-2 font-bold">Customer Satisfaction (CSI)</div>
+            <div class="grid grid-cols-6 gap-2 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                <div class="lg:col-span-2 space-y-2">
+                    <p class="text-red-600 font-bold text-lg">Responses</p>
+                    <div class="bg-red-600 py-4 rounded-lg text-3xl text-center text-white font-bold">400</div>
+                    <div class="bg-red-600 py-2 rounded-lg text-lg text-center text-white">843</div>
+                </div>
+                <div class="lg:col-span-4">
+                    <div class="relative w-48 mx-auto">
+                        <canvas id="responses-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-6 gap-2 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                <div class="lg:col-span-6 space-y-2">
+                    <p class="font-bold text-center">Are you satisfied with the service team?</p>
+                </div>
+                <div class="lg:col-span-2">
+                    <div class="relative w-32 h-32 mx-auto">
+                        <canvas id="satisfaction-doughnut-chart"></canvas>
+                    </div>
+                </div>
+                <div class="lg:col-span-4">
+                    <div class="relative w-full mx-auto">
+                        <canvas id="satisfaction-bar-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2 grid grid-cols-12 gap-2">
+                <div class="lg:col-span-3 grid grid-rows-1 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                    <div class="font-bold text-sm mb-3">Was your problem resolved?</div>
+                    <div class="relative w-32 h-32 mx-auto">
+                        <canvas id="response-1-chart"></canvas>
+                    </div>
+                </div>
+                <div class="lg:col-span-3 grid grid-rows-1 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                    <div class="font-bold text-sm mb-3">Did the service team arrive as scheduled?</div>
+                    <div class="relative w-32 h-32 mx-auto">
+                        <canvas id="response-2-chart"></canvas>
+                    </div>
+                </div>
+                <div class="lg:col-span-3 grid grid-rows-1 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                    <div class="font-bold text-sm mb-3">Was the service polite and well mannered?</div>
+                    <div class="relative w-32 h-32 mx-auto">
+                        <canvas id="response-3-chart"></canvas>
+                    </div>
+                </div>
+                <div class="lg:col-span-3 grid grid-rows-1 p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                    <div class="font-bold text-sm mb-3">Has the official charged any expenses or not?</div>
+                    <div class="relative w-32 h-32 mx-auto">
+                        <canvas id="response-4-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Spare parts --}}
+        <div class="p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm space-y-2">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 h-full">
+                <div class="lg:col-span-2 flex items-center font-bold text-3xl">Spare parts</div>
+                <div class="p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                    <div class="font-bold text-center text-gray-500">Black Order</div>
+                    <div class="relative w-full mx-auto">
+                        <canvas id="black-order-chart"></canvas>
+                    </div>
+                </div>
+                <div class="p-2 border-2 border-red-500 rounded-xl bg-white shadow-sm">
+                    <div class="font-bold text-center text-gray-500">STAT</div>
+                    <div class="relative w-full mx-auto">
+                        <canvas id="stat-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+        <div class="p-2 border-2 border-gray-300 rounded-xl bg-white shadow-sm">
+            <div class="font-bold text-sm text-center text-gray-600 mb-3">Ticket Open/Close</div>
+            <div class="relative h-72 mx-auto">
+                <canvas id="ticket-chart"></canvas>
+            </div>
+        </div>
+        <div class="p-2 border-2 border-gray-300 rounded-xl bg-white shadow-sm">
+            <div class="font-bold text-sm text-center text-gray-600 mb-3">Contract Center</div>
+            <div class="relative h-72 mx-auto">
+                <canvas id="contract-center-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"
-        nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
+    
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-        // Plugin สำหรับแสดงข้อความตรงกลางของ Doughnut Chart
-        const centerTextPlugin = {
-            id: 'centerText',
-            beforeDraw: function(chart) {
-                if (chart.config.type !== 'doughnut') {
-                    return;
-                }
-
-                if (chart.config.options.elements && chart.config.options.elements.center) {
-                    const ctx = chart.ctx;
-                    const centerConfig = chart.config.options.elements.center;
-                    const fontStyle = centerConfig.fontStyle || 'Arial';
-                    const txt = centerConfig.text;
-                    const color = centerConfig.color || '#000';
-                    const sidePadding = centerConfig.sidePadding || 20;
-                    const sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 20);
-
-                    ctx.font = "bold 20px " + fontStyle;
-
-                    const stringWidth = ctx.measureText(txt).width;
-                    const elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
-
-                    const widthRatio = elementWidth / stringWidth;
-                    const newFontSize = Math.floor(30 * widthRatio);
-                    const fontSizeToUse = Math.min(newFontSize, centerConfig.maxFontSize || 70);
-
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    const centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
-                    const centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
-
-                    ctx.font = "bold " + fontSizeToUse + "px " + fontStyle;
-                    ctx.fillStyle = color;
-
-                    ctx.fillText(txt, centerX, centerY);
-                }
-            }
-        };
-
-        const centerTextHalfPlugin = {
-            id: 'centerTextHalf',
-            beforeDraw: function(chart) {
-                const centerConfig = chart.config.options.plugins.centerTextHalf;
-                if (centerConfig) {
-                    const ctx = chart.ctx;
-                    const {
-                        width,
-                        height
-                    } = chart;
-                    const text = centerConfig.text;
-
-                    ctx.restore();
-                    const fontSize = (height / 150).toFixed(2);
-                    ctx.font = `bold ${fontSize}em sans-serif`;
-                    ctx.textBaseline = "middle";
-                    ctx.fillStyle = centerConfig.color || "#000";
-
-                    const textX = Math.round((width - ctx.measureText(text).width) / 2);
-                    const textY = chart.config.options.circumference === 180 ? (height * 0.7) : (height / 2);
-
-                    ctx.fillText(text, textX, textY);
-                    ctx.save();
-                }
-            }
-        };
-
-        // ลงทะเบียน Plugin
-        Chart.register(centerTextPlugin);
-        Chart.register(centerTextHalfPlugin);
-        Chart.register(ChartDataLabels);
-
         // 1. CSI Chart
         new Chart(document.getElementById('csi-chart'), {
             type: 'doughnut',
@@ -534,9 +460,9 @@
             data: {
                 labels: [
                     'Repair',
-                    ['Spare', 'Part'],
-                    ['Consult by', 'Onsite'],
-                    ['Consult by', 'Phone']
+                    ['Spare Part'],
+                    ['Consult by Onsite'],
+                    ['Consult by Phone']
                 ],
                 datasets: [{
                     data: [202, 64, 40, 15],
@@ -560,7 +486,7 @@
                         font: {
                             weight: 'bold'
                         }
-                    }
+                    },
                 },
                 scales: {
                     x: {
@@ -568,7 +494,7 @@
                             display: false
                         },
                         ticks: {
-                            maxRotation: 0,
+                            maxRotation: 90,
                             minRotation: 0,
                             autoSkip: false,
                             font: {
@@ -1164,6 +1090,7 @@
                 }
             }
         });
+
         // 18. Contract Center Chart
         new Chart(document.getElementById('contract-center-chart'), {
             type: 'line',
@@ -1247,7 +1174,9 @@
                         grid: {
                             display: false,
                             ticks: {
-                                font: { size: 9 },
+                                font: {
+                                    size: 9
+                                },
                                 padding: 10
                             }
                         },
