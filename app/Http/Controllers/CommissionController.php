@@ -393,7 +393,6 @@ class CommissionController extends Controller
                     $to = ['pimnada@hafele.co.th']; //hr staff
                     $cc = array_merge($cc, [
                         'ratchanee@hafele.co.th',
-
                         'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
@@ -403,17 +402,15 @@ class CommissionController extends Controller
                     $to = ['sarunya@hafele.co.th']; //finance staff
                     $cc = array_merge($cc, [
                         'ratchanee@hafele.co.th',
-
                         'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Summary Confirmed':
-                    $to = ['pariyanuch@hafele.co.th']; //hr manager
+                    $to = ['atchawat.chunhagsikarn@hafele.co.th']; //hr manager
                     $cc = array_merge($cc, [
                         'ratchanee@hafele.co.th',
-
                         'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
@@ -422,33 +419,30 @@ class CommissionController extends Controller
                 case 'Summary Rejected(Manager)':
                     $to = ['pimnada@hafele.co.th']; //hr staff
                     $cc = array_merge($cc, [
-                        'pariyanuch@hafele.co.th',
+                        'atchawat.chunhagsikarn@hafele.co.th',
                         'ratchanee@hafele.co.th',
-
                         'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Summary Approved':
-                    $to = ['pariyanuch@hafele.co.th']; //hr director
+                    $to = ['atchawat.chunhagsikarn@hafele.co.th']; //hr director
                     $cc = array_merge($cc, [
-                        'pariyanuch@hafele.co.th', //hr manager
+                        'atchawat.chunhagsikarn@hafele.co.th', //hr manager
                         'pimnada@hafele.co.th',
                         'ratchanee@hafele.co.th',
-
                         'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
                     break;
 
                 case 'Final Rejected':
-                    $to = ['pariyanuch@hafele.co.th']; //hr manager
+                    $to = ['atchawat.chunhagsikarn@hafele.co.th']; //hr manager
                     $cc = array_merge($cc, [
                         'pimnada@hafele.co.th',
                         'ratchanee@hafele.co.th',
-                        'pariyanuch@hafele.co.th',
-
+                        'atchawat.chunhagsikarn@hafele.co.th',
                         'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
 
@@ -458,10 +452,9 @@ class CommissionController extends Controller
                 case 'Final Approved':
                     $to = ['pimnada@hafele.co.th']; //hr staff
                     $cc = array_merge($cc, [
-                        'pariyanuch@hafele.co.th',
+                        'atchawat.chunhagsikarn@hafele.co.th',
                         'pimnada@hafele.co.th',
                         'ratchanee@hafele.co.th',
-
                         'apirak@hafele.co.th',
                         'pokpong@hafele.co.th',
                     ]);
