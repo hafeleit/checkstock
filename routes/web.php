@@ -29,6 +29,7 @@ use App\Http\Controllers\Consumerlabel\ProductItemsController;
 use App\Http\Controllers\ITAssetTypeController;
 use App\Http\Controllers\InvRecordController;
 use App\Http\Controllers\CommissionController;
+use App\Http\Controllers\CustomerQrCodeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductInformationController;
 use App\Http\Controllers\RoleController;
@@ -152,4 +153,15 @@ Route::middleware(['auth', 'check.status'])->group(function () {
     Route::get('/audit-logs/details', [AuditLogController::class, 'details'])->name('audit-logs.details');
     Route::get('/audit-logs/errors', [AuditLogController::class, 'errorLog'])->name('audit-logs.errors');
   });
+
+  // QR Code Customer
+  Route::get('/qr-code-customers', [CustomerQrCodeController::class, 'index'])->name('qr-code-customers.index');
+  Route::get('/qr-code-customers/create', [CustomerQrCodeController::class, 'create'])->name('qr-code-customers.create');
+  Route::get('/qr-code-customers/{id}/pdf', [CustomerQrCodeController::class, 'generatePdf'])->name('qr-code-customers.pdf');
+  Route::get('/qr-code-customers/{id}/png', [CustomerQrCodeController::class, 'generatePng'])->name('qr-code-customers.png');
+  Route::post('/qr-code-customers', [CustomerQrCodeController::class, 'store'])->name('qr-code-customers.store');
+  Route::post('/qr-code-customers/generate', [CustomerQrCodeController::class, 'generateQrCode'])->name('qr-code-customers.generate');
+  Route::delete('/qr-code-customers/{id}', [CustomerQrCodeController::class, 'destroy'])->name('qr-code-customers.destroy');
+  Route::get('/qr-code-customers/export-template', [CustomerQrCodeController::class, 'exportTemplate'])->name('qr-code-customers.export-template');
+  Route::post('/qr-code-customers/import', [CustomerQrCodeController::class, 'import'])->name('qr-code-customers.import');
 });

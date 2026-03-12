@@ -4,8 +4,9 @@ namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 
-class TemplateExport implements FromArray, WithHeadings
+class TemplateExport implements FromArray, WithHeadings, WithColumnWidths
 {
     protected $type;
 
@@ -16,9 +17,22 @@ class TemplateExport implements FromArray, WithHeadings
 
     public function headings(): array
     {
-        return ($this->type === 'project-item')
-            ? ['item_code', 'project_item']
-            : ['item_code', 'superseded'];
+        return match ($this->type) {
+            'project-item' => ['item_code', 'project_item'],
+            'superseded' => ['item_code', 'superseded'],
+            'qr-code' => ['customer_name', 'customer_code', 'amount'],
+            default => [],
+        };
+    }
+
+    public function columnWidths(): array
+    {
+        return match ($this->type) {
+            'project-item' => ['A' => 15, 'B' => 20],
+            'superseded' => ['A' => 15, 'B' => 20],
+            'qr-code' => ['A' => 18, 'B' => 18, 'C' => 12],
+            default => [],
+        };
     }
 
     public function array(): array
