@@ -49,7 +49,6 @@ class ITAssetExport implements FromCollection, WithHeadings
             )
             ->groupBy('i_t_assets.computer_name')
             ->where('i_t_assets.delete', '0')
-            ->where('user_masters.status', 'Current')
             ->get();
 
         return $res;
