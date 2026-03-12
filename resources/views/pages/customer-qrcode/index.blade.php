@@ -198,6 +198,7 @@
                         <div class="d-md-flex align-items-center justify-between">
                             <h6 class="mb-0 h3">Customer List</h6>
                             <div class="d-flex align-items-center gap-2">
+                                @can('qrcode import')
                                 <button type="button" class="btn btn-sm btn-outline-primary m-0" data-bs-toggle="modal" data-bs-target="#updateQrCodeModal">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-upload mx-1" viewBox="0 0 16 16">
                                         <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
@@ -205,19 +206,20 @@
                                     </svg>
                                     Import QR Code Customer
                                 </button>
+                                @endcan
+                                @can('qrcode create')
                                 <a href="/qr-code-customers/create" type="button" class="btn btn-sm btn-primary m-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                                     </svg>
                                     Add QR Code Customer
                                 </a>
+                                @endcan
                             </div>
-                            
                         </div>
-                        <p class="text-uppercase text-secondary text-xxs">5 customers registered</p>
                     </div>
 
-                    <div class="card-body pt-0">
+                    <div class="card-body mt-3">
                         <div class="row g-3 align-items-end">
                             <div class="col-8 col-md-6">
                                 <input type="search" class="form-control form-control-sm search-field" id="search-input" value="{{ $params['search'] ?? '' }}" placeholder="Search by name or code...">
@@ -316,12 +318,14 @@
                                                 <td class="py-3 px-4">{{ $customer->created_date }}</td>
                                                 <td class="py-3 px-4">{{ $customer->creator->email }}</td>
                                                 <td class="py-3 px-4">
+                                                    @can('qrcode delete')
                                                     <a href="#" id="delete-qr-code" data-id="{{ $customer->id }}" class="text-danger d-inline-flex align-items-center gap-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
                                                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                                                             <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                                         </svg>
                                                     </a>
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -360,9 +364,13 @@
                             <p class="text-secondary small mb-2">
                                 You can download the template to prepare your data for importing into the system from the link below.
                             </p>
-                            <a href="{{ route('qr-code-customers.export-template') }}" class="btn btn-sm btn-outline-secondary m-0">
-                                Download template (.xlsx)
-                            </a>
+                            <button
+                                class="export-template-btn btn btn-sm btn-outline-secondary m-0"
+                                data-url="qr-code-customers/export-template" 
+                                data-filename="Customer_QR_Code_Template.xlsx" >
+                                <i class="fas fa-print"></i>
+                                <span>Download template (.xlsx)</span>
+                            </button>
                         </div>
 
                         <hr class="text-secondary opacity-25">
@@ -557,16 +565,35 @@
             }
         });
 
-        // Hide loader wrapper
-        const downloadLinks = document.querySelectorAll('a[href*="export-template"]');
-        downloadLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                setTimeout(() => {
-                    const loader = document.getElementById('loader-wrapper');
-                    if (loader) {
-                        loader.style.display = 'none'; 
+        // handle loader wrapper
+        document.querySelectorAll('.export-template-btn').forEach(button => {
+            button.addEventListener('click', async function () {
+                const loader = document.getElementById('loader-wrapper');
+                try {
+                    loader.classList.remove('loader-hidden');
+                    loader.style.display = 'flex';
+                    const url = this.dataset.url;
+                    const filename = this.dataset.filename;
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error('Export failed');
                     }
-                }, 500); 
+                    const blob = await response.blob();
+                    const downloadUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = downloadUrl;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(downloadUrl);
+                } catch (error) {
+                    alert('Export error');
+                    console.error(error);
+                } finally {
+                    loader.classList.add('loader-hidden');
+                    loader.style.display = 'none';
+                }
             });
         });
     </script>
