@@ -1054,6 +1054,7 @@
                         color: '#000',
                         offset: 2,
                         font: {
+                            size: 10,
                             weight: 'bold',
                         },
                         formatter: function(value) {

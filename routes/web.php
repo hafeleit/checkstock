@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Exports\ProductitemsExport;
+use App\Http\Controllers\AfterSalesDashboardController;
 use App\Http\Controllers\AuditLogController;
 use App\Imports\ProductitemsImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -59,9 +60,11 @@ Route::get('picking', [logincontroller::class, 'picking']);
 Route::get('test_db_crm', [homecontroller::class, 'test_db']);
 
 // After Sales Dashboards
-Route::get('/after-sales/dashboard', function () {
-  return view('pages.after-sales.display');
-})->name('after-sales-dashboard');
+// Route::get('/after-sales/dashboard', function () {
+//   return view('pages.after-sales.display');
+// })->name('after-sales-dashboard');
+
+Route::get('/after-sales/dashboard', [AfterSalesDashboardController::class, 'index'])->name('after-sales.dashboard');
 
 // protected routes (requires authentication and status check)
 Route::middleware(['auth', 'check.status'])->group(function () {

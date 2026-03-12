@@ -192,22 +192,22 @@
         {{-- ASC PENDING --}}
         <div class="col-span-4 p-2 border-2 border-gray-300 rounded-xl bg-white shadow-sm">
             <div class="font-bold text-sm text-center text-gray-500 mb-3">ASC PENDING</div>
-            <div class="relative w-full mx-auto">
-                <canvas id="asc-pending-chart" height="350"></canvas>
+            <div class="relative w-full h-5/6 mx-auto">
+                <canvas id="asc-pending-chart"></canvas>
             </div>
         </div>
 
         {{-- IN HOUSE PENDING --}}
         <div class="col-span-5 p-2 border-2 border-gray-300 rounded-xl bg-white shadow-sm">
             <div class="font-bold text-sm text-center text-gray-500 mb-3">IN HOUSE PENDING</div>
-            <div class="relative w-full mx-auto">
-                <canvas id="inhouse-pending-chart" height="350"></canvas>
+            <div class="relative w-full h-5/6 mx-auto">
+                <canvas id="inhouse-pending-chart"></canvas>
             </div>
         </div>
 
         {{-- Product Type Chart --}}
         <div class="col-span-7 p-2 border-2 border-gray-300 rounded-xl bg-white shadow-sm">
-            <div class="relative w-full h-2/3 mx-auto">
+            <div class="relative w-full h-5/6 mx-auto">
                 <canvas id="product-type-chart"></canvas>
             </div>
         </div>
@@ -495,8 +495,6 @@
                         label: 'Green',
                         data: [57, 14, 24, 18, 4, 7, 2, 2],
                         backgroundColor: '#00B050',
-                        barPercentage: 0.8,
-                        categoryPercentage: 0.9,
                     },
                     {
                         label: 'Light Green',
@@ -552,9 +550,19 @@
                     },
                     y: {
                         stacked: true,
-                        grid: { display: false }
+                        grid: { display: false },
+                        offset: true, 
+                        ticks: {
+                            padding: 10 
+                        }
                     }
-                }
+                },
+                datasets: {
+                    bar: {
+                        barThickness: 20,
+                        maxBarThickness: 50
+                    }
+                },
             }
         });
         
@@ -695,8 +703,7 @@
                 },
                 datasets: {
                     bar: {
-                        barThickness: 40, // fix the bar height to 40px
-                        maxBarThickness: 50
+                        barThickness: 20
                     }
                 },
             }
