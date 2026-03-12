@@ -346,15 +346,15 @@
               <h5 class="font-weight-bolder">Current Owner</h5>
               <div class="col-3">
                 <label>User</label>
-                <input class="form-control" name="user[]" type="text" placeholder="ex.7213" value="{{ $itassetown[0]->user ?? '' }}">
+                <input class="form-control" name="user[]" type="text" placeholder="ex.7213" value="{{ $itassetown->user ?? '' }}">
               </div>
               <div class="col-4">
                 <label>Name</label>
-                <input class="form-control" type="text" placeholder="Auto" readonly>
+                <input class="form-control" type="text" placeholder="Auto" value="{{ $itassetown?->userMaster?->name_en ?? '' }}" readonly>
               </div>
               <div class="col-5">
                 <label>Department</label>
-                <input class="form-control" type="text" placeholder="Auto" readonly>
+                <input class="form-control" type="text" placeholder="Auto" value="{{ $itassetown?->userMaster?->dept ?? '' }}" readonly>
               </div>
             </div>
             <p></p>

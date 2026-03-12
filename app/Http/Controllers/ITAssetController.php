@@ -149,13 +149,9 @@ class ITAssetController extends Controller
       ->select('i_t_assets.*', 'i_t_asset_types.type_desc', 'i_t_asset_types.type_code')->first();
 
     $itassetspec = ITAssetSpec::where('computer_name', $itasset->computer_name)->first();
-
-    $itassetown = ITAssetOwn::where('computer_name', $itasset->computer_name)
-      ->leftJoin('user_masters', function ($join) {
-        $join->on('i_t_asset_owns.user', '=', 'user_masters.job_code')
-          ->where('user_masters.status', '=', 'Current');
-      })
-      ->get();
+    $itassetown = ITAssetOwn::with('userMaster')
+      ->where('computer_name', $itasset->computer_name)
+      ->first();
 
     $softwares = Softwares::where('computer_name', $itasset->computer_name)->get();
 
@@ -168,7 +164,9 @@ class ITAssetController extends Controller
   public function edit(ITAsset $itasset)
   {
     $itassetspec = ITAssetSpec::where('computer_name', $itasset->computer_name)->first();
-    $itassetown = ITAssetOwn::where('computer_name', $itasset->computer_name)->get();
+    $itassetown = ITAssetOwn::with('userMaster')
+      ->where('computer_name', $itasset->computer_name)
+      ->first();
     $softwares = Softwares::where('computer_name', $itasset->computer_name)->get();
     $types = ITAssetType::where('type_status', 'Active')->get();
 
