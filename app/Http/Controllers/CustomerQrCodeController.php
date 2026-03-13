@@ -16,7 +16,6 @@ use PDF;
 
 class CustomerQrCodeController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('permission:qrcode view')->only(['index', 'generatePng']);
@@ -51,7 +50,7 @@ class CustomerQrCodeController extends Controller
     {
         request()->validate(
             [
-                'customer_name' => 'required|string|max:18',
+                'customer_name' => 'required|string',
                 'customer_code' => 'required|string|min:9|max:9|unique:customer_qr_codes,customer_code',
                 'payload' => 'required|string',
             ],
@@ -59,7 +58,6 @@ class CustomerQrCodeController extends Controller
                 'customer_code.unique' => 'รหัสลูกค้านี้มีอยู่ในระบบแล้ว',
                 'customer_code.required' => 'กรุณากรอกรหัสลูกค้า',
                 'customer_name.required' => 'กรุณากรอกรหัสลูกค้า',
-                'customer_name.max' => 'ชื่อลูกค้านี้เกิน 18 ตัวอักษร',
                 'customer_code.min' => 'รหัสลูกค้านี้ต้องมี 9 หลัก',
                 'customer_code.max' => 'รหัสลูกค้านี้ต้องมี 9 หลัก',
             ]
@@ -68,7 +66,7 @@ class CustomerQrCodeController extends Controller
         DB::beginTransaction();
         try {
             CustomerQrCode::create([
-                'customer_name' => request()->customer_name,
+                'customer_name' => substr(request()->customer_name, 0, 18),
                 'customer_code' => request()->customer_code,
                 'amount' => 0,
                 'qr_payload' => request()->payload,
@@ -90,7 +88,7 @@ class CustomerQrCodeController extends Controller
             request()->validate(
                 [
                     'customer_code' => 'required|string|min:9|max:9|unique:customer_qr_codes,customer_code',
-                    'customer_name' => 'required|string|max:18'
+                    'customer_name' => 'required|string'
                 ],
                 [
                     'customer_code.unique' => 'รหัสลูกค้านี้มีอยู่ในระบบแล้ว',
@@ -101,7 +99,7 @@ class CustomerQrCodeController extends Controller
                 ]
             );
 
-            $customerName = request()->input('customer_name');
+            $customerName = substr(request()->input('customer_name'), 0, 18);
             $ref1 = request()->input('customer_code');
             $ref2 = null;
             $amount = 0.00;

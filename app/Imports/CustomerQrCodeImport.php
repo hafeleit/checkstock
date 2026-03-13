@@ -21,7 +21,7 @@ class CustomerQrCodeImport implements ToModel, WithHeadingRow, WithValidation, S
     public function rules(): array
     {
         return [
-            'customer_name' => 'required|max:18',
+            'customer_name' => 'required',
             'customer_code' => 'required|min:9|max:9|unique:customer_qr_codes,customer_code'
         ];
     }
@@ -29,7 +29,6 @@ class CustomerQrCodeImport implements ToModel, WithHeadingRow, WithValidation, S
     public function customValidationMessages()
     {
         return [
-            'customer_name.max' => 'ชื่อลูกค้า ":input" เกิน 18 ตัวอักษร',
             'customer_code.min' => 'รหัสลูกค้า ":input" ต้องมี 9 หลัก',
             'customer_code.max' => 'รหัสลูกค้า ":input" ต้องมี 9 หลัก',
             'customer_code.unique' => 'รหัสลูกค้า ":input" มีอยู่ในระบบแล้ว',
@@ -54,7 +53,7 @@ class CustomerQrCodeImport implements ToModel, WithHeadingRow, WithValidation, S
         $payload = $this->generatePayload($taxId, $suffix, $row['customer_code'], null);
 
         return new CustomerQrCode([
-            'customer_name' => $row['customer_name'],
+            'customer_name' => substr($row['customer_name'], 0, 18),
             'customer_code' => $row['customer_code'],
             'qr_payload' => $payload,
             'created_date' => Carbon::now(),
