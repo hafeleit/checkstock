@@ -19,7 +19,7 @@ class CustomerQrCodeController extends Controller
     public function __construct()
     {
         $this->middleware('permission:qrcode view')->only(['index', 'generatePng']);
-        $this->middleware('permission:qrcode create')->only(['create', 'store', 'generateQrCode', 'generatePdf']);
+        $this->middleware('permission:qrcode create')->only(['create', 'store', 'generateQrCode']);
         $this->middleware('permission:qrcode import')->only(['import', 'exportTemplate']);
         $this->middleware('permission:qrcode delete')->only(['destroy']);
     }
