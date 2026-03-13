@@ -301,19 +301,19 @@
             <div class="col-3">
               <p class="mt-3">User</p>
               <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->user ?? 'n/a' }}</p>
+                <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown->user ?? 'n/a' }}</p>
               </div>
             </div>
             <div class="col-4">
               <p class="mt-3">Name</p>
               <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->name_en ?? 'n/a' }}</p>
+                <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown?->userMaster?->name_en ?? '' }}</p>
               </div>
             </div>
             <div class="col-5">
               <p class="mt-3">Department</p>
               <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown[0]->dept ?? 'n/a' }}</p>
+                <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown?->userMaster?->dept ?? '' }}</p>
               </div>
             </div>
           </div>

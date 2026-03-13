@@ -253,56 +253,7 @@
               </div>
             </div>
 
-
-            <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-              $("#addSoftwareBtn").click(function() {
-
-                let content = '<div class="row mt-2">\
-                                  <div class="col-4">\
-                                    <select class="form-control" name="software_name[]" required>\
-                                      <option value=""></option>\
-                                      <option value="Auto_CAD_2024">Auto CAD 2024</option>\
-                                      <option value="AutoCAD_LT">AutoCAD LT</option>\
-                                      <option value="Adobe_Creative_Cloud">Adobe Creative Cloud</option>\
-                                      <option value="WinRAR">WinRAR</option>\
-                                      <option value="TeamViewer">TeamViewer</option>\
-                                      <option value="PDF_XChange_Editor">PDF XChange Editor</option>\
-                                      <option value="SketchUp_Pro">SketchUp Pro</option>\
-                                      <option value="FreeCAD">FreeCAD</option>\
-                                      <option value="DIALUX">DIALUX</option>\
-                                    </select>\
-                                  </div>\
-                                  <div class="col-2">\
-                                    <select class="form-control" name="license_type[]" required>\
-                                      <option value=""></option>\
-                                      <option value="Yearly">Yearly</option>\
-                                      <option value="Permanent">Permanent</option>\
-                                      <option value="Free">Free</option>\
-                                    </select>\
-                                  </div>\
-                                  <div class="col-4">\
-                                    <input class="form-control datepicker" id="license_expiry_date" name="license_expiry_date[]">\
-                                  </div>\
-                                  <div class="col-2">\
-                                    <button id="deleteBtn" class="btn mb-0 deleteBtn" type="button">-</button>\
-                                  </div>\
-                                </div>';
-                $("#add_software_name").append(content);
-
-                $("#pdate, #license_expiry_date").flatpickr({
-                  disableMobile: "true",
-                });
-              });
-
-              $(document).on('click', '.deleteBtn', function() {
-                // ลบองค์ประกอบที่มีปุ่มลบที่ถูกคลิก
-                $(this).parent().parent().remove();
-              });
-            </script>
-
-            <div id="add_software_name">
-
-            </div>
+            <div id="add_software_name"></div>
 
           </div>
         </div>
@@ -352,14 +303,92 @@
 
 <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
   $(function() {
-    $("#pdate, #license_expiry_date").flatpickr({
-      disableMobile: "true",
-    });
+     $(".datepicker").flatpickr({
+        disableMobile: "true",
+        allowInput: true,
+        dateFormat: "Y-m-d",
+      });
 
     $('#status').on('change', function () {
       $('.reason_broken').toggleClass('d-none', $(this).val() !== 'BROKEN');
     });
 
+    $("#addSoftwareBtn").click(function() {
+      let content = '<div class="row mt-2">\
+                        <div class="col-4">\
+                          <select class="form-control" name="software_name[]" required>\
+                            <option value=""></option>\
+                            <option value="Auto_CAD_2024">Auto CAD 2024</option>\
+                            <option value="AutoCAD_LT">AutoCAD LT</option>\
+                            <option value="Adobe_Creative_Cloud">Adobe Creative Cloud</option>\
+                            <option value="WinRAR">WinRAR</option>\
+                            <option value="TeamViewer">TeamViewer</option>\
+                            <option value="PDF_XChange_Editor">PDF XChange Editor</option>\
+                            <option value="SketchUp_Pro">SketchUp Pro</option>\
+                            <option value="FreeCAD">FreeCAD</option>\
+                            <option value="DIALUX">DIALUX</option>\
+                          </select>\
+                        </div>\
+                        <div class="col-2">\
+                          <select class="form-control" name="license_type[]" required>\
+                            <option value=""></option>\
+                            <option value="Yearly">Yearly</option>\
+                            <option value="Permanent">Permanent</option>\
+                            <option value="Free">Free</option>\
+                          </select>\
+                        </div>\
+                        <div class="col-4">\
+                          <input class="form-control datepicker" id="license_expiry_date" name="license_expiry_date[]">\
+                        </div>\
+                        <div class="col-2">\
+                          <button id="deleteBtn" class="btn mb-0 deleteBtn" type="button">-</button>\
+                        </div>\
+                      </div>';
+      $("#add_software_name").append(content);
+
+      $(".datepicker").flatpickr({
+        disableMobile: "true",
+        allowInput: true,
+        dateFormat: "Y-m-d",
+      });
+    });
+
+    $(document).on('click', '.deleteBtn', function() {
+      // ลบองค์ประกอบที่มีปุ่มลบที่ถูกคลิก
+      $(this).parent().parent().remove();
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const pDateInput = document.getElementById('pdate');
+    const warrantySelect = document.querySelector('select[name="warranty"]');
+    const eDateInput = document.getElementById('edate') || document.querySelector('input[readonly]');
+
+    function calculateExpireDate() {
+        const purchaseDateValue = pDateInput.value;
+        const match = warrantySelect.value.match(/\d+/);
+        const yearsToAdd = match ? parseInt(match[0]) : 0;
+
+        if (purchaseDateValue && !isNaN(yearsToAdd)) {
+            const date = new Date(purchaseDateValue);
+            
+            if (!isNaN(date.getTime())) {
+                date.setFullYear(date.getFullYear() + yearsToAdd);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                
+                eDateInput.value = `${year}-${month}-${day}`;
+            }
+        }
+    }
+
+    calculateExpireDate();
+
+    warrantySelect.addEventListener('change', calculateExpireDate);
+    
+    pDateInput.addEventListener('change', calculateExpireDate);
+    pDateInput.addEventListener('blur', calculateExpireDate); 
   });
 </script>
 

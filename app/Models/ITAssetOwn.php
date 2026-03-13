@@ -15,4 +15,9 @@ class ITAssetOwn extends Model
       'main',
       'status',
     ];
+
+    public function userMaster()
+    {
+      return $this->belongsTo(UserMaster::class, 'user', 'job_code');
+    }
 }
