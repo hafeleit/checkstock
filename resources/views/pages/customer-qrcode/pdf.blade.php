@@ -97,12 +97,8 @@
         
         <table class="info-table">
             <tr>
-                <td class="label">Ref1:</td>
+                <td class="label">Customer Code (Ref1):</td>
                 <td class="value">{{ $customer->customer_code }}</td>
-            </tr>
-            <tr>
-                <td class="label">Amount:</td>
-                <td class="value">{{ number_format($customer->amount, 2) }} THB</td>
             </tr>
             <tr>
                 <td class="label">Customer Name:</td>

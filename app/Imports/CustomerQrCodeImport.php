@@ -4,16 +4,35 @@ namespace App\Imports;
 
 use App\Models\CustomerQrCode;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
-class CustomerQrCodeImport implements ToModel, WithHeadingRow
+class CustomerQrCodeImport implements ToModel, WithHeadingRow, WithValidation, SkipsEmptyRows
 {
     private $fileImportLogId;
 
     public function __construct($fileImportLogId)
     {
         $this->fileImportLogId = $fileImportLogId;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'customer_name' => 'required|max:18',
+            'customer_code' => 'required|max:9|unique:customer_qr_codes,customer_code'
+        ];
+    }
+
+    public function customValidationMessages()
+    {
+        return [
+            'customer_name.max' => 'ชื่อลูกค้า ":input" เกิน 18 ตัวอักษร',
+            'customer_code.max' => 'รหัสลูกค้า ":input" เกิน 9 หลัก',
+            'customer_code.unique' => 'รหัสลูกค้า ":input" มีอยู่ในระบบแล้ว',
+        ];
     }
 
     public function model(array $row)
@@ -28,23 +47,14 @@ class CustomerQrCodeImport implements ToModel, WithHeadingRow
             throw new \Exception('Customer Name and Customer Code are required.');
         }
 
-        // Validate amount
-        $amount = (float) $row['amount'];
-
-        // Validate amount is numeric and positive
-        if (!empty($row['amount']) && (!is_numeric($row['amount']) || $amount <= 0)) {
-            throw new \Exception('Amount must be a positive number.');
-        }
-
         // Generate QR payload
         $taxId = '0105537076950';
         $suffix = '00';
-        $payload = $this->generatePayload($taxId, $suffix, $row['customer_code'], null, $amount);
+        $payload = $this->generatePayload($taxId, $suffix, $row['customer_code'], null);
 
         return new CustomerQrCode([
             'customer_name' => $row['customer_name'],
             'customer_code' => $row['customer_code'],
-            'amount' => $amount,
             'qr_payload' => $payload,
             'created_date' => Carbon::now(),
             'created_by' => auth()->id(),
@@ -52,7 +62,7 @@ class CustomerQrCodeImport implements ToModel, WithHeadingRow
         ]);
     }
 
-    private function generatePayload($taxId, $suffix, $ref1, $ref2 = null, $amount)
+    private function generatePayload($taxId, $suffix, $ref1, $ref2 = null, $amount = 0)
     {
         $ref1 = preg_replace('/\s+/', '', $ref1);
 

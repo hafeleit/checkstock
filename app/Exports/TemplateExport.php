@@ -20,7 +20,7 @@ class TemplateExport implements FromArray, WithHeadings, WithColumnWidths
         return match ($this->type) {
             'project-item' => ['item_code', 'project_item'],
             'superseded' => ['item_code', 'superseded'],
-            'qr-code' => ['customer_name', 'customer_code', 'amount'],
+            'qr-code' => ['customer_code', 'customer_name'],
             default => [],
         };
     }
