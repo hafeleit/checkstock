@@ -179,7 +179,7 @@
               </div>
               <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                 <label class="mt-4">Expire Date</label>
-                <input class="form-control" type="text" value="" readonly>
+                <input class="form-control" id="edate" type="text" value="" readonly>
               </div>
             </div>
             <div class="row">
@@ -413,9 +413,10 @@
 
 <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
   $(function() {
-
-    $("#pdate, #license_expiry_date").flatpickr({
+    $(".datepicker").flatpickr({
       disableMobile: "true",
+      allowInput: true,
+      dateFormat: "Y-m-d",
     });
 
     $('#status').on('change', function() {
@@ -461,8 +462,10 @@
                           </div>';
       $("#add_software_name").append(content);
 
-      $("#pdate, #license_expiry_date").flatpickr({
+      $(".datepicker").flatpickr({
         disableMobile: "true",
+        allowInput: true,
+        dateFormat: "Y-m-d",
       });
     });
 
@@ -470,6 +473,38 @@
       // ลบองค์ประกอบที่มีปุ่มลบที่ถูกคลิก
       $(this).parent().parent().remove();
     });
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const pDateInput = document.getElementById('pdate');
+    const warrantySelect = document.querySelector('select[name="warranty"]');
+    const eDateInput = document.getElementById('edate') || document.querySelector('input[readonly]');
+
+    function calculateExpireDate() {
+        const purchaseDateValue = pDateInput.value;
+        const match = warrantySelect.value.match(/\d+/);
+        const yearsToAdd = match ? parseInt(match[0]) : 0;
+
+        if (purchaseDateValue && !isNaN(yearsToAdd)) {
+            const date = new Date(purchaseDateValue);
+            
+            if (!isNaN(date.getTime())) {
+                date.setFullYear(date.getFullYear() + yearsToAdd);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                
+                eDateInput.value = `${year}-${month}-${day}`;
+            }
+        }
+    }
+
+    calculateExpireDate();
+
+    warrantySelect.addEventListener('change', calculateExpireDate);
+    
+    pDateInput.addEventListener('change', calculateExpireDate);
+    pDateInput.addEventListener('blur', calculateExpireDate); 
   });
 </script>
 
