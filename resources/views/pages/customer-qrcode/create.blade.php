@@ -63,17 +63,19 @@
                                         @csrf
 
                                         <div class="form-group mt-3">
-                                            <label for="customer_code" class="form-control-label text-sm required">Customer Code <span class="text-muted">(REF1)</span></label>
-                                            <input type="text" class="form-control" name="customer_code" id="customer_code" placeholder="Enter customer code" value="{{ $customer_code ?? '' }}" required>
+                                            <div class="d-flex justify-content-between">
+                                                <label for="customer_code" class="form-control-label text-sm required">Customer Code <span class="text-muted">(REF1)</span></label>
+                                                <span class="text-xs text-muted" id="code_count">0/9</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="customer_code" id="customer_code" placeholder="Enter customer code" value="{{ $customer_code ?? '' }}" maxlength="9" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="customer_name" class="form-control-label text-sm required">Customer Name </label>
-                                            <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Enter customer name" value="{{ $customer_name ?? '' }}" required>
+                                            <div class="d-flex justify-content-between">
+                                                <label for="customer_name" class="form-control-label text-sm required">Customer Name </label>
+                                                <span class="text-xs text-muted" id="name_count">0/18</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Enter customer name" value="{{ $customer_name ?? '' }}" maxlength="18" required>
                                             <small class="form-text text-muted text-xs fst-italic">Recommended to use English characters.</small>
-                                        </div>
-                                        <div class="form-group mt-3">
-                                            <label for="amount" class="form-control-label text-sm">Amount</label>
-                                            <input type="number" class="form-control" name="amount" id="amount" placeholder="Enter amount" value="{{ $amount ?? 0.00 }}" step="any" >
                                         </div>
 
                                         <button type="submit" class="btn btn-gen-qr w-100 mt-4">
@@ -110,10 +112,6 @@
                                                         <span class="text-secondary text-xs">REF1:</span>
                                                         <span class="text-dark fw-bold text-xs">{{ $customer_code }}</span>
                                                     </div>
-                                                    <div class="d-flex justify-content-between mb-2">
-                                                        <span class="text-secondary text-xs">Amount:</span>
-                                                        <span class="text-dark fw-bold text-xs">{{ number_format($amount ?? 0, 2) }} THB</span>
-                                                    </div>
                                                 </div>
                                                 <div class="d-flex justify-content-center mb-1">
                                                     <span class="text-dark fw-bold text-lg">{{ $customer_name }}</span>
@@ -145,6 +143,20 @@
 
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         document.addEventListener('DOMContentLoaded', function() {
+            @if ($errors->any())
+                let errorList = '';
+                @foreach ($errors->all() as $error)
+                    errorList += '{{ $error }}\n';
+                @endforeach
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: errorList,
+                    confirmButtonColor: '#344767'
+                });
+            @endif
+
             const btnCancel = document.getElementById('btn-cancel');
             const btnConfirm = document.getElementById('btn-confirm');
             const customerNameInput = document.getElementById('customer_name');
@@ -173,7 +185,6 @@
                     axios.post('/qr-code-customers', {
                         customer_name: customerNameInput.value,
                         customer_code: customerCodeInput.value,
-                        amount: amountInput.value,
                         payload: payloadInput.value
                     })
                     .then(resonse => {
@@ -198,6 +209,30 @@
                     })
                 });
             }
+
+            // Count: customer code/customer name
+            const updateCount = (inputEl, countEl, max) => {
+                const currentLength = inputEl.value.length;
+                countEl.textContent = `${currentLength}/${max}`;
+                
+                if (currentLength >= max) {
+                    countEl.classList.remove('text-muted');
+                    countEl.classList.add('text-danger');
+                } else {
+                    countEl.classList.remove('text-danger');
+                }
+            };
+
+            const customerCode = document.getElementById('customer_code');
+            const codeCount = document.getElementById('code_count');
+            const customerName = document.getElementById('customer_name');
+            const nameCount = document.getElementById('name_count');
+
+            customerCode.addEventListener('input', () => updateCount(customerCode, codeCount, 9));
+            customerName.addEventListener('input', () => updateCount(customerName, nameCount, 18));
+
+            updateCount(customerCode, codeCount, 9);
+            updateCount(customerName, nameCount, 18);
         });
     </script>
 @endsection

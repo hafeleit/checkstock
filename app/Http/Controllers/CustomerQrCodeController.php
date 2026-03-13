@@ -49,19 +49,25 @@ class CustomerQrCodeController extends Controller
 
     public function store()
     {
-        request()->validate([
-            'customer_name' => 'required|string|max:18',
-            'customer_code' => 'required|string|max:18',
-            'amount' => 'required|numeric',
-            'payload' => 'required|string',
-        ]);
+        request()->validate(
+            [
+                'customer_name' => 'required|string|max:18',
+                'customer_code' => 'required|string|max:9|unique:customer_qr_codes,customer_code',
+                'payload' => 'required|string',
+            ],
+            [
+                'customer_code.unique' => 'รหัสลูกค้านี้มีอยู่ในระบบแล้ว',
+                'customer_code.required' => 'กรุณากรอกรหัสลูกค้า',
+                'customer_name.required' => 'กรุณากรอกรหัสลูกค้า',
+            ]
+        );
 
         DB::beginTransaction();
         try {
             CustomerQrCode::create([
                 'customer_name' => request()->customer_name,
                 'customer_code' => request()->customer_code,
-                'amount' => request()->amount,
+                'amount' => 0,
                 'qr_payload' => request()->payload,
                 'created_date' => Carbon::now(),
                 'created_by' => auth()->id()
@@ -77,29 +83,45 @@ class CustomerQrCodeController extends Controller
 
     public function generateQrCode()
     {
-        $customerName = request()->input('customer_name');
-        $ref1 = request()->input('customer_code');
-        $ref2 = null;
-        $amount = request()->input('amount', 0.00);
+        try {
+            request()->validate(
+                [
+                    'customer_code' => 'required|string|max:9|unique:customer_qr_codes,customer_code',
+                    'customer_name' => 'required|string|max:18'
+                ],
+                [
+                    'customer_code.unique' => 'รหัสลูกค้านี้มีอยู่ในระบบแล้ว',
+                    'customer_code.required' => 'กรุณากรอกรหัสลูกค้า',
+                    'customer_name.required' => 'กรุณากรอกรหัสลูกค้า',
+                ]
+            );
 
-        $taxId = '0105537076950';
-        $suffix = '00';
-        $amount = (float) $amount;
+            $customerName = request()->input('customer_name');
+            $ref1 = request()->input('customer_code');
+            $ref2 = null;
+            $amount = 0.00;
 
-        $payload = $this->generatePayload($taxId, $suffix, $ref1, $ref2, $amount);
+            $taxId = '0105537076950';
+            $suffix = '00';
+            $amount = (float) $amount;
 
-        $qrCodeMarkup = QrCode::size(200)
-            ->style('round')
-            ->margin(1)
-            ->generate($payload);
+            $payload = $this->generatePayload($taxId, $suffix, $ref1, $ref2, $amount);
 
-        return view('pages.customer-qrcode.create', [
-            'qrCode' => $qrCodeMarkup,
-            'customer_name' => $customerName,
-            'customer_code' => $ref1,
-            'amount' => $amount,
-            'payload' => $payload
-        ]);
+            $qrCodeMarkup = QrCode::size(200)
+                ->style('round')
+                ->margin(1)
+                ->generate($payload);
+
+            return view('pages.customer-qrcode.create', [
+                'qrCode' => $qrCodeMarkup,
+                'customer_name' => $customerName,
+                'customer_code' => $ref1,
+                'amount' => $amount,
+                'payload' => $payload
+            ]);
+        } catch (\Throwable $th) {
+            return back()->withErrors(['error' => $th->getMessage()]);
+        }
     }
 
     public function generatePdf($id)
