@@ -185,7 +185,6 @@
                     axios.post('/qr-code-customers', {
                         customer_name: customerNameInput.value,
                         customer_code: customerCodeInput.value,
-                        amount: amountInput.value,
                         payload: payloadInput.value
                     })
                     .then(resonse => {

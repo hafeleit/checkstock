@@ -49,11 +49,18 @@ class CustomerQrCodeController extends Controller
 
     public function store()
     {
-        request()->validate([
-            'customer_name' => 'required|string|max:18',
-            'customer_code' => 'required|string|max:9|unique',
-            'payload' => 'required|string',
-        ]);
+        request()->validate(
+            [
+                'customer_name' => 'required|string|max:18',
+                'customer_code' => 'required|string|max:9|unique:customer_qr_codes,customer_code',
+                'payload' => 'required|string',
+            ],
+            [
+                'customer_code.unique' => 'รหัสลูกค้านี้มีอยู่ในระบบแล้ว',
+                'customer_code.required' => 'กรุณากรอกรหัสลูกค้า',
+                'customer_name.required' => 'กรุณากรอกรหัสลูกค้า',
+            ]
+        );
 
         DB::beginTransaction();
         try {
