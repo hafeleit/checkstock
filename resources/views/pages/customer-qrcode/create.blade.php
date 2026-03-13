@@ -73,9 +73,8 @@
                                         <div class="form-group">
                                             <div class="d-flex justify-content-between">
                                                 <label for="customer_name" class="form-control-label text-sm required">Customer Name </label>
-                                                <span class="text-xs text-muted" id="name_count">0/18</span>
                                             </div>
-                                            <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Enter customer name" value="{{ $customer_name ?? '' }}" maxlength="18" required>
+                                            <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Enter customer name" value="{{ $customer_name ?? '' }}" required>
                                             <small class="form-text text-muted text-xs fst-italic">Recommended to use English characters.</small>
                                         </div>
 
@@ -245,18 +244,13 @@
 
             const customerCode = document.getElementById('customer_code');
             const codeCount = document.getElementById('code_count');
-            const customerName = document.getElementById('customer_name');
-            const nameCount = document.getElementById('name_count');
 
             customerCode.addEventListener('input', () => {
                 updateCount(customerCode, codeCount, 9);
                 updateValidation();
             });
 
-            customerName.addEventListener('input', () => updateCount(customerName, nameCount, 18));
-
             updateCount(customerCode, codeCount, 9);
-            updateCount(customerName, nameCount, 18);
             updateValidation();
         });
     </script>
