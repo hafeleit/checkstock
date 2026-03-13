@@ -70,20 +70,20 @@
             font-size: 20px;
         }
 
-        .customer-name {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-            color: #0d1b2a;
-        }
-
         .footer-date {
             margin-top: 30px;
             text-align: center;
             font-size: 16px;
             color: #b2bec3;
         }
+
+        .info-name {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 
@@ -100,11 +100,11 @@
                 <td class="label">Customer Code (Ref1):</td>
                 <td class="value">{{ $customer->customer_code }}</td>
             </tr>
-            <tr>
-                <td class="label">Customer Name:</td>
-                <td class="value">{{ $customer->customer_name }}</td>
-            </tr>
         </table>
+
+        <div class="info-name">
+            {{ $customer->customer_name }}
+        </div>
 
         <div class="footer-date">
             Generated on {{ date('F d, Y') }}

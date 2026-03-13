@@ -52,13 +52,16 @@ class CustomerQrCodeController extends Controller
         request()->validate(
             [
                 'customer_name' => 'required|string|max:18',
-                'customer_code' => 'required|string|max:9|unique:customer_qr_codes,customer_code',
+                'customer_code' => 'required|string|min:9|max:9|unique:customer_qr_codes,customer_code',
                 'payload' => 'required|string',
             ],
             [
                 'customer_code.unique' => 'รหัสลูกค้านี้มีอยู่ในระบบแล้ว',
                 'customer_code.required' => 'กรุณากรอกรหัสลูกค้า',
                 'customer_name.required' => 'กรุณากรอกรหัสลูกค้า',
+                'customer_name.max' => 'ชื่อลูกค้านี้เกิน 18 ตัวอักษร',
+                'customer_code.min' => 'รหัสลูกค้านี้ต้องมี 9 หลัก',
+                'customer_code.max' => 'รหัสลูกค้านี้ต้องมี 9 หลัก',
             ]
         );
 
@@ -86,12 +89,14 @@ class CustomerQrCodeController extends Controller
         try {
             request()->validate(
                 [
-                    'customer_code' => 'required|string|max:9|unique:customer_qr_codes,customer_code',
+                    'customer_code' => 'required|string|min:9|max:9|unique:customer_qr_codes,customer_code',
                     'customer_name' => 'required|string|max:18'
                 ],
                 [
                     'customer_code.unique' => 'รหัสลูกค้านี้มีอยู่ในระบบแล้ว',
                     'customer_code.required' => 'กรุณากรอกรหัสลูกค้า',
+                    'customer_code.min' => 'รหัสลูกค้านี้ต้องมี 9 หลัก',
+                    'customer_code.max' => 'รหัสลูกค้านี้ต้องมี 9 หลัก',
                     'customer_name.required' => 'กรุณากรอกรหัสลูกค้า',
                 ]
             );
