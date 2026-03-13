@@ -68,6 +68,7 @@
                                                 <span class="text-xs text-muted" id="code_count">0/9</span>
                                             </div>
                                             <input type="text" class="form-control" name="customer_code" id="customer_code" placeholder="Enter customer code" value="{{ $customer_code ?? '' }}" maxlength="9" required>
+                                            <small id="code_error_msg" class="form-text text-danger text-xs fst-italic">Customer code must be exactly 9 characters.</small>
                                         </div>
                                         <div class="form-group">
                                             <div class="d-flex justify-content-between">
@@ -157,11 +158,12 @@
                 });
             @endif
 
+            const btnGenerate = document.querySelector('.btn-gen-qr');
             const btnCancel = document.getElementById('btn-cancel');
             const btnConfirm = document.getElementById('btn-confirm');
+            const codeErrorMsg = document.getElementById('code_error_msg');
             const customerNameInput = document.getElementById('customer_name');
             const customerCodeInput = document.getElementById('customer_code');
-            const amountInput = document.getElementById('amount');
             const payloadInput = document.getElementById('generated_payload');
 
             if (btnCancel) {
@@ -210,6 +212,24 @@
                 });
             }
 
+            // validate generate qr code
+            const updateValidation = () => {
+                const codeLength = customerCode.value.length;
+                
+                if (codeLength > 0 && codeLength < 9) {
+                    codeErrorMsg.classList.remove('d-none');
+                    btnGenerate.disabled = true;
+                    btnGenerate.style.opacity = '0.6';
+                } else if (codeLength === 9) {
+                    codeErrorMsg.classList.add('d-none');
+                    btnGenerate.disabled = false;
+                    btnGenerate.style.opacity = '1';
+                } else {
+                    codeErrorMsg.classList.add('d-none');
+                    btnGenerate.disabled = true;
+                }
+            };
+            
             // Count: customer code/customer name
             const updateCount = (inputEl, countEl, max) => {
                 const currentLength = inputEl.value.length;
@@ -228,11 +248,16 @@
             const customerName = document.getElementById('customer_name');
             const nameCount = document.getElementById('name_count');
 
-            customerCode.addEventListener('input', () => updateCount(customerCode, codeCount, 9));
+            customerCode.addEventListener('input', () => {
+                updateCount(customerCode, codeCount, 9);
+                updateValidation();
+            });
+
             customerName.addEventListener('input', () => updateCount(customerName, nameCount, 18));
 
             updateCount(customerCode, codeCount, 9);
             updateCount(customerName, nameCount, 18);
+            updateValidation();
         });
     </script>
 @endsection

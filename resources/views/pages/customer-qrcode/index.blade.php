@@ -404,11 +404,11 @@
                                 <td class="qr-label">Customer Code (REF1):</td>
                                 <td class="qr-value" id="modalRef1"></td>
                             </tr>
-                            <tr>
-                                <td class="qr-label">Customer Name:</td>
-                                <td class="qr-value" id="modalCustomerName"></td>
-                            </tr>
                         </table>
+
+                        <div class="d-flex justify-content-center mt-3">
+                            <span class="text-dark fw-bold text-lg" id="modalCustomerName"></span>
+                        </div>
 
                         <div class="qr-footer-date">Generated on {{ date('F d, Y') }}</div>
 

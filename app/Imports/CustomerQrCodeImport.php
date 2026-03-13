@@ -22,7 +22,7 @@ class CustomerQrCodeImport implements ToModel, WithHeadingRow, WithValidation, S
     {
         return [
             'customer_name' => 'required|max:18',
-            'customer_code' => 'required|max:9|unique:customer_qr_codes,customer_code'
+            'customer_code' => 'required|min:9|max:9|unique:customer_qr_codes,customer_code'
         ];
     }
 
@@ -30,7 +30,8 @@ class CustomerQrCodeImport implements ToModel, WithHeadingRow, WithValidation, S
     {
         return [
             'customer_name.max' => 'ชื่อลูกค้า ":input" เกิน 18 ตัวอักษร',
-            'customer_code.max' => 'รหัสลูกค้า ":input" เกิน 9 หลัก',
+            'customer_code.min' => 'รหัสลูกค้า ":input" ต้องมี 9 หลัก',
+            'customer_code.max' => 'รหัสลูกค้า ":input" ต้องมี 9 หลัก',
             'customer_code.unique' => 'รหัสลูกค้า ":input" มีอยู่ในระบบแล้ว',
         ];
     }
