@@ -184,42 +184,51 @@
 
         document.querySelectorAll('.export-btn').forEach(button => {
             button.addEventListener('click', async function () {
-                const startDate = document.getElementById('export_start_date').value;
-                const endDate = document.getElementById('export_end_date').value;
-
-                if (!startDate || !endDate) {
-                    alert('please select date range');
-                    return;
-                }
-                
+                const isOverall = this.classList.contains('export-confirm-btn');
                 const loader = document.getElementById('loader-wrapper');
-                const modalElement = document.getElementById('exportFilterModal');
-                const modal = bootstrap.Modal.getInstance(modalElement);
+                
+                let url = this.dataset.url;
+                let filename = this.dataset.filename;
 
+                // --- Overall Report ---
+                if (isOverall) {
+                    const s = document.getElementById('export_start_date');
+                    const e = document.getElementById('export_end_date');
+
+                    if (!s.value || !e.value) return alert('please select date range');
+
+                    const fmt = (v) => v.replace(/-/g, '');
+                    url += `?start_date=${s.value}&end_date=${e.value}`;
+                    filename = `${filename}-${fmt(s.value)}-${fmt(e.value)}.xlsx`;
+                    
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('exportFilterModal'));
+                    if (modal) modal.hide();
+                }
+
+                // --- เริ่มดาวน์โหลด ---
                 try {
                     loader.classList.remove('loader-hidden');
                     loader.style.display = 'flex';
-                    modal.hide();
 
-                    const fmt = (d) => d.split('-').reverse().join('');
-                    const url = `${this.dataset.url}?start_date=${startDate}&end_date=${endDate}`;
-                    const filename = `${this.dataset.filename}-${fmt(startDate)}-${fmt(endDate)}.xlsx`;
                     const response = await fetch(url);
-
-                    if (!response.ok) {
-                        throw new Error('Export failed');
-                    }
+                    if (!response.ok) throw new Error('Export failed');
 
                     const blob = await response.blob();
                     const downloadUrl = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
-
                     a.href = downloadUrl;
-                    a.download = filename;
+                    a.download = filename.endsWith('.xlsx') ? filename : filename + '.xlsx';
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
                     window.URL.revokeObjectURL(downloadUrl);
+
+                    // ล้างค่าวันที่เฉพาะ overall
+                    if (isOverall) {
+                        document.getElementById('export_start_date').value = '';
+                        document.getElementById('export_end_date').value = '';
+                    }
+
                 } catch (error) {
                     alert('Export error');
                     console.error(error);
