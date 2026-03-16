@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use Milon\Barcode\DNS2D;
+// use Milon\Barcode\DNS2D;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use PDF;
 
@@ -132,12 +132,23 @@ class CustomerQrCodeController extends Controller
         $customer = CustomerQrCode::findOrFail($id);
         $fileName = 'QR_Code_' . $customer->customer_code . '.pdf';
 
-        $dns2d = new DNS2D();
-        $qrBase64 = $dns2d->getBarcodePNG($customer->qr_payload, 'QRCODE', 10, 10);
+        // $dns2d = new DNS2D();
+        // $qrBase64 = $dns2d->getBarcodePNG($customer->qr_payload, 'QRCODE', 10, 10);
+
+        // $pdf = PDF::loadView('pages.customer-qrcode.pdf', [
+        //     'customer' => $customer,
+        //     'qrCode' => $qrBase64,
+        // ]);
+
+        // return $pdf->stream($fileName);
+        $qrSvg = base64_encode(
+            QrCode::format('svg')->size(200)->generate($customer->qr_payload)
+        );
+        dd($qrSvg);
 
         $pdf = PDF::loadView('pages.customer-qrcode.pdf', [
             'customer' => $customer,
-            'qrCode' => $qrBase64,
+            'qrCode'   => $qrSvg,
         ]);
 
         return $pdf->stream($fileName);
