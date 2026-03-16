@@ -63,23 +63,44 @@
             @if (!$params)
             <div class="d-flex align-items-center justify-content-end gap-2">
                 @can('delivery export overall report')
-                <!--<a href="/delivery-trackings/export-overall" class="btn btn-export btn-sm d-flex align-items-center gap-2">
-                    <i class="fas fa-print"></i>
-                    <span>Overall report</span>
-                </a>-->
-                <button
-                    class="btn btn-export btn-sm d-flex align-items-center gap-2 export-btn"
-                    data-url="/delivery-trackings/export-overall"
-                    data-filename="overall-report.xlsx">
+                <button type="button" class="btn btn-export btn-sm d-flex align-items-center gap-2" 
+                        data-bs-toggle="modal" data-bs-target="#exportFilterModal">
                     <i class="fas fa-print"></i>
                     <span>Overall report</span>
                 </button>
+
+                <div class="modal fade" id="exportFilterModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Export Overall Report Filter</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label>Start Date</label>
+                                        <input type="date" id="export_start_date" class="form-control">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label>End Date</label>
+                                        <input type="date" id="export_end_date" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary export-btn export-confirm-btn" 
+                                        data-url="/delivery-trackings/export-overall" 
+                                        data-filename="overall-report">
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @endcan
                 @can('delivery export pending report')
-                <!--<a href="/delivery-trackings/export-pending" class="btn btn-export btn-sm d-flex align-items-center gap-2">
-                    <i class="fas fa-print"></i>
-                    <span>Pending ERP report</span>
-                </a>-->
                 <button
                     class="btn btn-export btn-sm d-flex align-items-center gap-2 export-btn"
                     data-url="/delivery-trackings/export-pending"
@@ -157,19 +178,36 @@
 
         document.querySelectorAll('.export-btn').forEach(button => {
             button.addEventListener('click', async function () {
+                const startDate = document.getElementById('export_start_date').value;
+                const endDate = document.getElementById('export_end_date').value;
+
+                if (!startDate || !endDate) {
+                    alert('please select date range');
+                    return;
+                }
+                
                 const loader = document.getElementById('loader-wrapper');
+                const modalElement = document.getElementById('exportFilterModal');
+                const modal = bootstrap.Modal.getInstance(modalElement);
+
                 try {
                     loader.classList.remove('loader-hidden');
                     loader.style.display = 'flex';
-                    const url = this.dataset.url;
-                    const filename = this.dataset.filename;
+                    modal.hide();
+
+                    const fmt = (d) => d.split('-').reverse().join('');
+                    const url = `${this.dataset.url}?start_date=${startDate}&end_date=${endDate}`;
+                    const filename = `${this.dataset.filename}-${fmt(startDate)}-${fmt(endDate)}.xlsx`;
                     const response = await fetch(url);
+
                     if (!response.ok) {
                         throw new Error('Export failed');
                     }
+
                     const blob = await response.blob();
                     const downloadUrl = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
+
                     a.href = downloadUrl;
                     a.download = filename;
                     document.body.appendChild(a);

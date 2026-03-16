@@ -281,7 +281,12 @@ class InvTrackingController extends Controller
                     'inv_trackings.remark',
                     'created_user.username as created_by',
                     'updated_user.username as updated_by',
-                );
+                )
+                ->when(request()->start_date, function ($q) {
+                    $startDate = Carbon::parse(request()->start_date)->startOfDay();
+                    $endDate = Carbon::parse(request()->end_date)->endOfDay();
+                    $q->whereBetween('created_date', [$startDate, $endDate]);
+                });
 
             event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'pass', $fileName, null));
             return Excel::download(new OverAllExport($invTrackings), $fileName);
