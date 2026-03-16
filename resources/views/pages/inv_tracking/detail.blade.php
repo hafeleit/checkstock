@@ -80,11 +80,11 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label>Start Date</label>
-                                        <input type="date" id="export_start_date" class="form-control">
+                                        <input type="text" id="export_start_date" class="form-control datepicker" placeholder="dd/mm/yyyy">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label>End Date</label>
-                                        <input type="date" id="export_end_date" class="form-control">
+                                        <input type="text" id="export_end_date" class="form-control datepicker" placeholder="dd/mm/yyyy">
                                     </div>
                                 </div>
                             </div>
@@ -174,6 +174,12 @@
         $('#driver_or_sent_to').select2({
             placeholder: 'Search for a driver',
             allowClear: true
+        });
+
+        $(".datepicker").flatpickr({
+            disableMobile: "true",
+            allowInput: true,
+            dateFormat: "d-m-Y",
         });
 
         document.querySelectorAll('.export-btn').forEach(button => {
