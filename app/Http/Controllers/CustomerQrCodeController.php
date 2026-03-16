@@ -32,7 +32,7 @@ class CustomerQrCodeController extends Controller
                 $q->whereRaw('LOWER(customer_name) LIKE ?', ["%{$search}%"])
                     ->orWhereRaw('LOWER(customer_code) LIKE ?', ["%{$search}%"]);
             })
-            ->orderBy('created_at', 'desc')
+            ->orderBy('customer_code', 'desc')
             ->paginate(15);
 
         return view('pages.customer-qrcode.index', [
