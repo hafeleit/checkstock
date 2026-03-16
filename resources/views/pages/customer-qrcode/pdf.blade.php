@@ -93,6 +93,9 @@
 
         <div class="qr-section">
             <img src="data:image/svg+xml;base64,{{ $qrCode }}" width="200" height="200" alt="qr code" />
+            <div class="qr-section">
+                {!! $qrCode2 !!}
+            </div>
         </div>
         
         <table class="info-table">

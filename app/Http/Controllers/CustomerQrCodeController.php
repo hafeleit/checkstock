@@ -145,9 +145,12 @@ class CustomerQrCodeController extends Controller
             QrCode::format('svg')->size(200)->generate($customer->qr_payload)
         );
 
+        $qrSvg2 = QrCode::format('svg')->size(200)->generate($customer->qr_payload);
+
         $pdf = PDF::loadView('pages.customer-qrcode.pdf', [
             'customer' => $customer,
             'qrCode'   => $qrSvg,
+            'qrCode2'   => $qrSvg2,
         ]);
 
         return $pdf->stream($fileName);
