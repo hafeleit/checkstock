@@ -29,8 +29,8 @@
             background: transparent;
         }
 
-        .btn-qr-trigger:active, 
-        .btn-qr-trigger:focus, 
+        .btn-qr-trigger:active,
+        .btn-qr-trigger:focus,
         .btn-qr-trigger:focus-visible {
             border: none !important;
             outline: none !important;
@@ -175,7 +175,7 @@
                 all: unset;
                 display: inline-block;
             }
-            
+
             .pagination .page-link {
                 all: unset;
                 cursor: pointer;
@@ -264,6 +264,7 @@
                                                 <p class="m-0 text-sm fw-bold">Create Date</p>
                                             </div>
                                         </th>
+                                        @can('qrcode delete')
                                         <th class="py-2 px-4">
                                             <div class="d-flex align-items-center gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
@@ -272,6 +273,7 @@
                                                 <p class="m-0 text-sm fw-bold">Create By</p>
                                             </div>
                                         </th>
+                                        @endcan
                                         <th class="py-2 px-4"></th>
                                     </tr>
                                 </thead>
@@ -284,16 +286,16 @@
                                                 </td>
                                                 <td class="py-3 px-4">{{ $customer->customer_name }}</td>
                                                 <td class="py-3 px-4">
-                                                    <button type="button" 
+                                                    <button type="button"
                                                         class="btn-qr-trigger d-inline-flex align-items-center gap-2 px-3 py-1 m-0 border-0"
-                                                        data-bs-toggle="modal" 
+                                                        data-bs-toggle="modal"
                                                         data-bs-target="#qrCodeModal"
                                                         data-id="{{ $customer->id }}"
                                                         data-code="{{ $customer->customer_code }}"
                                                         data-name="{{ $customer->customer_name }}"
                                                         data-qr-url="{{ route('qr-code-customers.png', $customer->id) }}"
                                                         data-url="{{ route('qr-code-customers.pdf', $customer->id) }}">
-                                                        
+
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-qr-code-scan" viewBox="0 0 16 16">
                                                             <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5M4 4h1v1H4z"/>
                                                             <path d="M7 2H2v5h5zM3 3h3v3H3zm2 8H4v1h1z"/>
@@ -305,7 +307,13 @@
                                                     </button>
                                                 </td>
                                                 <td class="py-3 px-4">{{ $customer->created_date }}</td>
-                                                <td class="py-3 px-4">{{ $customer->creator->email }}</td>
+                                                @can('qrcode delete')
+                                                <td class="py-3 px-4">
+
+                                                    {{ $customer->creator->email }}
+
+                                                </td>
+                                                @endcan
                                                 <td class="py-3 px-4">
                                                     @can('qrcode delete')
                                                     <a href="#" id="delete-qr-code" data-id="{{ $customer->id }}" class="text-danger d-inline-flex align-items-center gap-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
@@ -355,7 +363,7 @@
                             </p>
                             <button
                                 class="export-template-btn btn btn-sm btn-outline-secondary m-0"
-                                data-url="qr-code-customers/export-template" 
+                                data-url="qr-code-customers/export-template"
                                 data-filename="Customer_QR_Code_Template.xlsx" >
                                 <i class="fas fa-print"></i>
                                 <span>Download template (.xlsx)</span>
@@ -394,7 +402,7 @@
 
                     <div class="modal-body p-4">
                         <div class="qr-header-title">QR Code Payment</div>
-                        
+
                         <div class="qr-img-container">
                             <img id="modalQrImg" src="" alt="qr code">
                         </div>
@@ -452,20 +460,20 @@
         document.addEventListener('DOMContentLoaded', function () {
             const qrModal = document.getElementById('qrCodeModal');
             const uploadButton = document.getElementById('uploadQrCodeBtn');
-            
+
             if (qrModal) {
                 qrModal.addEventListener('show.bs.modal', function (event) {
                     const button = event.relatedTarget;
-                    
+
                     const qrUrl = button.getAttribute('data-qr-url');
                     const customerCode = button.getAttribute('data-code');
                     const customerName = button.getAttribute('data-name');
                     const downloadUrl = button.getAttribute('data-url');
-                    
+
                     document.getElementById('modalRef1').textContent = customerCode;
                     document.getElementById('modalCustomerName').textContent = customerName;
                     document.getElementById('modalDownloadBtn').href = downloadUrl;
-                    
+
                     const qrImgElement = document.getElementById('modalQrImg');
                     qrImgElement.src = qrUrl;
                 });
