@@ -331,7 +331,7 @@
                                         @endforeach
                                     @else
                                         <tr class="text-sm">
-                                            <td colspan="5" class="text-muted text-center py-3"><p>Please search for a customer. If no results are found, please contact the Finance team.</p></td>
+                                            <td colspan="5" class="text-muted text-center py-3"><p>Please search for a customer. If no results are found, Please contact us at accountingar.hth@hafele.co.th</p></td>
                                         </tr>
                                     @endif
                                 </tbody>
