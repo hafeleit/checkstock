@@ -95,7 +95,7 @@
 
         .qr-info-table td {
             padding: 5px 10px;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .qr-label {
@@ -208,12 +208,14 @@
                                 </button>
                                 @endcan
                                 @can('qrcode create')
+                                {{--
                                 <a href="/qr-code-customers/create" type="button" class="btn btn-sm btn-primary m-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                                     </svg>
                                     Add QR Code Customer
                                 </a>
+                                --}}
                                 @endcan
                             </div>
                         </div>
@@ -284,7 +286,7 @@
                                                 <td class="py-3 px-4">
                                                     <span class="badge badge-secondary badge-customer-code">{{ $customer->customer_code }}</span>
                                                 </td>
-                                                <td class="py-3 px-4">{{ $customer->customer_name }}</td>
+                                                <td class="py-3 px-4">{{ $customer->customer_full_name }}</td>
                                                 <td class="py-3 px-4">
                                                     <button type="button"
                                                         class="btn-qr-trigger d-inline-flex align-items-center gap-2 px-3 py-1 m-0 border-0"
@@ -293,6 +295,7 @@
                                                         data-id="{{ $customer->id }}"
                                                         data-code="{{ $customer->customer_code }}"
                                                         data-name="{{ $customer->customer_name }}"
+                                                        data-full-name="{{ $customer->customer_full_name }}"
                                                         data-qr-url="{{ route('qr-code-customers.png', $customer->id) }}"
                                                         data-url="{{ route('qr-code-customers.pdf', $customer->id) }}">
 
@@ -412,10 +415,14 @@
                                 <td class="qr-label">Customer Code (REF1):</td>
                                 <td class="qr-value" id="modalRef1"></td>
                             </tr>
+                            <tr>
+                                <td class="qr-label">Customer Code (REF2):</td>
+                                <td class="qr-value" id="modalRef2"></td>
+                            </tr>
                         </table>
 
                         <div class="d-flex justify-content-center mt-3">
-                            <span class="text-dark fw-bold text-lg" id="modalCustomerName"></span>
+                            <span class="text-dark fw-bold text-sm" id="modalCustomerName"></span>
                         </div>
 
                         <div class="qr-footer-date">Generated on {{ date('F d, Y') }}</div>
@@ -468,10 +475,12 @@
                     const qrUrl = button.getAttribute('data-qr-url');
                     const customerCode = button.getAttribute('data-code');
                     const customerName = button.getAttribute('data-name');
+                    const customerFullName = button.getAttribute('data-full-name');
                     const downloadUrl = button.getAttribute('data-url');
 
                     document.getElementById('modalRef1').textContent = customerCode;
-                    document.getElementById('modalCustomerName').textContent = customerName;
+                    document.getElementById('modalRef2').textContent = customerName;
+                    document.getElementById('modalCustomerName').textContent = customerFullName;
                     document.getElementById('modalDownloadBtn').href = downloadUrl;
 
                     const qrImgElement = document.getElementById('modalQrImg');

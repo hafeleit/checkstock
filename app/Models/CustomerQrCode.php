@@ -13,6 +13,7 @@ class CustomerQrCode extends Model
     protected $fillable = [
         'id',
         'customer_name',
+        'customer_full_name',
         'customer_code',
         'qr_payload',
         'amount',

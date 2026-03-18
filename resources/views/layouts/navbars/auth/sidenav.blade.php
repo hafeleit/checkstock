@@ -129,9 +129,9 @@
       {{-- Products 360° --}}
       @canany(['salesusi view', 'salesusi pc view'])
       <li class="nav-item">
-        <a class="nav-link {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'active' : '' }}" 
-          data-bs-toggle="collapse" 
-          aria-expanded="{{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'true' : 'false' }}" 
+        <a class="nav-link {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'active' : '' }}"
+          data-bs-toggle="collapse"
+          aria-expanded="{{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'true' : 'false' }}"
           href="#salesUsiExample">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-archive-2 {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
@@ -171,6 +171,7 @@
 
       {{-- SO Status --}}
       @can('sostatus view')
+      {{--
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'so-status-usi.index' ? 'active' : '' }}" href="{{ route('so-status.index') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -179,6 +180,7 @@
           <span class="nav-link-text ms-1">SO Status</span>
         </a>
       </li>
+      --}}
       @endcan
 
       {{-- Commissions --}}

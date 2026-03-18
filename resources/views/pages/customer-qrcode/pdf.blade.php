@@ -80,7 +80,7 @@
         .info-name {
             text-align: center;
             margin-top: 12px;
-            font-size: 30px;
+            font-size: 24px;
             font-weight: bold;
         }
 
@@ -94,16 +94,20 @@
         <div class="qr-section">
             <img src="data:image/png;base64, {{ $qrCode }}" width="200" alt="qr code" />
         </div>
-        
+
         <table class="info-table">
             <tr>
                 <td class="label">Customer Code (Ref1):</td>
                 <td class="value">{{ $customer->customer_code }}</td>
             </tr>
+            <tr>
+                <td class="label">Customer Code (Ref2):</td>
+                <td class="value">{{ $customer->customer_name }}</td>
+            </tr>
         </table>
 
         <div class="info-name">
-            {{ $customer->customer_name }}
+            {{ $customer->customer_full_name }}
         </div>
 
         <div class="footer-date">

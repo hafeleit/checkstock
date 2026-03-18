@@ -29,7 +29,7 @@ class CustomerQrCodeController extends Controller
         $customers = CustomerQrCode::query()
             ->when(request()->search, function ($q) {
                 $search = strtolower(request()->search);
-                $q->whereRaw('LOWER(customer_name) LIKE ?', ["%{$search}%"])
+                $q->whereRaw('LOWER(customer_full_name) LIKE ?', ["%{$search}%"])
                     ->orWhereRaw('LOWER(customer_code) LIKE ?', ["%{$search}%"]);
             })
             ->orderBy('customer_code', 'desc')
