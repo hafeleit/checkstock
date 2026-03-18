@@ -196,7 +196,7 @@
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-md-flex align-items-center justify-between">
-                            <h6 class="mb-0 h3">Customer List</h6>
+                            <h6 class="mb-0 h3">QR Code Customer List</h6>
                             <div class="d-flex align-items-center gap-2">
                                 @can('qrcode import')
                                 <button type="button" class="btn btn-sm btn-outline-primary m-0" data-bs-toggle="modal" data-bs-target="#updateQrCodeModal">
@@ -223,10 +223,10 @@
 
                     <div class="card-body mt-3">
                         <div class="row g-3 align-items-end">
-                            <div class="col-8 col-md-6">
-                                <input type="search" class="form-control form-control-sm search-field" id="search-input" value="{{ $params['search'] ?? '' }}" placeholder="Search by name or code...">
+                            <div class="col-7 col-md-6">
+                                <input type="search" class="form-control form-control-sm search-field" id="search-input" value="{{ $params['search'] ?? '' }}" placeholder="Search by customer name or code..." autofocus>
                             </div>
-                            <div class="col-4 col-md-auto">
+                            <div class="col-5 col-md-auto">
                                 <button type="button" class="btn btn-sm btn-dark uppercase mb-0" id="searchButton">search</button>
                             </div>
                         </div>
@@ -331,7 +331,7 @@
                                         @endforeach
                                     @else
                                         <tr class="text-sm">
-                                            <td colspan="5" class="text-muted text-center py-3">No customer QR code</td>
+                                            <td colspan="5" class="text-muted text-center py-3"><p>Please search for a customer. If no results are found, please contact the Finance team.</p></td>
                                         </tr>
                                     @endif
                                 </tbody>
