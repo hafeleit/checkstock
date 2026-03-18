@@ -26,25 +26,22 @@ class CustomerQrCodeController extends Controller
 
     public function index()
     {
-      $isQrCodeSales = auth()->user()->hasRole('QR Code Sales');
-
       $customers = CustomerQrCode::query()
           ->when(request()->search, function ($q) {
               $search = strtolower(request()->search);
               $q->whereRaw('LOWER(customer_full_name) LIKE ?', ["%{$search}%"])
                   ->orWhereRaw('LOWER(customer_code) LIKE ?', ["%{$search}%"]);
           })
-          ->when($isQrCodeSales && !request()->search, function ($q) {
-              $q->whereRaw('1 = 0');
+          ->when(auth()->user()->hasRole('QR Code Sales') && !request()->search, function ($q) {
+              $q->whereRaw('1 = 0'); // Return empty if no search term
           })
           ->orderBy('customer_code', 'desc')
           ->paginate(15);
-          });
 
-        return view('pages.customer-qrcode.index', [
-            'customers' => $customers,
-            'params' => request()->all()
-        ]);
+      return view('pages.customer-qrcode.index', [
+          'customers' => $customers,
+          'params' => request()->all()
+      ]);
     }
 
     public function create()
