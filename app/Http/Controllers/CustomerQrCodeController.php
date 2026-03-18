@@ -28,7 +28,7 @@ class CustomerQrCodeController extends Controller
     {
       $isQrCodeSales = auth()->user()->hasRole('QR Code Sales');
 
-      $query = CustomerQrCode::query()
+      $customers = CustomerQrCode::query()
           ->when(request()->search, function ($q) {
               $search = strtolower(request()->search);
               $q->whereRaw('LOWER(customer_full_name) LIKE ?', ["%{$search}%"])
@@ -37,9 +37,9 @@ class CustomerQrCodeController extends Controller
           ->when($isQrCodeSales && !request()->search, function ($q) {
               $q->whereRaw('1 = 0');
           })
-          ->orderBy('customer_code', 'desc');
-
-      $customers = $isQrCodeSales ? $query->limit(15)->get() : $query->paginate(15);
+          ->orderBy('customer_code', 'desc')
+          ->paginate(15);
+          });
 
         return view('pages.customer-qrcode.index', [
             'customers' => $customers,
