@@ -171,7 +171,7 @@
 
       {{-- SO Status --}}
       @can('sostatus view')
-      {{--
+
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'so-status-usi.index' ? 'active' : '' }}" href="{{ route('so-status.index') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -180,7 +180,7 @@
           <span class="nav-link-text ms-1">SO Status</span>
         </a>
       </li>
-      --}}
+
       @endcan
 
       {{-- Commissions --}}

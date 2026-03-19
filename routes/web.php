@@ -118,7 +118,7 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   Route::post('search-usi', [SalesUSIController::class, 'search_usi'])->name('search_usi');
   Route::post('search-usi-inbound', [SalesUSIController::class, 'inbound'])->name('search_inbound');
   Route::post('search-usi-outbound', [SalesUSIController::class, 'outbound'])->name('search_outbound');
-  //Route::resource('so-status', SoStatusController::class);
+  Route::resource('so-status', SoStatusController::class);
 
   // Product Information
   Route::post('/product-infos/import-info', [ProductInformationController::class, 'importInfo'])->name('product-infos.import-info');
