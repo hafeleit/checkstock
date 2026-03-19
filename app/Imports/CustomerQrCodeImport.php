@@ -50,7 +50,9 @@ class CustomerQrCodeImport implements ToModel, WithHeadingRow, WithValidation, S
         // Generate QR payload
         $taxId = '0105537076950';
         $suffix = '00';
-        $customer_name =  substr(str_replace(' ', '_', $row['customer_name']), 0, 18);
+        $customer_name = preg_replace('/[^A-Za-z0-9]/', '', $row['customer_name']);
+        $customer_name = substr($customer_name, 0, 18);
+
         $payload = $this->generatePayload($taxId, $suffix, $row['customer_code'],$customer_name);
 
         return new CustomerQrCode([
