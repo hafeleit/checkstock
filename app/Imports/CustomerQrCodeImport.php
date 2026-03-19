@@ -50,11 +50,12 @@ class CustomerQrCodeImport implements ToModel, WithHeadingRow, WithValidation, S
         // Generate QR payload
         $taxId = '0105537076950';
         $suffix = '00';
-        $payload = $this->generatePayload($taxId, $suffix, $row['customer_code'], substr($row['customer_name'], 0, 18));
+        $customer_name =  substr(str_replace(' ', '_', $row['customer_name']), 0, 18);
+        $payload = $this->generatePayload($taxId, $suffix, $row['customer_code'],$customer_name);
 
         return new CustomerQrCode([
             'customer_full_name' => $row['customer_name'],
-            'customer_name' => substr($row['customer_name'], 0, 18),
+            'customer_name' => $customer_name,
             'customer_code' => $row['customer_code'],
             'qr_payload' => $payload,
             'created_date' => Carbon::now(),

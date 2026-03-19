@@ -416,7 +416,7 @@
                                 <td class="qr-value" id="modalRef1"></td>
                             </tr>
                             <tr>
-                                <td class="qr-label">Customer Code (REF2):</td>
+                                <td class="qr-label">Customer Name (REF2):</td>
                                 <td class="qr-value" id="modalRef2"></td>
                             </tr>
                         </table>
