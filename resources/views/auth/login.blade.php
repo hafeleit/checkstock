@@ -59,25 +59,35 @@
                                         </div>
 
                                         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-                                            const passwordInput = document.getElementById('password');
-                                            const toggleIcon = document.getElementById('togglePassword');
+                                          const passwordInput = document.getElementById('password');
+                                          const toggleIcon = document.getElementById('togglePassword');
 
-                                            // คลิกค้าง
-                                            toggleIcon.addEventListener('mousedown', function() {
-                                                passwordInput.setAttribute('type', 'text');
-                                                this.classList.remove('fa-eye');
-                                                this.classList.add('fa-eye-slash');
-                                            });
+                                          function showPassword() {
+                                              passwordInput.setAttribute('type', 'text');
+                                              toggleIcon.classList.remove('fa-eye');
+                                              toggleIcon.classList.add('fa-eye-slash');
+                                          }
 
-                                            // ปล่อยเมาส์ หรือเลื่อนออกจาก icon
-                                            toggleIcon.addEventListener('mouseup', hidePassword);
-                                            toggleIcon.addEventListener('mouseleave', hidePassword);
+                                          function hidePassword() {
+                                              passwordInput.setAttribute('type', 'password');
+                                              toggleIcon.classList.remove('fa-eye-slash');
+                                              toggleIcon.classList.add('fa-eye');
+                                          }
 
-                                            function hidePassword() {
-                                                passwordInput.setAttribute('type', 'password');
-                                                toggleIcon.classList.remove('fa-eye-slash');
-                                                toggleIcon.classList.add('fa-eye');
-                                            }
+                                          // Desktop
+                                          toggleIcon.addEventListener('mousedown', showPassword);
+                                          toggleIcon.addEventListener('mouseup', hidePassword);
+                                          toggleIcon.addEventListener('mouseleave', hidePassword);
+
+                                          // Mobile
+                                          toggleIcon.addEventListener('touchstart', function(e) {
+                                              e.preventDefault();
+                                              showPassword();
+                                          });
+                                          toggleIcon.addEventListener('touchend', function(e) {
+                                              e.preventDefault();
+                                              hidePassword();
+                                          });
                                         </script>
 
                                         <div class="login-security-alert" role="alert">
