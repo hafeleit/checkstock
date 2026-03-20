@@ -1,21 +1,18 @@
 @extends('layouts.app-dashboard')
 @section('content')
     <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-        .dashboard-view {
-            display: none;
-        }
-        .dashboard-view.active {
-            display: block;
-        }
+        #dashboard-container { height: 100%; display: flex; flex-direction: column; }
+        .dashboard-view { display: none; height: 100%; overflow: hidden; }
+        .dashboard-view.active { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
     </style>
 
     <div id="dashboard-container">
         <div id="dashboard-1" class="dashboard-view">
             @include('pages.after-sales.dashboard-1')
         </div>
-        {{-- <div id="dashboard-2" class="dashboard-view">
+        <div id="dashboard-2" class="dashboard-view">
             @include('pages.after-sales.dashboard-2')
-        </div> --}}
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
@@ -90,27 +87,26 @@
         Chart.register(centerTextHalfPlugin);
         Chart.register(ChartDataLabels);
 
-
         // Switch page
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     const intervalTime = 5 * 60 * 1000;
-        //     const storageKey = 'active_dashboard_id';
+        document.addEventListener('DOMContentLoaded', function() {
+            const intervalTime = 5 * 60 * 1000;
+            const storageKey = 'active_dashboard_id';
             
-        //     let activeId = localStorage.getItem(storageKey) || 'dashboard-1';
+            let activeId = localStorage.getItem(storageKey) || 'dashboard-1';
             
-        //     const activeElement = document.getElementById(activeId);
-        //     if (activeElement) {
-        //         activeElement.classList.add('active');
-        //     } else {
-        //         document.getElementById('dashboard-1').classList.add('active');
-        //         activeId = 'dashboard-1';
-        //     }
+            const activeElement = document.getElementById(activeId);
+            if (activeElement) {
+                activeElement.classList.add('active');
+            } else {
+                document.getElementById('dashboard-1').classList.add('active');
+                activeId = 'dashboard-1';
+            }
 
-        //     setTimeout(function() {
-        //         const nextId = (activeId === 'dashboard-1') ? 'dashboard-2' : 'dashboard-1';
-        //         localStorage.setItem(storageKey, nextId);
-        //         window.location.reload();
-        //     }, intervalTime);
-        // });
+            setTimeout(function() {
+                const nextId = (activeId === 'dashboard-1') ? 'dashboard-2' : 'dashboard-1';
+                localStorage.setItem(storageKey, nextId);
+                window.location.reload();
+            }, intervalTime);
+        });
     </script>
 @endsection

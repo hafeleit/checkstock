@@ -45,7 +45,7 @@
             </div>
         </nav>
 
-        <main class="flex-grow p-6 bg-gray-50">
+        <main class="flex-1 min-h-0 p-2.5 bg-gray-200 overflow-hidden">
             @yield('content')
         </main>
     </div>
