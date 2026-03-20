@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\EmployeeTeamHelper;
+use App\Helpers\ZipcodeRegionHelper;
 use App\Models\HthAfterSaleTicket;
 use App\Models\HthAfterSaleUser;
 use Carbon\Carbon;
@@ -31,6 +33,7 @@ class AfterSalesDashboardController extends Controller
             'pending_group_data' => $this->calculatePendingGroup($month, $year),
             'status_data' => $this->calculateStatus($month, $year),
             'asc_pending_data' => $this->calculateAscPending($month, $year),
+            'inhouse_pending_data' => $this->calculateInhousePending($month, $year),
             'pending_reason_data' => $this->calculatePendingReason($month, $year),
             'pending_region_data' => $this->calculatePendingByRegion($month, $year),
             'product_data' => $this->calculatePendingByProduct($month, $year),
@@ -150,11 +153,12 @@ class AfterSalesDashboardController extends Controller
         $maxMonth = ($year === now()->year) ? now()->month : 12;
 
         $rows = HthAfterSaleTicket::query()
-            ->whereYear('date_modified', $year)
+            ->whereYear('release_date', $year)
             ->where('deleted', 0)
-            ->selectRaw("MONTH(date_modified) as month, COUNT(CASE WHEN `status` = 'Closed' THEN 1 END) as total_closed, COUNT(*) as total_open")
-            ->groupByRaw('MONTH(date_modified)')
-            ->orderByRaw('MONTH(date_modified)')
+            ->whereNot('status', 'Canceled')
+            ->selectRaw("MONTH(release_date) as month, COUNT(CASE WHEN `status` = 'Closed' THEN 1 END) as total_closed, COUNT(*) as total_open")
+            ->groupByRaw('MONTH(release_date)')
+            ->orderByRaw('MONTH(release_date)')
             ->get()
             ->keyBy('month');
 
@@ -236,8 +240,6 @@ class AfterSalesDashboardController extends Controller
     private function calculateTotalStat(int $month, int $year)
     {
         $result = HthAfterSaleTicket::query()
-            // ->whereMonth('release_date', $month)
-            // ->whereYear('release_date', $year)
             ->where('deleted', 0)
             ->whereNot('status', 'Canceled')
             ->selectRaw("
@@ -290,8 +292,6 @@ class AfterSalesDashboardController extends Controller
     private function calculatePendingType(int $month, int $year)
     {
         $result = HthAfterSaleTicket::query()
-            // ->whereMonth('date_modified', $month)
-            // ->whereYear('date_modified', $year)
             ->where('deleted', 0)
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
@@ -311,8 +311,6 @@ class AfterSalesDashboardController extends Controller
     {
         $result = HthAfterSaleTicket::query()
             ->leftJoin('aos_product_categories', 'hth_after_sale_ticket.aos_product_categories_id', '=', 'aos_product_categories.id')
-            // ->whereMonth('hth_after_sale_ticket.date_modified', $month)
-            // ->whereYear('hth_after_sale_ticket.date_modified', $year)
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
@@ -360,23 +358,9 @@ class AfterSalesDashboardController extends Controller
 
     private function calculateAscPending(int $month, int $year)
     {
-        $regionExpr = "
-            CASE
-                WHEN zipcode BETWEEN 10000 AND 10999 THEN 'bkk'
-                WHEN zipcode BETWEEN 11000 AND 19999 THEN 'central'
-                WHEN zipcode BETWEEN 20000 AND 27999 THEN 'eastern'
-                WHEN zipcode BETWEEN 30000 AND 49999 THEN 'northeastern'
-                WHEN zipcode BETWEEN 50000 AND 67999 THEN 'northern'
-                WHEN zipcode BETWEEN 70000 AND 77999 THEN 'western'
-                WHEN zipcode BETWEEN 80000 AND 86999 THEN 'southern'
-                WHEN zipcode BETWEEN 90000 AND 96999 THEN 'southern'
-                ELSE 'blank'
-            END
-        ";
+        $regionExpr = ZipcodeRegionHelper::sqlExpr();
 
         $rows = HthAfterSaleTicket::query()
-            // ->whereMonth('date_modified', $month)
-            // ->whereYear('date_modified', $year)
             ->whereHas('assignee', function ($q) {
                 $q->where('first_name', 'LIKE', 'ASC%');
             })
@@ -384,11 +368,11 @@ class AfterSalesDashboardController extends Controller
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
                 ($regionExpr) as region,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) > 30 THEN 1 END) as days_over_30
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) > 30 THEN 1 END) as days_over_30
             ")
             ->groupByRaw("($regionExpr)")
             ->get()
@@ -409,6 +393,41 @@ class AfterSalesDashboardController extends Controller
         return $result;
     }
 
+    private function calculateInhousePending(int $month, int $year)
+    {
+        $teamExpr = EmployeeTeamHelper::sqlExpr('users.first_name', 'users.last_name');
+
+        $rows = HthAfterSaleTicket::query()
+            ->join('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
+            ->where('hth_after_sale_ticket.deleted', 0)
+            ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
+            ->selectRaw("
+                ($teamExpr) as team,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) > 30 THEN 1 END) as days_over_30
+            ")
+            ->groupByRaw("($teamExpr)")
+            ->get()
+            ->keyBy('team');
+
+        $teams = EmployeeTeamHelper::teams();
+        $result = [];
+        foreach ($teams as $t) {
+            $result[$t] = [
+                '0-3'     => (int) ($rows[$t]->days_0_3    ?? 0),
+                '4-7'     => (int) ($rows[$t]->days_4_7    ?? 0),
+                '8-15'    => (int) ($rows[$t]->days_8_15   ?? 0),
+                '16-30'   => (int) ($rows[$t]->days_16_30  ?? 0),
+                'over_30' => (int) ($rows[$t]->days_over_30 ?? 0),
+            ];
+        }
+
+        return $result;
+    }
+
     private function calculatePendingReason(int $month, int $year)
     {
         $reasons = [
@@ -420,8 +439,6 @@ class AfterSalesDashboardController extends Controller
         ];
 
         $rows = HthAfterSaleTicket::query()
-            // ->whereMonth('date_modified', $month)
-            // ->whereYear('date_modified', $year)
             ->where('deleted', 0)
             ->where('status', 'Pending_Reason')
             ->selectRaw("
@@ -453,23 +470,9 @@ class AfterSalesDashboardController extends Controller
 
     private function calculatePendingByRegion(int $month, int $year)
     {
-        $regionExpr = "
-            CASE
-                WHEN zipcode BETWEEN 10000 AND 10999 THEN 'bkk'
-                WHEN zipcode BETWEEN 11000 AND 19999 THEN 'central'
-                WHEN zipcode BETWEEN 20000 AND 27999 THEN 'eastern'
-                WHEN zipcode BETWEEN 30000 AND 49999 THEN 'northeastern'
-                WHEN zipcode BETWEEN 50000 AND 67999 THEN 'northern'
-                WHEN zipcode BETWEEN 70000 AND 77999 THEN 'western'
-                WHEN zipcode BETWEEN 80000 AND 86999 THEN 'southern'
-                WHEN zipcode BETWEEN 90000 AND 96999 THEN 'southern'
-                ELSE 'blank'
-            END
-        ";
+        $regionExpr = ZipcodeRegionHelper::sqlExpr();
 
         $rows = HthAfterSaleTicket::query()
-            // ->whereMonth('date_modified', $month)
-            // ->whereYear('date_modified', $year)
             ->where('deleted', 0)
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
@@ -550,10 +553,12 @@ class AfterSalesDashboardController extends Controller
                     : $q->whereNot('first_name', 'LIKE', 'ASC%');
             })
             ->where('deleted', 0)
-            ->whereNotIn('status', ['Closed', 'Canceled'])
+            ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->whereIn('type', $types)
             ->select('type', DB::raw('COUNT(*) as total'))
             ->groupBy('type')
             ->get();
     }
+
+    
 }

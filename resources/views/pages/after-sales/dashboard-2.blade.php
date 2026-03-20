@@ -131,8 +131,8 @@
             </div>
             <div class="bg-white p-3 rounded-xl border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
                 <h3 class="text-md font-semibold text-gray-700 mb-1 flex-shrink-0">In House Pending by Technician</h3>
-                <div class="flex-1 min-h-0 flex items-center justify-center">
-                    <span class="text-md text-gray-400">— No data —</span>
+                <div class="flex-1 min-h-0">
+                    <canvas id="inhouse-pending-chart"></canvas>
                 </div>
             </div>
         </div>
@@ -749,6 +749,85 @@
                     padding: {
                         right: 10
                     }
+                },
+            }
+        });
+
+        // In House Pending Chart
+        const inhousePending = {!! json_encode($inhouse_pending_data) !!};
+        const inhouseTeams = Object.keys(inhousePending).filter(t => t !== 'Unknown');
+        new Chart(document.getElementById('inhouse-pending-chart'), {
+            type: 'bar',
+            data: {
+                labels: inhouseTeams,
+                datasets: [{
+                        label: '0-3 Days',
+                        data: inhouseTeams.map(t => inhousePending[t]['0-3']),
+                        backgroundColor: '#10b981'
+                    },
+                    {
+                        label: '4-7 Days',
+                        data: inhouseTeams.map(t => inhousePending[t]['4-7']),
+                        backgroundColor: '#84cc16'
+                    },
+                    {
+                        label: '8-15 Days',
+                        data: inhouseTeams.map(t => inhousePending[t]['8-15']),
+                        backgroundColor: '#facc15'
+                    },
+                    {
+                        label: '16-30 Days',
+                        data: inhouseTeams.map(t => inhousePending[t]['16-30']),
+                        backgroundColor: '#fb923c'
+                    },
+                    {
+                        label: 'Over 30 Days',
+                        data: inhouseTeams.map(t => inhousePending[t]['over_30']),
+                        backgroundColor: '#ef4444'
+                    },
+                ]
+            },
+            plugins: [ChartDataLabels],
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    datalabels: {
+                        anchor: 'center',
+                        align: 'center',
+                        color: '#fff',
+                        font: {
+                            size: 9,
+                            weight: 'bold'
+                        },
+                        formatter: (value) => value > 0 ? value : '',
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: { display: false },
+                        ticks: {
+                            font: { size: 10 },
+                            maxRotation: 45,
+                            minRotation: 45,
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        grid: { display: false },
+                        ticks: { display: false },
+                        border: { display: false }
+                    }
+                },
+                datasets: {
+                    bar: { barThickness: 12 }
+                },
+                layout: {
+                    padding: { top: 5 }
                 },
             }
         });

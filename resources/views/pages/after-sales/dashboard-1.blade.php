@@ -199,6 +199,8 @@
             pending_data: {!! json_encode($pending_data) !!},
         };
 
+        console.log(dashboardData.pending_data)
+
         // ── Color palette ─────────────────────────────────────────────────────────
         const C = {
             primary: '#1e40af',
@@ -245,7 +247,7 @@
             pointHoverBorderColor: color,
         });
 
-        const createLineChart = (id, labels, datasets) => new Chart(document.getElementById(id), {
+        const createLineChart = (id, labels, datasets, yStepSize = null) => new Chart(document.getElementById(id), {
             type: 'line',
             data: {
                 labels,
@@ -302,7 +304,8 @@
                         grid: {
                             display: false
                         },
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ...(yStepSize !== null ? { ticks: { stepSize: yStepSize } } : {}),
                     },
                 },
                 layout: {
@@ -509,7 +512,7 @@
                         offset: 4,
                         color: '#555',
                         font: {
-                            size: 9
+                            size: 10
                         }
                     },
                 },
@@ -524,7 +527,7 @@
                         },
                         ticks: {
                             font: {
-                                size: 9
+                                size: 10
                             }
                         }
                     },
@@ -612,12 +615,15 @@
                         grid: {
                             display: false
                         },
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1000
+                        }
                     },
                 },
                 layout: {
                     padding: {
-                        top: 20
+                        top: 40
                     }
                 },
             },
@@ -635,7 +641,8 @@
                 makeLineDataset(String(contractData.current_year), Array.from({
                     length: 12
                 }, (_, i) => contractData.current[i + 1] ?? null), C.critical),
-            ]
+            ],
+            1000
         );
 
         // ── Daily Performance Chart ───────────────────────────────────────────────
@@ -650,9 +657,9 @@
             dailyDays.map(d => d),
             [
                 makeLineDataset('Day Shift (08:00 - 17:00)', dailyDays.map(d => dailyData[d].day_shift), C.black),
-                makeLineDataset('Night Shift (17:01 - 07:59)', dailyDays.map(d => dailyData[d].night_shift), C
-                .critical),
-            ]
+                makeLineDataset('Night Shift (17:01 - 07:59)', dailyDays.map(d => dailyData[d].night_shift), C.critical),
+            ],
+            50
         );
     </script>
 @endpush
