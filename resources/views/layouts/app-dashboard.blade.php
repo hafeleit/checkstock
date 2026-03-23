@@ -28,7 +28,10 @@
                 </h1>
                 <div class="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 mt-2 md:mt-0">
                     <small class="text-gray-500 text-xs md:text-sm">Monitor key performance indicators and customer satisfaction.</small>
-                    <button id="btn-next-page" class="text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-full whitespace-nowrap cursor-pointer">
+                    <div id="timer-display" class="text-xs font-mono text-blue-600 bg-blue-50 px-3 py-1 rounded-full whitespace-nowrap">
+                        Next Switch: 05:00
+                    </div>
+                    <button id="btn-next-page" class="text-xs font-semibold text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded-full whitespace-nowrap cursor-pointer">
                         Next Page →
                     </button>
                 </div>
@@ -55,6 +58,7 @@
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         document.addEventListener('DOMContentLoaded', function() {
             const storageKey = 'active_dashboard_id';
+            const timerDisplay = document.getElementById('timer-display');
             let activeId = localStorage.getItem(storageKey) || 'dashboard-1';
 
             const activeView = document.getElementById(activeId);
@@ -65,10 +69,27 @@
                 activeId = 'dashboard-1';
             }
 
-            document.getElementById('btn-next-page').addEventListener('click', function() {
+            function switchPage() {
                 const nextId = (activeId === 'dashboard-1') ? 'dashboard-2' : 'dashboard-1';
                 localStorage.setItem(storageKey, nextId);
                 window.location.reload();
+            }
+
+            let timeLeft = 5 * 60;
+            const countdown = setInterval(function() {
+                timeLeft--;
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                timerDisplay.textContent = `Next Switch: ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    switchPage();
+                }
+            }, 1000);
+
+            document.getElementById('btn-next-page').addEventListener('click', function() {
+                clearInterval(countdown);
+                switchPage();
             });
         });
     </script>
