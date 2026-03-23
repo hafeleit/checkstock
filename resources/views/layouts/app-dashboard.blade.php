@@ -28,9 +28,9 @@
                 </h1>
                 <div class="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 mt-2 md:mt-0">
                     <small class="text-gray-500 text-xs md:text-sm">Monitor key performance indicators and customer satisfaction.</small>
-                    <div id="timer-display" class="text-xs font-mono text-blue-600 bg-blue-50 px-3 py-1 rounded-full whitespace-nowrap">
-                        Next Switch: 05:00
-                    </div>
+                    <button id="btn-next-page" class="text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-full whitespace-nowrap cursor-pointer">
+                        Next Page →
+                    </button>
                 </div>
             </div>
 
@@ -54,15 +54,9 @@
 
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         document.addEventListener('DOMContentLoaded', function() {
-            const totalTime = 5 * 60;
-            let timeLeft = totalTime;
             const storageKey = 'active_dashboard_id';
-            const timerDisplay = document.getElementById('timer-display');
-
-            // ตรวจสอบสถานะจากครั้งก่อน
             let activeId = localStorage.getItem(storageKey) || 'dashboard-1';
 
-            // แสดง Dashboard
             const activeView = document.getElementById(activeId);
             if (activeView) {
                 activeView.classList.add('active');
@@ -71,30 +65,11 @@
                 activeId = 'dashboard-1';
             }
 
-            // ฟังก์ชันอัปเดตตัวเลขหน้าจอ
-            function updateDisplay(seconds) {
-                const mins = Math.floor(seconds / 60);
-                const secs = seconds % 60;
-                timerDisplay.textContent =
-                    `Next Switch: ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            }
-
-            // เริ่มนับถอยหลัง
-            const countdown = setInterval(function() {
-                timeLeft--;
-                updateDisplay(timeLeft);
-
-                if (timeLeft <= 0) {
-                    clearInterval(countdown);
-
-                    const nextId = (activeId === 'dashboard-1') ? 'dashboard-2' : 'dashboard-1';
-                    localStorage.setItem(storageKey, nextId);
-
-                    window.location.reload();
-                }
-            }, 1000);
-
-            updateDisplay(timeLeft);
+            document.getElementById('btn-next-page').addEventListener('click', function() {
+                const nextId = (activeId === 'dashboard-1') ? 'dashboard-2' : 'dashboard-1';
+                localStorage.setItem(storageKey, nextId);
+                window.location.reload();
+            });
         });
     </script>
 </body>

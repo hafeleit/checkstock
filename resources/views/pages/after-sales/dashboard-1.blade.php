@@ -19,7 +19,7 @@
 
         {{-- CSI --}}
         <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center gap-3">
-            <div class="relative w-20 h-20 flex-shrink-0">
+            <div class="relative w-28 h-28 flex-shrink-0">
                 <canvas id="csi-chart"></canvas>
             </div>
             <div class="flex-1 min-w-0">
@@ -34,7 +34,7 @@
 
         {{-- R_TAT --}}
         <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center gap-3">
-            <div class="relative w-20 h-20 flex-shrink-0">
+            <div class="relative w-28 h-28 flex-shrink-0">
                 <canvas id="rtat-chart"></canvas>
             </div>
             <div class="flex-1 min-w-0">
@@ -55,7 +55,7 @@
 
         {{-- LTP --}}
         <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center gap-3">
-            <div class="relative w-20 h-20 flex-shrink-0">
+            <div class="relative w-28 h-28 flex-shrink-0">
                 <canvas id="ltp-chart"></canvas>
             </div>
             <div class="flex-1 min-w-0">
@@ -70,7 +70,7 @@
 
         {{-- FTF --}}
         <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center gap-3">
-            <div class="relative w-20 h-20 flex-shrink-0">
+            <div class="relative w-28 h-28 flex-shrink-0">
                 <canvas id="ftf-chart"></canvas>
             </div>
             <div class="flex-1 min-w-0">
@@ -119,7 +119,7 @@
             </div>
 
             {{-- 4 Mini Q — single horizontal row --}}
-            <div class="flex-1 min-h-0 grid grid-cols-4 gap-3 mt-2">
+            <div class="flex-1 min-h-0 grid grid-cols-4 gap-3 mt-4 pt-4 border-t border-gray-200">
                 <div class="flex flex-col items-center gap-0.5">
                     <div class="relative w-24 flex-1 min-h-0">
                         <canvas id="response-1-chart"></canvas>
@@ -371,7 +371,7 @@
         const csiSatPct = csiPct(csiSurvey.service_very_good);
         const csiScore = Math.round(Math.min(100, Math.max(0, 100 * csiSatPct / 95)));
         createKPIDoughnut('csi-chart', csiScore);
-        
+
         const csiProblemResolved   = csiPct(csiSurvey.problem_resolved_yes);
         const csiArriveAsScheduled = csiPct(csiSurvey.arrive_as_scheduled_yes);
         const csiPoliteWellMannered= csiPct(csiSurvey.polite_and_well_mannered_yes);
