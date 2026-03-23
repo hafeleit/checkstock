@@ -1,7 +1,9 @@
 @php
-    $csiResponses = 512;
-    $csiTotal     = 1107;
+    $csiSurvey    = $csi_response_data['survey_data'];
+    $csiResponses = (int) ($csiSurvey->total ?? 0);
+    $csiTotal     = (int) ($csi_response_data['total_ticket'] ?? 0);
     $csiRate      = $csiTotal > 0 ? round($csiResponses / $csiTotal * 100, 1) : 0;
+    $csiSatPct    = $csiResponses > 0 ? round($csiSurvey->service_very_good / $csiResponses * 100, 1) : 0;
 @endphp
 
 <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
@@ -23,7 +25,7 @@
             <div class="flex-1 min-w-0">
                 <p class="text-lg text-gray-400 uppercase tracking-widest font-semibold">CSI</p>
                 <div class="flex items-baseline gap-1.5 mt-0.5">
-                    <span class="text-2xl font-bold text-gray-800">94%</span>
+                    <span class="text-2xl font-bold text-gray-800">{{ $csiSatPct }}%</span>
                     <span class="text-xs font-bold px-1.5 py-0.5 rounded-md bg-yellow-100 text-yellow-700">Grade B</span>
                 </div>
                 <p class="text-lg text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">95.0%</span></p>
@@ -199,8 +201,6 @@
             pending_data: {!! json_encode($pending_data) !!},
         };
 
-        console.log(dashboardData.pending_data)
-
         // ── Color palette ─────────────────────────────────────────────────────────
         const C = {
             primary: '#1e40af',
@@ -361,20 +361,29 @@
         const ltpScore = Math.round(Math.min(100, Math.max(0, 100 * dashboardData.ltp / 70)));
         const ftfScore = Math.round(Math.min(100, Math.max(0, 100 * dashboardData.ftf / 80)));
 
-        createKPIDoughnut('csi-chart', 99);
         createKPIDoughnut('rtat-chart', rtatScore);
         createKPIDoughnut('ltp-chart', ltpScore);
         createKPIDoughnut('ftf-chart', ftfScore);
 
         // ── Satisfaction charts ───────────────────────────────────────────────────
-        createSatDoughnut('satisfaction-doughnut-chart', 94);
+        const csiSurvey = {!! json_encode($csiSurvey) !!};
+        const csiPct = val => csiSurvey.total > 0 ? Math.round(val / csiSurvey.total * 1000) / 10 : 0;
+        const csiSatPct = csiPct(csiSurvey.service_very_good);
+        const csiScore = Math.round(Math.min(100, Math.max(0, 100 * csiSatPct / 95)));
+        createKPIDoughnut('csi-chart', csiScore);
+        
+        const csiProblemResolved   = csiPct(csiSurvey.problem_resolved_yes);
+        const csiArriveAsScheduled = csiPct(csiSurvey.arrive_as_scheduled_yes);
+        const csiPoliteWellMannered= csiPct(csiSurvey.polite_and_well_mannered_yes);
+        const csiChargedExpenses   = csiPct(csiSurvey.charged_expenses_yes);
+        createSatDoughnut('satisfaction-doughnut-chart', csiSatPct);
 
         new Chart(document.getElementById('satisfaction-bar-chart'), {
             type: 'bar',
             data: {
                 labels: ['Very Good', 'Good', 'Normal', 'Bad', 'Very Bad'],
                 datasets: [{
-                    data: [283.71, 104.26, 2.1, 1.0, 0.0],
+                    data: [csiSurvey.service_very_good, csiSurvey.service_good, csiSurvey.service_normal, csiSurvey.service_bad, csiSurvey.service_very_bad],
                     backgroundColor: [C.darkRed, '#f43f5e', '#fb7185', '#fda4af', C.lightRed],
                     barPercentage: 0.6,
                     borderWidth: 0,
@@ -424,10 +433,10 @@
             },
         });
 
-        createSatDoughnut('response-1-chart', 99, '99%');
-        createSatDoughnut('response-2-chart', 100, '100%');
-        createSatDoughnut('response-3-chart', 97, '97%');
-        createSatDoughnut('response-4-chart', 23, '23%');
+        createSatDoughnut('response-1-chart', csiProblemResolved,    csiProblemResolved    + '%');
+        createSatDoughnut('response-2-chart', csiArriveAsScheduled,  csiArriveAsScheduled  + '%');
+        createSatDoughnut('response-3-chart', csiPoliteWellMannered, csiPoliteWellMannered + '%');
+        createSatDoughnut('response-4-chart', csiChargedExpenses,    csiChargedExpenses    + '%');
 
         // ── Pending Pie ───────────────────────────────────────────────────────────
         const {

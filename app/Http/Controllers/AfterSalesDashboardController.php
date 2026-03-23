@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\EmployeeTeamHelper;
-use App\Helpers\ZipcodeRegionHelper;
 use App\Models\HthAfterSaleTicket;
-use App\Models\HthAfterSaleUser;
+use App\Models\HthAssSurvey;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -25,6 +23,7 @@ class AfterSalesDashboardController extends Controller
             'ticket_status_data' => $this->calculateTicket($year),
             'contract_center_data' => $this->calculateContractCenter($year),
             'contract_daily_data' => $this->calculateContractCenterDaily($month, $year),
+            'csi_response_data' =>$this->calculateCsiResponse($month, $year),
 
             // dashboard 2
             'total_stat_data' => $this->calculateTotalStat($month, $year),
@@ -132,6 +131,36 @@ class AfterSalesDashboardController extends Controller
         return $result->total > 0
             ? round(100 * ($result->activity / $result->total), 1)
             : 0;
+    }
+
+    private function calculateCsiResponse(int $month, int $year)
+    {
+        $ticketCount = HthAfterSaleTicket::query()
+            ->whereMonth('date_modified', $month)
+            ->whereYear('date_modified', $year)
+            ->count();
+        
+        $survey = HthAssSurvey::query()
+            ->whereMonth('start_time', $month)
+            ->whereYear('start_time', $year)
+            ->selectRaw("
+                COUNT(*) as total,
+                COUNT(CASE WHEN service_team = 'ดีมาก (Very Good)' THEN 1 END) as service_very_good,
+                COUNT(CASE WHEN service_team = 'ดี (Good)' THEN 1 END) as service_good,
+                COUNT(CASE WHEN service_team = 'ปกติ (Normal)' THEN 1 END) as service_normal,
+                COUNT(CASE WHEN service_team = 'แย่ (Bad)' THEN 1 END) as service_bad,
+                COUNT(CASE WHEN service_team = 'แย่มาก (Very Bad)' THEN 1 END) as service_very_bad,
+                COUNT(CASE WHEN problem_resolved = 'ใช่ (Yes)' THEN 1 END) as problem_resolved_yes,
+                COUNT(CASE WHEN arrive_as_scheduled = 'ใช่ (Yes)' THEN 1 END) as arrive_as_scheduled_yes,
+                COUNT(CASE WHEN polite_and_well_mannered = 'ใช่ (Yes)' THEN 1 END) as polite_and_well_mannered_yes,
+                COUNT(CASE WHEN charged_expenses = 'ใช่ (Yes)' THEN 1 END) as charged_expenses_yes
+            ")
+            ->first();
+        
+        return [
+            'total_ticket' => $ticketCount,
+            'survey_data' => $survey
+        ];
     }
 
     private function calculatePending(int $month, int $year)
@@ -253,7 +282,7 @@ class AfterSalesDashboardController extends Controller
             ->first();
 
         return [
-            'total'        => number_format($result->total ?? 0),
+            'total'         => number_format($result->total ?? 0),
             'total_pending' => number_format($result->total_pending ?? 0),
             'total_closed'  => number_format($result->total_closed ?? 0),
             'total_open'    => number_format($result->total_open ?? 0),
@@ -358,72 +387,46 @@ class AfterSalesDashboardController extends Controller
 
     private function calculateAscPending(int $month, int $year)
     {
-        $regionExpr = ZipcodeRegionHelper::sqlExpr();
-
-        $rows = HthAfterSaleTicket::query()
+        $result = HthAfterSaleTicket::query()
+            ->leftJoin('hth_ass_regions', 'hth_ass_regions.postcodemain', '=', 'hth_after_sale_ticket.zipcode')
+            ->where('hth_after_sale_ticket.deleted', 0)
+            ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->whereHas('assignee', function ($q) {
                 $q->where('first_name', 'LIKE', 'ASC%');
             })
-            ->where('deleted', 0)
-            ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
-                ($regionExpr) as region,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) > 30 THEN 1 END) as days_over_30
+                hth_ass_regions.master_part_eng as region,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) > 30 THEN 1 END) as days_over_30
             ")
-            ->groupByRaw("($regionExpr)")
+            ->groupBy("region")
             ->get()
             ->keyBy('region');
-
-        $regions = ['bkk', 'southern', 'eastern', 'northern', 'northeastern', 'western', 'central', 'blank'];
-        $result = [];
-        foreach ($regions as $r) {
-            $result[$r] = [
-                '0-3'     => (int) ($rows[$r]->days_0_3    ?? 0),
-                '4-7'     => (int) ($rows[$r]->days_4_7    ?? 0),
-                '8-15'    => (int) ($rows[$r]->days_8_15   ?? 0),
-                '16-30'   => (int) ($rows[$r]->days_16_30  ?? 0),
-                'over_30' => (int) ($rows[$r]->days_over_30 ?? 0),
-            ];
-        }
 
         return $result;
     }
 
     private function calculateInhousePending(int $month, int $year)
     {
-        $teamExpr = EmployeeTeamHelper::sqlExpr('users.first_name', 'users.last_name');
-
-        $rows = HthAfterSaleTicket::query()
-            ->join('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
+        $result = HthAfterSaleTicket::query()
+            ->leftJoin('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
+            ->leftJoin('hth_ass_teams', DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), '=', 'hth_ass_teams.name')
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
-                ($teamExpr) as team,
+                hth_ass_teams.team as team,
                 COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
                 COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
                 COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
                 COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
                 COUNT(CASE WHEN DATEDIFF(NOW(), release_date) > 30 THEN 1 END) as days_over_30
             ")
-            ->groupByRaw("($teamExpr)")
+            ->groupBy('hth_ass_teams.team')
             ->get()
             ->keyBy('team');
-
-        $teams = EmployeeTeamHelper::teams();
-        $result = [];
-        foreach ($teams as $t) {
-            $result[$t] = [
-                '0-3'     => (int) ($rows[$t]->days_0_3    ?? 0),
-                '4-7'     => (int) ($rows[$t]->days_4_7    ?? 0),
-                '8-15'    => (int) ($rows[$t]->days_8_15   ?? 0),
-                '16-30'   => (int) ($rows[$t]->days_16_30  ?? 0),
-                'over_30' => (int) ($rows[$t]->days_over_30 ?? 0),
-            ];
-        }
 
         return $result;
     }
@@ -470,34 +473,21 @@ class AfterSalesDashboardController extends Controller
 
     private function calculatePendingByRegion(int $month, int $year)
     {
-        $regionExpr = ZipcodeRegionHelper::sqlExpr();
-
-        $rows = HthAfterSaleTicket::query()
-            ->where('deleted', 0)
-            ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
+        $result = HthAfterSaleTicket::query()
+            ->leftJoin('hth_ass_regions', 'hth_ass_regions.postcodemain', '=', 'hth_after_sale_ticket.zipcode')
+            ->where('hth_after_sale_ticket.deleted', 0)
+            ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
-                ($regionExpr) as region,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) > 30 THEN 1 END) as days_over_30
+                hth_ass_regions.master_part_eng as region,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) > 30 THEN 1 END) as days_over_30
             ")
-            ->groupByRaw("($regionExpr)")
+            ->groupBy("region")
             ->get()
-            ->keyBy('region');
-
-        $regions = ['bkk', 'southern', 'eastern', 'northern', 'northeastern', 'western', 'central', 'blank'];
-        $result = [];
-        foreach ($regions as $r) {
-            $result[$r] = [
-                '0-3'     => (int) ($rows[$r]->days_0_3    ?? 0),
-                '4-7'     => (int) ($rows[$r]->days_4_7    ?? 0),
-                '8-15'    => (int) ($rows[$r]->days_8_15   ?? 0),
-                '16-30'   => (int) ($rows[$r]->days_16_30  ?? 0),
-                'over_30' => (int) ($rows[$r]->days_over_30 ?? 0),
-            ];
-        }
+            ->keyBy("region");
 
         return $result;
     }
@@ -511,19 +501,19 @@ class AfterSalesDashboardController extends Controller
         ];
 
         $rows = HthAfterSaleTicket::query()
-            ->whereMonth('hth_after_sale_ticket.date_modified', $month)
-            ->whereYear('hth_after_sale_ticket.date_modified', $year)
+            ->whereMonth('hth_after_sale_ticket.release_date', $month)
+            ->whereYear('hth_after_sale_ticket.release_date', $year)
             ->leftJoin('aos_product_categories', 'hth_after_sale_ticket.aos_product_categories_id', '=', 'aos_product_categories.id')
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->whereNotNull('aos_product_categories.name')
             ->selectRaw("
                 aos_product_categories.name as product,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_modified) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_modified) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_modified) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_modified) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_modified) > 30 THEN 1 END) as days_over_30
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) > 30 THEN 1 END) as days_over_30
             ")
             ->groupBy('aos_product_categories.name')
             ->get()

@@ -471,35 +471,35 @@
 
         // ASC Pending Chart
         const ascPending = {!! json_encode($asc_pending_data) !!};
-        const ascRegions = ['bkk', 'southern', 'eastern', 'northern', 'northeastern', 'western', 'central', 'blank'];
+        const ascRegionKeys = ['Bangkok Metropolitan', 'Southern', 'Eastern', 'Northern', 'Northeastern', 'Western', 'Central', ''];
+        const ascRegionLabels = ['Bangkok', 'Southern', 'Eastern', 'Northern', 'Northeastern', 'Western', 'Central', 'Blank'];
         new Chart(document.getElementById('asc-pending-chart'), {
             type: 'bar',
             data: {
-                labels: ['Bangkok', 'Southern', 'Eastern', 'Northern', 'Northeastern', 'Western', 'Central',
-                    'Blank'],
+                labels: ascRegionLabels,
                 datasets: [{
                         label: '0-3 Days',
-                        data: ascRegions.map(r => ascPending[r]['0-3']),
+                        data: ascRegionKeys.map(r => ascPending[r]?.days_0_3 ?? 0),
                         backgroundColor: '#10b981'
                     },
                     {
                         label: '4-7 Days',
-                        data: ascRegions.map(r => ascPending[r]['4-7']),
+                        data: ascRegionKeys.map(r => ascPending[r]?.days_4_7 ?? 0),
                         backgroundColor: '#84cc16'
                     },
                     {
                         label: '8-15 Days',
-                        data: ascRegions.map(r => ascPending[r]['8-15']),
+                        data: ascRegionKeys.map(r => ascPending[r]?.days_8_15 ?? 0),
                         backgroundColor: '#facc15'
                     },
                     {
                         label: '16-30 Days',
-                        data: ascRegions.map(r => ascPending[r]['16-30']),
+                        data: ascRegionKeys.map(r => ascPending[r]?.days_16_30 ?? 0),
                         backgroundColor: '#fb923c'
                     },
                     {
                         label: 'Over 30 Days',
-                        data: ascRegions.map(r => ascPending[r]['over_30']),
+                        data: ascRegionKeys.map(r => ascPending[r]?.days_over_30 ?? 0),
                         backgroundColor: '#ef4444'
                     },
                 ]
@@ -662,7 +662,7 @@
 
         // Region Chart
         const pendingRegion = {!! json_encode($pending_region_data) !!};
-        const regionKeys = ['bkk', 'southern', 'eastern', 'northern', 'northeastern', 'western', 'central', 'blank'];
+        const regionKeys = ['Bangkok Metropolitan', 'Southern', 'Eastern', 'Northern', 'Northeastern', 'Western', 'Central', ''];
         const regionLabels = ['Bangkok', 'Southern', 'Eastern', 'Northern', 'Northeastern', 'Western', 'Central', 'Blank'];
         new Chart(document.getElementById('region-chart'), {
             type: 'bar',
@@ -670,27 +670,27 @@
                 labels: regionLabels,
                 datasets: [{
                         label: '0-3 Days',
-                        data: regionKeys.map(r => pendingRegion[r]['0-3']),
+                        data: regionKeys.map(r => pendingRegion[r]?.days_0_3 ?? 0),
                         backgroundColor: '#10b981'
                     },
                     {
                         label: '4-7 Days',
-                        data: regionKeys.map(r => pendingRegion[r]['4-7']),
+                        data: regionKeys.map(r => pendingRegion[r]?.days_4_7 ?? 0),
                         backgroundColor: '#84cc16'
                     },
                     {
                         label: '8-15 Days',
-                        data: regionKeys.map(r => pendingRegion[r]['8-15']),
+                        data: regionKeys.map(r => pendingRegion[r]?.days_8_15 ?? 0),
                         backgroundColor: '#facc15'
                     },
                     {
                         label: '16-30 Days',
-                        data: regionKeys.map(r => pendingRegion[r]['16-30']),
+                        data: regionKeys.map(r => pendingRegion[r]?.days_16_30 ?? 0),
                         backgroundColor: '#fb923c'
                     },
                     {
                         label: 'Over 30',
-                        data: regionKeys.map(r => pendingRegion[r]['over_30']),
+                        data: regionKeys.map(r => pendingRegion[r]?.days_over_30 ?? 0),
                         backgroundColor: '#ef4444'
                     },
                 ]
@@ -755,34 +755,39 @@
 
         // In House Pending Chart
         const inhousePending = {!! json_encode($inhouse_pending_data) !!};
-        const inhouseTeams = Object.keys(inhousePending).filter(t => t !== 'Unknown');
+        const inhouseTeamKeys = Object.keys(inhousePending).filter(t => t !== 'Unknown');
+        const inhouseTeamLabels = [
+            "HA&SA Technician BKK1", "HA&SA Technician BKK2", "HA&SA Technician BKK3", "HA&SA Technician BKK4", "HA&SA Technician BKK5", "HA&SA Technician BKK6", "HA&SA Technician BKK7", 
+            "HW&FF Technician BKK1", "HW&FF Technician BKK2", "HW&FF Technician BKK3", "HW&FF Technician BKK4",
+            "Technician BKK", "Technician CM", "Technician PHK"
+        ];
         new Chart(document.getElementById('inhouse-pending-chart'), {
             type: 'bar',
             data: {
-                labels: inhouseTeams,
+                labels: inhouseTeamLabels,
                 datasets: [{
                         label: '0-3 Days',
-                        data: inhouseTeams.map(t => inhousePending[t]['0-3']),
+                        data: inhouseTeamLabels.map(t => inhousePending[t]?.days_0_3 ?? 0),
                         backgroundColor: '#10b981'
                     },
                     {
                         label: '4-7 Days',
-                        data: inhouseTeams.map(t => inhousePending[t]['4-7']),
+                        data: inhouseTeamLabels.map(t => inhousePending[t]?.days_4_7 ?? 0),
                         backgroundColor: '#84cc16'
                     },
                     {
                         label: '8-15 Days',
-                        data: inhouseTeams.map(t => inhousePending[t]['8-15']),
+                        data: inhouseTeamLabels.map(t => inhousePending[t]?.days_8_15 ?? 0),
                         backgroundColor: '#facc15'
                     },
                     {
                         label: '16-30 Days',
-                        data: inhouseTeams.map(t => inhousePending[t]['16-30']),
+                        data: inhouseTeamLabels.map(t => inhousePending[t]?.days_16_30 ?? 0),
                         backgroundColor: '#fb923c'
                     },
                     {
                         label: 'Over 30 Days',
-                        data: inhouseTeams.map(t => inhousePending[t]['over_30']),
+                        data: inhouseTeamLabels.map(t => inhousePending[t]?.days_over_30 ?? 0),
                         backgroundColor: '#ef4444'
                     },
                 ]
