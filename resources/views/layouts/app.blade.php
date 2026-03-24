@@ -119,6 +119,29 @@
 
     <script src="{{ URL::to('/') }}/assets/js/argon-dashboard.js" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
     <script src="{{ URL::to('/') }}/assets/js/lodash.min.js" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
+
+    {{-- Security patch: Lodash prototype pollution (CVE lodash _.unset / _.omit) --}}
+    <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+    (function() {
+        if (!window._) return;
+        function isSafePath(path) {
+            var parts = Array.isArray(path) ? path : String(path).split('.');
+            var blocked = ['__proto__', 'constructor', 'prototype'];
+            return parts.every(function(k) { return blocked.indexOf(String(k)) === -1; });
+        }
+        var _unset = _.unset;
+        var _omit  = _.omit;
+        _.unset = function(object, path) {
+            if (!isSafePath(path)) return false;
+            return _unset.apply(this, arguments);
+        };
+        _.omit = function(object, paths) {
+            if (!arguments.length) return _omit.apply(this, arguments);
+            var safePaths = [].concat(paths).filter(isSafePath);
+            return _omit.call(this, object, safePaths);
+        };
+    })();
+    </script>
     @stack('js')
 
     {{-- Preloader --}}
