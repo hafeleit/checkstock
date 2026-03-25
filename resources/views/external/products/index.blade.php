@@ -7,10 +7,10 @@
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('customer.products.index') }}">
-            <div class="text-sm text-red-600 mb-3 bg-red-50 py-3 px-2 rounded-md">
+            {{-- <div class="text-sm text-red-600 mb-3 bg-red-50 py-3 px-2 rounded-md">
                 สต๊อกที่แสดงเป็นสต๊อก ณ เวลา <strong>{{ $last_update->format('Y-m-d H:i') }}</strong> และเพื่อป้องกันความผิดพลาด<br>
                 หากต้องการยืนยันคำสั่งซื้อ ขอให้ตรวจสอบยืนยันกับพนักงานขายของท่านทุกครั้ง
-            </div>
+            </div> --}}
             <div class="flex gap-4">
                 <div class="flex-1">
                     <label for="item_code" class="block text-sm font-medium text-gray-700 mb-2">
@@ -53,9 +53,9 @@
                     <div class="flex flex-col md:flex-row gap-6">
                         <div class="w-full md:w-1/3">
                             <div class="aspect-square bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-4">
-                                <img src="{{ asset('/storage/img/products/' . $product->Material . '.jpg') }}" alt="product image" class="w-full h-full object-cover">
+                                <img src="{{ asset('/storage/img/products/' . $item_code . '.jpg') }}" alt="product image" class="w-full h-full object-cover">
                             </div>
-                            <a href="/customer/products/product-info/{{ $product->Material }}" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                            <a href="/customer/products/product-info/{{ $item_code }}" target="_blank" class="block w-full text-center bg-blue-900 hover:bg-gray-700 text-white font-medium py-1 px-4 rounded-lg transition duration-200">
                                 Product Information
                             </a>
                         </div>
@@ -63,70 +63,57 @@
                         <div class="w-full md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div class="sm:col-span-2 border-b pb-2">
                                 <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider">Item Code</label>
-                                <p class="text-lg font-bold text-gray-800">{{ $product->Material }}</p>
+                                <p class="text-lg font-bold text-gray-800">{{ $item_code }}</p>
 
                                 <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mt-3">Item Description</label>
-                                <p class="text-gray-600">{{ $product->kurztext }}</p>
+                                <p class="text-gray-600">{{ $product['productInformations'][0]['ArticleName'] ?? '-' }}</p>
                             </div>
 
                             <div class="bg-gray-50 p-3 rounded-md">
-                                @php
-                                    $product->Amount = 6892.52;
-                                @endphp
                                 <label class="block text-xs font-medium text-gray-500">Base Price</label>
-                                <p class="text-xl font-bold text-green-600">{{ number_format($product->Amount, 2) }} <span class="text-md font-normal">/ {{ $product->bun }}</span></p>
+                                <p class="text-xl font-bold text-green-600">{{ number_format($product['productInformations'][0]['TotalPrice'], 0) }} <span class="text-md font-normal">/ {{ $product['productInformations'][0]['QuantityUnit'] }}</span></p>
                             </div>
 
                             <div class="bg-gray-50 p-3 rounded-md">
                                 @php
-                                    $product->unrestricted = 764;
+                                    $storloc = collect($product['productInformations'][0]['AvailablePackagesStorloc'] ?? [])->firstWhere('Storagelocation', 'TH02');
+                                    $stock = $storloc['Atpquantity'] ?? 0;
                                 @endphp
                                 <label class="block text-xs font-medium text-gray-500">Stock Quantity</label>
-                                <span class="inline-flex items-center px-2.5 py-0.5 mt-1 rounded-full text-sm font-semibold {{ $product->unrestricted > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                    {{ number_format($product->unrestricted, 0) }} {{ $product->bun }}
+                                <span class="inline-flex items-center px-2.5 py-0.5 mt-1 rounded-full text-sm font-semibold {{ $stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                    {{ number_format($stock, 0) }} {{ $product['productInformations'][0]['QuantityUnit'] }}
                                 </span>
                             </div>
 
                             <div class="border-l-4 border-blue-200 pl-3">
                                 <label class="block text-xs font-medium text-gray-500">Inventory Status</label>
-                                @php
-                                    $product->mrp_type = 'ZD-None Stock Item';
-                                @endphp
                                 <p @class([
-                                    'inline-flex items-center px-2.5 py-0.5 rounded-md text-white font-semibold mt-1 bg-green-500' => $product->mrp_type,
-                                    'text-md text-gray-500' => empty($product->mrp_type),
-                                ])>{{ $product->mrp_type ?? '-' }}</p>
+                                    'inline-flex items-center px-2.5 py-0.5 rounded-md text-white font-semibold mt-1 bg-green-500' => $product_external['mrp'],
+                                    'text-md text-gray-500' => empty($product_external['mrp'])])>
+                                    {{ $product_external['mrp'] ?? '-' }}
+                                </p>
                             </div>
 
                             <div class="border-l-4 border-blue-200 pl-3">
-                                @php
-                                    $product->status = "Active";
-                                @endphp
                                 <label class="block text-xs font-medium text-gray-500">Item Status</label>
                                 <span @class([
                                     'inline-flex items-center px-2.5 py-0.5 rounded-md text-white font-semibold mt-1',
-                                    'bg-green-500' => ($product->status === 'Active'),
-                                    'bg-red-500' => ($product->status !== 'Active'),
-                                    'bg-gray-500' => empty($product->status),
+                                    'bg-green-500' => ($product_external['item_status'] === 'Active'),
+                                    'bg-red-500' => ($product_external['item_status'] !== 'Active'),
+                                    'bg-gray-500' => empty($product_external['item_status']),
                                 ])>
-                                    {{ $product->status ?? 'N/A' }}
+                                    {{ $product_external['item_status'] ?? 'N/A' }}
                                 </span>
                             </div>
 
                             <div class="border-l-4 border-orange-200 pl-3">
-                                @php
-                                    $product->moq = 5;
-                                @endphp
                                 <label class="block text-xs font-medium text-gray-500">MOQ</label>
-                                <p class="font-semibold text-gray-800">{{ number_format($product->moq ?? 0, 0) }}</p>
+                                <p class="font-semibold text-gray-800">{{ number_format($product_internal->NSU_PURC_MOQ ?? 0, 0) }}</p>
                             </div>
 
                             <div class="border-l-4 border-orange-200 pl-3">
-                                @php
-                                    $product->replenishment_time = 60;
-                                @endphp
                                 <label class="block text-xs font-medium text-gray-500">Repl Time</label>
-                                <p class="font-semibold text-gray-800">{{ $product->replenishment_time ?? 0 }}</p>
+                                <p class="font-semibold text-gray-800">{{ $product_internal->NSU_SUPP_REPL_TIME ?? 'N/A' }}</p>
                             </div>
                         </div>
                     </div>

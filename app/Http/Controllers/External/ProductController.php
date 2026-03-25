@@ -4,12 +4,14 @@ namespace App\Http\Controllers\External;
 
 use App\Http\Controllers\Controller;
 use App\Models\External\Product;
+use App\Models\External\ZHWWBCQUERYDIR as ExternalZHWWBCQUERYDIR;
 use App\Models\ProductInfo;
 use App\Models\ProductInfoFile;
 use App\Models\ZHWWBCQUERYDIR;
 use App\Models\ZHWWMM_BOM_VKO;
+use App\Services\ExternalProductApiService;
 use Carbon\Carbon;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -29,51 +31,41 @@ class ProductController extends Controller
             return view('pages.countdown');
         }
         
-        $last_update = Carbon::now()->subDay()->setHour(20)->setMinute(0)->setSecond(0);
-        if (empty(request()->all()) || !is_array(request()->all())) {
+        if (empty(request()->all()) || !is_array(request()->all()) || !request()->item_code) {
             return view('external.products.index', [
-                'date_now' => Carbon::now(),
                 'user' => auth()->user(),
-                'last_update' => $last_update
             ]);
         }
 
-        //$product = Product::where('item_code', request()->item_code)->first();
-        $product = DB::connection('external_mysql')
-            ->table('ZHWWBCQUERYDIR')
-            ->leftJoin('ZORDPOSKONV_ZPL', 'ZHWWBCQUERYDIR.Material', '=', 'ZORDPOSKONV_ZPL.Material')
-            ->leftJoin('MB52', function ($join) {
-                $join->on('ZHWWBCQUERYDIR.Material', '=', 'MB52.material')
-                    ->where('MB52.storage_location', '=', 'TH02');
-            })
-            ->where('ZHWWBCQUERYDIR.Material', request()->item_code)
-            ->select(
-                'ZHWWBCQUERYDIR.Material',
-                'ZHWWBCQUERYDIR.kurztext',
-                DB::raw('ZORDPOSKONV_ZPL.Amount / NULLIF(ZORDPOSKONV_ZPL.per, 0) AS Amount'),
-                'MB52.unrestricted',
-                'ZHWWBCQUERYDIR.bun',
-            )
+        $item_code = request()->item_code;
+
+        $api = new ExternalProductApiService();
+        $product = $api->getProductData($item_code);
+
+        $stMapping = $this->getStMapping();
+        $dmMapping = $this->getDmMapping();
+        $productExternal = ExternalZHWWBCQUERYDIR::query()
+            ->selectRaw($this->generateCaseStatement('st', $stMapping, 'item_status', 'Active'))
+            ->selectRaw($this->generateDmDescriptionCase($dmMapping))
+            ->where('material', $item_code)
             ->first();
 
-        if ($product) {
-            return view('external.products.index', [
-                'product' => $product,
-                'searched' => true,
-                'item_code' => request()->item_code,
-                'date_now' => Carbon::now(),
-                'user' => auth()->user(),
-                'last_update' => $last_update
-            ]);
-        }
+        $productInternal = DB::table('ZHWWBCQUERYDIR as m')
+            ->leftJoin('ZHAAMM_IFVMG as p', 'p.material', '=', 'm.material')
+            ->select([
+                DB::raw("COALESCE(NULLIF(TRIM(p.planned_deliv_time), ''), 'N/A') AS NSU_SUPP_REPL_TIME"),
+                DB::raw("COALESCE(NULLIF(TRIM(p.minimum_order_qty), ''), 0) AS NSU_PURC_MOQ"),
+            ])
+            ->where('m.material', $item_code)
+            ->first();
 
         return view('external.products.index', [
-            'product' => null,
-            'searched' => true,
-            'item_code' => request()->item_code,
-            'date_now' => Carbon::now(),
-            'user' => auth()->user(),
-            'last_update' => $last_update
+            'product'           => $product,
+            'product_external'    => $productExternal,
+            'product_internal'    => $productInternal,
+            'searched'          => true,
+            'item_code'         => $item_code,
+            'user'              => auth()->user(),
         ]);
     }
 
@@ -98,12 +90,10 @@ class ProductController extends Controller
 
         $stMapping = $this->getStMapping();
         $dmMapping = $this->getDmMapping();
-        $lageMapping = $this->getLageMapping();
         $productDetail = ZHWWBCQUERYDIR::query()
             ->with('zmm_matzert')
             ->select('material', 'kurztext as item_desc')
             ->selectRaw($this->generateCaseStatement('st', $stMapping, 'item_status', 'Active'))
-            ->selectRaw($this->generateCaseStatement('lage', $lageMapping, 'inventory_code'))
             ->selectRaw($this->generateDmDescriptionCase($dmMapping))
             ->where('material', $itemCode)
             ->first();
@@ -159,14 +149,6 @@ class ProductController extends Controller
             'LW|PD' => 'C Item',
             'NLW|ZX' => 'C Item',
             'NLW|ZD' => 'C Item',
-        ];
-    }
-
-    private function getLageMapping(): array
-    {
-        return [
-            'NLW' => 'NLW-Not storage goods',
-            'LW' => 'LW-Stock goods',
         ];
     }
 
