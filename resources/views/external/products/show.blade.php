@@ -20,11 +20,11 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
-                <div class="md:col-span-2">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <div class="md:col-span-4 2xl:col-span-3">
                     <div class="aspect-square bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
                         @if ($imgPath && !empty($imgPath))
-                            <img src="{{ $imgPath }}" alt="product image" class="w-full h-full object-cover">
+                            <img src="{{ $imgPath }}" alt="product image" class="w-full h-full object-contain p-2">
                         @else
                             <div class="img-thumbnail mb-3">
                                 <div class="text-center flex flex-col justify-center items-center h-full p-4">
@@ -38,7 +38,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="md:col-span-4">
+                <div class="md:col-span-8 2xl:col-span-9">
                     {{-- Product Info --}}
                     <div class="space-y-2 bg-gray-100 p-4 rounded-xl">
                         <div class="flex items-center gap-2">

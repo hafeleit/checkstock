@@ -51,16 +51,16 @@
                 <!-- Product Information -->
                 <div class="bg-white p-3 md:p-6 rounded-xl shadow-sm border border-gray-100">
                     <div class="flex flex-col md:flex-row gap-6">
-                        <div class="w-full md:w-1/3">
+                        <div class="w-full md:w-2/5 2xl:w-1/5">
                             <div class="aspect-square bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-4">
-                                <img src="{{ asset('/storage/img/products/' . $item_code . '.jpg') }}" alt="product image" class="w-full h-full object-cover">
+                                <img src="{{ asset('/storage/img/products/' . $item_code . '.jpg') }}" alt="product image" class="w-full h-full object-contain p-2">
                             </div>
                             <a href="/customer/products/product-info/{{ $item_code }}" target="_blank" class="block w-full text-center bg-blue-900 hover:bg-gray-700 text-white font-medium py-1 px-4 rounded-lg transition duration-200">
                                 Product Information
                             </a>
                         </div>
 
-                        <div class="w-full md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="w-full md:w-3/5 2xl:w-4/5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div class="sm:col-span-2 border-b pb-2">
                                 <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider">Item Code</label>
                                 <p class="text-lg font-bold text-gray-800">{{ $item_code }}</p>
