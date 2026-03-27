@@ -33,7 +33,7 @@
                     const sidePadding = centerConfig.sidePadding || 20;
                     const sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 20);
 
-                    ctx.font = "bold 18px " + fontStyle;
+                    ctx.font = "bold 12px " + fontStyle;
 
                     const stringWidth = ctx.measureText(txt).width;
                     const elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;

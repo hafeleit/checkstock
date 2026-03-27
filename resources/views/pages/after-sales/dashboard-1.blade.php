@@ -12,106 +12,108 @@
     }
 </style>
 
-<div class="h-full flex flex-col gap-2 overflow-hidden text-gray-800">
+<div class="h-full flex flex-col gap-1 overflow-hidden text-gray-800">
 
     {{-- ── ROW 1: KPI Cards ── --}}
-    <div class="flex-shrink-0 grid grid-cols-4 gap-2">
+    <div class="flex-shrink-0 grid grid-cols-4 gap-1">
 
         {{-- CSI --}}
-        <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center gap-3">
-            <div class="relative w-28 h-28 flex-shrink-0">
+        <div class="bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100 flex items-center gap-2">
+            <div class="relative w-16 h-16 flex-shrink-0">
                 <canvas id="csi-chart"></canvas>
             </div>
             <div class="flex-1 min-w-0">
-                <p class="text-lg text-gray-400 uppercase tracking-widest font-semibold">CSI</p>
-                <div class="flex items-baseline gap-1.5 mt-0.5">
-                    <span class="text-2xl font-bold text-gray-800">{{ $csiSatPct }}%</span>
-                    <span class="text-xs font-bold px-1.5 py-0.5 rounded-md bg-yellow-100 text-yellow-700">Grade B</span>
+                <p class="text-xs text-gray-400 uppercase tracking-widest font-semibold">CSI</p>
+                <div class="flex items-baseline gap-1 mt-0.5">
+                    <span class="text-lg font-bold text-gray-800">{{ $csiSatPct }}%</span>
+                    <span class="text-sm font-bold px-1 py-0.5 rounded bg-yellow-100 text-yellow-700">Grade B</span>
                 </div>
-                <p class="text-lg text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">95.0%</span></p>
+                <p class="text-xs text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">95.0%</span></p>
             </div>
         </div>
 
         {{-- R_TAT --}}
-        <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center gap-3">
-            <div class="relative w-28 h-28 flex-shrink-0">
+        <div class="bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100 flex items-center gap-2">
+            <div class="relative w-16 h-16 flex-shrink-0">
                 <canvas id="rtat-chart"></canvas>
             </div>
             <div class="flex-1 min-w-0">
-                <p class="text-lg text-gray-400 uppercase tracking-widest font-semibold">R_TAT</p>
-                <div class="flex items-baseline gap-1.5 mt-0.5">
-                    <span class="text-2xl font-bold text-gray-800">{{ $rtat['overall'] }}</span>
-                    <span class="text-xs font-bold px-1.5 py-0.5 rounded-md bg-yellow-100 text-yellow-700">Grade B</span>
+                <p class="text-xs text-gray-400 uppercase tracking-widest font-semibold">R_TAT</p>
+                <div class="flex items-baseline gap-1 mt-0.5">
+                    <span class="text-lg font-bold text-gray-800">{{ $rtat['overall'] }}</span>
+                    <span class="text-sm font-bold px-1 py-0.5 rounded bg-yellow-100 text-yellow-700">Grade B</span>
                 </div>
-                <p class="text-lg text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">8.9 days</span></p>
-                <div class="flex items-center gap-2 mt-1 pt-1 border-t border-gray-100">
-                    <span class="text-md font-bold text-gray-400 uppercase tracking-wider">BKK</span>
-                    <span class="text-lg text-gray-400">TG: <span class="font-semibold text-gray-600">3.0</span></span>
+                <p class="text-xs text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">8.9 days</span></p>
+                <div class="flex items-center gap-1.5 mt-0.5 pt-0.5 border-t border-gray-100">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">BKK</span>
+                    <span class="text-xs text-gray-400">TG: <span class="font-semibold text-gray-600">3.0</span></span>
                     <span class="text-gray-300">|</span>
-                    <span class="text-lg text-gray-400">Act: <span class="font-semibold text-rose-500">{{ $rtat['bkk'] }}</span></span>
+                    <span class="text-xs text-gray-400">Act: <span class="font-semibold text-rose-500">{{ $rtat['bkk'] }}</span></span>
                 </div>
             </div>
         </div>
 
         {{-- LTP --}}
-        <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center gap-3">
-            <div class="relative w-28 h-28 flex-shrink-0">
+        <div class="bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100 flex items-center gap-2">
+            <div class="relative w-16 h-16 flex-shrink-0">
                 <canvas id="ltp-chart"></canvas>
             </div>
             <div class="flex-1 min-w-0">
-                <p class="text-lg text-gray-400 uppercase tracking-widest font-semibold">LTP</p>
-                <div class="flex items-baseline gap-1.5 mt-0.5">
-                    <span class="text-2xl font-bold text-gray-800">{{ $ltp }}%</span>
-                    <span class="text-xs font-bold px-1.5 py-0.5 rounded-md bg-red-100 text-red-700">Grade C</span>
+                <p class="text-xs text-gray-400 uppercase tracking-widest font-semibold">LTP</p>
+                <div class="flex items-baseline gap-1 mt-0.5">
+                    <span class="text-lg font-bold text-gray-800">{{ $ltp }}%</span>
+                    <span class="text-sm font-bold px-1 py-0.5 rounded bg-red-100 text-red-700">Grade C</span>
                 </div>
-                <p class="text-lg text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">70.0%</span></p>
+                <p class="text-xs text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">70.0%</span></p>
             </div>
         </div>
 
         {{-- FTF --}}
-        <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center gap-3">
-            <div class="relative w-28 h-28 flex-shrink-0">
+        <div class="bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100 flex items-center gap-2">
+            <div class="relative w-16 h-16 flex-shrink-0">
                 <canvas id="ftf-chart"></canvas>
             </div>
             <div class="flex-1 min-w-0">
-                <p class="text-lg text-gray-400 uppercase tracking-widest font-semibold">FTF</p>
-                <div class="flex items-baseline gap-1.5 mt-0.5">
-                    <span class="text-2xl font-bold text-gray-800">{{ $ftf }}%</span>
-                    <span class="text-xs font-bold px-1.5 py-0.5 rounded-md bg-green-100 text-green-700">Grade A</span>
+                <p class="text-xs text-gray-400 uppercase tracking-widest font-semibold">FTF</p>
+                <div class="flex items-baseline gap-1 mt-0.5">
+                    <span class="text-lg font-bold text-gray-800">{{ $ftf }}%</span>
+                    <span class="text-sm font-bold px-1 py-0.5 rounded bg-green-100 text-green-700">Grade A</span>
                 </div>
-                <p class="text-lg text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">80.0%</span></p>
+                <p class="text-xs text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">80.0%</span></p>
             </div>
         </div>
 
     </div>
 
     {{-- ── ROW 2: CSI Details + Pending Overview ── --}}
-    <div class="flex-1 min-h-0 grid grid-cols-5 gap-2">
+    <div class="min-h-0 grid grid-cols-5 gap-1 [flex:3]">
 
         {{-- CSI Details — 3 cols --}}
-        <div class="col-span-3 bg-white rounded-xl p-3 shadow-sm border border-gray-100 flex flex-col overflow-hidden">
-            <h3 class="text-lg font-semibold text-gray-700 mb-2 flex-shrink-0">Customer Satisfaction (CSI)</h3>
+        <div class="col-span-3 bg-white rounded-lg p-2 shadow-sm border border-gray-100 flex flex-col gap-2 overflow-hidden">
+            <h3 class="text-sm font-semibold text-gray-700 flex-shrink-0">Customer Satisfaction (CSI)</h3>
 
             {{-- Responses (left) + Are you satisfied (right) --}}
-            <div class="flex-shrink-0 flex gap-3 h-36">
-                <div class="w-40 flex-shrink-0 bg-gray-100 rounded-lg p-3 flex flex-col justify-center gap-1.5">
-                    <span class="text-lg text-gray-400 uppercase tracking-widest font-semibold">Responses</span>
-                    <div class="flex items-baseline gap-1.5">
-                        <span class="text-2xl font-bold text-red-600">{{ number_format($csiResponses) }}</span>
+            <div class="flex-shrink-0 flex gap-2 items-stretch">
+                {{-- Responses box --}}
+                <div class="flex-shrink-0 bg-gray-100 rounded-lg p-1.5 flex flex-col justify-center gap-0.5">
+                    <span class="text-sm text-gray-400 uppercase tracking-wide font-semibold leading-tight">Responses</span>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-base font-bold text-red-600">{{ number_format($csiResponses) }}</span>
                         <span class="text-sm text-gray-400">/ {{ number_format($csiTotal) }}</span>
                     </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                        <div class="response-rate-bar h-2 rounded-full bg-yellow-400"></div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                        <div class="response-rate-bar h-1.5 rounded-full bg-yellow-400"></div>
                     </div>
-                    <span class="text-xs font-semibold text-yellow-600">{{ $csiRate }}% Response Rate</span>
+                    <span class="text-sm font-semibold text-yellow-600 leading-tight">{{ $csiRate }}% Rate</span>
                 </div>
-                <div class="flex-1 flex flex-col overflow-hidden">
-                    <span class="text-md font-medium text-gray-500 mb-1.5 text-center flex-shrink-0">Are you satisfied with the service team?</span>
-                    <div class="flex items-center justify-center gap-6 flex-1 min-h-0">
-                        <div class="relative w-24 h-24 flex-shrink-0">
+                {{-- Satisfaction section --}}
+                <div class="flex-1 min-w-0 flex flex-col gap-1">
+                    <span class="text-sm font-medium text-gray-500 text-center leading-tight flex-shrink-0">Are you satisfied with the service team?</span>
+                    <div class="flex items-center justify-center gap-2">
+                        <div class="relative w-16 h-16 flex-shrink-0">
                             <canvas id="satisfaction-doughnut-chart"></canvas>
                         </div>
-                        <div class="relative h-24 w-72 flex-shrink-0">
+                        <div class="relative w-48 flex-shrink-0 h-16">
                             <canvas id="satisfaction-bar-chart"></canvas>
                         </div>
                     </div>
@@ -119,68 +121,68 @@
             </div>
 
             {{-- 4 Mini Q — single horizontal row --}}
-            <div class="flex-1 min-h-0 grid grid-cols-4 gap-3 mt-4 pt-4 border-t border-gray-200">
+            <div class="flex-1 min-h-0 flex items-center justify-around pt-2 border-t border-gray-200">
                 <div class="flex flex-col items-center gap-0.5">
-                    <div class="relative w-24 flex-1 min-h-0">
+                    <div class="relative w-16 h-16 flex-shrink-0">
                         <canvas id="response-1-chart"></canvas>
                     </div>
-                    <p class="text-md text-gray-500 text-center leading-tight flex-shrink-0">Problem resolved?</p>
+                    <p class="text-sm text-gray-500 text-center leading-tight">Problem resolved?</p>
                 </div>
                 <div class="flex flex-col items-center gap-0.5">
-                    <div class="relative w-24 flex-1 min-h-0">
+                    <div class="relative w-16 h-16 flex-shrink-0">
                         <canvas id="response-2-chart"></canvas>
                     </div>
-                    <p class="text-md text-gray-500 text-center leading-tight flex-shrink-0">Arrived as scheduled?</p>
+                    <p class="text-sm text-gray-500 text-center leading-tight">Arrived as scheduled?</p>
                 </div>
                 <div class="flex flex-col items-center gap-0.5">
-                    <div class="relative w-24 flex-1 min-h-0">
+                    <div class="relative w-16 h-16 flex-shrink-0">
                         <canvas id="response-3-chart"></canvas>
                     </div>
-                    <p class="text-md text-gray-500 text-center leading-tight flex-shrink-0">Polite & well mannered?</p>
+                    <p class="text-sm text-gray-500 text-center leading-tight">Polite & well mannered?</p>
                 </div>
                 <div class="flex flex-col items-center gap-0.5">
-                    <div class="relative w-24 flex-1 min-h-0">
+                    <div class="relative w-16 h-16 flex-shrink-0">
                         <canvas id="response-4-chart"></canvas>
                     </div>
-                    <p class="text-md text-gray-500 text-center leading-tight flex-shrink-0">Charged expenses?</p>
+                    <p class="text-sm text-gray-500 text-center leading-tight">Charged expenses?</p>
                 </div>
             </div>
         </div>
 
         {{-- Pending Overview — 2 cols --}}
-        <div class="col-span-2 bg-white rounded-xl p-3 shadow-sm border border-gray-100 flex flex-col min-h-0">
-            <h3 class="text-lg font-semibold text-gray-700 mb-2 flex-shrink-0">Pending Overview</h3>
-            <div class="flex-shrink-0 flex justify-center">
-                <div class="relative w-44 h-44">
+        <div class="col-span-2 bg-white rounded-lg p-2 shadow-sm border border-gray-100 flex flex-col min-h-0">
+            <h3 class="text-sm font-semibold text-gray-700 mb-1 flex-shrink-0">Pending Overview</h3>
+            <div class="flex-1 min-h-0 flex gap-2 overflow-hidden">
+                <div class="w-2/5 flex-shrink-0 relative min-h-0">
                     <canvas id="pending-1-chart"></canvas>
                 </div>
-            </div>
-            <div class="flex-1 min-h-0 relative mt-1">
-                <canvas id="pending-bar-1-chart"></canvas>
+                <div class="flex-1 min-w-0 relative min-h-0">
+                    <canvas id="pending-bar-1-chart"></canvas>
+                </div>
             </div>
         </div>
 
     </div>
 
     {{-- ── ROW 3: Ticket + Contract + Daily ── --}}
-    <div class="flex-1 min-h-0 grid grid-cols-3 gap-2">
+    <div class="min-h-0 grid grid-cols-3 gap-1 [flex:2]">
 
-        <div class="bg-white rounded-xl p-3 shadow-sm border border-gray-100 flex flex-col min-h-0">
-            <h3 class="text-lg font-semibold text-gray-700 mb-1 flex-shrink-0">Ticket Open vs Close</h3>
+        <div class="bg-white rounded-lg p-2 shadow-sm border border-gray-100 flex flex-col min-h-0">
+            <h3 class="text-sm font-semibold text-gray-700 mb-0.5 flex-shrink-0">Ticket Open vs Close</h3>
             <div class="flex-1 min-h-0 relative">
                 <canvas id="ticket-chart"></canvas>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-3 shadow-sm border border-gray-100 flex flex-col min-h-0">
-            <h3 class="text-lg font-semibold text-gray-700 mb-1 flex-shrink-0">Contract Center Trend</h3>
+        <div class="bg-white rounded-lg p-2 shadow-sm border border-gray-100 flex flex-col min-h-0">
+            <h3 class="text-sm font-semibold text-gray-700 mb-0.5 flex-shrink-0">Contract Center Trend</h3>
             <div class="flex-1 min-h-0 relative">
                 <canvas id="contract-center-chart"></canvas>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-3 shadow-sm border border-gray-100 flex flex-col min-h-0">
-            <h3 class="text-lg font-semibold text-gray-700 mb-1 flex-shrink-0">Daily Performance
+        <div class="bg-white rounded-lg p-2 shadow-sm border border-gray-100 flex flex-col min-h-0">
+            <h3 class="text-sm font-semibold text-gray-700 mb-0.5 flex-shrink-0">Daily Performance
                 ({{ now()->format('F') }})</h3>
             <div class="flex-1 min-h-0 relative">
                 <canvas id="daily-total-chart"></canvas>
@@ -262,19 +264,19 @@
                         display: true,
                         position: 'bottom',
                         labels: {
-                            boxWidth: 10,
+                            boxWidth: 8,
                             font: {
-                                size: 10
+                                size: 8
                             }
                         }
                     },
                     datalabels: {
                         align: 'top',
                         anchor: 'end',
-                        offset: 5,
+                        offset: 3,
                         color: '#333',
                         font: {
-                            size: 12
+                            size: 9
                         },
                         formatter: (v) => v > 0 ? v.toLocaleString() : '',
                     },
@@ -296,7 +298,7 @@
                             maxRotation: 0,
                             autoSkip: false,
                             font: {
-                                size: 10
+                                size: 8
                             }
                         }
                     },
@@ -305,12 +307,12 @@
                             display: false
                         },
                         beginAtZero: true,
-                        ...(yStepSize !== null ? { ticks: { stepSize: yStepSize } } : {}),
+                        ...(yStepSize !== null ? { ticks: { stepSize: yStepSize, font: { size: 8 } } } : { ticks: { font: { size: 8 } } }),
                     },
                 },
                 layout: {
                     padding: {
-                        top: 25
+                        top: 16
                     }
                 },
             },
@@ -402,7 +404,7 @@
                         align: 'top',
                         color: '#000',
                         font: {
-                            size: 9
+                            size: 7
                         }
                     },
                 },
@@ -415,7 +417,7 @@
                             maxRotation: 0,
                             autoSkip: false,
                             font: {
-                                size: 9
+                                size: 7
                             }
                         }
                     },
@@ -426,8 +428,8 @@
                 },
                 layout: {
                     padding: {
-                        top: 18,
-                        bottom: 5
+                        top: 12,
+                        bottom: 3
                     }
                 },
             },
@@ -471,7 +473,7 @@
                         anchor: 'center',
                         align: 'center',
                         font: {
-                            size: 12
+                            size: 9
                         },
                         formatter: (v, ctx) => ctx.chart.data.labels[ctx.dataIndex] + '\n' + v + '%',
                     },
@@ -518,10 +520,10 @@
                     datalabels: {
                         anchor: 'end',
                         align: 'right',
-                        offset: 4,
+                        offset: 3,
                         color: '#555',
                         font: {
-                            size: 10
+                            size: 8
                         }
                     },
                 },
@@ -536,16 +538,16 @@
                         },
                         ticks: {
                             font: {
-                                size: 10
+                                size: 8
                             }
                         }
                     },
                 },
                 layout: {
                     padding: {
-                        right: 25,
-                        top: 4,
-                        bottom: 4
+                        right: 20,
+                        top: 3,
+                        bottom: 3
                     }
                 },
             },
@@ -587,11 +589,11 @@
                         display: true,
                         position: 'bottom',
                         labels: {
-                            boxWidth: 10,
+                            boxWidth: 8,
                             usePointStyle: true,
                             pointStyle: 'rect',
                             font: {
-                                size: 10
+                                size: 8
                             }
                         }
                     },
@@ -602,7 +604,7 @@
                         color: '#555',
                         offset: 0,
                         font: {
-                            size: 12
+                            size: 9
                         },
                         formatter: (v) => v > 0 ? v.toLocaleString() : ''
                     },
@@ -616,7 +618,7 @@
                             maxRotation: 0,
                             autoSkip: false,
                             font: {
-                                size: 10
+                                size: 8
                             }
                         }
                     },
@@ -626,13 +628,16 @@
                         },
                         beginAtZero: true,
                         ticks: {
-                            stepSize: 1000
+                            stepSize: 1000,
+                            font: {
+                                size: 8
+                            }
                         }
                     },
                 },
                 layout: {
                     padding: {
-                        top: 40
+                        top: 28
                     }
                 },
             },
@@ -644,12 +649,8 @@
             'contract-center-chart',
             ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
             [
-                makeLineDataset(String(contractData.prev_year), Array.from({
-                    length: 12
-                }, (_, i) => contractData.prev[i + 1] ?? null), C.black),
-                makeLineDataset(String(contractData.current_year), Array.from({
-                    length: 12
-                }, (_, i) => contractData.current[i + 1] ?? null), C.critical),
+                makeLineDataset(String(contractData.prev_year), Array.from({ length: 12 }, (_, i) => contractData.prev[i + 1] ?? null), C.black),
+                makeLineDataset(String(contractData.current_year), Array.from({ length: 12 }, (_, i) => contractData.current[i + 1] ?? null), C.critical),
             ],
             1000
         );
@@ -657,9 +658,7 @@
         // ── Daily Performance Chart ───────────────────────────────────────────────
         const dailyData = {!! json_encode($contract_daily_data) !!};
         const dailyDays = Object.keys(dailyData).map(Number).sort((a, b) => a - b);
-        const dailyMonth = new Date({{ now()->year }}, {{ now()->month - 1 }}).toLocaleString('en', {
-            month: 'short'
-        });
+        const dailyMonth = new Date({{ now()->year }}, {{ now()->month - 1 }}).toLocaleString('en', { month: 'short' });
 
         createLineChart(
             'daily-total-chart',

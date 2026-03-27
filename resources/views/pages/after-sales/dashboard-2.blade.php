@@ -1,158 +1,154 @@
-<div class="h-full flex flex-col gap-2 overflow-hidden text-gray-800">
+<div class="h-full flex flex-col gap-1 overflow-hidden text-gray-800">
 
     {{-- TOP: Legend + KPIs --}}
-    <div class="flex-shrink-0 flex items-center gap-2 flex-wrap">
+    <div class="flex-shrink-0 flex items-center gap-1 flex-wrap">
         {{-- Aging Legend --}}
-        <div
-            class="self-stretch flex items-center bg-white px-3 rounded-lg border border-gray-200 shadow-sm gap-3 text-sm font-medium">
-            <span class="text-gray-400 uppercase tracking-wide text-md">Aging</span>
+        <div class="self-stretch flex items-center bg-white px-2 rounded-lg border border-gray-200 shadow-sm gap-2 text-xs font-medium">
+            <span class="text-gray-400 uppercase tracking-wide text-xs">Aging</span>
             <div class="flex items-center gap-1">
-                <div class="w-2.5 h-2.5 rounded-full bg-0-3"></div><span class="text-gray-600">0-3 Days</span>
+                <div class="w-2 h-2 rounded-full bg-0-3"></div><span class="text-gray-600">0-3 Days</span>
             </div>
             <div class="flex items-center gap-1">
-                <div class="w-2.5 h-2.5 rounded-full bg-4-7"></div><span class="text-gray-600">4-7 Days</span>
+                <div class="w-2 h-2 rounded-full bg-4-7"></div><span class="text-gray-600">4-7 Days</span>
             </div>
             <div class="flex items-center gap-1">
-                <div class="w-2.5 h-2.5 rounded-full bg-8-15"></div><span class="text-gray-600">8-15 Days</span>
+                <div class="w-2 h-2 rounded-full bg-8-15"></div><span class="text-gray-600">8-15 Days</span>
             </div>
             <div class="flex items-center gap-1">
-                <div class="w-2.5 h-2.5 rounded-full bg-16-30"></div><span class="text-gray-600">16-30 Days</span>
+                <div class="w-2 h-2 rounded-full bg-16-30"></div><span class="text-gray-600">16-30 Days</span>
             </div>
             <div class="flex items-center gap-1">
-                <div class="w-2.5 h-2.5 rounded-full bg-over-30"></div><span class="text-gray-600">Over 30 Days</span>
+                <div class="w-2 h-2 rounded-full bg-over-30"></div><span class="text-gray-600">Over 30 Days</span>
             </div>
         </div>
 
         {{-- KPI Cards --}}
-        <div class="flex gap-2 flex-1">
-            <div
-                class="bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm flex items-center gap-2 flex-1">
-                <div class="p-1.5 rounded-md bg-blue-500 bg-opacity-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-blue-600" viewBox="0 0 16 16">
+        <div class="flex gap-1 flex-1">
+            <div class="bg-white px-2 py-1 rounded-lg border border-gray-100 shadow-sm flex items-center gap-1.5 flex-1">
+                <div class="p-1 rounded-md bg-blue-500 bg-opacity-10 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-blue-600" viewBox="0 0 16 16">
                         <path d="M4 4.85v.9h1v-.9zm7 0v.9h1v-.9zm-7 1.8v.9h1v-.9zm7 0v.9h1v-.9zm-7 1.8v.9h1v-.9zm7 0v.9h1v-.9zm-7 1.8v.9h1v-.9zm7 0v.9h1v-.9z" />
                         <path d="M1.5 3A1.5 1.5 0 0 0 0 4.5V6a.5.5 0 0 0 .5.5 1.5 1.5 0 1 1 0 3 .5.5 0 0 0-.5.5v1.5A1.5 1.5 0 0 0 1.5 13h13a1.5 1.5 0 0 0 1.5-1.5V10a.5.5 0 0 0-.5-.5 1.5 1.5 0 0 1 0-3A.5.5 0 0 0 16 6V4.5A1.5 1.5 0 0 0 14.5 3zM1 4.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1.05a2.5 2.5 0 0 0 0 4.9v1.05a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1.05a2.5 2.5 0 0 0 0-4.9z" />
                     </svg>
                 </div>
                 <div>
-                    <p class="text-md text-gray-500 font-medium leading-none mb-0.5">Total Created</p>
-                    <h3 class="text-lg font-bold text-gray-800 leading-none">{{ $total_stat_data['total'] }}</h3>
+                    <p class="text-xs text-gray-500 font-medium leading-none mb-0.5">Total Created</p>
+                    <h3 class="text-sm font-bold text-gray-800 leading-none">{{ $total_stat_data['total'] }}</h3>
                 </div>
             </div>
-            <div
-                class="bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm flex items-center gap-2 flex-1">
-                <div class="p-1.5 rounded-md bg-yellow-500 bg-opacity-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-yellow-600" viewBox="0 0 16 16">
+            <div class="bg-white px-2 py-1 rounded-lg border border-gray-100 shadow-sm flex items-center gap-1.5 flex-1">
+                <div class="p-1 rounded-md bg-yellow-500 bg-opacity-10 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-yellow-600" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
                         <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
                     </svg>
                 </div>
                 <div>
-                    <p class="text-md text-gray-500 font-medium leading-none mb-0.5">Total Closed</p>
-                    <h3 class="text-lg font-bold text-gray-800 leading-none">{{ $total_stat_data['total_closed'] }}</h3>
+                    <p class="text-xs text-gray-500 font-medium leading-none mb-0.5">Total Closed</p>
+                    <h3 class="text-sm font-bold text-gray-800 leading-none">{{ $total_stat_data['total_closed'] }}</h3>
                 </div>
             </div>
-            <div
-                class="bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm flex items-center gap-2 flex-1">
-                <div class="p-1.5 rounded-md bg-red-500 bg-opacity-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-red-600" viewBox="0 0 16 16">
+            <div class="bg-white px-2 py-1 rounded-lg border border-gray-100 shadow-sm flex items-center gap-1.5 flex-1">
+                <div class="p-1 rounded-md bg-red-500 bg-opacity-10 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-red-600" viewBox="0 0 16 16">
                         <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
                         <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
                     </svg>
                 </div>
                 <div>
-                    <p class="text-md text-gray-500 font-medium leading-none mb-0.5">Total Pending</p>
-                    <h3 class="text-lg font-bold text-gray-800 leading-none">{{ $total_stat_data['total_pending'] }}</h3>
+                    <p class="text-xs text-gray-500 font-medium leading-none mb-0.5">Total Pending</p>
+                    <h3 class="text-sm font-bold text-gray-800 leading-none">{{ $total_stat_data['total_pending'] }}</h3>
                 </div>
             </div>
             {{-- Pending Breakdown --}}
-            <div class="bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm flex gap-3 items-center">
+            <div class="bg-white px-2 py-1 rounded-lg border border-gray-100 shadow-sm flex gap-2 items-center">
                 <div class="text-center">
-                    <span class="text-base font-bold text-yellow-600 leading-none">{{ $total_stat_data['total_open'] }}</span>
-                    <span class="block text-md text-gray-500 uppercase tracking-wider">Open</span>
+                    <span class="text-sm font-bold text-yellow-600 leading-none">{{ $total_stat_data['total_open'] }}</span>
+                    <span class="block text-xs text-gray-500 uppercase tracking-wider">Open</span>
                 </div>
-                <div class="w-px h-6 bg-gray-200"></div>
+                <div class="w-px h-4 bg-gray-200"></div>
                 <div class="text-center">
-                    <span class="text-base font-bold text-yellow-400 leading-none">{{ $total_stat_data['total_in_prog'] }}</span>
-                    <span class="block text-md text-gray-500 uppercase tracking-wider">In Prog</span>
+                    <span class="text-sm font-bold text-yellow-400 leading-none">{{ $total_stat_data['total_in_prog'] }}</span>
+                    <span class="block text-xs text-gray-500 uppercase tracking-wider">In Prog</span>
                 </div>
-                <div class="w-px h-6 bg-gray-200"></div>
+                <div class="w-px h-4 bg-gray-200"></div>
                 <div class="text-center">
-                    <span class="text-base font-bold text-red-500 leading-none">{{ $total_stat_data['total_reason'] }}</span>
-                    <span class="block text-md text-gray-500 uppercase tracking-wider">Reason</span>
+                    <span class="text-sm font-bold text-red-500 leading-none">{{ $total_stat_data['total_reason'] }}</span>
+                    <span class="block text-xs text-gray-500 uppercase tracking-wider">Reason</span>
                 </div>
             </div>
         </div>
     </div>
 
     {{-- Aging Bar --}}
-    <div class="flex-shrink-0 bg-white rounded-lg border border-gray-100 shadow-sm flex items-center gap-3 px-3 h-8">
-        <span class="text-md font-semibold text-gray-700 whitespace-nowrap">Overall Aging</span>
-        <div class="flex-1 flex h-5 rounded-md overflow-hidden">
-            <div class="aging-0-3 flex items-center justify-center text-white text-md font-bold">{{ $aging_data['0-3'] }}</div>
-            <div class="aging-4-7 flex items-center justify-center text-white text-md font-bold">{{ $aging_data['4-7'] }}</div>
-            <div class="aging-8-15 flex items-center justify-center text-white text-md font-bold">{{ $aging_data['8-15'] }}</div>
-            <div class="aging-16-30 flex items-center justify-center text-white text-md font-bold">{{ $aging_data['16-30'] }}</div>
-            <div class="aging-over-30 flex items-center justify-center text-white text-md font-bold">{{ $aging_data['over_30'] }}</div>
+    <div class="flex-shrink-0 bg-white rounded-lg border border-gray-100 shadow-sm flex items-center gap-2 px-2 h-6">
+        <span class="text-xs font-semibold text-gray-700 whitespace-nowrap">Overall Aging</span>
+        <div class="flex-1 flex h-3.5 rounded overflow-hidden">
+            <div class="aging-0-3 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['0-3'] }}</div>
+            <div class="aging-4-7 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['4-7'] }}</div>
+            <div class="aging-8-15 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['8-15'] }}</div>
+            <div class="aging-16-30 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['16-30'] }}</div>
+            <div class="aging-over-30 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['over_30'] }}</div>
         </div>
     </div>
 
     {{-- Charts Grid --}}
-    <div class="flex-1 min-h-0 grid grid-cols-3 gap-2">
+    <div class="flex-1 min-h-0 grid grid-cols-3 gap-1">
 
         {{-- Col 1: Type / Product Group / Status --}}
-        <div class="flex flex-col gap-2 min-h-0">
-            <div class="bg-white p-3 rounded-xl border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
-                <h3 class="text-md font-semibold text-gray-700 mb-1 flex-shrink-0">Pending Type</h3>
+        <div class="flex flex-col gap-1 min-h-0">
+            <div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
+                <h3 class="text-xs font-semibold text-gray-700 mb-0.5 flex-shrink-0">Pending Type</h3>
                 <div class="flex-1 min-h-0">
                     <canvas id="pending-type-chart"></canvas>
                 </div>
             </div>
-            <div class="bg-white p-3 rounded-xl border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
-                <h3 class="text-md font-semibold text-gray-700 mb-1 flex-shrink-0">Pending Product Group</h3>
+            <div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
+                <h3 class="text-xs font-semibold text-gray-700 mb-0.5 flex-shrink-0">Pending Product Group</h3>
                 <div class="flex-1 min-h-0">
                     <canvas id="pending-product-chart"></canvas>
                 </div>
             </div>
-            <div class="bg-white p-3 rounded-xl border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
-                <h3 class="text-md font-semibold text-gray-700 mb-1 flex-shrink-0">Status Overview</h3>
+            <div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
+                <h3 class="text-xs font-semibold text-gray-700 mb-0.5 flex-shrink-0">Status Overview</h3>
                 <div class="flex-1 min-h-0">
                     <canvas id="status-chart"></canvas>
                 </div>
             </div>
         </div>
 
-        {{-- Col 2: ASC Pending / In House --}}
-        <div class="flex flex-col gap-2 min-h-0">
-            <div class="bg-white p-3 rounded-xl border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
-                <h3 class="text-md font-semibold text-gray-700 mb-1 flex-shrink-0">ASC Pending by Region (Detail)</h3>
+        {{-- Col 2: ASC Pending / Region --}}
+        <div class="flex flex-col gap-1 min-h-0">
+            <div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
+                <h3 class="text-xs font-semibold text-gray-700 mb-0.5 flex-shrink-0">ASC Pending by Region (Detail)</h3>
                 <div class="flex-1 min-h-0">
                     <canvas id="asc-pending-chart"></canvas>
                 </div>
             </div>
-            <div class="bg-white p-3 rounded-xl border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
-                <h3 class="text-md font-semibold text-gray-700 mb-1 flex-shrink-0">In House Pending by Technician</h3>
-                <div class="flex-1 min-h-0">
-                    <canvas id="inhouse-pending-chart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        {{-- Col 3: Reason / Region / Product --}}
-        <div class="flex flex-col gap-2 min-h-0">
-            <div class="bg-white p-3 rounded-xl border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
-                <h3 class="text-md font-semibold text-gray-700 mb-1 flex-shrink-0">Pending Reason</h3>
-                <div class="flex-1 min-h-0">
-                    <canvas id="pending-reason-chart"></canvas>
-                </div>
-            </div>
-            <div class="bg-white p-3 rounded-xl border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
-                <h3 class="text-md font-semibold text-gray-700 mb-1 flex-shrink-0">Pending by Region (Summary)</h3>
+            <div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
+                <h3 class="text-xs font-semibold text-gray-700 mb-0.5 flex-shrink-0">Pending by Region (Summary)</h3>
                 <div class="flex-1 min-h-0">
                     <canvas id="region-chart"></canvas>
                 </div>
             </div>
-            <div class="bg-white p-3 rounded-xl border border-gray-100 shadow-sm flex flex-col flex-1 min-h-0">
-                <h3 class="text-md font-semibold text-gray-700 mb-1 flex-shrink-0">Pending by Product</h3>
+        </div>
+
+        {{-- Col 3: Reason / In House / Product --}}
+        <div class="flex flex-col gap-1 min-h-0">
+            <div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm flex flex-col min-h-0">
+                <h3 class="text-xs font-semibold text-gray-700 mb-0.5 flex-shrink-0">Pending Reason</h3>
+                <div class="flex-1 min-h-0">
+                    <canvas id="pending-reason-chart"></canvas>
+                </div>
+            </div>
+            <div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm flex flex-col min-h-0">
+                <h3 class="text-xs font-semibold text-gray-700 mb-0.5 flex-shrink-0">In House Pending by Technician</h3>
+                <div class="flex-1 min-h-0">
+                    <canvas id="inhouse-pending-chart"></canvas>
+                </div>
+            </div>
+            <div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm flex flex-col min-h-0">
+                <h3 class="text-xs font-semibold text-gray-700 mb-0.5 flex-shrink-0">Pending by Product</h3>
                 <div class="flex-1 min-h-0">
                     <canvas id="pending-product-aging-chart"></canvas>
                 </div>
@@ -262,7 +258,7 @@
                     ],
                     backgroundColor: '#c2dcff',
                     borderWidth: 0,
-                    barThickness: 20
+                    barThickness: 14
                 }]
             },
             plugins: [ChartDataLabels],
@@ -277,11 +273,11 @@
                     datalabels: {
                         anchor: 'start',
                         align: 'right',
-                        offset: 10,
+                        offset: 6,
                         color: '#333',
                         font: {
                             weight: 'bold',
-                            size: 12
+                            size: 9
                         },
                         formatter: function(value, context) {
                             return context.chart.data.labels[context.dataIndex] + ',  ' + value.toLocaleString();
@@ -329,7 +325,7 @@
                     ],
                     backgroundColor: '#c4ddff',
                     borderWidth: 0,
-                    barThickness: 20
+                    barThickness: 14
                 }]
             },
             plugins: [ChartDataLabels],
@@ -344,11 +340,11 @@
                     datalabels: {
                         anchor: 'start',
                         align: 'right',
-                        offset: 10,
+                        offset: 6,
                         color: '#333',
                         font: {
                             weight: 'bold',
-                            size: 12
+                            size: 9
                         },
                         formatter: function(value, context) {
                             return context.chart.data.labels[context.dataIndex] + ',  ' + value.toLocaleString();
@@ -425,8 +421,7 @@
                         align: 'center',
                         color: '#fff',
                         font: {
-                            size: 10,
-                            weight: 'bold'
+                            size: 7
                         },
                         formatter: (value) => value > 0 ? value : '',
                     }
@@ -451,14 +446,14 @@
                         },
                         ticks: {
                             font: {
-                                size: 10
+                                size: 8
                             }
                         }
                     }
                 },
                 datasets: {
                     bar: {
-                        barThickness: 20
+                        barThickness: 22
                     }
                 },
                 layout: {
@@ -517,8 +512,7 @@
                         align: 'center',
                         color: '#fff',
                         font: {
-                            size: 10,
-                            weight: 'bold'
+                            size: 7
                         },
                         formatter: (value) => value > 0 ? value : '',
                     }
@@ -531,7 +525,7 @@
                         },
                         ticks: {
                             font: {
-                                size: 10
+                                size: 8
                             }
                         }
                     },
@@ -550,7 +544,7 @@
                 },
                 datasets: {
                     bar: {
-                        barThickness: 20
+                        barThickness: 16
                     }
                 },
                 layout: {
@@ -616,8 +610,7 @@
                         align: 'center',
                         color: '#fff',
                         font: {
-                            size: 10,
-                            weight: 'bold'
+                            size: 7,
                         },
                         formatter: (value) => value > 0 ? value : '',
                     }
@@ -630,7 +623,7 @@
                         },
                         ticks: {
                             font: {
-                                size: 10
+                                size: 8
                             }
                         }
                     },
@@ -649,7 +642,7 @@
                 },
                 datasets: {
                     bar: {
-                        barThickness: 20
+                        barThickness: 14
                     }
                 },
                 layout: {
@@ -664,6 +657,11 @@
         const pendingRegion = {!! json_encode($pending_region_data) !!};
         const regionKeys = ['Bangkok Metropolitan', 'Southern', 'Eastern', 'Northern', 'Northeastern', 'Western', 'Central', ''];
         const regionLabels = ['Bangkok', 'Southern', 'Eastern', 'Northern', 'Northeastern', 'Western', 'Central', 'Blank'];
+        const regionTotals = regionKeys.map(r =>
+            (pendingRegion[r]?.days_0_3 ?? 0) + (pendingRegion[r]?.days_4_7 ?? 0) +
+            (pendingRegion[r]?.days_8_15 ?? 0) + (pendingRegion[r]?.days_16_30 ?? 0) +
+            (pendingRegion[r]?.days_over_30 ?? 0)
+        );
         new Chart(document.getElementById('region-chart'), {
             type: 'bar',
             data: {
@@ -697,7 +695,6 @@
             },
             plugins: [ChartDataLabels],
             options: {
-                indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
@@ -709,57 +706,46 @@
                         align: 'center',
                         color: '#fff',
                         font: {
-                            size: 10,
-                            weight: 'bold'
+                            size: 7
                         },
-                        formatter: (value) => value > 0 ? value : '',
+                        formatter: (value) => value >= 20 ? value : '',
                     }
                 },
                 scales: {
                     x: {
                         stacked: true,
-                        grid: {
-                            display: false
-                        },
+                        grid: { display: false },
                         ticks: {
-                            display: false
-                        },
-                        border: {
-                            display: false
+                            font: { size: 9 }
                         }
                     },
                     y: {
                         stacked: true,
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 10
-                            }
-                        }
+                        grid: { display: false },
+                        ticks: { display: false },
+                        border: { display: false }
                     }
                 },
                 datasets: {
-                    bar: {
-                        barThickness: 16
-                    }
+                    bar: { barThickness: 20 }
                 },
                 layout: {
-                    padding: {
-                        right: 10
-                    }
+                    padding: { top: 5, right: 5 }
                 },
             }
         });
 
         // In House Pending Chart
         const inhousePending = {!! json_encode($inhouse_pending_data) !!};
-        const inhouseTeamKeys = Object.keys(inhousePending).filter(t => t !== 'Unknown');
-        const inhouseTeamLabels = [
-            "HA&SA Technician BKK1", "HA&SA Technician BKK2", "HA&SA Technician BKK3", "HA&SA Technician BKK4", "HA&SA Technician BKK5", "HA&SA Technician BKK6", "HA&SA Technician BKK7", 
+        const inhouseTeamKeys = [
+            "HA&SA Technician BKK1", "HA&SA Technician BKK2", "HA&SA Technician BKK3", "HA&SA Technician BKK4", "HA&SA Technician BKK5", "HA&SA Technician BKK6", "HA&SA Technician BKK7",
             "HW&FF Technician BKK1", "HW&FF Technician BKK2", "HW&FF Technician BKK3", "HW&FF Technician BKK4",
             "Technician BKK", "Technician CM", "Technician PHK"
+        ];
+        const inhouseTeamLabels = [
+            "HA&SA BKK1", "HA&SA BKK2", "HA&SA BKK3", "HA&SA BKK4", "HA&SA BKK5", "HA&SA BKK6", "HA&SA BKK7",
+            "HW&FF BKK1", "HW&FF BKK2", "HW&FF BKK3", "HW&FF BKK4",
+            "Tech BKK", "Tech CM", "Tech PHK"
         ];
         new Chart(document.getElementById('inhouse-pending-chart'), {
             type: 'bar',
@@ -767,27 +753,27 @@
                 labels: inhouseTeamLabels,
                 datasets: [{
                         label: '0-3 Days',
-                        data: inhouseTeamLabels.map(t => inhousePending[t]?.days_0_3 ?? 0),
+                        data: inhouseTeamKeys.map(t => inhousePending[t]?.days_0_3 ?? 0),
                         backgroundColor: '#10b981'
                     },
                     {
                         label: '4-7 Days',
-                        data: inhouseTeamLabels.map(t => inhousePending[t]?.days_4_7 ?? 0),
+                        data: inhouseTeamKeys.map(t => inhousePending[t]?.days_4_7 ?? 0),
                         backgroundColor: '#84cc16'
                     },
                     {
                         label: '8-15 Days',
-                        data: inhouseTeamLabels.map(t => inhousePending[t]?.days_8_15 ?? 0),
+                        data: inhouseTeamKeys.map(t => inhousePending[t]?.days_8_15 ?? 0),
                         backgroundColor: '#facc15'
                     },
                     {
                         label: '16-30 Days',
-                        data: inhouseTeamLabels.map(t => inhousePending[t]?.days_16_30 ?? 0),
+                        data: inhouseTeamKeys.map(t => inhousePending[t]?.days_16_30 ?? 0),
                         backgroundColor: '#fb923c'
                     },
                     {
                         label: 'Over 30 Days',
-                        data: inhouseTeamLabels.map(t => inhousePending[t]?.days_over_30 ?? 0),
+                        data: inhouseTeamKeys.map(t => inhousePending[t]?.days_over_30 ?? 0),
                         backgroundColor: '#ef4444'
                     },
                 ]
@@ -805,8 +791,7 @@
                         align: 'center',
                         color: '#fff',
                         font: {
-                            size: 9,
-                            weight: 'bold'
+                            size: 7
                         },
                         formatter: (value) => value > 0 ? value : '',
                     }
@@ -816,7 +801,7 @@
                         stacked: true,
                         grid: { display: false },
                         ticks: {
-                            font: { size: 10 },
+                            font: { size: 8 },
                             maxRotation: 45,
                             minRotation: 45,
                         }
@@ -886,8 +871,7 @@
                         align: 'center',
                         color: '#fff',
                         font: {
-                            size: 10,
-                            weight: 'bold'
+                            size: 7
                         },
                         formatter: (value) => value > 0 ? value : '',
                     }
@@ -912,14 +896,14 @@
                         },
                         ticks: {
                             font: {
-                                size: 11
+                                size: 8
                             }
                         }
                     }
                 },
                 datasets: {
                     bar: {
-                        barThickness: 22
+                        barThickness: 20
                     }
                 },
                 layout: {
