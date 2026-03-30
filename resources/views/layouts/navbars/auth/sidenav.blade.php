@@ -35,18 +35,22 @@
                 <span class="sidenav-normal"> Users </span>
               </a>
             </li>
+            @can('permission view')
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'permissions.index' ? 'active' : '' }}" href="{{ url('permissions') }}">
                 <span class="sidenav-mini-icon text-xs"> P </span>
                 <span class="sidenav-normal"> Permissions </span>
               </a>
             </li>
+            @endcan
+            @can('role view')
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'roles.index' ? 'active' : '' }}" href="{{ url('roles') }}">
                 <span class="sidenav-mini-icon text-xs"> R </span>
                 <span class="sidenav-normal"> Role </span>
               </a>
             </li>
+            @endcan
           </ul>
         </div>
       </li>
