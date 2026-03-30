@@ -149,7 +149,7 @@ class ITAssetController extends Controller
       ->select('i_t_assets.*', 'i_t_asset_types.type_desc', 'i_t_asset_types.type_code')->first();
 
     $itassetspec = ITAssetSpec::where('computer_name', $itasset->computer_name)->first();
-    $itassetown = ITAssetOwn::with('userMaster')
+    $itassetown = ITAssetOwn::with('owner')
       ->where('computer_name', $itasset->computer_name)
       ->first();
 
@@ -164,7 +164,7 @@ class ITAssetController extends Controller
   public function edit(ITAsset $itasset)
   {
     $itassetspec = ITAssetSpec::where('computer_name', $itasset->computer_name)->first();
-    $itassetown = ITAssetOwn::with('userMaster')
+    $itassetown = ITAssetOwn::with('owner')
       ->where('computer_name', $itasset->computer_name)
       ->first();
     $softwares = Softwares::where('computer_name', $itasset->computer_name)->get();

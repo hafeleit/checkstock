@@ -20,4 +20,9 @@ class ITAssetOwn extends Model
     {
       return $this->belongsTo(UserMaster::class, 'user', 'job_code');
     }
+
+    public function owner()
+    {
+      return $this->belongsTo(UserMaster::class, 'user', 'job_code')->where('status', 'Current');
+    }
 }
