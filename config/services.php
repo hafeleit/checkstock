@@ -35,4 +35,12 @@ return [
         'api_token' => env('SLACK_API_TOKEN'),
     ],
 
+    'external_product_api' => [
+        'base_url'    => env('EXTERNAL_PRODUCT_API_BASE_URL'),
+        'username'    => env('EXTERNAL_PRODUCT_API_USERNAME'),
+        'license_key' => env('EXTERNAL_PRODUCT_API_LICENSE_KEY'),
+        'password'    => env('EXTERNAL_PRODUCT_API_PASSWORD'),
+        'api_key'     => env('EXTERNAL_PRODUCT_API_KEY'),
+    ],
+
 ];

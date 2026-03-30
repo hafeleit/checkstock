@@ -12,6 +12,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
     Route::middleware(['auth:customer', 'role:customer|super-admin', 'check.status'])->group(function () {
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+        Route::get('/products/product-info/{itemCode}', [ProductController::class, 'show'])->name('products.show');
         Route::get('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
         Route::put('/profile/update-password', [ProfileController::class, 'updatePassword'])->middleware('throttle:5,1')->name('profile.update-password');
         Route::resource('/profile', ProfileController::class)->middleware('throttle:10,2');
