@@ -71,7 +71,7 @@
 
                             <div class="bg-gray-50 p-3 rounded-md">
                                 <label class="block text-xs font-medium text-gray-500">Base Price</label>
-                                <p class="text-xl font-bold text-green-600">{{ number_format($product['productInformations'][0]['TotalPrice'], 0) }} <span class="text-md font-normal">/ {{ $product['productInformations'][0]['QuantityUnit'] }}</span></p>
+                                <p class="text-xl font-bold text-green-600">{{ $product_internal->NSU_BASE_PRICE }} <span class="text-md font-normal">/ {{ $product['productInformations'][0]['QuantityUnit'] }}</span></p>
                             </div>
 
                             <div class="bg-gray-50 p-3 rounded-md">

@@ -30,7 +30,7 @@ class ProductController extends Controller
         if (now('Asia/Bangkok')->lt($goLive)) {
             return view('pages.countdown');
         }
-        
+
         if (empty(request()->all()) || !is_array(request()->all()) || !request()->item_code) {
             return view('external.products.index', [
                 'user' => auth()->user(),
@@ -52,9 +52,18 @@ class ProductController extends Controller
 
         $productInternal = DB::table('ZHWWBCQUERYDIR as m')
             ->leftJoin('ZHAAMM_IFVMG as p', 'p.material', '=', 'm.material')
+            ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'm.material')
+            ->leftJoin('ZORDPOSKONV_ZPL as zpl', 'zpl.material', '=', 'm.material')
             ->select([
                 DB::raw("COALESCE(NULLIF(TRIM(p.planned_deliv_time), ''), 'N/A') AS NSU_SUPP_REPL_TIME"),
                 DB::raw("COALESCE(NULLIF(TRIM(p.minimum_order_qty), ''), 0) AS NSU_PURC_MOQ"),
+                DB::raw("
+                    CASE
+                        WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
+                        WHEN zpl.amount IS NULL OR zpl.per IS NULL OR zpl.per = 0 THEN '0 THB'
+                        ELSE CONCAT(FORMAT(zpl.amount / zpl.per, 2), ' THB')
+                    END AS NSU_BASE_PRICE"
+                )
             ])
             ->where('m.material', $item_code)
             ->first();
@@ -73,7 +82,7 @@ class ProductController extends Controller
     {
         // product info
         $productInfo = ProductInfo::where('item_code', $itemCode)->first();
-        
+
         // pdf files
         $catalogueFiles = ProductInfoFile::where('item_code', $itemCode)
             ->where('type', 'catalogue')
@@ -104,7 +113,7 @@ class ProductController extends Controller
             ->where('material', $itemCode)
             ->where('bom_usg', 4)
             ->get();
-        
+
         // image file
         $fileImgPath = 'storage/img/products/' . $itemCode . '.jpg';
         if (File::exists($fileImgPath)) {
