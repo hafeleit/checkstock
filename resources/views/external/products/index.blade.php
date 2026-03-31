@@ -38,7 +38,7 @@
 
         <!-- Search Results -->
         @if(isset($searched) && $searched)
-        @if($product)
+        @if(!empty($product['productInformations'][0]['AvailablePackages']))
         <div class="bg-gray-50 rounded-lg p-3 md:p-6 mt-6">
             <div class="flex items-center gap-4 mb-4">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
