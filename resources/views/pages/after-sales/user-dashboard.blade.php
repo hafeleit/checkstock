@@ -268,7 +268,12 @@
     {{-- Aging Bar --}}
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 px-4 py-3 mb-6">
         <div class="flex items-center justify-between mb-2">
-            <span class="text-sm font-semibold text-gray-600 uppercase tracking-widest">Overall Aging</span>
+            <div class="space-x-4">
+                <span class="text-sm font-semibold text-gray-600 uppercase tracking-widest">Overall Aging</span>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-aging-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
             <div class="self-stretch flex items-center bg-white px-2 rounded-lg gap-2 text-xs font-medium">
                 <div class="flex items-center gap-1">
                     <div class="w-2 h-2 rounded-full bg-0-3"></div><span class="text-gray-600">0-3 Days</span>

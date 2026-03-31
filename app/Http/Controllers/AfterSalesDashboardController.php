@@ -185,6 +185,45 @@ class AfterSalesDashboardController extends Controller
                 'tickets'          => $tickets,
                 'activeStatus'     => $activeStatus,
             ]);
+        } else if ($chart === 'ud-aging-chart') {
+            $agingData = $this->calculateOverallAging(now()->month, now()->year);
+
+            $activeAging = request('aging');
+
+            $query = HthAfterSaleTicket::query()
+                ->where('deleted', 0)
+                ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason']);
+
+            if ($activeAging === '0-3') {
+                $query->whereBetween(DB::raw('DATEDIFF(NOW(), date_modified)'), [0, 3]);
+            } else if ($activeAging === '4-7') {
+                $query->whereBetween(DB::raw('DATEDIFF(NOW(), date_modified)'), [4, 7]);
+            } else if ($activeAging === '8-15') {
+                $query->whereBetween(DB::raw('DATEDIFF(NOW(), date_modified)'), [8, 15]);
+            } else if ($activeAging === '16-30') {
+                $query->whereBetween(DB::raw('DATEDIFF(NOW(), date_modified)'), [16, 30]);
+            } else if ($activeAging === 'over_30') {
+                $query->whereRaw('DATEDIFF(NOW(), date_modified) > 30');
+            }
+
+            $tickets = $query
+                ->select([
+                    'ticket_number',
+                    'name',
+                    'release_date',
+                    'date_modified',
+                    'status',
+                    DB::raw('DATEDIFF(NOW(), date_modified) as days_diff')
+                ])
+                ->orderByDesc('date_modified')
+                ->paginate(15)
+                ->withQueryString();
+
+            return view('pages.after-sales.details.overall-aging-chart', [
+                'agingData'    => $agingData,
+                'tickets'      => $tickets,
+                'activeAging'  => $activeAging,
+            ]);
         } else {
             dd($chart);
         }
