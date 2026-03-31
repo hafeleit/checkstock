@@ -23,7 +23,7 @@ class AfterSalesDashboardController extends Controller
             'ticket_status_data' => $this->calculateTicket($year),
             'contract_center_data' => $this->calculateContractCenter($year),
             'contract_daily_data' => $this->calculateContractCenterDaily($month, $year),
-            'csi_response_data' =>$this->calculateCsiResponse($month, $year),
+            'csi_response_data' => $this->calculateCsiResponse($month, $year),
 
             // dashboard 2
             'total_stat_data' => $this->calculateTotalStat($month, $year),
@@ -37,6 +37,160 @@ class AfterSalesDashboardController extends Controller
             'pending_region_data' => $this->calculatePendingByRegion($month, $year),
             'product_data' => $this->calculatePendingByProduct($month, $year),
         ]);
+    }
+
+    public function userDashboard()
+    {
+        $month = now()->month;
+        $year  = now()->year;
+
+        return view('pages.after-sales.user-dashboard', [
+            // dashboard-1
+            'rtat'                => $this->calculateRtat($month, $year),
+            'ltp'                 => $this->calculateLtp($month, $year),
+            'ftf'                 => $this->calculateFtf($month, $year),
+            'csi_response_data'   => $this->calculateCsiResponse($month, $year),
+            'pending_data'        => $this->calculatePending($month, $year),
+            'ticket_status_data'  => $this->calculateTicket($year),
+            'contract_center_data' => $this->calculateContractCenter($year),
+            'contract_daily_data' => $this->calculateContractCenterDaily($month, $year),
+
+            // dashboard-2
+            'total_stat_data'     => $this->calculateTotalStat($month, $year),
+            'aging_data'          => $this->calculateOverallAging($month, $year),
+            'pending_type_data'   => $this->calculatePendingType($month, $year),
+            'status_data'         => $this->calculateStatus($month, $year),
+            'asc_pending_data'    => $this->calculateAscPending($month, $year),
+            'inhouse_pending_data' => $this->calculateInhousePending($month, $year),
+            'pending_reason_data' => $this->calculatePendingReason($month, $year),
+            'pending_region_data' => $this->calculatePendingByRegion($month, $year),
+            'pending_group_data'  => $this->calculatePendingGroup($month, $year),
+            'product_data'        => $this->calculatePendingByProduct($month, $year),
+        ]);
+    }
+
+    public function detail($chart)
+    {
+        if ($chart === 'ud-csi-chart') {
+            $csiData = $this->calculateCsiResponse(now()->month, now()->year);
+
+            $surveys = HthAssSurvey::query()
+                ->whereMonth('start_time', now()->month)
+                ->whereYear('start_time', now()->year)
+                ->where('service_team', 'ดีมาก (Very Good)')
+                ->latest('start_time')
+                ->paginate(15);
+
+            return view('pages.after-sales.details.csi-chart', [
+                'csiData' => $csiData,
+                'surveys' => $surveys,
+            ]);
+        } else if ($chart === 'ud-rtat-chart') {
+            $rtatData = $this->calculateRtat(now()->month, now()->year);
+
+            $month  = now()->month;
+            $year   = now()->year;
+            $region = request('region');
+
+            $tickets = HthAfterSaleTicket::query()
+                ->leftJoin('hth_ass_regions', 'hth_after_sale_ticket.zipcode', '=', 'hth_ass_regions.postcodemain')
+                ->whereMonth('hth_after_sale_ticket.date_modified', $month)
+                ->whereYear('hth_after_sale_ticket.date_modified', $year)
+                ->where('hth_after_sale_ticket.deleted', 0)
+                ->where('hth_after_sale_ticket.status', 'Closed')
+                ->when($region, fn($q) => $q->where('hth_ass_regions.master_part_eng', $region))
+                ->select([
+                    'hth_after_sale_ticket.name',
+                    'hth_after_sale_ticket.date_modified',
+                    'hth_after_sale_ticket.release_date',
+                    'hth_after_sale_ticket.ticket_number',
+                    'hth_after_sale_ticket.status',
+                    'hth_after_sale_ticket.zipcode',
+                    'hth_ass_regions.master_part_eng as master_part_eng',
+                    DB::raw('DATEDIFF(hth_after_sale_ticket.date_modified, hth_after_sale_ticket.release_date) as days_diff')
+                ])
+                ->latest('hth_after_sale_ticket.date_modified')
+                ->paginate(15)
+                ->withQueryString();
+
+            return view('pages.after-sales.details.rtat-chart', [
+                'rtatData'      => $rtatData,
+                'tickets'       => $tickets,
+                'activeRegion'  => $region,
+            ]);
+        } else if ($chart === 'ud-ltp-chart') {
+            $ltpData = $this->calculateLtp(now()->month, now()->year);
+
+            $tickets = $this->baseQuery(now()->month, now()->year)
+                ->where('deleted', 0)
+                ->whereNotIn('status', ['Closed', 'Canceled'])
+                ->where('release_date', '<', now()->subDays(7))
+                ->select([
+                    'ticket_number',
+                    'name',
+                    'release_date',
+                    'status',
+                    DB::raw('DATEDIFF(NOW(), release_date) - 7 as days_diff')
+                ])
+                ->orderByDesc('days_diff')
+                ->paginate(15)
+                ->withQueryString();
+
+            return view('pages.after-sales.details.ltp-chart', [
+                'ltpData' => $ltpData,
+                'tickets' => $tickets,
+            ]);
+        } else if ($chart === 'ud-ftf-chart') {
+            $ftfData = $this->calculateFtf(now()->month, now()->year);
+
+            $tickets = $this->baseQuery(now()->month, now()->year)
+                ->where('deleted', 0)
+                ->where('status', 'Closed')
+                ->where('round', '!=', 0)
+                ->select([
+                    'ticket_number',
+                    'name',
+                    'release_date',
+                    'status',
+                    'round'
+                ])
+                ->paginate(15)
+                ->withQueryString();
+
+            return view('pages.after-sales.details.ftf-chart', [
+                'ftfData' => $ftfData,
+                'tickets' => $tickets,
+            ]);
+        } else if ($chart === 'ud-ticket-by-status-chart') {
+            $ticketStatusData = $this->calculateTicket(now()->year);
+            $totalStatData    = $this->calculateTotalStat(now()->month, now()->year);
+            $activeStatus     = request('status');
+
+            dd($ticketStatusData, $totalStatData, $activeStatus);
+            $tickets = HthAfterSaleTicket::query()
+                ->whereYear('release_date', now()->year)
+                // ->where('deleted', 0)
+                // ->whereNot('status', 'Canceled')
+                ->get();
+                // ->when($activeStatus, function ($q) use ($activeStatus) {
+                //     $q->where('status', $activeStatus);
+                // })
+                // ->select(['ticket_number', 'name', 'release_date', 'date_modified', 'status'])
+                // ->latest('release_date')
+                // ->paginate(15)
+                // ->withQueryString();
+
+            dd($tickets);
+
+            return view('pages.after-sales.details.ticket-by-status-chart', [
+                'ticketStatusData' => $ticketStatusData,
+                'total_stat_data'  => $totalStatData,
+                'tickets'          => $tickets,
+                'activeStatus'     => $activeStatus,
+            ]);
+        } else {
+            dd($chart);
+        }
     }
 
     private function baseQuery(int $month, int $year)
@@ -54,47 +208,14 @@ class AfterSalesDashboardController extends Controller
             ->selectRaw('COUNT(*) as total, SUM(DATEDIFF(date_modified, release_date)) as total_days')
             ->first();
 
-        $bangkokPostalCodes = [
-            10100,
-            10110,
-            10120,
-            10130,
-            10140,
-            10150,
-            10160,
-            10170,
-            10180,
-            10200,
-            10210,
-            10220,
-            10230,
-            10240,
-            10250,
-            10260,
-            10270,
-            10280,
-            10290,
-            10300,
-            10310,
-            10320,
-            10330,
-            10340,
-            10350,
-            10360,
-            10370,
-            10400,
-            10500,
-            10600,
-            10700,
-            10800,
-            10900,
-        ];
-
-        $bkkResult = $this->baseQuery($month, $year)
-            ->where('deleted', 0)
-            ->where('status', 'Closed')
-            ->whereIn('zipcode', $bangkokPostalCodes)
-            ->selectRaw('COUNT(*) as total, SUM(DATEDIFF(date_modified, release_date)) as total_days')
+        $bkkResult  = HthAfterSaleTicket::query()
+            ->leftJoin('hth_ass_regions', 'hth_after_sale_ticket.zipcode', '=', 'hth_ass_regions.postcodemain')
+            ->whereMonth('hth_after_sale_ticket.date_modified', $month)
+            ->whereYear('hth_after_sale_ticket.date_modified', $year)
+            ->where('hth_after_sale_ticket.deleted', 0)
+            ->where('hth_after_sale_ticket.status', 'Closed')
+            ->where('hth_ass_regions.master_part_eng', 'Bangkok Metropolitan')
+            ->selectRaw('COUNT(*) as total, SUM(DATEDIFF(hth_after_sale_ticket.date_modified, hth_after_sale_ticket.release_date)) as total_days')
             ->first();
 
         return [
@@ -139,7 +260,7 @@ class AfterSalesDashboardController extends Controller
             ->whereMonth('date_modified', $month)
             ->whereYear('date_modified', $year)
             ->count();
-        
+
         $survey = HthAssSurvey::query()
             ->whereMonth('start_time', $month)
             ->whereYear('start_time', $year)
@@ -156,7 +277,7 @@ class AfterSalesDashboardController extends Controller
                 COUNT(CASE WHEN charged_expenses = 'ใช่ (Yes)' THEN 1 END) as charged_expenses_yes
             ")
             ->first();
-        
+
         return [
             'total_ticket' => $ticketCount,
             'survey_data' => $survey
@@ -549,6 +670,4 @@ class AfterSalesDashboardController extends Controller
             ->groupBy('type')
             ->get();
     }
-
-    
 }

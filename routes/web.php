@@ -65,6 +65,8 @@ Route::get('test_db_crm', [homecontroller::class, 'test_db']);
 // })->name('after-sales-dashboard');
 
 Route::get('/after-sales/dashboard', [AfterSalesDashboardController::class, 'index'])->name('after-sales.dashboard');
+Route::get('/after-sales/user-dashboard', [AfterSalesDashboardController::class, 'userDashboard'])->name('after-sales.user-dashboard');
+Route::get('/after-sales/detail/{chart}', [AfterSalesDashboardController::class, 'detail'])->name('after-sales.detail');
 
 // protected routes (requires authentication and status check)
 Route::middleware(['auth', 'check.status'])->group(function () {
