@@ -72,18 +72,21 @@ class AfterSalesDashboardController extends Controller
     public function detail($chart)
     {
         if ($chart === 'ud-csi-chart') {
-            $csiData = $this->calculateCsiResponse(now()->month, now()->year);
+            $csiData      = $this->calculateCsiResponse(now()->month, now()->year);
+            $activeStatus = request('status');
 
             $surveys = HthAssSurvey::query()
                 ->whereMonth('start_time', now()->month)
                 ->whereYear('start_time', now()->year)
-                ->where('service_team', 'ดีมาก (Very Good)')
+                ->when($activeStatus, fn($q) => $q->where('service_team', $activeStatus))
                 ->latest('start_time')
-                ->paginate(15);
+                ->paginate(15)
+                ->withQueryString();
 
             return view('pages.after-sales.details.csi-chart', [
-                'csiData' => $csiData,
-                'surveys' => $surveys,
+                'csiData'      => $csiData,
+                'surveys'      => $surveys,
+                'activeStatus' => $activeStatus,
             ]);
         } else if ($chart === 'ud-rtat-chart') {
             $rtatData = $this->calculateRtat(now()->month, now()->year);
@@ -187,7 +190,6 @@ class AfterSalesDashboardController extends Controller
             ]);
         } else if ($chart === 'ud-aging-chart') {
             $agingData = $this->calculateOverallAging(now()->month, now()->year);
-
             $activeAging = request('aging');
 
             $query = HthAfterSaleTicket::query()
@@ -195,15 +197,15 @@ class AfterSalesDashboardController extends Controller
                 ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason']);
 
             if ($activeAging === '0-3') {
-                $query->whereBetween(DB::raw('DATEDIFF(NOW(), date_modified)'), [0, 3]);
+                $query->whereBetween(DB::raw('DATEDIFF(NOW(), release_date)'), [0, 3]);
             } else if ($activeAging === '4-7') {
-                $query->whereBetween(DB::raw('DATEDIFF(NOW(), date_modified)'), [4, 7]);
+                $query->whereBetween(DB::raw('DATEDIFF(NOW(), release_date)'), [4, 7]);
             } else if ($activeAging === '8-15') {
-                $query->whereBetween(DB::raw('DATEDIFF(NOW(), date_modified)'), [8, 15]);
+                $query->whereBetween(DB::raw('DATEDIFF(NOW(), release_date)'), [8, 15]);
             } else if ($activeAging === '16-30') {
-                $query->whereBetween(DB::raw('DATEDIFF(NOW(), date_modified)'), [16, 30]);
+                $query->whereBetween(DB::raw('DATEDIFF(NOW(), release_date)'), [16, 30]);
             } else if ($activeAging === 'over_30') {
-                $query->whereRaw('DATEDIFF(NOW(), date_modified) > 30');
+                $query->whereRaw('DATEDIFF(NOW(), release_date) > 30');
             }
 
             $tickets = $query
@@ -213,9 +215,9 @@ class AfterSalesDashboardController extends Controller
                     'release_date',
                     'date_modified',
                     'status',
-                    DB::raw('DATEDIFF(NOW(), date_modified) as days_diff')
+                    DB::raw('DATEDIFF(NOW(), release_date) as days_diff')
                 ])
-                ->orderByDesc('date_modified')
+                ->orderByDesc('release_date')
                 ->paginate(15)
                 ->withQueryString();
 
@@ -224,6 +226,109 @@ class AfterSalesDashboardController extends Controller
                 'tickets'      => $tickets,
                 'activeAging'  => $activeAging,
             ]);
+        } else if ($chart === 'ud-csi-response-chart') {
+            $csiData      = $this->calculateCsiResponse(now()->month, now()->year);
+            $serviceStatus = request('status');
+
+            $surveys = HthAssSurvey::query()
+                ->whereMonth('start_time', now()->month)
+                ->whereYear('start_time', now()->year)
+                ->when($serviceStatus, fn($q) => $q->where('service_team', $serviceStatus))
+                ->latest('start_time')
+                ->paginate(15)
+                ->withQueryString();
+
+            return view('pages.after-sales.details.csi-response-chart', [
+                'csiData'      => $csiData,
+                'surveys'      => $surveys,
+                'serviceStatus' => $serviceStatus,
+            ]);
+        } else if ($chart === 'ud-csi-response-chart') {
+            $csiData      = $this->calculateCsiResponse(now()->month, now()->year);
+            $serviceStatus = request('status');
+
+            $surveys = HthAssSurvey::query()
+                ->whereMonth('start_time', now()->month)
+                ->whereYear('start_time', now()->year)
+                ->when($serviceStatus, fn($q) => $q->where('service_team', $serviceStatus))
+                ->latest('start_time')
+                ->paginate(15)
+                ->withQueryString();
+
+            return view('pages.after-sales.details.csi-response-chart', [
+                'csiData'      => $csiData,
+                'surveys'      => $surveys,
+                'serviceStatus' => $serviceStatus,
+            ]);
+        } else if ($chart === 'ud-pending-reason-chart') {
+            $pendingData = $this->calculatePendingReason(now()->month, now()->year);
+            $activeAging = request('aging');
+            $activePending = request('pending');
+
+            $namedReasons = [
+                'Spare_part_on_progress',
+                'Site_not_ready_or_waiting_confirm',
+                'Postpone_or_new_appointment',
+                'Process_return_or_change_set',
+                'Waiting_service_schedule_Technician',
+            ];
+
+            $query = HthAfterSaleTicket::query()
+                ->where('deleted', 0)
+                ->where('status', 'Pending_Reason')
+                ->where(fn($q) => $q->whereIn('pending', $namedReasons)->orWhereNull('pending'));
+
+            if ($activePending === 'blank') {
+                $query->whereNull('pending');
+            } elseif ($activePending) {
+                $query->where('pending', $activePending);
+            }
+
+            if ($activeAging === '0-3') {
+                $query->whereBetween(DB::raw('DATEDIFF(NOW(), release_date)'), [0, 3]);
+            } elseif ($activeAging === '4-7') {
+                $query->whereBetween(DB::raw('DATEDIFF(NOW(), release_date)'), [4, 7]);
+            } elseif ($activeAging === '8-15') {
+                $query->whereBetween(DB::raw('DATEDIFF(NOW(), release_date)'), [8, 15]);
+            } elseif ($activeAging === '16-30') {
+                $query->whereBetween(DB::raw('DATEDIFF(NOW(), release_date)'), [16, 30]);
+            } elseif ($activeAging === 'over_30') {
+                $query->whereRaw('DATEDIFF(NOW(), release_date) > 30');
+            }
+
+            $tickets = $query
+                ->select([
+                    'ticket_number',
+                    'name',
+                    'release_date',
+                    'date_modified',
+                    'pending',
+                    'status',
+                    DB::raw('DATEDIFF(NOW(), release_date) as days_diff')
+                ])
+                ->latest('release_date')
+                ->paginate(15)
+                ->withQueryString();
+
+            return view('pages.after-sales.details.pending-reason-chart', [
+                'pendingData'   => $pendingData,
+                'tickets'       => $tickets,
+                'activeAging'   => $activeAging,
+                'activePending' => $activePending,
+            ]);
+        } else if ($chart === 'ud-pending-overview-chart') {
+            $pendingData = $this->calculatePending(now()->month, now()->year);
+
+            $tickets = HthAfterSaleTicket::query()
+                ->with('assignee')
+                ->where('deleted', 0)
+                ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
+                ->whereIn('type', ['R', 'C', 'I', 'spare_part', 'consult_or_advise'])
+                ->select('type', DB::raw('COUNT(*) as total'))
+                ->groupBy('type')
+                ->get();
+
+            return $pendingData;
         } else {
             dd($chart);
         }
@@ -603,11 +708,11 @@ class AfterSalesDashboardController extends Controller
             ->where('status', 'Pending_Reason')
             ->selectRaw("
                 COALESCE(pending, 'blank') as reason,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
-                COUNT(CASE WHEN DATEDIFF(NOW(), date_modified) > 30 THEN 1 END) as days_over_30
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) > 30 THEN 1 END) as days_over_30
             ")
             ->groupByRaw("COALESCE(pending, 'blank')")
             ->get()

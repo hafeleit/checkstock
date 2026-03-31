@@ -302,7 +302,12 @@
     </div>
 
     {{-- SECTION 3 — CSI Details (dashboard-1) --}}
-    <p class="text-md font-bold uppercase tracking-widest text-gray-800 mb-2">Customer Satisfaction Index</p>
+    <div class="flex items-center gap-4 mb-2">
+        <p class="text-md font-bold uppercase tracking-widest text-gray-800">Customer Satisfaction Index</p>
+        <a href="{{ route('after-sales.detail', ['chart' => 'ud-csi-response-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+            View Detail →
+        </a>
+    </div>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-6">
 
         {{-- Responses + Satisfaction --}}
@@ -357,7 +362,13 @@
 
         {{-- Reason — 6 rows stacked aging --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <p class="text-md font-semibold text-gray-600 mb-2">Pending Reason (by Aging)</p>
+            <div class="flex items-center gap-4 mb-2">
+                <p class="text-md font-semibold text-gray-600">Pending Reason (by Aging)</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-reason-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
+            
             <div class="ud-chart-wrap ud-h-300">
                 <canvas id="ud-reason-chart"></canvas>
             </div>
@@ -365,7 +376,12 @@
 
         {{-- Pending Overview --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <p class="text-md font-semibold text-gray-600 mb-2">Pending Overview (ASC vs Hafele)</p>
+            <div class="flex items-center gap-4 mb-2">
+                <p class="text-md font-semibold text-gray-600">Pending Overview (ASC vs Hafele)</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-overview-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
             <div class="ud-pending-flex">
                 <div class="ud-pie-wrap"><canvas id="ud-pending-pie"></canvas></div>
                 <div class="ud-bar-flex"><canvas id="ud-pending-bar"></canvas></div>
