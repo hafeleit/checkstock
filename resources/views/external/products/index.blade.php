@@ -54,9 +54,10 @@
                         <div class="w-full md:w-2/5 2xl:w-1/5">
                             <div class="aspect-square bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-4">
                                 @php
-                                    $fileImgPath = storage_path('app/public/img/products/' . $item_code . '.jpg');
+                                    $fileImgPath = 'storage/img/products/' . $item_code . '.jpg';
+                                    $imgPath = File::exists($fileImgPath) ? true : false;
                                 @endphp
-                                @if (File::exists($fileImgPath) && $item_code)
+                                @if ($imgPath)
                                     <img src="{{ asset('/storage/img/products/' . $item_code . '.jpg') }}" alt="product image" class="w-full h-full object-contain p-2">
                                 @else
                                     <div class="flex flex-col h-36 items-center justify-center w-full">
