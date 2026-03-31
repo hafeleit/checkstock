@@ -162,28 +162,25 @@ class AfterSalesDashboardController extends Controller
                 'tickets' => $tickets,
             ]);
         } else if ($chart === 'ud-ticket-by-status-chart') {
-            $ticketStatusData = $this->calculateTicket(now()->year);
             $totalStatData    = $this->calculateTotalStat(now()->month, now()->year);
             $activeStatus     = request('status');
 
-            dd($ticketStatusData, $totalStatData, $activeStatus);
             $tickets = HthAfterSaleTicket::query()
-                ->whereYear('release_date', now()->year)
-                // ->where('deleted', 0)
-                // ->whereNot('status', 'Canceled')
-                ->get();
-                // ->when($activeStatus, function ($q) use ($activeStatus) {
-                //     $q->where('status', $activeStatus);
-                // })
-                // ->select(['ticket_number', 'name', 'release_date', 'date_modified', 'status'])
-                // ->latest('release_date')
-                // ->paginate(15)
-                // ->withQueryString();
-
-            dd($tickets);
+                ->when($activeStatus, fn($q) => $q->where('status', $activeStatus))
+                ->where('deleted', 0)
+                ->whereNot('status', 'Canceled')
+                ->select([
+                    'ticket_number',
+                    'name',
+                    'release_date',
+                    'date_modified',
+                    'status',
+                ])
+                ->orderByDesc('date_modified')
+                ->paginate(15)
+                ->withQueryString();
 
             return view('pages.after-sales.details.ticket-by-status-chart', [
-                'ticketStatusData' => $ticketStatusData,
                 'total_stat_data'  => $totalStatData,
                 'tickets'          => $tickets,
                 'activeStatus'     => $activeStatus,

@@ -101,6 +101,7 @@
                             <th class="px-3 py-2 text-left font-semibold">Name</th>
                             <th class="px-3 py-2 text-left font-semibold">Status</th>
                             <th class="px-3 py-2 text-left font-semibold">Release Date</th>
+                            <th class="px-3 py-2 text-left font-semibold">Date Modified</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -123,6 +124,7 @@
                                     <span class="px-1.5 py-0.5 rounded font-semibold {{ $statusClass }}">{{ $statusLabel }}</span>
                                 </td>
                                 <td class="px-3 py-2 text-gray-600">{{ \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ \Carbon\Carbon::parse($ticket->date_modified)->format('d/m/Y') }}</td>
                             </tr>
                         @empty
                             <tr>
@@ -219,8 +221,6 @@
                     },
                 },
             });
-
-            const ticketStatusData = {!! json_encode($ticketStatusData) !!};
         </script>
     @endpush
 @endsection
