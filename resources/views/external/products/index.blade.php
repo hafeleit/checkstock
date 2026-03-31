@@ -2,15 +2,15 @@
 
 @section('content')
 <div class="mx-auto">
-    <div class="bg-white rounded-lg shadow p-6">
+    <div class="bg-white rounded-lg shadow p-6 ">
         <h1 class="text-md md:text-xl font-bold text-gray-800 mb-3">Product Search</h1>
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('customer.products.index') }}">
-            <div class="text-sm text-red-600 mb-3 bg-red-50 py-3 px-2 rounded-md">
+            {{-- <div class="text-sm text-red-600 mb-3 bg-red-50 py-3 px-2 rounded-md">
                 สต๊อกที่แสดงเป็นสต๊อก ณ เวลา <strong>{{ $last_update->format('Y-m-d H:i') }}</strong> และเพื่อป้องกันความผิดพลาด<br>
                 หากต้องการยืนยันคำสั่งซื้อ ขอให้ตรวจสอบยืนยันกับพนักงานขายของท่านทุกครั้ง
-            </div>
+            </div> --}}
             <div class="flex gap-4">
                 <div class="flex-1">
                     <label for="item_code" class="block text-sm font-medium text-gray-700 mb-2">
@@ -38,8 +38,8 @@
 
         <!-- Search Results -->
         @if(isset($searched) && $searched)
-        @if($product)
-        <div class="bg-gray-50 rounded-lg p-6 mt-6">
+        @if(!empty($product['productInformations'][0]['AvailablePackages']))
+        <div class="bg-gray-50 rounded-lg p-3 md:p-6 mt-6">
             <div class="flex items-center gap-4 mb-4">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
@@ -47,28 +47,91 @@
                 <h2 class="text-xl font-bold text-gray-800">Product Details</h2>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="space-y-6">
                 <!-- Product Information -->
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600">Item Code</label>
-                        <p class="text-lg font-semibold text-gray-800">{{ $product->Material }}</p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600">Item Description</label>
-                        <p class="text-gray-700">{{ $product->kurztext }}</p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600">Base Price</label>
-                        <p class="text-xl font-bold text-green-600">{{ number_format($product->Amount, 2, '.', ',') }} {{ $product->bun }}</p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600">Stock Quantity</label>
-                        <p class="text-gray-800">
-                            <span class="inline-flex items-center px-2.5 py-0.5 mt-2 rounded-full text-sm font-medium {{ $product->unrestricted > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                {{ number_format($product->unrestricted, 0) }} {{ $product->bun }}
-                            </span>
-                        </p>
+                <div class="bg-white p-3 md:p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="w-full md:w-2/5 2xl:w-1/5">
+                            <div class="aspect-square bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-4">
+                                @php
+                                    $fileImgPath = 'storage/img/products/' . $item_code . '.jpg';
+                                    $imgPath = File::exists($fileImgPath) ? true : false;
+                                @endphp
+                                @if ($imgPath)
+                                    <img src="{{ asset('/storage/img/products/' . $item_code . '.jpg') }}" alt="product image" class="w-full h-full object-contain p-2">
+                                @else
+                                    <div class="flex flex-col h-36 items-center justify-center w-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-image text-gray-500" viewBox="0 0 16 16">
+                                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+                                    </svg>
+                                    <p class="text-gray-500 m-0">No Image</p>
+                                </div>
+                                @endif
+                                
+                                
+                            </div>
+                            <a href="/customer/products/product-info/{{ $item_code }}" target="_blank" class="block w-full text-center bg-blue-900 hover:bg-gray-700 text-white font-medium py-1 px-4 rounded-lg transition duration-200">
+                                Product Information
+                            </a>
+                        </div>
+
+                        <div class="w-full md:w-3/5 2xl:w-4/5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="sm:col-span-2 border-b pb-2">
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider">Item Code</label>
+                                <p class="text-lg font-bold text-gray-800">{{ $item_code }}</p>
+
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mt-3">Item Description</label>
+                                <p class="text-gray-600">{{ $product['productInformations'][0]['ArticleName'] ?? '-' }}</p>
+                            </div>
+
+                            <div class="bg-gray-50 p-3 rounded-md">
+                                <label class="block text-xs font-medium text-gray-500">Base Price</label>
+                                <p class="text-xl font-bold text-green-600">{{ $product_internal->NSU_BASE_PRICE }} <span class="text-md font-normal">/ {{ $product['productInformations'][0]['QuantityUnit'] }}</span></p>
+                            </div>
+
+                            <div class="bg-gray-50 p-3 rounded-md">
+                                @php
+                                    $storloc = collect($product['productInformations'][0]['AvailablePackagesStorloc'] ?? [])->firstWhere('Storagelocation', 'TH02');
+                                    $stock = $storloc['Atpquantity'] ?? 0;
+                                @endphp
+                                <label class="block text-xs font-medium text-gray-500">Stock Quantity</label>
+                                <span class="inline-flex items-center px-2.5 py-0.5 mt-1 rounded-full text-sm font-semibold {{ $stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                    {{ number_format($stock, 0) }} {{ $product['productInformations'][0]['QuantityUnit'] }}
+                                </span>
+                            </div>
+
+                            <div class="border-l-4 border-blue-200 pl-3">
+                                <label class="block text-xs font-medium text-gray-500">Inventory Status</label>
+                                <p @class([
+                                    'inline-flex items-center px-2.5 py-0.5 rounded-md text-white font-semibold mt-1 bg-green-500' => $product_external['mrp'] ?? null,
+                                    'text-md text-gray-500' => empty($product_external['mrp'] ?? null)])>
+                                    {{ $product_external['mrp'] ?? '-' }}
+                                </p>
+                            </div>
+
+                            <div class="border-l-4 border-blue-200 pl-3">
+                                <label class="block text-xs font-medium text-gray-500">Item Status</label>
+                                <span @class([
+                                    'inline-flex items-center px-2.5 py-0.5 rounded-md text-white font-semibold mt-1',
+                                    'bg-green-500' => (($product_external['item_status'] ?? null) === 'Active'),
+                                    'bg-red-500' => !empty($product_external['item_status'] ?? null) && ($product_external['item_status'] ?? null) !== 'Active',
+                                    'bg-gray-500' => empty($product_external['item_status'] ?? null),
+                                ])>
+                                    {{ $product_external['item_status'] ?? 'N/A' }}
+                                </span>
+                            </div>
+
+                            <div class="border-l-4 border-orange-200 pl-3">
+                                <label class="block text-xs font-medium text-gray-500">MOQ</label>
+                                <p class="font-semibold text-gray-800">{{ number_format($product_internal->NSU_PURC_MOQ ?? 0, 0) }}</p>
+                            </div>
+
+                            <div class="border-l-4 border-orange-200 pl-3">
+                                <label class="block text-xs font-medium text-gray-500">Repl Time</label>
+                                <p class="font-semibold text-gray-800">{{ $product_internal->NSU_SUPP_REPL_TIME ?? 'N/A' }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
