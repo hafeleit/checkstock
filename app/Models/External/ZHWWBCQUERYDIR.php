@@ -10,5 +10,5 @@ class ZHWWBCQUERYDIR extends Model
     use HasFactory;
 
     protected $connection = "external_mysql";
-    protected $table = "zhwwbcquerydir";
+    protected $table = "ZHWWBCQUERYDIR";
 }

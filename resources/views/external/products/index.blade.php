@@ -88,8 +88,8 @@
                             <div class="border-l-4 border-blue-200 pl-3">
                                 <label class="block text-xs font-medium text-gray-500">Inventory Status</label>
                                 <p @class([
-                                    'inline-flex items-center px-2.5 py-0.5 rounded-md text-white font-semibold mt-1 bg-green-500' => $product_external['mrp'],
-                                    'text-md text-gray-500' => empty($product_external['mrp'])])>
+                                    'inline-flex items-center px-2.5 py-0.5 rounded-md text-white font-semibold mt-1 bg-green-500' => $product_external['mrp'] ?? null,
+                                    'text-md text-gray-500' => empty($product_external['mrp'] ?? null)])>
                                     {{ $product_external['mrp'] ?? '-' }}
                                 </p>
                             </div>
@@ -98,9 +98,9 @@
                                 <label class="block text-xs font-medium text-gray-500">Item Status</label>
                                 <span @class([
                                     'inline-flex items-center px-2.5 py-0.5 rounded-md text-white font-semibold mt-1',
-                                    'bg-green-500' => ($product_external['item_status'] === 'Active'),
-                                    'bg-red-500' => ($product_external['item_status'] !== 'Active'),
-                                    'bg-gray-500' => empty($product_external['item_status']),
+                                    'bg-green-500' => (($product_external['item_status'] ?? null) === 'Active'),
+                                    'bg-red-500' => !empty($product_external['item_status'] ?? null) && ($product_external['item_status'] ?? null) !== 'Active',
+                                    'bg-gray-500' => empty($product_external['item_status'] ?? null),
                                 ])>
                                     {{ $product_external['item_status'] ?? 'N/A' }}
                                 </span>
