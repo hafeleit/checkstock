@@ -26,14 +26,14 @@
         </div>
 
         {{-- LTP Survey Responses Table --}}
-        <div class="bg-white rounded-lg shadow-sm border border-gray-100 w-full overflow-hidden">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 w-full">
             <div class="px-3 py-3 border-b border-gray-100">
                 <p class="text-sm text-gray-400 uppercase tracking-widest font-semibold">LTP Tickets</p>
                 <p class="text-lg font-bold text-gray-800 mt-0.5">{{ number_format($tickets->total()) }} <span class="text-sm font-normal text-gray-400">tickets</span></p>
                 <p class="text-xs text-red-500 mt-0.5">Tickets overdue by more than 7 days</p>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-xs">
+                <table class="w-full min-w-[700px] text-xs">
                     <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider">
                         <tr>
                             <th class="px-3 py-2 text-left font-semibold">#</th>

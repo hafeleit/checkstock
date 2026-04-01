@@ -42,7 +42,7 @@
         </div>
 
         {{-- Tickets Table --}}
-        <div class="bg-white rounded-lg shadow-sm border border-gray-100 w-full overflow-hidden">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 w-full">
             <div class="px-3 py-3 border-b border-gray-100">
                 <p class="text-sm text-gray-400 uppercase tracking-widest font-semibold">Pending Tickets</p>
                 <p class="text-lg font-bold text-gray-800 mt-0.5">
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-xs">
+                <table class="w-full min-w-[700px] text-xs">
                     <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider">
                         <tr>
                             <th class="px-3 py-2 text-left font-semibold">#</th>

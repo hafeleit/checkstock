@@ -23,7 +23,7 @@
         </div>
 
         {{-- Tickets Table --}}
-        <div class="bg-white rounded-lg shadow-sm border border-gray-100 w-full overflow-hidden">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 w-full">
             <div class="px-3 py-3 border-b border-gray-100">
                 <p class="text-sm text-gray-400 uppercase tracking-widest font-semibold">Status Overview Tickets</p>
                 <p class="text-lg font-bold text-gray-800 mt-0.5">
