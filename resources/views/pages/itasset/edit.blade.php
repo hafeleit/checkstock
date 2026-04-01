@@ -350,11 +350,11 @@
               </div>
               <div class="col-4">
                 <label>Name</label>
-                <input class="form-control" type="text" placeholder="Auto" value="{{ $itassetown?->userMaster?->name_en ?? '' }}" readonly>
+                <input class="form-control" type="text" placeholder="Auto" value="{{ $itassetown?->owner?->name_en ?? '' }}" readonly>
               </div>
               <div class="col-5">
                 <label>Department</label>
-                <input class="form-control" type="text" placeholder="Auto" value="{{ $itassetown?->userMaster?->dept ?? '' }}" readonly>
+                <input class="form-control" type="text" placeholder="Auto" value="{{ $itassetown?->owner?->dept ?? '' }}" readonly>
               </div>
             </div>
             <p></p>
