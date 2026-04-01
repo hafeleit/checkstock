@@ -3,6 +3,13 @@
 @section('title', 'After-Sales Dashboard')
 @section('content')
 
+    @push('styles')
+        <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+            .bg-orange-100 { background-color: #ffedd5; }
+            .text-orange-700 { color: #c2410c; }
+        </style>
+    @endpush
+
     <div class="space-y-2">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
 

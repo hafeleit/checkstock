@@ -57,6 +57,13 @@
             .bg-over-30 {
                 background-color: #ef4444;
             }
+
+            .bg-orange-100 { background-color: #ffedd5; }
+            .text-orange-700 { color: #c2410c; }
+            .bg-emerald-100 { background-color: #d1fae5; }
+            .text-emerald-700 { color: #047857; }
+            .bg-lime-100 { background-color: #ecfccb; }
+            .text-lime-700 { color: #4d7c0f; }
         </style>
     @endpush
 

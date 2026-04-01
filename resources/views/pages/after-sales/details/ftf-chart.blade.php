@@ -12,7 +12,6 @@
                 <p class="text-md text-gray-400 uppercase tracking-widest font-semibold">FTF</p>
                 <div class="flex items-baseline gap-1 mt-0.5">
                     <span class="text-lg font-bold text-gray-800">{{ $ftfData }}%</span>
-                    <span class="text-sm font-bold px-1 py-0.5 rounded bg-yellow-100 text-yellow-700">Grade B</span>
                 </div>
                 <p class="text-sm text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">70.0%</span></p>
             </div>

@@ -2,6 +2,14 @@
 
 @section('title', 'After-Sales Dashboard')
 @section('content')
+
+    @push('styles')
+        <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+            .bg-orange-100 { background-color: #ffedd5; }
+            .text-orange-700 { color: #c2410c; }
+        </style>
+    @endpush
+
     <div class="space-y-2">
         <div
             class="bg-white rounded-lg px-3 py-4 shadow-sm border border-gray-100 flex items-center justify-center gap-4 w-full">
@@ -12,7 +20,6 @@
                 <p class="text-md text-gray-400 uppercase tracking-widest font-semibold">LTP</p>
                 <div class="flex items-baseline gap-1 mt-0.5">
                     <span class="text-lg font-bold text-gray-800">{{ $ltpData }}%</span>
-                    <span class="text-sm font-bold px-1 py-0.5 rounded bg-yellow-100 text-yellow-700">Grade B</span>
                 </div>
                 <p class="text-sm text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">70.0%</span></p>
             </div>

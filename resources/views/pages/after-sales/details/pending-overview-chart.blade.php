@@ -22,6 +22,9 @@
             .ud-h-250 {
                 height: 250px;
             }
+
+            .bg-orange-100 { background-color: #ffedd5; }
+            .text-orange-700 { color: #c2410c; }
         </style>
     @endpush
 

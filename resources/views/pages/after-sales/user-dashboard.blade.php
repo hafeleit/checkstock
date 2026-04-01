@@ -397,8 +397,15 @@
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <p class="text-md font-semibold text-gray-600 mb-2">Pending by Region</p>
-            <div class="ud-chart-wrap ud-h-200" id="ud-region-wrap"><canvas id="ud-region-chart"></canvas></div>
+            <div class="flex items-center gap-4 mb-2">
+                <p class="text-md font-semibold text-gray-600">Pending by Region</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-by-region-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
+            <div class="ud-chart-wrap ud-h-200" id="ud-region-wrap">
+                <canvas id="ud-region-chart"></canvas>
+            </div>
         </div>
 
     </div>
@@ -407,33 +414,56 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-6">
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <p class="text-md font-semibold text-gray-600 mb-2">In-House Pending by Team</p>
-            <div id="ud-inhouse-wrap" class="ud-rowc-wrap"><canvas id="ud-inhouse-chart"></canvas></div>
+            <div class="flex items-center gap-4 mb-2">
+                <p class="text-md font-semibold text-gray-600">In-House Pending by Team</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-inhouse-pending-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
+            <div id="ud-inhouse-wrap" class="ud-rowc-wrap">
+                <canvas id="ud-inhouse-chart"></canvas>
+            </div>
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <p class="text-md font-semibold text-gray-600 mb-2">ASC Pending by Region</p>
-            <div id="ud-asc-wrap" class="ud-rowc-wrap"><canvas id="ud-asc-chart"></canvas></div>
+            <div class="flex items-center gap-4 mb-2">
+                <p class="text-md font-semibold text-gray-600">ASC Pending by Region</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-asc-pending-by-region-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
+            <div id="ud-asc-wrap" class="ud-rowc-wrap">
+                <canvas id="ud-asc-chart"></canvas>
+            </div>
         </div>
 
     </div>
 
-    {{-- Row D (3 cols equal): Type | Product Group | Pending by Product --}}
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-6">
+    {{-- Row D (3 cols equal): Type | Product Group --}}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-6">
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <p class="text-md font-semibold text-gray-600 mb-2">Pending by Type</p>
-            <div class="ud-chart-wrap ud-h-200"><canvas id="ud-type-chart"></canvas></div>
+            <div class="flex items-center gap-4 mb-2">
+                <p class="text-md font-semibold text-gray-600">Pending by Type</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-by-type-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
+            <div class="ud-chart-wrap ud-h-200">
+                <canvas id="ud-type-chart"></canvas>
+            </div>
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <p class="text-md font-semibold text-gray-600 mb-2">Pending Product Group</p>
-            <div class="ud-chart-wrap ud-h-200"><canvas id="ud-product-group-chart"></canvas></div>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <p class="text-md font-semibold text-gray-600 mb-2">Pending by Product</p>
-            <div class="ud-chart-wrap ud-h-200"><canvas id="ud-product-aging-chart"></canvas></div>
+            <div class="flex items-center gap-4 mb-2">
+                <p class="text-md font-semibold text-gray-600">Pending Product Group</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-product-group-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
+            <div class="ud-chart-wrap ud-h-200">
+                <canvas id="ud-product-group-chart"></canvas>
+            </div>
         </div>
 
     </div>
@@ -444,20 +474,41 @@
 
         {{-- Ticket: datalabels หมุน -90° ต้องมี top padding → ต้องสูงพอ --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <p class="text-md font-semibold text-gray-600 mb-2">Ticket Open vs Close</p>
-            <div class="ud-chart-wrap ud-h-280"><canvas id="ud-ticket-chart"></canvas></div>
+            <div class="flex items-center gap-4 mb-2">
+                <p class="text-md font-semibold text-gray-600">Ticket Open vs Close</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-ticket-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
+            <div class="ud-chart-wrap ud-h-280">
+                <canvas id="ud-ticket-chart"></canvas>
+            </div>
         </div>
 
         {{-- Contract: line 12 เดือน 2 เส้น datalabels ด้านบน --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <p class="text-md font-semibold text-gray-600 mb-2">Contract Center Trend</p>
-            <div class="ud-chart-wrap ud-h-280"><canvas id="ud-contract-chart"></canvas></div>
+            <div class="flex items-center gap-4 mb-2">
+                <p class="text-md font-semibold text-gray-600">Contract Center Trend</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-contract-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
+            <div class="ud-chart-wrap ud-h-280">
+                <canvas id="ud-contract-chart"></canvas>
+            </div>
         </div>
 
         {{-- Daily: datalabels หนาแน่น ต้องสูงพอให้ไม่ทับกัน --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <p class="text-md font-semibold text-gray-600 mb-2">Daily Performance ({{ now()->format('F') }})</p>
-            <div class="ud-chart-wrap ud-h-280"><canvas id="ud-daily-chart"></canvas></div>
+            <div class="flex items-center gap-4 mb-2">
+                <p class="text-md font-semibold text-gray-600">Daily Performance ({{ now()->format('F') }})</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-daily-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
+            <div class="ud-chart-wrap ud-h-280">
+                <canvas id="ud-daily-chart"></canvas>
+            </div>
         </div>
 
     </div>
@@ -581,9 +632,9 @@
                 'over_30': d.days_over_30 ?? 0
             }));
 
-        const udInhouseRows = normalizeAgingRows(rawInhouseData);
-        const udAscRows = normalizeAgingRows(rawAscData);
-        const udRegionRows = normalizeAgingRows(rawRegionData);
+        const udInhouseRows = normalizeAgingRows(rawInhouseData).sort((a, b) => a.label.localeCompare(b.label));
+        const udAscRows = normalizeAgingRows(rawAscData).sort((a, b) => a.label.localeCompare(b.label));
+        const udRegionRows = normalizeAgingRows(rawRegionData).sort((a, b) => a.label.localeCompare(b.label));
 
         // คำนวณ height ตามจำนวน rows: rowHeight × n + legend
         const dynamicHeight = (rows, rowH = 38, legendH = 40) => Math.max(120, rows.length * rowH + legendH);
@@ -835,7 +886,7 @@
                 },
                 layout: {
                     padding: {
-                        top: 16
+                        top: 25
                     }
                 },
             },
@@ -1142,97 +1193,97 @@
             },
         });
 
-        const productKeys = ['Smart Technology', 'Home appliances', 'Sanitary'];
-        const productLabels = ['Smart Tech', 'Home Appl.', 'Sanitary'];
-        new Chart(document.getElementById('ud-product-aging-chart'), {
-            type: 'bar',
-            data: {
-                labels: productLabels,
-                datasets: [{
-                        label: '0-3 Days',
-                        data: productKeys.map(p => rawProductData[p]?.['0-3'] ?? 0),
-                        backgroundColor: AG[0]
-                    },
-                    {
-                        label: '4-7 Days',
-                        data: productKeys.map(p => rawProductData[p]?.['4-7'] ?? 0),
-                        backgroundColor: AG[1]
-                    },
-                    {
-                        label: '8-15 Days',
-                        data: productKeys.map(p => rawProductData[p]?.['8-15'] ?? 0),
-                        backgroundColor: AG[2]
-                    },
-                    {
-                        label: '16-30 Days',
-                        data: productKeys.map(p => rawProductData[p]?.['16-30'] ?? 0),
-                        backgroundColor: AG[3]
-                    },
-                    {
-                        label: 'Over 30',
-                        data: productKeys.map(p => rawProductData[p]?.['over_30'] ?? 0),
-                        backgroundColor: AG[4]
-                    },
-                ],
-            },
-            plugins: [ChartDataLabels],
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 8,
-                            font: {
-                                size: 12
-                            },
-                            padding: 4
-                        },
-                    },
-                    datalabels: {
-                        display: ctx => (ctx.dataset.data[ctx.dataIndex] ?? 0) > 0,
-                        anchor: 'center',
-                        align: 'center',
-                        color: '#fff',
-                        font: {
-                            size: 9,
-                            weight: 'bold'
-                        },
-                        formatter: v => v > 0 ? v : '',
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false
-                    },
-                },
-                scales: {
-                    x: {
-                        stacked: true,
-                        display: false,
-                        beginAtZero: true
-                    },
-                    y: {
-                        stacked: true,
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 12
-                            }
-                        }
-                    },
-                },
-                layout: {
-                    padding: {
-                        right: 8
-                    }
-                },
-            },
-        });
+        // const productKeys = ['Smart Technology', 'Home appliances', 'Sanitary'];
+        // const productLabels = ['Smart Tech', 'Home Appl.', 'Sanitary'];
+        // new Chart(document.getElementById('ud-product-aging-chart'), {
+        //     type: 'bar',
+        //     data: {
+        //         labels: productLabels,
+        //         datasets: [{
+        //                 label: '0-3 Days',
+        //                 data: productKeys.map(p => rawProductData[p]?.['0-3'] ?? 0),
+        //                 backgroundColor: AG[0]
+        //             },
+        //             {
+        //                 label: '4-7 Days',
+        //                 data: productKeys.map(p => rawProductData[p]?.['4-7'] ?? 0),
+        //                 backgroundColor: AG[1]
+        //             },
+        //             {
+        //                 label: '8-15 Days',
+        //                 data: productKeys.map(p => rawProductData[p]?.['8-15'] ?? 0),
+        //                 backgroundColor: AG[2]
+        //             },
+        //             {
+        //                 label: '16-30 Days',
+        //                 data: productKeys.map(p => rawProductData[p]?.['16-30'] ?? 0),
+        //                 backgroundColor: AG[3]
+        //             },
+        //             {
+        //                 label: 'Over 30',
+        //                 data: productKeys.map(p => rawProductData[p]?.['over_30'] ?? 0),
+        //                 backgroundColor: AG[4]
+        //             },
+        //         ],
+        //     },
+        //     plugins: [ChartDataLabels],
+        //     options: {
+        //         indexAxis: 'y',
+        //         responsive: true,
+        //         maintainAspectRatio: false,
+        //         plugins: {
+        //             legend: {
+        //                 display: true,
+        //                 position: 'bottom',
+        //                 labels: {
+        //                     boxWidth: 8,
+        //                     font: {
+        //                         size: 12
+        //                     },
+        //                     padding: 4
+        //                 },
+        //             },
+        //             datalabels: {
+        //                 display: ctx => (ctx.dataset.data[ctx.dataIndex] ?? 0) > 0,
+        //                 anchor: 'center',
+        //                 align: 'center',
+        //                 color: '#fff',
+        //                 font: {
+        //                     size: 9,
+        //                     weight: 'bold'
+        //                 },
+        //                 formatter: v => v > 0 ? v : '',
+        //             },
+        //             tooltip: {
+        //                 mode: 'index',
+        //                 intersect: false
+        //             },
+        //         },
+        //         scales: {
+        //             x: {
+        //                 stacked: true,
+        //                 display: false,
+        //                 beginAtZero: true
+        //             },
+        //             y: {
+        //                 stacked: true,
+        //                 grid: {
+        //                     display: false
+        //                 },
+        //                 ticks: {
+        //                     font: {
+        //                         size: 12
+        //                     }
+        //                 }
+        //             },
+        //         },
+        //         layout: {
+        //             padding: {
+        //                 right: 8
+        //             }
+        //         },
+        //     },
+        // });
 
         // ── Section 5: Trend Charts ──
         const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
