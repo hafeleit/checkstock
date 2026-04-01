@@ -307,13 +307,13 @@
             <div class="col-4">
               <p class="mt-3">Name</p>
               <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown?->userMaster?->name_en ?? '' }}</p>
+                <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown?->owner?->name_en ?? '' }}</p>
               </div>
             </div>
             <div class="col-5">
               <p class="mt-3">Department</p>
               <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
-                <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown?->userMaster?->dept ?? '' }}</p>
+                <p class="text-sm font-weight-bold my-auto ps-sm-2">{{ $itassetown?->owner?->dept ?? '' }}</p>
               </div>
             </div>
           </div>
