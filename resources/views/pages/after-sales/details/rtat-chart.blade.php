@@ -31,19 +31,18 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-400 uppercase tracking-widest font-semibold">RTAT Tickets</p>
-                        <p class="text-lg font-bold text-gray-800 mt-0.5">{{ number_format($tickets->total()) }} <span class="text-sm font-normal text-gray-400">tickets</span></p>
+                        <p class="text-lg font-bold text-gray-800 mt-0.5">{{ number_format($tickets->total()) }} <span class="text-sm font-normal text-gray-400">tickets</span> | {{ number_format($activeRegion === 'Bangkok Metropolitan' ? $rtatData['total_bkk_days'] : $rtatData['total_all_days'], 1) }} <span class="text-sm font-normal text-gray-400">days</span></p>
                     </div>
                 </div>
 
                 {{-- Region Filter --}}
                 @php
-                    $regions = ['Bangkok Metropolitan', 'Central', 'Eastern', 'Northern', 'Northeastern', 'Southern', 'Western'];
+                    $regions = ['Bangkok Metropolitan'];
                 @endphp
                 <div class="flex flex-wrap gap-1.5 mt-2">
                     <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeRegion ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
                     @foreach ($regions as $region)
-                        <a href="?region={{ urlencode($region) }}"
-                           class="px-2 py-1 rounded text-xs font-semibold {{ $activeRegion === $region ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                        <a href="?region={{ urlencode($region) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeRegion === $region ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
                             {{ $region }}
                         </a>
                     @endforeach

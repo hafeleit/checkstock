@@ -25,16 +25,12 @@
             'label' => 'CSI',
             'value' => "{$csiSatPct}%",
             'target' => '95.0%',
-            'grade' => 'B',
-            'grade_color' => 'yellow',
         ],
         [
             'id' => 'ud-rtat-chart',
             'label' => 'R_TAT',
             'value' => $rtat['overall'],
             'target' => '8.9 days',
-            'grade' => 'B',
-            'grade_color' => 'yellow',
             'sub' => "BKK: {$rtat['bkk']} (TG 3.0)",
         ],
         [
@@ -42,22 +38,13 @@
             'label' => 'LTP',
             'value' => "{$ltp}%",
             'target' => '70.0%',
-            'grade' => 'C',
-            'grade_color' => 'red',
         ],
         [
             'id' => 'ud-ftf-chart',
             'label' => 'FTF',
             'value' => "{$ftf}%",
             'target' => '80.0%',
-            'grade' => 'A',
-            'grade_color' => 'green',
         ],
-    ];
-    $gradeBadge = [
-        'yellow' => 'bg-yellow-100 text-yellow-700',
-        'red' => 'bg-red-100 text-red-700',
-        'green' => 'bg-green-100 text-green-700',
     ];
 @endphp
 
@@ -173,7 +160,6 @@
                     <p class="text-md text-gray-400 uppercase tracking-widest font-semibold">{{ $kpi['label'] }}</p>
                     <div class="flex items-baseline gap-2 mt-0.5">
                         <span class="text-xl font-bold text-gray-800">{{ $kpi['value'] }}</span>
-                        <span class="text-md font-bold px-1.5 py-0.5 rounded {{ $gradeBadge[$kpi['grade_color']] }}">Grade {{ $kpi['grade'] }}</span>
                     </div>
                     <p class="text-md text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">{{ $kpi['target'] }}</span></p>
                     @isset($kpi['sub'])
@@ -360,6 +346,24 @@
     {{-- Row A (2 cols equal): Reason | Pending Overview --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3">
 
+        {{-- Pending Overview --}}
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+            <div class="flex items-center gap-4 mb-2">
+                <p class="text-md font-semibold text-gray-600">Pending Overview (ASC vs Hafele)</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-overview-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
+            <div class="ud-pending-flex">
+                <div class="ud-pie-wrap">
+                    <canvas id="ud-pending-pie"></canvas>
+                </div>
+                <div class="ud-bar-flex">
+                    <canvas id="ud-pending-bar"></canvas>
+                </div>
+            </div>
+        </div>
+
         {{-- Reason — 6 rows stacked aging --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
             <div class="flex items-center gap-4 mb-2">
@@ -374,28 +378,22 @@
             </div>
         </div>
 
-        {{-- Pending Overview --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div class="flex items-center gap-4 mb-2">
-                <p class="text-md font-semibold text-gray-600">Pending Overview (ASC vs Hafele)</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-overview-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
-                </a>
-            </div>
-            <div class="ud-pending-flex">
-                <div class="ud-pie-wrap"><canvas id="ud-pending-pie"></canvas></div>
-                <div class="ud-bar-flex"><canvas id="ud-pending-bar"></canvas></div>
-            </div>
-        </div>
-
     </div>
 
     {{-- Row B (2 cols equal): Status | Region --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3">
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <p class="text-md font-semibold text-gray-600 mb-2">Status Overview (by Aging)</p>
-            <div class="ud-chart-wrap ud-h-200"><canvas id="ud-status-chart"></canvas></div>
+            <div class="flex items-center gap-4 mb-2">
+                <p class="text-md font-semibold text-gray-600">Status Overview (by Aging)</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-status-overview-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    View Detail →
+                </a>
+            </div>
+            
+            <div class="ud-chart-wrap ud-h-200">
+                <canvas id="ud-status-chart"></canvas>
+            </div>
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
