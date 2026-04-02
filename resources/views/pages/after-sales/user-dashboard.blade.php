@@ -30,14 +30,14 @@
             'id' => 'ud-rtat-chart',
             'label' => 'R_TAT',
             'value' => $rtat['overall'],
-            'target' => '8.9 days',
+            'target' => '< 7 days',
             'sub' => "BKK: {$rtat['bkk']} (TG 3.0)",
         ],
         [
             'id' => 'ud-ltp-chart',
             'label' => 'LTP',
             'value' => "{$ltp}%",
-            'target' => '70.0%',
+            'target' => '14.0%',
         ],
         [
             'id' => 'ud-ftf-chart',
@@ -894,8 +894,8 @@
 
         // ── Section 1: KPI Doughnuts ──
         makeKpiDoughnut('ud-csi-chart', Math.round(Math.min(100, Math.max(0, 100 * {{ $csiSatPct }} / 95))));
-        makeKpiDoughnut('ud-rtat-chart', Math.round(Math.min(100, Math.max(0, 100 * {{ $rtat['overall'] ?? 0 }} / 8.9))));
-        makeKpiDoughnut('ud-ltp-chart', Math.round(Math.min(100, Math.max(0, 100 * {{ $ltp ?? 0 }} / 70))));
+        makeKpiDoughnut('ud-rtat-chart', Math.round(Math.min(100, Math.max(0, (7 / {{ $rtat['overall'] ?? 0 }}) * 100))));
+        makeKpiDoughnut('ud-ltp-chart', Math.round(Math.min(100, Math.max(0, 100 * {{ $ltp ?? 0 }} / 14))));
         makeKpiDoughnut('ud-ftf-chart', Math.round(Math.min(100, Math.max(0, 100 * {{ $ftf ?? 0 }} / 80))));
 
         // ── Section 3: CSI Charts ──

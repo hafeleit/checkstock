@@ -147,12 +147,6 @@
                     <canvas id="inhouse-pending-chart"></canvas>
                 </div>
             </div>
-            <div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm flex flex-col min-h-0">
-                <h3 class="text-xs font-semibold text-gray-700 mb-0.5 flex-shrink-0">Pending by Product</h3>
-                <div class="flex-1 min-h-0">
-                    <canvas id="pending-product-aging-chart"></canvas>
-                </div>
-            </div>
         </div>
     </div>
 </div>

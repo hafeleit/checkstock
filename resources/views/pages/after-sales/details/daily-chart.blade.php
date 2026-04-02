@@ -50,47 +50,28 @@
                     <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider">
                         <tr>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
-                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Code</th>
                             <th class="px-3 py-2 text-left font-semibold w-40">Name</th>
-                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
-                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
-                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date Modified</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Type</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date Entered</th>
+                            <th class="px-3 py-2 text-left font-semibold">Description</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        @php
-                            $statusClass = fn($s) => match ($s ?? '') {
-                                'In_progress'    => 'bg-blue-100 text-blue-700',
-                                'Open'           => 'bg-yellow-100 text-yellow-700',
-                                'Pending_Reason' => 'bg-orange-100 text-orange-700',
-                                'Closed'         => 'bg-green-100 text-green-700',
-                                default          => 'bg-gray-100 text-gray-500',
-                            };
-                            $statusLabel = fn($s) => match ($s ?? '') {
-                                'In_progress'    => 'In Progress',
-                                'Pending_Reason' => 'Pending',
-                                'Closed'         => 'Closed',
-                                default          => $s ?? '-',
-                            };
-                        @endphp
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-3 py-2 text-gray-400 whitespace-nowrap">
                                     {{ $tickets->firstItem() + $loop->index }}
                                 </td>
                                 <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">
-                                    {{ $ticket->ticket_number ?? '-' }}
+                                    {{ $ticket->code ?? '-' }}
                                 </td>
                                 <td class="px-3 py-2 text-gray-600 max-w-[10rem] truncate">{{ $ticket->name ?? '-' }}</td>
-                                <td class="px-3 py-2 whitespace-nowrap">
-                                    <span class="px-1.5 py-0.5 rounded font-semibold {{ $statusClass($ticket->status) }}">{{ $statusLabel($ticket->status) }}</span>
-                                </td>
+                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $ticket->type ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600 whitespace-nowrap">
-                                    {{ \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y H:i:s') }}
+                                    {{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y H:i:s') : '-' }}
                                 </td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">
-                                    {{ \Carbon\Carbon::parse($ticket->date_modified)->format('d/m/Y H:i:s') }}
-                                </td>
+                                <td class="px-3 py-2 text-gray-600 max-w-[16rem] truncate">{{ $ticket->description ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>

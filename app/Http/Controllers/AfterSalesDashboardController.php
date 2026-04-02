@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HthAfterSaleTicket;
 use App\Models\HthAssSurvey;
+use App\Models\HthContactCenter;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -590,18 +591,18 @@ class AfterSalesDashboardController extends Controller
             $activeMonth = request('month');
             $activeYear = request('year');
 
-            $tickets = HthAfterSaleTicket::query()
-                ->when($activeYear, fn($q) => $q->whereYear('release_date', $activeYear))
-                ->when($activeMonth, fn($q) => $q->whereMonth('release_date', $activeMonth))
-                ->where(fn($q) => $q->whereYear('release_date', now()->year)->orWhereYear('release_date', now()->subYear()->year))
+            $tickets = HthContactCenter::query()
+                ->when($activeYear, fn($q) => $q->whereYear('date_entered', $activeYear))
+                ->when($activeMonth, fn($q) => $q->whereMonth('date_entered', $activeMonth))
+                ->where(fn($q) => $q->whereYear('date_entered', now()->year)->orWhereYear('date_entered', now()->subYear()->year))
                 ->where('deleted', 0)
-                ->whereNot('release_date', '>', now())
+                ->whereNot('date_entered', '>', now())
                 ->select([
-                    'ticket_number',
+                    'code',
                     'name',
-                    'release_date',
-                    'date_modified',
-                    'status',
+                    'date_entered',
+                    'description',
+                    'type'
                 ])
                 ->paginate(15)
                 ->withQueryString();
@@ -616,19 +617,19 @@ class AfterSalesDashboardController extends Controller
             $dailyData = $this->calculateContractCenterDaily(now()->month, now()->year);
             $activeShift = request('shift');
 
-            $tickets = HthAfterSaleTicket::query()
-                ->whereMonth('release_date', now()->month)
-                ->whereYear('release_date', now()->year)
+            $tickets = HthContactCenter::query()
+                ->whereMonth('date_entered', now()->month)
+                ->whereYear('date_entered', now()->year)
                 ->where('deleted', 0)
-                ->whereNot('release_date', '>', now())
-                ->when($activeShift === 'day', fn($q) => $q->whereTime('release_date', '>=', '08:00:00')->whereTime('release_date', '<', '17:00:00'))
-                ->when($activeShift === 'night', fn($q) => $q->where(fn($q) => $q->whereTime('release_date', '>=', '17:00:00')->orWhereTime('release_date', '<', '08:00:00')))
+                ->whereNot('date_entered', '>', now())
+                ->when($activeShift === 'day', fn($q) => $q->whereTime('date_entered', '>=', '08:00:00')->whereTime('date_entered', '<', '17:00:00'))
+                ->when($activeShift === 'night', fn($q) => $q->where(fn($q) => $q->whereTime('date_entered', '>=', '17:00:00')->orWhereTime('date_entered', '<', '08:00:00')))
                 ->select([
-                    'ticket_number',
+                    'code',
                     'name',
-                    'release_date',
-                    'date_modified',
-                    'status',
+                    'date_entered',
+                    'description',
+                    'type'
                 ])
                 ->paginate(15)
                 ->withQueryString();
@@ -639,7 +640,7 @@ class AfterSalesDashboardController extends Controller
                 'activeShift' => $activeShift,
             ]);
         } else {
-            dd($chart);
+            abort(404);
         }
     }
 
@@ -672,6 +673,7 @@ class AfterSalesDashboardController extends Controller
             })
             ->selectRaw('COUNT(*) as total, SUM(DATEDIFF(date_modified, release_date)) as total_days')
             ->first();
+            // dd($result, $bkkResult);
 
         return [
             'overall' => $result->total > 0
@@ -721,7 +723,9 @@ class AfterSalesDashboardController extends Controller
             ->whereMonth('date_modified', $month)
             ->whereYear('date_modified', $year)
             ->whereNot('release_date', '>', now())
+            ->where('status', 'Closed')
             ->where('deleted', 0)
+            ->whereIn('type', ['R', 'I'])
             ->count();
 
         $survey = HthAssSurvey::query()
@@ -792,12 +796,11 @@ class AfterSalesDashboardController extends Controller
         $currentMonth = now()->month;
         $prevYear = $year - 1;
 
-        $queryRows = fn(int $y) => HthAfterSaleTicket::query()
-            ->whereYear('release_date', $y)
-            ->whereNot('release_date', '>', now())
+        $queryRows = fn(int $y) => HthContactCenter::query()
+            ->whereYear('date_entered', $y)
             ->where('deleted', 0)
-            ->selectRaw('MONTH(release_date) as month, COUNT(*) as total')
-            ->groupByRaw('MONTH(release_date)')
+            ->selectRaw('MONTH(date_entered) as month, COUNT(*) as total')
+            ->groupByRaw('MONTH(date_entered)')
             ->get()
             ->keyBy('month');
 
@@ -827,18 +830,17 @@ class AfterSalesDashboardController extends Controller
         $daysInMonth = now()->setYear($year)->setMonth($month)->daysInMonth;
         $maxDay = ($year === now()->year && $month === now()->month) ? now()->day : $daysInMonth;
 
-        $rows = HthAfterSaleTicket::query()
-            ->whereYear('release_date', $year)
-            ->whereMonth('release_date', $month)
-            ->whereNot('release_date', '>', now())
+        $rows = HthContactCenter::query()
+            ->whereYear('date_entered', $year)
+            ->whereMonth('date_entered', $month)
             ->where('deleted', 0)
             ->selectRaw("
-                DAY(release_date) as day,
-                COUNT(CASE WHEN TIME(release_date) >= '08:00:00' AND TIME(release_date) < '17:00:00' THEN 1 END) as day_shift,
-                COUNT(CASE WHEN TIME(release_date) < '08:00:00' OR TIME(release_date) >= '17:00:00' THEN 1 END) as night_shift
+                DAY(date_entered) as day,
+                COUNT(CASE WHEN TIME(date_entered) >= '08:00:00' AND TIME(date_entered) < '17:00:00' THEN 1 END) as day_shift,
+                COUNT(CASE WHEN TIME(date_entered) < '08:00:00' OR TIME(date_entered) >= '17:00:00' THEN 1 END) as night_shift
             ")
-            ->groupByRaw('DAY(release_date)')
-            ->orderByRaw('DAY(release_date)')
+            ->groupByRaw('DAY(date_entered)')
+            ->orderByRaw('DAY(date_entered)')
             ->get()
             ->keyBy('day');
 

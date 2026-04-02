@@ -26,7 +26,6 @@
                 <p class="text-xs text-gray-400 uppercase tracking-widest font-semibold">CSI</p>
                 <div class="flex items-baseline gap-1 mt-0.5">
                     <span class="text-lg font-bold text-gray-800">{{ $csiSatPct }}%</span>
-                    <span class="text-sm font-bold px-1 py-0.5 rounded bg-yellow-100 text-yellow-700">Grade B</span>
                 </div>
                 <p class="text-xs text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">95.0%</span></p>
             </div>
@@ -41,9 +40,8 @@
                 <p class="text-xs text-gray-400 uppercase tracking-widest font-semibold">R_TAT</p>
                 <div class="flex items-baseline gap-1 mt-0.5">
                     <span class="text-lg font-bold text-gray-800">{{ $rtat['overall'] }}</span>
-                    <span class="text-sm font-bold px-1 py-0.5 rounded bg-yellow-100 text-yellow-700">Grade B</span>
                 </div>
-                <p class="text-xs text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">8.9 days</span></p>
+                <p class="text-xs text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">< 7 days</span></p>
                 <div class="flex items-center gap-1.5 mt-0.5 pt-0.5 border-t border-gray-100">
                     <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">BKK</span>
                     <span class="text-xs text-gray-400">TG: <span class="font-semibold text-gray-600">3.0</span></span>
@@ -62,9 +60,8 @@
                 <p class="text-xs text-gray-400 uppercase tracking-widest font-semibold">LTP</p>
                 <div class="flex items-baseline gap-1 mt-0.5">
                     <span class="text-lg font-bold text-gray-800">{{ $ltp }}%</span>
-                    <span class="text-sm font-bold px-1 py-0.5 rounded bg-red-100 text-red-700">Grade C</span>
                 </div>
-                <p class="text-xs text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">70.0%</span></p>
+                <p class="text-xs text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">14.0%</span></p>
             </div>
         </div>
 
@@ -77,7 +74,6 @@
                 <p class="text-xs text-gray-400 uppercase tracking-widest font-semibold">FTF</p>
                 <div class="flex items-baseline gap-1 mt-0.5">
                     <span class="text-lg font-bold text-gray-800">{{ $ftf }}%</span>
-                    <span class="text-sm font-bold px-1 py-0.5 rounded bg-green-100 text-green-700">Grade A</span>
                 </div>
                 <p class="text-xs text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">80.0%</span></p>
             </div>
@@ -312,7 +308,7 @@
                 },
                 layout: {
                     padding: {
-                        top: 16
+                        top: 25
                     }
                 },
             },
@@ -359,8 +355,8 @@
         });
 
         // ── KPI Charts ────────────────────────────────────────────────────────────
-        const rtatScore = Math.round(Math.min(100, Math.max(0, 100 * dashboardData.rtat / 8.9)));
-        const ltpScore = Math.round(Math.min(100, Math.max(0, 100 * dashboardData.ltp / 70)));
+        const rtatScore = Math.round(Math.min(100, Math.max(0, (7 / dashboardData.rtat) * 100)));
+        const ltpScore = Math.round(Math.min(100, Math.max(0, 100 * dashboardData.ltp / 14)));
         const ftfScore = Math.round(Math.min(100, Math.max(0, 100 * dashboardData.ftf / 80)));
 
         createKPIDoughnut('rtat-chart', rtatScore);
