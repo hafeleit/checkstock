@@ -270,36 +270,6 @@
     $("#products-list").DataTable();
   });
 
-  document.querySelectorAll('.export-itasset-btn').forEach(button => {
-        button.addEventListener('click', async function () {
-            const loader = document.getElementById('loader-wrapper');
-            try {
-                loader.classList.remove('loader-hidden');
-                loader.style.display = 'flex';
-                const url = this.dataset.url;
-                const filename = this.dataset.filename;
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error('Export failed');
-                }
-                const blob = await response.blob();
-                const downloadUrl = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = downloadUrl;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                window.URL.revokeObjectURL(downloadUrl);
-            } catch (error) {
-                alert('Export error');
-                console.error(error);
-            } finally {
-                loader.classList.add('loader-hidden');
-                loader.style.display = 'none';
-            }
-        });
-    });
 </script>
 
 @endsection

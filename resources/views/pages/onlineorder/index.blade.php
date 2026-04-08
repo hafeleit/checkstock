@@ -83,13 +83,13 @@
                       <td class="text-sm">{{$order->filename}} </td>
 
                       <td class="text-sm">
-                        <a href={{route('onlineorder-download',$order->filename)}} data-bs-toggle="tooltip" data-bs-original-title="Download">
+                        <a href="#" data-url="{{ route('onlineorder-download', $order->filename) }}" data-filename="{{ $order->filename }}" data-bs-toggle="tooltip" data-bs-original-title="Download" class="export-btn">
                           <i class="ni ni-archive-2 text-dark" aria-hidden="true"> Download</i>
                         </a>
                       </td>
                       <td class="text-sm">
                         @if(file_exists(storage_path('app/export/orders/'.'SAP_'.$order->filename)))
-                        <a href={{route('onlineorder-download','SAP_'.$order->filename)}} data-bs-toggle="tooltip" data-bs-original-title="Download">
+                        <a href="#" data-url="{{ route('onlineorder-download', 'SAP_'.$order->filename) }}" data-filename="{{ 'SAP_'.$order->filename }}" data-bs-toggle="tooltip" data-bs-original-title="Download" class="export-btn">
                           <i class="ni ni-archive-2 text-dark" aria-hidden="true"> Download</i>
                         </a>
                         @else
@@ -98,7 +98,7 @@
                       </td>
                       <td class="text-sm">
                         @if(file_exists(storage_path('app/export/orders/'.'SAP_EX_'.$order->filename)))
-                        <a href={{route('onlineorder-download','SAP_EX_'.$order->filename)}} data-bs-toggle="tooltip" data-bs-original-title="Download">
+                        <a href="#" data-url="{{ route('onlineorder-download', 'SAP_EX_'.$order->filename) }}" data-filename="{{ 'SAP_EX_'.$order->filename }}" data-bs-toggle="tooltip" data-bs-original-title="Download" class="export-btn">
                           <i class="ni ni-archive-2 text-dark" aria-hidden="true"> Download</i>
                         </a>
                         @else
