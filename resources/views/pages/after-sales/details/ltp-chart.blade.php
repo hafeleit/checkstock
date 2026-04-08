@@ -21,7 +21,7 @@
                 <div class="flex items-baseline gap-1 mt-0.5">
                     <span class="text-lg font-bold text-gray-800">{{ $ltpData }}%</span>
                 </div>
-                <p class="text-sm text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">70.0%</span></p>
+                <p class="text-sm text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">14.0%</span></p>
             </div>
         </div>
 
@@ -161,7 +161,7 @@
                 },
             });
 
-            const ltpScore = Math.round(Math.min(100, Math.max(0, 100 * {{ $ltpData ?? 0 }} / 70)));
+            const ltpScore = Math.round(Math.min(100, Math.max(0, 100 * {{ $ltpData ?? 0 }} / 14)));
             createKPIDoughnut('detail-ltp-chart', ltpScore);
         </script>
     @endpush

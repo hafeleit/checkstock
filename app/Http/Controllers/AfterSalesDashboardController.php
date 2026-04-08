@@ -201,6 +201,7 @@ class AfterSalesDashboardController extends Controller
 
             $query = HthAfterSaleTicket::query()
                 ->where('deleted', 0)
+                ->whereNot('release_date', '>', now())
                 ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason']);
 
             if ($activeAging === '0-3') {
@@ -828,7 +829,7 @@ class AfterSalesDashboardController extends Controller
     private function calculateContractCenterDaily(int $month, int $year)
     {
         $daysInMonth = now()->setYear($year)->setMonth($month)->daysInMonth;
-        $maxDay = ($year === now()->year && $month === now()->month) ? now()->day : $daysInMonth;
+        $maxDay = $daysInMonth;
 
         $rows = HthContactCenter::query()
             ->whereYear('date_entered', $year)

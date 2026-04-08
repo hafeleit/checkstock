@@ -10,17 +10,24 @@
                 <canvas id="detail-rtat-chart"></canvas>
             </div>
             <div>
-                <p class="text-md text-gray-400 uppercase tracking-widest font-semibold">R_TAT</p>
+                <p class="text-md text-gray-400 uppercase tracking-widest font-semibold">
+                    R_TAT{{ $activeRegion === 'Bangkok Metropolitan' ? ' — BKK' : '' }}
+                </p>
                 <div class="flex items-baseline gap-1 mt-0.5">
-                    <span class="text-lg font-bold text-gray-800">{{ number_format($rtatData['overall'], 1) }}</span>
+                    <span class="text-lg font-bold text-gray-800">
+                        {{ $activeRegion === 'Bangkok Metropolitan' ? number_format($rtatData['bkk'], 1) : number_format($rtatData['overall'], 1) }}
+                    </span>
+                    <span class="text-sm text-gray-400">days</span>
                 </div>
-                <p class="text-sm text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">8.9 days</span></p>
+                <p class="text-sm text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">{{ $activeRegion === 'Bangkok Metropolitan' ? '< 3 days' : '< 7 days' }}</span></p>
+                @if ($activeRegion !== 'Bangkok Metropolitan')
                 <div class="flex items-center gap-1.5 mt-0.5 pt-0.5 border-t border-gray-100">
                     <span class="text-sm font-bold text-gray-400 uppercase tracking-wider">BKK</span>
-                    <span class="text-sm text-gray-400">TG: <span class="font-semibold text-gray-600">3.0</span></span>
+                    <span class="text-sm text-gray-400">TG: <span class="font-semibold text-gray-600">< 3</span></span>
                     <span class="text-gray-300">|</span>
                     <span class="text-sm text-gray-400">Act: <span class="font-semibold text-rose-500">{{ number_format($rtatData['bkk'], 1) }}</span></span>
                 </div>
+                @endif
             </div>
         </div>
 
@@ -30,7 +37,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-400 uppercase tracking-widest font-semibold">RTAT Tickets</p>
-                        <p class="text-lg font-bold text-gray-800 mt-0.5">{{ number_format($tickets->total()) }} <span class="text-sm font-normal text-gray-400">tickets</span> | {{ number_format($activeRegion === 'Bangkok Metropolitan' ? $rtatData['total_bkk_days'] : $rtatData['total_all_days'], 1) }} <span class="text-sm font-normal text-gray-400">days</span></p>
+                        <p class="text-lg font-bold text-gray-800 mt-0.5">{{ number_format($tickets->total()) }} <span class="text-sm font-normal text-gray-400">tickets</span> | {{ number_format($activeRegion === 'Bangkok Metropolitan' ? $rtatData['total_bkk_days'] : $rtatData['total_all_days'], 0) }} <span class="text-sm font-normal text-gray-400">days</span></p>
                     </div>
                 </div>
 
@@ -177,7 +184,10 @@
             });
 
             const rtatData = {!! json_encode($rtatData) !!};
-            const rtatScore = Math.round(Math.min(100, Math.max(0, 100 * rtatData['overall'] / 8.9)));
+            const isBkk = @json($activeRegion === 'Bangkok Metropolitan');
+            const rtatValue = isBkk ? rtatData.bkk : rtatData.overall;
+            const rtatTarget = isBkk ? 3 : 7;
+            const rtatScore = Math.round(Math.min(100, Math.max(0, (rtatTarget / rtatValue) * 100)));
             createKPIDoughnut('detail-rtat-chart', rtatScore);
         </script>
     @endpush
