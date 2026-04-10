@@ -60,7 +60,7 @@ Route::get('picking', [logincontroller::class, 'picking']);
 Route::get('test_db_crm', [homecontroller::class, 'test_db']);
 
 // protected routes (requires authentication and status check)
-Route::middleware(['auth', 'check.status'])->group(function () {
+Route::middleware(['auth', 'check.status', 'force.password.change'])->group(function () {
   // dashboard & user profile
   Route::get('/clr_dashboard', [homecontroller::class, 'clr_dashboard'])->name('clr_dashboard');
   Route::get('/change-password', [changepassword::class, 'show'])->name('change-password');
