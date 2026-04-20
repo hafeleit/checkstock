@@ -187,7 +187,7 @@
                 <input type="hidden" name="redirect" value="{{ request()->query('redirect') }}">
 
                 <div class="input-group-glass">
-                    <input autofocus type="text" name="email" class="form-control" placeholder="Email address" value="{{ old('email') ?? '' }}" autocomplete="off">
+                    <input autofocus type="text" name="email" class="form-control" placeholder="Username" value="{{ old('email') ?? '' }}" autocomplete="off">
                     @error('email')
                         <p class="text-danger-glass">{{ $message }}</p>
                     @enderror
