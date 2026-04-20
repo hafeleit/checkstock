@@ -17,7 +17,7 @@ class ForcePasswordChange
             $allowedRoutes = ['change-password', 'change.perform', 'logout'];
 
             if (!in_array($request->route()?->getName(), $allowedRoutes)) {
-                return redirect()->route('change-password')->with('warning', 'กรุณาเปลี่ยนรหัสผ่านก่อนใช้งานระบบ');
+                return redirect()->route('change-password')->with('error', 'Password expired. Please change your password to proceed.');
             }
         }
 
