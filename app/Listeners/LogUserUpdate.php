@@ -28,7 +28,7 @@ class LogUserUpdate
             'status' => $event->status,
             'auditable_type' => 'App\Models\User',
             'auditable_id' => $event->userCreatedId,
-            'new_values' => json_encode($event->newValues),
+            'new_values' => isset($event->newValues['password']) ? null : json_encode($event->newValues),
             'old_values' => json_encode($event->oldValues),
             'error_message' => $event->errorMessage,
         ]);
