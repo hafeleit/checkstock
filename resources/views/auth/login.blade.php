@@ -35,7 +35,7 @@
             color: #1a1a1a;
             margin-bottom: 0;
             letter-spacing: -0.3px;
-            margin-right: -20px;
+            margin-right: -25px;
         }
 
         .login-subtitle {
