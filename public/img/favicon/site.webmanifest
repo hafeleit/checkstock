@@ -1,6 +1,6 @@
 {
-  "name": "Häfele App (TH)",
-  "short_name": "Häfele App (TH)",
+  "name": "Häfele App",
+  "short_name": "Häfele App",
   "icons": [
     {
       "src": "/img/favicon/web-app-manifest-192x192.png",
