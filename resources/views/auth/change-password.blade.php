@@ -34,7 +34,8 @@
             font-weight: 700;
             color: #1a1a1a;
             margin-bottom: 0;
-            letter-spacing: -1px;
+            letter-spacing: -0.3px;
+            margin-right: -20px;
         }
 
         .login-subtitle {
