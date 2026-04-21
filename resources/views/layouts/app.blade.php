@@ -180,13 +180,17 @@
 
     {{-- Preloader --}}
     <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-        window.addEventListener('load', function() {
+        function hideLoader() {
             const loader = document.getElementById('loader-wrapper');
             loader.classList.add('loader-hidden');
+            setTimeout(() => { loader.style.display = 'none'; }, 500);
+        }
 
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 500);
+        window.addEventListener('load', hideLoader);
+
+        // Hide preloader when page is restored (back/forward navigation)
+        window.addEventListener('pageshow', function(e) {
+            if (e.persisted) { hideLoader(); }
         });
 
         window.addEventListener('beforeunload', function() {

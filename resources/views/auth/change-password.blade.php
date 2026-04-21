@@ -213,10 +213,14 @@
                 <button type="submit" class="btn-login">Change Password</button>
             </form>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn-cancel">Cancel</button>
-            </form>
+            @if (request('from') === 'profile')
+                <a href="{{ route('profile') }}" type="submit" class="btn-cancel text-center">Cancel</a>
+            @else
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="btn-cancel">Cancel</button>
+                </form>
+            @endif
         </div>
     </div>
 
