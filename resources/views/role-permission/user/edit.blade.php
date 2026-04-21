@@ -60,6 +60,7 @@
 </style>
 
 <div class="card shadow-lg mx-4 card-profile-bottom">
+  {{--
     <div class="card-body p-3">
         <div class="row gx-4">
             <div class="col-auto">
@@ -76,6 +77,7 @@
             </div>
         </div>
     </div>
+    --}}
 </div>
 <div class="container-fluid py-4">
     <div class="row">
