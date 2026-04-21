@@ -5,9 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="apple-touch-icon" sizes="76x76" href="/img/hafele_logo.png">
+    {{--
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/hafele_logo/.png">
     <link rel="icon" type="image/png" href="/img/hafele_logo.png">
-    <title>HAFELE APPLICATION</title>
+    --}}
+
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/img/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/img/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="/img/favicon/site.webmanifest" />
+
+    <title>Häfele Application (TH)</title>
 
     <link href="{{ asset('css/font-awesome.all.min.css') }}" rel="stylesheet">
     <!-- Nucleo Icons -->
