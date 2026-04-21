@@ -116,6 +116,7 @@
         }
 
         .btn-cancel {
+            display: block;
             width: 100%;
             padding: 12px;
             border: 1px solid #e0e0e0;
@@ -126,7 +127,14 @@
             font-weight: 500;
             margin-top: 10px;
             cursor: pointer;
+            text-align: center;
+            text-decoration: none;
             transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        .btn-cancel-form {
+            margin: 0;
+            padding: 0;
         }
 
         .btn-cancel:hover {
@@ -216,7 +224,7 @@
             @if (request('from') === 'profile')
                 <a href="{{ route('profile') }}" type="submit" class="btn-cancel text-center">Cancel</a>
             @else
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ route('logout') }}" class="btn-cancel-form">
                     @csrf
                     <button type="submit" class="btn-cancel">Cancel</button>
                 </form>
