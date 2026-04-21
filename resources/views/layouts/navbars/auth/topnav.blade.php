@@ -10,15 +10,6 @@
                 </ol>
                 <h3 class="font-weight-bolder text-white mb-0">{{ $title }}</h3>
             </nav>
-            <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none me-auto" id="sidenavToggler">
-                <a href="#" class="nav-link text-body p-0">
-                    <div class="sidenav-toggler-inner">
-                        <i class="sidenav-toggler-line bg-white"></i>
-                        <i class="sidenav-toggler-line bg-white"></i>
-                        <i class="sidenav-toggler-line bg-white"></i>
-                    </div>
-                </a>
-            </div>
         </div>
 
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
