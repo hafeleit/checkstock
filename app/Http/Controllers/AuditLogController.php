@@ -25,8 +25,12 @@ class AuditLogController extends Controller
                 ->get();
 
             $allMappedData = $allLogs->flatMap(function ($log) {
-                $oldValues = json_decode($log->old_values, true) ?? [];
-                $newValues = json_decode($log->new_values, true) ?? [];
+                $oldValues = json_decode($log->old_values, true);
+                $newValues = json_decode($log->new_values, true);
+                
+                // ป้องกัน error กรณี new_values หรือ old_values เป็น null (เช่น log การเปลี่ยน password)
+                $oldValues = \is_array($oldValues) ? $oldValues : [];
+                $newValues = \is_array($newValues) ? $newValues : [];
 
                 $updates = [];
 
