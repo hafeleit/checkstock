@@ -39,7 +39,7 @@
         border-top: 1px solid #d2d6da !important;
         border-bottom: 1px solid #d2d6da !important;
         border-radius: 0;
-        
+
     }
 
     .btn-password-generate {
@@ -48,7 +48,7 @@
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
-    
+
     .input-password {
         border-right: none;
         border-top-right-radius: 0 !important;
@@ -59,6 +59,7 @@
 @include('layouts.navbars.auth.topnav', ['title' => 'Role'])
 
 <div class="card shadow-lg mx-4 card-profile-bottom">
+  {{--
     <div class="card-body p-3">
         <div class="row gx-4">
             <div class="col-auto">
@@ -75,10 +76,11 @@
             </div>
         </div>
     </div>
+    --}}
 </div>
 <div class="container-fluid py-4">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
 
             @if ($errors->any())
             <ul class="alert alert-warning">
@@ -291,6 +293,6 @@
             });
         }
     });
-    
+
 </script>
 @endsection
