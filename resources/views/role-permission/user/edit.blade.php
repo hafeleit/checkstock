@@ -36,22 +36,22 @@
         background-color: #212529 !important;
         border-color: #212529 !important;
     }
-    
+
     .btn-password-copy {
         box-shadow: none;
         border-top: 1px solid #d2d6da !important;
         border-bottom: 1px solid #d2d6da !important;
         border-radius: 0;
-        
+
     }
-    
+
     .btn-password-generate {
         box-shadow: none;
         background-color: gainsboro;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
-    
+
     .input-password {
         border-right: none;
         border-top-right-radius: 0 !important;
@@ -89,7 +89,7 @@
             </ul>
             @endif
 
-            <div class="card">
+            <div class="card  col-6">
                 <div class="card-header">
                     <h4>Edit User</h4>
                 </div>
@@ -129,12 +129,6 @@
                             @error('password') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="supp_code">Supplier Code</label>
-                            <input type="text" name="supp_code" value="{{ $user->supp_code }}" class="form-control" />
-                            @error('supp_code') <span class="text-danger">{{ $supp_code }}</span> @enderror
-                        </div>
-
-                        <div class="mb-3">
                             <label for="roles-select" class="required">roles</label>
                             <select name="roles[]" class="form-select" id="roles-select" data-placeholder="Choose anything" multiple>
                                 <option value="">select role</option>
@@ -148,6 +142,13 @@
                             </select>
                             @error('roles') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
+
+                        <div class="mb-3">
+                            <label for="supp_code">Supplier Code</label>
+                            <input type="text" name="supp_code" value="{{ $user->supp_code }}" class="form-control" />
+                            @error('supp_code') <span class="text-danger">{{ $supp_code }}</span> @enderror
+                        </div>
+
                         <div class="mb-3">
                             <label for="type-select" class="required">Type</label>
                             <select name="type" id="type-select" class="form-control" data-placeholder="Choose type">

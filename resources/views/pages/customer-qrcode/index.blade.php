@@ -227,7 +227,7 @@
                                 <input type="search" class="form-control form-control-sm search-field" id="search-input" value="{{ $params['search'] ?? '' }}" placeholder="Search by customer name or code..." autofocus>
                             </div>
                             <div class="col-5 col-md-auto">
-                                <button type="button" class="btn btn-sm btn-dark uppercase mb-0" id="searchButton">search</button>
+                                <button type="button" class="btn btn-sm btn-primary uppercase mb-0" id="searchButton">search</button>
                             </div>
                         </div>
 

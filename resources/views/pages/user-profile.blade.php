@@ -16,7 +16,7 @@
                             {{ auth()->user()->firstname ?? 'Firstname' }} {{ auth()->user()->lastname ?? 'Lastname' }}
                         </h5>
                         <p class="mb-0 font-weight-bold text-sm">
-                            Public Relations
+
                         </p>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
     </div>
     <div class="container-fluid py-4">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="card">
                     <form role="form" method="POST" action={{ route('profile.update') }} enctype="multipart/form-data">
                         @csrf
@@ -43,13 +43,13 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Username</label>
+                                        <label for="example-text-input" class="form-control-label">Display name</label>
                                         <input class="form-control" type="text" name="username" value="{{ old('username', auth()->user()->username) }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Email address</label>
+                                        <label for="example-text-input" class="form-control-label">Username</label>
                                         <input class="form-control" type="email" name="email" value="{{ old('email', auth()->user()->email) }}" readonly>
                                     </div>
                                 </div>
@@ -66,6 +66,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {{--
                             <hr class="horizontal dark">
                             <p class="text-uppercase text-sm">Contact Information</p>
                             <div class="row">
@@ -94,6 +95,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <hr class="horizontal dark">
                             <p class="text-uppercase text-sm">Country</p>
                             <div class="row">
@@ -114,6 +116,8 @@
                                     </div>
                                 </div>
                             </div>
+                            --}}
+                            @if(auth()->user()->supp_code)
                             <p class="text-uppercase text-sm">Supplier</p>
                             <div class="row">
                                 <div class="col-md-12">
@@ -123,6 +127,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                             <div class="card-footer d-flex justify-content-end align-items-center px-0">
                                 <a href="{{ route('change-password', ['from' => 'profile']) }}" type="button" class="btn btn-dark btn-sm me-2 mb-0">
                                     Change Password
