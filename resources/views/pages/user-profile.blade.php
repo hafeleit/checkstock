@@ -155,11 +155,29 @@
         .pf-form-footer {
             padding: 16px 28px 22px;
             display: flex;
-            justify-content: flex-end;
-            align-items: center;
+            flex-direction: column;
             gap: 10px;
             border-top: 1px solid #f2f2f2;
             margin-top: 8px;
+        }
+
+        .pf-form-footer .btn-pf-secondary,
+        .pf-form-footer .btn-pf-primary {
+            width: 100%;
+            justify-content: center;
+        }
+
+        @media (min-width: 768px) {
+            .pf-form-footer {
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+            }
+
+            .pf-form-footer .btn-pf-secondary,
+            .pf-form-footer .btn-pf-primary {
+                width: auto;
+            }
         }
 
         .btn-pf-secondary {
@@ -306,7 +324,7 @@
                             <a href="{{ route('change-password', ['from' => 'profile']) }}" class="btn-pf-secondary">
                                 <i class="fas fa-lock fa-xs"></i> Change Password
                             </a>
-                            <button type="submit" class="btn-pf-primary">
+                            <button type="submit" class="btn btn-pf-primary m-0">
                                 <i class="fas fa-check fa-xs"></i> Save Changes
                             </button>
                         </div>
