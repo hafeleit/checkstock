@@ -71,4 +71,9 @@
         cursor: pointer;
         text-decoration: none;
     }
+
+    /* Prevent Argon's scroll handler from painting a bg box on the FA icon */
+    #iconNavbarSidenav i.sidenav-toggler-line {
+        background-color: transparent !important;
+    }
 </style>
