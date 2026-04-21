@@ -5,9 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="apple-touch-icon" sizes="76x76" href="/img/hafele_logo.png">
+    {{--
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/hafele_logo/.png">
     <link rel="icon" type="image/png" href="/img/hafele_logo.png">
-    <title>HAFELE APPLICATION</title>
+    --}}
+
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/img/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/img/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="/img/favicon/site.webmanifest" />
+
+    <title>Häfele Application (TH)</title>
 
     <link href="{{ asset('css/font-awesome.all.min.css') }}" rel="stylesheet">
     <!-- Nucleo Icons -->
@@ -20,14 +29,16 @@
     {{-- Inline style ย้ายมาใช้ nonce --}}
     <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
         .bg-hafele-default {
-            background-image: url('/img/bg-hafele.jpg');
-            background-position-y: 30%;
-            background-position-x: 30%;
+            background-image: url('/img/BG_HAFELE.png');
+            background-position-y: 50%;
+            background-position-x: 10%;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
         .bg-hafele-profile {
-            background-image: url('/img/bg-hafele.jpg');
-            background-position-y: 32%;
-            background-position-x: 30%;
+            background-image: url('/img/BG_HAFELE.png');
+            background-position-y: 50%;
+            background-position-x: 10%;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
         /* preloader */
@@ -49,7 +60,7 @@
             width: 50px;
             height: 50px;
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #fb6340;
+            border-top: 5px solid #ff0000;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -180,13 +191,17 @@
 
     {{-- Preloader --}}
     <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-        window.addEventListener('load', function() {
+        function hideLoader() {
             const loader = document.getElementById('loader-wrapper');
             loader.classList.add('loader-hidden');
+            setTimeout(() => { loader.style.display = 'none'; }, 500);
+        }
 
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 500);
+        window.addEventListener('load', hideLoader);
+
+        // Hide preloader when page is restored (back/forward navigation)
+        window.addEventListener('pageshow', function(e) {
+            if (e.persisted) { hideLoader(); }
         });
 
         window.addEventListener('beforeunload', function() {

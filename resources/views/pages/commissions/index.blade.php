@@ -63,7 +63,7 @@
                                     @endcan
                                     @can('Commissions Summary-View')
                                         <a href="{{ route('commissions.sales-summary', $c->id) }}"
-                                            class="btn btn-sm btn-primary">
+                                            class="btn btn-sm btn-warning">
                                             <i class="fas fa-chart-bar me-1"></i> ดูยอดรวม
                                         </a>
                                     @endcan
@@ -207,7 +207,7 @@
 
         document.getElementById('importForm').addEventListener('submit', function(e) {
             const perloader = document.getElementById('loader-wrapper');
-            
+
             // ไม่แสดง preloader
             if (perloader) {
                 perloader.style.setProperty('display', 'none', 'important');

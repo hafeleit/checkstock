@@ -26,23 +26,24 @@
     @include('layouts.navbars.auth.topnav', ['title' => 'User'])
 
     <div class="card shadow-lg mx-4 card-profile-bottom">
+      {{--
         <div class="card-body p-3">
             <div class="row gx-4">
-                <div class="col-auto">
+                 <div class="col-auto">
                 </div>
                 <div class="col-auto my-auto">
-                    <div class="h-100">
-                        <p class="mb-0 font-weight-bold text-sm mt-3">
-
+                       <p class="mb-0 font-weight-bold text-sm mt-3">
                             <a href="{{ url('roles') }}" class="btn btn-primary mx-1">Roles</a>
                             <a href="{{ url('permissions') }}" class="btn btn-info mx-1">Permissions</a>
                             <a href="{{ url('users') }}" class="btn btn-success mx-1">Users</a>
                         </p>
                     </div>
+
                 </div>
-            </div>
+            </div>--}}
         </div>
     </div>
+
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-md-12">
@@ -62,7 +63,7 @@
 
                 <div class="card mt-3">
                     <div class="card-header card-header__user pb-0">
-                        <h5 class="mb-0">Users</h5>
+                        <h5 class="mb-0">User Management</h5>
                         <div class="d-flex gap-1">
                             @can('user import')
                                 <!-- Import user button -->
@@ -88,11 +89,13 @@
                                                     <input class="form-control" type="file" id="formFile" name="user_file"
                                                         accept=".xlsx, .xls">
                                                 </div>
+                                                @can('user import')
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">CANCEL</button>
                                                     <button type="submit" class="btn btn-primary">IMPORT</button>
                                                 </div>
+                                                @endcan
                                             </div>
                                         </div>
                                     </div>
@@ -115,14 +118,14 @@
                                 <button type="button" class="btn btn-sm btn-dark uppercase mb-0" id="searchButton">search</button>
                             </div>
                         </div>
-                        
+
                         <div class="table-responsive rounded mt-3">
                             <table class="table table-hover mb-0">
                                 <thead class="text-sm text-muted fw-bold">
                                     <tr>
                                         <th scope="col" class="py-3 px-3">ID</th>
-                                        <th scope="col" class="py-3 px-3">Employee Code</th>
-                                        <th scope="col" class="py-3 px-3">Name</th>
+                                        <th scope="col" class="py-3 px-3">Emp Code</th>
+                                        <th scope="col" class="py-3 px-3">Name Lastname</th>
                                         <th scope="col" class="py-3 px-3">Account</th>
                                         <th scope="col" class="py-3 px-3">Roles</th>
                                         <th scope="col" class="py-3 px-3">Type</th>
