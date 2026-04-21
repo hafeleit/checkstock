@@ -20,14 +20,14 @@
     {{-- Inline style ย้ายมาใช้ nonce --}}
     <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
         .bg-hafele-default {
-            background-image: url('/img/bg-hafele.jpg');
-            background-position-y: 30%;
-            background-position-x: 30%;
+            background-image: url('/img/BG_HAFELE.png');
+            background-position-y: 50%;
+            background-position-x: 10%;
         }
         .bg-hafele-profile {
-            background-image: url('/img/bg-hafele.jpg');
-            background-position-y: 32%;
-            background-position-x: 30%;
+            background-image: url('/img/BG_HAFELE.png');
+            background-position-y: 50%;
+            background-position-x: 10%;
         }
 
         /* preloader */
@@ -49,7 +49,7 @@
             width: 50px;
             height: 50px;
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #fb6340;
+            border-top: 5px solid #ff0000;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }

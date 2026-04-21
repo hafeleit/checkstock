@@ -149,7 +149,7 @@
                 {{-- <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" href="{{ route('itasset-export') }}">Export</a> --}}
                 <button
                     class="export-itasset-btn btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1"
-                    data-url="/itasset-export" 
+                    data-url="/itasset-export"
                     data-filename="ITAsset.xlsx">
                     <span>Export</span>
                 </button>
@@ -217,7 +217,7 @@
                                 $image = $images[$itasset->type] ?? null;
                             @endphp
 
-                            <img class="w-30" src="{{ $image ? URL::to('/').'/img/itasset/'.$image : '' }}">
+                            <img class="w-20" src="{{ $image ? URL::to('/').'/img/itasset/'.$image : '' }}">
 
                             <h6 class="ms-3 my-auto">{{$itasset->computer_name}}</h6>
                           </div>
