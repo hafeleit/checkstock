@@ -32,11 +32,13 @@
             background-image: url('/img/BG_HAFELE.png');
             background-position-y: 50%;
             background-position-x: 10%;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
         .bg-hafele-profile {
             background-image: url('/img/BG_HAFELE.png');
             background-position-y: 50%;
             background-position-x: 10%;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
         /* preloader */
