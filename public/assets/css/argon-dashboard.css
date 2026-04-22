@@ -32217,3 +32217,10 @@ input[readonly] {
     cursor: not-allowed;
     pointer-events: none;
 }
+
+.page-item.active .page-link {
+    background-color: #C8102E;
+    border-color: #C8102E;
+    color: #fff;
+    z-index: 3;
+}

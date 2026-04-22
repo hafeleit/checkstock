@@ -2,190 +2,458 @@
 
 @section('content')
 
-    <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-        .dt-layout-row {
-            padding: 1.5rem 0;
+    <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+        * {
+            box-sizing: border-box;
         }
 
-        .dt-layout-row.dt-layout-table {
-            padding: 0rem;
-            overflow: auto;
+        .eu-container {
+            padding-top: 15rem;
+            padding-bottom: 2rem;
         }
 
-        .card-header__user {
+        .eu-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .eu-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 16px;
+            border-radius: 10px;
+            font-size: 0.81rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1.5px solid #e0e0e0;
+            background: #fff;
+            color: #4a4a4a;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
+
+        .eu-nav-btn:hover {
+            background: #f4f5f7;
+            border-color: #bbb;
+            color: #1a1a1a;
+        }
+
+        .eu-nav-btn.active {
+            background: linear-gradient(135deg, #C8102E 0%, #96091F 100%);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(200, 16, 46, 0.25);
+        }
+
+        .eu-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+        }
+
+        .eu-card-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid #f2f2f2;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .badge-success {
-            background-color: #ddfff0;
-            color: #009b58;
+
+        .eu-card-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin: 0;
+        }
+
+        .eu-card-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-eu-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #C8102E 0%, #96091F 100%);
+            color: #fff;
+            font-size: 0.81rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.15s;
+            box-shadow: 0 4px 14px rgba(200, 16, 46, 0.25);
+        }
+
+        .btn-eu-primary:hover {
+            opacity: 0.9;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .btn-eu-dark {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border: none;
+            border-radius: 10px;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 0.81rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .btn-eu-dark:hover {
+            opacity: 0.85;
+            color: #fff;
+        }
+
+        .search-wrap {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f2f2f2;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .search-input-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            min-width: 200px;
+            max-width: 320px;
+        }
+
+        .search-label {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: #6D6E71;
+        }
+
+        .search-input {
+            background: #fff;
+            border: 1px solid #e2e2e2;
+            border-radius: 10px;
+            color: #1a1a1a;
+            padding: 8px 12px;
+            font-size: 0.84rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+            width: 100%;
+        }
+
+        .search-input:focus {
+            border-color: #C8102E;
+            box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.12);
+        }
+
+        .btn-search {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 10px;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 0.81rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            align-self: flex-end;
+        }
+
+        .btn-search:hover {
+            opacity: 0.85;
+        }
+
+        .um-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.83rem;
+        }
+
+        .um-table thead tr {
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .um-table thead th {
+            padding: 10px 14px;
+            font-size: 0.71rem;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .um-table tbody tr {
+            border-bottom: 1px solid #f8f8f8;
+            transition: background 0.15s;
+        }
+
+        .um-table tbody tr:hover {
+            background: #fafafa;
+        }
+
+        .um-table tbody td {
+            padding: 11px 14px;
+            color: #1a1a1a;
+            vertical-align: middle;
+        }
+
+        .um-table tbody td.muted {
+            color: #9ca3af;
+            font-size: 0.78rem;
+        }
+
+        .badge-role {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: rgba(200, 16, 46, 0.08);
+            color: #C8102E;
+            margin: 1px;
+        }
+
+        .badge-active {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .badge-inactive {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            background: #f3f4f6;
+            color: #9ca3af;
+        }
+
+        .btn-action-edit {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            border: 1.5px solid #C8102E;
+            color: #C8102E;
+            background: transparent;
+            transition: all 0.2s;
+        }
+
+        .btn-action-edit:hover {
+            background: #C8102E;
+            color: #fff;
+        }
+
+        .badge-active i,
+        .badge-inactive i {
+            font-size: 6px;
+        }
+
+        .modal-content-rounded {
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .alert-modern {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 16px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            border-left-width: 4px;
+            font-size: 0.86rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .alert-modern-success {
+            background: rgba(16, 185, 129, 0.07);
+            border-color: rgba(16, 185, 129, 0.2);
+            border-left-color: #10b981;
+            color: #065f46;
+        }
+
+        .alert-modern-error {
+            background: rgba(200, 16, 46, 0.06);
+            border-color: rgba(200, 16, 46, 0.18);
+            border-left-color: #C8102E;
+            color: #C8102E;
         }
     </style>
 
-    @include('layouts.navbars.auth.topnav', ['title' => 'User'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'User Management'])
 
-    <div class="card shadow-lg mx-4 card-profile-bottom">
-      {{--
-        <div class="card-body p-3">
-            <div class="row gx-4">
-                 <div class="col-auto">
-                </div>
-                <div class="col-auto my-auto">
-                       <p class="mb-0 font-weight-bold text-sm mt-3">
-                            <a href="{{ url('roles') }}" class="btn btn-primary mx-1">Roles</a>
-                            <a href="{{ url('permissions') }}" class="btn btn-info mx-1">Permissions</a>
-                            <a href="{{ url('users') }}" class="btn btn-success mx-1">Users</a>
-                        </p>
-                    </div>
-
-                </div>
-            </div>--}}
+    <div class="container-fluid eu-container">
+        <div class="eu-nav">
+            <a href="{{ url('roles') }}" class="eu-nav-btn"><i class="fas fa-shield-alt fa-xs"></i> Roles</a>
+            <a href="{{ url('permissions') }}" class="eu-nav-btn"><i class="fas fa-key fa-xs"></i> Permissions</a>
+            <a href="{{ url('users') }}" class="eu-nav-btn active"><i class="fas fa-users fa-xs"></i> Users</a>
         </div>
-    </div>
 
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-md-12">
-                @if (session('status'))
-                    <div class="alert alert-success text-white font-weight-bold">{{ session('status') }}</div>
-                @endif
+        @if (session('status'))
+            <div class="alert-modern alert-modern-success"><i class="fas fa-check-circle"></i> {{ session('status') }}</div>
+        @endif
 
-                @if ($errors->any())
-                    <div class="alert alert-danger" role="alert">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li class="text-white font-weight-bold mb-0">{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+        @if ($errors->any())
+            <div class="alert-modern alert-modern-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>
+                    @foreach ($errors->all() as $error)
+                        {{ $error }}
+                    @endforeach
+                </span>
+            </div>
+        @endif
 
-                <div class="card mt-3">
-                    <div class="card-header card-header__user pb-0">
-                        <h5 class="mb-0">User Management</h5>
-                        <div class="d-flex gap-1">
-                            @can('user import')
-                                <!-- Import user button -->
-                                <button type="button" class="btn btn-dark m-0" data-bs-toggle="modal"
-                                    data-bs-target="#importUsersModal">
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <i class="fa-solid fa-upload"></i>
-                                        <span>Import Users</span>
-                                    </div>
-                                </button>
-                                <form action="{{ route('users.import-users') }}" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="modal fade" id="importUsersModal" tabindex="-1"
-                                        aria-labelledby="importUsersModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="importUsersModalLabel">Import Users</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <input class="form-control" type="file" id="formFile" name="user_file"
-                                                        accept=".xlsx, .xls">
-                                                </div>
-                                                @can('user import')
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">CANCEL</button>
-                                                    <button type="submit" class="btn btn-primary">IMPORT</button>
-                                                </div>
-                                                @endcan
-                                            </div>
+        <div class="eu-card">
+            <div class="eu-card-header">
+                <p class="eu-card-title">User Management</p>
+                <div class="eu-card-actions">
+                    @can('user import')
+                        <button type="button" class="btn-eu-dark" data-bs-toggle="modal" data-bs-target="#importUsersModal">
+                            <i class="fa-solid fa-upload fa-xs"></i> Import
+                        </button>
+                        <form action="{{ route('users.import-users') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal fade" id="importUsersModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content modal-content-rounded">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Import Users</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
+                                        <div class="modal-body">
+                                            <input class="form-control" type="file" name="user_file" accept=".xlsx,.xls">
+                                        </div>
+                                        @can('user import')
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-primary">Import</button>
+                                            </div>
+                                        @endcan
                                     </div>
-                                </form>
-                            @endcan
-
-                            <!-- Create user button -->
-                            @can('user create')
-                                <a href="{{ url('users/create') }}" class="btn btn-primary float-end mb-0">Add User</a>
-                            @endcan
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row g-3 align-items-end">
-                            <div class="col-md-3">
-                                <label for="search" class="form-label">Search</label>
-                                <input type="search" class="form-control form-control-sm search-field" id="search" value="{{ $params['search'] ?? '' }}" placeholder="Search: employee code, name, account">
+                                </div>
                             </div>
-                            <div class="col-md-auto">
-                                <button type="button" class="btn btn-sm btn-dark uppercase mb-0" id="searchButton">search</button>
-                            </div>
-                        </div>
-
-                        <div class="table-responsive rounded mt-3">
-                            <table class="table table-hover mb-0">
-                                <thead class="text-sm text-muted fw-bold">
-                                    <tr>
-                                        <th scope="col" class="py-3 px-3">ID</th>
-                                        <th scope="col" class="py-3 px-3">Emp Code</th>
-                                        <th scope="col" class="py-3 px-3">Name Lastname</th>
-                                        <th scope="col" class="py-3 px-3">Account</th>
-                                        <th scope="col" class="py-3 px-3">Roles</th>
-                                        <th scope="col" class="py-3 px-3">Type</th>
-                                        <th scope="col" class="py-3 px-3">Last Logged in</th>
-                                        <th scope="col" class="py-3 px-3">Status</th>
-                                        <th scope="col" class="py-3 px-3 text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (!empty($users))
-                                        @foreach ($users as $user)
-                                            <tr>
-                                                <td class="px-3">{{ $user->id }}</td>
-                                                <td class="px-3">{{ $user->emp_code }}</td>
-                                                <td class="px-3">{{ $user->username }}</td>
-                                                <td class="px-3">{{ $user->email }}</td>
-                                                <td class="px-3">
-                                                    @if (!empty($user->getRoleNames()))
-                                                        @foreach ($user->getRoleNames() as $role)
-                                                            <label
-                                                                class="badge bg-primary mx-1 my-0">{{ $role }}</label>
-                                                        @endforeach
-                                                    @endif
-                                                </td>
-                                                <td class="px-3">{{ ucfirst($user->type) }}</td>
-                                                <td class="text-center">{{ $user->last_logged_in_at ?? '-' }}</td>
-                                                <td class="px-3">
-                                                    @if ($user->is_active)
-                                                        <span class="badge badge-success">Active</span>
-                                                    @else
-                                                        <span class="badge badge-secondary">Inactive</span>
-                                                    @endif
-                                                </td>
-                                                <td class="px-3">
-                                                    @can('user update')
-                                                        <a href="{{ url('users/' . $user->id . '/edit') }}" class="my-0 py-1 btn btn-outline-primary btn-sm">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2">
-                                                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                                                            </svg>
-                                                            <span class="mx-2">Edit</span>
-                                                        </a>
-                                                    @endcan
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="9" class="text-center">No Data</td>
-                                        </tr>
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Pagination Links -->
-                    <div class=" m-3">
-                        {{ $users->withQueryString()->links('pagination::bootstrap-5') }}
-                    </div>
+                        </form>
+                    @endcan
+                    @can('user create')
+                        <a href="{{ url('users/create') }}" class="btn-eu-primary">
+                            <i class="fas fa-user-plus fa-xs"></i> Add User
+                        </a>
+                    @endcan
                 </div>
+            </div>
+
+            <div class="search-wrap">
+                <div class="search-input-wrap">
+                    <label class="search-label">Search</label>
+                    <input type="search" class="search-input" id="search" value="{{ $params['search'] ?? '' }}"
+                        placeholder="Employee code, name, account">
+                </div>
+                <button type="button" class="btn-search" id="searchButton">
+                    <i class="fas fa-search fa-xs"></i> Search
+                </button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="um-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Emp Code</th>
+                            <th>Name</th>
+                            <th>Account</th>
+                            <th>Roles</th>
+                            <th>Type</th>
+                            <th>Last Login</th>
+                            <th>Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!empty($users))
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td class="muted">{{ $user->id }}</td>
+                                    <td class="muted">{{ $user->emp_code ?? '—' }}</td>
+                                    <td>{{ $user->username }}</td>
+                                    <td class="muted">{{ $user->email }}</td>
+                                    <td>
+                                        @foreach ($user->getRoleNames() as $role)
+                                            <span class="badge-role">{{ $role }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td>{{ ucfirst($user->type) }}</td>
+                                    <td class="muted">{{ $user->last_logged_in_at ?? '—' }}</td>
+                                    <td>
+                                        @if ($user->is_active)
+                                            <span class="badge-active"><i class="fas fa-circle"></i>
+                                                Active</span>
+                                        @else
+                                            <span class="badge-inactive"><i class="fas fa-circle"
+                                                    style="font-size:6px;"></i> Inactive</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @can('user update')
+                                            <a href="{{ url('users/' . $user->id . '/edit') }}" class="btn-action-edit">
+                                                <i class="fas fa-pen fa-xs"></i> Edit
+                                            </a>
+                                        @endcan
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="9" class="text-center muted py-5">No users found</td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="px-4 py-3">
+                {{ $users->withQueryString()->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>
@@ -193,24 +461,19 @@
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         const handleSearch = () => {
             const search = document.getElementById('search').value;
-            const data = { search: search };
-
-            const filteredData = {};
-            for (const key in data) {
-                if (data[key]) {
-                    filteredData[key] = data[key];
-                }
-            }
-
-            const params = new URLSearchParams(filteredData).toString();
-            const url = `/users${params ? '?' + params : ''}`;
-
-            window.location.href = url;
+            const params = new URLSearchParams(search ? {
+                search
+            } : {}).toString();
+            window.location.href = `/users${params ? '?' + params : ''}`;
         };
 
         const searchButton = document.getElementById('searchButton');
         if (searchButton) {
             searchButton.addEventListener('click', handleSearch);
         }
+
+        document.getElementById('search').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') handleSearch();
+        });
     </script>
 @endsection

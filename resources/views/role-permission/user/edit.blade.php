@@ -2,307 +2,677 @@
 
 @section('content')
 
-@include('layouts.navbars.auth.topnav', ['title' => 'Role'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Edit User'])
 
-<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-    .card-header__user,
-    .card__active_status {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .card__active_status {
-        box-shadow: none;
-        padding: 20px;
-        border: 1px solid #d2d6da;
-        border-radius: 0.5rem;
-    }
-
-    .toggle.btn {
-        margin: 0;
-    }
-
-    .toggle-handle {
-        background-color: #ffffff !important;
-    }
-
-    .toggle.btn.off {
-        background-color: #e9ecef !important;
-        border-color: #e9ecef !important;
-    }
-
-    .toggle.btn.on {
-        background-color: #212529 !important;
-        border-color: #212529 !important;
-    }
-
-    .btn-password-copy {
-        box-shadow: none;
-        border-top: 1px solid #d2d6da !important;
-        border-bottom: 1px solid #d2d6da !important;
-        border-radius: 0;
-
-    }
-
-    .btn-password-generate {
-        box-shadow: none;
-        background-color: gainsboro;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-
-    .input-password {
-        border-right: none;
-        border-top-right-radius: 0 !important;
-        border-bottom-right-radius: 0 !important;
-    }
-</style>
-
-<div class="card shadow-lg mx-4 card-profile-bottom">
-  {{--
-    <div class="card-body p-3">
-        <div class="row gx-4">
-            <div class="col-auto">
-            </div>
-            <div class="col-auto my-auto">
-                <div class="h-100">
-                    <p class="mb-0 font-weight-bold text-sm mt-3">
-
-                        <a href="{{ url('roles') }}" class="btn btn-primary mx-1">Roles</a>
-                        <a href="{{ url('permissions') }}" class="btn btn-info mx-1">Permissions</a>
-                        <a href="{{ url('users') }}" class="btn btn-success mx-1">Users</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    --}}
-</div>
-<div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-md-12">
-
-            @if ($errors->any())
-            <ul class="alert alert-warning">
-                @foreach ($errors->all() as $error)
-                <li class="text-white mx-3">{{$error}}</li>
-                @endforeach
-            </ul>
-            @endif
-
-            <div class="card  col-6">
-                <div class="card-header">
-                    <h4>Edit User</h4>
-                </div>
-                <div class="card-body">
-                    <form action="{{ url('users/'.$user->id) }}" method="POST" id="updateUserForm">
-                        @csrf
-                        @method('PUT')
-
-                        <div class="row">
-                            <div class="col-3 mb-3">
-                                <label class="" for="emp_code">Employee Code</label>
-                                <input type="text" name="emp_code" value="{{ $user->emp_code }}" class="form-control" maxlength="5"  />
-                                @error('emp_code') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                            <div class="col-9 mb-3">
-                                <label for="username" class="required">Name</label>
-                                <input type="text" name="username" value="{{ $user->username }}" class="form-control" required />
-                                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="required">Account</label>
-                            <input type="text" name="email" readonly value="{{ $user->email }}" class="form-control" required />
-                            @error('email') <span class="text-danger">{{ $email }}</span> @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="">password</label>
-                            <div class="d-flex">
-                                <input type="text" name="password" id="password" class="form-control input-password" placeholder="click refresh to generate password" />
-                                <button class="btn btn-password-copy mb-0" type="button" id="copyPasswordBtn" title="copy password to clipboard">
-                                    <i class="fa-regular fa-clipboard"></i>
-                                </button>
-                                <button class="btn btn-password-generate mb-0" type="button" id="generatePasswordBtn" title="generate new password">
-                                    <i class="fa-solid fa-repeat"></i>
-                                </button>
-                            </div>
-                            @error('password') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="roles-select" class="required">roles</label>
-                            <select name="roles[]" class="form-select" id="roles-select" data-placeholder="Choose anything" multiple>
-                                <option value="">select role</option>
-                                @foreach ($roles as $role)
-                                <option
-                                    value="{{ $role }}"
-                                    {{ in_array($role, $userRoles) ? 'selected':'' }}>
-                                    {{ $role }}
-                                </option>
-                                @endforeach
-                            </select>
-                            @error('roles') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="supp_code">Supplier Code</label>
-                            <input type="text" name="supp_code" value="{{ $user->supp_code }}" class="form-control" />
-                            @error('supp_code') <span class="text-danger">{{ $supp_code }}</span> @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="type-select" class="required">Type</label>
-                            <select name="type" id="type-select" class="form-control" data-placeholder="Choose type">
-                                <option value="">select type</option>
-                                <option value="employee" @if($user->type == 'employee') selected @endif>Employee</option>
-                                <option value="customer" @if($user->type == 'customer') selected @endif>Customer</option>
-                            </select>
-                        </div>
-                        <div class="card__active_status mb-4">
-                            <div>
-                                <h6 class="mb-0">Active Status</h6>
-                                <p class="mb-0">Enable or disable this user account</p>
-                            </div>
-                            <div>
-                                <input name="is_active" type="checkbox"
-                                    {{ $user->is_active ? 'checked' : '' }}
-                                    data-toggle="toggle"
-                                    data-on="Active"
-                                    data-off="Inactive"
-                                    data-onstyle="success">
-                            </div>
-                        </div>
-                        <div class="float-end">
-                            <a href="{{ url('users') }}" class="btn btn-secondary btn-lg mb-0">Back</a>
-                            <button type="submit" class="btn btn-primary btn-lg mb-0">Update</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="{{ asset('js/bootstrap-toggle.min.js') }}"></script>
-<script src="{{ asset('js/jquery.slim.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('js/select2.min.js') }}"></script>
-<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
-<link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}">
-<link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}">
-
-<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-    $('#roles-select').select2({
-        theme: "bootstrap-5",
-        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        placeholder: $(this).data('placeholder'),
-        closeOnSelect: false,
-    });
-
-    const updateUserForm = document.getElementById('updateUserForm');
-
-    function isPasswordStrong(password) {
-        const minLength = 15;
-        const hasLowerCase = /[a-z]+/.test(password);
-        const hasUpperCase = /[A-Z]+/.test(password);
-        const hasNumber = /[0-9]+/.test(password);
-        const hasSymbol = /[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]+/.test(password);
-
-        if (password.length < minLength) {
-            return { valid: false, message: `Must be at least ${minLength} characters long.` };
-        }
-        if (!hasLowerCase) {
-            return { valid: false, message: 'Must include at least one lowercase letter.' };
-        }
-        if (!hasUpperCase) {
-            return { valid: false, message: 'Must include at least one uppercase letter.' };
-        }
-        if (!hasNumber) {
-            return { valid: false, message: 'Must include at least one number.' };
-        }
-        if (!hasSymbol) {
-            return { valid: false, message: 'Must include at least one special character (e.g., !@#$).' };
+    <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+        * {
+            box-sizing: border-box;
         }
 
-        return { valid: true, message: 'password meets policy.' };
-    }
+        .eu-container {
+            padding-top: 15rem;
+            padding-bottom: 2rem;
+        }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const passwordField = document.getElementById('password');
-        const generatePasswordBtn = document.getElementById('generatePasswordBtn');
-        const copyPasswordBtn = document.getElementById('copyPasswordBtn');
+        /* ── Nav pills ── */
+        .eu-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
 
-        function generateStrongPassword(length = 15) {
-            const lowerCase = 'abcdefghijklmnopqrstuvwxyz';
-            const upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const numbers = '0123456789';
-            const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
-            const allChars = lowerCase + upperCase + numbers + symbols;
+        .eu-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 16px;
+            border-radius: 10px;
+            font-size: 0.81rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1.5px solid #e0e0e0;
+            background: #fff;
+            color: #4a4a4a;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
 
-            let password = '';
+        .eu-nav-btn:hover {
+            background: #f4f5f7;
+            border-color: #bbb;
+            color: #1a1a1a;
+        }
 
-            password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
-            password += upperCase[Math.floor(Math.random() * upperCase.length)];
-            password += numbers[Math.floor(Math.random() * numbers.length)];
-            password += symbols[Math.floor(Math.random() * symbols.length)];
+        .eu-nav-btn.active {
+            background: linear-gradient(135deg, #C8102E 0%, #96091F 100%);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(200, 16, 46, 0.25);
+        }
 
-            for (let i = password.length; i < length; i++) {
-                password += allChars[Math.floor(Math.random() * allChars.length)];
+        /* ── Card ── */
+        .eu-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+        }
+
+        .eu-card-header {
+            padding: 20px 28px 16px;
+            border-bottom: 1px solid #f2f2f2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .eu-card-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin: 0;
+        }
+
+        .eu-card-subtitle {
+            font-size: 0.78rem;
+            color: #9ca3af;
+            margin: 0;
+        }
+
+        .eu-card-body {
+            padding: 24px 28px 8px;
+        }
+
+        /* ── Section label ── */
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #C8102E;
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #f0f0f0;
+        }
+
+        /* ── Inputs ── */
+        .eu-group {
+            margin-bottom: 14px;
+        }
+
+        .eu-label {
+            display: block;
+            font-size: 0.74rem;
+            font-weight: 500;
+            color: #6D6E71;
+            margin-bottom: 5px;
+        }
+
+        .eu-label .required-dot {
+            color: #C8102E;
+            margin-left: 2px;
+        }
+
+        .eu-input {
+            width: 100%;
+            background: #fff;
+            border: 1px solid #e2e2e2;
+            border-radius: 10px;
+            color: #1a1a1a;
+            padding: 10px 14px;
+            font-size: 0.86rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        .eu-input:focus {
+            border-color: #C8102E;
+            box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.12);
+        }
+
+        .eu-input[readonly] {
+            background: #f8f8f8;
+            color: #b0b0b0;
+            cursor: default;
+        }
+
+        .eu-select {
+            width: 100%;
+            background: #fff;
+            border: 1px solid #e2e2e2;
+            border-radius: 10px;
+            color: #1a1a1a;
+            padding: 10px 14px;
+            font-size: 0.86rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+        }
+
+        .eu-select:focus {
+            border-color: #C8102E;
+            box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.12);
+        }
+
+        .field-error {
+            font-size: 0.75rem;
+            color: #C8102E;
+            margin-top: 4px;
+        }
+
+        .field-hint {
+            font-weight: 400;
+            color: #9ca3af;
+        }
+
+        /* ── Password input group ── */
+        .pw-group {
+            display: flex;
+            border: 1px solid #e2e2e2;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .pw-group:focus-within {
+            border-color: #C8102E;
+            box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.12);
+        }
+
+        .pw-group .eu-input {
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            flex: 1;
+        }
+
+        .pw-group .eu-input:focus {
+            box-shadow: none;
+        }
+
+        .pw-btn {
+            flex-shrink: 0;
+            background: #f8f8f8;
+            border: none;
+            border-left: 1px solid #e2e2e2;
+            padding: 0 14px;
+            color: #6D6E71;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .pw-btn:hover {
+            background: #f0f0f0;
+            color: #1a1a1a;
+        }
+
+        .pw-btn:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* ── Active status card ── */
+        .eu-status-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border: 1px solid #f0f0f0;
+            border-radius: 12px;
+            background: #fafafa;
+            margin-bottom: 16px;
+        }
+
+        .eu-status-info h6 {
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .eu-status-info p {
+            font-size: 0.76rem;
+            color: #9ca3af;
+            margin: 0;
+        }
+
+        .toggle.btn {
+            margin: 0;
+        }
+
+        .toggle-handle {
+            background-color: #fff !important;
+        }
+
+        .toggle.btn.off {
+            background-color: #e2e2e2 !important;
+            border-color: #e2e2e2 !important;
+        }
+
+        .toggle.btn.on {
+            background-color: #C8102E !important;
+            border-color: #C8102E !important;
+        }
+
+        /* ── Validation errors list ── */
+        .eu-errors {
+            background: rgba(200, 16, 46, 0.06);
+            border: 1px solid rgba(200, 16, 46, 0.18);
+            border-left: 4px solid #C8102E;
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            font-size: 0.84rem;
+            color: #C8102E;
+        }
+
+        .eu-errors ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .eu-errors li {
+            line-height: 1.8;
+        }
+
+        /* ── Footer ── */
+        .eu-card-footer {
+            padding: 16px 28px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-top: 1px solid #f2f2f2;
+            margin-top: 8px;
+        }
+
+        .eu-card-footer .btn-eu-secondary,
+        .eu-card-footer .btn-eu-primary {
+            width: 100%;
+            justify-content: center;
+        }
+
+        @media (min-width: 768px) {
+            .eu-card-footer {
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
             }
 
-            password = password.split('').sort(() => 0.5 - Math.random()).join('');
-
-            return password;
+            .eu-card-footer .btn-eu-secondary,
+            .eu-card-footer .btn-eu-primary {
+                width: auto;
+            }
         }
 
-        generatePasswordBtn.addEventListener('click', () => {
-            const newPassword = generateStrongPassword(15);
-            passwordField.value = newPassword;
+        .btn-eu-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 20px;
+            border: 1.5px solid #ddd;
+            border-radius: 10px;
+            background: transparent;
+            color: #4a4a4a;
+            font-size: 0.83rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
+
+        .btn-eu-secondary:hover {
+            background: #f4f5f7;
+            border-color: #bbb;
+            color: #1a1a1a;
+        }
+
+        .btn-eu-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 24px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #C8102E 0%, #96091F 100%);
+            color: #fff;
+            font-size: 0.83rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(200, 16, 46, 0.28);
+        }
+
+        .btn-eu-primary:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 22px rgba(200, 16, 46, 0.38);
+            color: #fff;
+        }
+
+        .btn-eu-primary:active {
+            transform: translateY(0);
+        }
+    </style>
+
+    <div class="container-fluid eu-container">
+
+        {{-- Nav pills --}}
+        <div class="eu-nav">
+            <a href="{{ url('roles') }}" class="eu-nav-btn">
+                <i class="fas fa-shield-alt fa-xs"></i> Roles
+            </a>
+            <a href="{{ url('permissions') }}" class="eu-nav-btn">
+                <i class="fas fa-key fa-xs"></i> Permissions
+            </a>
+            <a href="{{ url('users') }}" class="eu-nav-btn active">
+                <i class="fas fa-users fa-xs"></i> Users
+            </a>
+        </div>
+
+        {{-- Validation errors --}}
+        @if ($errors->any())
+            <div class="eu-errors">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        {{-- Form card --}}
+        <div class="eu-card col-md-6">
+            <div class="eu-card-header">
+                <div>
+                    <p class="eu-card-title">Edit User</p>
+                    <p class="eu-card-subtitle">{{ $user->username }} &mdash; {{ $user->email }}</p>
+                </div>
+            </div>
+
+            <form action="{{ url('users/' . $user->id) }}" method="POST" id="updateUserForm">
+                @csrf
+                @method('PUT')
+
+                <div class="eu-card-body">
+
+                    {{-- Identity --}}
+                    <div class="section-label">Identity</div>
+                    <div class="row g-3">
+                        <div class="col-lg-3 col-md-4">
+                            <div class="eu-group">
+                                <label class="eu-label">Employee Code</label>
+                                <input type="text" name="emp_code" value="{{ $user->emp_code }}" class="eu-input"
+                                    maxlength="5">
+                                @error('emp_code')
+                                    <p class="field-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-md-8">
+                            <div class="eu-group">
+                                <label class="eu-label">Name <span class="required-dot">*</span></label>
+                                <input type="text" name="username" value="{{ $user->username }}" class="eu-input"
+                                    required>
+                                @error('name')
+                                    <p class="field-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="eu-group">
+                                <label class="eu-label">Account (Email) <span class="required-dot">*</span></label>
+                                <input type="text" name="email" value="{{ $user->email }}" class="eu-input" readonly
+                                    required>
+                                @error('email')
+                                    <p class="field-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Credentials --}}
+                    <div class="section-label mt-4">Credentials</div>
+                    <div class="eu-group">
+                        <label class="eu-label">New Password <span class="field-hint">(leave blank to keep current)</span></label>
+                        <div class="pw-group">
+                            <input type="text" name="password" id="password" class="eu-input"
+                                placeholder="Click generate to create a strong password">
+                            <button class="pw-btn" type="button" id="copyPasswordBtn" title="Copy to clipboard">
+                                <i class="fa-regular fa-clipboard"></i>
+                            </button>
+                            <button class="pw-btn" type="button" id="generatePasswordBtn" title="Generate password">
+                                <i class="fa-solid fa-repeat"></i>
+                            </button>
+                        </div>
+                        @error('password')
+                            <p class="field-error">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Access --}}
+                    <div class="section-label mt-4">Access</div>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="eu-group">
+                                <label class="eu-label">Roles <span class="required-dot">*</span></label>
+                                <select name="roles[]" id="roles-select" class="eu-input" data-placeholder="Choose roles"
+                                    multiple>
+                                    <option value="">select role</option>
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role }}"
+                                            {{ in_array($role, $userRoles) ? 'selected' : '' }}>
+                                            {{ $role }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('roles')
+                                    <p class="field-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="eu-group">
+                                <label class="eu-label">Type <span class="required-dot">*</span></label>
+                                <select name="type" id="type-select" class="eu-select">
+                                    <option value="">select type</option>
+                                    <option value="employee" @if ($user->type == 'employee') selected @endif>Employee
+                                    </option>
+                                    <option value="customer" @if ($user->type == 'customer') selected @endif>Customer
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="eu-group">
+                                <label class="eu-label">Supplier Code</label>
+                                <input type="text" name="supp_code" value="{{ $user->supp_code }}" class="eu-input">
+                                @error('supp_code')
+                                    <p class="field-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Status --}}
+                    <div class="section-label mt-4">Account Status</div>
+                    <div class="eu-status-card">
+                        <div class="eu-status-info">
+                            <h6>Active Status</h6>
+                            <p>Enable or disable this user account</p>
+                        </div>
+                        <input name="is_active" type="checkbox" {{ $user->is_active ? 'checked' : '' }}
+                            data-toggle="toggle" data-on="Active" data-off="Inactive" data-onstyle="success">
+                    </div>
+
+                </div>
+
+                <div class="eu-card-footer">
+                    <a href="{{ url('users') }}" class="btn btn-eu-secondary m-0">
+                        <i class="fas fa-arrow-left fa-xs"></i> Back
+                    </a>
+                    <button type="submit" class="btn btn-eu-primary m-0">
+                        <i class="fas fa-check fa-xs"></i> Update User
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <script src="{{ asset('js/bootstrap-toggle.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.slim.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}">
+
+    <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+        $('#roles-select').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
         });
 
-        copyPasswordBtn.addEventListener('click', () => {
-            if (passwordField.value) {
-                navigator.clipboard.writeText(passwordField.value)
-                    .then(() => {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'copied!',
-                            text: 'password copied to clipboard!',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
+        const updateUserForm = document.getElementById('updateUserForm');
+
+        function isPasswordStrong(password) {
+            const minLength = 15;
+            const hasLowerCase = /[a-z]+/.test(password);
+            const hasUpperCase = /[A-Z]+/.test(password);
+            const hasNumber = /[0-9]+/.test(password);
+            const hasSymbol = /[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]+/.test(password);
+
+            if (password.length < minLength) {
+                return {
+                    valid: false,
+                    message: `Must be at least ${minLength} characters long.`
+                };
+            }
+            if (!hasLowerCase) {
+                return {
+                    valid: false,
+                    message: 'Must include at least one lowercase letter.'
+                };
+            }
+            if (!hasUpperCase) {
+                return {
+                    valid: false,
+                    message: 'Must include at least one uppercase letter.'
+                };
+            }
+            if (!hasNumber) {
+                return {
+                    valid: false,
+                    message: 'Must include at least one number.'
+                };
+            }
+            if (!hasSymbol) {
+                return {
+                    valid: false,
+                    message: 'Must include at least one special character (e.g., !@#$).'
+                };
+            }
+
+            return {
+                valid: true,
+                message: 'password meets policy.'
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordField = document.getElementById('password');
+            const generatePasswordBtn = document.getElementById('generatePasswordBtn');
+            const copyPasswordBtn = document.getElementById('copyPasswordBtn');
+
+            function generateStrongPassword(length = 15) {
+                const lowerCase = 'abcdefghijklmnopqrstuvwxyz';
+                const upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                const numbers = '0123456789';
+                const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+                const allChars = lowerCase + upperCase + numbers + symbols;
+
+                let password = '';
+                password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
+                password += upperCase[Math.floor(Math.random() * upperCase.length)];
+                password += numbers[Math.floor(Math.random() * numbers.length)];
+                password += symbols[Math.floor(Math.random() * symbols.length)];
+
+                for (let i = password.length; i < length; i++) {
+                    password += allChars[Math.floor(Math.random() * allChars.length)];
+                }
+
+                return password.split('').sort(() => 0.5 - Math.random()).join('');
+            }
+
+            generatePasswordBtn.addEventListener('click', () => {
+                passwordField.value = generateStrongPassword(15);
+            });
+
+            copyPasswordBtn.addEventListener('click', () => {
+                if (passwordField.value) {
+                    navigator.clipboard.writeText(passwordField.value)
+                        .then(() => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Copied!',
+                                text: 'Password copied to clipboard.',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        })
+                        .catch(err => {
+                            console.error('Could not copy:', err);
+                            passwordField.select();
+                            document.execCommand('copy');
                         });
-                    })
-                    .catch(err => {
-                        console.error('could not copy text: ', err);
-                        passwordField.select();
-                        document.execCommand('copy');
-                        alert('password copied to clipboard! (fallback)');
-                    });
-            } else {
-                alert('nothing to copy. please generate a password first.');
-            }
-        });
-
-        if (updateUserForm && passwordField.value) {
-            updateUserForm.addEventListener('submit', function(event) {
-                const password = passwordField.value;
-                const validation = isPasswordStrong(password);
-
-                if (!validation.valid) {
-                    event.preventDefault();
-
+                } else {
                     Swal.fire({
-                        icon: 'warning',
-                        title: 'Password Policy Violation',
-                        html: `The generated password does not meet the strong password policy:<br><br><strong>${validation.message}</strong><br><br>Please click the refresh button to generate a new one.`,
-                        confirmButtonText: 'OK'
+                        icon: 'info',
+                        title: 'Nothing to copy',
+                        text: 'Please generate a password first.',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2500
                     });
                 }
             });
-        }
-    });
-</script>
+
+            if (updateUserForm) {
+                updateUserForm.addEventListener('submit', function(event) {
+                    const password = passwordField.value;
+                    if (!password) return;
+
+                    const validation = isPasswordStrong(password);
+                    if (!validation.valid) {
+                        event.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Password Policy Violation',
+                            html: `The password does not meet the policy:<br><br><strong>${validation.message}</strong>`,
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+        });
+    </script>
 @endsection
