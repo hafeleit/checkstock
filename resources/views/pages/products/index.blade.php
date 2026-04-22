@@ -1,4 +1,4 @@
-@extends('layouts.appguest', ['class' => 'g-sidenav-show bg-gray-100'])
+﻿@extends('layouts.appguest', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
     @include('layouts.navbars.guest.topnav', ['title' => 'Products'])
@@ -12,12 +12,12 @@
     <div class="container-fluid">
       <input type="hidden" name="view" id="view" value="{{request()->input('view')}}">
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 px-0">
           <div class="col-md-12 mb-lg-0">
               <div class="card mt-4">
                   <div class="card-header pb-0 p-3">
                       <div class="row">
-                          <div class="col-12 d-flex align-items-center">
+                          <div class="col-12 d-flex align-items-center px-0">
                               <h6 class="mb-0" style="font-size: 40px;">CHECK STOCK  </h6>
 
                           </div>
@@ -34,7 +34,7 @@
                   </div>
                   <div class="card-body p-3">
                       <div class="row">
-                          <div class="col-12" style="position: relative;">
+                          <div class="col-12 px-0" style="position: relative;">
                             <i class="fas fa-search opacity-3" style="position: absolute;  top: 17px;left: 24px;"></i>
                               <input id="search" name="search" type="text" class="form-control" placeholder="Search by item code or item name" autocomplete="off" style="height:50px; padding-left:40px">
                           </div>
@@ -47,7 +47,7 @@
       </div>
 
         <div class="row">
-            <div class="col-12 mt-4">
+            <div class="col-12 mt-4 px-0">
                 <div class="card mb-4" >
                     <div class="card-body px-0 pt-0 pb-2" id="card-product" style="display:none">
                         <div class="table-responsive p-0" id="get-products" >

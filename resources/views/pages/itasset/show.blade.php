@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
+﻿@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
 <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
@@ -32,7 +32,7 @@
         <div class="card-body">
           <h5 class="font-weight-bolder">Asset Image</h5>
           <div class="row">
-            <div class="col-12">
+            <div class="col-12 px-0">
               @php
               $images = [
               'T01' => 'macbook-pro.jpg',
@@ -75,7 +75,7 @@
         <div class="card-body">
           <h5 class="font-weight-bolder">Asset Information</h5>
           <div class="row">
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-6 px-0">
               <p class="mt-3">Device Name</p>
               <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                 <p class="text-sm font-weight-bold my-auto ps-sm-2">{{$itasset->computer_name ?? 'n/a'}}</p>
@@ -90,7 +90,7 @@
 
           </div>
           <div class="row">
-            <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+            <div class="col-12 col-sm-6 mt-3 mt-sm-0 px-0">
               <p class="mt-3">Old Device Name</p>
               <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                 <p class="text-sm font-weight-bold my-auto ps-sm-2">{{$itasset->old_device_name ?? 'n/a'}}</p>
@@ -131,7 +131,7 @@
             });
           </script>
           <div class="row">
-            <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+            <div class="col-12 col-sm-6 mt-3 mt-sm-0 px-0">
               <p class="mt-3">Color</p>
               <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                 <p class="text-sm font-weight-bold my-auto ps-sm-2">{{$itasset->color ?? 'n/a'}}</p>
@@ -145,7 +145,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-6 px-0">
               <p class="mt-3">Fixed Asset No.</p>
               <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                 <p class="text-sm font-weight-bold my-auto ps-sm-2">{{$itasset->fixed_asset_no ?? 'n/a'}}</p>
@@ -159,7 +159,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-6 px-0">
               <p class="mt-3">Warranty</p>
               <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                 <p class="text-sm font-weight-bold my-auto ps-sm-2">{{$itasset->warranty ?? 'n/a'}}</p>
@@ -177,7 +177,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-6 px-0">
               <p class="mt-3">Status</p>
               @if($itasset->status == 'ACTIVE')
               <span class="badge badge-success badge-md">{{$itasset->status}}</span>
@@ -200,7 +200,7 @@
           </div>
 
           <div class="row">
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-6 px-0">
               <p class="mt-3">Create By</p>
               <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                 <p class="text-sm font-weight-bold my-auto ps-sm-2">{{$itasset->create_by ?? 'n/a'}}</p>
@@ -214,7 +214,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-6 px-0">
               <p class="mt-3">Update By</p>
               <div class="d-sm-flex bg-gray-100 border-radius-lg p-2">
                 <p class="text-sm font-weight-bold my-auto ps-sm-2">{{$itasset->update_by ?? 'n/a'}}</p>

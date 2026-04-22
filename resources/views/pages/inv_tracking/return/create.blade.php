@@ -26,7 +26,7 @@
         color: #ffffff !important;
     }
 </style>
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 px-2 px-md-3">
     <div class="card">
         <div class="px-4 d-flex align-items-center justify-content-between mt-4">
             <h2 class="h5 mb-0">Create New Return Document</h2>

@@ -1,4 +1,4 @@
-@extends('layouts.appguest', ['class' => 'g-sidenav-show bg-gray-100'])
+﻿@extends('layouts.appguest', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
 <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
@@ -19,7 +19,7 @@
 
         <div class="row">
 
-            <div class="col-12 txt-title">
+            <div class="col-12 txt-title px-0">
               <h3 class="font-weight-bolder text-white mb-0">Big Clearance Sale 2025</h3>
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">

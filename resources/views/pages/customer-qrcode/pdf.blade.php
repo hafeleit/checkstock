@@ -107,7 +107,7 @@
         </table>
 
         <div class="info-name">
-            {{ $customer->customer_full_name }}
+            {{ $customer->customer_name }}
         </div>
 
         <div class="footer-date">
