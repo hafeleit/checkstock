@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
+﻿@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'New Asset'])
@@ -39,7 +39,7 @@
               @endif
               <h5 class="font-weight-bolder">Asset Type Information</h5>
               <div class="row">
-                <div class="col-12 col-sm-6">
+                <div class="col-12 col-sm-6 px-0">
                   <label>Asset Type Description <span class="text-danger">*</span></label>
                   <input class="form-control" type="text" name="type_desc" placeholder="" value="{{ $assetType->type_desc }}" required>
                 </div>

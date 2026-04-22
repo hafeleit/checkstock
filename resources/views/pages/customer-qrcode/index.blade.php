@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
+﻿@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'QR Code Customer'])
@@ -192,7 +192,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12 mt-4">
+            <div class="col-md-12 mt-4 px-0">
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-md-flex align-items-center justify-between">
@@ -222,11 +222,11 @@
                     </div>
 
                     <div class="card-body mt-3">
-                        <div class="row g-3 align-items-end">
-                            <div class="col-7 col-md-6">
+                        <div class="row col-md-6 g-3 align-items-end">
+                            <div class="col">
                                 <input type="search" class="form-control form-control-sm search-field" id="search-input" value="{{ $params['search'] ?? '' }}" placeholder="Search by customer name or code..." autofocus>
                             </div>
-                            <div class="col-5 col-md-auto">
+                            <div class="col-auto">
                                 <button type="button" class="btn btn-sm btn-primary uppercase mb-0" id="searchButton">search</button>
                             </div>
                         </div>
@@ -286,7 +286,7 @@
                                                 <td class="py-3 px-4">
                                                     <span class="badge badge-secondary badge-customer-code">{{ $customer->customer_code }}</span>
                                                 </td>
-                                                <td class="py-3 px-4">{{ $customer->customer_full_name }}</td>
+                                                <td class="py-3 px-4">{{ $customer->customer_name }}</td>
                                                 <td class="py-3 px-4">
                                                     <button type="button"
                                                         class="btn-qr-trigger d-inline-flex align-items-center gap-2 px-3 py-1 m-0 border-0"
@@ -295,7 +295,7 @@
                                                         data-id="{{ $customer->id }}"
                                                         data-code="{{ $customer->customer_code }}"
                                                         data-name="{{ $customer->customer_name }}"
-                                                        data-full-name="{{ $customer->customer_full_name }}"
+                                                        data-full-name="{{ $customer->customer_name }}"
                                                         data-qr-url="{{ route('qr-code-customers.png', $customer->id) }}"
                                                         data-url="{{ route('qr-code-customers.pdf', $customer->id) }}">
 
