@@ -3,9 +3,9 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Delivery Tracking'])
 
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 px-2 px-md-3">
     <div class="card">
-        <div class="my-3 px-4">
+        <div class="my-3 px-2 px-md-4">
             <!-- Search form -->
             <div class="row gx-3 align-items-end">
                 <div class="col-md-3">
@@ -51,14 +51,14 @@
                     <label for="delivery_date" class="form-label">Delivery Date</label>
                     <input type="date" class="form-control form-control-sm search-field" id="delivery_date" value="{{ $params['delivery_date'] ?? '' }}">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-2 mt-md-0">
                     <button type="button" class="btn btn-dark uppercase mb-0" id="searchButton">search</button>
                     <button type="button" class="btn btn-outline-dark uppercase mb-0" id="clearButton">clear</button>
                 </div>
             </div>
         </div>
 
-        <div class="px-4 py-4">
+        <div class="px-2 px-md-4 py-2 py-md-4">
 
             @if (!$params)
             <div class="d-flex align-items-center justify-content-end gap-2">

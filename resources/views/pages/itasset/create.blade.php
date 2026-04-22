@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
+﻿@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'New Asset'])
@@ -48,7 +48,7 @@
             @endif
             <h5 class="font-weight-bolder">Asset Information</h5>
             <div class="row">
-              <div class="col-12 col-sm-6">
+              <div class="col-12 col-sm-6 px-0">
                 <label>Device Name <span class="text-danger">*</span></label>
                 <input class="form-control" type="text" name="computer_name" placeholder="ex.HTHBKKNB333" value="{{ old('computer_name') }}" required>
               </div>
@@ -59,7 +59,7 @@
 
             </div>
             <div class="row">
-              <div class="col-12 col-sm-6 mt-3">
+              <div class="col-12 col-sm-6 mt-3 px-0">
                 <label>Old Device Name</label>
                 <input class="form-control" type="text" name="old_device_name" placeholder="ex.AP-5CD242KKN4" value="{{ old('old_device_name') }}">
               </div>
@@ -98,7 +98,7 @@
             });
             </script>
             <div class="row">
-              <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+              <div class="col-12 col-sm-6 mt-3 mt-sm-0 px-0">
                 <label class="mt-4">Color</label>
                 <select class="form-control" name="color">
                   <option value="GREEN">GREEN</option>
@@ -112,7 +112,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-12 col-sm-6">
+              <div class="col-12 col-sm-6 px-0">
                 <label class="mt-4">Fixed Asset No.</label>
                 <input class="form-control" type="text" name="fixed_asset_no" placeholder="ex.RS8898569565" value="{{ old('fixed_asset_no') }}">
               </div>
@@ -122,7 +122,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-12 col-sm-6">
+              <div class="col-12 col-sm-6 px-0">
                 <label class="mt-4">Warranty</label>
                 <select class="form-control" name="warranty">
                   <option value="1 Years">1 Years</option>
@@ -138,7 +138,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-12 col-sm-6">
+              <div class="col-12 col-sm-6 px-0">
                 <label class="mt-4">Status <span class="text-danger">*</span></label>
                 <select class="form-control" name="status" id="status" required>
                   <option value="ACTIVE">ACTIVE</option>
@@ -206,7 +206,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-12 col-sm-6">
+              <div class="col-12 col-sm-6 px-0">
                 <label class="mt-4">Create By</label>
                 <input class="form-control" type="text" name="create_by" readonly>
               </div>

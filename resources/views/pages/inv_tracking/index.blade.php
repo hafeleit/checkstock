@@ -13,9 +13,9 @@
     }
 </style>
 
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 px-2 px-md-3">
     <div class="card">
-        <div class="d-flex justify-content-between align-items-center py-4 px-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 py-3 py-md-4 px-3 px-md-4">
             <div class="d-flex align-items-center justify-content-between">
                 <h2 class="h5 mb-0">Delivery Tracking Lists</h2>
             </div>
