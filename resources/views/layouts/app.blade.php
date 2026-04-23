@@ -25,6 +25,7 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ URL::to('/') }}/assets/css/argon-dashboard.css" rel="stylesheet" />
     <link id="pagestyle" href="{{ URL::to('/') }}/assets/css/checkstock.css" rel="stylesheet" />
+    <link href="{{ URL::to('/') }}/assets/css/role-permission.css" rel="stylesheet" />
 
     {{-- Inline style ย้ายมาใช้ nonce --}}
     <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
