@@ -18,7 +18,7 @@
             max-width: 400px;
             background: #FFFFFF;
             border-radius: 20px;
-            padding: 44px 40px 36px;
+            padding: 44px 30px 36px;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
         }
 
@@ -35,7 +35,7 @@
             color: #1a1a1a;
             margin-bottom: 0;
             letter-spacing: -0.3px;
-            margin-right: -20px;
+            margin-right: -25px;
         }
 
         .login-subtitle {
