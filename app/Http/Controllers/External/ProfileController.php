@@ -36,8 +36,8 @@ class ProfileController extends Controller
     {
         request()->validate([
             'username' => 'required|string|max:100',
-            'first_name' => 'nullable|string|max:100',
-            'last_name' => 'nullable|string|max:100',
+            'firstname' => 'nullable|string|max:100',
+            'lastname' => 'nullable|string|max:100',
             'email' => [
                 'nullable',
                 'string',
@@ -51,7 +51,7 @@ class ProfileController extends Controller
 
         $this->authorize('update', $user);
 
-        $user->update(request()->all());
+        $user->update(request()->only(['username', 'firstname', 'lastname']));
 
         return redirect()->route('customer.profile.show', $user->id)->with('success', '');
     }
