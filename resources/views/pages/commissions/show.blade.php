@@ -98,9 +98,6 @@
         }
     </style>
 
-    <div id="alert">
-        @include('components.alert')
-    </div>
     <!-- ปุ่ม Go to Top -->
     <button id="goTopBtn" class="go-top-btn">
         <i class="fas fa-arrow-up"></i>
@@ -118,6 +115,9 @@
         <div class="row">
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
+                    <div class="px-3">
+                        @include('components.alert')
+                    </div>
                     <div class="card-body p-3">
                         <div class="row">
                             <div class="col-8">
