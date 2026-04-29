@@ -65,7 +65,7 @@
           </div>
           <span class="nav-link-text ms-1">IT Asset</span>
         </a>
-        <div class="collapse {{ Request::segment(1) == 'itasset' ? 'show' : '' }}" id="productsExample">
+        <div class="collapse {{ in_array(Request::segment(1), ['itasset','asset_types']) ? 'show' : '' }}" id="productsExample">
           <ul class="nav nav-sm flex-column">
             @can('itasset create')
             <li class="nav-item">
