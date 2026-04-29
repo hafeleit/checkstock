@@ -3,11 +3,12 @@
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Commissions'])
 
-    <div>
-        @include('components.alert')
-    </div>
     <div class="container-fluid py-4">
         <div class="card">
+            <div class="px-3">
+                @include('components.alert')
+            </div>
+
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Commissions List</h5>
                 @can('Commissions Import')
