@@ -26,9 +26,11 @@ class SecurityHeaders
         $response = $next($request);
 
         // Headers พื้นฐาน
+        $response->headers->remove('X-Powered-By');
+        $response->headers->remove('Server');
         $response->headers->set('X-Frame-Options', 'DENY');
         $response->headers->set('X-Content-Type-Options', 'nosniff');
-        $response->headers->set('X-XSS-Protection', '1; mode=block');
+        $response->headers->set('X-XSS-Protection', '0');
         $response->headers->set('Referrer-Policy', 'no-referrer');
 
         // Content Security Policy (CSP)
@@ -38,7 +40,9 @@ class SecurityHeaders
             "script-src 'self' 'nonce-{$scriptNonce}'; " .
             "style-src 'self' 'nonce-{$styleNonce}'; " .
             "img-src 'self' data:; " .
-            "font-src 'self' data:"
+            "font-src 'self' data:; " .
+            "object-src 'none'; " .
+            "base-uri 'self'"
         );
 
         // HTTPS
