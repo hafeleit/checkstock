@@ -84,7 +84,7 @@
                                     <h4 class="font-weight-bolder text-dark mb-0">{{ NUMBER_FORMAT($itassets_cnt) ?? '0' }}</h4>
                                 </div>
                             </div>
-                            <div class="col-4 text-end">
+                            <div class="col-4 flex justify-content-end">
                                 <div class="icon icon-shape bg-primary text-white shadow-sm text-center rounded-circle d-flex justify-content-center">
                                     <i class="fas fa-boxes text-lg" aria-hidden="true"></i>
                                 </div>
@@ -106,7 +106,7 @@
                                     </h4>
                                 </div>
                             </div>
-                            <div class="col-4 text-end">
+                            <div class="col-4 flex justify-content-end">
                                 <div class="icon icon-shape bg-success text-white shadow-sm text-center rounded-circle d-flex justify-content-center">
                                     <i class="fas fa-laptop text-lg" aria-hidden="true"></i>
                                 </div>
@@ -128,7 +128,7 @@
                                     </h4>
                                 </div>
                             </div>
-                            <div class="col-4 text-end">
+                            <div class="col-4 flex justify-content-end">
                                 <div class="icon icon-shape bg-warning text-white shadow-sm text-center rounded-circle d-flex justify-content-center">
                                     <i class="fas fa-desktop text-lg" aria-hidden="true"></i>
                                 </div>
@@ -150,7 +150,7 @@
                                     </h4>
                                 </div>
                             </div>
-                            <div class="col-4 text-end">
+                            <div class="col-4 flex justify-content-end">
                                 <div class="icon icon-shape bg-danger text-white shadow-sm text-center rounded-circle d-flex justify-content-center">
                                     <i class="fas fa-tools text-lg" aria-hidden="true"></i>
                                 </div>
