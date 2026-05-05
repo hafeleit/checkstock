@@ -1,11 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Exports\ProductitemsExport;
 use App\Http\Controllers\AuditLogController;
-use App\Imports\ProductitemsImport;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -135,17 +131,10 @@ Route::middleware(['auth', 'check.status', 'force.password.change'])->group(func
   // consumerlabel
   Route::get('/barcode/{barcode}', [ProductItemsController::class, 'generateBarcode'])->name('generate-barcode');
   Route::get('/qrcode/{qrcode}', [ProductItemsController::class, 'generateQrcode'])->name('generate-qrcode');
+  Route::get('/product-items/download-template', [ProductItemsController::class, 'downloadTemplate'])->name('productitems.download-template');
   Route::resource('product-items', ProductItemsController::class);
-  Route::get('/export-product-items', function () {
-    return Excel::download(new ProductitemsExport, 'ProductItems.xlsx');
-  })->name('productitems_export');
-  Route::post('/import-product-items', function (Request $request) {
-    $request->validate([
-      'file' => 'required|mimes:xlsx,csv',
-    ]);
-    Excel::import(new ProductitemsImport, $request->file('file'));
-    return back()->with('succes', 'Import ข้อมูลสำเร็จ!');
-  })->name('productitems_import');
+  Route::get('/export-product-items', [ProductItemsController::class, 'export'])->name('productitems_export');
+  Route::post('/import-product-items', [ProductItemsController::class, 'import'])->name('productitems_import');
   Route::get('consumerlabel-barcode', [ProductItemsController::class, 'pdfbarcode'])->name('pdfbarcode');
 
   // Audit Logs

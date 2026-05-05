@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Consumerlabel;
 
+use App\Exports\ProductitemsExport;
+use App\Exports\TemplateExport;
 use App\Http\Controllers\Controller;
+use App\Imports\ProductitemsImport;
 use Illuminate\Http\Request;
 use App\Models\ProductItem;
 use App\Models\CMLColour;
@@ -14,6 +17,7 @@ use App\Models\CMLWarning;
 use Auth;
 use PDF;
 use DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Milon\Barcode\DNS1D;
 use Milon\Barcode\DNS2D;
 
@@ -225,5 +229,30 @@ class ProductItemsController extends Controller
       $img = DNS2D::getBarcodePNG($qrcode, 'QRCODE');
       return response(base64_decode($img))->header('Content-Type', 'image/png');
     }
+  }
+
+  public function export()
+  {
+    return Excel::download(new ProductitemsExport, 'ProductItems.xlsx');
+  }
+
+  public function import(Request $request)
+  {
+    $request->validate([
+      'file' => 'required|mimes:xlsx,xls,csv',
+    ]);
+
+    try {
+      Excel::import(new ProductitemsImport, $request->file('file'));
+      return response()->json(['status' => 'success', 'message' => 'Data imported successfully.']);
+    } catch (\Throwable $e) {
+      return response()->json(['status' => 'error', 'message' => $e->getMessage()], 422);
+    }
+  }
+
+  public function downloadTemplate()
+  {
+    $fileName = "Product_Items_Template.xlsx";
+    return Excel::download(new TemplateExport('product-items'), $fileName);
   }
 }
