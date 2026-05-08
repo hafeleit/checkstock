@@ -200,7 +200,16 @@
                         },
                         body: JSON.stringify(finalData)
                     })
-                    .then(response => {})
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(err => {
+                                throw err;
+                            }).catch(() => {
+                                throw new Error('Server error: ' + response.status);
+                            });
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         Swal.fire('Success', 'Data saved successfully!', 'success')
                             .then(() => {
