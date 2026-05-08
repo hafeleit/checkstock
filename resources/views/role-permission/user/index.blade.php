@@ -111,11 +111,13 @@
                                     <td class="muted">{{ $user->last_logged_in_at ?? '—' }}</td>
                                     <td>
                                         @if ($user->is_active)
-                                            <span class="badge-active"><i class="fas fa-circle"></i>
-                                                Active</span>
+                                            <span class="badge-active">
+                                                <i class="fas fa-circle"></i>Active
+                                            </span>
                                         @else
-                                            <span class="badge-inactive"><i class="fas fa-circle"
-                                                    style="font-size:6px;"></i> Inactive</span>
+                                            <span class="badge-inactive">
+                                                <i class="fas fa-circle"></i> Inactive
+                                            </span>
                                         @endif
                                     </td>
                                     <td class="text-center">
