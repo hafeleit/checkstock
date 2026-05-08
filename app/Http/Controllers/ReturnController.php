@@ -48,35 +48,43 @@ class ReturnController extends Controller
                 ]);
             }
 
-            foreach ($request->erp_documents as $erpDocument) {
-                InvTracking::query()
-                    ->where('erp_document', $erpDocument)
-                    ->where('type', 'deliver')
-                    ->update([
-                        'status' => 'completed',
-                        'updated_by' => auth()->user()->id
-                    ]);
+            $existingInvoices = InvTracking::query()
+                ->whereIn('erp_document', $request->erp_documents)
+                ->where('type', 'deliver')
+                ->get()
+                ->keyBy('erp_document');
 
-                $existingInvoice = InvTracking::query()
-                    ->where('erp_document', $erpDocument)
-                    ->where('type', 'deliver')
-                    ->first();
+            InvTracking::query()
+                ->whereIn('erp_document', $request->erp_documents)
+                ->where('type', 'deliver')
+                ->update([
+                    'status' => 'completed',
+                    'updated_by' => auth()->user()->id
+                ]);
 
-                InvTracking::create([
+            $now = Carbon::now();
+            $userId = auth()->user()->id;
+            $inserts = collect($request->erp_documents)->map(function ($erpDocument) use ($logiTrackId, $existingInvoices, $request, $now, $userId) {
+                return [
                     'logi_track_id' => $logiTrackId,
                     'erp_document' => $erpDocument,
-                    'invoice_id' => $existingInvoice['invoice_id'] ?? null,
+                    'invoice_id' => $existingInvoices[$erpDocument]['invoice_id'] ?? null,
                     'driver_or_sent_to' => $request->driver_or_sent_to,
                     'type' => 'return',
                     'status' => 'completed',
-                    'created_date' => Carbon::now(),
-                    'created_by' => Auth()->user()->id,
-                    'remark' => $request->remark ?? null
-                ]);
-            }
+                    'created_date' => $now,
+                    'created_by' => $userId,
+                    'remark' => $request->remark ?? null,
+                    'updated_by' => $userId,
+                    'updated_at' => $now,
+                    'created_at' => $now,
+                ];
+            })->toArray();
+
+            InvTracking::insert($inserts);
         });
 
-        return redirect()->back();
+        return response()->json(['success' => true]);
     }
 
     public function export()

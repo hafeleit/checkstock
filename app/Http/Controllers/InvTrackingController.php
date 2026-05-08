@@ -31,7 +31,8 @@ class InvTrackingController extends Controller
     {
         $drivers = Driver::get();
 
-        $invTrackings = InvTracking::with('user')
+        // Group by logi_track_id and get latest
+        $paginatedGroups = InvTracking::query()
             ->when(request()->logi_track_id, function ($q) {
                 $q->where('logi_track_id', 'LIKE', '%' . request()->logi_track_id . '%');
             })
@@ -43,11 +44,21 @@ class InvTrackingController extends Controller
                 $endDate = Carbon::parse(request()->delivery_date)->endOfDay();
                 $q->whereBetween('delivery_date', [$startDate, $endDate]);
             })
-            ->get();
+            ->select('logi_track_id', 'created_at')
+            ->groupBy('logi_track_id')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-        $groupedData = $invTrackings->groupBy('logi_track_id');
+        // Fetch all invTrackings
+        $invTrackings = InvTracking::with('user')
+            ->whereIn('logi_track_id', collect($paginatedGroups->items())->pluck('logi_track_id'))
+            ->get()
+            ->groupBy('logi_track_id');
 
-        $mappedData = $groupedData->map(function ($items, $logiTrackId) {
+        // Map the paginated groups
+        
+        $mappedData = $paginatedGroups->through(function ($group) use ($invTrackings) {
+            $items = $invTrackings->get($group->logi_track_id, collect());
             $firstItem = $items->first();
 
             $isCompleted = $items->every(function ($item) {
@@ -56,7 +67,7 @@ class InvTrackingController extends Controller
 
             return [
                 "id"                => $firstItem->id,
-                "logi_track_id"     => $logiTrackId,
+                "logi_track_id"     => $group->logi_track_id,
                 "erp_documents"     => $items->pluck('erp_document')->toArray(),
                 "driver_or_sent_to" => $firstItem->driver_or_sent_to,
                 "type"              => $firstItem->type,
@@ -72,20 +83,8 @@ class InvTrackingController extends Controller
             ];
         });
 
-        $sortedData = $mappedData->sortByDesc('created_at')->values();
-
-        $perPage = 10;
-        $currentPage = request()->input('page', 1);
-        $paginatedData = new \Illuminate\Pagination\LengthAwarePaginator(
-            $sortedData->forPage($currentPage, $perPage),
-            $sortedData->count(),
-            $perPage,
-            $currentPage,
-            ['path' => request()->url(), 'query' => request()->query()]
-        );
-
         return view('pages.inv_tracking.index', [
-            'invTrackings' => $paginatedData,
+            'invTrackings' => $mappedData,
             'drivers' => $drivers,
             'params' => request()->all()
         ]);
