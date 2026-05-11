@@ -263,7 +263,11 @@ class InvTrackingController extends Controller
 
     public function exportOverall()
     {
-        $fileName = 'overall_document_' . Carbon::now()->format('Ymd') . '.xlsx';
+        $month = request('month'); // format: YYYY-MM
+        $monthCarbon = $month ? Carbon::createFromFormat('Y-m', $month) : null;
+
+        $monthSuffix = $monthCarbon ? $monthCarbon->format('Y_m') : Carbon::now()->format('Ymd');
+        $fileName = "overall_document_{$monthSuffix}.xlsx";
 
         try {
             $invTrackings = InvTracking::query()
@@ -280,6 +284,10 @@ class InvTrackingController extends Controller
                     'inv_trackings.remark',
                     'created_user.username as created_by',
                     'updated_user.username as updated_by',
+                )
+                ->when($monthCarbon, fn($q) => $q
+                    ->whereYear('inv_trackings.created_date', $monthCarbon->year)
+                    ->whereMonth('inv_trackings.created_date', $monthCarbon->month)
                 );
 
             event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'pass', $fileName, null));
@@ -292,41 +300,49 @@ class InvTrackingController extends Controller
 
     public function exportPending()
     {
-        $fileName = 'pending_document_' . Carbon::now()->format('Ymd') . '.xlsx';
+        $month = request('month');
+        $monthCarbon = $month ? Carbon::createFromFormat('Y-m', $month) : null;
+
+        $monthSuffix = $monthCarbon ? $monthCarbon->format('Y_m') : Carbon::now()->format('Ymd');
+        $fileName = "pending_document_{$monthSuffix}.xlsx";
 
         try {
             $latestDriver = DB::table('inv_trackings as t1')
-      				->select('t1.erp_document', 't1.driver_or_sent_to')
-      				->join(DB::raw('(
-      					SELECT erp_document, MAX(delivery_date) as max_date
-      					FROM inv_trackings
-      					WHERE type = "deliver"
-      					AND status = "pending"
-      					GROUP BY erp_document
-      				) t2'), function ($join) {
-      					$join->on('t1.erp_document', '=', 't2.erp_document')
-      						 ->on('t1.delivery_date', '=', 't2.max_date');
-      				})
-      				->where('t1.type', 'deliver')
-      				->where('t1.status', 'pending');
+                ->select('t1.erp_document', 't1.driver_or_sent_to')
+                ->join(DB::raw('(
+                    SELECT erp_document, MAX(delivery_date) as max_date
+                    FROM inv_trackings
+                    WHERE type = "deliver"
+                    AND status = "pending"
+                    GROUP BY erp_document
+                ) t2'), function ($join) {
+                    $join->on('t1.erp_document', '=', 't2.erp_document')
+                         ->on('t1.delivery_date', '=', 't2.max_date');
+                })
+                ->where('t1.type', 'deliver')
+                ->where('t1.status', 'pending');
 
-      			$invTrackings = DB::table('inv_trackings as main')
-      				->select(
-      					'main.erp_document',
-      					'main.invoice_id',
-      					DB::raw('MIN(main.delivery_date) as oldest_delivery_date'),
-      					DB::raw('DATEDIFF(CURDATE(), MIN(main.delivery_date)) as days_since_delivery'),
-      					'ld.driver_or_sent_to'
-      				)
-      				->leftJoinSub($latestDriver, 'ld', function ($join) {
-      					$join->on('main.erp_document', '=', 'ld.erp_document');
-      				})
-      				->where('main.type', 'deliver')
-      				->where('main.status', 'pending')
-      				->groupBy('main.erp_document', 'main.invoice_id', 'ld.driver_or_sent_to')
-      				->get();
+            $invTrackings = DB::table('inv_trackings as main')
+                ->select(
+                    'main.erp_document',
+                    'main.invoice_id',
+                    DB::raw('MIN(main.delivery_date) as oldest_delivery_date'),
+                    DB::raw('DATEDIFF(CURDATE(), MIN(main.delivery_date)) as days_since_delivery'),
+                    'ld.driver_or_sent_to'
+                )
+                ->leftJoinSub($latestDriver, 'ld', function ($join) {
+                    $join->on('main.erp_document', '=', 'ld.erp_document');
+                })
+                ->where('main.type', 'deliver')
+                ->where('main.status', 'pending')
+                ->when($monthCarbon, fn($q) => $q
+                    ->whereYear('main.delivery_date', $monthCarbon->year)
+                    ->whereMonth('main.delivery_date', $monthCarbon->month)
+                )
+                ->groupBy('main.erp_document', 'main.invoice_id', 'ld.driver_or_sent_to')
+                ->get();
 
-            $mappedData = $invTrackings->map(function ($invTracking, $index) {
+            $mappedData = $invTrackings->map(function ($invTracking) {
                 return [
                     'delivery_date' => $invTracking->oldest_delivery_date,
                     'erp_document' => $invTracking->erp_document,
