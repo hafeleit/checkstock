@@ -263,11 +263,13 @@ class InvTrackingController extends Controller
 
     public function exportOverall()
     {
-        $month = request('month'); // format: YYYY-MM
-        $monthCarbon = $month ? Carbon::createFromFormat('Y-m', $month) : null;
+        $dateFrom = request('date_from');
+        $dateTo   = request('date_to');
 
-        $monthSuffix = $monthCarbon ? $monthCarbon->format('Y_m') : Carbon::now()->format('Ymd');
-        $fileName = "overall_document_{$monthSuffix}.xlsx";
+        $suffix = ($dateFrom && $dateTo)
+            ? Carbon::parse($dateFrom)->format('Ymd') . '_' . Carbon::parse($dateTo)->format('Ymd')
+            : Carbon::now()->format('Ymd');
+        $fileName = "overall_document_{$suffix}.xlsx";
 
         try {
             $invTrackings = InvTracking::query()
@@ -285,9 +287,9 @@ class InvTrackingController extends Controller
                     'created_user.username as created_by',
                     'updated_user.username as updated_by',
                 )
-                ->when($monthCarbon, fn($q) => $q
-                    ->whereYear('inv_trackings.created_date', $monthCarbon->year)
-                    ->whereMonth('inv_trackings.created_date', $monthCarbon->month)
+                ->when($dateFrom && $dateTo, fn($q) => $q
+                    ->whereDate('inv_trackings.created_date', '>=', $dateFrom)
+                    ->whereDate('inv_trackings.created_date', '<=', $dateTo)
                 );
 
             event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'pass', $fileName, null));
@@ -300,11 +302,13 @@ class InvTrackingController extends Controller
 
     public function exportPending()
     {
-        $month = request('month');
-        $monthCarbon = $month ? Carbon::createFromFormat('Y-m', $month) : null;
+        $dateFrom = request('date_from');
+        $dateTo   = request('date_to');
 
-        $monthSuffix = $monthCarbon ? $monthCarbon->format('Y_m') : Carbon::now()->format('Ymd');
-        $fileName = "pending_document_{$monthSuffix}.xlsx";
+        $suffix = ($dateFrom && $dateTo)
+            ? Carbon::parse($dateFrom)->format('Ymd') . '_' . Carbon::parse($dateTo)->format('Ymd')
+            : Carbon::now()->format('Ymd');
+        $fileName = "pending_document_{$suffix}.xlsx";
 
         try {
             $latestDriver = DB::table('inv_trackings as t1')
@@ -335,9 +339,9 @@ class InvTrackingController extends Controller
                 })
                 ->where('main.type', 'deliver')
                 ->where('main.status', 'pending')
-                ->when($monthCarbon, fn($q) => $q
-                    ->whereYear('main.delivery_date', $monthCarbon->year)
-                    ->whereMonth('main.delivery_date', $monthCarbon->month)
+                ->when($dateFrom && $dateTo, fn($q) => $q
+                    ->whereDate('main.delivery_date', '>=', $dateFrom)
+                    ->whereDate('main.delivery_date', '<=', $dateTo)
                 )
                 ->groupBy('main.erp_document', 'main.invoice_id', 'ld.driver_or_sent_to')
                 ->get();

@@ -22,7 +22,8 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#exportMonthModal"
                                 data-export-url="/delivery-trackings/export-overall"
-                                data-export-filename="overall-report">
+                                data-export-filename="overall-report"
+                                data-export-label="Overall Report">
                                 <i class="fas fa-file-excel"></i>
                                 <span>Overall Report</span>
                             </button>
@@ -33,7 +34,8 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#exportMonthModal"
                                 data-export-url="/delivery-trackings/export-pending"
-                                data-export-filename="pending-report">
+                                data-export-filename="pending-report"
+                                data-export-label="Pending ERP Report">
                                 <i class="fas fa-file-excel"></i>
                                 <span>Pending ERP Report</span>
                             </button>
@@ -171,7 +173,7 @@
         </div>
     </div>
 
-    {{-- Export Month Picker Modal --}}
+    {{-- Export Date Range Picker Modal --}}
     <div class="modal fade" id="exportMonthModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg rounded-3">
@@ -187,13 +189,21 @@
                         </svg>
                     </div>
 
-                    <p class="fw-semibold text-dark text-center mb-1">Select Export Month</p>
-                    <p class="text-muted small text-center mb-3">Report will include records from the selected month only</p>
+                    <p class="text-center mb-3">
+                        <span id="exportReportLabel" class="badge bg-secondary fw-normal small"></span>
+                    </p>
+                    <p class="fw-semibold text-dark text-center mb-1">Select Export Date Range</p>
+                    <p class="text-muted small text-center mb-3">Maximum range is 3 months</p>
 
+                    <div class="mb-2">
+                        <label for="exportDateFrom" class="form-label text-xs text-uppercase fw-semibold text-muted mb-1">From</label>
+                        <input type="date" class="form-control form-control-sm" id="exportDateFrom">
+                        <div class="invalid-feedback" id="exportDateFromError">Please select a start date.</div>
+                    </div>
                     <div>
-                        <label for="exportMonth" class="form-label text-xs text-uppercase fw-semibold text-muted mb-1">Month</label>
-                        <input type="month" class="form-control form-control-sm" id="exportMonth">
-                        <div class="invalid-feedback">Please select a month.</div>
+                        <label for="exportDateTo" class="form-label text-xs text-uppercase fw-semibold text-muted mb-1">To</label>
+                        <input type="date" class="form-control form-control-sm" id="exportDateTo">
+                        <div class="invalid-feedback" id="exportDateToError">Please select an end date.</div>
                     </div>
                 </div>
                 <div class="modal-footer border-0 px-4 pt-0 pb-3 gap-2">
@@ -275,30 +285,100 @@
             btn.addEventListener('click', function() {
                 _exportUrl = this.dataset.exportUrl;
                 _exportFilename = this.dataset.exportFilename;
+                document.getElementById('exportReportLabel').textContent = this.dataset.exportLabel;
             });
         });
 
+        // แปลง Date object เป็น string รูปแบบ YYYY-MM-DD
+        function toDateStr(date) {
+            return date.toISOString().slice(0, 10);
+        }
+
+        // บวกลบจำนวนวันจาก date string แล้วคืนค่าเป็น string
+        function addDays(dateStr, days) {
+            const d = new Date(dateStr);
+            d.setDate(d.getDate() + days);
+            return toDateStr(d);
+        }
+
+        // ล็อก To ให้อยู่ในช่วง [from, from+90วัน]
+        function applyFromConstraints(fromVal) {
+            const toInput = document.getElementById('exportDateTo');
+            toInput.min = fromVal;
+            toInput.max = addDays(fromVal, 90);
+            if (toInput.value && (toInput.value < fromVal || toInput.value > toInput.max)) {
+                toInput.value = '';
+            }
+        }
+
+        // ล็อก From ให้อยู่ในช่วง [to-90วัน, to]
+        function applyToConstraints(toVal) {
+            const fromInput = document.getElementById('exportDateFrom');
+            fromInput.max = toVal;
+            fromInput.min = addDays(toVal, -90);
+            if (fromInput.value && (fromInput.value > toVal || fromInput.value < fromInput.min)) {
+                fromInput.value = '';
+            }
+        }
+
+        document.getElementById('exportDateFrom').addEventListener('change', function() {
+            if (this.value) {
+                applyFromConstraints(this.value);
+            }
+        });
+
+        document.getElementById('exportDateTo').addEventListener('change', function() {
+            if (this.value) {
+                applyToConstraints(this.value);
+            }
+        });
+
+        // reset validation + ตั้งค่า default เป็นต้นเดือนถึงวันนี้
         document.getElementById('exportMonthModal').addEventListener('show.bs.modal', function() {
-            const input = document.getElementById('exportMonth');
-            input.classList.remove('is-invalid');
-            if (!input.value) {
+            const fromInput = document.getElementById('exportDateFrom');
+            const toInput = document.getElementById('exportDateTo');
+
+            fromInput.classList.remove('is-invalid');
+            toInput.classList.remove('is-invalid');
+            fromInput.min = '';
+            fromInput.max = '';
+            toInput.min = '';
+            toInput.max = '';
+
+            if (!fromInput.value) {
                 const now = new Date();
-                input.value = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+                const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+                fromInput.value = toDateStr(firstDay);
+                toInput.value = toDateStr(now);
+            }
+
+            if (fromInput.value) {
+                applyFromConstraints(fromInput.value);
             }
         });
 
         document.getElementById('exportMonthConfirm').addEventListener('click', async function() {
-            const input = document.getElementById('exportMonth');
-            const month = input.value;
+            const fromInput = document.getElementById('exportDateFrom');
+            const toInput = document.getElementById('exportDateTo');
+            let valid = true;
 
-            if (!month) {
-                input.classList.add('is-invalid');
+            fromInput.classList.remove('is-invalid');
+            toInput.classList.remove('is-invalid');
+
+            if (!fromInput.value) {
+                fromInput.classList.add('is-invalid');
+                valid = false;
+            }
+            if (!toInput.value) {
+                toInput.classList.add('is-invalid');
+                valid = false;
+            }
+            if (!valid) {
                 return;
             }
-            input.classList.remove('is-invalid');
 
-            const url = _exportUrl + '?month=' + month;
-            const filename = _exportFilename + '-' + month.replace('-', '') + '.xlsx';
+            const url = _exportUrl + '?date_from=' + fromInput.value + '&date_to=' + toInput.value;
+            const filename = _exportFilename + '-' + fromInput.value + '_' + toInput.value + '.xlsx';
 
             bootstrap.Modal.getInstance(document.getElementById('exportMonthModal')).hide();
 
