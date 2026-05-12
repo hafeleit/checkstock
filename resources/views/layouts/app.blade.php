@@ -206,6 +206,10 @@
         });
 
         window.addEventListener('beforeunload', function() {
+            if (typeof Swal !== 'undefined' && Swal.isVisible()) { 
+                return; 
+            }
+            
             document.getElementById('loader-wrapper').classList.remove('loader-hidden');
             document.getElementById('loader-wrapper').style.display = 'flex';
         });
