@@ -380,7 +380,7 @@ class AfterSalesDashboardController extends Controller
 
             $tickets = HthAfterSaleTicket::query()
                 ->leftJoin($regionsSub, 'hth_after_sale_ticket.zipcode', '=', 'regions.postcodemain')
-                ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.ticket_number', '=', 'hth_after_sale_ticket_cstm.id')
+                ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
                 ->where('hth_after_sale_ticket.deleted', 0)
                 ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
                 ->whereNot('hth_after_sale_ticket.release_date', '>', now())
@@ -419,7 +419,7 @@ class AfterSalesDashboardController extends Controller
             $tickets = HthAfterSaleTicket::query()
                 ->leftJoin('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
                 ->leftJoin('hth_ass_teams', DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), '=', 'hth_ass_teams.name')
-                ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.ticket_number', '=', 'hth_after_sale_ticket_cstm.id')
+                ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
                 ->whereNotNull('hth_ass_teams.team')
                 ->where('hth_after_sale_ticket.deleted', 0)
                 ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
@@ -462,7 +462,7 @@ class AfterSalesDashboardController extends Controller
                     '=',
                     'regions.postcodemain'
                 )
-                ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.ticket_number', '=', 'hth_after_sale_ticket_cstm.id')
+                ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
                 ->where('hth_after_sale_ticket.deleted', 0)
                 ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
                 ->whereNot('hth_after_sale_ticket.release_date', '>', now())
