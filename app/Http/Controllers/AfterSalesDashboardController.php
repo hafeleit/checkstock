@@ -203,7 +203,6 @@ class AfterSalesDashboardController extends Controller
             $activeAging = request('aging');
 
             $query = HthAfterSaleTicket::query()
-                ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
                 ->where('hth_after_sale_ticket.deleted', 0)
                 ->whereNot('hth_after_sale_ticket.release_date', '>', now())
                 ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason']);
@@ -225,7 +224,6 @@ class AfterSalesDashboardController extends Controller
                     'hth_after_sale_ticket.ticket_number',
                     'hth_after_sale_ticket.name',
                     'hth_after_sale_ticket.release_date',
-                    'hth_after_sale_ticket_cstm.closed_date_c',
                     'hth_after_sale_ticket.status',
                     DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date) as days_diff')
                 ])
@@ -880,17 +878,16 @@ class AfterSalesDashboardController extends Controller
     private function calculateOverallAging(int $month, int $year)
     {
         $result = HthAfterSaleTicket::query()
-            ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->whereNot('hth_after_sale_ticket.release_date', '>', now())
             ->selectRaw("
                 COUNT(*) as total_days,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket_cstm.closed_date_c) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket_cstm.closed_date_c) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket_cstm.closed_date_c) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket_cstm.closed_date_c) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket_cstm.closed_date_c) > 30 THEN 1 END) as days_over_30
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) > 30 THEN 1 END) as days_over_30
             ")
             ->first();
 
