@@ -2,11 +2,13 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Commissions'])
-    <div>
-        @include('components.alert')
-    </div>
+
     <div class="container-fluid py-4">
         <div class="card">
+            <div class="px-3">
+                @include('components.alert')
+            </div>
+
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Commissions List</h5>
                 @can('Commissions Import')
@@ -62,7 +64,7 @@
                                     @endcan
                                     @can('Commissions Summary-View')
                                         <a href="{{ route('commissions.sales-summary', $c->id) }}"
-                                            class="btn btn-sm btn-primary">
+                                            class="btn btn-sm btn-warning">
                                             <i class="fas fa-chart-bar me-1"></i> ดูยอดรวม
                                         </a>
                                     @endcan
@@ -127,6 +129,7 @@
     </div>
 
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+
         document.addEventListener('click', function(e) {
             if (e.target.closest('.commissions-link')) {
                 const button = e.target.closest('.commissions-link');
@@ -204,12 +207,30 @@
         });
 
         document.getElementById('importForm').addEventListener('submit', function(e) {
-            // แสดง loading popup ด้วย SweetAlert2
+            const perloader = document.getElementById('loader-wrapper');
+
+            // ไม่แสดง preloader
+            if (perloader) {
+                perloader.style.setProperty('display', 'none', 'important');
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                            if (perloader.style.display !== 'none') {
+                                perloader.style.setProperty('display', 'none', 'important');
+                            }
+                        }
+                    });
+                });
+                observer.observe(perloader, { attributes: true });
+            }
+
+            // แสดง SweetAlert
             Swal.fire({
                 title: 'กำลังประมวลผล...',
+                text: 'กรุณารอสักครู่ ระบบกำลังนำเข้าข้อมูล',
                 allowOutsideClick: false,
                 didOpen: () => {
-                    Swal.showLoading()
+                    Swal.showLoading();
                 }
             });
         });

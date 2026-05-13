@@ -2452,7 +2452,7 @@ progress {
 
 .form-control:focus {
     background-color: #fff;
-    border-color: #fb6340;
+    border-color: #C8102E;
     box-shadow: 0 3px 9px transparent,3px 4px 8px rgba(94,114,228,.1);
     color: #495057;
     outline: 0
@@ -3282,9 +3282,13 @@ textarea.form-control,textarea.form-control-lg,textarea.form-control-sm {
 }
 
 .btn-primary {
-    background-color: #fb6340;
+    /*background-color: #fb6340;
     border-color: #fb6340;
-    color: #000
+    color: #000*/
+
+    background: linear-gradient(135deg, #C8102E 0%, #96091F 100%);
+    color: #ffffff;
+
 }
 
 .btn-check:focus+.btn-primary,.btn-primary:focus,.btn-primary:hover {
@@ -9489,7 +9493,7 @@ textarea.form-control,textarea.form-control-lg,textarea.form-control-sm {
 }
 
 .text-primary {
-    color: #fb6340!important
+    color: #C8102E!important
 }
 
 .text-secondary {
@@ -9549,7 +9553,7 @@ textarea.form-control,textarea.form-control-lg,textarea.form-control-sm {
 }
 
 .bg-primary {
-    background-color: #fb6340!important
+    background-color: #C8102E!important
 }
 
 .bg-secondary {
@@ -19105,7 +19109,7 @@ textarea.form-control,textarea.form-control-lg,textarea.form-control-sm {
 }
 
 .badge.bg-primary {
-    background: #fb6340
+    background: #C8102E
 }
 
 .badge.bg-secondary {
@@ -20334,7 +20338,9 @@ textarea.form-control,textarea.form-control-lg,textarea.form-control-sm {
 }
 
 .bg-gradient-primary {
-    background-image: linear-gradient(310deg,#fb6340,#fbb140)
+    /*background-image: linear-gradient(310deg,#fb6340,#fbb140)*/
+    background-image: linear-gradient(135deg, #C8102E 0%, #96091F 100%)
+
 }
 
 .bg-gradient-secondary {

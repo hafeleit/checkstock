@@ -1,101 +1,82 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Role'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Roles'])
 
-    <div class="card shadow-lg mx-4 card-profile-bottom">
-        <div class="card-body p-3">
-            <div class="row gx-4">
-                <div class="col-auto">
-                </div>
-                <div class="col-auto my-auto">
-                    <div class="h-100">
-                        <p class="mb-0 font-weight-bold text-sm mt-3">
-
-                            <a href="{{ url('roles') }}" class="btn btn-primary mx-1">Roles</a>
-                            <a href="{{ url('permissions') }}" class="btn btn-info mx-1">Permissions</a>
-                            <a href="{{ url('users') }}" class="btn btn-success mx-1">Users</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
+    <div class="container-fluid eu-container">
+        <div class="eu-nav">
+            <a href="{{ url('roles') }}" class="eu-nav-btn active"><i class="fas fa-shield-alt fa-xs"></i> Roles</a>
+            <a href="{{ url('permissions') }}" class="eu-nav-btn"><i class="fas fa-key fa-xs"></i> Permissions</a>
+            <a href="{{ url('users') }}" class="eu-nav-btn"><i class="fas fa-users fa-xs"></i> Users</a>
         </div>
-    </div>
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-md-12">
 
-                @if (session('status'))
-                    <div class="alert alert-success">{{ session('status') }}</div>
-                @endif
+        @if (session('status'))
+            <div class="alert-status"><i class="fas fa-check-circle"></i> {{ session('status') }}</div>
+        @endif
 
-                <div class="card mt-3">
-                    <div class="card-header">
-                        <h4>
-                            Roles
-                            @can('role create')
-                                <a href="{{ url('roles/create') }}" class="btn btn-primary float-end">Add Role</a>
-                            @endcan
-                        </h4>
-                    </div>
-                    <div class="card-body">
-
-                        <table class="table table-flush dataTable-table" id="products-list">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th width="40%">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($roles as $role)
-                                    <tr>
-                                        <td>{{ $role->id }}</td>
-                                        <td>{{ $role->name }}</td>
-                                        <td class="d-flex">
-                                            <a href="{{ url('roles/' . $role->id . '/give-permissions') }}"
-                                                class="btn btn-warning mx-2">
-                                                Add / Edit Role Permission
+        <div class="eu-card">
+            <div class="eu-card-header">
+                <p class="eu-card-title">Roles</p>
+                @can('role create')
+                    <a href="{{ url('roles/create') }}" class="btn-eu-primary">
+                        <i class="fas fa-plus fa-xs"></i> Add Role
+                    </a>
+                @endcan
+            </div>
+            <div class="table-responsive px-4">
+                <table class="rp-table dataTable-table" id="roles-list">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Role Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($roles as $role)
+                            <tr>
+                                <td class="muted">{{ $role->id }}</td>
+                                <td>{{ $role->name }}</td>
+                                <td>
+                                    <div class="d-flex gap-2 flex-nowrap">
+                                        <a href="{{ url('roles/' . $role->id . '/give-permissions') }}"
+                                            class="btn-action btn-action-perm">
+                                            <i class="fas fa-key fa-xs"></i> Permissions
+                                        </a>
+                                        @can('role update')
+                                            <a href="{{ url('roles/' . $role->id . '/edit') }}"
+                                                class="btn-action btn-action-edit">
+                                                <i class="fas fa-pen fa-xs"></i> Edit
                                             </a>
-
-                                            @can('role update')
-                                                <a href="{{ url('roles/' . $role->id . '/edit') }}" class="btn btn-success mx-2">
-                                                    Edit
-                                                </a>
-                                            @endcan
-
-                                            @can('role delete')
-                                                <form action="{{ url('roles/' . $role->id . '/delete') }}"
-                                                    method="post">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger mx-2">Delete</button>
-                                                </form>
-                                            @endcan
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
+                                        @endcan
+                                        @can('role delete')
+                                            <form action="{{ url('roles/' . $role->id . '/delete') }}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="btn-action btn-action-delete py-2">
+                                                    <i class="fas fa-trash fa-xs"></i> Delete
+                                                </button>
+                                            </form>
+                                        @endcan
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <script src="{{ asset('js/dataTables.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/dataTables.dataTables.min.css') }}">
-
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         $(document).ready(function() {
-            $("#products-list").DataTable({
+            $("#roles-list").DataTable({
                 order: [
                     [0, 'asc']
                 ]
             });
-
         });
     </script>
 @endsection

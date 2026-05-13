@@ -20,9 +20,9 @@
     }
 </style>
 
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 px-2 px-md-3">
     <div class="card">
-        <div class="px-4 d-flex align-items-center justify-content-between mt-4">
+        <div class="px-3 px-md-4 d-flex align-items-center justify-content-between mt-4">
             <h2 class="h5 mb-0">Edit Deliver/Return #{{ $invTracking['logi_track_id'] }}</h2>
             <a href="/delivery-trackings" class="btn btn-secondary btn-sm d-flex align-items-center gap-2 mb-0">
                 <i class="fa fa-arrow-left"></i>
@@ -35,7 +35,7 @@
             </p>
         </div>
 
-        <div class="px-4">
+        <div class="px-3 px-md-4">
             <form id="edit-form" action="{{ route('delivery-trackings.update', $invTracking['logi_track_id']) }}" method="POST">
                 @csrf
                 @method('PUT')

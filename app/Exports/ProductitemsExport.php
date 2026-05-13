@@ -74,6 +74,9 @@ class ProductitemsExport implements FromCollection, WithHeadings, WithColumnForm
             'series_name',
             'qr_code',
             'color',
+            'created_at',
+            'updated_at',
+            'status',
         ];
     }
 }

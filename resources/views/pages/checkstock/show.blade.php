@@ -1,11 +1,11 @@
-@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
+﻿@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
 
 @include('layouts.navbars.auth.topnav', ['title' => 'Check Stock'])
 <div class="container-fluid py-4">
   <div class="row">
-    <div class="col-12">
+    <div class="col-12 px-0">
       <div class="card">
         <div class="card-header pb-0">
 

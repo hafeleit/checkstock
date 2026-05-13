@@ -8,10 +8,6 @@
     </style>
 
     @include('layouts.navbars.auth.topnav', ['title' => 'Edit Product Item'])
-
-    <div id="alert">
-        @include('components.alert')
-    </div>
     
     <div class="container-fluid py-4">
         <form action="{{ route('product-items.update', $productitem->id) }}" method="post">
@@ -28,6 +24,9 @@
             <div class="row mt-4">
                 <div class="col-lg-12 mt-4">
                     <div class="card">
+                        <div class="px-3">
+                            @include('components.alert')
+                        </div>
                         <div class="card-body">
                             @if ($message = Session::get('success'))
                                 <div class="alert alert-success">

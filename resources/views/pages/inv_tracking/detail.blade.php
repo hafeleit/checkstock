@@ -3,9 +3,9 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Delivery Tracking'])
 
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 px-2 px-md-3">
     <div class="card">
-        <div class="my-3 px-4">
+        <div class="my-3 px-2 px-md-4">
             <!-- Search form -->
             <div class="row gx-3 align-items-end">
                 <div class="col-md-3">
@@ -51,14 +51,14 @@
                     <label for="delivery_date" class="form-label">Delivery Date</label>
                     <input type="date" class="form-control form-control-sm search-field" id="delivery_date" value="{{ $params['delivery_date'] ?? '' }}">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-2 mt-md-0">
                     <button type="button" class="btn btn-dark uppercase mb-0" id="searchButton">search</button>
                     <button type="button" class="btn btn-outline-dark uppercase mb-0" id="clearButton">clear</button>
                 </div>
             </div>
         </div>
 
-        <div class="px-4 py-4">
+        <div class="px-2 px-md-4 py-2 py-md-4">
 
             @if (!$params)
             <div class="d-flex align-items-center justify-content-end gap-2">
@@ -115,7 +115,7 @@
                             <td class="py-3 px-3">{{ $item['invoice_id'] ?? null }}</td>
                             <td class="py-3 px-3">{{ $item['driver_or_sent_to'] }}</td>
                             <td class="py-3 px-3">{{ $item['delivery_date'] ? $item['delivery_date']->format('d-m-Y H:i') : '-' }}</td>
-                            <td class="py-3 px-3">{{ $item['user']['username'] }}</td>
+                            <td class="py-3 px-3">{{ $item['user']['username'] ?? '-' }}</td>
                             <td class="py-3 px-3">{{ $item['created_date']->format('d-m-Y H:i') }}</td>
                             <td class="py-3 px-3">
                                 <span class="fw-semibold capitalize @if($item['type'] === 'return') text-success @else text-muted @endif">
@@ -153,37 +153,6 @@
         $('#driver_or_sent_to').select2({
             placeholder: 'Search for a driver',
             allowClear: true
-        });
-
-        document.querySelectorAll('.export-btn').forEach(button => {
-            button.addEventListener('click', async function () {
-                const loader = document.getElementById('loader-wrapper');
-                try {
-                    loader.classList.remove('loader-hidden');
-                    loader.style.display = 'flex';
-                    const url = this.dataset.url;
-                    const filename = this.dataset.filename;
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                        throw new Error('Export failed');
-                    }
-                    const blob = await response.blob();
-                    const downloadUrl = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = downloadUrl;
-                    a.download = filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(downloadUrl);
-                } catch (error) {
-                    alert('Export error');
-                    console.error(error);
-                } finally {
-                    loader.classList.add('loader-hidden');
-                    loader.style.display = 'none';
-                }
-            });
         });
 
     });

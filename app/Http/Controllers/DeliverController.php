@@ -70,7 +70,7 @@ class DeliverController extends Controller
             }
         });
 
-        return redirect()->back();
+        return response()->json(['success' => true]);
     }
 
     public function export()

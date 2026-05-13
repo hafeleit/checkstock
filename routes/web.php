@@ -1,23 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Exports\ProductitemsExport;
 use App\Http\Controllers\AfterSalesDashboardController;
 use App\Http\Controllers\AuditLogController;
-use App\Imports\ProductitemsImport;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarrantyController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\SoStatusController;
@@ -30,11 +20,11 @@ use App\Http\Controllers\Consumerlabel\ProductItemsController;
 use App\Http\Controllers\ITAssetTypeController;
 use App\Http\Controllers\InvRecordController;
 use App\Http\Controllers\CommissionController;
+use App\Http\Controllers\CustomerQrCodeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductInformationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Models\AuditLog;
 use Illuminate\Support\Facades\Redirect;
 
 // public routes
@@ -69,7 +59,7 @@ Route::get('/after-sales/user-dashboard', [AfterSalesDashboardController::class,
 Route::get('/after-sales/detail/{chart}', [AfterSalesDashboardController::class, 'detail'])->name('after-sales.detail');
 
 // protected routes (requires authentication and status check)
-Route::middleware(['auth', 'check.status'])->group(function () {
+Route::middleware(['auth', 'check.status', 'force.password.change'])->group(function () {
   // dashboard & user profile
   Route::get('/clr_dashboard', [homecontroller::class, 'clr_dashboard'])->name('clr_dashboard');
   Route::get('/change-password', [changepassword::class, 'show'])->name('change-password');
@@ -144,17 +134,10 @@ Route::middleware(['auth', 'check.status'])->group(function () {
   // consumerlabel
   Route::get('/barcode/{barcode}', [ProductItemsController::class, 'generateBarcode'])->name('generate-barcode');
   Route::get('/qrcode/{qrcode}', [ProductItemsController::class, 'generateQrcode'])->name('generate-qrcode');
+  Route::get('/product-items/download-template', [ProductItemsController::class, 'downloadTemplate'])->name('productitems.download-template');
   Route::resource('product-items', ProductItemsController::class);
-  Route::get('/export-product-items', function () {
-    return Excel::download(new ProductitemsExport, 'ProductItems.xlsx');
-  })->name('productitems_export');
-  Route::post('/import-product-items', function (Request $request) {
-    $request->validate([
-      'file' => 'required|mimes:xlsx,csv',
-    ]);
-    Excel::import(new ProductitemsImport, $request->file('file'));
-    return back()->with('succes', 'Import ข้อมูลสำเร็จ!');
-  })->name('productitems_import');
+  Route::get('/export-product-items', [ProductItemsController::class, 'export'])->name('productitems_export');
+  Route::post('/import-product-items', [ProductItemsController::class, 'import'])->name('productitems_import');
   Route::get('consumerlabel-barcode', [ProductItemsController::class, 'pdfbarcode'])->name('pdfbarcode');
 
   // Audit Logs
@@ -162,4 +145,15 @@ Route::middleware(['auth', 'check.status'])->group(function () {
     Route::get('/audit-logs/details', [AuditLogController::class, 'details'])->name('audit-logs.details');
     Route::get('/audit-logs/errors', [AuditLogController::class, 'errorLog'])->name('audit-logs.errors');
   });
+
+  // QR Code Customer
+  Route::get('/qr-code-customers', [CustomerQrCodeController::class, 'index'])->name('qr-code-customers.index');
+  Route::get('/qr-code-customers/create', [CustomerQrCodeController::class, 'create'])->name('qr-code-customers.create');
+  Route::get('/qr-code-customers/{id}/pdf', [CustomerQrCodeController::class, 'generatePdf'])->name('qr-code-customers.pdf');
+  Route::get('/qr-code-customers/{id}/png', [CustomerQrCodeController::class, 'generatePng'])->name('qr-code-customers.png');
+  Route::post('/qr-code-customers', [CustomerQrCodeController::class, 'store'])->name('qr-code-customers.store');
+  Route::post('/qr-code-customers/generate', [CustomerQrCodeController::class, 'generateQrCode'])->name('qr-code-customers.generate');
+  Route::delete('/qr-code-customers/{id}', [CustomerQrCodeController::class, 'destroy'])->name('qr-code-customers.destroy');
+  Route::get('/qr-code-customers/export-template', [CustomerQrCodeController::class, 'exportTemplate'])->name('qr-code-customers.export-template');
+  Route::post('/qr-code-customers/import', [CustomerQrCodeController::class, 'import'])->name('qr-code-customers.import');
 });

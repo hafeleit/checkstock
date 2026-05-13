@@ -1,96 +1,76 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
+    @include('layouts.navbars.auth.topnav', ['title' => 'Role Permissions'])
 
-@include('layouts.navbars.auth.topnav', ['title' => 'Online Order'])
-<style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-  input[type="checkbox"]:checked {
-    accent-color: #fb6340;
-  }
+    <div class="container-fluid eu-container">
+        <div class="eu-nav">
+            <a href="{{ url('roles') }}" class="eu-nav-btn active"><i class="fas fa-shield-alt fa-xs"></i> Roles</a>
+            <a href="{{ url('permissions') }}" class="eu-nav-btn"><i class="fas fa-key fa-xs"></i> Permissions</a>
+            <a href="{{ url('users') }}" class="eu-nav-btn"><i class="fas fa-users fa-xs"></i> Users</a>
+        </div>
 
-</style>
-    <div class="card shadow-lg mx-4 card-profile-bottom">
-        <div class="card-body p-3">
-            <div class="row gx-4">
-                <div class="col-auto">
-                </div>
-                <div class="col-auto my-auto">
-                    <div class="h-100">
-                        <p class="mb-0 font-weight-bold text-sm mt-3">
+        @if (session('status'))
+            <div class="alert-status"><i class="fas fa-check-circle"></i> {{ session('status') }}</div>
+        @endif
 
-                          <a href="{{ url('roles') }}" class="btn btn-primary mx-1">Roles</a>
-                          <a href="{{ url('permissions') }}" class="btn btn-info mx-1">Permissions</a>
-                          <a href="{{ url('users') }}" class="btn btn-success mx-1">Users</a>
-                        </p>
-                    </div>
+        <div class="eu-card">
+            <div class="eu-card-header">
+                <div>
+                    <p class="eu-card-title">Assign Permissions</p>
+                    <p class="eu-card-subtitle">Role: {{ $role->name }}</p>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-md-12">
 
-                @if (session('status'))
-                    <div class="alert alert-success">{{ session('status') }}</div>
+            <form action="{{ url('roles/' . $role->id . '/give-permissions') }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                <div class="eu-card-body">
+                    @error('permission')
+                        <p class="field-error"><i class="fas fa-exclamation-circle"></i> {{ $message }}</p>
+                    @enderror
+
+                    <?php $titleStore = ''; ?>
+                    @foreach ($permissions as $permission)
+                        <?php
+                        $parts = explode(' ', $permission->name);
+                        $group = $parts[0];
+                        $label = implode(' ', array_slice($parts, 1));
+                        ?>
+                        @if ($titleStore !== $group)
+                            <?php $titleStore = $group; ?>
+                            @if (!$loop->first)
+                </div>
+        </div>
+        @endif
+        <div class="mb-4">
+            <div class="perm-group-title">{{ $group }}</div>
+            <div class="row g-1">
                 @endif
-
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Role : {{ $role->name }}
-                            <a href="{{ url('roles') }}" class="btn btn-danger float-end">Back</a>
-                        </h4>
-                    </div>
-                    <div class="card-body">
-
-                        <form action="{{ url('roles/'.$role->id.'/give-permissions') }}" method="POST">
-                            @csrf
-                            @method('PUT')
-
-                            <div class="mb-3">
-                                @error('permission')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-
-                                <h4 for="" class="text-secondary">Permissions</h4>
-                                <div class="row">
-                                    <?php
-                                      $title_store = '';
-                                     ?>
-                                    @foreach ($permissions as $key => $permission)
-                                    <?php
-                                      $title = explode(' ',$permission->name);
-                                      if($title_store != $title[0]){
-                                        echo '<hr class="horizontal bg-secondary my-1"><h5 class="text-uppercase">'.$title[0].'</h5>';
-                                      }
-                                      $title_store = $title[0];
-                                     ?>
-                                    <div class="col-md-3">
-                                        <label>
-                                            <input
-                                                id="{{$permission->name}}"
-                                                class="custom-control-input"
-                                                type="checkbox"
-                                                name="permission[]"
-                                                value="{{ $permission->name }}"
-                                                {{ in_array($permission->id, $rolePermissions) ? 'checked':'' }}
-                                            />
-                                            <label class="custom-control-label text-sm text-uppercase text-secondary" for="{{$permission->name}}">{{ implode(' ', array_slice($title, 1)) }}</label>
-
-                                        </label>
-                                    </div>
-
-                                    @endforeach
-                                </div>
-
-                            </div>
-                            <div class="mb-3 float-end">
-                                <button type="submit" class="btn btn-primary btn-lg">Update</button>
-                            </div>
-                        </form>
-                    </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <label class="perm-check-label">
+                        <input type="checkbox" name="permission[]" value="{{ $permission->name }}"
+                            {{ in_array($permission->id, $rolePermissions) ? 'checked' : '' }}>
+                        <span>{{ $label ?: $permission->name }}</span>
+                    </label>
                 </div>
+                @endforeach
+                @if (count($permissions) > 0)
             </div>
         </div>
+        @endif
+    </div>
+
+    <div class="eu-card-footer">
+        <a href="{{ url('roles') }}" class="btn-eu-secondary">
+            <i class="fas fa-arrow-left fa-xs"></i> Back
+        </a>
+        <button type="submit" class="btn-eu-primary">
+            <i class="fas fa-check fa-xs"></i> Update Permissions
+        </button>
+    </div>
+    </form>
+    </div>
     </div>
 @endsection

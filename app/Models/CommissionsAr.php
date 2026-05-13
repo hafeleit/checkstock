@@ -42,5 +42,7 @@ class CommissionsAr extends Model
         'status',
         'adjuster',
         'remark',
+
+        'header_text',
     ];
 }

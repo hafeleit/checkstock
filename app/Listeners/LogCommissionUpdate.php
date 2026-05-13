@@ -28,7 +28,7 @@ class LogCommissionUpdate
                 'event' => 'updated',
                 'status' => $event->status,
                 'auditable_type' => $event->model,
-                'auditable_id' => $event->newCommission->id,
+                'auditable_id' => $event->newCommission->id ?? 0,
                 'new_values' => json_encode($event->newCommission),
                 'old_values' => json_encode($event->oldCommission),
             ]);

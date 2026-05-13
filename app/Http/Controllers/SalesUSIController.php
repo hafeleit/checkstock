@@ -57,7 +57,7 @@ class SalesUSIController extends Controller
         $productImg = ProductInfoFile::where('item_code', $item_code)
             ->where('type', 'image')
             ->first();
-        
+
         if (!empty($productImg)) {
             $imgPath = $productImg->path;
         } else {
@@ -536,87 +536,68 @@ class SalesUSIController extends Controller
 
     private function buildPoQuery(string $material)
     {
-        $rankedPoItemsQuery = DB::table('zhtrmm_pol')
-            ->select(
-                'material',
-                'purch_doc',
-                'order_quantity',
-                'po_prod_time',
-                'po_exp_out_date',
-                'cf_exp_out_date',
-                'inb_act_arrival_date',
-                'confirm_category',
-                'planned_delivery_time',
-                'po_transport_time',
-                'position_no',
-                DB::raw("ROW_NUMBER() OVER (
-                    PARTITION BY purch_doc, position_no
-                    ORDER BY
-                        CASE confirm_category
-                            WHEN 'LA' THEN 1
-                            WHEN 'AB' THEN 2
-                            WHEN NULL THEN 3
-                            ELSE 4
-                        END
-                    ) as rn
-                ")
-            )
-            ->where('material', $material);
+      $rankedPoItemsQuery = DB::table('zhtrmm_pol as b')
+          ->select(
+              'b.material',
+              'b.purch_doc',
+              'b.position_no',
+              'b.order_quantity',
+              'b.order_unit AS WSS_ITEM_UOM_CODE',
+              'b.po_exp_out_date',
+              'b.cf_exp_out_date',
+              'b.inb_act_arrival_date',
+              'b.confirm_category',
+              'b.po_transport_time',
+              DB::raw("ROW_NUMBER() OVER (
+                  PARTITION BY b.purch_doc, b.position_no
+                  ORDER BY
+                      CASE
+                          WHEN b.confirm_category = 'LA' THEN 1
+                          WHEN b.confirm_category = 'AB' THEN 2
+                          WHEN b.confirm_category IS NULL THEN 3
+                          ELSE 4
+                      END
+              ) as rn")
+          )
+          ->where('b.material', $material);
 
-        $poItemSubquery = DB::query()
-            ->fromSub($rankedPoItemsQuery, 'poItemsQuery')
-            ->where('rn', 1)
-            ->select('*');
+      $warSubquery = DB::table('ZHWWBCQUERYDIR')
+          ->select('war', 'material')
+          ->where('material', $material)
+          ->groupBy('material');
 
-        $warSubquery = DB::table('ZHWWBCQUERYDIR')
-            ->select('war', 'material')
-            ->where('material', $material)
-            ->groupBy('material');
+      $date_expression = "CASE
+          WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war, 0)) DAY)
+          WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war, 0)) DAY)
+          WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war, 0)) DAY)
+      END";
 
-        $date_expression = "CASE
-                WHEN b.confirm_category = 'LA' THEN DATE_ADD(STR_TO_DATE(b.inb_act_arrival_date, '%m/%d/%Y'), INTERVAL (COALESCE(d.war,0)) DAY)
-                WHEN b.confirm_category = 'AB' THEN DATE_ADD(STR_TO_DATE(b.cf_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
-                WHEN b.confirm_category IS NULL THEN DATE_ADD(STR_TO_DATE(b.po_exp_out_date, '%m/%d/%Y'), INTERVAL (b.po_transport_time + COALESCE(d.war,0)) DAY)
-            END";
+      $poQuery = DB::query()
+          ->fromSub($rankedPoItemsQuery, 'b')
+          ->leftJoinSub($warSubquery, 'd', function ($join) {
+              $join->on('d.material', '=', 'b.material');
+          })
+          ->select([
+              'b.material',
+              'b.order_quantity',
+              'b.WSS_ITEM_UOM_CODE',
+              DB::raw("RIGHT(LEFT(YEARWEEK($date_expression, 3), 4), 2) AS years"),
+              DB::raw("WEEK($date_expression, 3) AS weeks"),
+          ])
+          ->where('b.rn', 1);
 
-        $poQuery = DB::table('ZHWWMM_OPEN_ORDERS as a')
-            ->leftJoinSub($poItemSubquery, 'b', function ($join) {
-                $join->on('a.purchasing_document', '=', 'b.purch_doc')
-                    ->on('a.material', '=', 'b.material');
-            })
-            ->leftJoinSub(
-                $warSubquery,
-                'd',
-                function ($join) {
-                    $join->on('d.material', '=', 'a.material');
-                }
-            )
-            ->select([
-                'a.material',
-                'b.position_no',
-                DB::raw("RIGHT(LEFT(YEARWEEK($date_expression, 3), 4), 2) AS years"),
-                DB::raw("WEEK($date_expression, 3) AS weeks"),
-                'a.po_order_unit AS WSS_ITEM_UOM_CODE',
-                'b.order_quantity',
-                'a.delivered_quantity'
-            ])
-            ->where('a.material', $material);
-            /*->groupBy('a.material', 'b.position_no', 'years', 'weeks');*/
+      $aggregatedPoQuery = DB::query()
+          ->fromSub($poQuery, 'poquery')
+          ->select([
+              'poquery.material',
+              'poquery.years',
+              'poquery.weeks',
+              'poquery.WSS_ITEM_UOM_CODE',
+              DB::raw("COALESCE(SUM(poquery.order_quantity), 0) AS WSS_INCOMING_QTY"),
+          ])
+          ->groupBy('poquery.material', 'poquery.years', 'poquery.weeks', 'poquery.WSS_ITEM_UOM_CODE');
 
-        $aggregatedPoQuery = DB::query()
-            ->fromSub($poQuery, 'poquery')
-            ->select([
-                'material',
-                'years',
-                'weeks',
-                'WSS_ITEM_UOM_CODE',
-                DB::raw("COALESCE(SUM(order_quantity), 0) AS WSS_INCOMING_QTY"),
-                DB::raw("COALESCE(SUM(delivered_quantity), 0) AS WSS_RCV_QTY"),
-            ])
-            ->where('material', $material)
-            ->groupBy('material', 'years', 'weeks');
-
-        return $aggregatedPoQuery;
+      return $aggregatedPoQuery;
     }
 
     private function buildSoQuery(string $material)
@@ -704,7 +685,6 @@ class SalesUSIController extends Controller
                 DB::raw("COALESCE(po.WSS_INCOMING_QTY, 0) AS WSS_INCOMING_QTY"),
                 DB::raw("COALESCE(so.WSS_RES_QTY, 0) AS WSS_RES_QTY"),
                 DB::raw("COALESCE(un.WSS_AVAIL_QTY, 0) AS WSS_AVAIL_QTY"),
-                DB::raw("COALESCE(po.WSS_RCV_QTY, 0) AS WSS_RCV_QTY"),
             ])
             ->get();
     }
@@ -720,15 +700,20 @@ class SalesUSIController extends Controller
                 $q->where(function ($x) {
                     $x->where('bom.bom_usg', 1)
                         ->where('bom.proc_type', 'E');
-                })
-                ->orWhere(function ($x) {
-                    $x->where('bom.bom_usg', 5)
-                        ->where('bom.proc_type', 'F');
-                });
+                    })
+                    ->orWhere(function ($x) {
+                        $x->where('bom.bom_usg', 5)
+                            ->where('bom.proc_type', 'F');
+                    });
             });
 
         if (auth()->user()->hasPermissionTo('salesusi manager')) {
             return DB::table('ZHWWBCQUERYDIR as a')
+                ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
+                ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
+                ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
+                ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
+                ->leftJoin('zhwwmm_bom_vko as bom', 'bom.material', '=', 'a.material')
                 ->select([
                     'a.material as IUW_ITEM_CODE',
                     'a.bun as IUW_UOM_CODE',
@@ -736,7 +721,8 @@ class SalesUSIController extends Controller
                         CASE
                             WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
                             WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2), ' THB')
-                            ELSE CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
+                            WHEN (bom.bom_usg = 1 AND bom.proc_type = 'E') OR (bom.bom_usg = 5 AND bom.proc_type = 'F') THEN CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
+                            ELSE '0.00 THB'
                         END as IUW_PRICE
                     "),
                     DB::raw("CASE WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2),' THB') ELSE '0 THB' END as NEW_ZPLV_COST"),
@@ -744,25 +730,15 @@ class SalesUSIController extends Controller
                     DB::raw("CASE WHEN a.mov_avg_price IS NOT NULL THEN FORMAT(a.mov_avg_price / a.per, 2) ELSE '0' END as NEW_MAP_COST")
                 ])
                 ->mergeBindings($subquery)
+                ->where('a.material', $item_code)
+                ->groupBy('c.material', 'c.uom');
+        } else {
+            return DB::table('ZHWWBCQUERYDIR as a')
                 ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
                 ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
                 ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
                 ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
                 ->leftJoin('zhwwmm_bom_vko as bom', 'bom.material', '=', 'a.material')
-                ->where('a.material', $item_code)
-                ->where(function ($q) {
-                    $q->where(function ($x) {
-                        $x->where('bom.bom_usg', 1)
-                            ->where('bom.proc_type', 'E');
-                    })
-                    ->orWhere(function ($x) {
-                        $x->where('bom.bom_usg', 5)
-                            ->where('bom.proc_type', 'F');
-                    });
-                })
-                ->groupBy('c.material', 'c.uom');
-        } else {
-            return DB::table('ZHWWBCQUERYDIR as a')
                 ->select([
                     'a.material as IUW_ITEM_CODE',
                     'a.bun as IUW_UOM_CODE',
@@ -770,28 +746,14 @@ class SalesUSIController extends Controller
                         CASE
                             WHEN im.mvgr4 = 'Z00' THEN 'Check price with BD/PCM'
                             WHEN b.Amount IS NOT NULL THEN CONCAT(FORMAT(b.Amount / b.per, 2), ' THB')
-                            ELSE CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
+                            WHEN (bom.bom_usg = 1 AND bom.proc_type = 'E') OR (bom.bom_usg = 5 AND bom.proc_type = 'F') THEN CONCAT(FORMAT(({$subquery->toSql()}), 2), ' THB')
+                            ELSE '0.00 THB'
                         END as IUW_PRICE
                     "),
                     DB::raw("CASE WHEN d.Amount IS NOT NULL THEN CONCAT(FORMAT(d.Amount / d.Pricing_unit, 2),' THB') ELSE '0 THB' END as NEW_ZPLV_COST")
                 ])
                 ->mergeBindings($subquery)
-                ->leftJoin('ZORDPOSKONV_ZPL as b', 'a.material', '=', 'b.Material')
-                ->leftJoin('ZORDPOSKONV_ZPE as c', 'a.material', '=', 'c.Material')
-                ->leftJoin('zplv as d', 'a.material', '=', 'd.Material')
-                ->leftJoin('zhaamm_ifvmg_mat as im', 'im.matnr', '=', 'a.material')
-                ->leftJoin('zhwwmm_bom_vko as bom', 'bom.material', '=', 'a.material')
                 ->where('a.material', $item_code)
-                ->where(function ($q) {
-                    $q->where(function ($x) {
-                        $x->where('bom.bom_usg', 1)
-                            ->where('bom.proc_type', 'E');
-                    })
-                    ->orWhere(function ($x) {
-                        $x->where('bom.bom_usg', 5)
-                            ->where('bom.proc_type', 'F');
-                    });
-                })
                 ->groupBy('c.material', 'c.uom');
         }
     }

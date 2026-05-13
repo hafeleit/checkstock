@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
+﻿@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
 
@@ -68,7 +68,7 @@
 </style>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12 mt-4">
+            <div class="col-md-12 mt-4 px-0">
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">

@@ -98,9 +98,6 @@
         }
     </style>
 
-    <div id="alert">
-        @include('components.alert')
-    </div>
     <!-- ปุ่ม Go to Top -->
     <button id="goTopBtn" class="go-top-btn">
         <i class="fas fa-arrow-up"></i>
@@ -118,6 +115,9 @@
         <div class="row">
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
+                    <div class="px-3">
+                        @include('components.alert')
+                    </div>
                     <div class="card-body p-3">
                         <div class="row">
                             <div class="col-8">
@@ -540,7 +540,7 @@
                             });
                         </script>
 
-                        <div class="d-flex justify-content-center mt-4">
+                        <div class="mt-4">
                             {{ $commissionArs->links('pagination::bootstrap-5') }}
                         </div>
                     </div>
@@ -811,6 +811,22 @@
             const calculatedForm = document.getElementById('calculated-form');
             if (calculatedForm) {
                 calculatedForm.addEventListener('submit', function(e) {
+                    // ซ่อน preloader
+                    const perloader = document.getElementById('loader-wrapper');
+                    if (perloader) {
+                        perloader.style.setProperty('display', 'none', 'important');
+                        const observer = new MutationObserver((mutations) => {
+                            mutations.forEach((mutation) => {
+                                if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                                    if (perloader.style.display !== 'none') {
+                                        perloader.style.setProperty('display', 'none', 'important');
+                                    }
+                                }
+                            });
+                        });
+                        observer.observe(perloader, { attributes: true });
+                    }
+                    
                     Swal.fire({
                         title: 'กำลังคำนวณ...',
                         text: 'กรุณารอสักครู่',

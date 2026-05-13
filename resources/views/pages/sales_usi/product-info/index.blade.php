@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
+﻿@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Products 360°'])
@@ -30,11 +30,6 @@
             color: red;
         }
 
-        .table-responsive {
-            overflow: visible !important;
-            position: relative;
-        }
-
         .dropdown-menu {
             margin: 0;
             z-index: 1050;
@@ -47,7 +42,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12 mt-4">
+            <div class="col-12 mt-3 mt-md-4 px-0">
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-md-flex align-items-center justify-between">
@@ -238,6 +233,14 @@
     </div>
 
     <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function(el) {
+                new bootstrap.Dropdown(el, {
+                    popperConfig: { strategy: 'fixed' }
+                });
+            });
+        });
+
         $('#item_code').focus();
         $('#item_code').mask('000.00.000');
 

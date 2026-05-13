@@ -1,30 +1,19 @@
 <!-- Navbar -->
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl {{ str_contains(Request::url(), 'virtual-reality') == true ? ' mt-3 mx-3 bg-primary' : '' }}"
-    id="navbarBlur" data-scroll="false">
-    <div class="container-fluid py-1 px-3">
-        <div class="d-flex align-items-center gap-4">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-2 mx-md-4 shadow-none border-radius-xl {{ str_contains(Request::url(), 'virtual-reality') == true ? ' mt-3 mx-3 bg-primary' : '' }}" id="navbarBlur" data-scroll="false">
+    <div class="container-fluid py-1 px-2 px-md-3 flex-nowrap align-items-center">
+        <div class="d-flex align-items-center gap-2 gap-md-3 flex-grow-1 navbar-title-wrapper">
+            <nav aria-label="breadcrumb" class="navbar-title-wrapper">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0">
                     <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="#">Pages</a></li>
                     <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ $title }}</li>
                 </ol>
-                <h3 class="font-weight-bolder text-white mb-0">{{ $title }}</h3>
+                <h4 class="font-weight-bolder text-white mb-0">{{ $title }}</h4>
             </nav>
-            <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none me-auto" id="sidenavToggler">
-                <a href="#" class="nav-link text-body p-0">
-                    <div class="sidenav-toggler-inner">
-                        <i class="sidenav-toggler-line bg-white"></i>
-                        <i class="sidenav-toggler-line bg-white"></i>
-                        <i class="sidenav-toggler-line bg-white"></i>
-                    </div>
-                </a>
-            </div>
         </div>
 
-        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-            </div>
-            <ul class="navbar-nav  justify-content-end">
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 flex-shrink-0" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
+            <ul class="navbar-nav justify-content-end">
                 <li class="nav-item d-flex align-items-center">
                     <a href="{{ route('profile') }}" class="nav-link text-white font-weight-bold px-0">
                         <i class="fa fa-user me-sm-1"></i>
@@ -41,11 +30,7 @@
                 </li>
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                     <a href="#" class="nav-link text-white p-0" id="iconNavbarSidenav">
-                        <div class="sidenav-toggler-inner">
-                            <i class="sidenav-toggler-line bg-white"></i>
-                            <i class="sidenav-toggler-line bg-white"></i>
-                            <i class="sidenav-toggler-line bg-white"></i>
-                        </div>
+                        <i class="sidenav-toggler-line fa-solid fa-bars"></i>
                     </a>
                 </li>
             </ul>
@@ -77,11 +62,20 @@
 </script>
 
 <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+    .navbar-title-wrapper {
+        min-width: 0;
+    }
+
     .btn-logout {
         background: none;
         border: none;
         padding: 0;
         cursor: pointer;
         text-decoration: none;
+    }
+
+    /* Prevent Argon's scroll handler from painting a bg box on the FA icon */
+    #iconNavbarSidenav i.sidenav-toggler-line {
+        background-color: transparent !important;
     }
 </style>

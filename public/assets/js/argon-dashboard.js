@@ -3044,7 +3044,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.21';
+  var VERSION = '4.18.1';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -7402,8 +7402,12 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      */
     function baseUnset(object, path) {
       path = castPath(path, object);
+      var key = toKey(last(path));
+      if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+        return true;
+      }
       object = parent(object, path);
-      return object == null || delete object[toKey(last(path))];
+      return object == null || delete object[key];
     }
 
     /**

@@ -2,7 +2,7 @@
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
     <a class="navbar-brand m-0" href="#">
-      <img src="{{ URL::to('/') }}/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo"></a>
+      <img src="{{ URL::to('/') }}/img/hafele-logo.png" class="navbar-brand-img h-100" alt="main_logo"></a>
   </div>
   <hr class="horizontal dark mt-0">
   <div class="collapse navbar-collapse h-auto w-auto " id="sidenav-collapse-main">
@@ -35,18 +35,22 @@
                 <span class="sidenav-normal"> Users </span>
               </a>
             </li>
+            @can('permission view')
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'permissions.index' ? 'active' : '' }}" href="{{ url('permissions') }}">
                 <span class="sidenav-mini-icon text-xs"> P </span>
                 <span class="sidenav-normal"> Permissions </span>
               </a>
             </li>
+            @endcan
+            @can('role view')
             <li class="nav-item">
               <a class="nav-link {{ Route::currentRouteName() == 'roles.index' ? 'active' : '' }}" href="{{ url('roles') }}">
                 <span class="sidenav-mini-icon text-xs"> R </span>
                 <span class="sidenav-normal"> Role </span>
               </a>
             </li>
+            @endcan
           </ul>
         </div>
       </li>
@@ -61,7 +65,7 @@
           </div>
           <span class="nav-link-text ms-1">IT Asset</span>
         </a>
-        <div class="collapse {{ Request::segment(1) == 'itasset' ? 'show' : '' }}" id="productsExample">
+        <div class="collapse {{ in_array(Request::segment(1), ['itasset','asset_types']) ? 'show' : '' }}" id="productsExample">
           <ul class="nav nav-sm flex-column">
             @can('itasset create')
             <li class="nav-item">
@@ -129,9 +133,9 @@
       {{-- Products 360° --}}
       @canany(['salesusi view', 'salesusi pc view'])
       <li class="nav-item">
-        <a class="nav-link {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'active' : '' }}" 
-          data-bs-toggle="collapse" 
-          aria-expanded="{{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'true' : 'false' }}" 
+        <a class="nav-link {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'active' : '' }}"
+          data-bs-toggle="collapse"
+          aria-expanded="{{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'true' : 'false' }}"
           href="#salesUsiExample">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-archive-2 {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
@@ -171,6 +175,7 @@
 
       {{-- SO Status --}}
       @can('sostatus view')
+
       <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteName() == 'so-status-usi.index' ? 'active' : '' }}" href="{{ route('so-status.index') }}">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -179,6 +184,7 @@
           <span class="nav-link-text ms-1">SO Status</span>
         </a>
       </li>
+
       @endcan
 
       {{-- Commissions --}}
@@ -233,6 +239,24 @@
             @endcan
           </ul>
         </div>
+      </li>
+      @endcan
+
+      {{-- QR Code Customer --}}
+      @can('qrcode view')
+      <li class="nav-item">
+        <a href="{{ route('qr-code-customers.index') }}" class="nav-link">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code {{ Request::segment(1) == 'qr-code-customers' ? 'text-primary' : 'text-dark' }}" viewBox="0 0 16 16">
+              <path d="M2 2h2v2H2z"/>
+              <path d="M6 0v6H0V0zM5 1H1v4h4zM4 12H2v2h2z"/>
+              <path d="M6 10v6H0v-6zm-5 1v4h4v-4zm11-9h2v2h-2z"/>
+              <path d="M10 0v6h6V0zm5 1v4h-4V1zM8 1V0h1v2H8v2H7V1zm0 5V4h1v2zM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8zm0 0v1H2V8H1v1H0V7h3v1zm10 1h-1V7h1zm-1 0h-1v2h2v-1h-1zm-4 0h2v1h-1v1h-1zm2 3v-1h-1v1h-1v1H9v1h3v-2zm0 0h3v1h-2v1h-1zm-4-1v1h1v-2H7v1z"/>
+              <path d="M7 12h1v3h4v1H7zm9 2v2h-3v-1h2v-1z"/>
+            </svg>
+          </div>
+          <span class="nav-link-text ms-1">QR Code Customer</span>
+        </a>
       </li>
       @endcan
 

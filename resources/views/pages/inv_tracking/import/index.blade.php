@@ -2,16 +2,16 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Import Document'])
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 px-2 px-md-3">
     <div class="card">
-        <div class="p-4">
+        <div class="p-3 p-md-4">
             <h2 class="h5 mb-0"> Upload Master Data</h2>
             <p class="text-sm text-secondary mb-0">
                 Upload Excel files to import master data into the system.
             </p>
         </div>
 
-        <div class="px-4">
+        <div class="px-3 px-md-4">
             <form id="import-form" action="{{ route('delivery-trackings.imports.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="col">

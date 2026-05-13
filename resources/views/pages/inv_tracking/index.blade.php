@@ -13,9 +13,9 @@
     }
 </style>
 
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 px-2 px-md-3">
     <div class="card">
-        <div class="d-flex justify-content-between align-items-center py-4 px-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 py-3 py-md-4 px-3 px-md-4">
             <div class="d-flex align-items-center justify-content-between">
                 <h2 class="h5 mb-0">Delivery Tracking Lists</h2>
             </div>
@@ -95,7 +95,7 @@
                             </td>
                             <td class="py-3 px-3">{{ $item['driver_or_sent_to'] }}</td>
                             <td class="py-3 px-3">{{ $item['delivery_date'] ? $item['delivery_date']->format('d-m-Y H:i') : '-' }}</td>
-                            <td class="py-3 px-3">{{ $item['user']['username'] }}</td>
+                            <td class="py-3 px-3">{{ $item['user']['username'] ?? '-' }}</td>
                             <td class="py-3 px-3">{{ $item['created_date']->format('d-m-Y H:i') }}</td>
                             <td class="py-3 px-3">
                                 <span class="fw-semibold capitalize @if($item['type'] === 'return') text-success @else text-muted @endif">
@@ -130,7 +130,10 @@
                                 @endcanany
                                 @else
                                 @can('delivery export return report')
-                                <a href="/delivery-trackings/returns/export?logi_track_id={{ $item['logi_track_id'] }}" class="text-dark">
+                                <a href="#"
+                                    class="export-btn text-dark"
+                                    data-url="/delivery-trackings/returns/export?logi_track_id={{ $item['logi_track_id'] }}"
+                                    data-filename="return_document_sheet_{{ $item['logi_track_id'] }}.xlsx">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download">
                                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                         <polyline points="7 10 12 15 17 10"></polyline>
@@ -150,14 +153,22 @@
                                             <div class="modal-body text-center">
                                                 <p>Please choose which report you want to export:</p>
                                                 @can('delivery export deliver report')
-                                                <a href="/delivery-trackings/delivers/export?logi_track_id={{ $item['logi_track_id'] }}&report_type=summary" class="btn btn-primary m-1">
-                                                    <i class="fas fa-print"></i> Deliver Report
-                                                </a>
+                                                <button
+                                                    class="export-btn btn-sm btn btn-primary m-1"
+                                                    data-url="/delivery-trackings/delivers/export?logi_track_id={{ $item['logi_track_id'] }}&report_type=summary" 
+                                                    data-filename="deliver_job_sheet_{{ $item['logi_track_id'] }}.xlsx">
+                                                    <i class="fas fa-print"></i>
+                                                    <span>Deliver Report</span>
+                                                </button>
                                                 @endcan
                                                 @can('delivery export rtt report')
-                                                <a href="/delivery-trackings/delivers/export-rtt?logi_track_id={{ $item['logi_track_id'] }}&report_type=detail" class="btn btn-export-rtt m-1">
-                                                    <i class="fas fa-print"></i> RTT Report
-                                                </a>
+                                                <button
+                                                    class="export-btn btn-sm btn btn-export-rtt m-1"
+                                                    data-url="/delivery-trackings/delivers/export-rtt?logi_track_id={{ $item['logi_track_id'] }}&report_type=detail" 
+                                                    data-filename="RTT_sheet_{{ $item['logi_track_id'] }}.xlsx">
+                                                    <i class="fas fa-print"></i>
+                                                    <span>RTT Report</span>
+                                                </button>
                                                 @endcan
                                             </div>
                                             <div class="modal-footer">

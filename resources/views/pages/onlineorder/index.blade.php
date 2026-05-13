@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
+﻿@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
 
@@ -28,14 +28,15 @@
         </div>
     </div>
 </div>
-<div id="alert">
-    @include('components.alert')
-</div>
+
 <div class="container-fluid py-4">
   <div class="row">
-    <div class="col-12">
+    <div class="col-12 px-0">
 
       <div class="card">
+        <div class="px-3">
+          @include('components.alert')
+        </div>
         <div class="card-header pb-0">
           <div class="d-lg-flex">
             <div>
@@ -83,13 +84,13 @@
                       <td class="text-sm">{{$order->filename}} </td>
 
                       <td class="text-sm">
-                        <a href={{route('onlineorder-download',$order->filename)}} data-bs-toggle="tooltip" data-bs-original-title="Download">
+                        <a href="#" data-url="{{ route('onlineorder-download', $order->filename) }}" data-filename="{{ $order->filename }}" data-bs-toggle="tooltip" data-bs-original-title="Download" class="export-btn">
                           <i class="ni ni-archive-2 text-dark" aria-hidden="true"> Download</i>
                         </a>
                       </td>
                       <td class="text-sm">
                         @if(file_exists(storage_path('app/export/orders/'.'SAP_'.$order->filename)))
-                        <a href={{route('onlineorder-download','SAP_'.$order->filename)}} data-bs-toggle="tooltip" data-bs-original-title="Download">
+                        <a href="#" data-url="{{ route('onlineorder-download', 'SAP_'.$order->filename) }}" data-filename="{{ 'SAP_'.$order->filename }}" data-bs-toggle="tooltip" data-bs-original-title="Download" class="export-btn">
                           <i class="ni ni-archive-2 text-dark" aria-hidden="true"> Download</i>
                         </a>
                         @else
@@ -98,7 +99,7 @@
                       </td>
                       <td class="text-sm">
                         @if(file_exists(storage_path('app/export/orders/'.'SAP_EX_'.$order->filename)))
-                        <a href={{route('onlineorder-download','SAP_EX_'.$order->filename)}} data-bs-toggle="tooltip" data-bs-original-title="Download">
+                        <a href="#" data-url="{{ route('onlineorder-download', 'SAP_EX_'.$order->filename) }}" data-filename="{{ 'SAP_EX_'.$order->filename }}" data-bs-toggle="tooltip" data-bs-original-title="Download" class="export-btn">
                           <i class="ni ni-archive-2 text-dark" aria-hidden="true"> Download</i>
                         </a>
                         @else
