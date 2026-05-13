@@ -16,4 +16,9 @@ class HthAfterSaleTicket extends Model
     {
         return $this->belongsTo(HthAfterSaleUser::class, 'assigned_user_id', 'id');
     }
+
+    public function custom()
+    {
+        return $this->hasOne(HthAfterSaleTicketCustom::class, 'id', 'id_c');
+    }
 }
