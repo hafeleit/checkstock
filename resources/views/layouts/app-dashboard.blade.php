@@ -8,13 +8,15 @@
 
     <title>@yield('title', 'After Sales Dashboard')</title>
 
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ env('APP_URL') }}/img/hafele_logo.png">
-    <link rel="icon" type="image/png" href="{{ env('APP_URL') }}/img/hafele_logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/img/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/img/favicon/favicon.ico" />
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
     <link href="{{ URL::to('/') }}/css/tailwind.min.css" rel="stylesheet" />
 
-    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ env('APP_URL') }}/assets/js/plugins/chartjs.min.js"></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
+    <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
 
     @stack('styles')
 </head>
