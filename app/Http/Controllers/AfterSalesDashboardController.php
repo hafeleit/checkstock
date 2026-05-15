@@ -105,23 +105,23 @@ class AfterSalesDashboardController extends Controller
                     'regions.postcodemain'
                 )
                 ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
-                ->whereMonth('hth_after_sale_ticket_cstm.closed_date_c', $month)
-                ->whereYear('hth_after_sale_ticket_cstm.closed_date_c', $year)
+                ->whereMonth('hth_after_sale_ticket_cstm.closed_datetime_c', $month)
+                ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', $year)
                 ->where('hth_after_sale_ticket.deleted', 0)
                 ->where('hth_after_sale_ticket.status', 'Closed')
                 ->when($region, fn($q) => $q->where('regions.master_part_eng', $region))
                 ->whereNot('hth_after_sale_ticket.release_date', '>', now())
                 ->select([
                     'hth_after_sale_ticket.name',
-                    'hth_after_sale_ticket_cstm.closed_date_c',
+                    'hth_after_sale_ticket_cstm.closed_datetime_c',
                     'hth_after_sale_ticket.release_date',
                     'hth_after_sale_ticket.ticket_number',
                     'hth_after_sale_ticket.status',
                     'hth_after_sale_ticket.zipcode',
                     'regions.master_part_eng as master_part_eng',
-                    DB::raw('DATEDIFF(hth_after_sale_ticket_cstm.closed_date_c, hth_after_sale_ticket.release_date) as days_diff')
+                    DB::raw('DATEDIFF(hth_after_sale_ticket_cstm.closed_datetime_c, hth_after_sale_ticket.release_date) as days_diff')
                 ])
-                ->latest('hth_after_sale_ticket_cstm.closed_date_c')
+                ->latest('hth_after_sale_ticket_cstm.closed_datetime_c')
                 ->paginate(15)
                 ->withQueryString();
 
@@ -186,10 +186,10 @@ class AfterSalesDashboardController extends Controller
                     'hth_after_sale_ticket.ticket_number',
                     'hth_after_sale_ticket.name',
                     'hth_after_sale_ticket.release_date',
-                    'hth_after_sale_ticket_cstm.closed_date_c',
+                    'hth_after_sale_ticket_cstm.closed_datetime_c',
                     'hth_after_sale_ticket.status',
                 ])
-                ->orderByDesc('hth_after_sale_ticket_cstm.closed_date_c')
+                ->orderByDesc('hth_after_sale_ticket_cstm.closed_datetime_c')
                 ->paginate(15)
                 ->withQueryString();
 
@@ -295,7 +295,7 @@ class AfterSalesDashboardController extends Controller
                     'hth_after_sale_ticket.ticket_number',
                     'hth_after_sale_ticket.name',
                     'hth_after_sale_ticket.release_date',
-                    'hth_after_sale_ticket_cstm.closed_date_c',
+                    'hth_after_sale_ticket_cstm.closed_datetime_c',
                     'hth_after_sale_ticket.pending',
                     'hth_after_sale_ticket.status',
                     DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date) as days_diff')
@@ -354,7 +354,7 @@ class AfterSalesDashboardController extends Controller
                     'hth_after_sale_ticket.ticket_number',
                     'hth_after_sale_ticket.name',
                     'hth_after_sale_ticket.release_date',
-                    'hth_after_sale_ticket_cstm.closed_date_c',
+                    'hth_after_sale_ticket_cstm.closed_datetime_c',
                     'hth_after_sale_ticket.status',
                     'hth_after_sale_ticket.pending',
                     DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date) as days_diff'),
@@ -392,7 +392,7 @@ class AfterSalesDashboardController extends Controller
                     'hth_after_sale_ticket.ticket_number',
                     'hth_after_sale_ticket.name',
                     'hth_after_sale_ticket.release_date',
-                    'hth_after_sale_ticket_cstm.closed_date_c',
+                    'hth_after_sale_ticket_cstm.closed_datetime_c',
                     'hth_after_sale_ticket.status',
                     'hth_after_sale_ticket.pending',
                     'hth_after_sale_ticket.zipcode',
@@ -432,7 +432,7 @@ class AfterSalesDashboardController extends Controller
                     'hth_after_sale_ticket.ticket_number',
                     'hth_after_sale_ticket.name',
                     'hth_after_sale_ticket.release_date',
-                    'hth_after_sale_ticket_cstm.closed_date_c',
+                    'hth_after_sale_ticket_cstm.closed_datetime_c',
                     'hth_after_sale_ticket.status',
                     'hth_ass_teams.team as team',
                     DB::raw("CONCAT(users.first_name, ' ', users.last_name) as assignee_name"),
@@ -475,7 +475,7 @@ class AfterSalesDashboardController extends Controller
                     'hth_after_sale_ticket.ticket_number',
                     'hth_after_sale_ticket.name',
                     'hth_after_sale_ticket.release_date',
-                    'hth_after_sale_ticket_cstm.closed_date_c',
+                    'hth_after_sale_ticket_cstm.closed_datetime_c',
                     'hth_after_sale_ticket.status',
                     'regions.master_part_eng as region',
                     DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date) as days_diff'),
@@ -505,7 +505,7 @@ class AfterSalesDashboardController extends Controller
                     'hth_after_sale_ticket.ticket_number',
                     'hth_after_sale_ticket.name',
                     'hth_after_sale_ticket.release_date',
-                    'hth_after_sale_ticket_cstm.closed_date_c',
+                    'hth_after_sale_ticket_cstm.closed_datetime_c',
                     'hth_after_sale_ticket.status',
                     'hth_after_sale_ticket.type'
                 ])
@@ -534,7 +534,7 @@ class AfterSalesDashboardController extends Controller
                     'hth_after_sale_ticket.ticket_number',
                     'hth_after_sale_ticket.name',
                     'hth_after_sale_ticket.release_date',
-                    'hth_after_sale_ticket_cstm.closed_date_c',
+                    'hth_after_sale_ticket_cstm.closed_datetime_c',
                     'hth_after_sale_ticket.status',
                     'aos_product_categories.name as product_group'
                 ])
@@ -564,7 +564,7 @@ class AfterSalesDashboardController extends Controller
                     'hth_after_sale_ticket.ticket_number',
                     'hth_after_sale_ticket.name',
                     'hth_after_sale_ticket.release_date',
-                    'hth_after_sale_ticket_cstm.closed_date_c',
+                    'hth_after_sale_ticket_cstm.closed_datetime_c',
                     'hth_after_sale_ticket.status',
                 ])
                 ->paginate(15)
@@ -638,26 +638,26 @@ class AfterSalesDashboardController extends Controller
     {
         return HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
-            ->whereMonth('hth_after_sale_ticket_cstm.closed_date_c', $month)
-            ->whereYear('hth_after_sale_ticket_cstm.closed_date_c', $year);
+            ->whereMonth('hth_after_sale_ticket_cstm.closed_datetime_c', $month)
+            ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', $year);
     }
 
     private function calculateRtat(int $month, int $year)
     {
         $result = HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
-            ->whereMonth('hth_after_sale_ticket_cstm.closed_date_c', $month)
-            ->whereYear('hth_after_sale_ticket_cstm.closed_date_c', $year)
+            ->whereMonth('hth_after_sale_ticket_cstm.closed_datetime_c', $month)
+            ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', $year)
             ->where('hth_after_sale_ticket.deleted', 0)
             ->where('hth_after_sale_ticket.status', 'Closed')
             ->whereNot('hth_after_sale_ticket.release_date', '>', now())
-            ->selectRaw('COUNT(*) as total, SUM(DATEDIFF(hth_after_sale_ticket_cstm.closed_date_c, hth_after_sale_ticket.release_date)) as total_days')
+            ->selectRaw('COUNT(*) as total, SUM(DATEDIFF(hth_after_sale_ticket_cstm.closed_datetime_c, hth_after_sale_ticket.release_date)) as total_days')
             ->first();
 
         $bkkResult  = HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
-            ->whereMonth('hth_after_sale_ticket_cstm.closed_date_c', $month)
-            ->whereYear('hth_after_sale_ticket_cstm.closed_date_c', $year)
+            ->whereMonth('hth_after_sale_ticket_cstm.closed_datetime_c', $month)
+            ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', $year)
             ->where('hth_after_sale_ticket.deleted', 0)
             ->where('hth_after_sale_ticket.status', 'Closed')
             ->whereNot('hth_after_sale_ticket.release_date', '>', now())
@@ -666,7 +666,7 @@ class AfterSalesDashboardController extends Controller
                     ->from('hth_ass_regions')
                     ->where('master_part_eng', 'Bangkok Metropolitan');
             })
-            ->selectRaw('COUNT(*) as total, SUM(DATEDIFF(hth_after_sale_ticket_cstm.closed_date_c, hth_after_sale_ticket.release_date)) as total_days')
+            ->selectRaw('COUNT(*) as total, SUM(DATEDIFF(hth_after_sale_ticket_cstm.closed_datetime_c, hth_after_sale_ticket.release_date)) as total_days')
             ->first();
 
         return [
@@ -715,8 +715,8 @@ class AfterSalesDashboardController extends Controller
     {
         $ticketCount = HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
-            ->whereMonth('hth_after_sale_ticket_cstm.closed_date_c', $month)
-            ->whereYear('hth_after_sale_ticket_cstm.closed_date_c', $year)
+            ->whereMonth('hth_after_sale_ticket_cstm.closed_datetime_c', $month)
+            ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', $year)
             ->where('hth_after_sale_ticket.status', 'Closed')
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.type', ['R', 'I'])
