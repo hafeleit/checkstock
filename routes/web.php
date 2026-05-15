@@ -1,18 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AfterSalesDashboardController;
 use App\Http\Controllers\AuditLogController;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarrantyController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\SoStatusController;
@@ -30,7 +25,6 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductInformationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Models\AuditLog;
 use Illuminate\Support\Facades\Redirect;
 
 // public routes
@@ -54,6 +48,15 @@ Route::get('warranty-search-ajax', [warrantycontroller::class, 'search_warranty'
 Route::get('send-mail', [mailcontroller::class, 'index']);
 Route::get('picking', [logincontroller::class, 'picking']);
 Route::get('test_db_crm', [homecontroller::class, 'test_db']);
+
+// After Sales Dashboards
+// Route::get('/after-sales/dashboard', function () {
+//   return view('pages.after-sales.display');
+// })->name('after-sales-dashboard');
+
+Route::get('/after-sales/dashboard', [AfterSalesDashboardController::class, 'index'])->name('after-sales.dashboard');
+Route::get('/after-sales/user-dashboard', [AfterSalesDashboardController::class, 'userDashboard'])->name('after-sales.user-dashboard');
+Route::get('/after-sales/detail/{chart}', [AfterSalesDashboardController::class, 'detail'])->name('after-sales.detail');
 
 // protected routes (requires authentication and status check)
 Route::middleware(['auth', 'check.status', 'force.password.change'])->group(function () {
