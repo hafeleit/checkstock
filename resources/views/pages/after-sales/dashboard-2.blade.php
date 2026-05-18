@@ -84,11 +84,11 @@
     <div class="flex-shrink-0 bg-white rounded-lg border border-gray-100 shadow-sm flex items-center gap-2 px-2 h-6">
         <span class="text-xs font-semibold text-gray-700 whitespace-nowrap">Overall Aging</span>
         <div class="flex-1 flex h-3.5 rounded overflow-hidden">
-            <div class="aging-0-3 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['0-3'] }}</div>
-            <div class="aging-4-7 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['4-7'] }}</div>
-            <div class="aging-8-15 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['8-15'] }}</div>
-            <div class="aging-16-30 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['16-30'] }}</div>
-            <div class="aging-over-30 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['over_30'] }}</div>
+            <div class="aging-0-3 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['0-3'] == 0 ? '' : $aging_data['0-3'] }}</div>
+            <div class="aging-4-7 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['4-7'] == 0 ? '' : $aging_data['4-7'] }}</div>
+            <div class="aging-8-15 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['8-15'] == 0 ? '' : $aging_data['8-15'] }}</div>
+            <div class="aging-16-30 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['16-30'] == 0 ? '' : $aging_data['16-30'] }}</div>
+            <div class="aging-over-30 flex items-center justify-center text-white text-sm font-bold">{{ $aging_data['over_30'] == 0 ? '' : $aging_data['over_30'] }}</div>
         </div>
     </div>
 
@@ -415,7 +415,7 @@
                         align: 'center',
                         color: '#fff',
                         font: {
-                            size: 7
+                            size: 9
                         },
                         formatter: (value) => value > 0 ? value : '',
                     }

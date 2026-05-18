@@ -3,7 +3,8 @@
     $csiResponses = (int) ($csiSurvey->total ?? 0);
     $csiTotal     = (int) ($csi_response_data['total_ticket'] ?? 0);
     $csiRate      = $csiTotal > 0 ? round($csiResponses / $csiTotal * 100, 1) : 0;
-    $csiSatPct    = $csiResponses > 0 ? round($csiSurvey->service_very_good / $csiResponses * 100, 1) : 0;
+    $csiPoint     = ($csiSurvey->service_very_good*5) + ($csiSurvey->service_good*4) + ($csiSurvey->service_normal*3) + ($csiSurvey->service_bad*2) + ($csiSurvey->service_very_bad*1);
+    $csiSatPct    = $csiResponses > 0 ? round($csiPoint / ($csiResponses * 5) * 100, 1) : 0;
 @endphp
 
 <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
@@ -61,7 +62,7 @@
                 <div class="flex items-baseline gap-1 mt-0.5">
                     <span class="text-lg font-bold text-gray-800">{{ $ltp }}%</span>
                 </div>
-                <p class="text-xs text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">14.0%</span></p>
+                <p class="text-xs text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">< 7.0%</span></p>
             </div>
         </div>
 
@@ -136,12 +137,6 @@
                     </div>
                     <p class="text-sm text-gray-500 text-center leading-tight">Polite & well mannered?</p>
                 </div>
-                <div class="flex flex-col items-center gap-0.5">
-                    <div class="relative w-16 h-16 flex-shrink-0">
-                        <canvas id="response-4-chart"></canvas>
-                    </div>
-                    <p class="text-sm text-gray-500 text-center leading-tight">Charged expenses?</p>
-                </div>
             </div>
         </div>
 
@@ -171,9 +166,9 @@
         </div>
 
         <div class="bg-white rounded-lg p-2 shadow-sm border border-gray-100 flex flex-col min-h-0">
-            <h3 class="text-sm font-semibold text-gray-700 mb-0.5 flex-shrink-0">Contract Center Trend</h3>
+            <h3 class="text-sm font-semibold text-gray-700 mb-0.5 flex-shrink-0">Contact Center Trend</h3>
             <div class="flex-1 min-h-0 relative">
-                <canvas id="contract-center-chart"></canvas>
+                <canvas id="contact-center-chart"></canvas>
             </div>
         </div>
 
@@ -267,14 +262,7 @@
                         }
                     },
                     datalabels: {
-                        align: 'top',
-                        anchor: 'end',
-                        offset: 3,
-                        color: '#333',
-                        font: {
-                            size: 9
-                        },
-                        formatter: (v) => v > 0 ? v.toLocaleString() : '',
+                        display: false,
                     },
                     tooltip: {
                         enabled: true,
@@ -356,8 +344,8 @@
 
         // ── KPI Charts ────────────────────────────────────────────────────────────
         const rtatScore = Math.round(Math.min(100, Math.max(0, (7 / dashboardData.rtat) * 100)));
-        const ltpScore = Math.round(Math.min(100, Math.max(0, 100 * dashboardData.ltp / 14)));
-        const ftfScore = Math.round(Math.min(100, Math.max(0, 100 * dashboardData.ftf / 80)));
+        const ltpScore = Math.round(Math.min(100, Math.max(0, (7 / dashboardData.ltp) * 100)));
+        const ftfScore = Math.round(Math.min(100, Math.max(0, (dashboardData.ftf / 80) * 100)));
 
         createKPIDoughnut('rtat-chart', rtatScore);
         createKPIDoughnut('ltp-chart', ltpScore);
@@ -366,14 +354,14 @@
         // ── Satisfaction charts ───────────────────────────────────────────────────
         const csiSurvey = {!! json_encode($csiSurvey) !!};
         const csiPct = val => csiSurvey.total > 0 ? Math.round(val / csiSurvey.total * 1000) / 10 : 0;
-        const csiSatPct = csiPct(csiSurvey.service_very_good);
+        const csiSurveyPoint = (csiSurvey.service_very_good*5) + (csiSurvey.service_good*4) + (csiSurvey.service_normal*3) + (csiSurvey.service_bad*2) + (csiSurvey.service_very_bad*1);
+        const csiSatPct = csiSurvey.total > 0 ? Math.round(csiSurveyPoint / (csiSurvey.total * 5) * 1000) / 10 : 0;
         const csiScore = Math.round(Math.min(100, Math.max(0, 100 * csiSatPct / 95)));
         createKPIDoughnut('csi-chart', csiScore);
 
         const csiProblemResolved   = csiPct(csiSurvey.problem_resolved_yes);
         const csiArriveAsScheduled = csiPct(csiSurvey.arrive_as_scheduled_yes);
         const csiPoliteWellMannered= csiPct(csiSurvey.polite_and_well_mannered_yes);
-        const csiChargedExpenses   = csiPct(csiSurvey.charged_expenses_yes);
         createSatDoughnut('satisfaction-doughnut-chart', csiSatPct);
 
         new Chart(document.getElementById('satisfaction-bar-chart'), {
@@ -434,7 +422,6 @@
         createSatDoughnut('response-1-chart', csiProblemResolved,    csiProblemResolved    + '%');
         createSatDoughnut('response-2-chart', csiArriveAsScheduled,  csiArriveAsScheduled  + '%');
         createSatDoughnut('response-3-chart', csiPoliteWellMannered, csiPoliteWellMannered + '%');
-        createSatDoughnut('response-4-chart', csiChargedExpenses,    csiChargedExpenses    + '%');
 
         // ── Pending Pie ───────────────────────────────────────────────────────────
         const {
@@ -594,15 +581,7 @@
                         }
                     },
                     datalabels: {
-                        anchor: 'end',
-                        align: 'top',
-                        rotation: -90,
-                        color: '#555',
-                        offset: 0,
-                        font: {
-                            size: 9
-                        },
-                        formatter: (v) => v > 0 ? v.toLocaleString() : ''
+                        display: false,
                     },
                 },
                 scales: {
@@ -639,10 +618,10 @@
             },
         });
 
-        // ── Contract Center Chart ─────────────────────────────────────────────────
+        // ── Contact Center Chart ─────────────────────────────────────────────────
         const contractData = {!! json_encode($contract_center_data) !!};
         createLineChart(
-            'contract-center-chart',
+            'contact-center-chart',
             ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
             [
                 makeLineDataset(String(contractData.prev_year), Array.from({ length: 12 }, (_, i) => contractData.prev[i + 1] ?? null), C.black),
