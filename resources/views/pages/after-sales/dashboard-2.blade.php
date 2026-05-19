@@ -506,7 +506,7 @@
                         align: 'center',
                         color: '#fff',
                         font: {
-                            size: 7
+                            size: 9
                         },
                         formatter: (value) => value > 0 ? value : '',
                     }
@@ -604,7 +604,7 @@
                         align: 'center',
                         color: '#fff',
                         font: {
-                            size: 7,
+                            size: 9,
                         },
                         formatter: (value) => value > 0 ? value : '',
                     }
@@ -700,7 +700,7 @@
                         align: 'center',
                         color: '#fff',
                         font: {
-                            size: 7
+                            size: 9
                         },
                         formatter: (value) => value >= 20 ? value : '',
                     }
@@ -785,7 +785,7 @@
                         align: 'center',
                         color: '#fff',
                         font: {
-                            size: 7
+                            size: 9
                         },
                         formatter: (value) => value > 0 ? value : '',
                     }

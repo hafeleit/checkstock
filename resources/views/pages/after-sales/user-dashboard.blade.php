@@ -8,7 +8,8 @@
     $csiResponses = (int) ($csiSurvey->total ?? 0);
     $csiTotal = (int) ($csi_response_data['total_ticket'] ?? 0);
     $csiRate = $csiTotal > 0 ? round(($csiResponses / $csiTotal) * 100, 1) : 0;
-    $csiSatPct = $csiResponses > 0 ? round(($csiSurvey->service_very_good / $csiResponses) * 100, 1) : 0;
+    $csiPoint = ($csiSurvey->service_very_good*5) + ($csiSurvey->service_good*4) + ($csiSurvey->service_normal*3) + ($csiSurvey->service_bad*2) + ($csiSurvey->service_very_bad*1);
+    $csiSatPct = $csiResponses > 0 ? round($csiPoint / ($csiResponses * 5) * 100, 1) : 0;
 
     $agingTotal = array_sum([
         $aging_data['0-3'],
@@ -37,7 +38,7 @@
             'id' => 'ud-ltp-chart',
             'label' => 'LTP',
             'value' => "{$ltp}%",
-            'target' => '14.0%',
+            'target' => '7.0%',
         ],
         [
             'id' => 'ud-ftf-chart',
@@ -329,8 +330,8 @@
         {{-- 4 Mini Q --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
             <div class="grid grid-cols-2 gap-3 h-full">
-                @foreach ([['ud-q1-chart', 'Problem resolved?'], ['ud-q2-chart', 'Arrived as scheduled?'], ['ud-q3-chart', 'Polite & well mannered?'], ['ud-q4-chart', 'Charged expenses?']] as [$qid, $qlabel])
-                    <div class="flex flex-col items-center justify-center gap-1">
+                @foreach ([['ud-q1-chart', 'Problem resolved?'], ['ud-q2-chart', 'Arrived as scheduled?'], ['ud-q3-chart', 'Polite & well mannered?']] as [$qid, $qlabel])
+                    <div class="flex flex-col items-center justify-center gap-1 {{ $loop->last ? 'col-span-2' : '' }}">
                         <div class="relative w-20 h-20"><canvas id="{{ $qid }}"></canvas></div>
                         <p class="text-md text-gray-500 text-center leading-tight">{{ $qlabel }}</p>
                     </div>
@@ -536,8 +537,7 @@
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillStyle = cfg.color || '#000';
-                ctx.fillText(txt, (chart.chartArea.left + chart.chartArea.right) / 2, (chart.chartArea.top + chart
-                    .chartArea.bottom) / 2);
+                ctx.fillText(txt, (chart.chartArea.left + chart.chartArea.right) / 2, (chart.chartArea.top + chart.chartArea.bottom) / 2);
             }
         });
         Chart.register(ChartDataLabels);
@@ -565,9 +565,7 @@
                 const pct = Math.round(v / total * 1000) / 10;
                 const el = document.getElementById('ud-ag-' + i);
                 el.style.width = pct + '%';
-                if (pct > 5) {
-                    el.textContent = v;
-                }
+                el.textContent = v;
             });
         })();
         document.getElementById('ud-csi-rate-bar').style.width = '{{ $csiRate }}%';
@@ -662,7 +660,7 @@
             lightRed: '#fecdd3',
             lightPink: '#ffd6fa',
         };
-        const AG = ['#10b981', '#facc15', '#fb923c', '#ef4444', '#881337'];
+        const AG = ['#10b981', '#84cc16', '#facc15', '#fb923c', '#ef4444'];
         const agingKeys = ['0_3', '4_7', '8_15', '16_30', 'over_30'];
         const agingLabels = ['0-3 Days', '4-7 Days', '8-15 Days', '16-30 Days', '>30 Days'];
 
@@ -893,10 +891,10 @@
         });
 
         // ── Section 1: KPI Doughnuts ──
-        makeKpiDoughnut('ud-csi-chart', Math.round(Math.min(100, Math.max(0, 100 * {{ $csiSatPct }} / 95))));
+        makeKpiDoughnut('ud-csi-chart', Math.round(Math.min(100, Math.max(0, ({{ $csiSatPct }} / 95) * 100))));
         makeKpiDoughnut('ud-rtat-chart', Math.round(Math.min(100, Math.max(0, (7 / {{ $rtat['overall'] ?? 0 }}) * 100))));
-        makeKpiDoughnut('ud-ltp-chart', Math.round(Math.min(100, Math.max(0, 100 * {{ $ltp ?? 0 }} / 14))));
-        makeKpiDoughnut('ud-ftf-chart', Math.round(Math.min(100, Math.max(0, 100 * {{ $ftf ?? 0 }} / 80))));
+        makeKpiDoughnut('ud-ltp-chart', Math.round(Math.min(100, Math.max(0, (7 / {{ $ltp ?? 0 }}) * 100))));
+        makeKpiDoughnut('ud-ftf-chart', Math.round(Math.min(100, Math.max(0, ({{ $ftf ?? 0 }} / 80) * 100))));
 
         // ── Section 3: CSI Charts ──
         makeSatDoughnut('ud-sat-doughnut', {{ $csiSatPct }});
@@ -956,14 +954,9 @@
             },
         });
 
-        makeSatDoughnut('ud-q1-chart', csiPct(udCsiSurvey.problem_resolved_yes), csiPct(udCsiSurvey.problem_resolved_yes) +
-            '%');
-        makeSatDoughnut('ud-q2-chart', csiPct(udCsiSurvey.arrive_as_scheduled_yes), csiPct(udCsiSurvey
-            .arrive_as_scheduled_yes) + '%');
-        makeSatDoughnut('ud-q3-chart', csiPct(udCsiSurvey.polite_and_well_mannered_yes), csiPct(udCsiSurvey
-            .polite_and_well_mannered_yes) + '%');
-        makeSatDoughnut('ud-q4-chart', csiPct(udCsiSurvey.charged_expenses_yes), csiPct(udCsiSurvey.charged_expenses_yes) +
-            '%');
+        makeSatDoughnut('ud-q1-chart', csiPct(udCsiSurvey.problem_resolved_yes), csiPct(udCsiSurvey.problem_resolved_yes) + '%');
+        makeSatDoughnut('ud-q2-chart', csiPct(udCsiSurvey.arrive_as_scheduled_yes), csiPct(udCsiSurvey.arrive_as_scheduled_yes) + '%');
+        makeSatDoughnut('ud-q3-chart', csiPct(udCsiSurvey.polite_and_well_mannered_yes), csiPct(udCsiSurvey.polite_and_well_mannered_yes) + '%');
 
         // ── Section 4: Pending Charts ─────────────────────────────────────────────
         makeStackedBar('ud-reason-chart', udReasonRows);
@@ -1192,98 +1185,6 @@
                 },
             },
         });
-
-        // const productKeys = ['Smart Technology', 'Home appliances', 'Sanitary'];
-        // const productLabels = ['Smart Tech', 'Home Appl.', 'Sanitary'];
-        // new Chart(document.getElementById('ud-product-aging-chart'), {
-        //     type: 'bar',
-        //     data: {
-        //         labels: productLabels,
-        //         datasets: [{
-        //                 label: '0-3 Days',
-        //                 data: productKeys.map(p => rawProductData[p]?.['0-3'] ?? 0),
-        //                 backgroundColor: AG[0]
-        //             },
-        //             {
-        //                 label: '4-7 Days',
-        //                 data: productKeys.map(p => rawProductData[p]?.['4-7'] ?? 0),
-        //                 backgroundColor: AG[1]
-        //             },
-        //             {
-        //                 label: '8-15 Days',
-        //                 data: productKeys.map(p => rawProductData[p]?.['8-15'] ?? 0),
-        //                 backgroundColor: AG[2]
-        //             },
-        //             {
-        //                 label: '16-30 Days',
-        //                 data: productKeys.map(p => rawProductData[p]?.['16-30'] ?? 0),
-        //                 backgroundColor: AG[3]
-        //             },
-        //             {
-        //                 label: 'Over 30',
-        //                 data: productKeys.map(p => rawProductData[p]?.['over_30'] ?? 0),
-        //                 backgroundColor: AG[4]
-        //             },
-        //         ],
-        //     },
-        //     plugins: [ChartDataLabels],
-        //     options: {
-        //         indexAxis: 'y',
-        //         responsive: true,
-        //         maintainAspectRatio: false,
-        //         plugins: {
-        //             legend: {
-        //                 display: true,
-        //                 position: 'bottom',
-        //                 labels: {
-        //                     boxWidth: 8,
-        //                     font: {
-        //                         size: 12
-        //                     },
-        //                     padding: 4
-        //                 },
-        //             },
-        //             datalabels: {
-        //                 display: ctx => (ctx.dataset.data[ctx.dataIndex] ?? 0) > 0,
-        //                 anchor: 'center',
-        //                 align: 'center',
-        //                 color: '#fff',
-        //                 font: {
-        //                     size: 9,
-        //                     weight: 'bold'
-        //                 },
-        //                 formatter: v => v > 0 ? v : '',
-        //             },
-        //             tooltip: {
-        //                 mode: 'index',
-        //                 intersect: false
-        //             },
-        //         },
-        //         scales: {
-        //             x: {
-        //                 stacked: true,
-        //                 display: false,
-        //                 beginAtZero: true
-        //             },
-        //             y: {
-        //                 stacked: true,
-        //                 grid: {
-        //                     display: false
-        //                 },
-        //                 ticks: {
-        //                     font: {
-        //                         size: 12
-        //                     }
-        //                 }
-        //             },
-        //         },
-        //         layout: {
-        //             padding: {
-        //                 right: 8
-        //             }
-        //         },
-        //     },
-        // });
 
         // ── Section 5: Trend Charts ──
         const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
