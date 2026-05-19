@@ -59,7 +59,7 @@ Route::get('/after-sales/user-dashboard', [AfterSalesDashboardController::class,
 Route::get('/after-sales/detail/{chart}', [AfterSalesDashboardController::class, 'detail'])->name('after-sales.detail');
 
 // protected routes (requires authentication and status check)
-Route::middleware(['auth', 'check.status', 'force.password.change'])->group(function () {
+Route::middleware(['auth', 'check.status', 'force.password.change', 'check.password.expired'])->group(function () {
   // dashboard & user profile
   Route::get('/clr_dashboard', [homecontroller::class, 'clr_dashboard'])->name('clr_dashboard');
   Route::get('/change-password', [changepassword::class, 'show'])->name('change-password');

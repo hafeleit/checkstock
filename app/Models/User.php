@@ -35,6 +35,8 @@ class User extends Authenticatable
         'last_logged_in_at',
         'type',
         'emp_code',
+        'password_expired_at',
+        'password_updated_at',
     ];
 
     /**
@@ -55,6 +57,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_logged_in_at' => 'datetime',
+        'password_expired_at' => 'datetime',
+        'password_updated_at' => 'datetime',
     ];
 
     /**
@@ -66,5 +70,11 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function isPasswordExpired(): bool
+    {
+        return $this->password_expired_at !== null
+            && $this->password_expired_at->isPast();
     }
 }

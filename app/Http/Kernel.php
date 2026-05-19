@@ -87,6 +87,7 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         'check.status' => \App\Http\Middleware\CheckUserStatus::class,
         'force.password.change' => \App\Http\Middleware\ForcePasswordChange::class,
+        'check.password.expired' => \App\Http\Middleware\CheckPasswordExpired::class,
 
         // External
         'external.auth' => \App\Http\Middleware\ExternalAuthenticate::class,
