@@ -128,53 +128,60 @@
         <div class="col-span-3 bg-white rounded-lg p-2 shadow-sm border border-gray-100 flex flex-col gap-2 overflow-hidden">
             <h3 class="text-sm font-semibold text-gray-700 flex-shrink-0">Customer Satisfaction (CSI)</h3>
 
-            {{-- Responses (left) + Are you satisfied (right) --}}
-            <div class="flex-shrink-0 flex gap-2 items-stretch">
-                {{-- Responses box --}}
-                <div class="flex-shrink-0 bg-gray-100 rounded-lg p-1.5 flex flex-col justify-center gap-0.5">
-                    <span class="text-sm text-gray-400 uppercase tracking-wide font-semibold leading-tight">Responses</span>
-                    <div class="flex items-baseline gap-1">
-                        <span class="text-base font-bold text-red-600">{{ number_format($csiResponses) }}</span>
-                        <span class="text-sm text-gray-400">/ {{ number_format($csiTotal) }}</span>
+            <div class="flex-1 min-h-0 grid grid-cols-6 gap-2">
+                {{-- Col 1: Responses box --}}
+                <div>
+                    <div class="flex flex-col justify-center gap-0.5 bg-gray-100 rounded-lg p-1.5">
+                        <span class="text-sm text-gray-400 uppercase tracking-wide font-semibold leading-tight">Responses</span>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-base font-bold text-red-600">{{ number_format($csiResponses) }}</span>
+                            <span class="text-sm text-gray-400">/ {{ number_format($csiTotal) }}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                            <div class="response-rate-bar h-1.5 rounded-full bg-yellow-400"></div>
+                        </div>
+                        <span class="text-sm font-semibold text-yellow-600 leading-tight">{{ $csiRate }}% Rate</span>
                     </div>
-                    <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                        <div class="response-rate-bar h-1.5 rounded-full bg-yellow-400"></div>
-                    </div>
-                    <span class="text-sm font-semibold text-yellow-600 leading-tight">{{ $csiRate }}% Rate</span>
                 </div>
-                {{-- Satisfaction section --}}
-                <div class="flex-1 min-w-0 flex flex-col gap-1">
+                
+
+                {{-- Col 2: Satisfaction section --}}
+                <div class="col-span-3 flex flex-col gap-1 ">
                     <span class="text-sm font-medium text-gray-500 text-center leading-tight flex-shrink-0">Are you satisfied with the service team?</span>
                     <div class="flex items-center justify-center gap-2">
                         <div class="relative w-16 h-16 flex-shrink-0">
                             <canvas id="satisfaction-doughnut-chart"></canvas>
                         </div>
-                        <div class="relative w-48 flex-shrink-0 h-16">
+                        <div class="relative w-72 flex-shrink-0 h-28">
                             <canvas id="satisfaction-bar-chart"></canvas>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {{-- 4 Mini Q — single horizontal row --}}
-            <div class="flex-1 min-h-0 flex items-center justify-around pt-2 border-t border-gray-200">
-                <div class="flex flex-col items-center gap-0.5">
-                    <div class="relative w-16 h-16 flex-shrink-0">
-                        <canvas id="response-1-chart"></canvas>
+                {{-- Col 3: Mini Q — 2 top + 1 centered bottom --}}
+                <div class="col-span-2 flex flex-col gap-1 justify-center">
+                    <div class="flex justify-around">
+                        <div class="flex flex-col items-center gap-0.5">
+                            <div class="relative w-16 h-16 flex-shrink-0">
+                                <canvas id="response-1-chart"></canvas>
+                            </div>
+                            <p class="text-xs text-gray-500 text-center leading-tight">Problem resolved?</p>
+                        </div>
+                        <div class="flex flex-col items-center gap-0.5">
+                            <div class="relative w-16 h-16 flex-shrink-0">
+                                <canvas id="response-2-chart"></canvas>
+                            </div>
+                            <p class="text-xs text-gray-500 text-center leading-tight">Arrived as scheduled?</p>
+                        </div>
                     </div>
-                    <p class="text-sm text-gray-500 text-center leading-tight">Problem resolved?</p>
-                </div>
-                <div class="flex flex-col items-center gap-0.5">
-                    <div class="relative w-16 h-16 flex-shrink-0">
-                        <canvas id="response-2-chart"></canvas>
+                    <div class="flex justify-center">
+                        <div class="flex flex-col items-center gap-0.5">
+                            <div class="relative w-16 h-16 flex-shrink-0">
+                                <canvas id="response-3-chart"></canvas>
+                            </div>
+                            <p class="text-xs text-gray-500 text-center leading-tight">Polite & well mannered?</p>
+                        </div>
                     </div>
-                    <p class="text-sm text-gray-500 text-center leading-tight">Arrived as scheduled?</p>
-                </div>
-                <div class="flex flex-col items-center gap-0.5">
-                    <div class="relative w-16 h-16 flex-shrink-0">
-                        <canvas id="response-3-chart"></canvas>
-                    </div>
-                    <p class="text-sm text-gray-500 text-center leading-tight">Polite & well mannered?</p>
                 </div>
             </div>
         </div>
