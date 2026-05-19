@@ -132,6 +132,13 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
+            const activeType = '{{ $activeType ?? '' }}';
+            const typeIndexMap = { 'I': 0, 'R': 1, 'spare_part': 2, 'C': 3, 'consult_or_advise': 4 };
+            const activeTypeIdx = activeType ? (typeIndexMap[activeType] ?? -1) : -1;
+            const typeFull = '#c4ddff';
+            const typeDim  = 'rgba(196,221,255,0.25)';
+            const typeBg = [0,1,2,3,4].map(i => activeTypeIdx < 0 || i === activeTypeIdx ? typeFull : typeDim);
+
             const rawPendingType = {!! json_encode($pendingData) !!};
             const udTypeData = {
                 labels: ['Installation', 'Repair', 'Spare Part', 'Onsite Consult', 'Phone Consult'],
@@ -150,7 +157,7 @@
                     labels: udTypeData.labels,
                     datasets: [{
                         data: udTypeData.values,
-                        backgroundColor: '#c4ddff',
+                        backgroundColor: typeBg,
                         borderWidth: 0,
                         barPercentage: 0.7,
                     }]
@@ -168,7 +175,7 @@
                             anchor: 'end',
                             align: 'right',
                             offset: 4,
-                            color: '#374151',
+                            color: ctx => activeTypeIdx < 0 || ctx.dataIndex === activeTypeIdx ? '#374151' : '#bbb',
                             font: {
                                 size: 12,
                                 weight: 'bold'

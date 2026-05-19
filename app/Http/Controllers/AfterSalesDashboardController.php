@@ -273,8 +273,6 @@ class AfterSalesDashboardController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-            // dd($agingData);
-
         return view('pages.after-sales.details.overall-aging-chart', [
             'agingData'   => $agingData,
             'tickets'     => $tickets,
@@ -295,10 +293,16 @@ class AfterSalesDashboardController extends Controller
             ->paginate(15)
             ->withQueryString();
 
+        $allSurvey = HthAssSurvey::query()
+            ->whereMonth('start_time', now()->month)
+            ->whereYear('start_time', now()->year)
+            ->count();
+
         return view('pages.after-sales.details.csi-response-chart', [
             'csiData'       => $csiData,
             'surveys'       => $surveys,
             'serviceStatus' => $serviceStatus,
+            'allSurvey'     => $allSurvey,
         ]);
     }
 
@@ -467,6 +471,7 @@ class AfterSalesDashboardController extends Controller
             ->leftJoin('hth_ass_teams', DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), '=', 'hth_ass_teams.name')
             ->whereNotNull('hth_ass_teams.team')
             ->where('hth_after_sale_ticket.deleted', 0)
+            ->where('hth_after_sale_ticket.release_date', '<=', now())
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->when($activeTeam, fn($q) => $q->where('hth_ass_teams.team', $activeTeam))
             ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [0, 3]))

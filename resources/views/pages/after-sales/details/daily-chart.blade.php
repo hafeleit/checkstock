@@ -94,6 +94,14 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
+            const activeShift = {!! json_encode($activeShift) !!};
+
+            const dayActive   = !activeShift || activeShift === 'day';
+            const nightActive = !activeShift || activeShift === 'night';
+
+            const dayColor   = dayActive   ? '#000'    : 'rgba(0,0,0,0.15)';
+            const nightColor = nightActive ? '#c70e0e' : 'rgba(199,14,14,0.15)';
+
             const udDailyData = {!! json_encode($dailyData) !!};
 
             const makeLineDataset = (label, data, color) => ({
@@ -109,11 +117,16 @@
                 pointBorderWidth: 2,
             });
 
-            const makeLineChart = (id, labels, datasets, stepSize = null) => new Chart(document.getElementById(id), {
+            const dailyDays = Object.keys(udDailyData).map(Number).sort((a, b) => a - b);
+
+            new Chart(document.getElementById('ud-daily-chart'), {
                 type: 'line',
                 data: {
-                    labels,
-                    datasets
+                    labels: dailyDays,
+                    datasets: [
+                        makeLineDataset('Day Shift (08:00-17:00)',   dailyDays.map(d => udDailyData[d].day_shift),   dayColor),
+                        makeLineDataset('Night Shift (17:01-07:59)', dailyDays.map(d => udDailyData[d].night_shift), nightColor),
+                    ],
                 },
                 plugins: [ChartDataLabels],
                 options: {
@@ -125,8 +138,10 @@
                             position: 'bottom',
                             labels: {
                                 boxWidth: 8,
-                                font: {
-                                    size: 12
+                                font: { size: 12 },
+                                color: ctx => {
+                                    if (!activeShift) return '#666';
+                                    return (ctx.index === 0 ? dayActive : nightActive) ? '#333' : '#bbb';
                                 }
                             }
                         },
@@ -134,10 +149,8 @@
                             align: 'top',
                             anchor: 'end',
                             offset: 3,
-                            color: '#555',
-                            font: {
-                                size: 12
-                            },
+                            color: ctx => (ctx.datasetIndex === 0 ? dayActive : nightActive) ? '#555' : '#ccc',
+                            font: { size: 12 },
                             formatter: v => v > 0 ? v.toLocaleString() : ''
                         },
                         tooltip: {
@@ -148,55 +161,18 @@
                     },
                     scales: {
                         x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                maxRotation: 0,
-                                autoSkip: false,
-                                font: {
-                                    size: 12
-                                }
-                            }
+                            grid: { display: false },
+                            ticks: { maxRotation: 0, autoSkip: false, font: { size: 12 } }
                         },
                         y: {
-                            grid: {
-                                display: false
-                            },
+                            grid: { display: false },
                             beginAtZero: true,
-                            ...(stepSize ? {
-                                ticks: {
-                                    stepSize,
-                                    font: {
-                                        size: 9
-                                    }
-                                }
-                            } : {
-                                ticks: {
-                                    font: {
-                                        size: 9
-                                    }
-                                }
-                            })
+                            ticks: { stepSize: 50, font: { size: 9 } }
                         },
                     },
-                    layout: {
-                        padding: {
-                            top: 25
-                        }
-                    },
+                    layout: { padding: { top: 25 } },
                 },
             });
-
-            const dailyDays = Object.keys(udDailyData).map(Number).sort((a, b) => a - b);
-            makeLineChart('ud-daily-chart',
-                dailyDays,
-                [
-                    makeLineDataset('Day Shift (08:00-17:00)', dailyDays.map(d => udDailyData[d].day_shift), '#000'),
-                    makeLineDataset('Night Shift (17:01-07:59)', dailyDays.map(d => udDailyData[d].night_shift), '#c70e0e'),
-                ],
-                50
-            );
         </script>
     @endpush
 @endsection

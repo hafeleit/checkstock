@@ -124,6 +124,27 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
+            const activeGroup = '{{ $activeGroup ?? '' }}';
+            const ascFull    = '#300613';
+            const hafeleFull = '#c70e0e';
+            const ascDim     = 'rgba(48,6,19,0.2)';
+            const hafeleDim  = 'rgba(199,14,14,0.2)';
+
+            const pieBg = activeGroup === 'asc'    ? [ascFull, hafeleDim]
+                        : activeGroup === 'hafele' ? [ascDim, hafeleFull]
+                        : [ascFull, hafeleFull];
+
+            // bar: index 0-1 = ASC, 2-5 = Hafele
+            const barBg = activeGroup === 'asc'    ? [ascFull, ascFull, hafeleDim, hafeleDim, hafeleDim, hafeleDim]
+                        : activeGroup === 'hafele' ? [ascDim, ascDim, hafeleFull, hafeleFull, hafeleFull, hafeleFull]
+                        : [ascFull, ascFull, hafeleFull, hafeleFull, hafeleFull, hafeleFull];
+
+            const barLabelColor = i => {
+                const isAsc = i < 2;
+                if (!activeGroup) return '#555';
+                return (activeGroup === 'asc') === isAsc ? '#555' : '#bbb';
+            };
+
             const udPendingData = {!! json_encode($pendingData) !!};
             const pGrand = udPendingData.grandTotal || 1;
             const pPct = n => Math.round(Math.min(100, Math.max(0, 100 * n / pGrand)));
@@ -133,7 +154,7 @@
                     labels: ['ASC', 'Hafele'],
                     datasets: [{
                         data: [pPct(udPendingData.grandAscTotal), pPct(udPendingData.grandHafeleTotal)],
-                        backgroundColor: ['#300613', '#c70e0e'],
+                        backgroundColor: pieBg,
                         hoverOffset: 4
                     }]
                 },
@@ -146,7 +167,11 @@
                             display: false
                         },
                         datalabels: {
-                            color: '#fff',
+                            color: ctx => {
+                                const isAsc = ctx.dataIndex === 0;
+                                if (!activeGroup) return '#fff';
+                                return (activeGroup === 'asc') === isAsc ? '#fff' : 'rgba(255,255,255,0.35)';
+                            },
                             anchor: 'center',
                             align: 'center',
                             font: {
@@ -174,7 +199,7 @@
                             getTypeTotal(udPendingData.hafeleData, 'C'),
                             getTypeTotal(udPendingData.hafeleData, 'consult_or_advise')
                         ],
-                        backgroundColor: ['#300613', '#300613', '#c70e0e', '#c70e0e', '#c70e0e', '#c70e0e'],
+                        backgroundColor: barBg,
                         borderWidth: 0,
                         barPercentage: 0.8
                     }],
@@ -192,7 +217,7 @@
                             anchor: 'end',
                             align: 'right',
                             offset: 3,
-                            color: '#555',
+                            color: ctx => barLabelColor(ctx.dataIndex),
                             font: {
                                 size: 12
                             }

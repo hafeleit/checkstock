@@ -136,6 +136,18 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
+            const activeTeam  = {!! json_encode($activeTeam) !!};
+            const activeAging = {!! json_encode($activeAging) !!};
+
+            const AG    = ['#10b981', '#84cc16', '#facc15', '#fb923c', '#ef4444'];
+            const AGdim = ['rgba(16,185,129,0.2)', 'rgba(132,204,22,0.2)', 'rgba(250,204,21,0.2)', 'rgba(251,146,60,0.2)', 'rgba(239,68,68,0.2)'];
+
+            const agingKeys   = ['0_3', '4_7', '8_15', '16_30', 'over_30'];
+            const agingLabels = ['0-3 Days', '4-7 Days', '8-15 Days', '16-30 Days', '>30 Days'];
+
+            const agingIndexMap = { '0-3': 0, '4-7': 1, '8-15': 2, '16-30': 3, 'over_30': 4 };
+            const activeAgingIdx = activeAging ? (agingIndexMap[activeAging] ?? -1) : -1;
+
             const rawInhouseData = {!! json_encode($pendingData) !!};
 
             const normalizeAgingRows = (data) => Object.entries(data)
@@ -152,13 +164,16 @@
 
             const udInhouseRows = normalizeAgingRows(rawInhouseData).sort((a, b) => a.label.localeCompare(b.label));
 
+            // เทียบ label โดยตรง — ป้องกันปัญหา findIndex คืน -1 แล้ว teamOk กลายเป็น true ตลอด
+            const isActive = (dsIdx, barIdx) => {
+                const agingOk = activeAgingIdx < 0 || dsIdx === activeAgingIdx;
+                const teamOk  = !activeTeam || udInhouseRows[barIdx]?.label === activeTeam;
+                return agingOk && teamOk;
+            };
+
             const dynamicHeight = (rows, rowH = 38, legendH = 40) => Math.max(120, rows.length * rowH + legendH);
             const rowCHeight = Math.max(dynamicHeight(udInhouseRows));
             document.getElementById('ud-inhouse-wrap').style.height = rowCHeight + 'px';
-
-            const AG = ['#10b981', '#84cc16', '#facc15', '#fb923c', '#ef4444'];
-            const agingKeys = ['0_3', '4_7', '8_15', '16_30', 'over_30'];
-            const agingLabels = ['0-3 Days', '4-7 Days', '8-15 Days', '16-30 Days', '>30 Days'];
 
             new Chart(document.getElementById('ud-inhouse-chart'), {
                 type: 'bar',
@@ -167,7 +182,7 @@
                     datasets: agingKeys.map((key, i) => ({
                         label: agingLabels[i],
                         data: udInhouseRows.map(r => r[key] ?? 0),
-                        backgroundColor: AG[i],
+                        backgroundColor: udInhouseRows.map((_, j) => isActive(i, j) ? AG[i] : AGdim[i]),
                         borderWidth: 0,
                         barPercentage: 0.75,
                     })),
@@ -183,21 +198,18 @@
                             position: 'bottom',
                             labels: {
                                 boxWidth: 8,
-                                font: {
-                                    size: 12
-                                },
-                                padding: 4
+                                font: { size: 12 },
+                                padding: 4,
+                                color: ctx => activeAgingIdx < 0 ? '#666'
+                                    : ctx.index === activeAgingIdx ? '#333' : '#bbb'
                             }
                         },
                         datalabels: {
                             display: ctx => (ctx.dataset.data[ctx.dataIndex] ?? 0) > 0,
                             anchor: 'center',
                             align: 'center',
-                            color: '#fff',
-                            font: {
-                                size: 10,
-                                weight: 'bold'
-                            },
+                            color: ctx => isActive(ctx.datasetIndex, ctx.dataIndex) ? '#fff' : 'rgba(255,255,255,0.15)',
+                            font: { size: 10, weight: 'bold' },
                             formatter: v => v > 0 ? v : ''
                         },
                         tooltip: {
@@ -209,28 +221,17 @@
                         },
                     },
                     scales: {
-                        x: {
-                            stacked: true,
-                            display: false,
-                            beginAtZero: true
-                        },
+                        x: { stacked: true, display: false, beginAtZero: true },
                         y: {
                             stacked: true,
-                            grid: {
-                                display: false
-                            },
+                            grid: { display: false },
                             ticks: {
-                                font: {
-                                    size: 12
-                                }
+                                font: { size: 12 },
+                                color: ctx => !activeTeam || udInhouseRows[ctx.index]?.label === activeTeam ? '#374151' : '#bbb'
                             }
                         },
                     },
-                    layout: {
-                        padding: {
-                            right: 8
-                        }
-                    },
+                    layout: { padding: { right: 8 } },
                 },
             });
         </script>

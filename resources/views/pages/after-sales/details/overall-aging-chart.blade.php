@@ -58,6 +58,11 @@
                 background-color: #ef4444;
             }
 
+            .ud-ag-dimmed {
+                opacity: 0.2;
+                transition: opacity 0.2s;
+            }
+
             .bg-orange-100 { background-color: #ffedd5; }
             .text-orange-700 { color: #c2410c; }
             .bg-emerald-100 { background-color: #d1fae5; }
@@ -66,6 +71,11 @@
             .text-lime-700 { color: #4d7c0f; }
         </style>
     @endpush
+
+    @php
+        $agingIndexMap = ['0-3' => 0, '4-7' => 1, '8-15' => 2, '16-30' => 3, 'over_30' => 4];
+        $activeAgingIndex = (is_string($activeAging) && isset($agingIndexMap[$activeAging])) ? $agingIndexMap[$activeAging] : null;
+    @endphp
 
     <div class="space-y-2">
 
@@ -93,11 +103,9 @@
                 </div>
             </div>
             <div class="ud-aging-bar">
-                <div class="ud-aging-seg ud-ag-0" id="ud-ag-0"></div>
-                <div class="ud-aging-seg ud-ag-1" id="ud-ag-1"></div>
-                <div class="ud-aging-seg ud-ag-2" id="ud-ag-2"></div>
-                <div class="ud-aging-seg ud-ag-3" id="ud-ag-3"></div>
-                <div class="ud-aging-seg ud-ag-4" id="ud-ag-4"></div>
+                @for ($i = 0; $i < 5; $i++)
+                    <div class="ud-aging-seg ud-ag-{{ $i }} {{ $activeAgingIndex !== null && $activeAgingIndex !== $i ? 'ud-ag-dimmed' : '' }}" id="ud-ag-{{ $i }}"></div>
+                @endfor
             </div>
         </div>
 

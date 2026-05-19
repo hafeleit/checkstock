@@ -134,6 +134,17 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
+            const activeRegion = '{{ $activeRegion ?? '' }}';
+            const activeAging  = '{{ $activeAging ?? '' }}';
+
+            const AG    = ['#10b981', '#84cc16', '#facc15', '#fb923c', '#ef4444'];
+            const AGdim = ['rgba(16,185,129,0.2)', 'rgba(132,204,22,0.2)', 'rgba(250,204,21,0.2)', 'rgba(251,146,60,0.2)', 'rgba(239,68,68,0.2)'];
+            const agingKeys   = ['0_3', '4_7', '8_15', '16_30', 'over_30'];
+            const agingLabels = ['0-3 Days', '4-7 Days', '8-15 Days', '16-30 Days', '>30 Days'];
+
+            const agingIndexMap = { '0-3': 0, '4-7': 1, '8-15': 2, '16-30': 3, 'over_30': 4 };
+            const activeAgingIdx = activeAging ? (agingIndexMap[activeAging] ?? -1) : -1;
+
             const rawAscData = {!! json_encode($pendingData) !!};
 
             const normalizeAgingRows = (data) => Object.entries(data)
@@ -149,14 +160,17 @@
                 }));
 
             const udAscRows = normalizeAgingRows(rawAscData).sort((a, b) => a.label.localeCompare(b.label));
+            const activeRegionIdx = activeRegion ? udAscRows.findIndex(r => r.label === activeRegion) : -1;
+
+            const isActive = (dsIdx, barIdx) => {
+                const agingOk  = activeAgingIdx  < 0 || dsIdx  === activeAgingIdx;
+                const regionOk = activeRegionIdx < 0 || barIdx === activeRegionIdx;
+                return agingOk && regionOk;
+            };
 
             const dynamicHeight = (rows, rowH = 38, legendH = 40) => Math.max(120, rows.length * rowH + legendH);
             const rowCHeight = Math.max(dynamicHeight(udAscRows));
             document.getElementById('ud-asc-wrap').style.height = rowCHeight + 'px';
-
-            const AG = ['#10b981', '#84cc16', '#facc15', '#fb923c', '#ef4444'];
-            const agingKeys = ['0_3', '4_7', '8_15', '16_30', 'over_30'];
-            const agingLabels = ['0-3 Days', '4-7 Days', '8-15 Days', '16-30 Days', '>30 Days'];
 
             new Chart(document.getElementById('ud-asc-chart'), {
                 type: 'bar',
@@ -165,7 +179,7 @@
                     datasets: agingKeys.map((key, i) => ({
                         label: agingLabels[i],
                         data: udAscRows.map(r => r[key] ?? 0),
-                        backgroundColor: AG[i],
+                        backgroundColor: udAscRows.map((_, j) => isActive(i, j) ? AG[i] : AGdim[i]),
                         borderWidth: 0,
                         barPercentage: 0.75,
                     })),
@@ -181,21 +195,18 @@
                             position: 'bottom',
                             labels: {
                                 boxWidth: 8,
-                                font: {
-                                    size: 12
-                                },
-                                padding: 4
+                                font: { size: 12 },
+                                padding: 4,
+                                color: ctx => activeAgingIdx < 0 ? '#666'
+                                    : ctx.index === activeAgingIdx ? '#333' : '#bbb'
                             }
                         },
                         datalabels: {
                             display: ctx => (ctx.dataset.data[ctx.dataIndex] ?? 0) > 0,
                             anchor: 'center',
                             align: 'center',
-                            color: '#fff',
-                            font: {
-                                size: 10,
-                                weight: 'bold'
-                            },
+                            color: ctx => isActive(ctx.datasetIndex, ctx.dataIndex) ? '#fff' : 'rgba(255,255,255,0.15)',
+                            font: { size: 10, weight: 'bold' },
                             formatter: v => v > 0 ? v : ''
                         },
                         tooltip: {
@@ -207,28 +218,10 @@
                         },
                     },
                     scales: {
-                        x: {
-                            stacked: true,
-                            display: false,
-                            beginAtZero: true
-                        },
-                        y: {
-                            stacked: true,
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        },
+                        x: { stacked: true, display: false, beginAtZero: true },
+                        y: { stacked: true, grid: { display: false }, ticks: { font: { size: 12 } } },
                     },
-                    layout: {
-                        padding: {
-                            right: 8
-                        }
-                    },
+                    layout: { padding: { right: 8 } },
                 },
             });
         </script>
