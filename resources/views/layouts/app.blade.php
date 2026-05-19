@@ -55,7 +55,7 @@
             justify-content: center;
             align-items: center;
             transition: opacity 0.6s ease;
-            opacity: 0.6;
+            opacity: 0.8;
         }
 
         .loader-spinner {
@@ -63,7 +63,7 @@
             height: 100px;
             border-radius: 50%;
             object-fit: cover;
-            opacity: 0.6;
+            opacity: 0.8;
         }
 
         @media (min-width: 768px) {
