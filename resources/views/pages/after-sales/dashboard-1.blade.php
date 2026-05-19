@@ -8,18 +8,30 @@
 @endphp
 
 <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-    .response-rate-bar { 
-        width: {{ $csiRate }}%; 
+    .response-rate-bar {
+        width: {{ $csiRate }}%;
+    }
+    .kpi-tooltip-wrap:hover .kpi-tooltip {
+        display: block;
     }
 </style>
 
-<div class="h-full flex flex-col gap-1 overflow-hidden text-gray-800">
+<div class="h-full flex flex-col gap-1 overflow-visible text-gray-800">
 
     {{-- ── ROW 1: KPI Cards ── --}}
     <div class="flex-shrink-0 grid grid-cols-4 gap-1">
-
         {{-- CSI --}}
-        <div class="bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100 flex items-center gap-2">
+        <div class="relative bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100 flex items-center gap-2">
+            <!-- tooltip section -->
+            <div class="kpi-tooltip-wrap absolute top-1.5 right-1.5 cursor-help p-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300 hover:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div class="kpi-tooltip hidden absolute z-50 right-0 top-full mt-1 w-60 p-2 text-xs text-white bg-gray-800 rounded shadow-lg">
+                    สูตร: (คะแนนที่ได้ / คะแนนเต็ม) × 100
+                </div>
+            </div>
+
             <div class="relative w-16 h-16 flex-shrink-0">
                 <canvas id="csi-chart"></canvas>
             </div>
@@ -33,7 +45,16 @@
         </div>
 
         {{-- R_TAT --}}
-        <div class="bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100 flex items-center gap-2">
+        <div class="relative bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100 flex items-center gap-2">
+            <!-- tooltip section -->
+            <div class="kpi-tooltip-wrap absolute top-1.5 right-1.5 cursor-help p-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300 hover:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div class="kpi-tooltip hidden absolute z-50 right-0 top-full mt-1 w-60 p-2 text-xs text-white bg-gray-800 rounded shadow-lg">
+                    สูตร: (วันที่ซ่อมเสร็จ - วันที่รับงาน) / จำนวนงานที่ซ่อมเสร็จทั้งหมด
+                </div>
+            </div>
             <div class="relative w-16 h-16 flex-shrink-0">
                 <canvas id="rtat-chart"></canvas>
             </div>
@@ -53,7 +74,16 @@
         </div>
 
         {{-- LTP --}}
-        <div class="bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100 flex items-center gap-2">
+        <div class="relative bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100 flex items-center gap-2">
+            <!-- tooltip section -->
+            <div class="kpi-tooltip-wrap absolute top-1.5 right-1.5 cursor-help p-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300 hover:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div class="kpi-tooltip hidden absolute z-50 right-0 top-full mt-1 w-60 p-2 text-xs text-white bg-gray-800 rounded shadow-lg">
+                    สูตร: (Pending &gt; 7 วัน ใน 30 วันย้อนหลัง / Pending &gt; 7 วัน ทั้งหมด) × 100
+                </div>
+            </div>
             <div class="relative w-16 h-16 flex-shrink-0">
                 <canvas id="ltp-chart"></canvas>
             </div>
@@ -67,7 +97,16 @@
         </div>
 
         {{-- FTF --}}
-        <div class="bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100 flex items-center gap-2">
+        <div class="relative bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100 flex items-center gap-2">
+            <!-- tooltip section -->
+            <div class="kpi-tooltip-wrap absolute top-1.5 right-1.5 cursor-help p-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300 hover:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div class="kpi-tooltip hidden absolute z-50 right-0 top-full mt-1 w-60 p-2 text-xs text-white bg-gray-800 rounded shadow-lg">
+                    สูตร: (จำนวน Activity / Ticket ทั้งหมด) × 100
+                </div>
+            </div>
             <div class="relative w-16 h-16 flex-shrink-0">
                 <canvas id="ftf-chart"></canvas>
             </div>
