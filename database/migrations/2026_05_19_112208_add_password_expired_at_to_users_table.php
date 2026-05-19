@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -12,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->timestamp('password_expired_at')->nullable();
+            $table->timestamp('password_expired_at')->nullable()->default(DB::raw('(NOW() + INTERVAL ' . config('services.password.expire_days') . ' DAY)'));
             $table->timestamp('password_updated_at')->nullable();
         });
     }

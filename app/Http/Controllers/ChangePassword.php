@@ -61,7 +61,7 @@ class ChangePassword extends Controller
             $existingUser->update([
                 'password' => $attributes['new_password'],
                 'password_updated_at' => now(),
-                'password_expired_at' => now()->addDays(90),
+                'password_expired_at' => now()->addDays(config('services.password.expire_days')),
             ]);
 
             return redirect('profile')->with('success', 'Password successfully updated');;

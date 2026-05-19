@@ -80,7 +80,7 @@ class UserController extends Controller
                 'is_active' => $request->is_active ? true : false,
                 'type' => $request->type,
                 'emp_code' => $request->emp_code,
-                'password_expired_at' => now()->addDays(90),
+                'password_expired_at' => now()->addDays(config('services.password.expire_days')),
                 'password_updated_at' => now(),
             ]);
 
@@ -149,7 +149,7 @@ class UserController extends Controller
                     'password' => $request->password,
                     'last_logged_in_at' => null,
                     'password_updated_at' => now(),
-                    'password_expired_at' => now()->addDays(90),
+                    'password_expired_at' => now()->addDays(config('services.password.expire_days')),
                 ];
             }
 

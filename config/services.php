@@ -35,6 +35,10 @@ return [
         'api_token' => env('SLACK_API_TOKEN'),
     ],
 
+    'password' => [
+        'expire_days' => env('CONFIG_PASSWORD_EXPIRE_DAYS', 90),
+    ],
+
     'external_product_api' => [
         'base_url'    => env('EXTERNAL_PRODUCT_API_BASE_URL'),
         'username'    => env('EXTERNAL_PRODUCT_API_USERNAME'),
