@@ -163,6 +163,51 @@
             font-size: 0.78rem;
             margin-top: 4px;
         }
+
+        .security-notice {
+            display: flex;
+            align-items: centers;
+            gap: 9px;
+            background: #EFF6FF;
+            border: 1px solid #BFDBFE;
+            border-radius: 10px;
+            padding: 10px 13px;
+            margin-bottom: 20px;
+            font-size: 0.79rem;
+            color: #1D4ED8;
+            line-height: 1.5;
+        }
+
+        .security-notice i {
+            margin-top: 2px;
+            flex-shrink: 0;
+            color: #3B82F6;
+        }
+
+        .pw-requirements {
+            margin-top: -6px;
+            margin-bottom: 14px;
+            padding: 9px 12px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .pw-req-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.76rem;
+            color: #9ca3af;
+            line-height: 1.8;
+            transition: color 0.15s;
+        }
+
+        .pw-req-item.met { color: #16a34a; }
+        .pw-req-item.unmet { color: #dc2626; }
+
+        .pw-req-item i { font-size: 0.7rem; width: 10px; }
     </style>
 
     <div class="login-bg">
@@ -171,6 +216,11 @@
 
             <p class="login-title">Change Password</p>
             <p class="login-subtitle">Set a new password for your account</p>
+
+            <div class="security-notice">
+                <i class="fas fa-shield-alt"></i>
+                <span>Passwords expire every <strong>90 days</strong></span>
+            </div>
 
             @if (session('error'))
                 <div class="error-notice">
@@ -185,16 +235,14 @@
                 <input type="hidden" name="email" value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}">
 
                 <div class="input-group-glass">
-                    <input type="text" class="form-control" placeholder="Email"
-                        value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}" readonly>
+                    <input type="text" class="form-control" placeholder="Email" value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}" readonly>
                     @error('email')
                         <p class="text-danger-glass">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div class="input-group-glass position-relative">
-                    <input id="password" type="password" name="password"
-                        class="form-control" placeholder="Current Password" autocomplete="off">
+                    <input id="password" type="password" name="password" class="form-control" placeholder="Current Password" autocomplete="off">
                     <i id="togglePassword" class="fas fa-eye position-absolute top-50 translate-middle-y pw-toggle-icon"></i>
                     @error('password')
                         <p class="text-danger-glass">{{ $message }}</p>
@@ -202,17 +250,22 @@
                 </div>
 
                 <div class="input-group-glass position-relative">
-                    <input id="new_password" type="password" name="new_password"
-                        class="form-control" placeholder="New Password" autocomplete="off">
+                    <input id="new_password" type="password" name="new_password" class="form-control" placeholder="New Password" autocomplete="off">
                     <i id="toggleNewPassword" class="fas fa-eye position-absolute top-50 translate-middle-y pw-toggle-icon"></i>
                     @error('new_password')
                         <p class="text-danger-glass">{{ $message }}</p>
                     @enderror
                 </div>
 
+                <div class="pw-requirements" id="pwRequirements">
+                    <div class="pw-req-item" id="req-length"><i class="fas fa-circle"></i> At least 15 characters</div>
+                    <div class="pw-req-item" id="req-upper"><i class="fas fa-circle"></i> Uppercase &amp; lowercase letters</div>
+                    <div class="pw-req-item" id="req-number"><i class="fas fa-circle"></i> Number</div>
+                    <div class="pw-req-item" id="req-special"><i class="fas fa-circle"></i> Special character</div>
+                </div>
+
                 <div class="input-group-glass position-relative">
-                    <input id="new_password_confirmation" type="password" name="new_password_confirmation"
-                        class="form-control" placeholder="Confirm New Password" autocomplete="off">
+                    <input id="new_password_confirmation" type="password" name="new_password_confirmation" class="form-control" placeholder="Confirm New Password" autocomplete="off">
                     <i id="toggleConfirmPassword" class="fas fa-eye position-absolute top-50 translate-middle-y pw-toggle-icon"></i>
                     @error('new_password_confirmation')
                         <p class="text-danger-glass">{{ $message }}</p>
@@ -234,6 +287,7 @@
     </div>
 
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+        // Password visibility toggle
         function setupPasswordToggle(inputId, toggleId) {
             const input = document.getElementById(inputId);
             const icon = document.getElementById(toggleId);
@@ -258,8 +312,31 @@
             icon.addEventListener('touchend', function(e) { e.preventDefault(); hidePw(); });
         }
 
+        // Initialize password toggles
         setupPasswordToggle('password', 'togglePassword');
         setupPasswordToggle('new_password', 'toggleNewPassword');
         setupPasswordToggle('new_password_confirmation', 'toggleConfirmPassword');
+
+        // Password strength checker
+        const newPwInput = document.getElementById('new_password');
+        const pwReqs = document.getElementById('pwRequirements');
+
+        const checks = {
+            'req-length':  v => v.length >= 15,
+            'req-upper':   v => /[a-z]/.test(v) && /[A-Z]/.test(v),
+            'req-number':  v => /\d/.test(v),
+            'req-special': v => /[^a-zA-Z\d]/.test(v),
+        };
+
+        newPwInput.addEventListener('input', function () {
+            const val = this.value;
+            pwReqs.style.display = val.length ? 'block' : 'none';
+            Object.entries(checks).forEach(([id, fn]) => {
+                const el = document.getElementById(id);
+                const ok = fn(val);
+                el.className = 'pw-req-item ' + (ok ? 'met' : 'unmet');
+                el.querySelector('i').className = 'fas ' + (ok ? 'fa-check-circle' : 'fa-circle');
+            });
+        });
     </script>
 @endsection
