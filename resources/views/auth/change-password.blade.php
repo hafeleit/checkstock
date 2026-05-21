@@ -111,6 +111,13 @@
             box-shadow: 0 8px 28px rgba(200, 16, 46, 0.45);
         }
 
+        .btn-login:disabled {
+            background: #9ca3af;
+            box-shadow: none;
+            cursor: not-allowed;
+            opacity: 1;
+        }
+
         .btn-login:active {
             transform: translateY(0);
             box-shadow: 0 4px 16px rgba(200, 16, 46, 0.25);
@@ -241,17 +248,21 @@
                     @enderror
                 </div>
 
-                <div class="input-group-glass position-relative">
-                    <input id="password" type="password" name="password" class="form-control" placeholder="Current Password" autocomplete="off">
-                    <i id="togglePassword" class="fas fa-eye position-absolute top-50 translate-middle-y pw-toggle-icon"></i>
+                <div class="input-group-glass">
+                    <div class="position-relative">
+                        <input id="password" type="password" name="password" class="form-control" placeholder="Current Password" autocomplete="off">
+                        <i id="togglePassword" class="fas fa-eye position-absolute top-50 translate-middle-y pw-toggle-icon"></i>
+                    </div>
                     @error('password')
                         <p class="text-danger-glass">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="input-group-glass position-relative">
-                    <input id="new_password" type="password" name="new_password" class="form-control" placeholder="New Password" autocomplete="off">
-                    <i id="toggleNewPassword" class="fas fa-eye position-absolute top-50 translate-middle-y pw-toggle-icon"></i>
+                <div class="input-group-glass">
+                    <div class="position-relative">
+                        <input id="new_password" type="password" name="new_password" class="form-control" placeholder="New Password" autocomplete="off">
+                        <i id="toggleNewPassword" class="fas fa-eye position-absolute top-50 translate-middle-y pw-toggle-icon"></i>
+                    </div>
                     @error('new_password')
                         <p class="text-danger-glass">{{ $message }}</p>
                     @enderror
@@ -264,9 +275,11 @@
                     <div class="pw-req-item" id="req-special"><i class="fas fa-circle"></i> Special character</div>
                 </div>
 
-                <div class="input-group-glass position-relative">
-                    <input id="new_password_confirmation" type="password" name="new_password_confirmation" class="form-control" placeholder="Confirm New Password" autocomplete="off">
-                    <i id="toggleConfirmPassword" class="fas fa-eye position-absolute top-50 translate-middle-y pw-toggle-icon"></i>
+                <div class="input-group-glass">
+                    <div class="position-relative">
+                        <input id="new_password_confirmation" type="password" name="new_password_confirmation" class="form-control" placeholder="Confirm New Password" autocomplete="off">
+                        <i id="toggleConfirmPassword" class="fas fa-eye position-absolute top-50 translate-middle-y pw-toggle-icon"></i>
+                    </div>
                     @error('new_password_confirmation')
                         <p class="text-danger-glass">{{ $message }}</p>
                     @enderror
@@ -318,8 +331,10 @@
         setupPasswordToggle('new_password_confirmation', 'toggleConfirmPassword');
 
         // Password strength checker
-        const newPwInput = document.getElementById('new_password');
-        const pwReqs = document.getElementById('pwRequirements');
+        const newPwInput    = document.getElementById('new_password');
+        const confirmInput  = document.getElementById('new_password_confirmation');
+        const submitBtn     = document.querySelector('.btn-login');
+        const pwReqs        = document.getElementById('pwRequirements');
 
         const checks = {
             'req-length':  v => v.length >= 15,
@@ -328,15 +343,26 @@
             'req-special': v => /[^a-zA-Z\d]/.test(v),
         };
 
-        newPwInput.addEventListener('input', function () {
-            const val = this.value;
+        function updateState() {
+            const val     = newPwInput.value;
+            const confirm = confirmInput.value;
+
             pwReqs.style.display = val.length ? 'block' : 'none';
-            Object.entries(checks).forEach(([id, fn]) => {
-                const el = document.getElementById(id);
-                const ok = fn(val);
-                el.className = 'pw-req-item ' + (ok ? 'met' : 'unmet');
-                el.querySelector('i').className = 'fas ' + (ok ? 'fa-check-circle' : 'fa-circle');
-            });
-        });
+
+            const allMet = Object.entries(checks).reduce((ok, [id, fn]) => {
+                const met = fn(val);
+                const el  = document.getElementById(id);
+                el.className = 'pw-req-item ' + (val.length ? (met ? 'met' : 'unmet') : '');
+                el.querySelector('i').className = 'fas ' + (met ? 'fa-check-circle' : 'fa-circle');
+                return ok && met;
+            }, true);
+
+            const matched = val.length && val === confirm;
+            submitBtn.disabled = !(allMet && matched);
+        }
+
+        submitBtn.disabled = true;
+        newPwInput.addEventListener('input', updateState);
+        confirmInput.addEventListener('input', updateState);
     </script>
 @endsection
