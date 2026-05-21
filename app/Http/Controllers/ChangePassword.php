@@ -28,9 +28,22 @@ class ChangePassword extends Controller
 
     public function update(Request $request)
     {
+        $request->validate([
+            'email'    => ['required'],
+            'password' => ['required'],
+        ]);
+
+        $existingUser = User::where('email', $request->input('email'))->first();
+
+        // Check password matches the current password
+        if (!$existingUser || !Hash::check($request->input('password'), $existingUser->password)) {
+            throw ValidationException::withMessages([
+                'password' => 'Current password is incorrect.',
+            ]);
+        }
+
+        // Validate the new password
         $attributes = $request->validate([
-            'email' => ['required'],
-            'password' => ['required', 'min:5'], // current password
             'new_password' => [
                 'required',
                 'string',
@@ -39,34 +52,20 @@ class ChangePassword extends Controller
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).+$/'
             ],
         ], [
-            'new_password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+            'new_password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
         ]);
 
-        $existingUser = User::where('email', $attributes['email'])->first();
-
-        if ($existingUser) {
-            // ตรวจสอบรหัสผ่านปัจจุบัน
-            if (!Hash::check($attributes['password'], $existingUser->password)) {
-                throw ValidationException::withMessages([
-                    'password' => 'Current password is incorrect.',
-                ]);
-            }
-
-            // ห้ามใช้รหัสผ่านเดิม
-            if (Hash::check($attributes['new_password'], $existingUser->password)) {
-                return back()->withErrors(['new_password' => 'Cannot use the same password as the current one.']);
-            }
-
-            // อัปเดตรหัสผ่านใหม่
-            $existingUser->update([
-                'password' => $attributes['new_password'],
-                'password_updated_at' => now(),
-                'password_expired_at' => now()->addDays(config('services.password.expire_days')),
-            ]);
-
-            return redirect('profile')->with('success', 'Password successfully updated');;
-        } else {
-            return back()->with('error', 'Your email does not match the email who requested the password change');
+        // Check new password is the same as the current password
+        if (Hash::check($attributes['new_password'], $existingUser->password)) {
+            return back()->withErrors(['new_password' => 'Cannot use the same password as the current one.']);
         }
+
+        $existingUser->update([
+            'password'            => $attributes['new_password'],
+            'password_updated_at' => now(),
+            'password_expired_at' => now()->addDays(config('services.password.expire_days')),
+        ]);
+
+        return redirect('profile')->with('success', 'Password successfully updated');
     }
 }
