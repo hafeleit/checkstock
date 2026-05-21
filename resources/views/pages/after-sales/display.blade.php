@@ -87,13 +87,26 @@
         Chart.register(centerTextHalfPlugin);
         Chart.register(ChartDataLabels);
 
+        // ป้องกันหน้าจอดับ
+        async function requestWakeLock() {
+            if ('wakeLock' in navigator) {
+                try {
+                    await navigator.wakeLock.request('screen');
+                } catch (e) {}
+            }
+        }
+        requestWakeLock();
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') requestWakeLock();
+        });
+
         // Switch page
         document.addEventListener('DOMContentLoaded', function() {
             const intervalTime = 5 * 60 * 1000;
             const storageKey = 'active_dashboard_id';
-            
+
             let activeId = localStorage.getItem(storageKey) || 'dashboard-1';
-            
+
             const activeElement = document.getElementById(activeId);
             if (activeElement) {
                 activeElement.classList.add('active');
