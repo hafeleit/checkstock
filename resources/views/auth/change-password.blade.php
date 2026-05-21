@@ -331,6 +331,7 @@
         setupPasswordToggle('new_password_confirmation', 'toggleConfirmPassword');
 
         // Password strength checker
+        const currentPwInput = document.getElementById('password');
         const newPwInput    = document.getElementById('new_password');
         const confirmInput  = document.getElementById('new_password_confirmation');
         const submitBtn     = document.querySelector('.btn-login');
@@ -344,6 +345,7 @@
         };
 
         function updateState() {
+            const current = currentPwInput.value;
             const val     = newPwInput.value;
             const confirm = confirmInput.value;
 
@@ -358,10 +360,11 @@
             }, true);
 
             const matched = val.length && val === confirm;
-            submitBtn.disabled = !(allMet && matched);
+            submitBtn.disabled = !(current.length && allMet && matched);
         }
 
         submitBtn.disabled = true;
+        currentPwInput.addEventListener('input', updateState);
         newPwInput.addEventListener('input', updateState);
         confirmInput.addEventListener('input', updateState);
     </script>
