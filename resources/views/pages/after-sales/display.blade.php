@@ -102,7 +102,7 @@
 
         // Switch page
         document.addEventListener('DOMContentLoaded', function() {
-            const intervalTime = 5 * 60 * 1000;
+            const intervalTime = 1 * 60 * 1000;
             const storageKey = 'active_dashboard_id';
 
             let activeId = localStorage.getItem(storageKey) || 'dashboard-1';
