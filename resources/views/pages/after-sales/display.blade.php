@@ -4,6 +4,7 @@
         #dashboard-container { height: 100%; display: flex; flex-direction: column; }
         .dashboard-view { display: none; height: 100%; overflow: hidden; }
         .dashboard-view.active { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+        .bg-silent-audio { display: none; }
     </style>
 
     <div id="dashboard-container">
@@ -14,6 +15,11 @@
             @include('pages.after-sales.dashboard-2')
         </div>
     </div>
+
+    <!-- hidden audio element to prevent sleep -->
+    <audio id="bg-silent-audio">
+        <source src="data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU2LjM2LjEwMAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAEAAABIADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV6urq6urq6urq6urq6urq6urq6urq6urq6v////////////////////////////////8AAAAATGF2YzU2LjQxAAAAAAAAAAAAAAAAJAAAAAAAAAAAASDs90hvAAAAAAAAAAAAAAAAAAAA//MUZAAAAAGkAAAAAAAAA0gAAAAATEFN//MUZAMAAAGkAAAAAAAAA0gAAAAARTMu//MUZAYAAAGkAAAAAAAAA0gAAAAAOTku//MUZAkAAAGkAAAAAAAAA0gAAAAANVVV" type="audio/wav">
+    </audio>
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
@@ -87,22 +93,9 @@
         Chart.register(centerTextHalfPlugin);
         Chart.register(ChartDataLabels);
 
-        // ป้องกันหน้าจอดับ
-        async function requestWakeLock() {
-            if ('wakeLock' in navigator) {
-                try {
-                    await navigator.wakeLock.request('screen');
-                } catch (e) {}
-            }
-        }
-        requestWakeLock();
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'visible') requestWakeLock();
-        });
-
-        // Switch page
+        // Switch page + prevent screen sleep
         document.addEventListener('DOMContentLoaded', function() {
-            const intervalTime = 1 * 60 * 1000;
+            const intervalTime = 5 * 60 * 1000;
             const storageKey = 'active_dashboard_id';
 
             let activeId = localStorage.getItem(storageKey) || 'dashboard-1';
@@ -120,6 +113,30 @@
                 localStorage.setItem(storageKey, nextId);
                 window.location.reload();
             }, intervalTime);
+
+            // Silent audio loop เพื่อป้องกันจอดับ
+            const audio = document.getElementById('bg-silent-audio');
+
+            function startAudio() {
+                if (!audio) return;
+                audio.play().catch(() => {
+                    const resume = () => {
+                        audio.play();
+                        document.removeEventListener('click', resume);
+                        document.removeEventListener('touchstart', resume);
+                    };
+                    document.addEventListener('click', resume);
+                    document.addEventListener('touchstart', resume);
+                });
+            }
+
+            if (audio) {
+                audio.addEventListener('ended', function() {
+                    audio.play();
+                });
+            }
+
+            startAudio();
         });
     </script>
 @endsection

@@ -40,6 +40,7 @@ class SecurityHeaders
             "script-src 'self' 'nonce-{$scriptNonce}'; " .
             "style-src 'self' 'nonce-{$styleNonce}'; " .
             "img-src 'self' data:; " .
+            "media-src 'self' data:; " .
             "font-src 'self' data:; " .
             "object-src 'none'; " .
             "base-uri 'self'"
