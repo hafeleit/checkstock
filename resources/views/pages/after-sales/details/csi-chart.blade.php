@@ -6,7 +6,8 @@
     @php
         $csiSurvey = $csiData['survey_data'];
         $csiResponses = (int) ($csiSurvey->total ?? 0);
-        $csiSatPct = $csiResponses > 0 ? round(($csiSurvey->service_very_good / $csiResponses) * 100, 1) : 0;
+        $csiPoint     = ($csiSurvey->service_very_good*5) + ($csiSurvey->service_good*4) + ($csiSurvey->service_normal*3) + ($csiSurvey->service_bad*2) + ($csiSurvey->service_very_bad*1);
+        $csiSatPct    = $allSurvey > 0 ? round(($csiPoint / ($allSurvey * 5)) * 100, 1) : 0;
     @endphp
 
     <div class="space-y-2">
@@ -28,7 +29,29 @@
         <div class="bg-white rounded-lg shadow-sm border border-gray-100 w-full">
             <div class="px-3 py-3 border-b border-gray-100">
                 <p class="text-sm text-gray-400 uppercase tracking-widest font-semibold">CSI Survey Responses</p>
-                <p class="text-lg font-bold text-gray-800 mt-0.5">{{ number_format($csiSurvey->service_very_good, 0) }} <span class="text-sm font-normal text-gray-400">responses</span></p>
+                <p class="text-lg font-bold text-gray-800 mt-0.5">{{ number_format($surveys->total() ?? 0, 0) }}
+                    <span class="text-sm font-normal text-gray-400">responses</span>
+                </p>
+
+                {{-- Status Filter --}}
+                @php
+                    $serviceStatuses = [
+                        'ดีมาก (Very Good)' => 'Very Good',
+                        'ดี (Good)'         => 'Good',
+                        'ปกติ (Normal)'     => 'Normal',
+                        'แย่ (Bad)'         => 'Bad',
+                        'แย่มาก (Very Bad)' => 'Very Bad',
+                    ];
+                @endphp
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeStatus ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
+                    @foreach ($serviceStatuses as $value => $label)
+                        <a href="?status={{ urlencode($value) }}"
+                           class="px-2 py-1 rounded text-xs font-semibold {{ $activeStatus === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                            {{ $label }}
+                        </a>
+                    @endforeach
+                </div>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[700px] text-xs">
@@ -164,8 +187,10 @@
             });
 
             const csiSurvey = {!! json_encode($csiSurvey) !!};
+            const allSurvey = {!! json_encode($allSurvey) !!};
             const csiPct = val => csiSurvey.total > 0 ? Math.round(val / csiSurvey.total * 1000) / 10 : 0;
-            const csiSatPct = csiPct(csiSurvey.service_very_good);
+            const csiSurveyPoint = (csiSurvey.service_very_good*5) + (csiSurvey.service_good*4) + (csiSurvey.service_normal*3) + (csiSurvey.service_bad*2) + (csiSurvey.service_very_bad*1);
+            const csiSatPct = allSurvey > 0 ? Math.round(csiSurveyPoint / (allSurvey * 5) * 1000) / 10 : 0;
             const csiScore = Math.round(Math.min(100, Math.max(0, 100 * csiSatPct / 95)));
             createKPIDoughnut('detail-csi-chart', csiScore);
         </script>

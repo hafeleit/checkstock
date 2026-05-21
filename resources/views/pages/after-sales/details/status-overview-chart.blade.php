@@ -168,13 +168,30 @@
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"
             nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-            const AG = ['#10b981', '#facc15', '#fb923c', '#ef4444', '#881337'];
-            const agingKeys = ['0_3', '4_7', '8_15', '16_30', 'over_30'];
+            const activeStatus = '{{ $activeStatus ?? '' }}';
+            const activeAging  = '{{ $activeAging ?? '' }}';
+
+            const AG    = ['#10b981', '#84cc16', '#facc15', '#fb923c', '#ef4444'];
+            const AGdim = ['rgba(16,185,129,0.2)', 'rgba(132,204,22,0.2)', 'rgba(250,204,21,0.2)', 'rgba(251,146,60,0.2)', 'rgba(239,68,68,0.2)'];
+
+            const agingKeys   = ['0_3', '4_7', '8_15', '16_30', 'over_30'];
             const agingLabels = ['0-3 Days', '4-7 Days', '8-15 Days', '16-30 Days', '>30 Days'];
+
+            const agingIndexMap  = { '0-3': 0, '4-7': 1, '8-15': 2, '16-30': 3, 'over_30': 4 };
+            const statusRowMap   = { 'Pending_Reason': 0, 'In_progress': 1, 'Open': 2 };
+            const activeAgingIdx  = activeAging  ? (agingIndexMap[activeAging]  ?? -1) : -1;
+            const activeStatusIdx = activeStatus ? (statusRowMap[activeStatus]  ?? -1) : -1;
+
+            const isActive = (dsIdx, barIdx) => {
+                const agingOk  = activeAgingIdx  < 0 || dsIdx  === activeAgingIdx;
+                const statusOk = activeStatusIdx < 0 || barIdx === activeStatusIdx;
+                return agingOk && statusOk;
+            };
 
             const rawStatusData = {!! json_encode($statusData) !!};
 
-            const udStatusRows = [{
+            const udStatusRows = [
+                {
                     label: 'Pending Reason',
                     '0_3': rawStatusData.reason_0_3 ?? 0,
                     '4_7': rawStatusData.reason_4_7 ?? 0,
@@ -200,14 +217,14 @@
                 },
             ];
 
-            const makeStackedBar = (id, rows) => new Chart(document.getElementById(id), {
+            new Chart(document.getElementById('ud-status-chart'), {
                 type: 'bar',
                 data: {
-                    labels: rows.map(r => r.label),
+                    labels: udStatusRows.map(r => r.label),
                     datasets: agingKeys.map((key, i) => ({
                         label: agingLabels[i],
-                        data: rows.map(r => r[key] ?? 0),
-                        backgroundColor: AG[i],
+                        data: udStatusRows.map(r => r[key] ?? 0),
+                        backgroundColor: udStatusRows.map((_, j) => isActive(i, j) ? AG[i] : AGdim[i]),
                         borderWidth: 0,
                         barPercentage: 0.75,
                     })),
@@ -223,21 +240,18 @@
                             position: 'bottom',
                             labels: {
                                 boxWidth: 8,
-                                font: {
-                                    size: 12
-                                },
-                                padding: 4
+                                font: { size: 12 },
+                                padding: 4,
+                                color: ctx => activeAgingIdx < 0 ? '#666'
+                                    : ctx.index === activeAgingIdx ? '#333' : '#bbb'
                             }
                         },
                         datalabels: {
                             display: ctx => (ctx.dataset.data[ctx.dataIndex] ?? 0) > 0,
                             anchor: 'center',
                             align: 'center',
-                            color: '#fff',
-                            font: {
-                                size: 10,
-                                weight: 'bold'
-                            },
+                            color: ctx => isActive(ctx.datasetIndex, ctx.dataIndex) ? '#fff' : 'rgba(255,255,255,0.15)',
+                            font: { size: 10, weight: 'bold' },
                             formatter: v => v > 0 ? v : ''
                         },
                         tooltip: {
@@ -249,32 +263,12 @@
                         },
                     },
                     scales: {
-                        x: {
-                            stacked: true,
-                            display: false,
-                            beginAtZero: true
-                        },
-                        y: {
-                            stacked: true,
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        },
+                        x: { stacked: true, display: false, beginAtZero: true },
+                        y: { stacked: true, grid: { display: false }, ticks: { font: { size: 12 } } },
                     },
-                    layout: {
-                        padding: {
-                            right: 8
-                        }
-                    },
+                    layout: { padding: { right: 8 } },
                 },
             });
-
-            makeStackedBar('ud-status-chart', udStatusRows);
         </script>
     @endpush
 

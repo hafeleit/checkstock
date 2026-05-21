@@ -130,6 +130,19 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
+            const activeGroup = '{{ $activeGroup ?? '' }}';
+            const groupIndexMap = {
+                'Smart Technology': 0,
+                'Home appliances': 1,
+                'Sanitary': 2,
+                'Architectural hardware': 3,
+                'FF - Furniture Fittings': 4,
+            };
+            const activeGroupIdx = activeGroup ? (groupIndexMap[activeGroup] ?? -1) : -1;
+            const groupFull = '#c4ddff';
+            const groupDim  = 'rgba(196,221,255,0.25)';
+            const groupBg = [0,1,2,3,4].map(i => activeGroupIdx < 0 || i === activeGroupIdx ? groupFull : groupDim);
+
             const rawPendingGroup = {!! json_encode($pendingData) !!};
 
             new Chart(document.getElementById('ud-product-group-chart'), {
@@ -144,7 +157,7 @@
                             rawPendingGroup.total_arch_hardware ?? 0,
                             rawPendingGroup.total_furniture_fitting ?? 0,
                         ],
-                        backgroundColor: '#c4ddff',
+                        backgroundColor: groupBg,
                         borderWidth: 0,
                         barPercentage: 0.7,
                     }],
@@ -162,7 +175,7 @@
                             anchor: 'end',
                             align: 'right',
                             offset: 4,
-                            color: '#374151',
+                            color: ctx => activeGroupIdx < 0 || ctx.dataIndex === activeGroupIdx ? '#374151' : '#bbb',
                             font: {
                                 size: 12,
                                 weight: 'bold'

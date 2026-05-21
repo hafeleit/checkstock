@@ -118,7 +118,17 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
+            const activeYear  = {!! json_encode($activeYear) !!};
+            const activeMonth = {!! json_encode($activeMonth) !!};
+
             const udContractData = {!! json_encode($contractData) !!};
+
+            const activeMonthIdx    = activeMonth ? (parseInt(activeMonth) - 1) : -1;
+            const prevYearActive    = !activeYear || String(udContractData.prev_year)    === String(activeYear);
+            const currentYearActive = !activeYear || String(udContractData.current_year) === String(activeYear);
+
+            const prevColor    = prevYearActive    ? '#000'    : 'rgba(0,0,0,0.15)';
+            const currentColor = currentYearActive ? '#c70e0e' : 'rgba(199,14,14,0.15)';
 
             const makeLineDataset = (label, data, color) => ({
                 label,
@@ -133,11 +143,14 @@
                 pointBorderWidth: 2,
             });
 
-            const makeLineChart = (id, labels, datasets, stepSize = null) => new Chart(document.getElementById(id), {
+            new Chart(document.getElementById('ud-contract-chart'), {
                 type: 'line',
                 data: {
-                    labels,
-                    datasets
+                    labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+                    datasets: [
+                        makeLineDataset(String(udContractData.prev_year),    Array.from({ length: 12 }, (_, i) => udContractData.prev[i + 1]    ?? null), prevColor),
+                        makeLineDataset(String(udContractData.current_year), Array.from({ length: 12 }, (_, i) => udContractData.current[i + 1] ?? null), currentColor),
+                    ]
                 },
                 plugins: [ChartDataLabels],
                 options: {
@@ -149,8 +162,10 @@
                             position: 'bottom',
                             labels: {
                                 boxWidth: 8,
-                                font: {
-                                    size: 12
+                                font: { size: 12 },
+                                color: ctx => {
+                                    if (!activeYear) return '#666';
+                                    return (ctx.index === 0 ? prevYearActive : currentYearActive) ? '#333' : '#bbb';
                                 }
                             }
                         },
@@ -158,10 +173,12 @@
                             align: 'top',
                             anchor: 'end',
                             offset: 3,
-                            color: '#555',
-                            font: {
-                                size: 12
+                            color: ctx => {
+                                const isYearActive  = ctx.datasetIndex === 0 ? prevYearActive : currentYearActive;
+                                const isMonthActive = activeMonthIdx < 0 || ctx.dataIndex === activeMonthIdx;
+                                return isYearActive && isMonthActive ? '#555' : '#ccc';
                             },
+                            font: { size: 12 },
                             formatter: v => v > 0 ? v.toLocaleString() : ''
                         },
                         tooltip: {
@@ -172,54 +189,23 @@
                     },
                     scales: {
                         x: {
-                            grid: {
-                                display: false
-                            },
+                            grid: { display: false },
                             ticks: {
                                 maxRotation: 0,
                                 autoSkip: false,
-                                font: {
-                                    size: 12
-                                }
+                                font: { size: 12 },
+                                color: ctx => activeMonthIdx < 0 || ctx.index === activeMonthIdx ? '#555' : '#bbb'
                             }
                         },
                         y: {
-                            grid: {
-                                display: false
-                            },
+                            grid: { display: false },
                             beginAtZero: true,
-                            ...(stepSize ? {
-                                ticks: {
-                                    stepSize,
-                                    font: {
-                                        size: 9
-                                    }
-                                }
-                            } : {
-                                ticks: {
-                                    font: {
-                                        size: 9
-                                    }
-                                }
-                            })
+                            ticks: { stepSize: 1000, font: { size: 9 } }
                         },
                     },
-                    layout: {
-                        padding: {
-                            top: 25
-                        }
-                    },
+                    layout: { padding: { top: 25 } },
                 },
             });
-
-            makeLineChart('ud-contract-chart',
-                ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
-                [
-                    makeLineDataset(String(udContractData.prev_year), Array.from({ length: 12 }, (_, i) => udContractData.prev[i + 1] ?? null), '#000'),
-                    makeLineDataset(String(udContractData.current_year), Array.from({ length: 12 }, (_, i) => udContractData.current[i + 1] ?? null), '#c70e0e'),
-                ],
-                1000
-            );
         </script>
     @endpush
 @endsection

@@ -8,7 +8,8 @@
         $csiResponses = (int) ($csiSurvey->total ?? 0);
         $csiTotal     = (int) ($csiData['total_ticket'] ?? 0);
         $csiRate      = $csiTotal > 0 ? round(($csiResponses / $csiTotal) * 100, 1) : 0;
-        $csiSatPct    = $csiResponses > 0 ? round(($csiSurvey->service_very_good / $csiResponses) * 100, 1) : 0;
+        $csiPoint     = ($csiSurvey->service_very_good*5) + ($csiSurvey->service_good*4) + ($csiSurvey->service_normal*3) + ($csiSurvey->service_bad*2) + ($csiSurvey->service_very_bad*1);
+        $csiSatPct    = $csiResponses > 0 ? round(($csiPoint / ($allSurvey * 5)) * 100, 1) : 0;
     @endphp
 
     @push('styles')
@@ -57,8 +58,8 @@
             {{-- 4 Mini Q --}}
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                 <div class="grid grid-cols-2 gap-3 h-full">
-                    @foreach ([['ud-q1-chart', 'Problem resolved?'], ['ud-q2-chart', 'Arrived as scheduled?'], ['ud-q3-chart', 'Polite & well mannered?'], ['ud-q4-chart', 'Charged expenses?']] as [$qid, $qlabel])
-                        <div class="flex flex-col items-center justify-center gap-1">
+                    @foreach ([['ud-q1-chart', 'Problem resolved?'], ['ud-q2-chart', 'Arrived as scheduled?'], ['ud-q3-chart', 'Polite & well mannered?']] as [$qid, $qlabel])
+                        <div class="flex flex-col items-center justify-center gap-1 {{ $loop->last ? 'col-span-2' : '' }}">
                             <div class="relative w-20 h-20"><canvas id="{{ $qid }}"></canvas></div>
                             <p class="text-md text-gray-500 text-center leading-tight">{{ $qlabel }}</p>
                         </div>
@@ -119,14 +120,10 @@
                                 <td class="px-3 py-2">
                                     @php
                                         $serviceClass = match (true) {
-                                            str_contains($survey->service_team ?? '', 'Very Good')
-                                                => 'bg-green-100 text-green-700',
-                                            str_contains($survey->service_team ?? '', 'Good')
-                                                => 'bg-blue-100 text-blue-700',
-                                            str_contains($survey->service_team ?? '', 'Normal')
-                                                => 'bg-yellow-100 text-yellow-700',
-                                            str_contains($survey->service_team ?? '', 'Bad')
-                                                => 'bg-red-100 text-red-700',
+                                            str_contains($survey->service_team ?? '', 'Very Good') => 'bg-green-100 text-green-700',
+                                            str_contains($survey->service_team ?? '', 'Good') => 'bg-blue-100 text-blue-700',
+                                            str_contains($survey->service_team ?? '', 'Normal') => 'bg-yellow-100 text-yellow-700',
+                                            str_contains($survey->service_team ?? '', 'Bad') => 'bg-red-100 text-red-700',
                                             default => 'bg-gray-100 text-gray-600',
                                         };
                                     @endphp
@@ -229,7 +226,7 @@
                         x: { grid: { display: false }, ticks: { font: { size: 12 } } },
                         y: { display: false, beginAtZero: true }
                     },
-                    layout: { padding: { top: 14, bottom: 3 } }
+                    layout: { padding: { top: 20, bottom: 3 } }
                 },
             });
 
@@ -237,7 +234,6 @@
             makeSatDoughnut('ud-q1-chart', csiPct(csiSurvey.problem_resolved_yes), csiPct(csiSurvey.problem_resolved_yes) + '%');
             makeSatDoughnut('ud-q2-chart', csiPct(csiSurvey.arrive_as_scheduled_yes), csiPct(csiSurvey.arrive_as_scheduled_yes) + '%');
             makeSatDoughnut('ud-q3-chart', csiPct(csiSurvey.polite_and_well_mannered_yes), csiPct(csiSurvey.polite_and_well_mannered_yes) + '%');
-            makeSatDoughnut('ud-q4-chart', csiPct(csiSurvey.charged_expenses_yes), csiPct(csiSurvey.charged_expenses_yes) + '%');
         </script>
     @endpush
 @endsection

@@ -132,6 +132,22 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
+            const activeMonth       = {!! json_encode($activeMonth) !!};
+            const activeStatusClosed = {!! json_encode($activeStatusClosed) !!};
+
+            const activeMonthIdx = activeMonth ? (parseInt(activeMonth) - 1) : -1;
+            const openFull   = '#cbd5e1';
+            const openDim    = 'rgba(203,213,225,0.2)';
+            const closedFull = '#475569';
+            const closedDim  = 'rgba(71,85,105,0.2)';
+
+            // dsIdx 0=Open, 1=Closed
+            const isBarActive = (dsIdx, barIdx) => {
+                const monthOk  = activeMonthIdx < 0 || barIdx === activeMonthIdx;
+                const statusOk = !activeStatusClosed || dsIdx === 1;
+                return monthOk && statusOk;
+            };
+
             const udTicketData = {!! json_encode($ticketData) !!};
             const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
             const allMonths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -140,10 +156,11 @@
                 type: 'bar',
                 data: {
                     labels: monthNames,
-                    datasets: [{
+                    datasets: [
+                        {
                             label: 'Open',
                             data: allMonths.map(m => udTicketData[m]?.open ?? null),
-                            backgroundColor: '#cbd5e1',
+                            backgroundColor: allMonths.map((_, j) => isBarActive(0, j) ? openFull : openDim),
                             borderWidth: 0,
                             barPercentage: 1,
                             categoryPercentage: 0.9
@@ -151,7 +168,7 @@
                         {
                             label: 'Closed',
                             data: allMonths.map(m => udTicketData[m]?.closed ?? null),
-                            backgroundColor: '#475569',
+                            backgroundColor: allMonths.map((_, j) => isBarActive(1, j) ? closedFull : closedDim),
                             borderWidth: 0,
                             barPercentage: 1,
                             categoryPercentage: 0.9
@@ -170,54 +187,39 @@
                                 boxWidth: 8,
                                 usePointStyle: true,
                                 pointStyle: 'rect',
-                                font: {
-                                    size: 12
+                                font: { size: 12 },
+                                color: ctx => {
+                                    if (!activeStatusClosed) return '#666';
+                                    return ctx.index === 1 ? '#333' : '#bbb';
                                 }
                             }
                         },
                         datalabels: {
                             anchor: 'end',
                             align: 'top',
-                            // rotation: -90,
-                            color: '#555',
+                            color: ctx => isBarActive(ctx.datasetIndex, ctx.dataIndex) ? '#555' : '#ccc',
                             offset: 0,
-                            font: {
-                                size: 12
-                            },
+                            font: { size: 12 },
                             formatter: v => v > 0 ? v.toLocaleString() : ''
                         }
                     },
                     scales: {
                         x: {
-                            grid: {
-                                display: false
-                            },
+                            grid: { display: false },
                             ticks: {
                                 maxRotation: 0,
                                 autoSkip: false,
-                                font: {
-                                    size: 12
-                                }
+                                font: { size: 12 },
+                                color: ctx => activeMonthIdx < 0 || ctx.index === activeMonthIdx ? '#555' : '#bbb'
                             }
                         },
                         y: {
-                            grid: {
-                                display: false
-                            },
+                            grid: { display: false },
                             beginAtZero: true,
-                            ticks: {
-                                stepSize: 1000,
-                                font: {
-                                    size: 9
-                                }
-                            }
+                            ticks: { stepSize: 1000, font: { size: 9 } }
                         }
                     },
-                    layout: {
-                        padding: {
-                            top: 28
-                        }
-                    }
+                    layout: { padding: { top: 28 } }
                 },
             });
         </script>

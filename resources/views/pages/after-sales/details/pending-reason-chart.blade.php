@@ -155,6 +155,15 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
+            const activeAging   = '{{ $activeAging ?? '' }}';
+            const activePending = '{{ $activePending ?? '' }}';
+
+            const AG    = ['#10b981', '#84cc16', '#facc15', '#fb923c', '#ef4444'];
+            const AGdim = ['rgba(16,185,129,0.2)', 'rgba(132,204,22,0.2)', 'rgba(250,204,21,0.2)', 'rgba(251,146,60,0.2)', 'rgba(239,68,68,0.2)'];
+
+            const agingIndexMap = { '0-3': 0, '4-7': 1, '8-15': 2, '16-30': 3, 'over_30': 4 };
+            const activeAgingIdx = activeAging ? (agingIndexMap[activeAging] ?? -1) : -1;
+
             const rawReasonData = {!! json_encode($pendingData) !!};
             const reasonLabelMap = {
                 'Spare_part_on_progress': 'Spare Part',
@@ -168,6 +177,7 @@
             const udReasonRows = Object.entries(rawReasonData)
                 .filter(([, d]) => Object.values(d).some(v => v > 0))
                 .map(([key, d]) => ({
+                    key,
                     label: reasonLabelMap[key] ?? key,
                     '0_3': d['0-3'],
                     '4_7': d['4-7'],
@@ -176,7 +186,14 @@
                     'over_30': d['over_30'],
                 }));
 
-            const AG = ['#10b981', '#84cc16', '#facc15', '#fb923c', '#ef4444'];
+            const activePendingIdx = activePending ? udReasonRows.findIndex(r => r.key === activePending) : -1;
+
+            const isActive = (datasetIdx, barIdx) => {
+                const agingOk   = activeAgingIdx   < 0 || datasetIdx === activeAgingIdx;
+                const pendingOk = activePendingIdx < 0 || barIdx     === activePendingIdx;
+                return agingOk && pendingOk;
+            };
+
             const agingKeys = ['0_3', '4_7', '8_15', '16_30', 'over_30'];
             const agingLabels = ['0-3 Days', '4-7 Days', '8-15 Days', '16-30 Days', '>30 Days'];
 
@@ -187,7 +204,7 @@
                     datasets: agingKeys.map((key, i) => ({
                         label: agingLabels[i],
                         data: udReasonRows.map(r => r[key] ?? 0),
-                        backgroundColor: AG[i],
+                        backgroundColor: udReasonRows.map((_, j) => isActive(i, j) ? AG[i] : AGdim[i]),
                         borderWidth: 0,
                         barPercentage: 0.75,
                     })),
@@ -206,14 +223,16 @@
                                 font: {
                                     size: 12
                                 },
-                                padding: 4
+                                padding: 4,
+                                color: ctx => activeAgingIdx < 0 ? '#666'
+                                    : ctx.index === activeAgingIdx ? '#333' : '#bbb'
                             }
                         },
                         datalabels: {
                             display: ctx => (ctx.dataset.data[ctx.dataIndex] ?? 0) > 0,
                             anchor: 'center',
                             align: 'center',
-                            color: '#fff',
+                            color: ctx => isActive(ctx.datasetIndex, ctx.dataIndex) ? '#fff' : 'rgba(255,255,255,0.15)',
                             font: {
                                 size: 10,
                                 weight: 'bold'

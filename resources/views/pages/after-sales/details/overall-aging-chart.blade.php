@@ -58,6 +58,11 @@
                 background-color: #ef4444;
             }
 
+            .ud-ag-dimmed {
+                opacity: 0.2;
+                transition: opacity 0.2s;
+            }
+
             .bg-orange-100 { background-color: #ffedd5; }
             .text-orange-700 { color: #c2410c; }
             .bg-emerald-100 { background-color: #d1fae5; }
@@ -66,6 +71,11 @@
             .text-lime-700 { color: #4d7c0f; }
         </style>
     @endpush
+
+    @php
+        $agingIndexMap = ['0-3' => 0, '4-7' => 1, '8-15' => 2, '16-30' => 3, 'over_30' => 4];
+        $activeAgingIndex = (is_string($activeAging) && isset($agingIndexMap[$activeAging])) ? $agingIndexMap[$activeAging] : null;
+    @endphp
 
     <div class="space-y-2">
 
@@ -93,29 +103,23 @@
                 </div>
             </div>
             <div class="ud-aging-bar">
-                <div class="ud-aging-seg ud-ag-0" id="ud-ag-0"></div>
-                <div class="ud-aging-seg ud-ag-1" id="ud-ag-1"></div>
-                <div class="ud-aging-seg ud-ag-2" id="ud-ag-2"></div>
-                <div class="ud-aging-seg ud-ag-3" id="ud-ag-3"></div>
-                <div class="ud-aging-seg ud-ag-4" id="ud-ag-4"></div>
+                @for ($i = 0; $i < 5; $i++)
+                    <div class="ud-aging-seg ud-ag-{{ $i }} {{ $activeAgingIndex !== null && $activeAgingIndex !== $i ? 'ud-ag-dimmed' : '' }}" id="ud-ag-{{ $i }}"></div>
+                @endfor
             </div>
         </div>
-        
 
         {{-- Tickets Table --}}
         <div class="bg-white rounded-lg shadow-sm border border-gray-100 w-full">
             <div class="px-3 py-3 border-b border-gray-100">
                 <p class="text-sm text-gray-400 uppercase tracking-widest font-semibold">Tickets</p>
-                <p class="text-lg font-bold text-gray-800 mt-0.5">{{ number_format($tickets->total()) }} <span
-                        class="text-sm font-normal text-gray-400">tickets</span></p>
+                <p class="text-lg font-bold text-gray-800 mt-0.5">{{ number_format($tickets->total()) }} <span class="text-sm font-normal text-gray-400">tickets</span></p>
 
                 {{-- Aging Filter --}}
                 <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeAging ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
+                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeAging ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
                     @foreach (['0-3' => '0-3 Days', '4-7' => '4-7 Days', '8-15' => '8-15 Days', '16-30' => '16-30 Days', 'over_30' => 'Over 30'] as $value => $label)
-                        <a href="?aging={{ $value }}"
-                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeAging === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                        <a href="?aging={{ $value }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeAging === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
                             {{ $label }}
                         </a>
                     @endforeach
@@ -205,9 +209,7 @@
                     const pct = Math.round(v / total * 1000) / 10;
                     const el = document.getElementById('ud-ag-' + i);
                     el.style.width = pct + '%';
-                    if (pct > 5) {
-                        el.textContent = v;
-                    }
+                    el.textContent = v;
                 });
             })();
         </script>

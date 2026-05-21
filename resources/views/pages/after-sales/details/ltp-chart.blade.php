@@ -30,27 +30,31 @@
             <div class="px-3 py-3 border-b border-gray-100">
                 <p class="text-sm text-gray-400 uppercase tracking-widest font-semibold">LTP Tickets</p>
                 <p class="text-lg font-bold text-gray-800 mt-0.5">{{ number_format($tickets->total()) }} <span class="text-sm font-normal text-gray-400">tickets</span></p>
-                <p class="text-xs text-red-500 mt-0.5">Tickets overdue by more than 7 days</p>
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeFilter ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
+                    <a href="?filter=last-30-days" class="px-2 py-1 rounded text-xs font-semibold {{ $activeFilter === 'last-30-days' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Last 30 Days</a>
+                </div>
+                <p class="text-xs text-red-500 mt-0.5">Pending tickets</p>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[700px] text-xs">
                     <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider">
                         <tr>
-                            <th class="px-3 py-2 text-left font-semibold">#</th>
-                            <th class="px-3 py-2 text-left font-semibold">Ticket No.</th>
-                            <th class="px-3 py-2 text-left font-semibold">Name</th>
-                            <th class="px-3 py-2 text-left font-semibold">Status</th>
-                            <th class="px-3 py-2 text-left font-semibold">Release Date</th>
-                            <th class="px-3 py-2 text-left font-semibold">Days Overdue</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
+                            <th class="px-3 py-2 text-right font-semibold whitespace-nowrap">Days Overdue</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-3 py-2 text-gray-400">{{ $tickets->firstItem() + $loop->index }}</td>
-                                <td class="px-3 py-2 font-medium text-gray-700">{{ $ticket->ticket_number ?? '-' }}</td>
+                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->ticket_number ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->name ?? '-' }}</td>
-                                <td class="px-3 py-2">
+                                <td class="px-3 py-2 whitespace-nowrap">
                                     @php
                                         $statusClass = match($ticket->status ?? '') {
                                             'In_progress'    => 'bg-blue-100 text-blue-700',
@@ -63,7 +67,7 @@
                                     <span class="px-1.5 py-0.5 rounded font-semibold {{ $statusClass }}">{{ $statusLabel }}</span>
                                 </td>
                                 <td class="px-3 py-2 text-gray-600">{{ \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') }}</td>
-                                <td class="px-3 py-2">{{ $ticket->days_diff ?? '-' }}</td>
+                                <td class="px-3 py-2 text-right">{{ $ticket->days_diff ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>
@@ -161,7 +165,7 @@
                 },
             });
 
-            const ltpScore = Math.round(Math.min(100, Math.max(0, 100 * {{ $ltpData ?? 0 }} / 14)));
+            const ltpScore = Math.round(Math.min(100, Math.max(0, (7 / {{ $ltpData}}) * 100)));
             createKPIDoughnut('detail-ltp-chart', ltpScore);
         </script>
     @endpush

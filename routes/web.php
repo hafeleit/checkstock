@@ -49,14 +49,8 @@ Route::get('send-mail', [mailcontroller::class, 'index']);
 Route::get('picking', [logincontroller::class, 'picking']);
 Route::get('test_db_crm', [homecontroller::class, 'test_db']);
 
-// After Sales Dashboards
-// Route::get('/after-sales/dashboard', function () {
-//   return view('pages.after-sales.display');
-// })->name('after-sales-dashboard');
-
+// After Sales Dashboards - PUBLIC
 Route::get('/after-sales/dashboard', [AfterSalesDashboardController::class, 'index'])->name('after-sales.dashboard');
-Route::get('/after-sales/user-dashboard', [AfterSalesDashboardController::class, 'userDashboard'])->name('after-sales.user-dashboard');
-Route::get('/after-sales/detail/{chart}', [AfterSalesDashboardController::class, 'detail'])->name('after-sales.detail');
 
 // protected routes (requires authentication and status check)
 Route::middleware(['auth', 'check.status', 'force.password.change', 'check.password.expired'])->group(function () {
@@ -67,6 +61,10 @@ Route::middleware(['auth', 'check.status', 'force.password.change', 'check.passw
   Route::get('/profile', [userprofilecontroller::class, 'show'])->name('profile');
   Route::put('/profile', [userprofilecontroller::class, 'update'])->name('profile.update');
   Route::post('/logout', [logincontroller::class, 'logout'])->name('logout');
+
+  // after sales dashboards - USER
+  Route::get('/after-sales/user-dashboard', [AfterSalesDashboardController::class, 'userDashboard'])->name('after-sales.user-dashboard');
+  Route::get('/after-sales/detail/{chart}', [AfterSalesDashboardController::class, 'detail'])->name('after-sales.detail');
 
   // commissions
   Route::resource('commissions', CommissionController::class);
