@@ -1,0 +1,80 @@
+:root {
+    /* Status & Jobs */
+    --color-red-status-400: #f05462;
+    --color-teal-status-400: #00c19d;
+    --color-brown-status-500: #b0916e;
+    --color-orange-status-200: #ffcb91;
+    --color-orange-status-400: #ffb800;
+    --color-orange-status-600: #c46a14;
+
+    /* Aging Groups */
+    --color-aging-100: #00b050;
+    --color-aging-200: #92d050;
+    --color-aging-300: #ffff00;
+    --color-aging-400: #ffc000;
+    --color-aging-500: #ff0000;
+
+    /* Charts */
+    --color-brand-red-500: #d20a11;
+    --color-brand-red-900: #822027;
+}
+
+.bg-teal-status-400 {
+    background-color: var(--color-teal-status-400);
+}
+
+.bg-brown-status-500 {
+    background-color: var(--color-brown-status-500);
+}
+
+.bg-orange-status-200 {
+    background-color: var(--color-orange-status-200);
+}
+
+.bg-orange-status-400 {
+    background-color: var(--color-orange-status-400);
+}
+
+.bg-orange-status-600 {
+    background-color: var(--color-orange-status-600);
+}
+
+.bg-aging-100 {
+    background-color: var(--color-aging-100);
+}
+
+.bg-aging-200 {
+    background-color: var(--color-aging-200);
+}
+
+.bg-aging-300 {
+    background-color: var(--color-aging-300);
+}
+
+.bg-aging-400 {
+    background-color: var(--color-aging-400);
+}
+
+.bg-aging-500 {
+    background-color: var(--color-aging-500);
+}
+
+.text-teal-status-400 {
+    color: var(--color-teal-status-400);
+}
+
+.text-orange-status-200 {
+    color: var(--color-orange-status-200);
+}
+
+.text-orange-status-400 {
+    color: var(--color-orange-status-400);
+}
+
+.text-orange-status-600 {
+    color: var(--color-orange-status-600);
+}
+
+.text-aging-100 {
+    color: var(--color-aging-100);
+}
