@@ -108,16 +108,18 @@ class AfterSalesDashboardController extends Controller
         $activeStatus = $request->input('status');
 
         $surveys = HthAssSurvey::query()
-            ->whereMonth('start_time', now()->month)
-            ->whereYear('start_time', now()->year)
+            ->whereMonth('completion_time', now()->month)
+            ->whereYear('completion_time', now()->year)
+            ->where('deleted', 0)
             ->when($activeStatus, fn($q) => $q->where('service_team', $activeStatus))
-            ->latest('start_time')
+            ->latest('completion_time')
             ->paginate(15)
             ->withQueryString();
         
         $allSurvey = HthAssSurvey::query()
-            ->whereMonth('start_time', now()->month)
-            ->whereYear('start_time', now()->year)
+            ->whereMonth('completion_time', now()->month)
+            ->whereYear('completion_time', now()->year)
+            ->where('deleted', 0)
             ->count();
 
         return view('pages.after-sales.details.csi-chart', [
@@ -287,16 +289,18 @@ class AfterSalesDashboardController extends Controller
         $serviceStatus = $request->input('status');
 
         $surveys = HthAssSurvey::query()
-            ->whereMonth('start_time', now()->month)
-            ->whereYear('start_time', now()->year)
+            ->whereMonth('completion_time', now()->month)
+            ->whereYear('completion_time', now()->year)
+            ->where('deleted', 0)
             ->when($serviceStatus, fn($q) => $q->where('service_team', $serviceStatus))
-            ->latest('start_time')
+            ->latest('completion_time')
             ->paginate(15)
             ->withQueryString();
 
         $allSurvey = HthAssSurvey::query()
-            ->whereMonth('start_time', now()->month)
-            ->whereYear('start_time', now()->year)
+            ->whereMonth('completion_time', now()->month)
+            ->whereYear('completion_time', now()->year)
+            ->where('deleted', 0)
             ->count();
 
         return view('pages.after-sales.details.csi-response-chart', [
@@ -813,8 +817,9 @@ class AfterSalesDashboardController extends Controller
             ->count();
 
         $survey = HthAssSurvey::query()
-            ->whereMonth('start_time', $month)
-            ->whereYear('start_time', $year)
+            ->whereMonth('completion_time', $month)
+            ->whereYear('completion_time', $year)
+            ->where('deleted', 0)
             ->when(request()->status, function ($q) {
                 $q->where('service_team', request()->status);
             })
