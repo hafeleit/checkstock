@@ -980,29 +980,37 @@ class AfterSalesDashboardController extends Controller
 
     private function calculateTotalStat(int $month, int $year)
     {
-        $result = HthAfterSaleTicket::query()
-            ->whereMonth('date_entered', $month)
-            ->whereYear('date_entered', $year)
+        $closedResults = HthAfterSaleTicket::query()
+            ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
+            ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', $year)
+            ->whereMonth('hth_after_sale_ticket_cstm.closed_datetime_c', $month)
+            ->where('hth_after_sale_ticket.deleted', 0)
+            ->count();
+
+        $createdResults = HthAfterSaleTicket::query()
+            ->whereYear('hth_after_sale_ticket.date_entered', $year)
+            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
+            ->where('hth_after_sale_ticket.deleted', 0)
+            ->count();
+        
+        $resultPending = HthAfterSaleTicket::query()
             ->where('date_entered', '<=', now())
             ->where('deleted', 0)
-            ->whereNot('status', 'Canceled')
             ->selectRaw("
-                COUNT(*) as total,
                 COUNT(CASE WHEN status IN ('Open', 'In_progress', 'Pending_Reason') THEN 1 END) as total_pending,
-                COUNT(CASE WHEN status = 'Closed' THEN 1 END) as total_closed,
-                COUNT(CASE WHEN status = 'Open' THEN 1 END) as total_open,
                 COUNT(CASE WHEN status = 'In_progress' THEN 1 END) as total_in_prog,
+                COUNT(CASE WHEN status = 'Open' THEN 1 END) as total_open,
                 COUNT(CASE WHEN status = 'Pending_Reason' THEN 1 END) as total_reason
             ")
             ->first();
 
         return [
-            'total'         => number_format($result->total ?? 0),
-            'total_pending' => number_format($result->total_pending ?? 0),
-            'total_closed'  => number_format($result->total_closed ?? 0),
-            'total_open'    => number_format($result->total_open ?? 0),
-            'total_in_prog' => number_format($result->total_in_prog ?? 0),
-            'total_reason'  => number_format($result->total_reason ?? 0),
+            'total_closed'  => number_format($closedResults ?? 0),
+            'total_created' => number_format($createdResults ?? 0),
+            'total_pending' => number_format($resultPending->total_pending ?? 0),
+            'total_open'    => number_format($resultPending->total_open ?? 0),
+            'total_in_prog' => number_format($resultPending->total_in_prog ?? 0),
+            'total_reason'  => number_format($resultPending->total_reason ?? 0),
         ];
     }
 
@@ -1034,8 +1042,6 @@ class AfterSalesDashboardController extends Controller
     private function calculatePendingType(int $month, int $year)
     {
         $result = HthAfterSaleTicket::query()
-            ->whereMonth('date_entered', $month)
-            ->whereYear('date_entered', $year)
             ->where('date_entered', '<=', now())
             ->where('deleted', 0)
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
@@ -1056,8 +1062,6 @@ class AfterSalesDashboardController extends Controller
     {
         $result = HthAfterSaleTicket::query()
             ->leftJoin('aos_product_categories', 'hth_after_sale_ticket.aos_product_categories_id', '=', 'aos_product_categories.id')
-            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
-            ->whereYear('hth_after_sale_ticket.date_entered', $year)
             ->where('hth_after_sale_ticket.date_entered', '<=', now())
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
@@ -1076,8 +1080,6 @@ class AfterSalesDashboardController extends Controller
     private function calculateStatus(int $month, int $year)
     {
         $result = HthAfterSaleTicket::query()
-            ->whereMonth('date_entered', $month)
-            ->whereYear('date_entered', $year)
             ->where('date_entered', '<=', now())
             ->where('deleted', 0)
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
@@ -1114,8 +1116,6 @@ class AfterSalesDashboardController extends Controller
                 '=',
                 'regions.postcodemain'
             )
-            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
-            ->whereYear('hth_after_sale_ticket.date_entered', $year)
             ->where('hth_after_sale_ticket.date_entered', '<=', now())
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
@@ -1142,8 +1142,6 @@ class AfterSalesDashboardController extends Controller
         $result = HthAfterSaleTicket::query()
             ->leftJoin('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
             ->leftJoin('hth_ass_teams', DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), '=', 'hth_ass_teams.name')
-            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
-            ->whereYear('hth_after_sale_ticket.date_entered', $year)
             ->where('hth_after_sale_ticket.date_entered', '<=', now())
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
@@ -1173,8 +1171,6 @@ class AfterSalesDashboardController extends Controller
         ];
 
         $rows = HthAfterSaleTicket::query()
-            ->whereMonth('date_entered', $month)
-            ->whereYear('date_entered', $year)
             ->where('date_entered', '<=', now())
             ->where('deleted', 0)
             ->where('status', 'Pending_Reason')
@@ -1214,8 +1210,6 @@ class AfterSalesDashboardController extends Controller
                 '=',
                 'regions.postcodemain'
             )
-            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
-            ->whereYear('hth_after_sale_ticket.date_entered', $year)
             ->where('hth_after_sale_ticket.date_entered', '<=', now())
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
@@ -1243,8 +1237,6 @@ class AfterSalesDashboardController extends Controller
         ];
 
         $rows = HthAfterSaleTicket::query()
-            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
-            ->whereYear('hth_after_sale_ticket.date_entered', $year)
             ->leftJoin('aos_product_categories', 'hth_after_sale_ticket.aos_product_categories_id', '=', 'aos_product_categories.id')
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
