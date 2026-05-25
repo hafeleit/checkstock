@@ -777,10 +777,10 @@ class AfterSalesDashboardController extends Controller
     {
         $result = HthAfterSaleTicket::query()
             ->where('deleted', 0)
+            ->whereNot('status', 'Canceled')
             ->whereIn('type', ['R', 'I', 'C', 'P', 'O', 'consult_or_advise', 'site_servey'])
-            ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
-                COUNT(CASE WHEN date_entered < date_sub(now(), interval 7 day) THEN 1 END) as overdue_7_days,
+                COUNT(CASE WHEN date_entered < date_sub(now(), interval 7 day) AND status in ('Open', 'In_progress', 'Pending_Reason') AND booking < now() THEN 1 END) as overdue_7_days,
                 COUNT(CASE WHEN date_entered >= date_sub(now(), interval 30 day) THEN 1 END) as total_30_days
             ")
             ->first();
