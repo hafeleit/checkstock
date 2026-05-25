@@ -150,12 +150,12 @@ class AfterSalesDashboardController extends Controller
             ->select([
                 'hth_after_sale_ticket.name',
                 'hth_after_sale_ticket_cstm.closed_datetime_c',
-                'hth_after_sale_ticket.release_date',
+                'hth_after_sale_ticket.date_entered',
                 'hth_after_sale_ticket.ticket_number',
                 'hth_after_sale_ticket.status',
                 'hth_after_sale_ticket.zipcode',
                 'regions.master_part_eng as master_part_eng',
-                DB::raw('DATEDIFF(hth_after_sale_ticket_cstm.closed_datetime_c, hth_after_sale_ticket.release_date) as days_diff'),
+                DB::raw('DATEDIFF(hth_after_sale_ticket_cstm.closed_datetime_c, hth_after_sale_ticket.date_entered) as days_diff'),
             ])
             ->latest('hth_after_sale_ticket_cstm.closed_datetime_c')
             ->paginate(15)
@@ -175,15 +175,16 @@ class AfterSalesDashboardController extends Controller
         
         $tickets = HthAfterSaleTicket::query()
             ->where('deleted', 0)
-            ->where('release_date', '<', now()->subDays(7))
-            ->when($activeFilter == 'last-30-days', fn($q) => $q->where('release_date', '<', now()->subDays(30)))
+            ->where('date_entered', '<', now()->subDays(7))
+            ->when($activeFilter == 'last-30-days', fn($q) => $q->where('date_entered', '<', now()->subDays(30)))
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
+            ->whereIn('type', ['R', 'I', 'C', 'P', 'O', 'consult_or_advise', 'site_servey'])
             ->select([
                 'ticket_number',
                 'name',
-                'release_date',
+                'date_entered',
                 'status',
-                DB::raw('DATEDIFF(NOW(), release_date) - 7 as days_diff'),
+                DB::raw('DATEDIFF(NOW(), date_entered) - 7 as days_diff'),
             ])
             ->orderByDesc('days_diff')
             ->paginate(15)
@@ -207,7 +208,7 @@ class AfterSalesDashboardController extends Controller
             ->select([
                 'ticket_number',
                 'name',
-                'release_date',
+                'date_entered',
                 'status',
                 'round',
             ])
@@ -226,16 +227,16 @@ class AfterSalesDashboardController extends Controller
         $activeStatus = $request->input('status');
 
         $tickets = HthAfterSaleTicket::query()
-            ->whereMonth('release_date', now()->month)
-            ->whereYear('release_date', now()->year)
-            ->where('release_date', '<=', now())
+            ->whereMonth('date_entered', now()->month)
+            ->whereYear('date_entered', now()->year)
+            ->where('date_entered', '<=', now())
             ->when($activeStatus, fn($q) => $q->where('status', $activeStatus))
             ->where('deleted', 0)
             ->whereNot('status', 'Canceled')
             ->select([
                 'ticket_number',
                 'name',
-                'release_date',
+                'date_entered',
                 'status',
             ])
             ->paginate(15)
@@ -254,8 +255,8 @@ class AfterSalesDashboardController extends Controller
         $activeAging = $request->input('aging');
 
         $query = HthAfterSaleTicket::query()
-            ->whereMonth('release_date', now()->month)
-            ->whereYear('release_date', now()->year)
+            ->whereMonth('date_entered', now()->month)
+            ->whereYear('date_entered', now()->year)
             ->where('deleted', 0)
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason']);
 
@@ -265,11 +266,11 @@ class AfterSalesDashboardController extends Controller
             ->select([
                 'ticket_number',
                 'name',
-                'release_date',
+                'date_entered',
                 'status',
-                DB::raw('DATEDIFF(NOW(), release_date) as days_diff'),
+                DB::raw('DATEDIFF(NOW(), date_entered) as days_diff'),
             ])
-            ->orderByDesc('release_date')
+            ->orderByDesc('date_entered')
             ->paginate(15)
             ->withQueryString();
 
@@ -321,9 +322,9 @@ class AfterSalesDashboardController extends Controller
         ];
 
         $query = HthAfterSaleTicket::query()
-            ->whereMonth('release_date', now()->month)
-            ->whereYear('release_date', now()->year)
-            ->where('release_date', '<=', now())
+            ->whereMonth('date_entered', now()->month)
+            ->whereYear('date_entered', now()->year)
+            ->where('date_entered', '<=', now())
             ->where('deleted', 0)
             ->where('status', 'Pending_Reason')
             ->where(fn($q) => $q->whereIn('pending', $namedReasons)->orWhereNull('pending'));
@@ -340,12 +341,12 @@ class AfterSalesDashboardController extends Controller
             ->select([
                 'ticket_number',
                 'name',
-                'release_date',
+                'date_entered',
                 'pending',
                 'status',
-                DB::raw('DATEDIFF(NOW(), release_date) as days_diff'),
+                DB::raw('DATEDIFF(NOW(), date_entered) as days_diff'),
             ])
-            ->latest('release_date')
+            ->latest('date_entered')
             ->paginate(15)
             ->withQueryString();
 
@@ -367,14 +368,14 @@ class AfterSalesDashboardController extends Controller
             ->select([
                 'hth_after_sale_ticket.ticket_number',
                 'hth_after_sale_ticket.name',
-                'hth_after_sale_ticket.release_date',
+                'hth_after_sale_ticket.date_entered',
                 'hth_after_sale_ticket.status',
                 'hth_after_sale_ticket.type',
                 'hth_after_sale_ticket.assigned_user_id',
             ])
-            ->whereMonth('hth_after_sale_ticket.release_date', now()->month)
-            ->whereYear('hth_after_sale_ticket.release_date', now()->year)
-            ->latest('hth_after_sale_ticket.release_date')
+            ->whereMonth('hth_after_sale_ticket.date_entered', now()->month)
+            ->whereYear('hth_after_sale_ticket.date_entered', now()->year)
+            ->latest('hth_after_sale_ticket.date_entered')
             ->paginate(15)
             ->withQueryString();
 
@@ -395,20 +396,20 @@ class AfterSalesDashboardController extends Controller
             ->where('deleted', 0)
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->when($activeStatus, fn($q) => $q->where('status', $activeStatus))
-            ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), release_date)'), [0, 3]))
-            ->when($activeAging === '4-7', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), release_date)'), [4, 7]))
-            ->when($activeAging === '8-15', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), release_date)'), [8, 15]))
-            ->when($activeAging === '16-30', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), release_date)'), [16, 30]))
-            ->when($activeAging === 'over_30', fn($q) => $q->whereRaw('DATEDIFF(NOW(), release_date) > 30'))
+            ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), date_entered)'), [0, 3]))
+            ->when($activeAging === '4-7', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), date_entered)'), [4, 7]))
+            ->when($activeAging === '8-15', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), date_entered)'), [8, 15]))
+            ->when($activeAging === '16-30', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), date_entered)'), [16, 30]))
+            ->when($activeAging === 'over_30', fn($q) => $q->whereRaw('DATEDIFF(NOW(), date_entered) > 30'))
             ->select([
                 'ticket_number',
                 'name',
-                'release_date',
+                'date_entered',
                 'status',
                 'pending',
-                DB::raw('DATEDIFF(NOW(), release_date) as days_diff'),
+                DB::raw('DATEDIFF(NOW(), date_entered) as days_diff'),
             ])
-            ->latest('release_date')
+            ->latest('date_entered')
             ->paginate(15)
             ->withQueryString();
 
@@ -433,22 +434,22 @@ class AfterSalesDashboardController extends Controller
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->when($activeRegion, fn($q) => $q->where('regions.master_part_eng', $activeRegion))
-            ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [0, 3]))
-            ->when($activeAging === '4-7', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [4, 7]))
-            ->when($activeAging === '8-15', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [8, 15]))
-            ->when($activeAging === '16-30', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [16, 30]))
-            ->when($activeAging === 'over_30', fn($q) => $q->whereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date) > 30'))
+            ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [0, 3]))
+            ->when($activeAging === '4-7', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [4, 7]))
+            ->when($activeAging === '8-15', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [8, 15]))
+            ->when($activeAging === '16-30', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [16, 30]))
+            ->when($activeAging === 'over_30', fn($q) => $q->whereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30'))
             ->select([
                 'hth_after_sale_ticket.ticket_number',
                 'hth_after_sale_ticket.name',
-                'hth_after_sale_ticket.release_date',
+                'hth_after_sale_ticket.date_entered',
                 'hth_after_sale_ticket.status',
                 'hth_after_sale_ticket.pending',
                 'hth_after_sale_ticket.zipcode',
                 'regions.master_part_eng as region',
-                DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date) as days_diff'),
+                DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) as days_diff'),
             ])
-            ->latest('hth_after_sale_ticket.release_date')
+            ->latest('hth_after_sale_ticket.date_entered')
             ->paginate(15)
             ->withQueryString();
 
@@ -471,24 +472,24 @@ class AfterSalesDashboardController extends Controller
             ->leftJoin('hth_ass_teams', DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), '=', 'hth_ass_teams.name')
             ->whereNotNull('hth_ass_teams.team')
             ->where('hth_after_sale_ticket.deleted', 0)
-            ->where('hth_after_sale_ticket.release_date', '<=', now())
+            ->where('hth_after_sale_ticket.date_entered', '<=', now())
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->when($activeTeam, fn($q) => $q->where('hth_ass_teams.team', $activeTeam))
-            ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [0, 3]))
-            ->when($activeAging === '4-7', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [4, 7]))
-            ->when($activeAging === '8-15', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [8, 15]))
-            ->when($activeAging === '16-30', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [16, 30]))
-            ->when($activeAging === 'over_30', fn($q) => $q->whereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date) > 30'))
+            ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [0, 3]))
+            ->when($activeAging === '4-7', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [4, 7]))
+            ->when($activeAging === '8-15', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [8, 15]))
+            ->when($activeAging === '16-30', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [16, 30]))
+            ->when($activeAging === 'over_30', fn($q) => $q->whereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30'))
             ->select([
                 'hth_after_sale_ticket.ticket_number',
                 'hth_after_sale_ticket.name',
-                'hth_after_sale_ticket.release_date',
+                'hth_after_sale_ticket.date_entered',
                 'hth_after_sale_ticket.status',
                 'hth_ass_teams.team as team',
                 DB::raw("CONCAT(users.first_name, ' ', users.last_name) as assignee_name"),
-                DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date) as days_diff'),
+                DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) as days_diff'),
             ])
-            ->latest('hth_after_sale_ticket.release_date')
+            ->latest('hth_after_sale_ticket.date_entered')
             ->paginate(15)
             ->withQueryString();
 
@@ -517,20 +518,20 @@ class AfterSalesDashboardController extends Controller
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->whereHas('assignee', fn($q) => $q->where('first_name', 'LIKE', 'ASC%'))
             ->when($activeRegion, fn($q) => $q->where('regions.master_part_eng', $activeRegion))
-            ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [0, 3]))
-            ->when($activeAging === '4-7', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [4, 7]))
-            ->when($activeAging === '8-15', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [8, 15]))
-            ->when($activeAging === '16-30', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [16, 30]))
-            ->when($activeAging === 'over_30', fn($q) => $q->whereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date) > 30'))
+            ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [0, 3]))
+            ->when($activeAging === '4-7', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [4, 7]))
+            ->when($activeAging === '8-15', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [8, 15]))
+            ->when($activeAging === '16-30', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [16, 30]))
+            ->when($activeAging === 'over_30', fn($q) => $q->whereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30'))
             ->select([
                 'hth_after_sale_ticket.ticket_number',
                 'hth_after_sale_ticket.name',
-                'hth_after_sale_ticket.release_date',
+                'hth_after_sale_ticket.date_entered',
                 'hth_after_sale_ticket.status',
                 'regions.master_part_eng as region',
-                DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date) as days_diff'),
+                DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) as days_diff'),
             ])
-            ->latest('hth_after_sale_ticket.release_date')
+            ->latest('hth_after_sale_ticket.date_entered')
             ->paginate(15)
             ->withQueryString();
 
@@ -548,8 +549,8 @@ class AfterSalesDashboardController extends Controller
         $activeType = $request->input('type');
 
         $tickets = HthAfterSaleTicket::query()
-            ->whereMonth('release_date', now()->month)
-            ->whereYear('release_date', now()->year)
+            ->whereMonth('date_entered', now()->month)
+            ->whereYear('date_entered', now()->year)
             ->where('deleted', 0)
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->whereIn('type', ['R', 'C', 'I', 'spare_part', 'consult_or_advise'])
@@ -557,11 +558,11 @@ class AfterSalesDashboardController extends Controller
             ->select([
                 'ticket_number',
                 'name',
-                'release_date',
+                'date_entered',
                 'status',
                 'type',
             ])
-            ->latest('release_date')
+            ->latest('date_entered')
             ->paginate(15)
             ->withQueryString();
 
@@ -579,8 +580,8 @@ class AfterSalesDashboardController extends Controller
 
         $tickets = HthAfterSaleTicket::query()
             ->leftJoin('aos_product_categories', 'hth_after_sale_ticket.aos_product_categories_id', '=', 'aos_product_categories.id')
-            ->whereMonth('hth_after_sale_ticket.release_date', now()->month)
-            ->whereYear('hth_after_sale_ticket.release_date', now()->year)
+            ->whereMonth('hth_after_sale_ticket.date_entered', now()->month)
+            ->whereYear('hth_after_sale_ticket.date_entered', now()->year)
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->whereIn('aos_product_categories.name', ['Smart Technology', 'Home appliances', 'Sanitary', 'Architectural hardware', 'FF - Furniture Fittings'])
@@ -588,11 +589,11 @@ class AfterSalesDashboardController extends Controller
             ->select([
                 'hth_after_sale_ticket.ticket_number',
                 'hth_after_sale_ticket.name',
-                'hth_after_sale_ticket.release_date',
+                'hth_after_sale_ticket.date_entered',
                 'hth_after_sale_ticket.status',
                 'aos_product_categories.name as product_group',
             ])
-            ->latest('hth_after_sale_ticket.release_date')
+            ->latest('hth_after_sale_ticket.date_entered')
             ->paginate(15)
             ->withQueryString();
 
@@ -610,15 +611,15 @@ class AfterSalesDashboardController extends Controller
         $activeStatusClosed = $request->input('status-closed');
 
         $tickets = HthAfterSaleTicket::query()
-            ->whereYear('release_date', now()->year)
+            ->whereYear('date_entered', now()->year)
             ->where('deleted', 0)
             ->whereNot('status', 'Canceled')
-            ->when($activeMonth, fn($q) => $q->whereMonth('release_date', $activeMonth))
+            ->when($activeMonth, fn($q) => $q->whereMonth('date_entered', $activeMonth))
             ->when($activeStatusClosed, fn($q) => $q->where('status', 'Closed'))
             ->select([
                 'ticket_number',
                 'name',
-                'release_date',
+                'date_entered',
                 'status',
             ])
             ->paginate(15)
@@ -694,23 +695,23 @@ class AfterSalesDashboardController extends Controller
     private function applyAgingFilter($query, ?string $activeAging)
     {
         if ($activeAging === '0-3') {
-            return $query->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [0, 3]);
+            return $query->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [0, 3]);
         }
 
         if ($activeAging === '4-7') {
-            return $query->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [4, 7]);
+            return $query->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [4, 7]);
         }
 
         if ($activeAging === '8-15') {
-            return $query->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [8, 15]);
+            return $query->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [8, 15]);
         }
 
         if ($activeAging === '16-30') {
-            return $query->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date)'), [16, 30]);
+            return $query->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [16, 30]);
         }
 
         if ($activeAging === 'over_30') {
-            return $query->whereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.release_date) > 30');
+            return $query->whereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30');
         }
 
         return $query;
@@ -733,7 +734,7 @@ class AfterSalesDashboardController extends Controller
             ->where('hth_after_sale_ticket.deleted', 0)
             ->where('hth_after_sale_ticket.status', 'Closed')
             ->whereIn('hth_after_sale_ticket.type', ['R', 'I', 'C', 'P', 'O', 'consult_or_advise', 'site_servey'])
-            ->selectRaw('COUNT(*) as total, SUM(DATEDIFF(hth_after_sale_ticket_cstm.closed_datetime_c, hth_after_sale_ticket.release_date)) as total_days')
+            ->selectRaw('COUNT(*) as total, SUM(DATEDIFF(hth_after_sale_ticket_cstm.closed_datetime_c, hth_after_sale_ticket.date_entered)) as total_days')
             ->first();
 
         $bkkResult  = HthAfterSaleTicket::query()
@@ -748,7 +749,7 @@ class AfterSalesDashboardController extends Controller
                     ->from('hth_ass_regions')
                     ->where('master_part_eng', 'Bangkok Metropolitan');
             })
-            ->selectRaw('COUNT(*) as total, SUM(DATEDIFF(hth_after_sale_ticket_cstm.closed_datetime_c, hth_after_sale_ticket.release_date)) as total_days')
+            ->selectRaw('COUNT(*) as total, SUM(DATEDIFF(hth_after_sale_ticket_cstm.closed_datetime_c, hth_after_sale_ticket.date_entered)) as total_days')
             ->first();
 
         return [
@@ -769,18 +770,20 @@ class AfterSalesDashboardController extends Controller
     {
         $result = HthAfterSaleTicket::query()
             ->where('deleted', 0)
+            ->whereIn('type', ['R', 'I', 'C', 'P', 'O', 'consult_or_advise', 'site_servey'])
+            ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
-                COUNT(CASE WHEN release_date < date_sub(now(), interval 7 day) AND release_date >= date_sub(now(), interval 30 day) AND status IN ('Open', 'In_progress', 'Pending_Reason') THEN 1 END) as overdue_7_in_30_days,
-                COUNT(CASE WHEN release_date < date_sub(now(), interval 7 day) AND status IN ('Open', 'In_progress', 'Pending_Reason') THEN 1 END) as overdue_7_all
+                COUNT(CASE WHEN date_entered < date_sub(now(), interval 7 day) THEN 1 END) as overdue_7_days,
+                COUNT(CASE WHEN date_entered >= date_sub(now(), interval 30 day) THEN 1 END) as total_30_days
             ")
             ->first();
 
-        $overdue_7_all = $result->overdue_7_all ?? 0;
-        $overdue_7_in_30_days = $result->overdue_7_in_30_days ?? 0;
+        $overdue_7_days = $result->overdue_7_days ?? 0;
+        $total_30_days = $result->total_30_days ?? 0;
 
-        $ratio = ($overdue_7_all > 0) ? ($overdue_7_in_30_days / $overdue_7_all) : 0;
+        $ratio = ($overdue_7_days > 0) ? ($overdue_7_days / $total_30_days) : 0;
 
-        return $result->overdue_7_all > 0
+        return $result->overdue_7_days > 0
             ? round(100 * ($ratio), 1)
             : 0;
     }
@@ -853,12 +856,12 @@ class AfterSalesDashboardController extends Controller
         $maxMonth = ($year === now()->year) ? now()->month : 12;
 
         $rows = HthAfterSaleTicket::query()
-            ->whereYear('release_date', $year)
+            ->whereYear('date_entered', $year)
             ->where('deleted', 0)
             ->whereNot('status', 'Canceled')
-            ->selectRaw("MONTH(release_date) as month, COUNT(CASE WHEN `status` = 'Closed' THEN 1 END) as total_closed, COUNT(*) as total_open")
-            ->groupByRaw('MONTH(release_date)')
-            ->orderByRaw('MONTH(release_date)')
+            ->selectRaw("MONTH(date_entered) as month, COUNT(CASE WHEN `status` = 'Closed' THEN 1 END) as total_closed, COUNT(*) as total_open")
+            ->groupByRaw('MONTH(date_entered)')
+            ->orderByRaw('MONTH(date_entered)')
             ->get()
             ->keyBy('month');
 
@@ -940,9 +943,9 @@ class AfterSalesDashboardController extends Controller
     private function calculateTotalStat(int $month, int $year)
     {
         $result = HthAfterSaleTicket::query()
-            ->whereMonth('release_date', $month)
-            ->whereYear('release_date', $year)
-            ->where('release_date', '<=', now())
+            ->whereMonth('date_entered', $month)
+            ->whereYear('date_entered', $year)
+            ->where('date_entered', '<=', now())
             ->where('deleted', 0)
             ->whereNot('status', 'Canceled')
             ->selectRaw("
@@ -968,17 +971,17 @@ class AfterSalesDashboardController extends Controller
     private function calculateOverallAging(int $month, int $year)
     {
         $result = HthAfterSaleTicket::query()
-            ->whereMonth('release_date', $month)
-            ->whereYear('release_date', $year)
+            ->whereMonth('date_entered', $month)
+            ->whereYear('date_entered', $year)
             ->where('deleted', 0)
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
                 COUNT(*) as total_days,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) > 30 THEN 1 END) as days_over_30
+                COUNT(CASE WHEN DATEDIFF(NOW(), date_entered) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), date_entered) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), date_entered) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), date_entered) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), date_entered) > 30 THEN 1 END) as days_over_30
             ")
             ->first();
         // dd($result);
@@ -996,9 +999,9 @@ class AfterSalesDashboardController extends Controller
     private function calculatePendingType(int $month, int $year)
     {
         $result = HthAfterSaleTicket::query()
-            ->whereMonth('release_date', $month)
-            ->whereYear('release_date', $year)
-            ->where('release_date', '<=', now())
+            ->whereMonth('date_entered', $month)
+            ->whereYear('date_entered', $year)
+            ->where('date_entered', '<=', now())
             ->where('deleted', 0)
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
@@ -1018,9 +1021,9 @@ class AfterSalesDashboardController extends Controller
     {
         $result = HthAfterSaleTicket::query()
             ->leftJoin('aos_product_categories', 'hth_after_sale_ticket.aos_product_categories_id', '=', 'aos_product_categories.id')
-            ->whereMonth('hth_after_sale_ticket.release_date', $month)
-            ->whereYear('hth_after_sale_ticket.release_date', $year)
-            ->where('hth_after_sale_ticket.release_date', '<=', now())
+            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
+            ->whereYear('hth_after_sale_ticket.date_entered', $year)
+            ->where('hth_after_sale_ticket.date_entered', '<=', now())
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
@@ -1038,29 +1041,29 @@ class AfterSalesDashboardController extends Controller
     private function calculateStatus(int $month, int $year)
     {
         $result = HthAfterSaleTicket::query()
-            ->whereMonth('release_date', $month)
-            ->whereYear('release_date', $year)
-            ->where('release_date', '<=', now())
+            ->whereMonth('date_entered', $month)
+            ->whereYear('date_entered', $year)
+            ->where('date_entered', '<=', now())
             ->where('deleted', 0)
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
-                COUNT(CASE WHEN status = 'Pending_Reason' AND DATEDIFF(NOW(), release_date) BETWEEN 0  AND 3  THEN 1 END) as reason_0_3,
-                COUNT(CASE WHEN status = 'Pending_Reason' AND DATEDIFF(NOW(), release_date) BETWEEN 4  AND 7  THEN 1 END) as reason_4_7,
-                COUNT(CASE WHEN status = 'Pending_Reason' AND DATEDIFF(NOW(), release_date) BETWEEN 8  AND 15 THEN 1 END) as reason_8_15,
-                COUNT(CASE WHEN status = 'Pending_Reason' AND DATEDIFF(NOW(), release_date) BETWEEN 16 AND 30 THEN 1 END) as reason_16_30,
-                COUNT(CASE WHEN status = 'Pending_Reason' AND DATEDIFF(NOW(), release_date) > 30 THEN 1 END) as reason_over_30,
+                COUNT(CASE WHEN status = 'Pending_Reason' AND DATEDIFF(NOW(), date_entered) BETWEEN 0  AND 3  THEN 1 END) as reason_0_3,
+                COUNT(CASE WHEN status = 'Pending_Reason' AND DATEDIFF(NOW(), date_entered) BETWEEN 4  AND 7  THEN 1 END) as reason_4_7,
+                COUNT(CASE WHEN status = 'Pending_Reason' AND DATEDIFF(NOW(), date_entered) BETWEEN 8  AND 15 THEN 1 END) as reason_8_15,
+                COUNT(CASE WHEN status = 'Pending_Reason' AND DATEDIFF(NOW(), date_entered) BETWEEN 16 AND 30 THEN 1 END) as reason_16_30,
+                COUNT(CASE WHEN status = 'Pending_Reason' AND DATEDIFF(NOW(), date_entered) > 30 THEN 1 END) as reason_over_30,
 
-                COUNT(CASE WHEN status = 'In_progress' AND DATEDIFF(NOW(), release_date) BETWEEN 0  AND 3  THEN 1 END) as in_prog_0_3,
-                COUNT(CASE WHEN status = 'In_progress' AND DATEDIFF(NOW(), release_date) BETWEEN 4  AND 7  THEN 1 END) as in_prog_4_7,
-                COUNT(CASE WHEN status = 'In_progress' AND DATEDIFF(NOW(), release_date) BETWEEN 8  AND 15 THEN 1 END) as in_prog_8_15,
-                COUNT(CASE WHEN status = 'In_progress' AND DATEDIFF(NOW(), release_date) BETWEEN 16 AND 30 THEN 1 END) as in_prog_16_30,
-                COUNT(CASE WHEN status = 'In_progress' AND DATEDIFF(NOW(), release_date) > 30 THEN 1 END) as in_prog_over_30,
+                COUNT(CASE WHEN status = 'In_progress' AND DATEDIFF(NOW(), date_entered) BETWEEN 0  AND 3  THEN 1 END) as in_prog_0_3,
+                COUNT(CASE WHEN status = 'In_progress' AND DATEDIFF(NOW(), date_entered) BETWEEN 4  AND 7  THEN 1 END) as in_prog_4_7,
+                COUNT(CASE WHEN status = 'In_progress' AND DATEDIFF(NOW(), date_entered) BETWEEN 8  AND 15 THEN 1 END) as in_prog_8_15,
+                COUNT(CASE WHEN status = 'In_progress' AND DATEDIFF(NOW(), date_entered) BETWEEN 16 AND 30 THEN 1 END) as in_prog_16_30,
+                COUNT(CASE WHEN status = 'In_progress' AND DATEDIFF(NOW(), date_entered) > 30 THEN 1 END) as in_prog_over_30,
 
-                COUNT(CASE WHEN status = 'Open' AND DATEDIFF(NOW(), release_date) BETWEEN 0  AND 3  THEN 1 END) as open_0_3,
-                COUNT(CASE WHEN status = 'Open' AND DATEDIFF(NOW(), release_date) BETWEEN 4  AND 7  THEN 1 END) as open_4_7,
-                COUNT(CASE WHEN status = 'Open' AND DATEDIFF(NOW(), release_date) BETWEEN 8  AND 15 THEN 1 END) as open_8_15,
-                COUNT(CASE WHEN status = 'Open' AND DATEDIFF(NOW(), release_date) BETWEEN 16 AND 30 THEN 1 END) as open_16_30,
-                COUNT(CASE WHEN status = 'Open' AND DATEDIFF(NOW(), release_date) > 30 THEN 1 END) as open_over_30
+                COUNT(CASE WHEN status = 'Open' AND DATEDIFF(NOW(), date_entered) BETWEEN 0  AND 3  THEN 1 END) as open_0_3,
+                COUNT(CASE WHEN status = 'Open' AND DATEDIFF(NOW(), date_entered) BETWEEN 4  AND 7  THEN 1 END) as open_4_7,
+                COUNT(CASE WHEN status = 'Open' AND DATEDIFF(NOW(), date_entered) BETWEEN 8  AND 15 THEN 1 END) as open_8_15,
+                COUNT(CASE WHEN status = 'Open' AND DATEDIFF(NOW(), date_entered) BETWEEN 16 AND 30 THEN 1 END) as open_16_30,
+                COUNT(CASE WHEN status = 'Open' AND DATEDIFF(NOW(), date_entered) > 30 THEN 1 END) as open_over_30
             ")
             ->first();
 
@@ -1076,9 +1079,9 @@ class AfterSalesDashboardController extends Controller
                 '=',
                 'regions.postcodemain'
             )
-            ->whereMonth('hth_after_sale_ticket.release_date', $month)
-            ->whereYear('hth_after_sale_ticket.release_date', $year)
-            ->where('hth_after_sale_ticket.release_date', '<=', now())
+            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
+            ->whereYear('hth_after_sale_ticket.date_entered', $year)
+            ->where('hth_after_sale_ticket.date_entered', '<=', now())
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->whereHas('assignee', function ($q) {
@@ -1086,11 +1089,11 @@ class AfterSalesDashboardController extends Controller
             })
             ->selectRaw("
                 regions.master_part_eng as region,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) > 30 THEN 1 END) as days_over_30
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30 THEN 1 END) as days_over_30
             ")
             ->groupBy("region")
             ->get()
@@ -1104,18 +1107,18 @@ class AfterSalesDashboardController extends Controller
         $result = HthAfterSaleTicket::query()
             ->leftJoin('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
             ->leftJoin('hth_ass_teams', DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), '=', 'hth_ass_teams.name')
-            ->whereMonth('hth_after_sale_ticket.release_date', $month)
-            ->whereYear('hth_after_sale_ticket.release_date', $year)
-            ->where('hth_after_sale_ticket.release_date', '<=', now())
+            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
+            ->whereYear('hth_after_sale_ticket.date_entered', $year)
+            ->where('hth_after_sale_ticket.date_entered', '<=', now())
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
                 hth_ass_teams.team as team,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) > 30 THEN 1 END) as days_over_30
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30 THEN 1 END) as days_over_30
             ")
             ->groupBy('hth_ass_teams.team')
             ->get()
@@ -1135,18 +1138,18 @@ class AfterSalesDashboardController extends Controller
         ];
 
         $rows = HthAfterSaleTicket::query()
-            ->whereMonth('release_date', $month)
-            ->whereYear('release_date', $year)
-            ->where('release_date', '<=', now())
+            ->whereMonth('date_entered', $month)
+            ->whereYear('date_entered', $year)
+            ->where('date_entered', '<=', now())
             ->where('deleted', 0)
             ->where('status', 'Pending_Reason')
             ->selectRaw("
                 COALESCE(pending, 'blank') as reason,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
-                COUNT(CASE WHEN DATEDIFF(NOW(), release_date) > 30 THEN 1 END) as days_over_30
+                COUNT(CASE WHEN DATEDIFF(NOW(), date_entered) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), date_entered) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), date_entered) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), date_entered) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), date_entered) > 30 THEN 1 END) as days_over_30
             ")
             ->groupByRaw("COALESCE(pending, 'blank')")
             ->get()
@@ -1176,18 +1179,18 @@ class AfterSalesDashboardController extends Controller
                 '=',
                 'regions.postcodemain'
             )
-            ->whereMonth('hth_after_sale_ticket.release_date', $month)
-            ->whereYear('hth_after_sale_ticket.release_date', $year)
-            ->where('hth_after_sale_ticket.release_date', '<=', now())
+            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
+            ->whereYear('hth_after_sale_ticket.date_entered', $year)
+            ->where('hth_after_sale_ticket.date_entered', '<=', now())
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
                 regions.master_part_eng as region,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) > 30 THEN 1 END) as days_over_30
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30 THEN 1 END) as days_over_30
             ")
             ->groupBy("region")
             ->get()
@@ -1205,19 +1208,19 @@ class AfterSalesDashboardController extends Controller
         ];
 
         $rows = HthAfterSaleTicket::query()
-            ->whereMonth('hth_after_sale_ticket.release_date', $month)
-            ->whereYear('hth_after_sale_ticket.release_date', $year)
+            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
+            ->whereYear('hth_after_sale_ticket.date_entered', $year)
             ->leftJoin('aos_product_categories', 'hth_after_sale_ticket.aos_product_categories_id', '=', 'aos_product_categories.id')
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->whereNotNull('aos_product_categories.name')
             ->selectRaw("
                 aos_product_categories.name as product,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
-                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.release_date) > 30 THEN 1 END) as days_over_30
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 0  AND 3  THEN 1 END) as days_0_3,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 4  AND 7  THEN 1 END) as days_4_7,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 8  AND 15 THEN 1 END) as days_8_15,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) BETWEEN 16 AND 30 THEN 1 END) as days_16_30,
+                COUNT(CASE WHEN DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30 THEN 1 END) as days_over_30
             ")
             ->groupBy('aos_product_categories.name')
             ->get()
@@ -1265,8 +1268,8 @@ class AfterSalesDashboardController extends Controller
     private function pendingByType(int $month, int $year, bool $isAsc, array $types)
     {
         return $this->pendingTicketQuery($isAsc ? 'asc' : 'hafele')
-            ->whereMonth('hth_after_sale_ticket.release_date', $month)
-            ->whereYear('hth_after_sale_ticket.release_date', $year)
+            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
+            ->whereYear('hth_after_sale_ticket.date_entered', $year)
             ->whereIn('hth_after_sale_ticket.type', $types)
             ->select('hth_after_sale_ticket.type', DB::raw('COUNT(*) as total'))
             ->groupBy('hth_after_sale_ticket.type')
