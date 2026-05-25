@@ -775,13 +775,33 @@ class AfterSalesDashboardController extends Controller
 
     private function calculateLtp(int $month, int $year)
     {
+        $teams = [
+            "HA&SA Technician BKK1",
+            "HA&SA Technician BKK2",
+            "HA&SA Technician BKK3",
+            "HA&SA Technician BKK4",
+            "HA&SA Technician BKK5",
+            "HA&SA Technician BKK6",
+            "HA&SA Technician BKK7",
+            "HW&FF Technician BKK1",
+            "HW&FF Technician BKK2",
+            "HW&FF Technician BKK3",
+            "HW&FF Technician BKK4",
+            "Partner",
+            "Service Consultant",
+            "Technician BKK",
+            "Technician CM",
+            "Technician PHK"
+        ];
+
         $result = HthAfterSaleTicket::query()
-            ->where('deleted', 0)
-            ->whereNot('status', 'Canceled')
-            ->whereIn('type', ['R', 'I', 'C', 'P', 'O', 'consult_or_advise', 'site_servey'])
+            ->leftJoin('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
+            ->leftjoin('hth_ass_teams', DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), '=', 'hth_ass_teams.name')
+            ->where('hth_after_sale_ticket.deleted', 0)
+            ->whereNot('hth_after_sale_ticket.status', 'Canceled')
             ->selectRaw("
-                COUNT(CASE WHEN date_entered < date_sub(now(), interval 7 day) AND status in ('Open', 'In_progress', 'Pending_Reason') AND booking < now() THEN 1 END) as overdue_7_days,
-                COUNT(CASE WHEN date_entered >= date_sub(now(), interval 30 day) THEN 1 END) as total_30_days
+                COUNT(CASE WHEN hth_after_sale_ticket.date_entered < date_sub(now(), interval 7 day) AND hth_after_sale_ticket.status in ('Open', 'In_progress', 'Pending_Reason') AND hth_after_sale_ticket.booking < now() THEN 1 END) as overdue_7_days,
+                COUNT(CASE WHEN hth_after_sale_ticket.date_entered >= date_sub(now(), interval 30 day) AND hth_ass_teams.team IN ('" . implode("', '", $teams) . "') THEN 1 END) as total_30_days
             ")
             ->first();
 
