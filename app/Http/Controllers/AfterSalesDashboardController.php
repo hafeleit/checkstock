@@ -743,10 +743,13 @@ class AfterSalesDashboardController extends Controller
 
         $bkkResult  = HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
+            ->leftJoin('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
+            ->leftjoin('hth_ass_teams', DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), '=', 'hth_ass_teams.name')
             ->whereMonth('hth_after_sale_ticket_cstm.closed_datetime_c', $month)
             ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', $year)
             ->where('hth_after_sale_ticket.deleted', 0)
             ->where('hth_after_sale_ticket.status', 'Closed')
+            ->where('hth_ass_teams.team', 'LIKE', '%BKK%')
             ->whereIn('hth_after_sale_ticket.type', ['R', 'I', 'C', 'P', 'O', 'consult_or_advise', 'site_servey'])
             ->whereIn('hth_after_sale_ticket.zipcode', function ($q) {
                 $q->select('postcodemain')

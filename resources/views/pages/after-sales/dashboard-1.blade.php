@@ -458,7 +458,7 @@
                 },
                 layout: {
                     padding: {
-                        top: 12,
+                        top: 20,
                         bottom: 3
                     }
                 },
