@@ -814,7 +814,8 @@ class AfterSalesDashboardController extends Controller
             ->where('hth_after_sale_ticket.status', 'Closed')
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.type', ['R', 'I'])
-            ->count();
+            ->distinct()
+            ->count('contact_no');
 
         $survey = HthAssSurvey::query()
             ->whereMonth('completion_time', $month)
