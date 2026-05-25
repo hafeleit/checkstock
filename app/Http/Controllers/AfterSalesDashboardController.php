@@ -1009,8 +1009,6 @@ class AfterSalesDashboardController extends Controller
     private function calculateOverallAging(int $month, int $year)
     {
         $result = HthAfterSaleTicket::query()
-            ->whereMonth('date_entered', $month)
-            ->whereYear('date_entered', $year)
             ->where('deleted', 0)
             ->whereIn('status', ['Open', 'In_progress', 'Pending_Reason'])
             ->selectRaw("
@@ -1022,7 +1020,6 @@ class AfterSalesDashboardController extends Controller
                 COUNT(CASE WHEN DATEDIFF(NOW(), date_entered) > 30 THEN 1 END) as days_over_30
             ")
             ->first();
-        // dd($result);
 
         return [
             'total'   => (int) ($result->total_days  ?? 0),
