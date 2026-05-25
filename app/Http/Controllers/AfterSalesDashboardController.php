@@ -761,10 +761,10 @@ class AfterSalesDashboardController extends Controller
 
         return [
             'overall' => $result->total > 0
-                ? round($result->total_days / $result->total, 1)
+                ? number_format($result->total_days / $result->total, 1)
                 : 0,
             'bkk' => $bkkResult->total > 0
-                ? round($bkkResult->total_days / $bkkResult->total, 1)
+                ? number_format($bkkResult->total_days / $bkkResult->total, 1)
                 : 0,
             'total_all' => $result->total,
             'total_all_days' => $result->total_days,
@@ -811,7 +811,7 @@ class AfterSalesDashboardController extends Controller
         $ratio = ($overdue_7_days > 0) ? ($overdue_7_days / $total_30_days) : 0;
 
         return $result->overdue_7_days > 0
-            ? round(100 * ($ratio), 1)
+            ? number_format(100 * ($ratio), 1)
             : 0;
     }
 
@@ -824,7 +824,7 @@ class AfterSalesDashboardController extends Controller
             ->first();
 
         return $result->total > 0
-            ? round(100 * ($result->activity / $result->total), 1)
+            ? number_format(100 * ($result->activity / $result->total), 1)
             : 0;
     }
 
@@ -884,21 +884,30 @@ class AfterSalesDashboardController extends Controller
     {
         $maxMonth = ($year === now()->year) ? now()->month : 12;
 
-        $rows = HthAfterSaleTicket::query()
-            ->whereYear('date_entered', $year)
-            ->where('deleted', 0)
-            ->whereNot('status', 'Canceled')
-            ->selectRaw("MONTH(date_entered) as month, COUNT(CASE WHEN `status` = 'Closed' THEN 1 END) as total_closed, COUNT(*) as total_open")
-            ->groupByRaw('MONTH(date_entered)')
-            ->orderByRaw('MONTH(date_entered)')
+        $closedRows = HthAfterSaleTicket::query()
+            ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
+            ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', $year)
+            ->where('hth_after_sale_ticket.deleted', 0)
+            ->selectRaw("MONTH(hth_after_sale_ticket_cstm.closed_datetime_c) as month, COUNT(CASE WHEN `status` = 'Closed' THEN 1 END) as total_closed")
+            ->groupByRaw('MONTH(hth_after_sale_ticket_cstm.closed_datetime_c)')
+            ->orderByRaw('MONTH(hth_after_sale_ticket_cstm.closed_datetime_c)')
+            ->get()
+            ->keyBy('month');
+
+        $openedRows = HthAfterSaleTicket::query()
+            ->whereYear('hth_after_sale_ticket.date_entered', $year)
+            ->where('hth_after_sale_ticket.deleted', 0)
+            ->selectRaw("MONTH(hth_after_sale_ticket.date_entered) as month, COUNT(*) as total_open")
+            ->groupByRaw('MONTH(hth_after_sale_ticket.date_entered)')
+            ->orderByRaw('MONTH(hth_after_sale_ticket.date_entered)')
             ->get()
             ->keyBy('month');
 
         $result = [];
         for ($m = 1; $m <= $maxMonth; $m++) {
             $result[$m] = [
-                'closed' => (int) ($rows[$m]->total_closed ?? 0),
-                'open'   => (int) ($rows[$m]->total_open ?? 0),
+                'closed' => (int) ($closedRows[$m]->total_closed ?? 0),
+                'open'   => (int) ($openedRows[$m]->total_open ?? 0),
             ];
         }
 
