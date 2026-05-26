@@ -35,21 +35,15 @@
                 </p>
 
                 @php
-                    $monthLabels  = ['1'=>'JAN','2'=>'FEB','3'=>'MAR','4'=>'APR','5'=>'MAY','6'=>'JUN','7'=>'JUL','8'=>'AUG','9'=>'SEP','10'=>'OCT','11'=>'NOV','12'=>'DEC'];
-                @endphp
-
-                @php
-                    $monthParams  = $activeStatusClosed ? ['status-closed' => 'true'] : [];
-                    $closedParams = $activeMonth ? ['month' => $activeMonth] : [];
+                    $monthLabels = ['1'=>'JAN','2'=>'FEB','3'=>'MAR','4'=>'APR','5'=>'MAY','6'=>'JUN','7'=>'JUL','8'=>'AUG','9'=>'SEP','10'=>'OCT','11'=>'NOV','12'=>'DEC'];
+                    $baseParams  = array_filter(['month' => $activeMonth, 'status' => $activeStatus]);
                 @endphp
 
                 {{-- Month Filter --}}
                 <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?{{ http_build_query($monthParams) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeMonth ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Months</a>
+                    <a href="?{{ http_build_query(array_diff_key($baseParams, ['month' => ''])) }}" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeMonth ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Months</a>
                     @foreach ($monthLabels as $value => $label)
-                        <a href="?{{ http_build_query([...$monthParams, 'month' => $value]) }}"
-                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeMonth == $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                        <a href="?{{ http_build_query([...$baseParams, 'month' => $value]) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeMonth == $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
                             {{ $label }}
                         </a>
                     @endforeach
@@ -57,10 +51,9 @@
 
                 {{-- Status Closed Filter --}}
                 <div class="flex flex-wrap gap-1.5 mt-1.5">
-                    <a href="?{{ http_build_query($closedParams) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeStatusClosed ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Status</a>
-                    <a href="?{{ http_build_query([...$closedParams, 'status-closed' => 'true']) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ $activeStatusClosed ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Closed</a>
+                    <a href="?{{ http_build_query(array_diff_key($baseParams, ['status' => ''])) }}" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeStatus ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
+                    <a href="?{{ http_build_query([...$baseParams, 'status' => 'opened']) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeStatus === 'opened' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Opened</a>
+                    <a href="?{{ http_build_query([...$baseParams, 'status' => 'closed']) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeStatus === 'closed' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Closed</a>
                 </div>
             </div>
             
@@ -133,7 +126,7 @@
             Chart.register(ChartDataLabels);
 
             const activeMonth       = {!! json_encode($activeMonth) !!};
-            const activeStatusClosed = {!! json_encode($activeStatusClosed) !!};
+            const activeStatus = {!! json_encode($activeStatus) !!};
 
             const activeMonthIdx = activeMonth ? (parseInt(activeMonth) - 1) : -1;
             const openFull   = '#cbd5e1';
@@ -144,7 +137,9 @@
             // dsIdx 0=Open, 1=Closed
             const isBarActive = (dsIdx, barIdx) => {
                 const monthOk  = activeMonthIdx < 0 || barIdx === activeMonthIdx;
-                const statusOk = !activeStatusClosed || dsIdx === 1;
+                const statusOk = !activeStatus
+                    || (activeStatus === 'opened' && dsIdx === 0)
+                    || (activeStatus === 'closed' && dsIdx === 1);
                 return monthOk && statusOk;
             };
 
@@ -189,8 +184,10 @@
                                 pointStyle: 'rect',
                                 font: { size: 12 },
                                 color: ctx => {
-                                    if (!activeStatusClosed) return '#666';
-                                    return ctx.index === 1 ? '#333' : '#bbb';
+                                    if (!activeStatus) return '#666';
+                                    const active = (activeStatus === 'opened' && ctx.index === 0)
+                                                || (activeStatus === 'closed' && ctx.index === 1);
+                                    return active ? '#333' : '#bbb';
                                 }
                             }
                         },

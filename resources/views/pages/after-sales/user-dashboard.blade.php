@@ -198,7 +198,7 @@
             </div>
             <div>
                 <p class="text-md text-gray-400 font-medium">Total Created</p>
-                <p class="text-2xl font-bold text-gray-800 leading-none">{{ $total_stat_data['total'] }}</p>
+                <p class="text-2xl font-bold text-gray-800 leading-none">{{ $total_stat_data['total_created'] }}</p>
             </div>
         </div>
 

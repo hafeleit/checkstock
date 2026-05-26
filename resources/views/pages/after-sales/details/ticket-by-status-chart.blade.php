@@ -25,7 +25,7 @@
                 </div>
                 <div>
                     <p class="text-md text-gray-400 font-medium">Total Created</p>
-                    <p class="text-2xl font-bold text-gray-800 leading-none">{{ $total_stat_data['total'] }}</p>
+                    <p class="text-2xl font-bold text-gray-800 leading-none">{{ $total_stat_data['total_created'] }}</p>
                 </div>
             </div>
 
@@ -87,10 +87,9 @@
 
                 {{-- Status Filter --}}
                 @php
-                    $statuses = ['Closed' => 'Closed', 'Open' => 'Open', 'In_progress' => 'In Progress', 'Pending_Reason' => 'Pending'];
+                    $statuses = ['Created' => 'Created', 'Closed' => 'Closed', 'Pending' => 'Pending', 'Open' => 'Open', 'In_progress' => 'In Progress', 'Pending_Reason' => 'Pending Reason'];
                 @endphp
                 <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeStatus ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
                     @foreach ($statuses as $value => $label)
                         <a href="?status={{ $value }}"
                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeStatus === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
@@ -103,21 +102,21 @@
                 <table class="w-full min-w-[700px] text-xs">
                     <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider">
                         <tr>
-                            <th class="px-3 py-2 text-left font-semibold">#</th>
-                            <th class="px-3 py-2 text-left font-semibold">Ticket No.</th>
-                            <th class="px-3 py-2 text-left font-semibold">Name</th>
-                            <th class="px-3 py-2 text-left font-semibold">Status</th>
-                            <th class="px-3 py-2 text-left font-semibold">Release Date</th>
-                            <th class="px-3 py-2 text-left font-semibold">Date Modified</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date Modified</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-3 py-2 text-gray-400">{{ $tickets->firstItem() + $loop->index }}</td>
-                                <td class="px-3 py-2 font-medium text-gray-700">{{ $ticket->ticket_number ?? '-' }}</td>
+                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->ticket_number ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->name ?? '-' }}</td>
-                                <td class="px-3 py-2">
+                                <td class="px-3 py-2 whitespace-nowrap">
                                     @php
                                         $statusClass = match($ticket->status ?? '') {
                                             'Closed'         => 'bg-green-100 text-green-700',
