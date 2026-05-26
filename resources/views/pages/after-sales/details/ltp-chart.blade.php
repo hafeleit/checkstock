@@ -31,7 +31,7 @@
                 <p class="text-sm text-gray-400 uppercase tracking-widest font-semibold">LTP Tickets</p>
                 <p class="text-lg font-bold text-gray-800 mt-0.5">{{ number_format($tickets->total()) }} <span class="text-sm font-normal text-gray-400">tickets</span></p>
                 <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeFilter ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
+                    <a href="?filter=overdue-7-days" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeFilter || $activeFilter === 'overdue-7-days' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Overdue 7 Days</a>
                     <a href="?filter=last-30-days" class="px-2 py-1 rounded text-xs font-semibold {{ $activeFilter === 'last-30-days' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Last 30 Days</a>
                 </div>
                 <p class="text-xs text-red-500 mt-0.5">Pending tickets</p>

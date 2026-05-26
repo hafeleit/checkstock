@@ -58,21 +58,21 @@
                 <table class="w-full min-w-[700px] text-xs">
                     <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider">
                         <tr>
-                            <th class="px-3 py-2 text-left font-semibold">#</th>
-                            <th class="px-3 py-2 text-left font-semibold">Ticket No.</th>
-                            <th class="px-3 py-2 text-left font-semibold">Name</th>
-                            <th class="px-3 py-2 text-left font-semibold">Status</th>
-                            <th class="px-3 py-2 text-left font-semibold">Release Date</th>
-                            <th class="px-3 py-2 text-left font-semibold">Closed Date</th>
-                            <th class="px-3 py-2 text-left font-semibold">Region</th>
-                            <th class="px-3 py-2 text-right font-semibold">Days</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Closed Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Region</th>
+                            <th class="px-3 py-2 text-right font-semibold whitespace-nowrap">Days</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-3 py-2 text-gray-400">{{ $tickets->firstItem() + $loop->index }}</td>
-                                <td class="px-3 py-2 font-medium text-gray-700">{{ $ticket->ticket_number ?? '-' }}</td>
+                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->ticket_number ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->name ?? '-' }}</td>
                                 <td class="px-3 py-2">
                                     <span class="px-1.5 py-0.5 rounded font-semibold bg-green-100 text-green-700">{{ $ticket->status ?? '-' }}</span>

@@ -33,7 +33,7 @@
                 </div>
                 <div>
                     <p class="text-xs text-gray-500 font-medium leading-none mb-0.5">Total Created</p>
-                    <h3 class="text-sm font-bold text-gray-800 leading-none">{{ $total_stat_data['total'] }}</h3>
+                    <h3 class="text-sm font-bold text-gray-800 leading-none">{{ $total_stat_data['total_created'] }}</h3>
                 </div>
             </div>
             <div class="bg-white px-2 py-1 rounded-lg border border-gray-100 shadow-sm flex items-center gap-1.5 flex-1">
@@ -373,30 +373,31 @@
         new Chart(document.getElementById('status-chart'), {
             type: 'bar',
             data: {
-                labels: ['Pending Reason', 'In Progress', 'Open'],
+                // labels: ['Pending Reason', 'In Progress', 'Open'],
+                labels: ['Open', 'In Progress', 'Pending Reason'],
                 datasets: [{
                         label: '0-3 Days',
-                        data: [statusData.reason_0_3, statusData.in_prog_0_3, statusData.open_0_3],
+                        data: [statusData.open_0_3, statusData.in_prog_0_3, statusData.reason_0_3],
                         backgroundColor: '#10b981'
                     },
                     {
                         label: '4-7 Days',
-                        data: [statusData.reason_4_7, statusData.in_prog_4_7, statusData.open_4_7],
+                        data: [statusData.open_4_7, statusData.in_prog_4_7, statusData.reason_4_7],
                         backgroundColor: '#84cc16'
                     },
                     {
                         label: '8-15 Days',
-                        data: [statusData.reason_8_15, statusData.in_prog_8_15, statusData.open_8_15],
+                        data: [statusData.open_8_15, statusData.in_prog_8_15, statusData.reason_8_15],
                         backgroundColor: '#facc15'
                     },
                     {
                         label: '16-30 Days',
-                        data: [statusData.reason_16_30, statusData.in_prog_16_30, statusData.open_16_30],
+                        data: [statusData.open_16_30, statusData.in_prog_16_30, statusData.reason_16_30],
                         backgroundColor: '#fb923c'
                     },
                     {
                         label: 'Over 30 Days',
-                        data: [statusData.reason_over_30, statusData.in_prog_over_30, statusData.open_over_30],
+                        data: [statusData.open_over_30, statusData.in_prog_over_30, statusData.reason_over_30],
                         backgroundColor: '#ef4444'
                     },
                 ]
