@@ -1120,6 +1120,7 @@ class AfterSalesDashboardController extends Controller
             ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', $year)
             ->whereMonth('hth_after_sale_ticket_cstm.closed_datetime_c', $month)
             ->where('hth_after_sale_ticket.deleted', 0)
+            ->where('hth_after_sale_ticket.status', 'Closed')
             ->count();
 
         $createdResults = HthAfterSaleTicket::query()
