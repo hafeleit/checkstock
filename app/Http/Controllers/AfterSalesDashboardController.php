@@ -685,25 +685,6 @@ class AfterSalesDashboardController extends Controller
         $ticketData = $this->calculateTicket(now()->year);
         $filterStatus = $request->input('status');
 
-        // $closedRows = HthAfterSaleTicket::query()
-        //     ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
-        //     ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', $year)
-        //     ->where('hth_after_sale_ticket.deleted', 0)
-        //     ->selectRaw("MONTH(hth_after_sale_ticket_cstm.closed_datetime_c) as month, COUNT(CASE WHEN `status` = 'Closed' THEN 1 END) as total_closed")
-        //     ->groupByRaw('MONTH(hth_after_sale_ticket_cstm.closed_datetime_c)')
-        //     ->orderByRaw('MONTH(hth_after_sale_ticket_cstm.closed_datetime_c)')
-        //     ->get()
-        //     ->keyBy('month');
-
-        // $openedRows = HthAfterSaleTicket::query()
-        //     ->whereYear('hth_after_sale_ticket.date_entered', $year)
-        //     ->where('hth_after_sale_ticket.deleted', 0)
-        //     ->selectRaw("MONTH(hth_after_sale_ticket.date_entered) as month, COUNT(*) as total_open")
-        //     ->groupByRaw('MONTH(hth_after_sale_ticket.date_entered)')
-        //     ->orderByRaw('MONTH(hth_after_sale_ticket.date_entered)')
-        //     ->get()
-        //     ->keyBy('month');
-
         $query = HthAfterSaleTicket::query()
             ->where('hth_after_sale_ticket.deleted', 0);
 
@@ -949,9 +930,31 @@ class AfterSalesDashboardController extends Controller
 
     private function calculateFtf(int $month, int $year)
     {
-        $result = $this->baseQuery($month, $year)
-            ->where('deleted', 0)
-            ->where('status', 'Closed')
+        $teams = [
+            "HA&SA Technician BKK1",
+            "HA&SA Technician BKK2",
+            "HA&SA Technician BKK3",
+            "HA&SA Technician BKK4",
+            "HA&SA Technician BKK5",
+            "HA&SA Technician BKK6",
+            "HA&SA Technician BKK7",
+            "HW&FF Technician BKK1",
+            "HW&FF Technician BKK2",
+            "HW&FF Technician BKK3",
+            "HW&FF Technician BKK4",
+            "Partner",
+            "Service Consultant",
+            "Technician BKK",
+            "Technician CM",
+            "Technician PHK"
+        ];
+
+        $result = HthAfterSaleTicket::query()
+            ->leftJoin('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
+            ->leftjoin('hth_ass_teams', DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), '=', 'hth_ass_teams.name')
+            ->where('hth_after_sale_ticket.deleted', 0)
+            ->where('hth_after_sale_ticket.status', 'Closed')
+            ->whereIn('hth_ass_teams.team', $teams)
             ->selectRaw('COUNT(*) as total, COUNT(CASE WHEN `round` <= 1 THEN 1 END) as activity')
             ->first();
 
@@ -1111,7 +1114,7 @@ class AfterSalesDashboardController extends Controller
     }
 
     private function calculateTotalStat(int $month, int $year)
-    {
+    {       
         $closedResults = HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
             ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', $year)
