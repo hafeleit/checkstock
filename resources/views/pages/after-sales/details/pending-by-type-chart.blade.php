@@ -63,11 +63,15 @@
                         <tr>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
-                            <th class="px-3 py-2 text-left font-semibold w-40">Name</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Type</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Assigned To</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Created Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
-                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date Modified</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Booking Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Closed Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Note</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -84,36 +88,34 @@
                                 default => $s ?? '-',
                             };
                             $agingClass = fn($d) => match (true) {
-                                $d <= 3 => 'bg-emerald-100 text-emerald-700',
-                                $d <= 7 => 'bg-lime-100 text-lime-700',
-                                $d <= 15 => 'bg-yellow-100 text-yellow-700',
-                                $d <= 30 => 'bg-orange-100 text-orange-700',
-                                default => 'bg-red-100 text-red-700',
+                                $d <= 3 => 'text-3-day',
+                                $d <= 7 => 'text-7-day',
+                                $d <= 15 => 'text-15-day',
+                                $d <= 30 => 'text-30-day',
+                                default => 'text-over-30-day',
                             };
                         @endphp
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-3 py-2 text-gray-400 whitespace-nowrap">
-                                    {{ $tickets->firstItem() + $loop->index }}</td>
-                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">
-                                    {{ $ticket->ticket_number ?? '-' }}</td>
-                                <td class="px-3 py-2 text-gray-600 max-w-[10rem] truncate">{{ $ticket->name ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-400 whitespace-nowrap">{{ $tickets->firstItem() + $loop->index }}</td>
+                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->ticket_number ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->name ?? '-' }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap">
                                     <span class="px-1.5 py-0.5 rounded font-semibold {{ $statusClass($ticket->status) }}">
                                         {{ $statusLabel($ticket->status) }}
                                     </span>
                                 </td>
                                 <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $typeLabels[$ticket->type ?? ''] ?? ($ticket->type ?? '-') }}</td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">
-                                    {{ \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') }}
-                                </td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">
-                                    {{ \Carbon\Carbon::parse($ticket->date_modified)->format('d/m/Y') }}
-                                </td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->first_name . ' ' . $ticket->last_name ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->release_date ? \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->booking ? \Carbon\Carbon::parse($ticket->booking)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->closed_datetime_c ? \Carbon\Carbon::parse($ticket->closed_datetime_c)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->note ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
+                                <td colspan="11" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
                             </tr>
                         @endforelse
                     </tbody>

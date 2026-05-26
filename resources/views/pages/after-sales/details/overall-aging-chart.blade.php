@@ -69,6 +69,13 @@
             .text-emerald-700 { color: #047857; }
             .bg-lime-100 { background-color: #ecfccb; }
             .text-lime-700 { color: #4d7c0f; }
+
+            .text-3-day, .text-7-day, .text-15-day, .text-30-day, .text-over-30-day { color: #ffffff; }
+            .bg-3-day { background-color: #10b981; }
+            .bg-7-day { background-color: #84cc16; }
+            .bg-15-day { background-color: #facc15; }
+            .bg-30-day { background-color: #fb923c; }
+            .bg-over-30-day { background-color: #ef4444; }
         </style>
     @endpush
 
@@ -133,8 +140,12 @@
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Assigned To</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Created Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
-                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date Modified</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Booking Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Closed Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Note</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Aging (Days)</th>
                         </tr>
                     </thead>
@@ -154,11 +165,11 @@
                                 default => 'bg-gray-100 text-gray-500',
                             };
                             $agingClass = fn($d) => match (true) {
-                                $d <= 3 => 'bg-emerald-100 text-emerald-700',
-                                $d <= 7 => 'bg-lime-100 text-lime-700',
-                                $d <= 15 => 'bg-yellow-100 text-yellow-700',
-                                $d <= 30 => 'bg-orange-100 text-orange-700',
-                                default => 'bg-red-100 text-red-700',
+                                $d <= 3 => 'bg-3-day text-3-day',
+                                $d <= 7 => 'bg-7-day text-7-day',
+                                $d <= 15 => 'bg-15-day text-15-day',
+                                $d <= 30 => 'bg-30-day text-30-day',
+                                default => 'bg-over-30-day text-over-30-day',
                             };
                         @endphp
                         @forelse ($tickets as $ticket)
@@ -171,20 +182,21 @@
                                         {{ $statusLabels[$ticket->status] ?? ($ticket->status ?? '-') }}
                                     </span>
                                 </td>
-                                <td class="px-3 py-2 text-gray-600">
-                                    {{ \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') }}</td>
-                                <td class="px-3 py-2 text-gray-600">
-                                    {{ \Carbon\Carbon::parse($ticket->date_modified)->format('d/m/Y') }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->first_name . ' ' . $ticket->last_name ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->release_date ? \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->booking ? \Carbon\Carbon::parse($ticket->booking)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->closed_datetime_c ? \Carbon\Carbon::parse($ticket->closed_datetime_c)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->note ?? '-' }}</td>
                                 <td class="px-3 py-2">
-                                    <span
-                                        class="px-1.5 py-0.5 rounded font-semibold {{ $agingClass((int) $ticket->days_diff) }}">
+                                    <span class="px-1.5 py-0.5 rounded font-semibold {{ $agingClass((int) $ticket->days_diff) }}">
                                         {{ $ticket->days_diff }} days
                                     </span>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
+                                <td colspan="11" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
                             </tr>
                         @endforelse
                     </tbody>

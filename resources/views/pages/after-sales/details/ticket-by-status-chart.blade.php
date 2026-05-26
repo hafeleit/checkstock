@@ -66,13 +66,13 @@
                     </div>
                     <div class="w-px h-8 bg-gray-200"></div>
                     <div class="text-center">
-                        <p class="text-xl font-bold text-yellow-400 leading-none">{{ $total_stat_data['total_in_prog'] }}</p>
-                        <p class="text-md text-gray-400 mt-0.5 uppercase tracking-wider">In Prog</p>
+                        <p class="text-xl font-bold text-red-500 leading-none">{{ $total_stat_data['total_reason'] }}</p>
+                        <p class="text-md text-gray-400 mt-0.5 uppercase tracking-wider">Reason</p>
                     </div>
                     <div class="w-px h-8 bg-gray-200"></div>
                     <div class="text-center">
-                        <p class="text-xl font-bold text-red-500 leading-none">{{ $total_stat_data['total_reason'] }}</p>
-                        <p class="text-md text-gray-400 mt-0.5 uppercase tracking-wider">Reason</p>
+                        <p class="text-xl font-bold text-yellow-400 leading-none">{{ $total_stat_data['total_in_prog'] }}</p>
+                        <p class="text-md text-gray-400 mt-0.5 uppercase tracking-wider">In Prog</p>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@
 
                 {{-- Status Filter --}}
                 @php
-                    $statuses = ['Created' => 'Created', 'Closed' => 'Closed', 'Pending' => 'Pending', 'Open' => 'Open', 'In_progress' => 'In Progress', 'Pending_Reason' => 'Pending Reason'];
+                    $statuses = ['Created' => 'Created', 'Closed' => 'Closed', 'Pending' => 'Pending', 'Open' => 'Open', 'Pending_Reason' => 'Pending Reason', 'In_progress' => 'In Progress'];
                 @endphp
                 <div class="flex flex-wrap gap-1.5 mt-2">
                     @foreach ($statuses as $value => $label)
@@ -106,8 +106,12 @@
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Assigned To</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Created Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
-                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date Modified</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Booking Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Closed Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Note</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -129,12 +133,16 @@
                                     @endphp
                                     <span class="px-1.5 py-0.5 rounded font-semibold {{ $statusClass }}">{{ $statusLabel }}</span>
                                 </td>
-                                <td class="px-3 py-2 text-gray-600">{{ \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') }}</td>
-                                <td class="px-3 py-2 text-gray-600">{{ \Carbon\Carbon::parse($ticket->date_modified)->format('d/m/Y') }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->first_name . ' ' . $ticket->last_name ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->release_date ? \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->booking ? \Carbon\Carbon::parse($ticket->booking)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->closed_datetime_c ? \Carbon\Carbon::parse($ticket->closed_datetime_c)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->note ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
+                                <td colspan="11" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
                             </tr>
                         @endforelse
                     </tbody>

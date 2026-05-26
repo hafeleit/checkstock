@@ -60,18 +60,12 @@
                     <tbody class="divide-y divide-gray-100">
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-3 py-2 text-gray-400 whitespace-nowrap">
-                                    {{ $tickets->firstItem() + $loop->index }}
-                                </td>
-                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">
-                                    {{ $ticket->code ?? '-' }}
-                                </td>
+                                <td class="px-3 py-2 text-gray-400 whitespace-nowrap">{{ $tickets->firstItem() + $loop->index }}</td>
+                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->code ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600 max-w-[10rem] truncate">{{ $ticket->name ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $ticket->type ?? '-' }}</td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">
-                                    {{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y H:i:s') : '-' }}
-                                </td>
-                                <td class="px-3 py-2 text-gray-600 max-w-[16rem] truncate">{{ $ticket->description ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y H:i:s') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->description ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>

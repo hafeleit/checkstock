@@ -101,14 +101,14 @@
                 <table class="w-full min-w-[700px] text-xs">
                     <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider">
                         <tr>
-                            <th class="px-3 py-2 text-left font-semibold">#</th>
-                            <th class="px-3 py-2 text-left font-semibold">Date</th>
-                            <th class="px-3 py-2 text-left font-semibold">Service Team</th>
-                            <th class="px-3 py-2 text-left font-semibold">Problem Resolved</th>
-                            <th class="px-3 py-2 text-left font-semibold">Arrive on Schedule</th>
-                            <th class="px-3 py-2 text-left font-semibold">Polite</th>
-                            <th class="px-3 py-2 text-left font-semibold">Charged Expenses</th>
-                            <th class="px-3 py-2 text-left font-semibold">Suggestions</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Service Team</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Problem Resolved</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Arrive on Schedule</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Polite</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Charged Expenses</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Suggestions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -117,7 +117,7 @@
                                 <td class="px-3 py-2 text-gray-400">{{ $surveys->firstItem() + $loop->index }}</td>
                                 <td class="px-3 py-2 text-gray-600">
                                     {{ \Carbon\Carbon::parse($survey->start_time)->format('d/m/Y') }}</td>
-                                <td class="px-3 py-2">
+                                <td class="px-3 py-2 whitespace-nowrap">
                                     @php
                                         $serviceClass = match (true) {
                                             str_contains($survey->service_team ?? '', 'Very Good') => 'bg-green-100 text-green-700',
