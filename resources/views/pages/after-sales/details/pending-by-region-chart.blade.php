@@ -164,8 +164,7 @@
             const rawRegionData = {!! json_encode($pendingData) !!};
 
             const normalizeAgingRows = (data) => Object.entries(data)
-                .filter(([k, d]) => k && (d.days_0_3 || 0) + (d.days_4_7 || 0) + (d.days_8_15 || 0) + (d.days_16_30 || 0) + (d
-                    .days_over_30 || 0) > 0)
+                .filter(([k, d]) => k && (d.days_0_3 || 0) + (d.days_4_7 || 0) + (d.days_8_15 || 0) + (d.days_16_30 || 0) + (d.days_over_30 || 0) > 0)
                 .map(([k, d]) => ({
                     label: k,
                     '0_3': d.days_0_3 ?? 0,
