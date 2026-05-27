@@ -263,7 +263,13 @@ class InvTrackingController extends Controller
 
     public function exportOverall()
     {
-        $fileName = 'overall_document_' . Carbon::now()->format('Ymd') . '.xlsx';
+        $dateFrom = request('date_from');
+        $dateTo   = request('date_to');
+
+        $suffix = ($dateFrom && $dateTo)
+            ? Carbon::parse($dateFrom)->format('Ymd') . '_' . Carbon::parse($dateTo)->format('Ymd')
+            : Carbon::now()->format('Ymd');
+        $fileName = "overall_document_{$suffix}.xlsx";
 
         try {
             $invTrackings = InvTracking::query()
@@ -280,6 +286,10 @@ class InvTrackingController extends Controller
                     'inv_trackings.remark',
                     'created_user.username as created_by',
                     'updated_user.username as updated_by',
+                )
+                ->when($dateFrom && $dateTo, fn($q) => $q
+                    ->whereDate('inv_trackings.created_date', '>=', $dateFrom)
+                    ->whereDate('inv_trackings.created_date', '<=', $dateTo)
                 );
 
             event(new FileExported('App\Models\InvTracking', auth()->id(), 'export', 'pass', $fileName, null));
@@ -292,41 +302,51 @@ class InvTrackingController extends Controller
 
     public function exportPending()
     {
-        $fileName = 'pending_document_' . Carbon::now()->format('Ymd') . '.xlsx';
+        $dateFrom = request('date_from');
+        $dateTo   = request('date_to');
+
+        $suffix = ($dateFrom && $dateTo)
+            ? Carbon::parse($dateFrom)->format('Ymd') . '_' . Carbon::parse($dateTo)->format('Ymd')
+            : Carbon::now()->format('Ymd');
+        $fileName = "pending_document_{$suffix}.xlsx";
 
         try {
             $latestDriver = DB::table('inv_trackings as t1')
-      				->select('t1.erp_document', 't1.driver_or_sent_to')
-      				->join(DB::raw('(
-      					SELECT erp_document, MAX(delivery_date) as max_date
-      					FROM inv_trackings
-      					WHERE type = "deliver"
-      					AND status = "pending"
-      					GROUP BY erp_document
-      				) t2'), function ($join) {
-      					$join->on('t1.erp_document', '=', 't2.erp_document')
-      						 ->on('t1.delivery_date', '=', 't2.max_date');
-      				})
-      				->where('t1.type', 'deliver')
-      				->where('t1.status', 'pending');
+                ->select('t1.erp_document', 't1.driver_or_sent_to')
+                ->join(DB::raw('(
+                    SELECT erp_document, MAX(delivery_date) as max_date
+                    FROM inv_trackings
+                    WHERE type = "deliver"
+                    AND status = "pending"
+                    GROUP BY erp_document
+                ) t2'), function ($join) {
+                    $join->on('t1.erp_document', '=', 't2.erp_document')
+                         ->on('t1.delivery_date', '=', 't2.max_date');
+                })
+                ->where('t1.type', 'deliver')
+                ->where('t1.status', 'pending');
 
-      			$invTrackings = DB::table('inv_trackings as main')
-      				->select(
-      					'main.erp_document',
-      					'main.invoice_id',
-      					DB::raw('MIN(main.delivery_date) as oldest_delivery_date'),
-      					DB::raw('DATEDIFF(CURDATE(), MIN(main.delivery_date)) as days_since_delivery'),
-      					'ld.driver_or_sent_to'
-      				)
-      				->leftJoinSub($latestDriver, 'ld', function ($join) {
-      					$join->on('main.erp_document', '=', 'ld.erp_document');
-      				})
-      				->where('main.type', 'deliver')
-      				->where('main.status', 'pending')
-      				->groupBy('main.erp_document', 'main.invoice_id', 'ld.driver_or_sent_to')
-      				->get();
+            $invTrackings = DB::table('inv_trackings as main')
+                ->select(
+                    'main.erp_document',
+                    'main.invoice_id',
+                    DB::raw('MIN(main.delivery_date) as oldest_delivery_date'),
+                    DB::raw('DATEDIFF(CURDATE(), MIN(main.delivery_date)) as days_since_delivery'),
+                    'ld.driver_or_sent_to'
+                )
+                ->leftJoinSub($latestDriver, 'ld', function ($join) {
+                    $join->on('main.erp_document', '=', 'ld.erp_document');
+                })
+                ->where('main.type', 'deliver')
+                ->where('main.status', 'pending')
+                ->when($dateFrom && $dateTo, fn($q) => $q
+                    ->whereDate('main.delivery_date', '>=', $dateFrom)
+                    ->whereDate('main.delivery_date', '<=', $dateTo)
+                )
+                ->groupBy('main.erp_document', 'main.invoice_id', 'ld.driver_or_sent_to')
+                ->get();
 
-            $mappedData = $invTrackings->map(function ($invTracking, $index) {
+            $mappedData = $invTrackings->map(function ($invTracking) {
                 return [
                     'delivery_date' => $invTracking->oldest_delivery_date,
                     'erp_document' => $invTracking->erp_document,

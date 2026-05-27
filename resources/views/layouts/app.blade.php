@@ -50,25 +50,27 @@
             width: 100%;
             height: 100%;
             z-index: 9999;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255);
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.6s ease;
+            opacity: 0.8;
         }
 
         .loader-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #ff0000;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            object-fit: cover;
+            opacity: 0.8;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @media (min-width: 768px) {
+            .loader-spinner {
+                width: 160px;
+                height: 160px;
+            }
         }
 
         .loader-hidden {
@@ -86,7 +88,7 @@
 <body class="{{ $class ?? '' }} g-sidenav-hidden">
 
     <div id="loader-wrapper">
-        <div class="loader-spinner"></div>
+        <img src="{{ asset('img/icons/loader.gif') }}" alt="loading" class="loader-spinner">
     </div>
 
     @guest
@@ -206,6 +208,10 @@
         });
 
         window.addEventListener('beforeunload', function() {
+            if (typeof Swal !== 'undefined' && Swal.isVisible()) { 
+                return; 
+            }
+            
             document.getElementById('loader-wrapper').classList.remove('loader-hidden');
             document.getElementById('loader-wrapper').style.display = 'flex';
         });

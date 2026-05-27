@@ -2,103 +2,138 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Import Document'])
+
+<link href="{{ URL::to('/') }}/assets/css/inv-tracking.css" rel="stylesheet">
+
 <div class="container-fluid py-4 px-2 px-md-3">
-    <div class="card">
-        <div class="p-3 p-md-4">
-            <h2 class="h5 mb-0"> Upload Master Data</h2>
-            <p class="text-sm text-secondary mb-0">
-                Upload Excel files to import master data into the system.
-            </p>
-        </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8 col-xl-7">
 
-        <div class="px-3 px-md-4">
-            <form id="import-form" action="{{ route('delivery-trackings.imports.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="col">
-                    <div class="mb-2 col-6">
-                        <label for="type" class="form-label required">Type</label>
-                        <select class="form-select form-select-sm" id="type" name="type" required>
-                            <option value="" selected disabled>Select type</option>
-                            <option value="address">Address data</option>
-                            <option value="hu_detail">HU Detail data</option>
-                            <option value="invoice">Invoice data</option>
-                        </select>
-                    </div>
-                    <div class="mb-2 col-6">
-                        <label for="type" class="form-label required">Upload File</label>
-                        <div class="flex items-center space-x-2">
-                            <input class="hidden" id="file_input" type="file" name="file" accept=".xlsx" required>
+            {{-- Upload Form Card --}}
+            <div class="card import-card mb-4">
+                <div class="import-card-header">
+                    <h5 class="mb-1 fw-bold text-dark">Upload Master Data</h5>
+                    <p class="text-sm text-secondary mb-0">
+                        Import master data into the system via Excel file (.xlsx).
+                    </p>
+                </div>
+                <div class="import-card-body">
+                    <form id="import-form" action="{{ route('delivery-trackings.imports.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+
+                        <div class="mb-3">
+                            <label for="type" class="form-label fw-semibold text-dark required">Data Type</label>
+                            <select class="form-select form-select-sm" id="type" name="type" required>
+                                <option value="" selected disabled>Select data type...</option>
+                                <option value="address">Address data</option>
+                                <option value="hu_detail">HU Detail data</option>
+                                <option value="invoice">Invoice data</option>
+                            </select>
                         </div>
-                        <p class="text-xs text-gray-500 mt-1">
-                            Only Excel files (.xlsx) are supported.
-                        </p>
-                    </div>
-                </div>
 
-                <div class="d-grid">
-                    <button id="submit-button" type="submit" class="btn btn-primary uppercase d-flex align-items-center justify-content-center gap-2">
-                        <i class="fa fa-plus-circle"></i>
-                        <span>Upload data</span>
-                    </button>
-                </div>
-            </form>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-dark required">Upload File</label>
+                            <input class="d-none" id="file_input" type="file" name="file" accept=".xlsx" required>
+                            <div class="upload-zone" id="upload-zone">
+                                <div class="upload-icon">
+                                    <i class="fas fa-cloud-upload-alt" id="upload-icon-el"></i>
+                                </div>
+                                <p class="upload-label mb-1">
+                                    <span id="upload-zone-text">Drag &amp; drop your file here, or <strong>browse</strong></span>
+                                </p>
+                                <p class="upload-hint" id="upload-hint">Only .xlsx files are accepted</p>
+                                <p class="file-name d-none" id="file-name-display"></p>
+                            </div>
+                        </div>
 
-            <div class="card mb-5 border-0">
-                <div class="card-body bg-light rounded">
-                    <h5 class="card-title fw-bold">Upload History</h5>
-                    <p class="card-subtitle text-muted mb-3">Recent master data uploads.</p>
-
-                    <ul class="list-group">
-
-                        <li class="list-group-item d-flex-col justify-content-start align-items-center mb-2 rounded border border-white p-2 shadow-sm">
-                            @if($latestLogs['invoice'])
-                            <div class="d-flex flex-column small">
-                                <strong class="text-lg">Invoice</strong>
-                                <span class="text-muted text-sm">Name: {{ $latestLogs['invoice']['file_name'] }}</span>
-                                <span class="text-muted text-sm">Type: {{ $latestLogs['invoice']['type'] }}</span>
-                                <span class="text-muted text-sm">Date: {{ $latestLogs['invoice']['created_at'] }}</span>
-                            </div>
-                            @else
-                            <div class="d-flex flex-column small text-muted">
-                                <strong class="text-lg">Invoice</strong>
-                                <span>No data available</span>
-                            </div>
-                            @endif
-                        </li>
-                        <li class="list-group-item d-flex-col justify-content-start align-items-center mb-2 rounded border border-white p-2 shadow-sm">
-                            @if($latestLogs['address'])
-                            <div class="d-flex flex-column small">
-                                <strong class="text-lg">Address</strong>
-                                <span class="text-muted text-sm">Name: {{ $latestLogs['address']['file_name'] }}</span>
-                                <span class="text-muted text-sm">Type: {{ $latestLogs['address']['type'] }}</span>
-                                <span class="text-muted text-sm">Date: {{ $latestLogs['address']['created_at'] }}</span>
-                            </div>
-                            @else
-                            <div class="d-flex flex-column small text-muted">
-                                <strong class="text-lg">Address</strong>
-                                <span>No data available</span>
-                            </div>
-                            @endif
-                        </li>
-                        <li class="list-group-item d-flex-col justify-content-start align-items-center mb-2 rounded border border-white p-2 shadow-sm">
-                            @if($latestLogs['hu_detail'])
-                            <div class="d-flex flex-column small">
-                                <strong class="text-lg">HU Detail</strong>
-                                <span class="text-muted text-sm">Name: {{ $latestLogs['hu_detail']['file_name'] }}</span>
-                                <span class="text-muted text-sm">Type: {{ $latestLogs['hu_detail']['type'] }}</span>
-                                <span class="text-muted text-sm">Date: {{ $latestLogs['hu_detail']['created_at'] }}</span>
-                            </div>
-                            @else
-                            <div class="d-flex flex-column small text-muted">
-                                <strong class="text-lg">HU Detail</strong>
-                                <span>No data available</span>
-                            </div>
-                            @endif
-                        </li>
-
-                    </ul>
+                        <button id="submit-button" type="submit" class="btn btn-primary btn-sm w-100 d-flex align-items-center justify-content-center gap-2">
+                            <i class="fas fa-upload"></i>
+                            <span>Upload Data</span>
+                        </button>
+                    </form>
                 </div>
             </div>
+
+            {{-- Upload History Card --}}
+            <div class="card import-card mb-5">
+                <div class="import-card-header">
+                    <h5 class="mb-1 fw-bold text-dark">Upload History</h5>
+                    <p class="text-sm text-secondary mb-0">Latest upload for each data type.</p>
+                </div>
+                <div class="import-card-body">
+
+                    {{-- Invoice --}}
+                    <div class="history-item">
+                        <div class="history-icon {{ $latestLogs['invoice'] ? '' : 'empty' }}">
+                            <i class="fas fa-file-excel"></i>
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                            <div class="fw-semibold text-dark history-type-label">Invoice</div>
+                            @if($latestLogs['invoice'])
+                                <div class="history-meta text-truncate">
+                                    <span>{{ $latestLogs['invoice']['file_name'] }}</span>
+                                    <span>{{ $latestLogs['invoice']['created_at'] }}</span>
+                                </div>
+                            @else
+                                <div class="history-meta">No uploads yet</div>
+                            @endif
+                        </div>
+                        @if($latestLogs['invoice'])
+                            <span class="badge bg-success text-white history-badge">Uploaded</span>
+                        @else
+                            <span class="badge bg-light text-secondary border history-badge">None</span>
+                        @endif
+                    </div>
+
+                    {{-- Address --}}
+                    <div class="history-item">
+                        <div class="history-icon {{ $latestLogs['address'] ? '' : 'empty' }}">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                            <div class="fw-semibold text-dark history-type-label">Address</div>
+                            @if($latestLogs['address'])
+                                <div class="history-meta text-truncate">
+                                    <span>{{ $latestLogs['address']['file_name'] }}</span>
+                                    <span>{{ $latestLogs['address']['created_at'] }}</span>
+                                </div>
+                            @else
+                                <div class="history-meta">No uploads yet</div>
+                            @endif
+                        </div>
+                        @if($latestLogs['address'])
+                            <span class="badge bg-success text-white history-badge">Uploaded</span>
+                        @else
+                            <span class="badge bg-light text-secondary border history-badge">None</span>
+                        @endif
+                    </div>
+
+                    {{-- HU Detail --}}
+                    <div class="history-item">
+                        <div class="history-icon {{ $latestLogs['hu_detail'] ? '' : 'empty' }}">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                            <div class="fw-semibold text-dark history-type-label">HU Detail</div>
+                            @if($latestLogs['hu_detail'])
+                                <div class="history-meta text-truncate">
+                                    <span>{{ $latestLogs['hu_detail']['file_name'] }}</span>
+                                    <span>{{ $latestLogs['hu_detail']['created_at'] }}</span>
+                                </div>
+                            @else
+                                <div class="history-meta">No uploads yet</div>
+                            @endif
+                        </div>
+                        @if($latestLogs['hu_detail'])
+                            <span class="badge bg-success text-white history-badge">Uploaded</span>
+                        @else
+                            <span class="badge bg-light text-secondary border history-badge">None</span>
+                        @endif
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -106,14 +141,50 @@
 <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
 <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-    document.getElementById('import-form').addEventListener('submit', function(event) {
+    var zone = document.getElementById('upload-zone');
+    var fileInput = document.getElementById('file_input');
+    var fileNameDisplay = document.getElementById('file-name-display');
+    var uploadIconEl = document.getElementById('upload-icon-el');
+    var uploadZoneText = document.getElementById('upload-zone-text');
+    var uploadHint = document.getElementById('upload-hint');
+
+    zone.addEventListener('click', function() { fileInput.click(); });
+
+    zone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        zone.classList.add('dragover');
+    });
+    zone.addEventListener('dragleave', function() {
+        zone.classList.remove('dragover');
+    });
+    zone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        zone.classList.remove('dragover');
+        if (e.dataTransfer.files.length) {
+            fileInput.files = e.dataTransfer.files;
+            updateFileDisplay(e.dataTransfer.files[0]);
+        }
+    });
+
+    fileInput.addEventListener('change', function() {
+        if (fileInput.files.length) updateFileDisplay(fileInput.files[0]);
+    });
+
+    function updateFileDisplay(file) {
+        zone.classList.add('has-file');
+        uploadIconEl.className = 'fas fa-check-circle';
+        uploadZoneText.innerHTML = 'File selected';
+        uploadHint.classList.add('d-none');
+        fileNameDisplay.textContent = file.name;
+        fileNameDisplay.classList.remove('d-none');
+    }
+
+    document.getElementById('import-form').addEventListener('submit', function() {
         Swal.fire({
-            title: 'uploading...',
-            text: 'please wait while your file is being processed.',
+            title: 'Uploading...',
+            text: 'Please wait while your file is being processed.',
             allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
+            didOpen: function() { Swal.showLoading(); }
         });
     });
 </script>

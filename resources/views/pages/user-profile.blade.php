@@ -235,7 +235,7 @@
     </style>
 
     <div class="container-fluid pf-container">
-        <div class="mb-3">
+        <div class="mb-3 mt-3">
             @include('components.alert')
         </div>
 
