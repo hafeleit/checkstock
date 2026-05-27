@@ -6,17 +6,63 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'After-Sales Overview')</title>
 
-    <link rel="icon" type="image/png" href="/img/hafele_logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/img/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/img/favicon/favicon.ico" />
+    <link rel="manifest" href="/img/favicon/site.webmanifest" />
     <link href="/css/tailwind.min.css" rel="stylesheet">
+
+    <title>Häfele Application (TH)</title>
 
     <script src="/js/jquery-3.7.1.min.js"></script>
     <script src="/assets/js/plugins/chartjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
 
+    <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background-color: rgba(255, 255, 255);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease;
+            opacity: 0.8;
+        }
+
+        .loader-spinner {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        @media (min-width: 768px) {
+            .loader-spinner {
+                width: 160px;
+                height: 160px;
+            }
+        }
+
+        .loader-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+
     @stack('styles')
 </head>
 
 <body class="bg-gray-100 min-h-screen">
+    <div id="loader-wrapper">
+        <img src="{{ asset('img/icons/loader.gif') }}" alt="loading" class="loader-spinner">
+    </div>
 
     {{-- ── Navbar ── --}}
     <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-md">
@@ -44,6 +90,31 @@
     <main class="p-4">
         @yield('content')
     </main>
+
+    {{-- Preloader --}}
+    <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+        function hideLoader() {
+            const loader = document.getElementById('loader-wrapper');
+            loader.classList.add('loader-hidden');
+            setTimeout(() => { loader.style.display = 'none'; }, 500);
+        }
+
+        window.addEventListener('load', hideLoader);
+
+        // Hide preloader when page is restored (back/forward navigation)
+        window.addEventListener('pageshow', function(e) {
+            if (e.persisted) { hideLoader(); }
+        });
+
+        window.addEventListener('beforeunload', function() {
+            if (typeof Swal !== 'undefined' && Swal.isVisible()) { 
+                return; 
+            }
+            
+            document.getElementById('loader-wrapper').classList.remove('loader-hidden');
+            document.getElementById('loader-wrapper').style.display = 'flex';
+        });
+    </script>
 
     @stack('scripts')
 

@@ -12,8 +12,11 @@
     <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/img/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/img/favicon/favicon.ico" />
+    <link rel="manifest" href="/img/favicon/site.webmanifest" />
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
     <link href="{{ URL::to('/') }}/css/tailwind.min.css" rel="stylesheet" />
+
+    <title>Häfele Application (TH)</title>
 
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
     <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
