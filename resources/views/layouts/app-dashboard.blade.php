@@ -18,10 +18,51 @@
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
     <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
 
+    <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background-color: rgba(255, 255, 255);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease;
+            opacity: 0.8;
+        }
+
+        .loader-spinner {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        @media (min-width: 768px) {
+            .loader-spinner {
+                width: 160px;
+                height: 160px;
+            }
+        }
+
+        .loader-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+
     @stack('styles')
 </head>
 
 <body>
+    <div id="loader-wrapper">
+        <img src="{{ asset('img/icons/loader.gif') }}" alt="loading" class="loader-spinner">
+    </div>
+    
     <div class="dashboard-container">
         <nav class="sticky top-0 z-50 bg-white shadow-sm px-3 md:px-5 py-1.5 md:py-2 flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-0">
             <div class="w-full md:w-auto">
@@ -92,6 +133,29 @@
                 clearInterval(countdown);
                 switchPage();
             });
+        });
+
+        // Preloader
+        function hideLoader() {
+            const loader = document.getElementById('loader-wrapper');
+            loader.classList.add('loader-hidden');
+            setTimeout(() => { loader.style.display = 'none'; }, 500);
+        }
+
+        window.addEventListener('load', hideLoader);
+
+        // Hide preloader when page is restored (back/forward navigation)
+        window.addEventListener('pageshow', function(e) {
+            if (e.persisted) { hideLoader(); }
+        });
+
+        window.addEventListener('beforeunload', function() {
+            if (typeof Swal !== 'undefined' && Swal.isVisible()) { 
+                return; 
+            }
+            
+            document.getElementById('loader-wrapper').classList.remove('loader-hidden');
+            document.getElementById('loader-wrapper').style.display = 'flex';
         });
     </script>
 </body>
