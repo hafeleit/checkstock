@@ -165,7 +165,7 @@ class AfterSalesDashboardController extends Controller
                 'regions.master_part_eng as master_part_eng',
                 DB::raw('DATEDIFF(hth_after_sale_ticket_cstm.closed_datetime_c, hth_after_sale_ticket.date_entered) + 1 as days_diff'),
             ])
-            ->latest('hth_after_sale_ticket_cstm.closed_datetime_c')
+            ->orderByDesc('days_diff')
             ->paginate(15)
             ->withQueryString();
 
@@ -234,7 +234,15 @@ class AfterSalesDashboardController extends Controller
                 ->whereNot('hth_after_sale_ticket.status', 'Canceled')
                 ->whereRaw("hth_after_sale_ticket.date_entered < date_sub(now(), interval 7 day)")
                 ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
-                ->whereRaw("hth_after_sale_ticket.booking < now()")
+                ->where(function ($query) {
+                    $query->where(function ($q) {
+                        $q->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
+                        ->whereRaw("hth_after_sale_ticket.booking < now()");
+                    })->orWhere(function ($q) {
+                        $q->where('hth_after_sale_ticket.status', 'Open')
+                        ->whereNull('hth_after_sale_ticket.booking');
+                    });
+                })
                 ->select([
                     'hth_after_sale_ticket.ticket_number',
                     'hth_after_sale_ticket.name',
@@ -562,7 +570,7 @@ class AfterSalesDashboardController extends Controller
                 'users.last_name',
                 DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) as days_diff'),
             ])
-            ->latest('hth_after_sale_ticket.date_entered')
+            ->orderByDesc('days_diff')
             ->paginate(15)
             ->withQueryString();
 
@@ -610,7 +618,7 @@ class AfterSalesDashboardController extends Controller
                 'regions.master_part_eng as region',
                 DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) as days_diff'),
             ])
-            ->latest('hth_after_sale_ticket.date_entered')
+            ->orderByDesc('days_diff')
             ->paginate(15)
             ->withQueryString();
 
@@ -655,7 +663,7 @@ class AfterSalesDashboardController extends Controller
                 DB::raw("CONCAT(users.first_name, ' ', users.last_name) as assignee_name"),
                 DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) as days_diff'),
             ])
-            ->latest('hth_after_sale_ticket.date_entered')
+            ->orderByDesc('days_diff')
             ->paginate(15)
             ->withQueryString();
 
@@ -700,7 +708,7 @@ class AfterSalesDashboardController extends Controller
                 'regions.master_part_eng as region',
                 DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) as days_diff'),
             ])
-            ->latest('hth_after_sale_ticket.date_entered')
+            ->orderByDesc('days_diff')
             ->paginate(15)
             ->withQueryString();
 
@@ -1023,7 +1031,10 @@ class AfterSalesDashboardController extends Controller
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereNot('hth_after_sale_ticket.status', 'Canceled')
             ->selectRaw("
-                COUNT(CASE WHEN hth_after_sale_ticket.date_entered < date_sub(now(), interval 7 day) AND hth_after_sale_ticket.status in ('Open', 'In_progress', 'Pending_Reason') AND hth_after_sale_ticket.booking < now() THEN 1 END) as overdue_7_days,
+                COUNT(CASE WHEN hth_after_sale_ticket.date_entered < date_sub(now(), interval 7 day) AND (
+                    (hth_after_sale_ticket.status in ('Open', 'In_progress', 'Pending_Reason') AND hth_after_sale_ticket.booking < now())
+                    OR (hth_after_sale_ticket.status = 'Open' AND hth_after_sale_ticket.booking IS NULL)
+                ) THEN 1 END) as overdue_7_days,
                 COUNT(CASE WHEN hth_after_sale_ticket.date_entered >= date_sub(now(), interval 30 day) AND hth_ass_teams.team IN ('" . implode("', '", $teams) . "') THEN 1 END) as total_30_days
             ")
             ->first();
