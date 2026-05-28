@@ -143,10 +143,55 @@
             position: relative;
             height: 120px;
         }
+
+        .ud-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .ud-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .ud-card-header p {
+            margin: 0;
+        }
+
+        .ud-card .ud-chart-wrap,
+        .ud-card .ud-pending-flex,
+        .ud-card .ud-rowc-wrap {
+            flex: 1;
+            min-height: 0;
+        }
+
+        .ud-user-dashboard a.text-sm.font-semibold.text-blue-500.hover\:text-blue-700 {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 12px;
+            padding: 1px 10px;
+            border-radius: 5px;
+            background-color: rgba(59, 130, 246, 0.08);
+            color: #1d4ed8;
+            transition: color 150ms ease, background-color 150ms ease, transform 150ms ease;
+            text-decoration: none;
+        }
+
+        .ud-user-dashboard a.text-sm.font-semibold.text-blue-500.hover\:text-blue-700:hover {
+            color: #1e40af;
+            background-color: rgba(59, 130, 246, 0.16);
+            transform: translateX(1px);
+        }
     </style>
 @endpush
 
 @section('content')
+<div class="ud-user-dashboard">
 
     {{-- SECTION 1 — KPI (dashboard-1) --}}
     <p class="text-md font-bold uppercase tracking-widest text-gray-800 mb-2">Key Performance Indicators — {{ now()->format('F Y') }}</p>
@@ -168,7 +213,7 @@
                     @endisset
 
                     <a href="{{ route('after-sales.detail', ['chart' => $kpi['id']]) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                        View Detail →
+                        View Detail
                     </a>
                 </div>
                 
@@ -181,66 +226,42 @@
     <div class="flex gap-4 items-center mb-2">
         <p class="text-md font-bold uppercase tracking-widest text-gray-800">Ticket Statistics</p>
         <a href="{{ route('after-sales.detail', ['chart' => 'ud-ticket-by-status-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-            View Detail →
+            View Detail
         </a>
     </div>
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 px-4 py-3 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="text-blue-600" viewBox="0 0 16 16">
-                    <path
-                        d="M4 4.85v.9h1v-.9zm7 0v.9h1v-.9zm-7 1.8v.9h1v-.9zm7 0v.9h1v-.9zm-7 1.8v.9h1v-.9zm7 0v.9h1v-.9zm-7 1.8v.9h1v-.9zm7 0v.9h1v-.9z" />
-                    <path
-                        d="M1.5 3A1.5 1.5 0 0 0 0 4.5V6a.5.5 0 0 0 .5.5 1.5 1.5 0 1 1 0 3 .5.5 0 0 0-.5.5v1.5A1.5 1.5 0 0 0 1.5 13h13a1.5 1.5 0 0 0 1.5-1.5V10a.5.5 0 0 0-.5-.5 1.5 1.5 0 0 1 0-3A.5.5 0 0 0 16 6V4.5A1.5 1.5 0 0 0 14.5 3zM1 4.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1.05a2.5 2.5 0 0 0 0 4.9v1.05a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1.05a2.5 2.5 0 0 0 0-4.9z" />
-                </svg>
-            </div>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 px-3 py-2 flex items-center gap-2">
             <div>
-                <p class="text-md text-gray-400 font-medium">Total Created</p>
-                <p class="text-2xl font-bold text-gray-800 leading-none">{{ $total_stat_data['total_created'] }}</p>
+                <p class="text-sm text-gray-500 font-medium">Total Created</p>
+                <p class="text-xl font-bold text-gray-800 leading-none">{{ $total_stat_data['total_created'] }}</p>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 px-4 py-3 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="text-yellow-600" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                    <path
-                        d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
-                </svg>
-            </div>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 px-3 py-2 flex items-center gap-2">
             <div>
-                <p class="text-md text-gray-400 font-medium">Total Closed</p>
-                <p class="text-2xl font-bold text-gray-800 leading-none">{{ $total_stat_data['total_closed'] }}</p>
+                <p class="text-sm text-gray-500 font-medium">Total Closed</p>
+                <p class="text-xl font-bold text-gray-800 leading-none">{{ $total_stat_data['total_closed'] }}</p>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 px-4 py-3 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="text-red-600" viewBox="0 0 16 16">
-                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
-                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
-                </svg>
-            </div>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 px-3 py-2 flex items-center gap-2">
             <div>
-                <p class="text-md text-gray-400 font-medium">Total Pending</p>
-                <p class="text-2xl font-bold text-gray-800 leading-none">{{ $total_stat_data['total_pending'] }}</p>
+                <p class="text-sm text-gray-500 font-medium">Total Pending</p>
+                <p class="text-xl font-bold text-gray-800 leading-none">{{ $total_stat_data['total_pending'] }}</p>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 px-4 py-3">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 px-3 py-2">
             <div class="flex items-center justify-around">
                 <div class="text-center">
-                    <p class="text-xl font-bold text-yellow-600 leading-none">{{ $total_stat_data['total_open'] }}</p>
-                    <p class="text-md text-gray-400 mt-0.5 uppercase tracking-wider">Open</p>
+                    <p class="text-lg font-bold text-yellow-600 leading-none">{{ $total_stat_data['total_open'] }}</p>
+                    <p class="text-sm text-gray-400 mt-0.5 uppercase tracking-wider">Open</p>
                 </div>
                 <div class="w-px h-8 bg-gray-200"></div>
                 <div class="text-center">
-                    <p class="text-xl font-bold text-yellow-400 leading-none">{{ $total_stat_data['total_in_prog'] }}</p>
-                    <p class="text-md text-gray-400 mt-0.5 uppercase tracking-wider">In Prog</p>
+                    <p class="text-lg font-bold text-yellow-400 leading-none">{{ $total_stat_data['total_in_prog'] }}</p>
+                    <p class="text-sm text-gray-400 mt-0.5 uppercase tracking-wider">In Prog</p>
                 </div>
                 <div class="w-px h-8 bg-gray-200"></div>
                 <div class="text-center">
@@ -258,7 +279,7 @@
             <div class="space-x-4">
                 <span class="text-sm font-semibold text-gray-600 uppercase tracking-widest">Overall Aging</span>
                 <a href="{{ route('after-sales.detail', ['chart' => 'ud-aging-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
+                    View Detail
                 </a>
             </div>
             <div class="self-stretch flex items-center bg-white px-2 rounded-lg gap-2 text-xs font-medium">
@@ -289,16 +310,16 @@
     </div>
 
     {{-- SECTION 3 — CSI Details (dashboard-1) --}}
-    <div class="flex items-center gap-4 mb-2">
+    <div class="ud-card-header">
         <p class="text-md font-bold uppercase tracking-widest text-gray-800">Customer Satisfaction Index</p>
         <a href="{{ route('after-sales.detail', ['chart' => 'ud-csi-response-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-            View Detail →
+            View Detail
         </a>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-6">
 
         {{-- Responses + Satisfaction --}}
-        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="flex gap-4 h-full">
                 {{-- Response rate --}}
                 <div class="flex-shrink-0 bg-gray-100 rounded-lg p-3 flex flex-col justify-center gap-1 w-40">
@@ -328,7 +349,7 @@
         </div>
 
         {{-- 4 Mini Q --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="grid grid-cols-2 gap-3 h-full">
                 @foreach ([['ud-q1-chart', 'Problem resolved?'], ['ud-q2-chart', 'Arrived as scheduled?'], ['ud-q3-chart', 'Polite & well mannered?']] as [$qid, $qlabel])
                     <div class="flex flex-col items-center justify-center gap-1 {{ $loop->last ? 'col-span-2' : '' }}">
@@ -348,11 +369,11 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3">
 
         {{-- Pending Overview --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div class="flex items-center gap-4 mb-2">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
+            <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Pending Overview (ASC vs Hafele)</p>
                 <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-overview-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
+                    View Detail
                 </a>
             </div>
             <div class="ud-pending-flex">
@@ -366,11 +387,11 @@
         </div>
 
         {{-- Reason — 6 rows stacked aging --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div class="flex items-center gap-4 mb-2">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
+            <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Pending Reason (by Aging)</p>
                 <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-reason-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
+                    View Detail
                 </a>
             </div>
             
@@ -384,11 +405,11 @@
     {{-- Row B (2 cols equal): Status | Region --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3">
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div class="flex items-center gap-4 mb-2">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
+            <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Status Overview (by Aging)</p>
                 <a href="{{ route('after-sales.detail', ['chart' => 'ud-status-overview-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
+                    View Detail
                 </a>
             </div>
             
@@ -397,11 +418,11 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div class="flex items-center gap-4 mb-2">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
+            <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Pending by Region</p>
                 <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-by-region-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
+                    View Detail
                 </a>
             </div>
             <div class="ud-chart-wrap ud-h-200" id="ud-region-wrap">
@@ -414,11 +435,11 @@
     {{-- Row C (2 cols equal): In-House | ASC — dynamic height เท่ากันทั้งคู่ --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-6">
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div class="flex items-center gap-4 mb-2">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
+            <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">In-House Pending by Team</p>
                 <a href="{{ route('after-sales.detail', ['chart' => 'ud-inhouse-pending-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
+                    View Detail
                 </a>
             </div>
             <div id="ud-inhouse-wrap" class="ud-rowc-wrap">
@@ -426,11 +447,11 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div class="flex items-center gap-4 mb-2">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
+            <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">ASC Pending by Region</p>
                 <a href="{{ route('after-sales.detail', ['chart' => 'ud-asc-pending-by-region-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
+                    View Detail
                 </a>
             </div>
             <div id="ud-asc-wrap" class="ud-rowc-wrap">
@@ -443,11 +464,11 @@
     {{-- Row D (3 cols equal): Type | Product Group --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-6">
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div class="flex items-center gap-4 mb-2">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
+            <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Pending by Type</p>
                 <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-by-type-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
+                    View Detail
                 </a>
             </div>
             <div class="ud-chart-wrap ud-h-200">
@@ -455,11 +476,11 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div class="flex items-center gap-4 mb-2">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
+            <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Pending Product Group</p>
                 <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-product-group-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
+                    View Detail
                 </a>
             </div>
             <div class="ud-chart-wrap ud-h-200">
@@ -471,14 +492,14 @@
 
     {{-- SECTION 5 — Trends (dashboard-1) --}}
     <p class="text-md font-bold uppercase tracking-widest text-gray-800 mb-2">Trends</p>
-    <div class="grid grid-cols-1 gap-3 mb-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-6">
 
         {{-- Ticket: datalabels หมุน -90° ต้องมี top padding → ต้องสูงพอ --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div class="flex items-center gap-4 mb-2">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
+            <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Ticket Open vs Close</p>
                 <a href="{{ route('after-sales.detail', ['chart' => 'ud-ticket-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
+                    View Detail
                 </a>
             </div>
             <div class="ud-chart-wrap ud-h-280">
@@ -487,11 +508,11 @@
         </div>
 
         {{-- Contract: line 12 เดือน 2 เส้น datalabels ด้านบน --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div class="flex items-center gap-4 mb-2">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
+            <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Contract Center Trend</p>
                 <a href="{{ route('after-sales.detail', ['chart' => 'ud-contract-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
+                    View Detail
                 </a>
             </div>
             <div class="ud-chart-wrap ud-h-280">
@@ -500,11 +521,11 @@
         </div>
 
         {{-- Daily: datalabels หนาแน่น ต้องสูงพอให้ไม่ทับกัน --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div class="flex items-center gap-4 mb-2">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
+            <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Daily Performance ({{ now()->format('F') }})</p>
                 <a href="{{ route('after-sales.detail', ['chart' => 'ud-daily-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
-                    View Detail →
+                    View Detail
                 </a>
             </div>
             <div class="ud-chart-wrap ud-h-280">
@@ -513,6 +534,7 @@
         </div>
 
     </div>
+</div>
 
 @endsection
 
