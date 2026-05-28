@@ -492,9 +492,9 @@
 
     {{-- SECTION 5 — Trends (dashboard-1) --}}
     <p class="text-md font-bold uppercase tracking-widest text-gray-800 mb-2">Trends</p>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-6">
+    <div class="grid grid-cols-1 gap-3 mb-6">
 
-        {{-- Ticket: datalabels หมุน -90° ต้องมี top padding → ต้องสูงพอ --}}
+        {{-- Ticket --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Ticket Open vs Close</p>
@@ -507,7 +507,7 @@
             </div>
         </div>
 
-        {{-- Contract: line 12 เดือน 2 เส้น datalabels ด้านบน --}}
+        {{-- Contract --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Contract Center Trend</p>
@@ -520,7 +520,7 @@
             </div>
         </div>
 
-        {{-- Daily: datalabels หนาแน่น ต้องสูงพอให้ไม่ทับกัน --}}
+        {{-- Daily --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Daily Performance ({{ now()->format('F') }})</p>
