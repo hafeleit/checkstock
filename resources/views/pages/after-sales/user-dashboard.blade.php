@@ -38,7 +38,7 @@
             'id' => 'ud-ltp-chart',
             'label' => 'LTP',
             'value' => "{$ltp}%",
-            'target' => '7.0%',
+            'target' => '< 7.0%',
         ],
         [
             'id' => 'ud-ftf-chart',

@@ -21,7 +21,7 @@
                 <div class="flex items-baseline gap-1 mt-0.5">
                     <span class="text-lg font-bold text-gray-800">{{ $ltpData }}%</span>
                 </div>
-                <p class="text-sm text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">14.0%</span></p>
+                <p class="text-sm text-gray-400 mt-0.5">Target: <span class="font-semibold text-gray-600">< 7.0%</span></p>
             </div>
         </div>
 
@@ -49,6 +49,7 @@
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Booking Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Closed Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Pending</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Note</th>
                             <th class="px-3 py-2 text-right font-semibold whitespace-nowrap">Days Overdue</th>
                         </tr>
@@ -76,6 +77,7 @@
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->release_date ? \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') : '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->booking ? \Carbon\Carbon::parse($ticket->booking)->format('d/m/Y') : '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->closed_datetime_c ? \Carbon\Carbon::parse($ticket->closed_datetime_c)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->pending ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->note ?? '-' }}</td>
                                 <td class="px-3 py-2 text-right">
                                     <span class="px-1.5 py-0.5 rounded font-bold {{ (int) $ticket->days_diff > 7 ? 'text-red-700' : 'text-green-700' }}">
@@ -85,7 +87,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="11" class="px-3 py-6 text-center text-gray-400">No tickets this month.</td>
+                                <td colspan="12" class="px-3 py-6 text-center text-gray-400">No tickets this month.</td>
                             </tr>
                         @endforelse
                     </tbody>

@@ -160,6 +160,7 @@ class AfterSalesDashboardController extends Controller
                 'hth_after_sale_ticket.status',
                 'hth_after_sale_ticket.zipcode',
                 'hth_after_sale_ticket.note',
+                'hth_after_sale_ticket.pending',
                 'users.first_name',
                 'users.last_name',
                 'regions.master_part_eng as master_part_eng',
@@ -217,6 +218,7 @@ class AfterSalesDashboardController extends Controller
                     'hth_after_sale_ticket.booking',
                     'hth_after_sale_ticket.status',
                     'hth_after_sale_ticket.note',
+                    'hth_after_sale_ticket.pending',
                     'hth_after_sale_ticket_cstm.closed_datetime_c',
                     'users.first_name',
                     'users.last_name',
@@ -251,6 +253,7 @@ class AfterSalesDashboardController extends Controller
                     'hth_after_sale_ticket.booking',
                     'hth_after_sale_ticket.status',
                     'hth_after_sale_ticket.note',
+                    'hth_after_sale_ticket.pending',
                     'hth_after_sale_ticket_cstm.closed_datetime_c',
                     'users.first_name',
                     'users.last_name',
@@ -309,6 +312,7 @@ class AfterSalesDashboardController extends Controller
                 'hth_after_sale_ticket.booking',
                 'hth_after_sale_ticket.note',
                 'hth_after_sale_ticket.round',
+                'hth_after_sale_ticket.pending',
                 'hth_after_sale_ticket_cstm.closed_datetime_c',
                 'users.first_name',
                 'users.last_name',
@@ -393,6 +397,7 @@ class AfterSalesDashboardController extends Controller
                 'hth_after_sale_ticket.booking',
                 'hth_after_sale_ticket.note',
                 'hth_after_sale_ticket.status',
+                'hth_after_sale_ticket.pending',
                 'hth_after_sale_ticket_cstm.closed_datetime_c',
                 'users.first_name',
                 'users.last_name',
@@ -539,6 +544,7 @@ class AfterSalesDashboardController extends Controller
                 'hth_after_sale_ticket.status',
                 'hth_after_sale_ticket.type',
                 'hth_after_sale_ticket.assigned_user_id',
+                'hth_after_sale_ticket.pending',
                 'hth_after_sale_ticket_cstm.closed_datetime_c',
             ])
             ->whereMonth('hth_after_sale_ticket.date_entered', now()->month)
@@ -675,6 +681,7 @@ class AfterSalesDashboardController extends Controller
                 'hth_after_sale_ticket.booking',
                 'hth_after_sale_ticket.note',
                 'hth_after_sale_ticket.status',
+                'hth_after_sale_ticket.pending',
                 'hth_after_sale_ticket_cstm.closed_datetime_c',
                 'hth_ass_teams.team as team',
                 DB::raw("CONCAT(users.first_name, ' ', users.last_name) as assignee_name"),
@@ -715,6 +722,7 @@ class AfterSalesDashboardController extends Controller
                 'hth_after_sale_ticket.booking',
                 'hth_after_sale_ticket.note',
                 'hth_after_sale_ticket.status',
+                'hth_after_sale_ticket.pending',
                 'hth_after_sale_ticket_cstm.closed_datetime_c',
                 'users.first_name',
                 'users.last_name',
@@ -754,6 +762,7 @@ class AfterSalesDashboardController extends Controller
                 'hth_after_sale_ticket.note',
                 'hth_after_sale_ticket.status',
                 'hth_after_sale_ticket.type',
+                'hth_after_sale_ticket.pending',
                 'hth_after_sale_ticket_cstm.closed_datetime_c',
                 'users.first_name',
                 'users.last_name',
@@ -790,6 +799,7 @@ class AfterSalesDashboardController extends Controller
                 'hth_after_sale_ticket.booking',
                 'hth_after_sale_ticket.note',
                 'hth_after_sale_ticket.status',
+                'hth_after_sale_ticket.pending',
                 'hth_after_sale_ticket_cstm.closed_datetime_c',
                 'aos_product_categories.name as product_group',
                 'users.first_name',
@@ -832,7 +842,18 @@ class AfterSalesDashboardController extends Controller
                 ->whereYear('hth_after_sale_ticket.date_entered', now()->year)
                 ->select('hth_after_sale_ticket.*', 'hth_after_sale_ticket_cstm.closed_datetime_c', 'users.first_name', 'users.last_name');
         } else {
-            $cols = ['hth_after_sale_ticket.ticket_number', 'hth_after_sale_ticket.name', 'hth_after_sale_ticket.date_entered', 'hth_after_sale_ticket.status', 'hth_after_sale_ticket.release_date', 'hth_after_sale_ticket.booking', 'hth_after_sale_ticket.note'];
+            $cols = [
+                'hth_after_sale_ticket.ticket_number', 
+                'hth_after_sale_ticket.name', 
+                'hth_after_sale_ticket.date_entered', 
+                'hth_after_sale_ticket.status', 
+                'hth_after_sale_ticket.release_date', 
+                'hth_after_sale_ticket.booking', 
+                'hth_after_sale_ticket.note', 
+                'hth_after_sale_ticket.pending', 
+                'hth_after_sale_ticket.type', 
+                'hth_after_sale_ticket.assigned_user_id'
+            ];
 
             $openQuery = HthAfterSaleTicket::query()
                 ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')

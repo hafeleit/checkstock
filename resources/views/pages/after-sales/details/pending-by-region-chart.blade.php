@@ -46,14 +46,6 @@
                 @php
                     $regionParams = !empty($activeAgings) ? ['aging'  => $activeAgings] : [];
                     $agingParams  = !empty($activeRegions) ? ['region' => $activeRegions] : [];
-                    $pendingReasons = [
-                        'Spare_part_on_progress'              => 'Spare Part',
-                        'Site_not_ready_or_waiting_confirm'   => 'Site Not Ready',
-                        'Postpone_or_new_appointment'         => 'Postpone',
-                        'Process_return_or_change_set'        => 'Return/Change',
-                        'Waiting_service_schedule_Technician' => 'Waiting Tech',
-                        'blank'                               => 'No Reason',
-                    ];
                     $regions = $pendingData->keys()->filter()->sort()->values();
                 @endphp
 
@@ -108,7 +100,6 @@
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
-                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Pending Reason</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Assigned To</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Region</th>
@@ -116,6 +107,7 @@
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Booking Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Closed Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Pending</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Note</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Days Diff</th>
                         </tr>
@@ -146,7 +138,6 @@
                                 <td class="px-3 py-2 text-gray-400 whitespace-nowrap">{{ $tickets->firstItem() + $loop->index }}</td>
                                 <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->ticket_number ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->name ?? '-' }}</td>
-                                <td class="px-3 py-2 text-gray-600">{{ $pendingReasons[$ticket->pending ?? 'blank'] ?? ($ticket->pending ?? '-') }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap">
                                     <span class="px-1.5 py-0.5 rounded font-semibold {{ $statusClass($ticket->status) }}">
                                         {{ $statusLabel($ticket->status) }}
@@ -158,6 +149,7 @@
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->release_date ? \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') : '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->booking ? \Carbon\Carbon::parse($ticket->booking)->format('d/m/Y') : '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->closed_datetime_c ? \Carbon\Carbon::parse($ticket->closed_datetime_c)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->pending ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->note ?? '-' }}</td>
                                 <td class="px-3 py-2 text-right">
                                     <span class="px-1.5 py-0.5 rounded font-bold {{ $agingClass((int) $ticket->days_diff) }}">
@@ -167,7 +159,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="13" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
+                                <td colspan="12" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
                             </tr>
                         @endforelse
                     </tbody>

@@ -68,6 +68,7 @@
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Booking Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Closed Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Pending</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Note</th>
                         </tr>
                     </thead>
@@ -101,11 +102,12 @@
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->release_date ? \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') : '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->booking ? \Carbon\Carbon::parse($ticket->booking)->format('d/m/Y') : '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->closed_datetime_c ? \Carbon\Carbon::parse($ticket->closed_datetime_c)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->pending ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->note ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="11" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
+                                <td colspan="12" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
                             </tr>
                         @endforelse
                     </tbody>
