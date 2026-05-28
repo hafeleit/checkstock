@@ -66,13 +66,13 @@
                     </div>
                     <div class="w-px h-8 bg-gray-200"></div>
                     <div class="text-center">
-                        <p class="text-xl font-bold text-red-500 leading-none">{{ $total_stat_data['total_reason'] }}</p>
-                        <p class="text-md text-gray-400 mt-0.5 uppercase tracking-wider">Reason</p>
+                        <p class="text-xl font-bold text-yellow-400 leading-none">{{ $total_stat_data['total_in_prog'] }}</p>
+                        <p class="text-md text-gray-400 mt-0.5 uppercase tracking-wider">In Prog</p>
                     </div>
                     <div class="w-px h-8 bg-gray-200"></div>
                     <div class="text-center">
-                        <p class="text-xl font-bold text-yellow-400 leading-none">{{ $total_stat_data['total_in_prog'] }}</p>
-                        <p class="text-md text-gray-400 mt-0.5 uppercase tracking-wider">In Prog</p>
+                        <p class="text-xl font-bold text-red-500 leading-none">{{ $total_stat_data['total_reason'] }}</p>
+                        <p class="text-md text-gray-400 mt-0.5 uppercase tracking-wider">Reason</p>
                     </div>
                 </div>
             </div>

@@ -68,13 +68,13 @@
                 </div>
                 <div class="w-px h-4 bg-gray-200"></div>
                 <div class="text-center">
-                    <span class="text-sm font-bold text-red-500 leading-none">{{ $total_stat_data['total_reason'] }}</span>
-                    <span class="block text-xs text-gray-500 uppercase tracking-wider">Reason</span>
+                    <span class="text-sm font-bold text-yellow-400 leading-none">{{ $total_stat_data['total_in_prog'] }}</span>
+                    <span class="block text-xs text-gray-500 uppercase tracking-wider">In Prog</span>
                 </div>
                 <div class="w-px h-4 bg-gray-200"></div>
                 <div class="text-center">
-                    <span class="text-sm font-bold text-yellow-400 leading-none">{{ $total_stat_data['total_in_prog'] }}</span>
-                    <span class="block text-xs text-gray-500 uppercase tracking-wider">In Prog</span>
+                    <span class="text-sm font-bold text-red-500 leading-none">{{ $total_stat_data['total_reason'] }}</span>
+                    <span class="block text-xs text-gray-500 uppercase tracking-wider">Reason</span>
                 </div>
             </div>
         </div>
