@@ -80,8 +80,11 @@
     @endpush
 
     @php
-        $agingIndexMap = ['0-3' => 0, '4-7' => 1, '8-15' => 2, '16-30' => 3, 'over_30' => 4];
-        $activeAgingIndex = (is_string($activeAging) && isset($agingIndexMap[$activeAging])) ? $agingIndexMap[$activeAging] : null;
+        $agingIndexMap    = ['0-3' => 0, '4-7' => 1, '8-15' => 2, '16-30' => 3, 'over_30' => 4];
+        $activeAgingIndices = array_values(array_filter(
+            array_map(fn($a) => $agingIndexMap[$a] ?? null, $activeAgings),
+            fn($v) => $v !== null
+        ));
     @endphp
 
     <div class="space-y-2">
@@ -111,7 +114,7 @@
             </div>
             <div class="ud-aging-bar">
                 @for ($i = 0; $i < 5; $i++)
-                    <div class="ud-aging-seg ud-ag-{{ $i }} {{ $activeAgingIndex !== null && $activeAgingIndex !== $i ? 'ud-ag-dimmed' : '' }}" id="ud-ag-{{ $i }}"></div>
+                    <div class="ud-aging-seg ud-ag-{{ $i }} {{ !empty($activeAgingIndices) && !\in_array($i, $activeAgingIndices) ? 'ud-ag-dimmed' : '' }}" id="ud-ag-{{ $i }}"></div>
                 @endfor
             </div>
         </div>
@@ -123,13 +126,25 @@
                 <p class="text-lg font-bold text-gray-800 mt-0.5">{{ number_format($tickets->total()) }} <span class="text-sm font-normal text-gray-400">tickets</span></p>
 
                 {{-- Aging Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeAging ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
-                    @foreach (['0-3' => '0-3 Days', '4-7' => '4-7 Days', '8-15' => '8-15 Days', '16-30' => '16-30 Days', 'over_30' => 'Over 30'] as $value => $label)
-                        <a href="?aging={{ $value }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeAging === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Aging</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="?"
+                            class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeAgings) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
+                        @foreach (['0-3' => '0-3 Days', '4-7' => '4-7 Days', '8-15' => '8-15 Days', '16-30' => '16-30 Days', 'over_30' => '>30 Days'] as $value => $label)
+                            @php
+                                $isAgingActive  = \in_array($value, $activeAgings);
+                                $newAgings      = $isAgingActive
+                                    ? array_values(array_filter($activeAgings, fn($a) => $a !== $value))
+                                    : [...$activeAgings, $value];
+                                $agingParams    = !empty($newAgings) ? ['aging' => $newAgings] : [];
+                            @endphp
+                            <a href="?{{ http_build_query($agingParams) }}"
+                                class="px-2 py-1 rounded text-xs font-semibold {{ $isAgingActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
             <div class="overflow-x-auto">

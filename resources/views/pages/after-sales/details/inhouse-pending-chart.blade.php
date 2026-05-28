@@ -36,33 +36,51 @@
                         class="text-sm font-normal text-gray-400">tickets</span></p>
 
                 @php
-                    $teamParams  = $activeAging ? ['aging' => $activeAging] : [];
-                    $agingParams = $activeTeam  ? ['team'  => $activeTeam]  : [];
                     $teams = $pendingData->keys()->filter()->sort()->values();
                 @endphp
 
                 {{-- Team Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?{{ http_build_query($teamParams) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeTeam ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Teams</a>
-                    @foreach ($teams as $team)
-                        <a href="?{{ http_build_query([...$teamParams, 'team' => $team]) }}"
-                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeTeam === $team ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $team }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Team</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        @php $allTeamsParams = !empty($activeAgings) ? ['aging' => $activeAgings] : []; @endphp
+                        <a href="?{{ http_build_query($allTeamsParams) }}"
+                            class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeTeams) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Teams</a>
+                        @foreach ($teams as $team)
+                            @php
+                                $isTeamActive     = in_array($team, $activeTeams);
+                                $newTeams         = $isTeamActive
+                                    ? array_values(array_filter($activeTeams, fn($t) => $t !== $team))
+                                    : [...$activeTeams, $team];
+                                $teamToggleParams = array_filter(['team' => $newTeams, 'aging' => $activeAgings]);
+                            @endphp
+                            <a href="?{{ http_build_query($teamToggleParams) }}"
+                                class="px-2 py-1 rounded text-xs font-semibold {{ $isTeamActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $team }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
 
                 {{-- Aging Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-1.5">
-                    <a href="?{{ http_build_query($agingParams) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeAging ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Aging</a>
-                    @foreach (['0-3' => '0-3 Days', '4-7' => '4-7 Days', '8-15' => '8-15 Days', '16-30' => '16-30 Days', 'over_30' => '>30 Days'] as $value => $label)
-                        <a href="?{{ http_build_query([...$agingParams, 'aging' => $value]) }}"
-                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeAging === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Aging</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        @php $allAgingsParams = !empty($activeTeams) ? ['team' => $activeTeams] : []; @endphp
+                        <a href="?{{ http_build_query($allAgingsParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeAgings) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Aging</a>
+                        @foreach (['0-3' => '0-3 Days', '4-7' => '4-7 Days', '8-15' => '8-15 Days', '16-30' => '16-30 Days', 'over_30' => '>30 Days'] as $value => $label)
+                            @php
+                                $isAgingActive     = in_array($value, $activeAgings);
+                                $newAgings         = $isAgingActive
+                                    ? array_values(array_filter($activeAgings, fn($a) => $a !== $value))
+                                    : [...$activeAgings, $value];
+                                $agingToggleParams = array_filter(['team' => $activeTeams, 'aging' => $newAgings]);
+                            @endphp
+                            <a href="?{{ http_build_query($agingToggleParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $isAgingActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
             <div class="overflow-x-auto">
@@ -148,8 +166,8 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
-            const activeTeam  = {!! json_encode($activeTeam) !!};
-            const activeAging = {!! json_encode($activeAging) !!};
+            const activeTeams  = {!! json_encode($activeTeams) !!};   // array
+            const activeAgings = {!! json_encode($activeAgings) !!};  // array
 
             const AG    = ['#10b981', '#84cc16', '#facc15', '#fb923c', '#ef4444'];
             const AGdim = ['rgba(16,185,129,0.2)', 'rgba(132,204,22,0.2)', 'rgba(250,204,21,0.2)', 'rgba(251,146,60,0.2)', 'rgba(239,68,68,0.2)'];
@@ -157,8 +175,8 @@
             const agingKeys   = ['0_3', '4_7', '8_15', '16_30', 'over_30'];
             const agingLabels = ['0-3 Days', '4-7 Days', '8-15 Days', '16-30 Days', '>30 Days'];
 
-            const agingIndexMap = { '0-3': 0, '4-7': 1, '8-15': 2, '16-30': 3, 'over_30': 4 };
-            const activeAgingIdx = activeAging ? (agingIndexMap[activeAging] ?? -1) : -1;
+            const agingIndexMap  = { '0-3': 0, '4-7': 1, '8-15': 2, '16-30': 3, 'over_30': 4 };
+            const activeAgingIdxs = activeAgings.map(a => agingIndexMap[a] ?? -1).filter(i => i >= 0);
 
             const rawInhouseData = {!! json_encode($pendingData) !!};
 
@@ -176,10 +194,9 @@
 
             const udInhouseRows = normalizeAgingRows(rawInhouseData).sort((a, b) => a.label.localeCompare(b.label));
 
-            // เทียบ label โดยตรง — ป้องกันปัญหา findIndex คืน -1 แล้ว teamOk กลายเป็น true ตลอด
             const isActive = (dsIdx, barIdx) => {
-                const agingOk = activeAgingIdx < 0 || dsIdx === activeAgingIdx;
-                const teamOk  = !activeTeam || udInhouseRows[barIdx]?.label === activeTeam;
+                const agingOk = activeAgingIdxs.length === 0 || activeAgingIdxs.includes(dsIdx);
+                const teamOk  = activeTeams.length === 0 || activeTeams.includes(udInhouseRows[barIdx]?.label);
                 return agingOk && teamOk;
             };
 
@@ -212,8 +229,8 @@
                                 boxWidth: 8,
                                 font: { size: 12 },
                                 padding: 4,
-                                color: ctx => activeAgingIdx < 0 ? '#666'
-                                    : ctx.index === activeAgingIdx ? '#333' : '#bbb'
+                                color: ctx => activeAgingIdxs.length === 0 ? '#666'
+                                    : activeAgingIdxs.includes(ctx.index) ? '#333' : '#bbb'
                             }
                         },
                         datalabels: {
@@ -239,7 +256,7 @@
                             grid: { display: false },
                             ticks: {
                                 font: { size: 12 },
-                                color: ctx => !activeTeam || udInhouseRows[ctx.index]?.label === activeTeam ? '#374151' : '#bbb'
+                                color: ctx => activeTeams.length === 0 || activeTeams.includes(udInhouseRows[ctx.index]?.label) ? '#374151' : '#bbb'
                             }
                         },
                     },

@@ -37,53 +37,45 @@
                 </p>
 
                 {{-- Status filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    @php
-                        $statusFilters = [
-                            '' => 'All',
-                            'Open' => 'Open',
-                            'In_progress' => 'In Progress',
-                            'Pending_Reason' => 'Pending',
-                        ];
-                    @endphp
-                    @foreach ($statusFilters as $val => $label)
-                        @php
-                            $isActive = ($activeStatus ?? '') === $val;
-                            $href = $val
-                                ? http_build_query(array_merge(request()->query(), ['status' => $val]))
-                                : http_build_query(array_diff_key(request()->query(), ['status' => '']));
-                        @endphp
-                        <a href="?{{ $href }}"
-                            class="px-2 py-1 rounded text-xs font-semibold {{ $isActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Status</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        @php $allStatusParams = !empty($activeAgings) ? ['aging' => $activeAgings] : []; @endphp
+                        <a href="?{{ http_build_query($allStatusParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeStatuses) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
+                        @foreach (['Open' => 'Open', 'In_progress' => 'In Progress', 'Pending_Reason' => 'Pending Reason'] as $value => $label)
+                            @php
+                                $isStatusActive     = \in_array($value, $activeStatuses);
+                                $newStatuses        = $isStatusActive
+                                    ? array_values(array_filter($activeStatuses, fn($s) => $s !== $value))
+                                    : [...$activeStatuses, $value];
+                                $statusToggleParams = array_filter(['status' => $newStatuses, 'aging' => $activeAgings]);
+                            @endphp
+                            <a href="?{{ http_build_query($statusToggleParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $isStatusActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
 
                 {{-- Aging filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-1.5">
-                    @php
-                        $agingFilters = [
-                            '' => 'All Days',
-                            '0-3' => '0-3 Days',
-                            '4-7' => '4-7 Days',
-                            '8-15' => '8-15 Days',
-                            '16-30' => '16-30 Days',
-                            'over_30' => '>30 Days',
-                        ];
-                    @endphp
-                    @foreach ($agingFilters as $val => $label)
-                        @php
-                            $isActive = ($activeAging ?? '') === $val;
-                            $href = $val
-                                ? http_build_query(array_merge(request()->query(), ['aging' => $val]))
-                                : http_build_query(array_diff_key(request()->query(), ['aging' => '']));
-                        @endphp
-                        <a href="?{{ $href }}"
-                            class="px-2 py-1 rounded text-xs font-semibold {{ $isActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Aging</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        @php $allAgingParams = !empty($activeStatuses) ? ['status' => $activeStatuses] : []; @endphp
+                        <a href="?{{ http_build_query($allAgingParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeAgings) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Days</a>
+                        @foreach (['0-3' => '0-3 Days', '4-7' => '4-7 Days', '8-15' => '8-15 Days', '16-30' => '16-30 Days', 'over_30' => '>30 Days'] as $value => $label)
+                            @php
+                                $isAgingActive     = \in_array($value, $activeAgings);
+                                $newAgings         = $isAgingActive
+                                    ? array_values(array_filter($activeAgings, fn($a) => $a !== $value))
+                                    : [...$activeAgings, $value];
+                                $agingToggleParams = array_filter(['status' => $activeStatuses, 'aging' => $newAgings]);
+                            @endphp
+                            <a href="?{{ http_build_query($agingToggleParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $isAgingActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
 
@@ -176,8 +168,8 @@
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"
             nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
-            const activeStatus = '{{ $activeStatus ?? '' }}';
-            const activeAging  = '{{ $activeAging ?? '' }}';
+            const activeStatuses = {!! json_encode($activeStatuses) !!};
+            const activeAgings   = {!! json_encode($activeAgings) !!};
 
             const AG    = ['#10b981', '#84cc16', '#facc15', '#fb923c', '#ef4444'];
             const AGdim = ['rgba(16,185,129,0.2)', 'rgba(132,204,22,0.2)', 'rgba(250,204,21,0.2)', 'rgba(251,146,60,0.2)', 'rgba(239,68,68,0.2)'];
@@ -185,14 +177,12 @@
             const agingKeys   = ['0_3', '4_7', '8_15', '16_30', 'over_30'];
             const agingLabels = ['0-3 Days', '4-7 Days', '8-15 Days', '16-30 Days', '>30 Days'];
 
-            const agingIndexMap  = { '0-3': 0, '4-7': 1, '8-15': 2, '16-30': 3, 'over_30': 4 };
-            const statusRowMap   = { 'Pending_Reason': 0, 'In_progress': 1, 'Open': 2 };
-            const activeAgingIdx  = activeAging  ? (agingIndexMap[activeAging]  ?? -1) : -1;
-            const activeStatusIdx = activeStatus ? (statusRowMap[activeStatus]  ?? -1) : -1;
+            const agingIndexMap   = { '0-3': 0, '4-7': 1, '8-15': 2, '16-30': 3, 'over_30': 4 };
+            const activeAgingIdxs = activeAgings.map(a => agingIndexMap[a] ?? -1).filter(i => i >= 0);
 
             const isActive = (dsIdx, barIdx) => {
-                const agingOk  = activeAgingIdx  < 0 || dsIdx  === activeAgingIdx;
-                const statusOk = activeStatusIdx < 0 || barIdx === activeStatusIdx;
+                const agingOk  = activeAgingIdxs.length === 0 || activeAgingIdxs.includes(dsIdx);
+                const statusOk = activeStatuses.length === 0  || activeStatuses.includes(udStatusRows[barIdx]?.key);
                 return agingOk && statusOk;
             };
 
@@ -200,14 +190,16 @@
 
             const udStatusRows = [
                 {
-                    label: 'Pending Reason',
-                    '0_3': rawStatusData.reason_0_3 ?? 0,
-                    '4_7': rawStatusData.reason_4_7 ?? 0,
-                    '8_15': rawStatusData.reason_8_15 ?? 0,
-                    '16_30': rawStatusData.reason_16_30 ?? 0,
-                    'over_30': rawStatusData.reason_over_30 ?? 0
+                    key: 'Open',
+                    label: 'Open',
+                    '0_3': rawStatusData.open_0_3 ?? 0,
+                    '4_7': rawStatusData.open_4_7 ?? 0,
+                    '8_15': rawStatusData.open_8_15 ?? 0,
+                    '16_30': rawStatusData.open_16_30 ?? 0,
+                    'over_30': rawStatusData.open_over_30 ?? 0
                 },
                 {
+                    key: 'In_progress',
                     label: 'In Progress',
                     '0_3': rawStatusData.in_prog_0_3 ?? 0,
                     '4_7': rawStatusData.in_prog_4_7 ?? 0,
@@ -216,13 +208,15 @@
                     'over_30': rawStatusData.in_prog_over_30 ?? 0
                 },
                 {
-                    label: 'Open',
-                    '0_3': rawStatusData.open_0_3 ?? 0,
-                    '4_7': rawStatusData.open_4_7 ?? 0,
-                    '8_15': rawStatusData.open_8_15 ?? 0,
-                    '16_30': rawStatusData.open_16_30 ?? 0,
-                    'over_30': rawStatusData.open_over_30 ?? 0
-                },
+                    key: 'Pending_Reason',
+                    label: 'Pending Reason',
+                    '0_3': rawStatusData.reason_0_3 ?? 0,
+                    '4_7': rawStatusData.reason_4_7 ?? 0,
+                    '8_15': rawStatusData.reason_8_15 ?? 0,
+                    '16_30': rawStatusData.reason_16_30 ?? 0,
+                    'over_30': rawStatusData.reason_over_30 ?? 0
+                }
+                
             ];
 
             new Chart(document.getElementById('ud-status-chart'), {
@@ -250,8 +244,8 @@
                                 boxWidth: 8,
                                 font: { size: 12 },
                                 padding: 4,
-                                color: ctx => activeAgingIdx < 0 ? '#666'
-                                    : ctx.index === activeAgingIdx ? '#333' : '#bbb'
+                                color: ctx => activeAgingIdxs.length === 0 ? '#666'
+                                    : activeAgingIdxs.includes(ctx.index) ? '#333' : '#bbb'
                             }
                         },
                         datalabels: {
@@ -272,7 +266,7 @@
                     },
                     scales: {
                         x: { stacked: true, display: false, beginAtZero: true },
-                        y: { stacked: true, grid: { display: false }, ticks: { font: { size: 12 } } },
+                        y: { stacked: true, grid: { display: false }, ticks: { font: { size: 12 }, color: ctx => activeStatuses.length === 0 || activeStatuses.includes(udStatusRows[ctx.index]?.key) ? '#374151' : '#bbb' } },
                     },
                     layout: { padding: { right: 8 } },
                 },

@@ -44,8 +44,8 @@
                         class="text-sm font-normal text-gray-400">tickets</span></p>
 
                 @php
-                    $regionParams = $activeAging  ? ['aging'  => $activeAging]  : [];
-                    $agingParams  = $activeRegion ? ['region' => $activeRegion] : [];
+                    $regionParams = !empty($activeAgings) ? ['aging'  => $activeAgings] : [];
+                    $agingParams  = !empty($activeRegions) ? ['region' => $activeRegions] : [];
                     $pendingReasons = [
                         'Spare_part_on_progress'              => 'Spare Part',
                         'Site_not_ready_or_waiting_confirm'   => 'Site Not Ready',
@@ -58,28 +58,48 @@
                 @endphp
 
                 {{-- Region Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?{{ http_build_query($regionParams) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeRegion ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Regions</a>
-                    @foreach ($regions as $region)
-                        <a href="?{{ http_build_query([...$regionParams, 'region' => $region]) }}"
-                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeRegion === $region ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $region }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Region</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="?{{ http_build_query($regionParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeRegions) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Regions</a>
+                        @foreach ($regions as $region)
+                            @php
+                                $isRegionActive = in_array($region, $activeRegions);
+                                $newRegions = $isRegionActive
+                                    ? array_values(array_filter($activeRegions, fn($r) => $r !== $region))
+                                    : [...$activeRegions, $region];
+                                $regionToggleParams = array_filter(['aging' => $activeAgings, 'region' => $newRegions]);
+                            @endphp
+                            <a href="?{{ http_build_query($regionToggleParams) }}"
+                                class="px-2 py-1 rounded text-xs font-semibold {{ $isRegionActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $region }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
+                
 
                 {{-- Aging Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-1.5">
-                    <a href="?{{ http_build_query($agingParams) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeAging ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Aging</a>
-                    @foreach (['0-3' => '0-3 Days', '4-7' => '4-7 Days', '8-15' => '8-15 Days', '16-30' => '16-30 Days', 'over_30' => '>30 Days'] as $value => $label)
-                        <a href="?{{ http_build_query([...$agingParams, 'aging' => $value]) }}"
-                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeAging === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Aging</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="?{{ http_build_query($agingParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeAgings) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Aging</a>
+                        @foreach (['0-3' => '0-3 Days', '4-7' => '4-7 Days', '8-15' => '8-15 Days', '16-30' => '16-30 Days', 'over_30' => '>30 Days'] as $value => $label)
+                            @php
+                                $isAgingActive = in_array($value, $activeAgings);
+                                $newAgings = $isAgingActive
+                                    ? array_values(array_filter($activeAgings, fn($a) => $a !== $value))
+                                    : [...$activeAgings, $value];
+                                $agingToggleParams = array_filter(['region' => $activeRegions, 'aging' => $newAgings]);
+                            @endphp
+                            <a href="?{{ http_build_query($agingToggleParams) }}"
+                                class="px-2 py-1 rounded text-xs font-semibold {{ $isAgingActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
+                
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[700px] text-xs">
@@ -166,8 +186,8 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
-            const activeRegion = '{{ $activeRegion ?? '' }}';
-            const activeAging  = '{{ $activeAging ?? '' }}';
+            const activeRegions = {!! json_encode($activeRegions) !!};
+            const activeAgings  = {!! json_encode($activeAgings) !!};
 
             const AG    = ['#10b981', '#84cc16', '#facc15', '#fb923c', '#ef4444'];
             const AGdim = ['rgba(16,185,129,0.2)', 'rgba(132,204,22,0.2)', 'rgba(250,204,21,0.2)', 'rgba(251,146,60,0.2)', 'rgba(239,68,68,0.2)'];
@@ -175,7 +195,7 @@
             const agingLabels = ['0-3 Days', '4-7 Days', '8-15 Days', '16-30 Days', '>30 Days'];
 
             const agingIndexMap = { '0-3': 0, '4-7': 1, '8-15': 2, '16-30': 3, 'over_30': 4 };
-            const activeAgingIdx = activeAging ? (agingIndexMap[activeAging] ?? -1) : -1;
+            const activeAgingIdxs = activeAgings.map(a => agingIndexMap[a] ?? -1).filter(i => i >= 0);
 
             const rawRegionData = {!! json_encode($pendingData) !!};
 
@@ -191,11 +211,11 @@
                 }));
 
             const udRegionRows = normalizeAgingRows(rawRegionData);
-            const activeRegionIdx = activeRegion ? udRegionRows.findIndex(r => r.label === activeRegion) : -1;
+            const activeRegionIdxs = activeRegions.map(r => udRegionRows.findIndex(row => row.label === r)).filter(i => i >= 0);
 
             const isActive = (dsIdx, barIdx) => {
-                const agingOk  = activeAgingIdx  < 0 || dsIdx  === activeAgingIdx;
-                const regionOk = activeRegionIdx < 0 || barIdx === activeRegionIdx;
+                const agingOk  = activeAgingIdxs.length === 0 || activeAgingIdxs.includes(dsIdx);
+                const regionOk = activeRegionIdxs.length === 0 || activeRegionIdxs.includes(barIdx);
                 return agingOk && regionOk;
             };
 
@@ -224,8 +244,7 @@
                                 boxWidth: 8,
                                 font: { size: 12 },
                                 padding: 4,
-                                color: ctx => activeAgingIdx < 0 ? '#666'
-                                    : ctx.index === activeAgingIdx ? '#333' : '#bbb'
+                                color: ctx => activeAgingIdxs.length === 0 ? '#666' : activeAgingIdxs.includes(ctx.index) ? '#333' : '#bbb'
                             }
                         },
                         datalabels: {

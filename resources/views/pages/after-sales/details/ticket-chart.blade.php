@@ -36,25 +36,56 @@
 
                 @php
                     $monthLabels = ['1'=>'JAN','2'=>'FEB','3'=>'MAR','4'=>'APR','5'=>'MAY','6'=>'JUN','7'=>'JUL','8'=>'AUG','9'=>'SEP','10'=>'OCT','11'=>'NOV','12'=>'DEC'];
-                    $baseParams  = array_filter(['month' => $activeMonth, 'status' => $activeStatus]);
+                    $baseParams  = array_filter(['month' => $activeMonths ?? [], 'status' => $activeStatuses ?? []]);
                 @endphp
 
                 {{-- Month Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?{{ http_build_query(array_diff_key($baseParams, ['month' => ''])) }}" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeMonth ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Months</a>
-                    @foreach ($monthLabels as $value => $label)
-                        <a href="?{{ http_build_query([...$baseParams, 'month' => $value]) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeMonth == $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Month</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="?{{ http_build_query(array_diff_key($baseParams, ['month' => ''])) }}" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeMonths) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Months</a>
+                        @foreach ($monthLabels as $value => $label)
+                            @php
+                                $selectedMonths = $activeMonths ?? [];
+                                $isActive = in_array($value, $selectedMonths, false);
+                                $newMonths = $isActive
+                                    ? array_values(array_diff($selectedMonths, [$value]))
+                                    : array_values(array_unique(array_merge($selectedMonths, [$value])));
+                                $monthParams = empty($newMonths)
+                                    ? array_diff_key($baseParams, ['month' => []])
+                                    : [...array_diff_key($baseParams, ['month' => []]), 'month' => $newMonths];
+                            @endphp
+                            <a href="?{{ http_build_query($monthParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $isActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
+                
 
                 {{-- Status Closed Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-1.5">
-                    <a href="?{{ http_build_query(array_diff_key($baseParams, ['status' => ''])) }}" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeStatus ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
-                    <a href="?{{ http_build_query([...$baseParams, 'status' => 'opened']) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeStatus === 'opened' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Opened</a>
-                    <a href="?{{ http_build_query([...$baseParams, 'status' => 'closed']) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeStatus === 'closed' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Closed</a>
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Status</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="?{{ http_build_query(array_diff_key($baseParams, ['status' => ''])) }}" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeStatuses) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
+                        @foreach (['opened' => 'Opened', 'closed' => 'Closed'] as $value => $label)
+                            @php
+                                $selectedStatuses = $activeStatuses ?? [];
+                                $isActive = in_array($value, $selectedStatuses, false);
+                                $newStatuses = $isActive
+                                    ? array_values(array_diff($selectedStatuses, [$value]))
+                                    : array_values(array_unique(array_merge($selectedStatuses, [$value])));
+                                $statusParams = empty($newStatuses)
+                                    ? array_diff_key($baseParams, ['status' => []])
+                                    : [...array_diff_key($baseParams, ['status' => []]), 'status' => $newStatuses];
+                            @endphp
+                            <a href="?{{ http_build_query($statusParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $isActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
+                
             </div>
             
             <div class="overflow-x-auto">
@@ -125,10 +156,15 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
-            const activeMonth       = {!! json_encode($activeMonth) !!};
-            const activeStatus = {!! json_encode($activeStatus) !!};
+            const activeMonths = {!! json_encode($activeMonths ?? []) !!};
+            const activeStatuses = {!! json_encode($activeStatuses ?? []) !!};
 
-            const activeMonthIdx = activeMonth ? (parseInt(activeMonth) - 1) : -1;
+            const activeMonthIdxs = activeMonths.map(m => parseInt(m, 10) - 1).filter(idx => idx >= 0);
+            const activeMonthSet = new Set(activeMonthIdxs);
+            const openActive = activeStatuses.length === 0 || activeStatuses.includes('opened');
+            const closedActive = activeStatuses.length === 0 || activeStatuses.includes('closed');
+            const statusFilterActive = activeStatuses.length > 0 && !(openActive && closedActive);
+
             const openFull   = '#cbd5e1';
             const openDim    = 'rgba(203,213,225,0.2)';
             const closedFull = '#475569';
@@ -136,10 +172,10 @@
 
             // dsIdx 0=Open, 1=Closed
             const isBarActive = (dsIdx, barIdx) => {
-                const monthOk  = activeMonthIdx < 0 || barIdx === activeMonthIdx;
-                const statusOk = !activeStatus
-                    || (activeStatus === 'opened' && dsIdx === 0)
-                    || (activeStatus === 'closed' && dsIdx === 1);
+                const monthOk = activeMonthIdxs.length === 0 || activeMonthSet.has(barIdx);
+                const statusOk = !statusFilterActive
+                    || (dsIdx === 0 && openActive)
+                    || (dsIdx === 1 && closedActive);
                 return monthOk && statusOk;
             };
 
@@ -184,9 +220,8 @@
                                 pointStyle: 'rect',
                                 font: { size: 12 },
                                 color: ctx => {
-                                    if (!activeStatus) return '#666';
-                                    const active = (activeStatus === 'opened' && ctx.index === 0)
-                                                || (activeStatus === 'closed' && ctx.index === 1);
+                                    if (activeStatuses.length === 0) return '#666';
+                                    const active = (ctx.index === 0 && openActive) || (ctx.index === 1 && closedActive);
                                     return active ? '#333' : '#bbb';
                                 }
                             }
@@ -207,7 +242,7 @@
                                 maxRotation: 0,
                                 autoSkip: false,
                                 font: { size: 12 },
-                                color: ctx => activeMonthIdx < 0 || ctx.index === activeMonthIdx ? '#555' : '#bbb'
+                                color: ctx => activeMonthIdxs.length === 0 || activeMonthSet.has(ctx.index) ? '#555' : '#bbb'
                             }
                         },
                         y: {

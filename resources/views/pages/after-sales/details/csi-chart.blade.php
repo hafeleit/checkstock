@@ -43,14 +43,24 @@
                         'แย่มาก (Very Bad)' => 'Very Bad',
                     ];
                 @endphp
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeStatus ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
-                    @foreach ($serviceStatuses as $value => $label)
-                        <a href="?status={{ urlencode($value) }}"
-                           class="px-2 py-1 rounded text-xs font-semibold {{ $activeStatus === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
+
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Service Status</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeStatuses) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
+                        @foreach ($serviceStatuses as $value => $label)
+                            @php
+                                $isStatusActive  = in_array($value, $activeStatuses);
+                                $newStatuses     = $isStatusActive
+                                    ? array_values(array_filter($activeStatuses, fn($s) => $s !== $value))
+                                    : [...$activeStatuses, $value];
+                                $statusParams    = !empty($newStatuses) ? ['status' => $newStatuses] : [];
+                            @endphp
+                            <a href="?{{ http_build_query($statusParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $isStatusActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
             <div class="overflow-x-auto">

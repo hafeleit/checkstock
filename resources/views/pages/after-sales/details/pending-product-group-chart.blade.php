@@ -43,14 +43,28 @@
                 @endphp
 
                 {{-- group Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeGroup ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Groups</a>
-                    @foreach ($groupLabels as $value => $label)
-                        <a href="?group={{ $label }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeGroup === $label ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Group</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="?"
+                            class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeGroups) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                            All Groups
                         </a>
-                    @endforeach
+                        @foreach ($groupLabels as $label)
+                            @php
+                                $isActive = in_array($label, $activeGroups, true);
+                                $newGroups = $isActive
+                                    ? array_values(array_diff($activeGroups, [$label]))
+                                    : [...$activeGroups, $label];
+                            @endphp
+                            <a href="?{{ http_build_query(['group' => $newGroups]) }}"
+                                class="px-2 py-1 rounded text-xs font-semibold {{ $isActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
+                
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[700px] text-xs">
@@ -128,7 +142,8 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
-            const activeGroup = '{{ $activeGroup ?? '' }}';
+            const activeGroups = {!! json_encode($activeGroups) !!};
+            const groupLabels = ['Smart Technology', 'Home appliances', 'Sanitary', 'Architectural hardware', 'FF - Furniture Fittings'];
             const groupIndexMap = {
                 'Smart Technology': 0,
                 'Home appliances': 1,
@@ -136,10 +151,10 @@
                 'Architectural hardware': 3,
                 'FF - Furniture Fittings': 4,
             };
-            const activeGroupIdx = activeGroup ? (groupIndexMap[activeGroup] ?? -1) : -1;
+            const activeGroupIdxs = activeGroups.map(label => groupIndexMap[label]).filter(idx => idx >= 0);
             const groupFull = '#c4ddff';
             const groupDim  = 'rgba(196,221,255,0.25)';
-            const groupBg = [0,1,2,3,4].map(i => activeGroupIdx < 0 || i === activeGroupIdx ? groupFull : groupDim);
+            const groupBg = groupLabels.map((label, index) => activeGroupIdxs.length === 0 || activeGroupIdxs.includes(index) ? groupFull : groupDim);
 
             const rawPendingGroup = {!! json_encode($pendingData) !!};
 
@@ -173,7 +188,7 @@
                             anchor: 'end',
                             align: 'right',
                             offset: 4,
-                            color: ctx => activeGroupIdx < 0 || ctx.dataIndex === activeGroupIdx ? '#374151' : '#bbb',
+                            color: ctx => activeGroupIdxs.length === 0 || activeGroupIdxs.includes(ctx.dataIndex) ? '#374151' : '#bbb',
                             font: {
                                 size: 12,
                                 weight: 'bold'

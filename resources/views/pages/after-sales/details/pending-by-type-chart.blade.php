@@ -49,9 +49,16 @@
 
                 {{-- Type Filter --}}
                 <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeType ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Types</a>
+                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeTypes) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Types</a>
                     @foreach ($typeLabels as $value => $label)
-                        <a href="?type={{ $value }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeType === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                        @php
+                            $isActive = in_array($value, $activeTypes ?? [], true);
+                            $newTypes = $isActive
+                                ? array_values(array_diff($activeTypes, [$value]))
+                                : [...($activeTypes ?? []), $value];
+                        @endphp
+                        <a href="{{ empty($newTypes) ? '?' : '?'.http_build_query(['type' => $newTypes]) }}"
+                            class="px-2 py-1 rounded text-xs font-semibold {{ $isActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
                             {{ $label }}
                         </a>
                     @endforeach
@@ -134,12 +141,13 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
-            const activeType = '{{ $activeType ?? '' }}';
+            const activeTypes = {!! json_encode($activeTypes ?? []) !!};
+            const typeLabels = ['I', 'R', 'spare_part', 'C', 'consult_or_advise'];
             const typeIndexMap = { 'I': 0, 'R': 1, 'spare_part': 2, 'C': 3, 'consult_or_advise': 4 };
-            const activeTypeIdx = activeType ? (typeIndexMap[activeType] ?? -1) : -1;
+            const activeTypeIdxs = activeTypes.map(type => typeIndexMap[type]).filter(idx => idx >= 0);
             const typeFull = '#c4ddff';
             const typeDim  = 'rgba(196,221,255,0.25)';
-            const typeBg = [0,1,2,3,4].map(i => activeTypeIdx < 0 || i === activeTypeIdx ? typeFull : typeDim);
+            const typeBg = typeLabels.map((_, index) => activeTypeIdxs.length === 0 || activeTypeIdxs.includes(index) ? typeFull : typeDim);
 
             const rawPendingType = {!! json_encode($pendingData) !!};
             const udTypeData = {
@@ -177,7 +185,7 @@
                             anchor: 'end',
                             align: 'right',
                             offset: 4,
-                            color: ctx => activeTypeIdx < 0 || ctx.dataIndex === activeTypeIdx ? '#374151' : '#bbb',
+                            color: ctx => activeTypeIdxs.length === 0 || activeTypeIdxs.includes(ctx.dataIndex) ? '#374151' : '#bbb',
                             font: {
                                 size: 12,
                                 weight: 'bold'

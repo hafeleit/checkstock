@@ -102,14 +102,14 @@ class AfterSalesDashboardController extends Controller
 
     private function handleCsiChart(Request $request)
     {
-        $csiData = $this->calculateCsiResponse(now()->month, now()->year);
-        $activeStatus = $request->input('status');
+        $csiData       = $this->calculateCsiResponse(now()->month, now()->year);
+        $activeStatuses = array_values(array_filter((array) $request->input('status', [])));
 
         $surveys = HthAssSurvey::query()
             ->whereMonth('completion_time', now()->month)
             ->whereYear('completion_time', now()->year)
             ->where('deleted', 0)
-            ->when($activeStatus, fn($q) => $q->where('service_team', $activeStatus))
+            ->when(!empty($activeStatuses), fn($q) => $q->whereIn('service_team', $activeStatuses))
             ->latest('completion_time')
             ->paginate(15)
             ->withQueryString();
@@ -121,10 +121,10 @@ class AfterSalesDashboardController extends Controller
             ->count();
 
         return view('pages.after-sales.details.csi-chart', [
-            'csiData'      => $csiData,
-            'surveys'      => $surveys,
-            'allSurvey'    => $allSurvey,
-            'activeStatus' => $activeStatus,
+            'csiData'        => $csiData,
+            'surveys'        => $surveys,
+            'allSurvey'      => $allSurvey,
+            'activeStatuses' => $activeStatuses,
         ]);
     }
 
@@ -324,8 +324,8 @@ class AfterSalesDashboardController extends Controller
 
     private function handleTicketByStatusChart(Request $request)
     {
-        $totalStatData = $this->calculateTotalStat(now()->month, now()->year);
-        $activeStatus = $request->input('status');
+        $totalStatData  = $this->calculateTotalStat(now()->month, now()->year);
+        $activeStatuses = array_values(array_filter((array) $request->input('status', [])));
 
         $query = HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
@@ -333,42 +333,31 @@ class AfterSalesDashboardController extends Controller
             ->leftjoin('hth_ass_teams', DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), '=', 'hth_ass_teams.name')
             ->where('hth_after_sale_ticket.deleted', 0);
 
-        switch ($activeStatus) {
-            case 'Closed':
-                $query->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', now()->year)
-                    ->whereMonth('hth_after_sale_ticket_cstm.closed_datetime_c', now()->month)
-                    ->where('hth_after_sale_ticket.status', 'Closed');
-                break;
-
-            case 'Created':
-                $query->whereYear('hth_after_sale_ticket.date_entered', now()->year)
-                    ->whereMonth('hth_after_sale_ticket.date_entered', now()->month);
-                break;
-
-            case 'Pending':
-                $query->where('hth_after_sale_ticket.date_entered', '<=', now())
-                    ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason']);
-                break;
-
-            case 'Open':
-                $query->where('hth_after_sale_ticket.date_entered', '<=', now())
-                    ->where('hth_after_sale_ticket.status', 'Open');
-                break;
-
-            case 'In_progress':
-                $query->where('hth_after_sale_ticket.date_entered', '<=', now())
-                    ->where('hth_after_sale_ticket.status', 'In_progress');
-                break;
-
-            case 'Pending_Reason':
-                $query->where('hth_after_sale_ticket.date_entered', '<=', now())
-                    ->where('hth_after_sale_ticket.status', 'Pending_Reason');
-                break;
-
-            default:
-                $query->whereYear('hth_after_sale_ticket.date_entered', now()->year)
-                    ->whereMonth('hth_after_sale_ticket.date_entered', now()->month);
-                break;
+        if (empty($activeStatuses)) {
+            // default: show tickets created this month
+            $query->whereYear('hth_after_sale_ticket.date_entered', now()->year)
+                  ->whereMonth('hth_after_sale_ticket.date_entered', now()->month);
+        } else {
+            $query->where(function ($q) use ($activeStatuses) {
+                foreach ($activeStatuses as $status) {
+                    $q->orWhere(function ($sub) use ($status) {
+                        if ($status === 'Closed') {
+                            $sub->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', now()->year)
+                                ->whereMonth('hth_after_sale_ticket_cstm.closed_datetime_c', now()->month)
+                                ->where('hth_after_sale_ticket.status', 'Closed');
+                        } elseif ($status === 'Created') {
+                            $sub->whereYear('hth_after_sale_ticket.date_entered', now()->year)
+                                ->whereMonth('hth_after_sale_ticket.date_entered', now()->month);
+                        } elseif ($status === 'Pending') {
+                            $sub->where('hth_after_sale_ticket.date_entered', '<=', now())
+                                ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason']);
+                        } elseif (in_array($status, ['Open', 'In_progress', 'Pending_Reason'])) {
+                            $sub->where('hth_after_sale_ticket.date_entered', '<=', now())
+                                ->where('hth_after_sale_ticket.status', $status);
+                        }
+                    });
+                }
+            });
         }
 
         $tickets = $query->select(['hth_after_sale_ticket.*', 'users.first_name', 'users.last_name', 'hth_after_sale_ticket_cstm.closed_datetime_c'])
@@ -378,14 +367,14 @@ class AfterSalesDashboardController extends Controller
         return view('pages.after-sales.details.ticket-by-status-chart', [
             'total_stat_data' => $totalStatData,
             'tickets'         => $tickets,
-            'activeStatus'    => $activeStatus,
+            'activeStatuses'  => $activeStatuses,
         ]);
     }
 
     private function handleAgingChart(Request $request)
     {
-        $agingData = $this->calculateOverallAging(now()->month, now()->year);
-        $activeAging = $request->input('aging');
+        $agingData   = $this->calculateOverallAging(now()->month, now()->year);
+        $activeAgings = array_values(array_filter((array) $request->input('aging', [])));
 
         $query = HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
@@ -393,7 +382,7 @@ class AfterSalesDashboardController extends Controller
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason']);
 
-        $query = $this->applyAgingFilter($query, $activeAging);
+        $query = $this->applyAgingFilters($query, $activeAgings);
 
         $tickets = $query
             ->select([
@@ -414,22 +403,22 @@ class AfterSalesDashboardController extends Controller
             ->withQueryString();
 
         return view('pages.after-sales.details.overall-aging-chart', [
-            'agingData'   => $agingData,
-            'tickets'     => $tickets,
-            'activeAging' => $activeAging,
+            'agingData'    => $agingData,
+            'tickets'      => $tickets,
+            'activeAgings' => $activeAgings,
         ]);
     }
 
     private function handleCsiResponseChart(Request $request)
     {
-        $csiData = $this->calculateCsiResponse(now()->month, now()->year);
-        $serviceStatus = $request->input('status');
+        $csiData        = $this->calculateCsiResponse(now()->month, now()->year);
+        $activeStatuses = array_values(array_filter((array) $request->input('status', [])));
 
         $surveys = HthAssSurvey::query()
             ->whereMonth('completion_time', now()->month)
             ->whereYear('completion_time', now()->year)
             ->where('deleted', 0)
-            ->when($serviceStatus, fn($q) => $q->where('service_team', $serviceStatus))
+            ->when(!empty($activeStatuses), fn($q) => $q->whereIn('service_team', $activeStatuses))
             ->latest('completion_time')
             ->paginate(15)
             ->withQueryString();
@@ -440,19 +429,39 @@ class AfterSalesDashboardController extends Controller
             ->where('deleted', 0)
             ->count();
 
+        // Filtered aggregate — drives the charts when filter is active
+        $filteredSurvey = HthAssSurvey::query()
+            ->whereMonth('completion_time', now()->month)
+            ->whereYear('completion_time', now()->year)
+            ->where('deleted', 0)
+            ->when(!empty($activeStatuses), fn($q) => $q->whereIn('service_team', $activeStatuses))
+            ->selectRaw("
+                COUNT(*) as total,
+                COUNT(CASE WHEN service_team = 'ดีมาก (Very Good)' THEN 1 END)        as service_very_good,
+                COUNT(CASE WHEN service_team = 'ดี (Good)' THEN 1 END)                as service_good,
+                COUNT(CASE WHEN service_team = 'ปกติ (Normal)' THEN 1 END)            as service_normal,
+                COUNT(CASE WHEN service_team = 'แย่ (Bad)' THEN 1 END)                as service_bad,
+                COUNT(CASE WHEN service_team = 'แย่มาก (Very Bad)' THEN 1 END)        as service_very_bad,
+                COUNT(CASE WHEN problem_resolved = 'ใช่ (Yes)' THEN 1 END)            as problem_resolved_yes,
+                COUNT(CASE WHEN arrive_as_scheduled = 'ใช่ (Yes)' THEN 1 END)         as arrive_as_scheduled_yes,
+                COUNT(CASE WHEN polite_and_well_mannered = 'ใช่ (Yes)' THEN 1 END)    as polite_and_well_mannered_yes
+            ")
+            ->first();
+
         return view('pages.after-sales.details.csi-response-chart', [
-            'csiData'       => $csiData,
-            'surveys'       => $surveys,
-            'serviceStatus' => $serviceStatus,
-            'allSurvey'     => $allSurvey,
+            'csiData'        => $csiData,
+            'surveys'        => $surveys,
+            'activeStatuses' => $activeStatuses,
+            'allSurvey'      => $allSurvey,
+            'filteredSurvey' => $filteredSurvey,
         ]);
     }
 
     private function handlePendingReasonChart(Request $request)
     {
-        $pendingData = $this->calculatePendingReason(now()->month, now()->year);
-        $activeAging = $request->input('aging');
-        $activePending = $request->input('pending');
+        $pendingData    = $this->calculatePendingReason(now()->month, now()->year);
+        $activeAgings   = array_values(array_filter((array) $request->input('aging', [])));
+        $activePendings = array_values(array_filter((array) $request->input('pending', [])));
 
         $namedReasons = [
             'Spare_part_on_progress',
@@ -470,13 +479,19 @@ class AfterSalesDashboardController extends Controller
             ->where('hth_after_sale_ticket.status', 'Pending_Reason')
             ->where(fn($q) => $q->whereIn('hth_after_sale_ticket.pending', $namedReasons)->orWhereNull('hth_after_sale_ticket.pending'));
 
-        if ($activePending === 'blank') {
-            $query->whereNull('hth_after_sale_ticket.pending');
-        } elseif ($activePending) {
-            $query->where('hth_after_sale_ticket.pending', $activePending);
+        if (!empty($activePendings)) {
+            $query->where(function ($sub) use ($activePendings) {
+                foreach ($activePendings as $p) {
+                    if ($p === 'blank') {
+                        $sub->orWhereNull('hth_after_sale_ticket.pending');
+                    } else {
+                        $sub->orWhere('hth_after_sale_ticket.pending', $p);
+                    }
+                }
+            });
         }
 
-        $query = $this->applyAgingFilter($query, $activeAging);
+        $query = $this->applyAgingFilters($query, $activeAgings);
 
         $tickets = $query
             ->select([
@@ -498,10 +513,10 @@ class AfterSalesDashboardController extends Controller
             ->withQueryString();
 
         return view('pages.after-sales.details.pending-reason-chart', [
-            'pendingData'   => $pendingData,
-            'tickets'       => $tickets,
-            'activeAging'   => $activeAging,
-            'activePending' => $activePending,
+            'pendingData'    => $pendingData,
+            'tickets'        => $tickets,
+            'activeAgings'   => $activeAgings,
+            'activePendings' => $activePendings,
         ]);
     }
 
@@ -541,21 +556,20 @@ class AfterSalesDashboardController extends Controller
 
     private function handleStatusOverviewChart(Request $request)
     {
-        $statusData = $this->calculateStatus(now()->month, now()->year);
-        $activeAging = $request->input('aging');
-        $activeStatus = $request->input('status');
+        $statusData    = $this->calculateStatus(now()->month, now()->year);
+        $activeAgings  = array_values(array_filter((array) $request->input('aging', [])));
+        $activeStatuses = array_values(array_filter((array) $request->input('status', [])));
 
-        $tickets = HthAfterSaleTicket::query()
+        $query = HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
             ->leftJoin('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
-            ->when($activeStatus, fn($q) => $q->where('hth_after_sale_ticket.status', $activeStatus))
-            ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [0, 3]))
-            ->when($activeAging === '4-7', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [4, 7]))
-            ->when($activeAging === '8-15', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [8, 15]))
-            ->when($activeAging === '16-30', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [16, 30]))
-            ->when($activeAging === 'over_30', fn($q) => $q->whereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30'))
+            ->when(!empty($activeStatuses), fn($q) => $q->whereIn('hth_after_sale_ticket.status', $activeStatuses));
+
+        $query = $this->applyAgingFilters($query, $activeAgings);
+
+        $tickets = $query
             ->select([
                 'hth_after_sale_ticket.ticket_number',
                 'hth_after_sale_ticket.name',
@@ -575,18 +589,18 @@ class AfterSalesDashboardController extends Controller
             ->withQueryString();
 
         return view('pages.after-sales.details.status-overview-chart', [
-            'statusData'   => $statusData,
-            'tickets'      => $tickets,
-            'activeAging'  => $activeAging,
-            'activeStatus' => $activeStatus,
+            'statusData'     => $statusData,
+            'tickets'        => $tickets,
+            'activeAgings'   => $activeAgings,
+            'activeStatuses' => $activeStatuses,
         ]);
     }
 
     private function handlePendingByRegionChart(Request $request)
     {
         $pendingData = $this->calculatePendingByRegion(now()->month, now()->year);
-        $activeRegion = $request->input('region');
-        $activeAging = $request->input('aging');
+        $activeRegions = array_values(array_filter((array) $request->input('region', [])));
+        $activeAgings = array_values(array_filter((array) $request->input('aging', [])));
 
         $regionsSub = DB::raw('(SELECT postcodemain, master_part_eng FROM hth_ass_regions GROUP BY postcodemain, master_part_eng) as `regions`');
 
@@ -596,12 +610,8 @@ class AfterSalesDashboardController extends Controller
             ->leftJoin($regionsSub, 'hth_after_sale_ticket.zipcode', '=', 'regions.postcodemain')
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
-            ->when($activeRegion, fn($q) => $q->where('regions.master_part_eng', $activeRegion))
-            ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [0, 3]))
-            ->when($activeAging === '4-7', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [4, 7]))
-            ->when($activeAging === '8-15', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [8, 15]))
-            ->when($activeAging === '16-30', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [16, 30]))
-            ->when($activeAging === 'over_30', fn($q) => $q->whereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30'))
+            ->when(!empty($activeRegions), fn($q) => $q->whereIn('regions.master_part_eng', $activeRegions))
+            ->when(!empty($activeAgings), fn($q) => $this->applyAgingFilters($q, $activeAgings))
             ->select([
                 'hth_after_sale_ticket.ticket_number',
                 'hth_after_sale_ticket.name',
@@ -623,18 +633,18 @@ class AfterSalesDashboardController extends Controller
             ->withQueryString();
 
         return view('pages.after-sales.details.pending-by-region-chart', [
-            'pendingData'  => $pendingData,
-            'tickets'      => $tickets,
-            'activeRegion' => $activeRegion,
-            'activeAging'  => $activeAging,
+            'pendingData'   => $pendingData,
+            'tickets'       => $tickets,
+            'activeRegions' => $activeRegions,
+            'activeAgings'  => $activeAgings,
         ]);
     }
 
     private function handleInhousePendingChart(Request $request)
     {
-        $pendingData = $this->calculateInhousePending(now()->month, now()->year);
-        $activeTeam = $request->input('team');
-        $activeAging = $request->input('aging');
+        $pendingData  = $this->calculateInhousePending(now()->month, now()->year);
+        $activeTeams  = array_values(array_filter((array) $request->input('team', [])));
+        $activeAgings = array_values(array_filter((array) $request->input('aging', [])));
 
         $tickets = HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
@@ -644,12 +654,19 @@ class AfterSalesDashboardController extends Controller
             ->where('hth_after_sale_ticket.deleted', 0)
             ->where('hth_after_sale_ticket.date_entered', '<=', now())
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
-            ->when($activeTeam, fn($q) => $q->where('hth_ass_teams.team', $activeTeam))
-            ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [0, 3]))
-            ->when($activeAging === '4-7', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [4, 7]))
-            ->when($activeAging === '8-15', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [8, 15]))
-            ->when($activeAging === '16-30', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [16, 30]))
-            ->when($activeAging === 'over_30', fn($q) => $q->whereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30'))
+            ->when(!empty($activeTeams), fn($q) => $q->whereIn('hth_ass_teams.team', $activeTeams))
+            ->when(!empty($activeAgings), fn($q) => $q->where(function ($sub) use ($activeAgings) {
+                foreach ($activeAgings as $aging) {
+                    match ($aging) {
+                        '0-3'    => $sub->orWhereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [0, 3]),
+                        '4-7'    => $sub->orWhereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [4, 7]),
+                        '8-15'   => $sub->orWhereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [8, 15]),
+                        '16-30'  => $sub->orWhereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [16, 30]),
+                        'over_30' => $sub->orWhereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30'),
+                        default  => null,
+                    };
+                }
+            }))
             ->select([
                 'hth_after_sale_ticket.ticket_number',
                 'hth_after_sale_ticket.name',
@@ -668,18 +685,18 @@ class AfterSalesDashboardController extends Controller
             ->withQueryString();
 
         return view('pages.after-sales.details.inhouse-pending-chart', [
-            'pendingData' => $pendingData,
-            'tickets'     => $tickets,
-            'activeTeam'  => $activeTeam,
-            'activeAging' => $activeAging,
+            'pendingData'  => $pendingData,
+            'tickets'      => $tickets,
+            'activeTeams'  => $activeTeams,
+            'activeAgings' => $activeAgings,
         ]);
     }
 
     private function handleAscPendingByRegionChart(Request $request)
     {
         $pendingData = $this->calculateAscPending(now()->month, now()->year);
-        $activeRegion = $request->input('region');
-        $activeAging = $request->input('aging');
+        $activeRegions = array_values(array_filter((array) $request->input('region', [])));
+        $activeAgings = array_values(array_filter((array) $request->input('aging', [])));
 
         $tickets = HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
@@ -688,12 +705,8 @@ class AfterSalesDashboardController extends Controller
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->whereHas('assignee', fn($q) => $q->where('first_name', 'LIKE', 'ASC%'))
-            ->when($activeRegion, fn($q) => $q->where('regions.master_part_eng', $activeRegion))
-            ->when($activeAging === '0-3', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [0, 3]))
-            ->when($activeAging === '4-7', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [4, 7]))
-            ->when($activeAging === '8-15', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [8, 15]))
-            ->when($activeAging === '16-30', fn($q) => $q->whereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [16, 30]))
-            ->when($activeAging === 'over_30', fn($q) => $q->whereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30'))
+            ->when(!empty($activeRegions), fn($q) => $q->whereIn('regions.master_part_eng', $activeRegions))
+            ->when(!empty($activeAgings), fn($q) => $this->applyAgingFilters($q, $activeAgings))
             ->select([
                 'hth_after_sale_ticket.ticket_number',
                 'hth_after_sale_ticket.name',
@@ -713,17 +726,17 @@ class AfterSalesDashboardController extends Controller
             ->withQueryString();
 
         return view('pages.after-sales.details.asc-pending-by-region-chart', [
-            'pendingData'  => $pendingData,
-            'tickets'      => $tickets,
-            'activeRegion' => $activeRegion,
-            'activeAging'  => $activeAging,
+            'pendingData'   => $pendingData,
+            'tickets'       => $tickets,
+            'activeRegions' => $activeRegions,
+            'activeAgings'  => $activeAgings,
         ]);
     }
 
     private function handlePendingByTypeChart(Request $request)
     {
         $pendingData = $this->calculatePendingType(now()->month, now()->year);
-        $activeType = $request->input('type');
+        $activeTypes = array_values(array_filter((array) $request->input('type', [])));
 
         $tickets = HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
@@ -731,7 +744,7 @@ class AfterSalesDashboardController extends Controller
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->whereIn('hth_after_sale_ticket.type', ['R', 'C', 'I', 'spare_part', 'consult_or_advise'])
-            ->when($activeType, fn($q) => $q->where('hth_after_sale_ticket.type', $activeType))
+            ->when(!empty($activeTypes), fn($q) => $q->whereIn('hth_after_sale_ticket.type', $activeTypes))
             ->select([
                 'hth_after_sale_ticket.ticket_number',
                 'hth_after_sale_ticket.name',
@@ -752,14 +765,14 @@ class AfterSalesDashboardController extends Controller
         return view('pages.after-sales.details.pending-by-type-chart', [
             'pendingData' => $pendingData,
             'tickets'     => $tickets,
-            'activeType'  => $activeType,
+            'activeTypes' => $activeTypes,
         ]);
     }
 
     private function handlePendingProductGroupChart(Request $request)
     {
         $pendingData = $this->calculatePendingGroup(now()->month, now()->year);
-        $activeGroup = $request->input('group');
+        $activeGroups = array_values(array_filter((array) $request->input('group', [])));
 
         $tickets = HthAfterSaleTicket::query()
             ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
@@ -768,7 +781,7 @@ class AfterSalesDashboardController extends Controller
             ->where('hth_after_sale_ticket.deleted', 0)
             ->whereIn('hth_after_sale_ticket.status', ['Open', 'In_progress', 'Pending_Reason'])
             ->whereIn('aos_product_categories.name', ['Smart Technology', 'Home appliances', 'Sanitary', 'Architectural hardware', 'FF - Furniture Fittings'])
-            ->when($activeGroup, fn($q) => $q->where('aos_product_categories.name', $activeGroup))
+            ->when(!empty($activeGroups), fn($q) => $q->whereIn('aos_product_categories.name', $activeGroups))
             ->select([
                 'hth_after_sale_ticket.ticket_number',
                 'hth_after_sale_ticket.name',
@@ -787,47 +800,46 @@ class AfterSalesDashboardController extends Controller
             ->withQueryString();
 
         return view('pages.after-sales.details.pending-product-group-chart', [
-            'pendingData' => $pendingData,
-            'tickets'     => $tickets,
-            'activeGroup' => $activeGroup,
+            'pendingData'  => $pendingData,
+            'tickets'      => $tickets,
+            'activeGroups' => $activeGroups,
         ]);
     }
 
     private function handleTicketChart(Request $request)
     {
         $ticketData = $this->calculateTicket(now()->year);
-        $filterStatus = $request->input('status');
+        $activeMonths = array_values(array_unique(array_map('strval', array_values(array_filter((array) $request->input('month', []))))));
+        $activeStatuses = array_values(array_unique(array_map('strval', array_values(array_filter((array) $request->input('status', []))))));
+
+        $openRequested = in_array('opened', $activeStatuses, true);
+        $closedRequested = in_array('closed', $activeStatuses, true);
 
         $query = HthAfterSaleTicket::query()
             ->where('hth_after_sale_ticket.deleted', 0);
 
-        if ($filterStatus === 'closed') {
+        if ($closedRequested && ! $openRequested) {
             $query->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
                 ->leftJoin('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
-                ->when(request()->input('month'), function ($q) {
-                    $q->whereMonth('hth_after_sale_ticket_cstm.closed_datetime_c', request()->input('month'));
-                })
+                ->when(! empty($activeMonths), fn($q) => $q->whereIn(DB::raw('MONTH(hth_after_sale_ticket_cstm.closed_datetime_c)'), $activeMonths))
                 ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', now()->year)
                 ->where('hth_after_sale_ticket.status', 'Closed')
                 ->select('hth_after_sale_ticket.*', 'hth_after_sale_ticket_cstm.closed_datetime_c', 'users.first_name', 'users.last_name');
-        } else if ($filterStatus === 'opened') {
+        } elseif ($openRequested && ! $closedRequested) {
             $query->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
                 ->leftJoin('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
-                ->when(request()->input('month'), function ($q) {
-                    $q->whereMonth('hth_after_sale_ticket.date_entered', request()->input('month'));
-                })
+                ->when(! empty($activeMonths), fn($q) => $q->whereIn(DB::raw('MONTH(hth_after_sale_ticket.date_entered)'), $activeMonths))
                 ->whereYear('hth_after_sale_ticket.date_entered', now()->year)
                 ->select('hth_after_sale_ticket.*', 'hth_after_sale_ticket_cstm.closed_datetime_c', 'users.first_name', 'users.last_name');
         } else {
-            $month = request()->input('month');
-            $cols  = ['hth_after_sale_ticket.ticket_number', 'hth_after_sale_ticket.name', 'hth_after_sale_ticket.date_entered', 'hth_after_sale_ticket.status', 'hth_after_sale_ticket.release_date', 'hth_after_sale_ticket.booking', 'hth_after_sale_ticket.note'];
+            $cols = ['hth_after_sale_ticket.ticket_number', 'hth_after_sale_ticket.name', 'hth_after_sale_ticket.date_entered', 'hth_after_sale_ticket.status', 'hth_after_sale_ticket.release_date', 'hth_after_sale_ticket.booking', 'hth_after_sale_ticket.note'];
 
             $openQuery = HthAfterSaleTicket::query()
                 ->leftJoin('hth_after_sale_ticket_cstm', 'hth_after_sale_ticket.id', '=', 'hth_after_sale_ticket_cstm.id_c')
                 ->leftJoin('users', 'users.id', '=', 'hth_after_sale_ticket.assigned_user_id')
                 ->where('hth_after_sale_ticket.deleted', 0)
                 ->whereYear('hth_after_sale_ticket.date_entered', now()->year)
-                ->when($month, fn($q) => $q->whereMonth('hth_after_sale_ticket.date_entered', $month))
+                ->when(! empty($activeMonths), fn($q) => $q->whereIn(DB::raw('MONTH(hth_after_sale_ticket.date_entered)'), $activeMonths))
                 ->select(array_merge($cols, ['users.first_name', 'users.last_name', 'hth_after_sale_ticket_cstm.closed_datetime_c']));
 
             $closedQuery = HthAfterSaleTicket::query()
@@ -836,32 +848,32 @@ class AfterSalesDashboardController extends Controller
                 ->where('hth_after_sale_ticket.deleted', 0)
                 ->where('hth_after_sale_ticket.status', 'Closed')
                 ->whereYear('hth_after_sale_ticket_cstm.closed_datetime_c', now()->year)
-                ->when($month, fn($q) => $q->whereMonth('hth_after_sale_ticket_cstm.closed_datetime_c', $month))
+                ->when(! empty($activeMonths), fn($q) => $q->whereIn(DB::raw('MONTH(hth_after_sale_ticket_cstm.closed_datetime_c)'), $activeMonths))
                 ->select(array_merge($cols, ['users.first_name', 'users.last_name', 'hth_after_sale_ticket_cstm.closed_datetime_c']));
 
-            $query = $openQuery->unionAll($closedQuery);
+            $query = $openQuery->union($closedQuery);
         }
 
         $tickets = $query->paginate(15)
             ->withQueryString();
 
         return view('pages.after-sales.details.ticket-chart', [
-            'ticketData' => $ticketData,
-            'tickets'    => $tickets,
-            'activeMonth' => request()->input('month'),
-            'activeStatus' => $filterStatus,
+            'ticketData'   => $ticketData,
+            'tickets'      => $tickets,
+            'activeMonths' => $activeMonths,
+            'activeStatuses' => $activeStatuses,
         ]);
     }
 
     private function handleContractChart(Request $request)
     {
         $contractData = $this->calculateContractCenter(now()->year);
-        $activeMonth = $request->input('month');
-        $activeYear = $request->input('year');
+        $activeMonths = array_values(array_unique(array_map('strval', (array) $request->input('month', []))));
+        $activeYears = array_values(array_unique(array_map('strval', (array) $request->input('year', []))));
 
         $tickets = HthContactCenter::query()
-            ->when($activeYear, fn($q) => $q->whereYear('date_entered', $activeYear))
-            ->when($activeMonth, fn($q) => $q->whereMonth('date_entered', $activeMonth))
+            ->when(! empty($activeYears), fn($q) => $q->whereIn(DB::raw('YEAR(date_entered)'), $activeYears))
+            ->when(! empty($activeMonths), fn($q) => $q->whereIn(DB::raw('MONTH(date_entered)'), $activeMonths))
             ->where(fn($q) => $q->whereYear('date_entered', now()->year)->orWhereYear('date_entered', now()->subYear()->year))
             ->where('deleted', 0)
             ->whereNot('date_entered', '>', now())
@@ -878,8 +890,8 @@ class AfterSalesDashboardController extends Controller
         return view('pages.after-sales.details.contract-chart', [
             'contractData' => $contractData,
             'tickets'      => $tickets,
-            'activeMonth'  => $activeMonth,
-            'activeYear'   => $activeYear,
+            'activeMonths' => $activeMonths,
+            'activeYears'  => $activeYears,
         ]);
     }
 
@@ -910,6 +922,26 @@ class AfterSalesDashboardController extends Controller
             'tickets'     => $tickets,
             'activeShift' => $activeShift,
         ]);
+    }
+
+    private function applyAgingFilters($query, array $activeAgings)
+    {
+        if (empty($activeAgings)) {
+            return $query;
+        }
+
+        return $query->where(function ($sub) use ($activeAgings) {
+            foreach ($activeAgings as $aging) {
+                match ($aging) {
+                    '0-3'    => $sub->orWhereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [0, 3]),
+                    '4-7'    => $sub->orWhereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [4, 7]),
+                    '8-15'   => $sub->orWhereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [8, 15]),
+                    '16-30'  => $sub->orWhereBetween(DB::raw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered)'), [16, 30]),
+                    'over_30' => $sub->orWhereRaw('DATEDIFF(NOW(), hth_after_sale_ticket.date_entered) > 30'),
+                    default  => null,
+                };
+            }
+        });
     }
 
     private function applyAgingFilter($query, ?string $activeAging)

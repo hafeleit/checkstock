@@ -35,14 +35,18 @@
                 </p>
 
                 {{-- Shift Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?{{ http_build_query([...request()->except('shift')]) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeShift ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Shifts</a>
-                    <a href="?{{ http_build_query([...request()->except('shift'), 'shift' => 'day']) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ $activeShift === 'day' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Day Shift</a>
-                    <a href="?{{ http_build_query([...request()->except('shift'), 'shift' => 'night']) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ $activeShift === 'night' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Night Shift</a>
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Shift</p>
+                    <div class="flex flex-wrap gap-1.5 mt-2">
+                        <a href="?{{ http_build_query([...request()->except('shift')]) }}"
+                            class="px-2 py-1 rounded text-xs font-semibold {{ !$activeShift ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Shifts</a>
+                        <a href="?{{ http_build_query([...request()->except('shift'), 'shift' => 'day']) }}"
+                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeShift === 'day' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Day Shift</a>
+                        <a href="?{{ http_build_query([...request()->except('shift'), 'shift' => 'night']) }}"
+                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeShift === 'night' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Night Shift</a>
+                    </div>
                 </div>
+                
             </div>
             
             <div class="overflow-x-auto">

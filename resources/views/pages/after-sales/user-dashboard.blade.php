@@ -591,13 +591,14 @@
                 'over_30': d['over_30'],
             }));
 
-        const udStatusRows = [{
-                label: 'Pending Reason',
-                '0_3': rawStatusData.reason_0_3 ?? 0,
-                '4_7': rawStatusData.reason_4_7 ?? 0,
-                '8_15': rawStatusData.reason_8_15 ?? 0,
-                '16_30': rawStatusData.reason_16_30 ?? 0,
-                'over_30': rawStatusData.reason_over_30 ?? 0
+        const udStatusRows = [
+            {
+                label: 'Open',
+                '0_3': rawStatusData.open_0_3 ?? 0,
+                '4_7': rawStatusData.open_4_7 ?? 0,
+                '8_15': rawStatusData.open_8_15 ?? 0,
+                '16_30': rawStatusData.open_16_30 ?? 0,
+                'over_30': rawStatusData.open_over_30 ?? 0
             },
             {
                 label: 'In Progress',
@@ -608,12 +609,12 @@
                 'over_30': rawStatusData.in_prog_over_30 ?? 0
             },
             {
-                label: 'Open',
-                '0_3': rawStatusData.open_0_3 ?? 0,
-                '4_7': rawStatusData.open_4_7 ?? 0,
-                '8_15': rawStatusData.open_8_15 ?? 0,
-                '16_30': rawStatusData.open_16_30 ?? 0,
-                'over_30': rawStatusData.open_over_30 ?? 0
+                label: 'Pending Reason',
+                '0_3': rawStatusData.reason_0_3 ?? 0,
+                '4_7': rawStatusData.reason_4_7 ?? 0,
+                '8_15': rawStatusData.reason_8_15 ?? 0,
+                '16_30': rawStatusData.reason_16_30 ?? 0,
+                'over_30': rawStatusData.reason_over_30 ?? 0
             },
         ];
 
