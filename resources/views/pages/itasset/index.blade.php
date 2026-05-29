@@ -229,6 +229,7 @@
                                         <th class="text-uppercase text-secondary font-weight-bolder opacity-7 ps-2">Current User</th>
                                         <th class="text-uppercase text-secondary font-weight-bolder opacity-7 ps-2">Software Name</th>
                                         <th class="text-uppercase text-secondary font-weight-bolder opacity-7 ps-2">Serial Number</th>
+                                        <th class="text-uppercase text-secondary font-weight-bolder opacity-7 ps-2">Fixed Asset No</th>
                                         <th class="text-uppercase text-secondary font-weight-bolder opacity-7 ps-2">Type</th>
                                         <th class="text-uppercase text-secondary font-weight-bolder opacity-7 ps-2">Status</th>
                                         <th class="text-uppercase text-secondary font-weight-bolder opacity-7 text-center">Action</th>
@@ -287,6 +288,9 @@
                                             </td>
                                             <td>
                                                 <span class="text-sm font-weight-bold">{{ $itasset->serial_number ?: '-' }}</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-sm font-weight-bold">{{ $itasset->fixed_asset_no ?: '-' }}</span>
                                             </td>
                                             <td>
                                                 <span class="text-sm">{{ $itasset->type_desc }}</span>
