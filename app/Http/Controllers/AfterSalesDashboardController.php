@@ -922,11 +922,17 @@ class AfterSalesDashboardController extends Controller
         $activeShift = $request->input('shift');
 
         $tickets = HthContactCenter::query()
-            ->whereMonth('date_entered', now()->month)
-            ->whereYear('date_entered', now()->year)
+            ->where(db::raw("month(convert_tz(date_entered, '+00:00', '+07:00'))"), now()->month)
+            ->where(db::raw("year(convert_tz(date_entered, '+00:00', '+07:00'))"), now()->year)
             ->where('deleted', 0)
-            ->when($activeShift === 'day', fn($q) => $q->whereTime('date_entered', '>=', '08:00:00')->whereTime('date_entered', '<', '17:00:00'))
-            ->when($activeShift === 'night', fn($q) => $q->where(fn($q) => $q->whereTime('date_entered', '>=', '17:00:00')->orWhereTime('date_entered', '<', '08:00:00')))
+            ->when($activeShift === 'day', fn($q) => $q
+                ->where(db::raw("time(convert_tz(date_entered, '+00:00', '+07:00'))"), '>=', '08:00:00')
+                ->where(db::raw("time(convert_tz(date_entered, '+00:00', '+07:00'))"), '<', '17:00:00')
+            )
+            ->when($activeShift === 'night', fn($q) => $q->where(fn($q) => $q
+                ->where(db::raw("time(convert_tz(date_entered, '+00:00', '+07:00'))"), '>=', '17:00:00')
+                ->orWhere(db::raw("time(convert_tz(date_entered, '+00:00', '+07:00'))"), '<', '08:00:00')
+            ))
             ->select([
                 'code',
                 'name',
@@ -934,6 +940,7 @@ class AfterSalesDashboardController extends Controller
                 'description',
                 'type',
             ])
+            ->orderByDesc('date_entered')
             ->paginate(15)
             ->withQueryString();
 
