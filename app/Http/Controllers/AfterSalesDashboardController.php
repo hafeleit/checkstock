@@ -925,7 +925,6 @@ class AfterSalesDashboardController extends Controller
             ->whereMonth('date_entered', now()->month)
             ->whereYear('date_entered', now()->year)
             ->where('deleted', 0)
-            ->whereNot('date_entered', '>', now())
             ->when($activeShift === 'day', fn($q) => $q->whereTime('date_entered', '>=', '08:00:00')->whereTime('date_entered', '<', '17:00:00'))
             ->when($activeShift === 'night', fn($q) => $q->where(fn($q) => $q->whereTime('date_entered', '>=', '17:00:00')->orWhereTime('date_entered', '<', '08:00:00')))
             ->select([
@@ -1270,12 +1269,12 @@ class AfterSalesDashboardController extends Controller
             ->whereMonth('date_entered', $month)
             ->where('deleted', 0)
             ->selectRaw("
-                DAY(date_entered) as day,
-                COUNT(CASE WHEN TIME(date_entered) >= '08:00:00' AND TIME(date_entered) < '17:00:00' THEN 1 END) as day_shift,
-                COUNT(CASE WHEN TIME(date_entered) < '08:00:00' OR TIME(date_entered) >= '17:00:00' THEN 1 END) as night_shift
+                DAY(convert_tz(date_entered, '+00:00', '+07:00')) as day,
+                SUM(CASE WHEN TIME(convert_tz(date_entered, '+00:00', '+07:00')) >= '08:00:00' AND TIME(convert_tz(date_entered, '+00:00', '+07:00')) < '17:00:00' THEN 1 ELSE 0 END) as day_shift,
+                SUM(CASE WHEN TIME(convert_tz(date_entered, '+00:00', '+07:00')) < '08:00:00' OR TIME(convert_tz(date_entered, '+00:00', '+07:00')) >= '17:00:00' THEN 1 ELSE 0 END) as night_shift
             ")
-            ->groupByRaw('DAY(date_entered)')
-            ->orderByRaw('DAY(date_entered)')
+            ->groupby(db::raw("date(convert_tz(date_entered, '+00:00', '+07:00'))"))
+            ->orderBy('day')
             ->get()
             ->keyBy('day');
 

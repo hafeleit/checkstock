@@ -223,7 +223,7 @@
     </div>
 
     {{-- SECTION 2 — Ticket Stats + Aging (dashboard-2) --}}
-    <div class="flex gap-4 items-center mb-2">
+    <div class="flex gap-4 items-center justify-between mb-2">
         <p class="text-md font-bold uppercase tracking-widest text-gray-800">Ticket Statistics</p>
         <a href="{{ route('after-sales.detail', ['chart' => 'ud-ticket-by-status-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
             View Detail
@@ -507,16 +507,16 @@
             </div>
         </div>
 
-        {{-- Contract --}}
+        {{-- Contact --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
-                <p class="text-md font-semibold text-gray-600">Contract Center Trend</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-contract-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <p class="text-md font-semibold text-gray-600">Contact Center Trend</p>
+                <a href="{{ route('after-sales.detail', ['chart' => 'ud-contact-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>
             <div class="ud-chart-wrap ud-h-280">
-                <canvas id="ud-contract-chart"></canvas>
+                <canvas id="ud-contact-chart"></canvas>
             </div>
         </div>
 
@@ -569,7 +569,7 @@
         const udCsiSurvey = {!! json_encode($csiSurvey) !!};
         const udPendingData = {!! json_encode($pending_data) !!};
         const udTicketData = {!! json_encode($ticket_status_data) !!};
-        const udContractData = {!! json_encode($contract_center_data) !!};
+        const udContactData = {!! json_encode($contract_center_data) !!};
         const udDailyData = {!! json_encode($contract_daily_data) !!};
         const rawReasonData = {!! json_encode($pending_reason_data) !!};
         const rawStatusData = {!! json_encode($status_data) !!};
@@ -1298,16 +1298,22 @@
             },
         });
 
-        makeLineChart('ud-contract-chart',
+        makeLineChart('ud-contact-chart',
             ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
             [
-                makeLineDataset(String(udContractData.prev_year), Array.from({ length: 12 }, (_, i) => udContractData.prev[i + 1] ?? null), '#000'),
-                makeLineDataset(String(udContractData.current_year), Array.from({ length: 12 }, (_, i) => udContractData.current[i + 1] ?? null), C.critical),
+                makeLineDataset(String(udContactData.prev_year), Array.from({ length: 12 }, (_, i) => udContactData.prev[i + 1] ?? null), '#000'),
+                makeLineDataset(String(udContactData.current_year), Array.from({ length: 12 }, (_, i) => udContactData.current[i + 1] ?? null), C.critical),
             ],
             1000
         );
 
         const dailyDays = Object.keys(udDailyData).map(Number).sort((a, b) => a - b);
+
+        console.log('Daily Data:', dailyDays.map(d => ({
+            day: d,
+            day_shift: udDailyData[d].day_shift,
+            night_shift: udDailyData[d].night_shift
+        })));
         makeLineChart('ud-daily-chart',
             dailyDays,
             [
