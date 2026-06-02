@@ -32,7 +32,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-xs text-gray-500 font-medium leading-none mb-0.5">Total Created</p>
+                    <p class="text-xs text-gray-500 font-medium leading-none mb-0.5">Total Created ({{ now()->format('F') }})</p>
                     <h3 class="text-sm font-bold text-gray-800 leading-none">{{ $total_stat_data['total_created'] }}</h3>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-xs text-gray-500 font-medium leading-none mb-0.5">Total Closed</p>
+                    <p class="text-xs text-gray-500 font-medium leading-none mb-0.5">Total Closed ({{ now()->format('F') }})</p>
                     <h3 class="text-sm font-bold text-gray-800 leading-none">{{ $total_stat_data['total_closed'] }}</h3>
                 </div>
             </div>

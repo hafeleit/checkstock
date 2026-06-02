@@ -233,14 +233,14 @@
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 px-3 py-2 flex items-center gap-2">
             <div>
-                <p class="text-sm text-gray-500 font-medium">Total Created</p>
+                <p class="text-sm text-gray-500 font-medium">Total Created ({{ now()->format('F') }})</p>
                 <p class="text-xl font-bold text-gray-800 leading-none">{{ $total_stat_data['total_created'] }}</p>
             </div>
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 px-3 py-2 flex items-center gap-2">
             <div>
-                <p class="text-sm text-gray-500 font-medium">Total Closed</p>
+                <p class="text-sm text-gray-500 font-medium">Total Closed ({{ now()->format('F') }})</p>
                 <p class="text-xl font-bold text-gray-800 leading-none">{{ $total_stat_data['total_closed'] }}</p>
             </div>
         </div>

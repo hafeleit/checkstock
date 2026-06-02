@@ -20,7 +20,7 @@ class AfterSalesDashboardController extends Controller
             'rtat' => $this->calculateRtat($month, $year),
             'ltp'  => $this->calculateLtp($month, $year),
             'ftf'  => $this->calculateFtf($month, $year),
-            'pending_data' => $this->calculatePending($month, $year),
+            'pending_data' => $this->calculatePending(),
             'ticket_status_data' => $this->calculateTicket($year),
             'contract_center_data' => $this->calculateContractCenter($year),
             'contract_daily_data' => $this->calculateContractCenterDaily($month, $year),
@@ -51,7 +51,7 @@ class AfterSalesDashboardController extends Controller
             'ltp'                 => $this->calculateLtp($month, $year),
             'ftf'                 => $this->calculateFtf($month, $year),
             'csi_response_data'   => $this->calculateCsiResponse($month, $year),
-            'pending_data'        => $this->calculatePending($month, $year),
+            'pending_data'        => $this->calculatePending(),
             'ticket_status_data'  => $this->calculateTicket($year),
             'contract_center_data' => $this->calculateContractCenter($year),
             'contract_daily_data' => $this->calculateContractCenterDaily($month, $year),
@@ -527,7 +527,7 @@ class AfterSalesDashboardController extends Controller
 
     private function handlePendingOverviewChart(Request $request)
     {
-        $pendingData = $this->calculatePending(now()->month, now()->year);
+        $pendingData = $this->calculatePending();
         $activeGroup = $request->input('group');
 
         $tickets = $this->pendingTicketQuery($activeGroup)
@@ -547,8 +547,6 @@ class AfterSalesDashboardController extends Controller
                 'hth_after_sale_ticket.pending',
                 'hth_after_sale_ticket_cstm.closed_datetime_c',
             ])
-            ->whereMonth('hth_after_sale_ticket.date_entered', now()->month)
-            ->whereYear('hth_after_sale_ticket.date_entered', now()->year)
             ->latest('hth_after_sale_ticket.date_entered')
             ->paginate(15)
             ->withQueryString();
@@ -1184,10 +1182,10 @@ class AfterSalesDashboardController extends Controller
         ];
     }
 
-    private function calculatePending(int $month, int $year)
+    private function calculatePending()
     {
-        $hafele = $this->pendingByType($month, $year, false, ['R', 'C', 'spare_part', 'consult_or_advise']);
-        $asc = $this->pendingByType($month, $year, true, ['R', 'I']);
+        $hafele = $this->pendingByType(false, ['R', 'C', 'spare_part', 'consult_or_advise']);
+        $asc = $this->pendingByType(true, ['R', 'I']);
 
         return [
             'grandHafeleTotal'  => $hafele->sum('total'),
@@ -1611,11 +1609,10 @@ class AfterSalesDashboardController extends Controller
             }));
     }
 
-    private function pendingByType(int $month, int $year, bool $isAsc, array $types)
-    {
+    private function pendingByType(bool $isAsc, array $types)
+    {       
         return $this->pendingTicketQuery($isAsc ? 'asc' : 'hafele')
-            ->whereMonth('hth_after_sale_ticket.date_entered', $month)
-            ->whereYear('hth_after_sale_ticket.date_entered', $year)
+            ->where('date_entered', '<=', now())
             ->whereIn('hth_after_sale_ticket.type', $types)
             ->select('hth_after_sale_ticket.type', DB::raw('COUNT(*) as total'))
             ->groupBy('hth_after_sale_ticket.type')
