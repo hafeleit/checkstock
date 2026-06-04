@@ -517,11 +517,21 @@ class AfterSalesDashboardController extends Controller
             ->paginate(15)
             ->withQueryString();
 
+        $pendingReasons = [
+            'Spare_part_on_progress'            => 'Spare Part',
+            'Site_not_ready_or_waiting_confirm' => 'Site Not Ready',
+            'Postpone_or_new_appointment'       => 'Postpone',
+            'Process_return_or_change_set'      => 'Return/Change',
+            'Waiting_service_schedule_Technician' => 'Waiting Technician',
+            'blank'                             => 'No Reason',
+        ];
+
         return view('pages.after-sales.details.pending-reason-chart', [
             'pendingData'    => $pendingData,
             'tickets'        => $tickets,
             'activeAgings'   => $activeAgings,
             'activePendings' => $activePendings,
+            'pendingReasons' => $pendingReasons,
         ]);
     }
 
