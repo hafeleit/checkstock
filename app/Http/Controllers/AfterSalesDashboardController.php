@@ -89,7 +89,7 @@ class AfterSalesDashboardController extends Controller
             'ud-pending-by-type-chart' => 'handlePendingByTypeChart',
             'ud-pending-product-group-chart' => 'handlePendingProductGroupChart',
             'ud-ticket-chart' => 'handleTicketChart',
-            'ud-contract-chart' => 'handleContractChart',
+            'ud-contact-chart' => 'handleContractChart',
             'ud-daily-chart' => 'handleDailyChart',
         ];
 
