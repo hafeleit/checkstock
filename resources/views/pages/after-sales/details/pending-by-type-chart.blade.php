@@ -39,19 +39,34 @@
 
                 @php
                     $typeLabels = [
-                        'I'                 => 'Installation',
-                        'R'                 => 'Repair',
-                        'spare_part'        => 'Spare Part',
-                        'C'                 => 'Onsite Consult',
-                        'consult_or_advise' => 'Phone Consult',
+                        'I'                => 'Installation',
+                        'P'                => 'Preventive Maintenance',
+                        'R'                => 'Repair',
+                        'consult_or_advise' => 'Consult by Phone',
+                        'T'                => 'Training',
+                        'spare_part'       => 'Spare Part / Accessory',
+                        'O'                => 'Other',
+                        'C'                => 'Consult by Onsite',
+                        'manufacture'      => 'Manufacture',
+                        'site_servey'      => 'Site Servey',
+                        'site_meeting'     => 'Site Meeting',
+                        'handover'         => 'Handover',
+                        'delivery'         => 'Delivery',
                     ];
                 @endphp
 
                 {{-- Type Filter --}}
                 <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeType ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Types</a>
+                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeTypes) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Types</a>
                     @foreach ($typeLabels as $value => $label)
-                        <a href="?type={{ $value }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeType === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                        @php
+                            $isActive = in_array($value, $activeTypes ?? [], true);
+                            $newTypes = $isActive
+                                ? array_values(array_diff($activeTypes, [$value]))
+                                : [...($activeTypes ?? []), $value];
+                        @endphp
+                        <a href="{{ empty($newTypes) ? '?' : '?'.http_build_query(['type' => $newTypes]) }}"
+                            class="px-2 py-1 rounded text-xs font-semibold {{ $isActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
                             {{ $label }}
                         </a>
                     @endforeach
@@ -63,11 +78,16 @@
                         <tr>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
-                            <th class="px-3 py-2 text-left font-semibold w-40">Name</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Type</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Assigned To</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Created Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
-                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date Modified</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Booking Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Closed Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Pending</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Note</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -84,36 +104,35 @@
                                 default => $s ?? '-',
                             };
                             $agingClass = fn($d) => match (true) {
-                                $d <= 3 => 'bg-emerald-100 text-emerald-700',
-                                $d <= 7 => 'bg-lime-100 text-lime-700',
-                                $d <= 15 => 'bg-yellow-100 text-yellow-700',
-                                $d <= 30 => 'bg-orange-100 text-orange-700',
-                                default => 'bg-red-100 text-red-700',
+                                $d <= 3 => 'text-3-day',
+                                $d <= 7 => 'text-7-day',
+                                $d <= 15 => 'text-15-day',
+                                $d <= 30 => 'text-30-day',
+                                default => 'text-over-30-day',
                             };
                         @endphp
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-3 py-2 text-gray-400 whitespace-nowrap">
-                                    {{ $tickets->firstItem() + $loop->index }}</td>
-                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">
-                                    {{ $ticket->ticket_number ?? '-' }}</td>
-                                <td class="px-3 py-2 text-gray-600 max-w-[10rem] truncate">{{ $ticket->name ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-400 whitespace-nowrap">{{ $tickets->firstItem() + $loop->index }}</td>
+                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->ticket_number ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->name ?? '-' }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap">
                                     <span class="px-1.5 py-0.5 rounded font-semibold {{ $statusClass($ticket->status) }}">
                                         {{ $statusLabel($ticket->status) }}
                                     </span>
                                 </td>
                                 <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $typeLabels[$ticket->type ?? ''] ?? ($ticket->type ?? '-') }}</td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">
-                                    {{ \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') }}
-                                </td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">
-                                    {{ \Carbon\Carbon::parse($ticket->date_modified)->format('d/m/Y') }}
-                                </td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->first_name . ' ' . $ticket->last_name ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->release_date ? \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->booking ? \Carbon\Carbon::parse($ticket->booking)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->closed_datetime_c ? \Carbon\Carbon::parse($ticket->closed_datetime_c)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->pending ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->note ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
+                                <td colspan="13" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -132,12 +151,13 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
-            const activeType = '{{ $activeType ?? '' }}';
+            const activeTypes = {!! json_encode($activeTypes ?? []) !!};
+            const typeLabels = ['I', 'R', 'spare_part', 'C', 'consult_or_advise'];
             const typeIndexMap = { 'I': 0, 'R': 1, 'spare_part': 2, 'C': 3, 'consult_or_advise': 4 };
-            const activeTypeIdx = activeType ? (typeIndexMap[activeType] ?? -1) : -1;
+            const activeTypeIdxs = activeTypes.map(type => typeIndexMap[type]).filter(idx => idx >= 0);
             const typeFull = '#c4ddff';
             const typeDim  = 'rgba(196,221,255,0.25)';
-            const typeBg = [0,1,2,3,4].map(i => activeTypeIdx < 0 || i === activeTypeIdx ? typeFull : typeDim);
+            const typeBg = typeLabels.map((_, index) => activeTypeIdxs.length === 0 || activeTypeIdxs.includes(index) ? typeFull : typeDim);
 
             const rawPendingType = {!! json_encode($pendingData) !!};
             const udTypeData = {
@@ -175,7 +195,7 @@
                             anchor: 'end',
                             align: 'right',
                             offset: 4,
-                            color: ctx => activeTypeIdx < 0 || ctx.dataIndex === activeTypeIdx ? '#374151' : '#bbb',
+                            color: ctx => activeTypeIdxs.length === 0 || activeTypeIdxs.includes(ctx.dataIndex) ? '#374151' : '#bbb',
                             font: {
                                 size: 12,
                                 weight: 'bold'

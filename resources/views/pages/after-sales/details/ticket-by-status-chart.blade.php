@@ -87,15 +87,32 @@
 
                 {{-- Status Filter --}}
                 @php
-                    $statuses = ['Created' => 'Created', 'Closed' => 'Closed', 'Pending' => 'Pending', 'Open' => 'Open', 'In_progress' => 'In Progress', 'Pending_Reason' => 'Pending Reason'];
+                    $statuses = [
+                        'Created'        => 'Created',
+                        'Closed'         => 'Closed',
+                        'Pending'        => 'Pending',
+                        'Open'           => 'Open',
+                        'Pending_Reason' => 'Pending Reason',
+                        'In_progress'    => 'In Progress',
+                    ];
                 @endphp
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    @foreach ($statuses as $value => $label)
-                        <a href="?status={{ $value }}"
-                           class="px-2 py-1 rounded text-xs font-semibold {{ $activeStatus === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Status</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeStatuses) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
+                        @foreach ($statuses as $value => $label)
+                            @php
+                                $isStatusActive = \in_array($value, $activeStatuses);
+                                $newStatuses    = $isStatusActive
+                                    ? array_values(array_filter($activeStatuses, fn($s) => $s !== $value))
+                                    : [...$activeStatuses, $value];
+                                $statusParams   = !empty($newStatuses) ? ['status' => $newStatuses] : [];
+                            @endphp
+                            <a href="?{{ http_build_query($statusParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $isStatusActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
             <div class="overflow-x-auto">
@@ -106,8 +123,13 @@
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Assigned To</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Created Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
-                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date Modified</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Booking Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Closed Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Pending</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Note</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -129,12 +151,17 @@
                                     @endphp
                                     <span class="px-1.5 py-0.5 rounded font-semibold {{ $statusClass }}">{{ $statusLabel }}</span>
                                 </td>
-                                <td class="px-3 py-2 text-gray-600">{{ \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') }}</td>
-                                <td class="px-3 py-2 text-gray-600">{{ \Carbon\Carbon::parse($ticket->date_modified)->format('d/m/Y') }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->first_name . ' ' . $ticket->last_name ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->release_date ? \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->booking ? \Carbon\Carbon::parse($ticket->booking)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->closed_datetime_c ? \Carbon\Carbon::parse($ticket->closed_datetime_c)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->pending ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->note ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
+                                <td colspan="12" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
                             </tr>
                         @endforelse
                     </tbody>

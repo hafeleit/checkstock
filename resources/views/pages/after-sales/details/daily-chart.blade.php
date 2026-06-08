@@ -35,14 +35,18 @@
                 </p>
 
                 {{-- Shift Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?{{ http_build_query([...request()->except('shift')]) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeShift ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Shifts</a>
-                    <a href="?{{ http_build_query([...request()->except('shift'), 'shift' => 'day']) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ $activeShift === 'day' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Day Shift</a>
-                    <a href="?{{ http_build_query([...request()->except('shift'), 'shift' => 'night']) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ $activeShift === 'night' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Night Shift</a>
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Shift</p>
+                    <div class="flex flex-wrap gap-1.5 mt-2">
+                        <a href="?{{ http_build_query([...request()->except('shift')]) }}"
+                            class="px-2 py-1 rounded text-xs font-semibold {{ !$activeShift ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Shifts</a>
+                        <a href="?{{ http_build_query([...request()->except('shift'), 'shift' => 'day']) }}"
+                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeShift === 'day' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Day Shift</a>
+                        <a href="?{{ http_build_query([...request()->except('shift'), 'shift' => 'night']) }}"
+                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeShift === 'night' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">Night Shift</a>
+                    </div>
                 </div>
+                
             </div>
             
             <div class="overflow-x-auto">
@@ -58,20 +62,31 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
+                        @php
+                            $typeLabels = [
+                                'I'                => 'Installation',
+                                'P'                => 'Preventive Maintenance',
+                                'R'                => 'Repair',
+                                'consult_or_advise' => 'Consult by Phone',
+                                'T'                => 'Training',
+                                'spare_part'       => 'Spare Part / Accessory',
+                                'O'                => 'Other',
+                                'C'                => 'Consult by Onsite',
+                                'manufacture'      => 'Manufacture',
+                                'site_servey'      => 'Site Servey',
+                                'site_meeting'     => 'Site Meeting',
+                                'handover'         => 'Handover',
+                                'delivery'         => 'Delivery',
+                            ];
+                        @endphp
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-3 py-2 text-gray-400 whitespace-nowrap">
-                                    {{ $tickets->firstItem() + $loop->index }}
-                                </td>
-                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">
-                                    {{ $ticket->code ?? '-' }}
-                                </td>
+                                <td class="px-3 py-2 text-gray-400 whitespace-nowrap">{{ $tickets->firstItem() + $loop->index }}</td>
+                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->code ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600 max-w-[10rem] truncate">{{ $ticket->name ?? '-' }}</td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $ticket->type ?? '-' }}</td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">
-                                    {{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y H:i:s') : '-' }}
-                                </td>
-                                <td class="px-3 py-2 text-gray-600 max-w-[16rem] truncate">{{ $ticket->description ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $typeLabels[$ticket->type] ?? ($ticket->type ?? '-') }}</td>
+                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered, 'UTC')->setTimezone('+07:00')->format('d/m/Y H:i:s') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->description ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>

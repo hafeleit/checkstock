@@ -43,14 +43,28 @@
                 @endphp
 
                 {{-- group Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$activeGroup ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Groups</a>
-                    @foreach ($groupLabels as $value => $label)
-                        <a href="?group={{ $label }}" class="px-2 py-1 rounded text-xs font-semibold {{ $activeGroup === $label ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Group</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="?"
+                            class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeGroups) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                            All Groups
                         </a>
-                    @endforeach
+                        @foreach ($groupLabels as $label)
+                            @php
+                                $isActive = in_array($label, $activeGroups, true);
+                                $newGroups = $isActive
+                                    ? array_values(array_diff($activeGroups, [$label]))
+                                    : [...$activeGroups, $label];
+                            @endphp
+                            <a href="?{{ http_build_query(['group' => $newGroups]) }}"
+                                class="px-2 py-1 rounded text-xs font-semibold {{ $isActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
+                
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[700px] text-xs">
@@ -58,11 +72,16 @@
                         <tr>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
-                            <th class="px-3 py-2 text-left font-semibold w-40">Name</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Group</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Assigned To</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Created Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
-                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date Modified</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Booking Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Closed Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Pending</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Note</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -88,29 +107,24 @@
                         @endphp
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-3 py-2 text-gray-400 whitespace-nowrap">
-                                    {{ $tickets->firstItem() + $loop->index }}
-                                </td>
-                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">
-                                    {{ $ticket->ticket_number ?? '-' }}
-                                </td>
-                                <td class="px-3 py-2 text-gray-600 max-w-[10rem] truncate">{{ $ticket->name ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-400 whitespace-nowrap">{{ $tickets->firstItem() + $loop->index }}</td>
+                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->ticket_number ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->name ?? '-' }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap">
                                     <span class="px-1.5 py-0.5 rounded font-semibold {{ $statusClass($ticket->status) }}">{{ $statusLabel($ticket->status) }}</span>
                                 </td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">
-                                    {{ $typeLabels[$ticket->product_group ?? ''] ?? ($ticket->product_group ?? '-') }}
-                                </td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">
-                                    {{ \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') }}
-                                </td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">
-                                    {{ \Carbon\Carbon::parse($ticket->date_modified)->format('d/m/Y') }}
-                                </td>
+                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $typeLabels[$ticket->product_group ?? ''] ?? ($ticket->product_group ?? '-') }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->first_name . ' ' . $ticket->last_name ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->release_date ? \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->booking ? \Carbon\Carbon::parse($ticket->booking)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->closed_datetime_c ? \Carbon\Carbon::parse($ticket->closed_datetime_c)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->pending ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->note ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
+                                <td colspan="13" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -130,7 +144,8 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
-            const activeGroup = '{{ $activeGroup ?? '' }}';
+            const activeGroups = {!! json_encode($activeGroups) !!};
+            const groupLabels = ['Smart Technology', 'Home appliances', 'Sanitary', 'Architectural hardware', 'FF - Furniture Fittings'];
             const groupIndexMap = {
                 'Smart Technology': 0,
                 'Home appliances': 1,
@@ -138,10 +153,10 @@
                 'Architectural hardware': 3,
                 'FF - Furniture Fittings': 4,
             };
-            const activeGroupIdx = activeGroup ? (groupIndexMap[activeGroup] ?? -1) : -1;
+            const activeGroupIdxs = activeGroups.map(label => groupIndexMap[label]).filter(idx => idx >= 0);
             const groupFull = '#c4ddff';
             const groupDim  = 'rgba(196,221,255,0.25)';
-            const groupBg = [0,1,2,3,4].map(i => activeGroupIdx < 0 || i === activeGroupIdx ? groupFull : groupDim);
+            const groupBg = groupLabels.map((label, index) => activeGroupIdxs.length === 0 || activeGroupIdxs.includes(index) ? groupFull : groupDim);
 
             const rawPendingGroup = {!! json_encode($pendingData) !!};
 
@@ -175,7 +190,7 @@
                             anchor: 'end',
                             align: 'right',
                             offset: 4,
-                            color: ctx => activeGroupIdx < 0 || ctx.dataIndex === activeGroupIdx ? '#374151' : '#bbb',
+                            color: ctx => activeGroupIdxs.length === 0 || activeGroupIdxs.includes(ctx.dataIndex) ? '#374151' : '#bbb',
                             font: {
                                 size: 12,
                                 weight: 'bold'

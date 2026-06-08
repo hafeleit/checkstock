@@ -27,29 +27,41 @@
                 <table class="w-full min-w-[700px] text-xs">
                     <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider">
                         <tr>
-                            <th class="px-3 py-2 text-left font-semibold">#</th>
-                            <th class="px-3 py-2 text-left font-semibold">Ticket No.</th>
-                            <th class="px-3 py-2 text-left font-semibold">Name</th>
-                            <th class="px-3 py-2 text-left font-semibold">Status</th>
-                            <th class="px-3 py-2 text-left font-semibold">Release Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
                             <th class="px-3 py-2 text-right font-semibold">Round</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Assigned To</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Created Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Booking Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Closed Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Pending</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Note</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-3 py-2 text-gray-400">{{ $tickets->firstItem() + $loop->index }}</td>
-                                <td class="px-3 py-2 font-medium text-gray-700">{{ $ticket->ticket_number ?? '-' }}</td>
+                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->ticket_number ?? '-' }}</td>
+                                <td class="px-3 py-2 text-right">{{ $ticket->round ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->name ?? '-' }}</td>
                                 <td class="px-3 py-2">
                                     <span class="px-1.5 py-0.5 rounded font-semibold bg-green-100 text-green-700">{{ $ticket->status ?? '-' }}</span>
                                 </td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->first_name . ' ' . $ticket->last_name ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y') }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') }}</td>
-                                <td class="px-3 py-2 text-right">{{ $ticket->round ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ \Carbon\Carbon::parse($ticket->booking)->format('d/m/Y') }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ \Carbon\Carbon::parse($ticket->closed_datetime_c)->format('d/m/Y') }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->pending ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->note ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-3 py-6 text-center text-gray-400">No tickets this month.</td>
+                                <td colspan="12" class="px-3 py-6 text-center text-gray-400">No tickets this month.</td>
                             </tr>
                         @endforelse
                     </tbody>

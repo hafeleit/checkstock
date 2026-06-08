@@ -40,33 +40,55 @@
                 @endphp
 
                 @php
-                    $yearParams = request()->only('month');
-                    $monthParams = request()->only('year');
+                    $yearParams = array_filter(['month' => $activeMonths ?? [], 'status' => request()->input('status')]);
+                    $baseParams = array_filter(['year' => $activeYears ?? [], 'month' => $activeMonths ?? []]);
+                    $yearLinkParams = request()->except('year');
+                    $monthLinkParams = request()->except('month');
                 @endphp
 
                 {{-- Year Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?{{ http_build_query($yearParams) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeYear ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Years</a>
-                    @foreach ($yearLabels as $year)
-                        <a href="?{{ http_build_query([...$yearParams, 'year' => $year]) }}"
-                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeYear == $year ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $year }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Year</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        @php
+                            $selectedYears = $activeYears ?? [];
+                        @endphp
+                        <a href="?{{ http_build_query($monthLinkParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ empty($selectedYears) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Years</a>
+                        @foreach ($yearLabels as $year)
+                            @php
+                                $isActive = in_array((string)$year, $selectedYears, false);
+                                $newYears = $isActive ? array_values(array_diff($selectedYears, [(string)$year])) : array_values(array_unique(array_merge($selectedYears, [(string)$year])));
+                                $params = empty($newYears) ? $monthLinkParams : [...array_diff_key($monthLinkParams, ['year' => []]), 'year' => $newYears];
+                            @endphp
+                            <a href="?{{ http_build_query($params) }}"
+                                class="px-2 py-1 rounded text-xs font-semibold {{ $isActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $year }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
+                
 
                 {{-- Month Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?{{ http_build_query($monthParams) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeMonth ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Months</a>
-                    @foreach ($monthLabels as $value => $label)
-                        <a href="?{{ http_build_query([...$monthParams, 'month' => $value]) }}"
-                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeMonth == $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Month</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        @php $selectedMonths = $activeMonths ?? []; @endphp
+                        <a href="?{{ http_build_query($monthLinkParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ empty($selectedMonths) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Months</a>
+                        @foreach ($monthLabels as $value => $label)
+                            @php
+                                $isActive = in_array((string)$value, $selectedMonths, false);
+                                $newMonths = $isActive ? array_values(array_diff($selectedMonths, [(string)$value])) : array_values(array_unique(array_merge($selectedMonths, [(string)$value])));
+                                $params = empty($newMonths) ? $monthLinkParams : [...array_diff_key($monthLinkParams, ['month' => []]), 'month' => $newMonths];
+                            @endphp
+                            <a href="?{{ http_build_query($params) }}"
+                                class="px-2 py-1 rounded text-xs font-semibold {{ $isActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
+                
             </div>
             
             <div class="overflow-x-auto">
@@ -75,27 +97,38 @@
                         <tr>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Code</th>
-                            <th class="px-3 py-2 text-left font-semibold w-40">Name</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Type</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date Entered</th>
                             <th class="px-3 py-2 text-left font-semibold">Description</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
+                        @php
+                            $typeLabels = [
+                                'I'                => 'Installation',
+                                'P'                => 'Preventive Maintenance',
+                                'R'                => 'Repair',
+                                'consult_or_advise' => 'Consult by Phone',
+                                'T'                => 'Training',
+                                'spare_part'       => 'Spare Part / Accessory',
+                                'O'                => 'Other',
+                                'C'                => 'Consult by Onsite',
+                                'manufacture'      => 'Manufacture',
+                                'site_servey'      => 'Site Servey',
+                                'site_meeting'     => 'Site Meeting',
+                                'handover'         => 'Handover',
+                                'delivery'         => 'Delivery',
+                            ];
+                        @endphp
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-3 py-2 text-gray-400 whitespace-nowrap">
-                                    {{ $tickets->firstItem() + $loop->index }}
-                                </td>
-                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">
-                                    {{ $ticket->code ?? '-' }}
-                                </td>
+                                <td class="px-3 py-2 text-gray-400 whitespace-nowrap">{{ $tickets->firstItem() + $loop->index }}</td>
+                                <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->code ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600 max-w-[10rem] truncate">{{ $ticket->name ?? '-' }}</td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $ticket->type ?? '-' }}</td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">
-                                    {{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y H:i:s') : '-' }}
-                                </td>
-                                <td class="px-3 py-2 text-gray-600 max-w-[16rem] truncate">{{ $ticket->description ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $typeLabels[$ticket->type] ?? ($ticket->type ?? '-') }}</td>
+                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $ticket->date_entered ? (\Carbon\Carbon::parse($ticket->date_entered, 'UTC')->setTimezone('+07:00')->format('d/m/Y H:i:s')) : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->description ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>
@@ -118,14 +151,15 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
-            const activeYear  = {!! json_encode($activeYear) !!};
-            const activeMonth = {!! json_encode($activeMonth) !!};
+            const activeYears  = {!! json_encode($activeYears ?? []) !!};
+            const activeMonths = {!! json_encode($activeMonths ?? []) !!};
 
             const udContractData = {!! json_encode($contractData) !!};
 
-            const activeMonthIdx    = activeMonth ? (parseInt(activeMonth) - 1) : -1;
-            const prevYearActive    = !activeYear || String(udContractData.prev_year)    === String(activeYear);
-            const currentYearActive = !activeYear || String(udContractData.current_year) === String(activeYear);
+            const activeMonthIdxs = activeMonths.map(m => parseInt(m, 10) - 1).filter(idx => idx >= 0);
+            const activeMonthSet = new Set(activeMonthIdxs);
+            const prevYearActive    = activeYears.length === 0 || String(udContractData.prev_year)    === String(activeYears.find(y => String(y) === String(udContractData.prev_year)) ?? '');
+            const currentYearActive = activeYears.length === 0 || String(udContractData.current_year) === String(activeYears.find(y => String(y) === String(udContractData.current_year)) ?? '');
 
             const prevColor    = prevYearActive    ? '#000'    : 'rgba(0,0,0,0.15)';
             const currentColor = currentYearActive ? '#c70e0e' : 'rgba(199,14,14,0.15)';
@@ -164,7 +198,7 @@
                                 boxWidth: 8,
                                 font: { size: 12 },
                                 color: ctx => {
-                                    if (!activeYear) return '#666';
+                                    if (activeYears.length === 0) return '#666';
                                     return (ctx.index === 0 ? prevYearActive : currentYearActive) ? '#333' : '#bbb';
                                 }
                             }
@@ -174,9 +208,9 @@
                             anchor: 'end',
                             offset: 3,
                             color: ctx => {
-                                const isYearActive  = ctx.datasetIndex === 0 ? prevYearActive : currentYearActive;
-                                const isMonthActive = activeMonthIdx < 0 || ctx.dataIndex === activeMonthIdx;
-                                return isYearActive && isMonthActive ? '#555' : '#ccc';
+                                    const isYearActive  = ctx.datasetIndex === 0 ? prevYearActive : currentYearActive;
+                                    const isMonthActive = activeMonthIdxs.length === 0 || activeMonthSet.has(ctx.dataIndex);
+                                    return isYearActive && isMonthActive ? '#555' : '#ccc';
                             },
                             font: { size: 12 },
                             formatter: v => v > 0 ? v.toLocaleString() : ''
@@ -194,7 +228,7 @@
                                 maxRotation: 0,
                                 autoSkip: false,
                                 font: { size: 12 },
-                                color: ctx => activeMonthIdx < 0 || ctx.index === activeMonthIdx ? '#555' : '#bbb'
+                                color: ctx => activeMonthIdxs.length === 0 || activeMonthSet.has(ctx.index) ? '#555' : '#bbb'
                             }
                         },
                         y: {

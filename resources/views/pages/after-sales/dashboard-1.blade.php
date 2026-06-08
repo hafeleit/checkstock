@@ -81,7 +81,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <div class="kpi-tooltip hidden absolute z-50 right-0 top-full mt-1 w-60 p-2 text-xs text-white bg-gray-800 rounded shadow-lg">
-                    สูตร: (Pending &gt; 7 วัน / วันที่สร้างย้อนหลัง 30 วัน #skip cancel, fill TAT) × 100
+                    สูตร: ((Pending > 7D. & Booking < Now) / วันที่สร้างย้อนหลัง 30D. #Fill Team) × 100
                 </div>
             </div>
             <div class="relative w-16 h-16 flex-shrink-0">

@@ -4,12 +4,22 @@
 @section('content')
 
     @php
+        // Overall — KPI card (response rate, total ticket count)
         $csiSurvey    = $csiData['survey_data'];
         $csiResponses = (int) ($csiSurvey->total ?? 0);
         $csiTotal     = (int) ($csiData['total_ticket'] ?? 0);
         $csiRate      = $csiTotal > 0 ? round(($csiResponses / $csiTotal) * 100, 1) : 0;
-        $csiPoint     = ($csiSurvey->service_very_good*5) + ($csiSurvey->service_good*4) + ($csiSurvey->service_normal*3) + ($csiSurvey->service_bad*2) + ($csiSurvey->service_very_bad*1);
-        $csiSatPct    = $csiResponses > 0 ? round(($csiPoint / ($allSurvey * 5)) * 100, 1) : 0;
+
+        // Filtered — drives all charts + response card
+        $filtSurvey   = $filteredSurvey;
+        $filtTotal    = (int) ($filtSurvey->total ?? 0);
+        $filtRate     = $csiTotal > 0 ? round(($filtTotal / $csiTotal) * 100, 1) : 0;
+        $filtPoint    = ($filtSurvey->service_very_good * 5)
+                      + ($filtSurvey->service_good      * 4)
+                      + ($filtSurvey->service_normal    * 3)
+                      + ($filtSurvey->service_bad       * 2)
+                      + ($filtSurvey->service_very_bad  * 1);
+        $filtSatPct   = $filtTotal > 0 ? round(($filtPoint / ($filtTotal * 5)) * 100, 1) : 0;
     @endphp
 
     @push('styles')
@@ -32,13 +42,13 @@
                     <div class="flex-shrink-0 bg-gray-100 rounded-lg p-3 flex flex-col justify-center gap-1 w-40">
                         <p class="text-md text-gray-400 uppercase font-semibold">Responses</p>
                         <div class="flex items-baseline gap-1">
-                            <span class="text-2xl font-bold text-red-600">{{ number_format($csiResponses) }}</span>
+                            <span class="text-2xl font-bold text-red-600">{{ number_format($filtTotal) }}</span>
                             <span class="text-sm text-gray-400">/ {{ number_format($csiTotal) }}</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
                             <div class="h-1.5 rounded-full bg-yellow-400" id="ud-csi-rate-bar"></div>
                         </div>
-                        <span class="text-sm font-bold text-yellow-600">{{ $csiRate }}% Rate</span>
+                        <span class="text-sm font-bold text-yellow-600">{{ $filtRate }}% Rate</span>
                     </div>
                     {{-- Satisfaction --}}
                     <div class="flex-1 flex flex-col">
@@ -87,28 +97,39 @@
                         'แย่มาก (Very Bad)' => 'Very Bad',
                     ];
                 @endphp
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ !$serviceStatus ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
-                    @foreach ($serviceStatuses as $value => $label)
-                        <a href="?status={{ urlencode($value) }}"
-                           class="px-2 py-1 rounded text-xs font-semibold {{ $serviceStatus === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
+
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Service Status</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="?" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeStatuses) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All</a>
+                        @foreach ($serviceStatuses as $value => $label)
+                            @php
+                                $isStatusActive  = in_array($value, $activeStatuses);
+                                $newStatuses     = $isStatusActive
+                                    ? array_values(array_filter($activeStatuses, fn($s) => $s !== $value))
+                                    : [...$activeStatuses, $value];
+                                $statusParams    = !empty($newStatuses) ? ['status' => $newStatuses] : [];
+                            @endphp
+                            <a href="?{{ http_build_query($statusParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $isStatusActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
+
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[700px] text-xs">
                     <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider">
                         <tr>
-                            <th class="px-3 py-2 text-left font-semibold">#</th>
-                            <th class="px-3 py-2 text-left font-semibold">Date</th>
-                            <th class="px-3 py-2 text-left font-semibold">Service Team</th>
-                            <th class="px-3 py-2 text-left font-semibold">Problem Resolved</th>
-                            <th class="px-3 py-2 text-left font-semibold">Arrive on Schedule</th>
-                            <th class="px-3 py-2 text-left font-semibold">Polite</th>
-                            <th class="px-3 py-2 text-left font-semibold">Charged Expenses</th>
-                            <th class="px-3 py-2 text-left font-semibold">Suggestions</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Service Team</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Problem Resolved</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Arrive on Schedule</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Polite</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Charged Expenses</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Suggestions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -117,7 +138,7 @@
                                 <td class="px-3 py-2 text-gray-400">{{ $surveys->firstItem() + $loop->index }}</td>
                                 <td class="px-3 py-2 text-gray-600">
                                     {{ \Carbon\Carbon::parse($survey->start_time)->format('d/m/Y') }}</td>
-                                <td class="px-3 py-2">
+                                <td class="px-3 py-2 whitespace-nowrap">
                                     @php
                                         $serviceClass = match (true) {
                                             str_contains($survey->service_team ?? '', 'Very Good') => 'bg-green-100 text-green-700',
@@ -175,7 +196,9 @@
             });
             Chart.register(ChartDataLabels);
 
-            const csiSurvey = {!! json_encode($csiSurvey) !!};
+            // Filtered survey data — drives all charts
+            const csiSurvey     = {!! json_encode($filteredSurvey) !!};
+            const activeStatuses = {!! json_encode($activeStatuses) !!};
             const csiPct = v => csiSurvey.total > 0 ? Math.round(v / csiSurvey.total * 1000) / 10 : 0;
 
             const doughnutOpts = {
@@ -196,20 +219,31 @@
                 },
             });
 
-            // Satisfaction doughnut
-            makeSatDoughnut('ud-sat-doughnut', {{ $csiSatPct }});
+            // Satisfaction doughnut — filtered %
+            makeSatDoughnut('ud-sat-doughnut', {{ $filtSatPct }});
 
-            // CSI rate bar
-            document.getElementById('ud-csi-rate-bar').style.width = '{{ $csiRate }}%';
+            // CSI rate bar — filtered
+            document.getElementById('ud-csi-rate-bar').style.width = '{{ $filtRate }}%';
 
-            // Satisfaction bar chart
+            // Bar dimming: active selections stay full, others dim
+            const statusIndexMap = {
+                'ดีมาก (Very Good)': 0, 'ดี (Good)': 1,
+                'ปกติ (Normal)': 2, 'แย่ (Bad)': 3, 'แย่มาก (Very Bad)': 4
+            };
+            const activeIdxs  = activeStatuses.map(s => statusIndexMap[s] ?? -1).filter(i => i >= 0);
+            const fullColors  = ['#c70e0e', '#f43f5e', '#fb7185', '#fda4af', '#fecdd3'];
+            const dimColors   = ['rgba(199,14,14,0.2)', 'rgba(244,63,94,0.2)', 'rgba(251,113,133,0.2)', 'rgba(253,164,175,0.2)', 'rgba(254,205,211,0.2)'];
+            const barBgColors = fullColors.map((c, i) => activeIdxs.length === 0 || activeIdxs.includes(i) ? c : dimColors[i]);
+            const barLabelColors = fullColors.map((_, i) => activeIdxs.length === 0 || activeIdxs.includes(i) ? '#000' : '#ccc');
+
+            // Satisfaction bar chart — filtered counts
             new Chart(document.getElementById('ud-sat-bar'), {
                 type: 'bar',
                 data: {
                     labels: ['Very Good', 'Good', 'Normal', 'Bad', 'Very Bad'],
                     datasets: [{
                         data: [csiSurvey.service_very_good, csiSurvey.service_good, csiSurvey.service_normal, csiSurvey.service_bad, csiSurvey.service_very_bad],
-                        backgroundColor: ['#c70e0e', '#f43f5e', '#fb7185', '#fda4af', '#fecdd3'],
+                        backgroundColor: barBgColors,
                         borderWidth: 0,
                         barPercentage: 0.6
                     }],
@@ -220,7 +254,11 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: { display: false },
-                        datalabels: { anchor: 'end', align: 'top', color: '#000', font: { size: 12 } }
+                        datalabels: {
+                            anchor: 'end', align: 'top',
+                            color: ctx => barLabelColors[ctx.dataIndex],
+                            font: { size: 12 }
+                        }
                     },
                     scales: {
                         x: { grid: { display: false }, ticks: { font: { size: 12 } } },
@@ -230,7 +268,7 @@
                 },
             });
 
-            // 4 Mini Q doughnuts
+            // Mini Q doughnuts — filtered counts
             makeSatDoughnut('ud-q1-chart', csiPct(csiSurvey.problem_resolved_yes), csiPct(csiSurvey.problem_resolved_yes) + '%');
             makeSatDoughnut('ud-q2-chart', csiPct(csiSurvey.arrive_as_scheduled_yes), csiPct(csiSurvey.arrive_as_scheduled_yes) + '%');
             makeSatDoughnut('ud-q3-chart', csiPct(csiSurvey.polite_and_well_mannered_yes), csiPct(csiSurvey.polite_and_well_mannered_yes) + '%');

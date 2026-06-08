@@ -11,6 +11,12 @@
             .text-emerald-700 { color: #047857; }
             .bg-lime-100 { background-color: #ecfccb; }
             .text-lime-700 { color: #4d7c0f; }
+
+            .text-3-day { color: #10b981; }
+            .text-7-day { color: #84cc16; }
+            .text-15-day { color: #ffcc00; }
+            .text-30-day { color: #fb923c; }
+            .text-over-30-day { color: #ef4444; }
         </style>
     @endpush
 
@@ -30,34 +36,52 @@
                         class="text-sm font-normal text-gray-400">tickets</span></p>
 
                 @php
-                    $regionParams = $activeAging  ? ['aging'  => $activeAging]  : [];
-                    $agingParams  = $activeRegion ? ['region' => $activeRegion] : [];
+                    $regionParams = !empty($activeAgings) ? ['aging'  => $activeAgings] : [];
+                    $agingParams  = !empty($activeRegions) ? ['region' => $activeRegions] : [];
                     $regions = $pendingData->keys()->filter()->sort()->values();
                 @endphp
 
                 {{-- Region Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-2">
-                    <a href="?{{ http_build_query($regionParams) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeRegion ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Regions</a>
-                    @foreach ($regions as $region)
-                        <a href="?{{ http_build_query([...$regionParams, 'region' => $region]) }}"
-                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeRegion === $region ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $region }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Region</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="?{{ http_build_query($regionParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeRegions) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Regions</a>
+                        @foreach ($regions as $region)
+                            @php
+                                $isRegionActive = in_array($region, $activeRegions);
+                                $newRegions = $isRegionActive
+                                    ? array_values(array_filter($activeRegions, fn($r) => $r !== $region))
+                                    : [...$activeRegions, $region];
+                                $regionToggleParams = array_filter(['aging' => $activeAgings, 'region' => $newRegions]);
+                            @endphp
+                            <a href="?{{ http_build_query($regionToggleParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $isRegionActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $region }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
+                
 
                 {{-- Aging Filter --}}
-                <div class="flex flex-wrap gap-1.5 mt-1.5">
-                    <a href="?{{ http_build_query($agingParams) }}"
-                        class="px-2 py-1 rounded text-xs font-semibold {{ !$activeAging ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Aging</a>
-                    @foreach (['0-3' => '0-3 Days', '4-7' => '4-7 Days', '8-15' => '8-15 Days', '16-30' => '16-30 Days', 'over_30' => '>30 Days'] as $value => $label)
-                        <a href="?{{ http_build_query([...$agingParams, 'aging' => $value]) }}"
-                            class="px-2 py-1 rounded text-xs font-semibold {{ $activeAging === $value ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
+                <div class="mt-2">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Aging</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="?{{ http_build_query($agingParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ empty($activeAgings) ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">All Aging</a>
+                        @foreach (['0-3' => '0-3 Days', '4-7' => '4-7 Days', '8-15' => '8-15 Days', '16-30' => '16-30 Days', 'over_30' => '>30 Days'] as $value => $label)
+                            @php
+                                $isAgingActive = in_array($value, $activeAgings);
+                                $newAgings = $isAgingActive
+                                    ? array_values(array_filter($activeAgings, fn($a) => $a !== $value))
+                                    : [...$activeAgings, $value];
+                                $agingToggleParams = array_filter(['region' => $activeRegions, 'aging' => $newAgings]);
+                            @endphp
+                            <a href="?{{ http_build_query($agingToggleParams) }}" class="px-2 py-1 rounded text-xs font-semibold {{ $isAgingActive ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
+                
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[700px] text-xs">
@@ -65,11 +89,16 @@
                         <tr>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">#</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Ticket No.</th>
-                            <th class="px-3 py-2 text-left font-semibold w-40">Name</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Name</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Region</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Assigned To</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Created Date</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Release Date</th>
-                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Date Modified</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Booking Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Closed Date</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Pending</th>
+                            <th class="px-3 py-2 text-left font-semibold whitespace-nowrap w-3/12">Note</th>
                             <th class="px-3 py-2 text-left font-semibold whitespace-nowrap">Days Diff</th>
                         </tr>
                     </thead>
@@ -87,35 +116,40 @@
                                 default          => $s ?? '-',
                             };
                             $agingClass = fn($d) => match (true) {
-                                $d <= 3  => 'bg-emerald-100 text-emerald-700',
-                                $d <= 7  => 'bg-lime-100 text-lime-700',
-                                $d <= 15 => 'bg-yellow-100 text-yellow-700',
-                                $d <= 30 => 'bg-orange-100 text-orange-700',
-                                default  => 'bg-red-100 text-red-700',
+                                $d <= 3 => 'text-3-day',
+                                $d <= 7 => 'text-7-day',
+                                $d <= 15 => 'text-15-day',
+                                $d <= 30 => 'text-30-day',
+                                default => 'text-over-30-day',
                             };
                         @endphp
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-3 py-2 text-gray-400 whitespace-nowrap">{{ $tickets->firstItem() + $loop->index }}</td>
                                 <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->ticket_number ?? '-' }}</td>
-                                <td class="px-3 py-2 text-gray-600 max-w-[10rem] truncate">{{ $ticket->name ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->name ?? '-' }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap">
                                     <span class="px-1.5 py-0.5 rounded font-semibold {{ $statusClass($ticket->status) }}">
                                         {{ $statusLabel($ticket->status) }}
                                     </span>
                                 </td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $ticket->region ?? '-' }}</td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') }}</td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ \Carbon\Carbon::parse($ticket->date_modified)->format('d/m/Y') }}</td>
-                                <td class="px-3 py-2 whitespace-nowrap">
-                                    <span class="px-1.5 py-0.5 rounded font-semibold {{ $agingClass((int) $ticket->days_diff) }}">
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->region ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->first_name . ' ' . $ticket->last_name ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->release_date ? \Carbon\Carbon::parse($ticket->release_date)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->booking ? \Carbon\Carbon::parse($ticket->booking)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->closed_datetime_c ? \Carbon\Carbon::parse($ticket->closed_datetime_c)->format('d/m/Y') : '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->pending ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600">{{ $ticket->note ?? '-' }}</td>
+                                <td class="px-3 py-2 text-right">
+                                    <span class="px-1.5 py-0.5 rounded font-bold {{ $agingClass((int) $ticket->days_diff) }}">
                                         {{ $ticket->days_diff ?? '-' }}
                                     </span>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
+                                <td colspan="13" class="px-3 py-6 text-center text-gray-400">No tickets found.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -134,8 +168,8 @@
         <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
             Chart.register(ChartDataLabels);
 
-            const activeRegion = '{{ $activeRegion ?? '' }}';
-            const activeAging  = '{{ $activeAging ?? '' }}';
+            const activeRegions = {!! json_encode($activeRegions) !!};
+            const activeAgings  = {!! json_encode($activeAgings) !!};
 
             const AG    = ['#10b981', '#84cc16', '#facc15', '#fb923c', '#ef4444'];
             const AGdim = ['rgba(16,185,129,0.2)', 'rgba(132,204,22,0.2)', 'rgba(250,204,21,0.2)', 'rgba(251,146,60,0.2)', 'rgba(239,68,68,0.2)'];
@@ -143,7 +177,7 @@
             const agingLabels = ['0-3 Days', '4-7 Days', '8-15 Days', '16-30 Days', '>30 Days'];
 
             const agingIndexMap = { '0-3': 0, '4-7': 1, '8-15': 2, '16-30': 3, 'over_30': 4 };
-            const activeAgingIdx = activeAging ? (agingIndexMap[activeAging] ?? -1) : -1;
+            const activeAgingIdxs = activeAgings.map(a => agingIndexMap[a] ?? -1).filter(i => i >= 0);
 
             const rawAscData = {!! json_encode($pendingData) !!};
 
@@ -160,11 +194,11 @@
                 }));
 
             const udAscRows = normalizeAgingRows(rawAscData).sort((a, b) => a.label.localeCompare(b.label));
-            const activeRegionIdx = activeRegion ? udAscRows.findIndex(r => r.label === activeRegion) : -1;
+            const activeRegionIdxs = activeRegions.map(r => udAscRows.findIndex(row => row.label === r)).filter(i => i >= 0);
 
             const isActive = (dsIdx, barIdx) => {
-                const agingOk  = activeAgingIdx  < 0 || dsIdx  === activeAgingIdx;
-                const regionOk = activeRegionIdx < 0 || barIdx === activeRegionIdx;
+                const agingOk  = activeAgingIdxs.length === 0 || activeAgingIdxs.includes(dsIdx);
+                const regionOk = activeRegionIdxs.length === 0 || activeRegionIdxs.includes(barIdx);
                 return agingOk && regionOk;
             };
 
@@ -189,7 +223,7 @@
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
+                            plugins: {
                         legend: {
                             display: true,
                             position: 'bottom',
@@ -197,8 +231,8 @@
                                 boxWidth: 8,
                                 font: { size: 12 },
                                 padding: 4,
-                                color: ctx => activeAgingIdx < 0 ? '#666'
-                                    : ctx.index === activeAgingIdx ? '#333' : '#bbb'
+                                color: ctx => activeAgingIdxs.length === 0 ? '#666'
+                                    : activeAgingIdxs.includes(ctx.index) ? '#333' : '#bbb'
                             }
                         },
                         datalabels: {
