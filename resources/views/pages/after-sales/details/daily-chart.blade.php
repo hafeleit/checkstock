@@ -62,12 +62,29 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
+                        @php
+                            $typeLabels = [
+                                'I'                => 'Installation',
+                                'P'                => 'Preventive Maintenance',
+                                'R'                => 'Repair',
+                                'consult_or_advise' => 'Consult by Phone',
+                                'T'                => 'Training',
+                                'spare_part'       => 'Spare Part / Accessory',
+                                'O'                => 'Other',
+                                'C'                => 'Consult by Onsite',
+                                'manufacture'      => 'Manufacture',
+                                'site_servey'      => 'Site Servey',
+                                'site_meeting'     => 'Site Meeting',
+                                'handover'         => 'Handover',
+                                'delivery'         => 'Delivery',
+                            ];
+                        @endphp
                         @forelse ($tickets as $ticket)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-3 py-2 text-gray-400 whitespace-nowrap">{{ $tickets->firstItem() + $loop->index }}</td>
                                 <td class="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">{{ $ticket->code ?? '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600 max-w-[10rem] truncate">{{ $ticket->name ?? '-' }}</td>
-                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $ticket->type ?? '-' }}</td>
+                                <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $typeLabels[$ticket->type] ?? ($ticket->type ?? '-') }}</td>
                                 <td class="px-3 py-2 text-gray-600 whitespace-nowrap">{{ $ticket->date_entered ? \Carbon\Carbon::parse($ticket->date_entered, 'UTC')->setTimezone('+07:00')->format('d/m/Y H:i:s') : '-' }}</td>
                                 <td class="px-3 py-2 text-gray-600">{{ $ticket->description ?? '-' }}</td>
                             </tr>

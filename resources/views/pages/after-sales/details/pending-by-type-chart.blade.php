@@ -39,11 +39,19 @@
 
                 @php
                     $typeLabels = [
-                        'I'                 => 'Installation',
-                        'R'                 => 'Repair',
-                        'spare_part'        => 'Spare Part',
-                        'C'                 => 'Onsite Consult',
-                        'consult_or_advise' => 'Phone Consult',
+                        'I'                => 'Installation',
+                        'P'                => 'Preventive Maintenance',
+                        'R'                => 'Repair',
+                        'consult_or_advise' => 'Consult by Phone',
+                        'T'                => 'Training',
+                        'spare_part'       => 'Spare Part / Accessory',
+                        'O'                => 'Other',
+                        'C'                => 'Consult by Onsite',
+                        'manufacture'      => 'Manufacture',
+                        'site_servey'      => 'Site Servey',
+                        'site_meeting'     => 'Site Meeting',
+                        'handover'         => 'Handover',
+                        'delivery'         => 'Delivery',
                     ];
                 @endphp
 
