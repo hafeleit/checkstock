@@ -20,9 +20,7 @@
         }
 
         .dropdown-file-lists {
-            left: 0 !important;
             right: auto !important;
-            min-width: 100%;
         }
 
         .dropdown-item-lists:hover {
@@ -118,9 +116,10 @@
                                             <td>
                                                 @if($product->product_info?->catalogueFiles && $product->product_info?->catalogueFiles->isNotEmpty())
                                                     <div class="dropdown">
-                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" 
-                                                            type="button" 
-                                                            data-bs-toggle="dropdown" 
+                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs"
+                                                            type="button"
+                                                            data-bs-toggle="dropdown"
+                                                            data-bs-display="static"
                                                             aria-expanded="false" >
                                                             PDF Files ({{ count($product->product_info?->catalogueFiles) }})
                                                         </button>
@@ -144,9 +143,10 @@
                                             <td>
                                                 @if($product->product_info?->manualFiles && $product->product_info?->manualFiles->isNotEmpty())
                                                     <div class="dropdown">
-                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" 
-                                                            type="button" 
-                                                            data-bs-toggle="dropdown" 
+                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs"
+                                                            type="button"
+                                                            data-bs-toggle="dropdown"
+                                                            data-bs-display="static"
                                                             aria-expanded="false">
                                                             PDF Files ({{ count($product->product_info?->manualFiles) }})
                                                         </button>
@@ -171,8 +171,9 @@
                                                 @if($product->product_info?->specsheetFiles && $product->product_info?->specsheetFiles->isNotEmpty())
                                                     <div class="dropdown">
                                                         <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs"
-                                                            type="button" 
-                                                            data-bs-toggle="dropdown" 
+                                                            type="button"
+                                                            data-bs-toggle="dropdown"
+                                                            data-bs-display="static"
                                                             aria-expanded="false">
                                                             PDF Files ({{ count($product->product_info?->specsheetFiles) }})
                                                         </button>
@@ -234,11 +235,43 @@
 
     <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function(el) {
-                new bootstrap.Dropdown(el, {
-                    popperConfig: { strategy: 'fixed' }
+            // Move dropdown menu to body on show, and move it back on hide
+            document.querySelectorAll('.dropdown-file-lists').forEach(function(menu) {
+                var toggleEl = menu.previousElementSibling;
+                var dropdownContainer = toggleEl.closest('.dropdown');
+
+                menu._toggle = toggleEl;
+                menu._container = dropdownContainer;
+
+                toggleEl.addEventListener('show.bs.dropdown', function() {
+                    var rect = toggleEl.getBoundingClientRect();
+                    document.body.appendChild(menu);
+                    menu.style.cssText = 'position:fixed;top:' + (rect.bottom + 2) + 'px;left:' + rect.left + 'px;margin:0;z-index:9999;min-width:' + rect.width + 'px;';
+                });
+
+                toggleEl.addEventListener('hidden.bs.dropdown', function() {
+                    if (document.body === menu.parentElement) {
+                        dropdownContainer.appendChild(menu);
+                        menu.removeAttribute('style');
+                    }
                 });
             });
+
+            // Update dropdown positions on scroll
+            window.addEventListener('scroll', function() {
+                document.querySelectorAll('.dropdown-file-lists').forEach(function(menu) {
+                    if (menu.parentElement === document.body) {
+                        var toggle = menu._toggle;
+                        var container = menu._container;
+                        if (toggle) {
+                            var instance = bootstrap.Dropdown.getInstance(toggle);
+                            if (instance) instance.hide();
+                        }
+                        if (container) container.appendChild(menu);
+                        menu.removeAttribute('style');
+                    }
+                });
+            }, { passive: true });
         });
 
         $('#item_code').focus();
