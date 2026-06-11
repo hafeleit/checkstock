@@ -19,6 +19,8 @@
     <link id="pagestyle" href="../assets/css/argon-dashboard.css" rel="stylesheet" />
 
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+    
+    @cookieconsentscripts
 </head>
 
 <body class="{{ $class ?? '' }}">
@@ -45,6 +47,8 @@
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/argon-dashboard.js"></script>
     <script src="{{ URL::to('/') }}/assets/js/lodash.min.js" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
+    
+    @cookieconsentview
 </body>
 
 </html>
