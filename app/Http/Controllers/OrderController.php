@@ -308,6 +308,11 @@ class OrderController extends Controller
             $shipTo = "TH0400023";
             $billTo = "TH0400024";
             break;
+          case 'LINE MYSHOP':
+            $soldTo = "TH0000904";
+            $shipTo = "TH0400007";
+            $billTo = "TH0400008";
+            break;
           default:
             $soldTo = $sale_channel;
             $shipTo = $sale_channel;
@@ -398,6 +403,8 @@ class OrderController extends Controller
           $data_excel[$l][] = 'TH-DHL-ECM';
         } elseif (Str::contains($shipchan, 'TIKTOK')) {
           $data_excel[$l][] = 'TH-TOK-ECM';
+        } elseif(Str::contains($shipchan, 'LINE MYSHOP')){
+          $data_excel[$l][] = 'TH-DHL-ECM';
         } elseif (strtoupper($order->shippingchannel) == 'STANDARD DELIVERY') {
           $data_excel[$l][] = 'TH-OTHERS';
         } elseif (strtoupper($order->shippingchannel) == 'Express Delivery - ส่งด่วน') {
