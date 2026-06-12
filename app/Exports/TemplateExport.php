@@ -21,6 +21,7 @@ class TemplateExport implements FromArray, WithHeadings, WithColumnWidths
             'project-item' => ['item_code', 'project_item'],
             'superseded' => ['item_code', 'superseded'],
             'qr-code' => ['customer_code', 'customer_name'],
+            'product-series' => ['series_name', 'item_code', 'item_base'],
             'product-items' => [
                 'id',
                 'bar_code',

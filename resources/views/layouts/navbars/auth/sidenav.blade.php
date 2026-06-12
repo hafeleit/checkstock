@@ -133,16 +133,16 @@
       {{-- Products 360° --}}
       @canany(['salesusi view', 'salesusi pc view'])
       <li class="nav-item">
-        <a class="nav-link {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'active' : '' }}"
+        <a class="nav-link {{ in_array(Request::segment(1), ['sales-usi', 'product-infos', 'product-series']) ? 'active' : '' }}"
           data-bs-toggle="collapse"
-          aria-expanded="{{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'true' : 'false' }}"
+          aria-expanded="{{ in_array(Request::segment(1), ['sales-usi', 'product-infos', 'product-series']) ? 'true' : 'false' }}"
           href="#salesUsiExample">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-archive-2 {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
+            <i class="ni ni-archive-2 {{ in_array(Request::segment(1), ['sales-usi', 'product-infos', 'product-series']) ? 'text-primary' : 'text-dark' }} text-sm opacity-10"></i>
           </div>
           <span class="nav-link-text ms-1">Products 360°</span>
         </a>
-        <div class="collapse {{ in_array(Request::segment(1), ['sales-usi', 'product-infos']) ? 'show' : '' }}" id="salesUsiExample">
+        <div class="collapse {{ in_array(Request::segment(1), ['sales-usi', 'product-infos', 'product-series']) ? 'show' : '' }}" id="salesUsiExample">
           <ul class="nav nav-sm flex-column">
             @can('salesusi view')
             <li class="nav-item">
@@ -168,6 +168,12 @@
               </a>
             </li>
             @endcan
+            <li class="nav-item">
+              <a class="nav-link {{ Route::currentRouteName() == 'product-series.index' ? 'active' : '' }}" href="{{ route('product-series.index') }}">
+                <span class="sidenav-mini-icon text-xs"> P </span>
+                <span class="sidenav-normal"> Product Series </span>
+              </a>
+            </li>
           </ul>
         </div>
       </li>
