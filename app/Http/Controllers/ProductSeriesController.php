@@ -6,6 +6,7 @@ use App\Exports\TemplateExport;
 use App\Imports\ProductSeriesImport;
 use App\Models\FileImportLog;
 use App\Models\ProductSeries;
+use App\Models\ZHWWBCQUERYDIR;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -186,5 +187,22 @@ class ProductSeriesController extends Controller
         $fileName = "product_series_template" . now()->format('Ymd') . ".xlsx";
 
         return Excel::download(new TemplateExport('product-series'), $fileName);
+    }
+
+    public function materialSearch(Request $request)
+    {
+        $q = $request->query('q', '');
+
+        $materials = ZHWWBCQUERYDIR::query()
+            ->select('material')
+            ->when($q, function ($query) use ($q) {
+                $query->where('material', 'like', "{$q}%");
+            })
+            ->distinct()
+            ->orderBy('material')
+            ->limit(10)
+            ->pluck('material');
+
+        return response()->json($materials);
     }
 }

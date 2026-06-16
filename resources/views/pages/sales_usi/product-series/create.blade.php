@@ -3,208 +3,9 @@
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Products 360°'])
 
-    <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-        .step-bar {
-            display: flex;
-            align-items: center;
-            padding: 1.25rem 1.5rem;
-        }
-
-        .step-item {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .step-circle {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.72rem;
-            font-weight: 700;
-            flex-shrink: 0;
-            border: 2px solid #dee2e6;
-            color: #adb5bd;
-            background: #fff;
-            transition: all 0.2s;
-        }
-
-        .step-circle.active {
-            border-color: #5e72e4;
-            color: #5e72e4;
-            background: #eef0fd;
-        }
-
-        .step-circle.done {
-            border-color: #2dce89;
-            background: #2dce89;
-            color: #fff;
-        }
-
-        .step-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #adb5bd;
-            transition: color 0.2s;
-        }
-
-        .step-label.active,
-        .step-label.done {
-            color: #344767;
-        }
-
-        .step-connector {
-            flex: 1;
-            height: 2px;
-            background: #dee2e6;
-            margin: 0 1rem;
-            transition: background 0.3s;
-        }
-
-        .step-connector.done {
-            background: #2dce89;
-        }
-
-        .form-label-eu {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-            color: #344767;
-            margin-bottom: 0.35rem;
-            display: block;
-        }
-
-        .add-item-wrap {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .add-item-input {
-            flex: 1;
-        }
-
-        .btn-add-item {
-            white-space: nowrap;
-        }
-
-        .items-list-wrap {
-            margin-top: 0.75rem;
-        }
-
-        .item-row {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.6rem 0.85rem;
-            border-radius: 8px;
-            background: #f8f9fa;
-            margin-bottom: 0.5rem;
-            border: 1px solid #e9ecef;
-            transition: background 0.15s, border-color 0.15s;
-        }
-
-        .item-row.is-base {
-            background: #f0faf5;
-            border-color: #2dce89;
-        }
-
-        .item-code-text {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: #344767;
-            font-family: monospace;
-            flex: 1;
-        }
-
-        .badge-base {
-            font-size: 0.68rem;
-            background: #d3f4e7;
-            color: #1aae6f;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .base-radio-label {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #8392ab;
-            cursor: pointer;
-            white-space: nowrap;
-            user-select: none;
-        }
-
-        .base-radio-label input[type="radio"] {
-            accent-color: #2dce89;
-            width: 14px;
-            height: 14px;
-            cursor: pointer;
-        }
-
-        .btn-remove-item {
-            background: none;
-            border: none;
-            color: #f5365c;
-            padding: 0.2rem 0.45rem;
-            border-radius: 6px;
-            cursor: pointer;
-            line-height: 1;
-            transition: background 0.15s;
-            flex-shrink: 0;
-        }
-
-        .btn-remove-item:hover {
-            background: #fde8ec;
-        }
-
-        .items-empty {
-            text-align: center;
-            padding: 2rem 0;
-            color: #adb5bd;
-            font-size: 0.82rem;
-        }
-
-        .items-empty i {
-            font-size: 1.5rem;
-        }
-
-        .submit-hint {
-            font-size: 0.78rem;
-            color: #8392ab;
-            margin-top: 0.5rem;
-        }
-
-        .field-error {
-            font-size: 0.8rem;
-        }
-
-        .series-subtitle {
-            font-size: 0.8rem;
-            color: #8392ab;
-        }
-
-        .series-name-val {
-            color: #344767;
-        }
-
-        .btn-eu-primary:disabled {
-            opacity: 0.45;
-            cursor: not-allowed;
-            pointer-events: auto;
-        }
-    </style>
+    <link href="{{ URL::to('/') }}/assets/css/product-series.css" rel="stylesheet">
 
     <div class="container-fluid relative">
-
 
         <form id="createForm" action="{{ route('product-series.store') }}" method="POST" novalidate>
             @csrf
@@ -239,7 +40,7 @@
                                 type="text"
                                 class="form-control"
                                 id="series_name_input"
-                                placeholder="e.g. ELITEBOOK 840 G5"
+                                placeholder="e.g. SERIES A"
                                 value="{{ old('series_name') }}"
                                 autocomplete="off"
                             >
@@ -278,14 +79,15 @@
                         Item Code
                     </label>
                     <div class="add-item-wrap">
-                        <div class="add-item-input">
+                        <div class="add-item-input ac-wrap">
                             <input
                                 type="text"
                                 class="form-control"
                                 id="item_code_input"
-                                placeholder="000.00.000"
+                                placeholder="Search item code..."
                                 autocomplete="off"
                             >
+                            <div id="item_code_dropdown" class="ac-dropdown d-none"></div>
                             <div class="text-danger field-error mt-1 d-none" id="item_code_error"></div>
                         </div>
                         <button type="button" class="btn-eu-primary btn-add-item" id="btnAddItem">
@@ -324,6 +126,8 @@
 
         (function () {
             let itemCounter = 0;
+            let acSelected = false;
+            let acItems = [];
 
             // ── Stepper helpers ──────────────────────────────────────────
             function goToStep2() {
@@ -373,24 +177,135 @@
             // ── Input mask ───────────────────────────────────────────────
             $('#item_code_input').mask('000.00.000');
 
-            // ── Item management ──────────────────────────────────────────
-            const ITEM_CODE_RE = /^\d{3}\.\d{2}\.\d{3}$/;
+            // ── Autocomplete ─────────────────────────────────────────────
+            (function () {
+                const acInput    = document.getElementById('item_code_input');
+                const acDropdown = document.getElementById('item_code_dropdown');
+                let acTimer = null;
+                let acRequest = null;
+                let acActiveIdx = -1;
 
+                function closeDropdown() {
+                    acDropdown.classList.add('d-none');
+                    acDropdown.innerHTML = '';
+                    acActiveIdx = -1;
+                    if (!acSelected) {
+                        acItems = [];
+                    }
+                }
+
+                function setActive(idx) {
+                    acActiveIdx = idx;
+                    acDropdown.querySelectorAll('.ac-item').forEach(function (el, i) {
+                        el.classList.toggle('ac-active', i === idx);
+                    });
+                }
+
+                function renderDropdown(items) {
+                    acItems = items;
+                    acActiveIdx = -1;
+                    acDropdown.innerHTML = '';
+                    if (!items.length) {
+                        acDropdown.innerHTML = '<div class="ac-loading">No results found</div>';
+                        acDropdown.classList.remove('d-none');
+                        return;
+                    }
+                    items.forEach(function (item) {
+                        const div = document.createElement('div');
+                        div.className = 'ac-item';
+                        div.textContent = item;
+                        div.addEventListener('mousedown', function (e) {
+                            e.preventDefault();
+                            acSelected = true;
+                            $('#item_code_input').val(item);
+                            closeDropdown();
+                        });
+                        acDropdown.appendChild(div);
+                    });
+                    acDropdown.classList.remove('d-none');
+                }
+
+                acInput.addEventListener('input', function () {
+                    acSelected = false;
+                    clearTimeout(acTimer);
+                    if (acRequest) {
+                        acRequest.abort();
+                        acRequest = null;
+                    }
+                    closeDropdown();
+
+                    const digits = this.value.replace(/\D/g, '');
+                    if (digits.length < 3) {
+                        return;
+                    }
+
+                    const q = this.value.trim();
+                    acTimer = setTimeout(function () {
+                        acDropdown.innerHTML = '<div class="ac-loading"><i class="fas fa-spinner fa-spin me-1"></i>Loading...</div>';
+                        acDropdown.classList.remove('d-none');
+                        acRequest = $.ajax({
+                            url: '{{ route("product-series.material-search") }}',
+                            data: { q: q },
+                            dataType: 'json',
+                            success: function (data) {
+                                if (acInput.value.trim() !== q) {
+                                    return;
+                                }
+                                renderDropdown(data);
+                            },
+                            error: function () {
+                                closeDropdown();
+                            },
+                            complete: function () {
+                                acRequest = null;
+                            }
+                        });
+                    }, 250);
+                });
+
+                acInput.addEventListener('keydown', function (e) {
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (acActiveIdx < acItems.length - 1) {
+                            setActive(acActiveIdx + 1);
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (acActiveIdx > 0) {
+                            setActive(acActiveIdx - 1);
+                        }
+                    } else if (e.key === 'Enter' && acActiveIdx >= 0 && acItems[acActiveIdx]) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        acSelected = true;
+                        $('#item_code_input').val(acItems[acActiveIdx]);
+                        closeDropdown();
+                    } else if (e.key === 'Escape') {
+                        closeDropdown();
+                    }
+                });
+
+                acInput.addEventListener('blur', function () {
+                    setTimeout(closeDropdown, 150);
+                });
+            })();
+
+            // ── Item management ──────────────────────────────────────────
             function addItem() {
                 const input   = document.getElementById('item_code_input');
                 const errorEl = document.getElementById('item_code_error');
                 const code    = input.value.trim();
-
-                if (!code) {
-                    errorEl.textContent = 'Please enter an item code.';
+                
+                if (!(acSelected || (acItems && acItems.length && acItems.includes(code)))) {
+                    errorEl.textContent = 'Please select a valid item from the suggestions.';
                     errorEl.classList.remove('d-none');
                     input.classList.add('is-invalid');
                     input.focus();
                     return;
                 }
 
-                if (!ITEM_CODE_RE.test(code)) {
-                    errorEl.textContent = 'Item code must be in format 000.00.000';
+                if (!code) {
+                    errorEl.textContent = 'Please enter an item code.';
                     errorEl.classList.remove('d-none');
                     input.classList.add('is-invalid');
                     input.focus();
@@ -466,7 +381,9 @@
 
             function removeItem(idx) {
                 const row = document.getElementById('item-row-' + idx);
-                if (row) row.remove();
+                if (row) {
+                    row.remove();
+                }
                 if (!document.querySelectorAll('.item-row').length) {
                     document.getElementById('items-empty').classList.remove('d-none');
                 }
@@ -491,12 +408,16 @@
             // ── Event delegation for dynamic items ───────────────────────
             document.getElementById('items-list').addEventListener('click', function (e) {
                 const btn = e.target.closest('.btn-remove-item');
-                if (btn) removeItem(btn.dataset.idx);
+                if (btn) {
+                    removeItem(btn.dataset.idx);
+                }
             });
 
             document.getElementById('items-list').addEventListener('change', function (e) {
                 const radio = e.target.closest('input[type="radio"][name="item_base"]');
-                if (radio) onBaseChange(radio.dataset.idx);
+                if (radio) {
+                    onBaseChange(radio.dataset.idx);
+                }
             });
 
             // ── Static button listeners ───────────────────────────────────
@@ -505,11 +426,17 @@
             document.getElementById('btnAddItem').addEventListener('click', addItem);
 
             document.getElementById('series_name_input').addEventListener('keydown', function (e) {
-                if (e.key === 'Enter') { e.preventDefault(); goToStep2(); }
+                if (e.key === 'Enter') { 
+                    e.preventDefault(); 
+                    goToStep2(); 
+                }
             });
 
             document.getElementById('item_code_input').addEventListener('keydown', function (e) {
-                if (e.key === 'Enter') { e.preventDefault(); addItem(); }
+                if (e.key === 'Enter') { 
+                    e.preventDefault(); 
+                    addItem(); 
+                }
             });
         })();
     </script>

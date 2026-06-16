@@ -133,6 +133,7 @@ Route::middleware(['auth', 'check.status', 'force.password.change', 'check.passw
   // product series
   Route::get('/product-series', [ProductSeriesController::class, 'index'])->name('product-series.index');
   Route::get('/product-series/create', [ProductSeriesController::class, 'create'])->name('product-series.create');
+  Route::get('/product-series/material-search', [ProductSeriesController::class, 'materialSearch'])->name('product-series.material-search');
   Route::post('/product-series', [ProductSeriesController::class, 'store'])->name('product-series.store');
   Route::get('/product-series/{productSeries}/edit', [ProductSeriesController::class, 'edit'])->name('product-series.edit');
   Route::put('/product-series/{productSeries}', [ProductSeriesController::class, 'update'])->name('product-series.update');
