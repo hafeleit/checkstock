@@ -77,6 +77,7 @@
                                     <tr class="table-secondary ">
                                         <th class="px-2">Item Code</th>
                                         <th class="px-2">Image</th>
+                                        <th class="px-2">Series Name</th>
                                         <th class="px-2">Project Item</th>
                                         <th class="px-2">Superseded</th>
                                         <th class="px-2">Catalogue</th>
@@ -103,6 +104,7 @@
                                                     <span class="text-muted italic small">- No image -</span>
                                                 @endif
                                             </td>
+                                            <td>{{ $product->series_name ?? '-' }}</td>
                                             <td>
                                                 <span class="{{ $product->product_info?->project_item ? 'text-dark' : 'text-secondary italic small' }}">
                                                     {{ $product->product_info?->project_item ?? '-' }}
@@ -114,17 +116,17 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                @if($product->product_info?->catalogueFiles && $product->product_info?->catalogueFiles->isNotEmpty())
+                                                @if($product?->catalogueFiles && $product?->catalogueFiles->isNotEmpty())
                                                     <div class="dropdown">
                                                         <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs"
                                                             type="button"
                                                             data-bs-toggle="dropdown"
                                                             data-bs-display="static"
                                                             aria-expanded="false" >
-                                                            PDF Files ({{ count($product->product_info?->catalogueFiles) }})
+                                                            PDF Files ({{ count($product?->catalogueFiles) }})
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-file-lists shadow">
-                                                            @foreach($product->product_info?->catalogueFiles as $file)
+                                                            @foreach($product?->catalogueFiles as $file)
                                                                 <li>
                                                                     <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
@@ -141,17 +143,17 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($product->product_info?->manualFiles && $product->product_info?->manualFiles->isNotEmpty())
+                                                @if($product?->manualFiles && $product?->manualFiles->isNotEmpty())
                                                     <div class="dropdown">
                                                         <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs"
                                                             type="button"
                                                             data-bs-toggle="dropdown"
                                                             data-bs-display="static"
                                                             aria-expanded="false">
-                                                            PDF Files ({{ count($product->product_info?->manualFiles) }})
+                                                            PDF Files ({{ count($product?->manualFiles) }})
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-file-lists shadow">
-                                                            @foreach($product->product_info?->manualFiles as $file)
+                                                            @foreach($product?->manualFiles as $file)
                                                                 <li>
                                                                     <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
@@ -168,17 +170,17 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($product->product_info?->specsheetFiles && $product->product_info?->specsheetFiles->isNotEmpty())
+                                                @if($product?->specsheetFiles && $product?->specsheetFiles->isNotEmpty())
                                                     <div class="dropdown">
                                                         <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs"
                                                             type="button"
                                                             data-bs-toggle="dropdown"
                                                             data-bs-display="static"
                                                             aria-expanded="false">
-                                                            PDF Files ({{ count($product->product_info?->specsheetFiles) }})
+                                                            PDF Files ({{ count($product->specsheetFiles) }})
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-file-lists shadow">
-                                                            @foreach($product->product_info?->specsheetFiles as $file)
+                                                            @foreach($product?->specsheetFiles as $file)
                                                                 <li>
                                                                     <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
@@ -203,14 +205,6 @@
                                                     </svg>
                                                 </a>
                                                 @endcan
-                                                {{-- @can('salesusi productinfo delete')
-                                                <a href="#" class="delete-item-btn px-2" data-item-code="{{ $product->item_code }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
-                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                                    </svg>
-                                                </a>
-                                                @endcan --}}
                                             </td>
                                         </tr>
                                         @endforeach

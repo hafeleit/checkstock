@@ -56,8 +56,18 @@
                     </div>
 
                     <div class="card-body pt-0">
-                        <div>
-                            <h4>Item Code : {{ request()->item_code }}</h4>
+                        <div class="d-flex align-items-center gap-3 flex-wrap mt-2">
+                            <div>
+                                <p class="text-uppercase text-secondary text-xxs font-weight-bolder mb-0">Item Code</p>
+                                <h4 class="mb-0">{{ request()->item_code }}</h4>
+                            </div>
+                            {{-- @if (!empty($seriesName)) --}}
+                                <div class="vr align-self-stretch mx-1"></div>
+                                <div>
+                                    <p class="text-uppercase text-secondary text-xxs font-weight-bolder mb-0">Series</p>
+                                    <h5 class="mb-0 text-info font-weight-bold">{{ $seriesName ?? '-' }}</h5>
+                                </div>
+                            {{-- @endif --}}
                         </div>
                         <div class="detail-info col-12 mb-lg-0 mt-4">
                             {{-- Product Information --}}

@@ -7,6 +7,7 @@ use App\Models\External\Product;
 use App\Models\External\ZHWWBCQUERYDIR as ExternalZHWWBCQUERYDIR;
 use App\Models\ProductInfo;
 use App\Models\ProductInfoFile;
+use App\Models\ProductSeries;
 use App\Models\ZHWWBCQUERYDIR;
 use App\Models\ZHWWMM_BOM_VKO;
 use App\Services\ExternalProductApiService;
@@ -83,18 +84,40 @@ class ProductController extends Controller
         // product info
         $productInfo = ProductInfo::where('item_code', $itemCode)->first();
 
+        // product series
+        $seriesName = ProductSeries::where('item_code', $itemCode)->value('series_name');
+        $baseItemCode = ProductSeries::query()
+            ->where('series_name', $seriesName)
+            ->where('item_base', true)
+            ->value('item_code');
+
         // pdf files
         $catalogueFiles = ProductInfoFile::where('item_code', $itemCode)
             ->where('type', 'catalogue')
             ->where('is_active', true)
+            ->when($baseItemCode, function ($query) use ($baseItemCode) {
+                $query->orWhere('item_code', $baseItemCode)
+                    ->where('type', 'catalogue')
+                    ->where('is_active', true);
+            })
             ->get();
         $manualFiles = ProductInfoFile::where('item_code', $itemCode)
             ->where('type', 'manual')
             ->where('is_active', true)
+            ->when($baseItemCode, function ($query) use ($baseItemCode) {
+                $query->orWhere('item_code', $baseItemCode)
+                    ->where('type', 'manual')
+                    ->where('is_active', true);
+            })
             ->get();
         $specsheetFiles = ProductInfoFile::where('item_code', $itemCode)
             ->where('type', 'specsheet')
             ->where('is_active', true)
+            ->when($baseItemCode, function ($query) use ($baseItemCode) {
+                $query->orWhere('item_code', $baseItemCode)
+                    ->where('type', 'specsheet')
+                    ->where('is_active', true);
+            })
             ->get();
 
         $stMapping = $this->getStMapping();
