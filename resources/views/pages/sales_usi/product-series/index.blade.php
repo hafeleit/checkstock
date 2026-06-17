@@ -22,7 +22,7 @@
             {{-- Search --}}
             <div class="search-wrap">
                 <div class="search-input-wrap">
-                    <input type="search" class="search-input" id="search" value="{{ $params['search'] ?? '' }}" placeholder="Series name or base item code">
+                    <input type="search" class="search-input" id="search" value="{{ $params['search'] ?? '' }}" placeholder="Series name or item code">
                 </div>
                 <button type="button" class="btn-search" id="searchButton">
                     <i class="fas fa-search fa-xs"></i> Search
@@ -37,6 +37,7 @@
                             <th>No.</th>
                             <th>Series Name</th>
                             <th>Base Item Code</th>
+                            <th>Item Codes</th>
                             <th>Updated By</th>
                             <th>Updated At</th>
                             <th class="text-center">Action</th>
@@ -48,6 +49,11 @@
                                 <td class="muted">{{ $productSeries->firstItem() + $loop->index }}</td>
                                 <td>{{ $series->series_name }}</td>
                                 <td>{{ $series->item_code }}</td>
+                                <td>
+                                    @foreach ($series->seriesItems as $child)
+                                        <span class="badge bg-secondary fw-normal">{{ $child->item_code }}</span>
+                                    @endforeach
+                                </td>
                                 <td class="muted">{{ $series->updatedBy?->username ?? '—' }}</td>
                                 <td class="muted">{{ $series->updated_at?->format('d/m/Y H:i') ?? '—' }}</td>
                                 <td class="text-center">
@@ -67,7 +73,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center muted py-5">No product series found</td>
+                                <td colspan="7" class="text-center muted py-5">No product series found</td>
                             </tr>
                         @endforelse
                     </tbody>

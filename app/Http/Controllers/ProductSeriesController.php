@@ -17,12 +17,15 @@ class ProductSeriesController extends Controller
     {
         $search = $request->query('search');
 
-        $productSeries = ProductSeries::with('updatedBy')
+        $productSeries = ProductSeries::with(['updatedBy', 'seriesItems'])
             ->where('item_base', true)
-            ->when($search !== null && $search !== '', function ($q) use ($search) {
+            ->when($search, function ($q) use ($search) {
                 $q->where(function ($q) use ($search) {
                     $q->where('series_name', 'like', "%{$search}%")
-                        ->orWhere('item_code', 'like', "%{$search}%");
+                        ->orWhere('item_code', 'like', "%{$search}%")
+                        ->orWhereHas('seriesItems', function ($r) use ($search) {
+                            $r->where('item_code', 'like', "%{$search}%");
+                        });
                 });
             })
             ->orderBy('series_name', 'asc')

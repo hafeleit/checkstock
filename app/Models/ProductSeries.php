@@ -14,6 +14,13 @@ class ProductSeries extends Model
 
     protected $casts = ['item_base' => 'boolean'];
 
+    public function seriesItems()
+    {
+        return $this->hasMany(self::class, 'series_name', 'series_name')
+            ->where('item_base', false)
+            ->orderBy('item_code');
+    }
+
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
