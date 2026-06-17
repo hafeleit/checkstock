@@ -144,9 +144,12 @@ class ProductSeriesController extends Controller
 
     public function destroy(ProductSeries $productSeries)
     {
-        $productSeries->delete();
-
-        return redirect()->route('product-series.index')->with('status', 'Product series deleted successfully.');
+        try {
+            ProductSeries::where('series_name', $productSeries->series_name)->delete();
+            return redirect()->route('product-series.index')->with('status', 'Product series deleted successfully.');
+        } catch (\Throwable $th) {
+            return redirect()->route('product-series.index')->withErrors(['error' => 'Failed to delete product series: ' . $th->getMessage()]);
+        }
     }
 
     public function import(Request $request)

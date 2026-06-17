@@ -68,8 +68,10 @@
                     <th class="px-2 w-10">BU</th>
                     <th class="px-2 w-10">Doc type</th>
                     <th class="px-2 w-10">Version</th>
+                    @can('salesusi import catalogues')
                     <th class="px-2">Active</th>
                     <th class="px-2"></th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -87,6 +89,7 @@
                             <td>{{ $catalogue->bu ?? '-' }} </td>
                             <td>{{ $catalogue->doc_type ?? '-' }} </td>
                             <td>{{ $catalogue->version ?? '-' }} </td>
+                            @can('salesusi import catalogues')
                             <td>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input toggle-catalogue-class"
@@ -103,6 +106,7 @@
                                     </svg>
                                 </a>
                             </td>
+                            @endcan
                         </tr>
                     @endforeach
                 @else

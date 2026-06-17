@@ -67,8 +67,10 @@
                     <th class="px-2 w-10">BU</th>
                     <th class="px-2 w-10">Doc type</th>
                     <th class="px-2 w-10">Version</th>
+                    @can('salesusi import manuals')
                     <th class="px-2">Active</th>
                     <th class="px-2"></th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -86,6 +88,7 @@
                             <td>{{ $manual->bu ?? '-' }} </td>
                             <td>{{ $manual->doc_type ?? '-' }} </td>
                             <td>{{ $manual->version ?? '-' }} </td>
+                            @can('salesusi import manuals')
                             <td>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input toggle-manual-class"
@@ -102,6 +105,7 @@
                                     </svg>
                                 </a>
                             </td>
+                            @endcan
                         </tr>
                     @endforeach
                 @else
