@@ -77,32 +77,17 @@ class ProductInformationController extends Controller
             ->value('item_code');
 
         // pdf files
-        $catalogueFiles = ProductInfoFile::where('item_code', $itemCode)
+        $catalogueFiles = ProductInfoFile::where('item_code', $baseItemCode ? $baseItemCode : $itemCode)
             ->where('type', 'catalogue')
             ->where('is_active', true)
-            ->when($baseItemCode, function ($query) use ($baseItemCode) {
-                $query->orWhere('item_code', $baseItemCode)
-                    ->where('type', 'catalogue')
-                    ->where('is_active', true);
-            })
             ->get();
-        $manualFiles = ProductInfoFile::where('item_code', $itemCode)
+        $manualFiles = ProductInfoFile::where('item_code', $baseItemCode ? $baseItemCode : $itemCode)
             ->where('type', 'manual')
             ->where('is_active', true)
-            ->when($baseItemCode, function ($query) use ($baseItemCode) {
-                $query->orWhere('item_code', $baseItemCode)
-                    ->where('type', 'manual')
-                    ->where('is_active', true);
-            })
             ->get();
-        $specsheetFiles = ProductInfoFile::where('item_code', $itemCode)
+        $specsheetFiles = ProductInfoFile::where('item_code', $baseItemCode ? $baseItemCode : $itemCode)
             ->where('type', 'specsheet')
             ->where('is_active', true)
-            ->when($baseItemCode, function ($query) use ($baseItemCode) {
-                $query->orWhere('item_code', $baseItemCode)
-                    ->where('type', 'specsheet')
-                    ->where('is_active', true);
-            })
             ->get();
 
         $stMapping = $this->getStMapping();

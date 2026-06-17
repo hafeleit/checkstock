@@ -92,7 +92,7 @@
                                         <thead class="bg-dark text-white text-sm text-left">
                                             <tr>
                                                 <th class="p-2 w-3/5">File Name</th>
-                                                <th class="p-2 w-1/5">Item Code</th>
+                                                <th class="p-2 w-1/5">Base Item Code</th>
                                                 <th class="p-2 w-1/5 whitespace-nowrap text-center">Creation Date</th>
                                             </tr>
                                         </thead>
@@ -129,7 +129,7 @@
                                         <thead class="bg-dark text-white text-sm text-left">
                                             <tr>
                                                 <th class="p-2 w-3/5">File Name</th>
-                                                <th class="p-2 w-1/5">Item Code</th>
+                                                <th class="p-2 w-1/5">Base Item Code</th>
                                                 <th class="p-2 w-1/5 whitespace-nowrap text-center">Creation Date</th>
                                             </tr>
                                         </thead>

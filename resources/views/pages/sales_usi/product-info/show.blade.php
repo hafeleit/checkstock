@@ -91,7 +91,7 @@
                                                 <thead class="text-sm table-dark">
                                                     <tr>
                                                         <th class="px-2 w-70">File Name</th>
-                                                        <th class="px-2">Item Code</th>
+                                                        <th class="px-2">Base Item Code</th>
                                                         <th class="px-2">Creation Date</th>
                                                     </tr>
                                                 </thead>
@@ -129,7 +129,7 @@
                                                 <thead class="text-sm table-dark">
                                                     <tr>
                                                         <th class="px-2 w-70">File Name</th>
-                                                        <th class="px-2">Item Code</th>
+                                                        <th class="px-2">Base Item Code</th>
                                                         <th class="px-2">Creation Date</th>
                                                     </tr>
                                                 </thead>
@@ -167,7 +167,7 @@
                                                 <thead class="text-sm table-dark">
                                                     <tr>
                                                         <th class="px-2 w-70">File Name</th>
-                                                        <th class="px-2">Item Code</th>
+                                                        <th class="px-2">Base Item Code</th>
                                                         <th class="px-2">Creation Date</th>
                                                     </tr>
                                                 </thead>
