@@ -23,11 +23,11 @@ class ProductInformationController extends Controller
     {
         $this->middleware('permission:salesusi productinfo view')->only(['index']);
         $this->middleware('permission:salesusi productinfo view detail')->only(['show']);
-        $this->middleware('permission:salesusi productinfo edit')->only(['edit', 'update', 'uploadFiles', 'importInfo', 'downloadTemplate', 'togglePdfStatus', 'deletePdf']);
+        $this->middleware('permission:salesusi productinfo edit')->only(['edit', 'update', 'uploadFiles', 'importInfo', 'downloadTemplate', 'togglePdfStatus']);
         $this->middleware('permission:salesusi productinfo delete')->only(['destroy']);
         $this->middleware('permission:salesusi update superseded|salesusi update project item')->only(['importInfo', 'downloadTemplate']);
         $this->middleware('permission:salesusi update info')->only(['update']);
-        $this->middleware('permission:salesusi import catalogues|salesusi import manuals|salesusi import specsheets')->only(['uploadFiles']);
+        $this->middleware('permission:salesusi import catalogues|salesusi import manuals|salesusi import specsheets')->only(['uploadFiles', 'deletePdf']);
     }
 
     public function index()
