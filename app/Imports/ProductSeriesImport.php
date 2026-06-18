@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 class ProductSeriesImport implements ToModel, WithHeadingRow, WithValidation, SkipsEmptyRows
 {
     private $fileImportLogId;
+    private array $importedSeriesNames = [];
 
     public function __construct($fileImportLogId)
     {
@@ -24,7 +25,7 @@ class ProductSeriesImport implements ToModel, WithHeadingRow, WithValidation, Sk
         return [
             'series_name' => 'required',
             'item_code' => 'required',
-            'item_base' => 'required|boolean',
+            'item_base' => 'nullable|boolean',
         ];
     }
 
@@ -39,22 +40,30 @@ class ProductSeriesImport implements ToModel, WithHeadingRow, WithValidation, Sk
         }
 
         // Check for duplicates
-        $sameSeries = ProductSeries::where('series_name', $row['series_name'])->first();
+        $exactDuplicate = ProductSeries::where('series_name', $row['series_name'])
+            ->where('item_code', $row['item_code'])
+            ->exists();
+        if ($exactDuplicate) {
+            throw new \Exception("Duplicate row: series '{$row['series_name']}' already contains item code '{$row['item_code']}'.");
+        }
+
         $sameItemCode = ProductSeries::where('item_code', $row['item_code'])->first();
-        if ($sameSeries && $sameItemCode) {
-            if ($sameSeries->item_code === $row['item_code']) {
-                throw new \Exception("Duplicate row: series '{$row['series_name']}' already contains item code '{$row['item_code']}'.");
-            }
-        }
-        if ($sameSeries) {
-            throw new \Exception("Series '{$row['series_name']}' already exists. Please import with a different series name or update the existing series.");
-        }
         if ($sameItemCode) {
             throw new \Exception("Item code '{$row['item_code']}' already exists in series '{$sameItemCode->series_name}'.");
         }
 
+        //  Block adding new items to a series that already existed before this import
+        $seriesName = $row['series_name'];
+        if (!in_array($seriesName, $this->importedSeriesNames)) {
+            $seriesExistsInDb = ProductSeries::where('series_name', $seriesName)->exists();
+            if ($seriesExistsInDb) {
+                throw new \Exception("Series '{$seriesName}' already exists. Please use the edit feature to add items to an existing series.");
+            }
+            $this->importedSeriesNames[] = $seriesName;
+        }
+
         // Convert item_base to boolean
-        $rawBase = $row['item_base'] ?? '';
+        $rawBase = $row['item_base'] ?? false;
         if (is_bool($rawBase)) {
             $isBase = $rawBase;
         } else {

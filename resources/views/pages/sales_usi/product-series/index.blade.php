@@ -61,10 +61,12 @@
                                         <a href="{{ route('product-series.edit', $series->id) }}" class="btn-action btn-action-edit">
                                             <i class="fas fa-pen fa-xs"></i> Edit
                                         </a>
-                                        <form action="{{ route('product-series.destroy', $series->id) }}" method="post" onsubmit="return confirm('Delete this series?')">
+                                        <form id="delete-form-{{ $series->id }}" action="{{ route('product-series.destroy', $series->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn-action btn-action-delete py-2">
+                                            <button type="button" class="btn-action btn-action-delete py-2 confirm-delete-btn"
+                                                data-form-id="delete-form-{{ $series->id }}"
+                                                data-series-name="{{ $series->series_name }}">
                                                 <i class="fas fa-trash fa-xs"></i> Delete
                                             </button>
                                         </form>
@@ -143,6 +145,30 @@
                 e.preventDefault();
                 handleSearch();
             }
+        });
+
+        document.querySelectorAll('.confirm-delete-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const formId = this.dataset.formId;
+                const seriesName = this.dataset.seriesName;
+                Swal.fire({
+                    title: 'Delete Series?',
+                    text: `"${seriesName}" will be permanently deleted.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#f5365c',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Delete',
+                    cancelButtonText: 'Cancel',
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        const loader = document.getElementById('loader-wrapper');
+                        loader.classList.remove('loader-hidden');
+                        loader.style.display = 'flex';
+                        document.getElementById(formId).submit();
+                    }
+                });
+            });
         });
 
         document.addEventListener('DOMContentLoaded', function() {
