@@ -156,7 +156,6 @@ Route::middleware(['auth', 'check.status', 'force.password.change', 'check.passw
 
   // warranty routes
   Route::get('warranty/list', [WarrantyController::class, 'warrantyList'])->name('warranty.list');
-  Route::get('warranty/log', [WarrantyLogController::class, 'index'])->name('warranty.log');
   Route::get('warranty/export', [WarrantyController::class, 'warrantyExport'])->name('warranty.export');
   Route::get('warranty/{warranty}/edit', [WarrantyController::class, 'warrantyEdit'])->name('warranty.edit');
   Route::put('warranty/{warranty}', [WarrantyController::class, 'update'])->name('warranty.update');

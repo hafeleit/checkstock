@@ -328,14 +328,6 @@
               </a>
             </li>
             @endcan
-            @can('warranty view log')
-            <li class="nav-item">
-              <a class="nav-link {{ Route::currentRouteName() == 'warranty.log' ? 'active' : '' }}" href="{{ route('warranty.log') }}">
-                <span class="sidenav-mini-icon text-xs"> G </span>
-                <span class="sidenav-normal">Log</span>
-              </a>
-            </li>
-            @endcan
           </ul>
         </div>
       </li>
