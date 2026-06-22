@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\WarrantyExport;
 use App\Models\Warranty;
-use App\Models\WarrantyLog;
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Image;
@@ -93,24 +93,16 @@ class WarrantyController extends Controller
     $filters = $request->only(['name', 'tel', 'serial_no', 'order_number']);
     $fileName = 'warranties_' . now()->format('Ymd_His') . '.xlsx';
 
-    $recordCount = Warranty::query()
-      ->when(!empty($filters['name']), fn($q) => $q->where('name', 'like', '%' . trim($filters['name']) . '%'))
-      ->when(!empty($filters['tel']), fn($q) => $q->where('tel', trim($filters['tel'])))
-      ->when(!empty($filters['serial_no']), fn($q) => $q->where('serial_no', trim($filters['serial_no'])))
-      ->when(!empty($filters['order_number']), fn($q) => $q->where('order_number', trim($filters['order_number'])))
-      ->count();
-
     $download = Excel::download(new WarrantyExport($filters), $fileName);
 
-    WarrantyLog::create([
-      'warranty_id'  => null,
-      'action_type'  => 'exported',
-      'performed_by' => auth()->id(),
-      'new_values'   => array_filter($filters) ?: null,
-      'file_name'    => $fileName,
-      'record_count' => $recordCount,
-      'ip_address'   => $request->ip(),
-      'user_agent'   => $request->userAgent(),
+    AuditLog::create([
+      'user_id'        => auth()->id(),
+      'event'          => 'exported',
+      'auditable_type' => 'warranty',
+      'auditable_id'   => 0,
+      'status'         => 'pass',
+      'new_values'     => json_encode(array_filter($filters) ?: null),
+      'file_name'      => $fileName,
     ]);
 
     return $download;
@@ -146,14 +138,14 @@ class WarrantyController extends Controller
         array_merge($request->only($fields), ['updated_by' => auth()->id()])
       );
 
-      WarrantyLog::create([
-        'warranty_id'  => $warranty->id,
-        'action_type'  => 'updated',
-        'performed_by' => auth()->id(),
-        'old_values'   => $oldValues,
-        'new_values'   => $request->only($fields),
-        'ip_address'   => $request->ip(),
-        'user_agent'   => $request->userAgent(),
+      AuditLog::create([
+        'user_id'        => auth()->id(),
+        'event'          => 'updated',
+        'auditable_type' => 'warranty',
+        'auditable_id'   => $warranty->id,
+        'status'         => 'pass',
+        'old_values'     => json_encode($oldValues),
+        'new_values'     => json_encode($request->only($fields)),
       ]);
 
       \DB::commit();
