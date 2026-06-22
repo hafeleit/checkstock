@@ -17,8 +17,11 @@
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/argon-dashboard.css" rel="stylesheet" />
+    <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::to('/') }}/assets/css/checkstock.css" rel="stylesheet" />
 
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
     
     @cookieconsentscripts
 </head>
