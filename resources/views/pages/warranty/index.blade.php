@@ -59,7 +59,7 @@
                                     <input name="name" type="text" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล (Please fill in)" value="{{ old('name') }}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="text-sm">ที่อยู่จัดส่งสินค้า (Delivery address)<spanclass="text-danger">*</spanclass=></label>
+                                    <label class="text-sm required">ที่อยู่จัดส่งสินค้า (Delivery address)</label>
                                     <textarea name="addr" class="form-control" rows="3" placeholder="กรุณากรอกที่อยู่จัดส่งสินค้า (Please fill in)" required>
                                         {{ old('addr') }}
                                     </textarea>
@@ -69,7 +69,7 @@
                                     <input name="tel" type="text" class="form-control" placeholder="กรุณากรอกเบอร์โทรศัพท์ (Please fill in)" value="{{ old('tel') }}" required id="contactTelInput">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="text-sm">Article no. (xxx.xx.xxx)<spanclass="text-danger">*</spanclass=></label>
+                                    <label class="text-sm required">Article no. (xxx.xx.xxx)</label>
                                     <input name="article_no" id="article_no" type="text" class="form-control" placeholder="กรุณากรอก Article no. (Please fill in)" value="{{ old('article_no') }}" required>
                                 </div>
                                 <div class="mb-3">
