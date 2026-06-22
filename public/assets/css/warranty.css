@@ -337,6 +337,16 @@ textarea.wl-input { height: auto; resize: vertical; }
     color: #1e40af;
     border: 1px solid #bfdbfe;
 }
+.wl-badge-yes {
+    background: #e7ffee;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+.wl-badge-no {
+    background: #f9fafb;
+    color: #6b7280;
+    border: 1px solid #e5e7eb;
+}
 .wl-diff { display: flex; flex-direction: column; gap: 4px; }
 .wl-diff-row {
     display: flex;

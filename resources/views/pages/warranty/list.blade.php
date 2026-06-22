@@ -15,12 +15,12 @@
                         <h5 class="font-weight-bold mb-1">Warranty Registration List</h5>
                         <p class="text-sm text-muted mb-0">Search and filter warranty registration data</p>
                     </div>
-                    @can('warranty export')
+                    {{-- @can('warranty export')
                     <a href="{{ route('warranty.export', request()->query()) }}" class="wl-export-btn ms-3 text-decoration-none" target="_blank" rel="noopener">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         Export Excel
                     </a>
-                    @endcan
+                    @endcan --}}
                 </div>
                 <form method="GET" action="{{ route('warranty.list') }}" autocomplete="off">
                     <div class="row g-2">
@@ -94,6 +94,7 @@
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Purchase Channel</th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Order No.</th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Address</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Consent Marketing</th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Date</th>
                                     @can('warranty edit')
                                     <th class="text-secondary opacity-7"></th>
@@ -129,6 +130,13 @@
                                     </td>
                                     <td>
                                         <p class="text-xs mb-0 wl-td-addr" title="{{ $item->addr }}">{{ $item->addr }}</p>
+                                    </td>
+                                    <td>
+                                        @if(strtolower($item->is_consent_marketing) === 'yes')
+                                            <span class="wl-badge wl-badge-yes">Yes</span>
+                                        @else
+                                            <span class="wl-badge wl-badge-no">No</span>
+                                        @endif
                                     </td>
                                     <td>
                                         <p class="text-xs mb-0 text-nowrap">{{ $item->created_at->format('d/m/Y') ?? '-' }}</p>
