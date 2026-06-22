@@ -96,7 +96,7 @@
                         </div>
 
                         <div class="py-4">
-                            {{ $logs->links() }}
+                            {{ $logs->withQueryString()->links('pagination::bootstrap-5') }}
                         </div>
                     </div>
                 </div>

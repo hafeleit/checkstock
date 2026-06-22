@@ -160,7 +160,7 @@
                 </div>
                 @if($warranties->hasPages())
                 <div class="card-footer pt-3 pb-3">
-                    {{ $warranties->links() }}
+                    {{ $warranties->withQueryString()->links('pagination::bootstrap-5') }}
                 </div>
                 @endif
             </div>
