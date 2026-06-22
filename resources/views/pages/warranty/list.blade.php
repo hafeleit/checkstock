@@ -131,7 +131,7 @@
                                         <p class="text-xs mb-0 wl-td-addr" title="{{ $item->addr }}">{{ $item->addr }}</p>
                                     </td>
                                     <td>
-                                        <p class="text-xs mb-0 text-nowrap">{{ $item->created_at->format('d/m/Y') }}</p>
+                                        <p class="text-xs mb-0 text-nowrap">{{ $item->created_at->format('d/m/Y') ?? '-' }}</p>
                                     </td>
                                     @can('warranty edit')
                                     <td class="pe-3">
