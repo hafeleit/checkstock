@@ -21,13 +21,6 @@
                         
                         <hr class="horizontal dark mt-0">
 
-                        <div class="warranty-info-banner">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="warranty-info-icon"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                            <span>
-                                หากต้องการตรวจสอบสถานะการรับประกันสินค้า กรุณาติดต่อ <a href="tel:027687171" class="warranty-info-link">02-768-7171</a> หรือ Line: <a href="https://line.me/R/ti/p/%40HAFELETHAILAND" class="warranty-info-link">@HAFELETHAILAND</a>
-                            </span>
-                        </div>
-
                         <div class="card-body">
                             {{-- Success Message --}}
                             @if ($message = Session::get('success'))
@@ -176,6 +169,13 @@
                                     <a class="btn bg-gradient-secondary w-100 mb-0" href="https://www.hafelethailand.com/downloads-support/warranty-conditions/" target=”_blank”>อ่านเงื่อนไขการรับประกันสินค้า คลิก</a>
                                 </div>
                             </form>
+
+                            <div class="warranty-info-banner mt-4">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="warranty-info-icon"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                <span>
+                                    หากต้องการตรวจสอบสถานะการรับประกันสินค้า กรุณาติดต่อ <a href="tel:027687171" class="warranty-info-link">02-768-7171</a> หรือ Line: <a href="https://line.me/R/ti/p/%40HAFELETHAILAND" class="warranty-info-link">@HAFELETHAILAND</a>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
