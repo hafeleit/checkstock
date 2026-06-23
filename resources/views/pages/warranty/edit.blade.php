@@ -71,7 +71,26 @@
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="wl-label">Order Channel <span class="text-danger">*</span></label>
-                                <input type="text" name="order_channel" class="wl-input" value="{{ old('order_channel', $warranty->order_channel) }}" required autocomplete="off">
+                                <select name="order_channel" id="edit_order_channel" class="wl-input" required>
+                                    <option value="" disabled {{ old('order_channel', $warranty->order_channel) === '' ? 'selected' : '' }}>กรุณาเลือกช่องทางการสั่งซื้อ (Please select)</option>
+                                    @foreach([
+                                        'showroom'            => 'โชว์รูม (Showroom)',
+                                        'shopee'              => 'ช้อปปี้ (Shopee Mall)',
+                                        'lazada'              => 'ลาซาด้า (Lazada Mall)',
+                                        'website-hafele-home' => 'เว็บไซต์บริษัท (Website: Hafele Home)',
+                                        'line-hafele-home'    => 'LINE Official (LINE: Hafele Home)',
+                                        'modern-trade'        => 'ห้างโมเดิร์นเทรด (Modern Trade)',
+                                        'dealer'              => 'ร้านค้าวัสดุ / ร้านตัวแทนจำหน่าย (Dealer)',
+                                        'project-contractor'  => 'เซลล์โครงการ / งานโครงการ (Project) / ผู้รับเหมา (Contractor)',
+                                        'other'               => 'อื่นๆ (Other)',
+                                    ] as $val => $label)
+                                    <option value="{{ $label }}" {{ old('order_channel', $warranty->order_channel) === $label ? 'selected' : '' }}>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-12 mb-3 {{ old('order_channel', $warranty->order_channel) === 'อื่นๆ (Other)' ? '' : 'wl-hidden' }}" id="edit_other_channel_wrap">
+                                <label class="wl-label">Other Channel</label>
+                                <input type="text" name="other_channel" id="edit_other_channel" class="wl-input" value="{{ old('other_channel', $warranty->other_channel) }}" placeholder="Please specify..." autocomplete="off">
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="wl-label">Address <span class="text-danger">*</span></label>
@@ -141,5 +160,18 @@
 @endsection
 
 @push('js')
-<script src="{{ asset('assets/js/warranty-check.js') }}"></script>
+<script src="{{ asset('assets/js/warranty-check.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+(function () {
+    const sel = document.getElementById('edit_order_channel');
+    const wrap = document.getElementById('edit_other_channel_wrap');
+    const input = document.getElementById('edit_other_channel');
+    sel.addEventListener('change', function () {
+        const isOther = this.value === 'อื่นๆ (Other)';
+        wrap.classList.toggle('wl-hidden', !isOther);
+        input.disabled = !isOther;
+        if (!isOther) input.value = '';
+    });
+})();
+</script>
 @endpush

@@ -234,6 +234,8 @@
     .wc-thumb { width: 72px; height: 72px; }
 }
 
+.wl-hidden { display: none !important; }
+
 /* ===== Warranty List page ===== */
 .wl-label {
     display: block;

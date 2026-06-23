@@ -91,7 +91,7 @@
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Email</th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Article No.</th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Serial No.</th>
-                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Purchase Channel</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Order Channel</th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Order No.</th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Address</th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Consent Marketing</th>
@@ -123,7 +123,12 @@
                                         <p class="text-xs mb-0">{{ $item->serial_no ?: '-' }}</p>
                                     </td>
                                     <td>
-                                        <p class="text-xs mb-0 wl-td-channel" title="{{ $item->order_channel }}">{{ $item->order_channel }}</p>
+                                        @if($item->order_channel === 'อื่นๆ (Other)' && $item->other_channel)
+                                            <p class="text-xs mb-0 wl-td-channel" title="{{ $item->other_channel }}">{{ $item->order_channel }}</p>
+                                            <p class="text-xs mb-0 text-secondary wl-td-channel" title="{{ $item->other_channel }}">{{ $item->other_channel }}</p>
+                                        @else
+                                            <p class="text-xs mb-0 wl-td-channel" title="{{ $item->order_channel }}">{{ $item->order_channel }}</p>
+                                        @endif
                                     </td>
                                     <td>
                                         <p class="text-xs mb-0">{{ $item->order_number }}</p>

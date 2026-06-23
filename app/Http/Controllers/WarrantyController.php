@@ -124,18 +124,25 @@ class WarrantyController extends Controller
       'serial_no' => 'nullable|string|max:100|unique:warranties,serial_no,' . $warranty->id,
       'order_number' => 'required|string|max:100',
       'order_channel' => 'required|string|max:255',
+      'other_channel' => 'required_if:order_channel,อื่นๆ (Other)|nullable|string|max:255',
     ], [
       'serial_no.unique' => 'Serial No. has already been taken.',
+      'other_channel.required_if' => 'Please specify the other channel.',
     ]);
 
-    $fields = ['name', 'tel', 'email', 'addr', 'article_no', 'serial_no', 'order_number', 'order_channel'];
+    $fields = ['name', 'tel', 'email', 'addr', 'article_no', 'serial_no', 'order_number', 'order_channel', 'other_channel'];
     $oldValues = $warranty->only($fields);
+
+    $updateData = $request->only($fields);
+    if ($updateData['order_channel'] !== 'อื่นๆ (Other)') {
+      $updateData['other_channel'] = null;
+    }
 
     try {
       \DB::beginTransaction();
 
       Warranty::where('id', $warranty->id)->update(
-        array_merge($request->only($fields), ['updated_by' => auth()->id()])
+        array_merge($updateData, ['updated_by' => auth()->id()])
       );
 
       AuditLog::create([
@@ -145,7 +152,7 @@ class WarrantyController extends Controller
         'auditable_id'   => $warranty->id,
         'status'         => 'pass',
         'old_values'     => json_encode($oldValues),
-        'new_values'     => json_encode($request->only($fields)),
+        'new_values'     => json_encode($updateData),
       ]);
 
       \DB::commit();
