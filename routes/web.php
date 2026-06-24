@@ -23,6 +23,7 @@ use App\Http\Controllers\CommissionController;
 use App\Http\Controllers\CustomerQrCodeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductInformationController;
+use App\Http\Controllers\ProductSeriesController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Redirect;
@@ -128,6 +129,17 @@ Route::middleware(['auth', 'check.status', 'force.password.change', 'check.passw
   Route::get('/product-infos/{item_code}/edit', [ProductInformationController::class, 'edit'])->name('product-infos.edit');
   Route::put('/product-infos/{item_code}/upload-files', [ProductInformationController::class, 'uploadFiles'])->name('product-infos.upload-files');
   Route::put('/product-infos/{item_code}/toggle-pdf-status/{id}', [ProductInformationController::class, 'togglePdfStatus'])->name('product-infos.toggle-pdf-status');
+
+  // product series
+  Route::get('/product-series', [ProductSeriesController::class, 'index'])->name('product-series.index');
+  Route::get('/product-series/create', [ProductSeriesController::class, 'create'])->name('product-series.create');
+  Route::get('/product-series/material-search', [ProductSeriesController::class, 'materialSearch'])->name('product-series.material-search');
+  Route::post('/product-series', [ProductSeriesController::class, 'store'])->name('product-series.store');
+  Route::get('/product-series/{productSeries}/edit', [ProductSeriesController::class, 'edit'])->name('product-series.edit');
+  Route::put('/product-series/{productSeries}', [ProductSeriesController::class, 'update'])->name('product-series.update');
+  Route::delete('/product-series/{productSeries}', [ProductSeriesController::class, 'destroy'])->name('product-series.destroy');
+  Route::post('/product-series/import', [ProductSeriesController::class, 'import'])->name('product-series.import');
+  Route::get('/product-series/export-template', [ProductSeriesController::class, 'exportTemplate'])->name('product-series.export-template');
 
   // consumerlabel
   Route::get('/barcode/{barcode}', [ProductItemsController::class, 'generateBarcode'])->name('generate-barcode');

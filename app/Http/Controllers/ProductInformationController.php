@@ -7,6 +7,7 @@ use App\Imports\ProductInfoImport;
 use App\Models\FileImportLog;
 use App\Models\ProductInfo;
 use App\Models\ProductInfoFile;
+use App\Models\ProductSeries;
 use App\Models\ZHWWBCQUERYDIR;
 use App\Models\ZHWWMM_BOM_VKO;
 use Exception;
@@ -22,19 +23,20 @@ class ProductInformationController extends Controller
     {
         $this->middleware('permission:salesusi productinfo view')->only(['index']);
         $this->middleware('permission:salesusi productinfo view detail')->only(['show']);
-        $this->middleware('permission:salesusi productinfo edit')->only(['edit', 'update', 'uploadFiles', 'importInfo', 'downloadTemplate', 'togglePdfStatus', 'deletePdf']);
+        $this->middleware('permission:salesusi productinfo edit')->only(['edit', 'update', 'uploadFiles', 'importInfo', 'downloadTemplate', 'togglePdfStatus']);
         $this->middleware('permission:salesusi productinfo delete')->only(['destroy']);
         $this->middleware('permission:salesusi update superseded|salesusi update project item')->only(['importInfo', 'downloadTemplate']);
         $this->middleware('permission:salesusi update info')->only(['update']);
-        $this->middleware('permission:salesusi import catalogues|salesusi import manuals|salesusi import specsheets')->only(['uploadFiles']);
+        $this->middleware('permission:salesusi import catalogues|salesusi import manuals|salesusi import specsheets')->only(['uploadFiles', 'deletePdf']);
     }
 
     public function index()
     {
         $query = ZHWWBCQUERYDIR::query()
-            ->select('material')
-            ->whereNotNull('material')
-            ->groupBy('material');
+            ->leftJoin('product_series', 'product_series.item_code', '=', 'ZHWWBCQUERYDIR.material')
+            ->select('ZHWWBCQUERYDIR.material', 'product_series.series_name')
+            ->whereNotNull('ZHWWBCQUERYDIR.material')
+            ->groupBy('ZHWWBCQUERYDIR.material');
 
         if ($itemCode = request('item_code')) {
             $query->where('material', 'LIKE', '%' . trim($itemCode) . '%');
@@ -60,21 +62,30 @@ class ProductInformationController extends Controller
         ]);
     }
 
-    public function show($itemCode)
+    public function show()
     {
+        $itemCode = request()->route('item_code');
+
         // product info
         $productInfo = ProductInfo::where('item_code', $itemCode)->first();
 
+        // product series
+        $seriesName = ProductSeries::where('item_code', $itemCode)->value('series_name');
+        $baseItemCode = ProductSeries::query()
+            ->where('series_name', $seriesName)
+            ->where('item_base', true)
+            ->value('item_code');
+
         // pdf files
-        $catalogueFiles = ProductInfoFile::where('item_code', $itemCode)
+        $catalogueFiles = ProductInfoFile::where('item_code', $baseItemCode ? $baseItemCode : $itemCode)
             ->where('type', 'catalogue')
             ->where('is_active', true)
             ->get();
-        $manualFiles = ProductInfoFile::where('item_code', $itemCode)
+        $manualFiles = ProductInfoFile::where('item_code', $baseItemCode ? $baseItemCode : $itemCode)
             ->where('type', 'manual')
             ->where('is_active', true)
             ->get();
-        $specsheetFiles = ProductInfoFile::where('item_code', $itemCode)
+        $specsheetFiles = ProductInfoFile::where('item_code', $baseItemCode ? $baseItemCode : $itemCode)
             ->where('type', 'specsheet')
             ->where('is_active', true)
             ->get();
@@ -90,6 +101,8 @@ class ProductInformationController extends Controller
             ->selectRaw($this->generateDmDescriptionCase($dmMapping))
             ->where('material', $itemCode)
             ->first();
+
+        $seriesName = ProductSeries::where('item_code', $itemCode)->value('series_name');
 
         // spare parts
         $spareParts = ZHWWMM_BOM_VKO::query()
@@ -116,21 +129,24 @@ class ProductInformationController extends Controller
             'catalogueFiles' => $catalogueFiles,
             'manualFiles' => $manualFiles,
             'specsheetFiles' => $specsheetFiles,
+            'seriesName' => $seriesName,
         ]);
     }
 
     public function edit($itemCode)
     {
-        $product = ZHWWBCQUERYDIR::where('material', $itemCode)
-            ->with('product_info', 'imageFile')
-            ->select('material')
+        $product = ZHWWBCQUERYDIR::with('product_info', 'imageFile')
+            ->leftJoin('product_series', 'product_series.item_code', '=', 'ZHWWBCQUERYDIR.material')
+            ->where('ZHWWBCQUERYDIR.material', $itemCode)
+            ->select('ZHWWBCQUERYDIR.material', 'product_series.series_name')
             ->firstOrFail();
 
         if (!$product) {
             abort(404);
         }
 
-        $filesByType = ProductInfoFile::where('item_code', $itemCode)
+        $filesByType = ProductInfoFile::query()
+            ->where('item_code', $itemCode)
             ->whereIn('type', ['catalogue', 'manual', 'specsheet'])
             ->get()
             ->groupBy('type');
@@ -138,6 +154,7 @@ class ProductInformationController extends Controller
         return view('pages.sales_usi.product-info.edit', [
             'imageProduct'  => $product->imageFile ?? null,
             'product'       => $product->product_info,
+            'seriesName'    => $product->series_name ?? null,
             'catalogues'    => $filesByType->get('catalogue', collect()),
             'manuals'       => $filesByType->get('manual', collect()),
             'specSheets'    => $filesByType->get('specsheet', collect()),
@@ -154,7 +171,7 @@ class ProductInformationController extends Controller
         try {
             // master data check
             $this->validateMasterData(request()->only(['project_item', 'superseded']));
-            
+
             DB::beginTransaction();
 
             $product = ProductInfo::where('item_code', request()->item_code)->first();

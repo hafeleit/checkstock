@@ -20,9 +20,7 @@
         }
 
         .dropdown-file-lists {
-            left: 0 !important;
             right: auto !important;
-            min-width: 100%;
         }
 
         .dropdown-item-lists:hover {
@@ -79,6 +77,7 @@
                                     <tr class="table-secondary ">
                                         <th class="px-2">Item Code</th>
                                         <th class="px-2">Image</th>
+                                        <th class="px-2">Series Name</th>
                                         <th class="px-2">Project Item</th>
                                         <th class="px-2">Superseded</th>
                                         <th class="px-2">Catalogue</th>
@@ -105,6 +104,7 @@
                                                     <span class="text-muted italic small">- No image -</span>
                                                 @endif
                                             </td>
+                                            <td>{{ $product->series_name ?? '-' }}</td>
                                             <td>
                                                 <span class="{{ $product->product_info?->project_item ? 'text-dark' : 'text-secondary italic small' }}">
                                                     {{ $product->product_info?->project_item ?? '-' }}
@@ -116,68 +116,71 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                @if($product->product_info?->catalogueFiles && $product->product_info?->catalogueFiles->isNotEmpty())
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" 
-                                                            type="button" 
-                                                            data-bs-toggle="dropdown" 
-                                                            aria-expanded="false" >
-                                                            PDF Files ({{ count($product->product_info?->catalogueFiles) }})
-                                                        </button>
-                                                        <ul class="dropdown-menu dropdown-file-lists shadow">
-                                                            @foreach($product->product_info?->catalogueFiles as $file)
-                                                                <li>
-                                                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
-                                                                            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z" />
-                                                                        </svg>
-                                                                        <span class="text-truncate dropdown-item-lists">{{ $file->file_name }}</span>
-                                                                    </a>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                @else
-                                                    <span class="text-muted small">-</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($product->product_info?->manualFiles && $product->product_info?->manualFiles->isNotEmpty())
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs" 
-                                                            type="button" 
-                                                            data-bs-toggle="dropdown" 
-                                                            aria-expanded="false">
-                                                            PDF Files ({{ count($product->product_info?->manualFiles) }})
-                                                        </button>
-                                                        <ul class="dropdown-menu dropdown-file-lists shadow">
-                                                            @foreach($product->product_info?->manualFiles as $file)
-                                                                <li>
-                                                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
-                                                                            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z" />
-                                                                        </svg>
-                                                                        <span class="text-truncate dropdown-item-lists">{{ $file->file_name }}</span>
-                                                                    </a>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                @else
-                                                    <span class="text-muted small">-</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($product->product_info?->specsheetFiles && $product->product_info?->specsheetFiles->isNotEmpty())
+                                                @if($product?->catalogueFiles && $product?->catalogueFiles->isNotEmpty())
                                                     <div class="dropdown">
                                                         <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs"
-                                                            type="button" 
-                                                            data-bs-toggle="dropdown" 
-                                                            aria-expanded="false">
-                                                            PDF Files ({{ count($product->product_info?->specsheetFiles) }})
+                                                            type="button"
+                                                            data-bs-toggle="dropdown"
+                                                            data-bs-display="static"
+                                                            aria-expanded="false" >
+                                                            PDF Files ({{ count($product?->catalogueFiles) }})
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-file-lists shadow">
-                                                            @foreach($product->product_info?->specsheetFiles as $file)
+                                                            @foreach($product?->catalogueFiles as $file)
+                                                                <li>
+                                                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+                                                                            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z" />
+                                                                        </svg>
+                                                                        <span class="text-truncate dropdown-item-lists">{{ $file->file_name }}</span>
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @else
+                                                    <span class="text-muted small">-</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($product?->manualFiles && $product?->manualFiles->isNotEmpty())
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs"
+                                                            type="button"
+                                                            data-bs-toggle="dropdown"
+                                                            data-bs-display="static"
+                                                            aria-expanded="false">
+                                                            PDF Files ({{ count($product?->manualFiles) }})
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-file-lists shadow">
+                                                            @foreach($product?->manualFiles as $file)
+                                                                <li>
+                                                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+                                                                            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z" />
+                                                                        </svg>
+                                                                        <span class="text-truncate dropdown-item-lists">{{ $file->file_name }}</span>
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @else
+                                                    <span class="text-muted small">-</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($product?->specsheetFiles && $product?->specsheetFiles->isNotEmpty())
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-outline-dark btn-sm d-flex align-content-center dropdown-toggle fw-normal gap-2 m-0 px-3 text-xs"
+                                                            type="button"
+                                                            data-bs-toggle="dropdown"
+                                                            data-bs-display="static"
+                                                            aria-expanded="false">
+                                                            PDF Files ({{ count($product->specsheetFiles) }})
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-file-lists shadow">
+                                                            @foreach($product?->specsheetFiles as $file)
                                                                 <li>
                                                                     <a class="dropdown-item d-flex align-items-center gap-2" href="{{ asset($file->path) }}" target="_blank">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
@@ -202,14 +205,6 @@
                                                     </svg>
                                                 </a>
                                                 @endcan
-                                                {{-- @can('salesusi productinfo delete')
-                                                <a href="#" class="delete-item-btn px-2" data-item-code="{{ $product->item_code }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
-                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                                    </svg>
-                                                </a>
-                                                @endcan --}}
                                             </td>
                                         </tr>
                                         @endforeach
@@ -234,11 +229,43 @@
 
     <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function(el) {
-                new bootstrap.Dropdown(el, {
-                    popperConfig: { strategy: 'fixed' }
+            // Move dropdown menu to body on show, and move it back on hide
+            document.querySelectorAll('.dropdown-file-lists').forEach(function(menu) {
+                var toggleEl = menu.previousElementSibling;
+                var dropdownContainer = toggleEl.closest('.dropdown');
+
+                menu._toggle = toggleEl;
+                menu._container = dropdownContainer;
+
+                toggleEl.addEventListener('show.bs.dropdown', function() {
+                    var rect = toggleEl.getBoundingClientRect();
+                    document.body.appendChild(menu);
+                    menu.style.cssText = 'position:fixed;top:' + (rect.bottom + 2) + 'px;left:' + rect.left + 'px;margin:0;z-index:9999;min-width:' + rect.width + 'px;';
+                });
+
+                toggleEl.addEventListener('hidden.bs.dropdown', function() {
+                    if (document.body === menu.parentElement) {
+                        dropdownContainer.appendChild(menu);
+                        menu.removeAttribute('style');
+                    }
                 });
             });
+
+            // Update dropdown positions on scroll
+            window.addEventListener('scroll', function() {
+                document.querySelectorAll('.dropdown-file-lists').forEach(function(menu) {
+                    if (menu.parentElement === document.body) {
+                        var toggle = menu._toggle;
+                        var container = menu._container;
+                        if (toggle) {
+                            var instance = bootstrap.Dropdown.getInstance(toggle);
+                            if (instance) instance.hide();
+                        }
+                        if (container) container.appendChild(menu);
+                        menu.removeAttribute('style');
+                    }
+                });
+            }, { passive: true });
         });
 
         $('#item_code').focus();

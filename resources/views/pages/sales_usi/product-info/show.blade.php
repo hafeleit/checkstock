@@ -91,6 +91,7 @@
                                                 <thead class="text-sm table-dark">
                                                     <tr>
                                                         <th class="px-2 w-70">File Name</th>
+                                                        <th class="px-2">Base Item Code</th>
                                                         <th class="px-2">Creation Date</th>
                                                     </tr>
                                                 </thead>
@@ -105,6 +106,7 @@
                                                                 <u>{{ $catalogue->file_name }}</u>
                                                             </a>
                                                         </td>
+                                                        <td>{{ $catalogue->item_code }}</td>
                                                         <td>{{ $catalogue->created_at ? $catalogue->created_at->format('d-m-Y') : 'N/A' }}</td>
                                                     </tr>
                                                     @endforeach
@@ -127,6 +129,7 @@
                                                 <thead class="text-sm table-dark">
                                                     <tr>
                                                         <th class="px-2 w-70">File Name</th>
+                                                        <th class="px-2">Base Item Code</th>
                                                         <th class="px-2">Creation Date</th>
                                                     </tr>
                                                 </thead>
@@ -141,6 +144,7 @@
                                                                 <u>{{ $manual->file_name }}</u>
                                                             </a>
                                                         </td>
+                                                        <td>{{ $manual->item_code }}</td>
                                                         <td>{{ $manual->created_at ? $manual->created_at->format('d-m-Y') : 'N/A' }}</td>
                                                     </tr>
                                                     @endforeach
@@ -163,6 +167,7 @@
                                                 <thead class="text-sm table-dark">
                                                     <tr>
                                                         <th class="px-2 w-70">File Name</th>
+                                                        <th class="px-2">Base Item Code</th>
                                                         <th class="px-2">Creation Date</th>
                                                     </tr>
                                                 </thead>
@@ -177,6 +182,7 @@
                                                                 <u>{{ $specsheet->file_name }}</u>
                                                             </a>
                                                         </td>
+                                                        <td>{{ $specsheet->item_code }}</td>
                                                         <td>{{ $specsheet->created_at ? $specsheet->created_at->format('d-m-Y') : 'N/A' }}</td>
                                                     </tr>
                                                     @endforeach
