@@ -40,7 +40,7 @@
                                 type="text"
                                 class="form-control"
                                 id="series_name_input"
-                                placeholder="e.g. SERIES A"
+                                placeholder="e.g. FF-93513000-2026-01"
                                 value="{{ old('series_name') }}"
                                 autocomplete="off"
                             >
@@ -137,6 +137,14 @@
 
                 if (!name) {
                     errorEl.textContent = 'Series name is required.';
+                    errorEl.classList.remove('d-none');
+                    nameInput.classList.add('is-invalid');
+                    nameInput.focus();
+                    return;
+                }
+
+                if (!/^[A-Z]+-\d{8}-\d{4}-\d{2}$/.test(name)) {
+                    errorEl.textContent = 'Invalid format. Expected: ProductCat-ZZZZZZZZ-YYYY-XX (e.g. FF-93513000-2026-01)';
                     errorEl.classList.remove('d-none');
                     nameInput.classList.add('is-invalid');
                     nameInput.focus();
