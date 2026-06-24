@@ -56,6 +56,10 @@
       color: #0d47a1;
   }
 
+  .text-blue-600 {
+    color: #3182ce;
+  }
+
   @media (min-width: 768px) {
     #product-image-container {
       max-width: 250px;
@@ -207,12 +211,20 @@
                           </div>
                         </div>
                     </div>
+
+                    <p class="text-xs text-blue-600 d-flex align-items-center gap-2 px-4 mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                        </svg>
+                        ข้อมูล ณ วันที่ {{ $yesterday }} เวลา 20:00 น.
+                    </p>
                 </div>
             </div>
         </div>
         <div class="row">
           <div class="col-lg-4 mb-lg-0 mt-4">
-              <div class="card ">
+              <div class="card h-100">
                   <div class="table-responsive">
                       <table id="uom_table" class="table align-items-center ">
                           <thead>
@@ -233,7 +245,17 @@
               </div>
           </div>
           <div class="col-lg-8 mb-lg-0 mt-4">
-              <div class="card ">
+              <div class="card h-100">
+                  <div class="card-header pb-0 d-flex align-items-center justify-content-between py-2">
+                      <span class="text-uppercase text-secondary text-xxs font-weight-bolder">Stock by Location</span>
+                      <button id="btn-realtime-stock" class="btn" disabled>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                              <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                          </svg>
+                          Realtime
+                      </button>
+                  </div>
                   <div class="table-responsive">
                       <table id="stk_table" class="table align-items-center ">
                           <thead>
@@ -359,6 +381,46 @@
               </div>
         </div>
         @endcan
+    </div>
+
+    <!-- Realtime Stock Modal -->
+    <div class="modal fade" id="realtimeStockModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="rt-header-inner">
+              <div>
+                <p class="rt-eyebrow">Realtime Stock</p>
+                <h6 class="rt-item-code" id="realtime-item-label">—</h6>
+              </div>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex flex-column align-items-center justify-content-center py-5" id="realtime-loading">
+              <div class="spinner-border rt-spinner" role="status"></div>
+              <p class="rt-loading-text mb-0">Fetching live data...</p>
+            </div>
+            <div id="realtime-stock-content" class="d-none">
+              <table class="table mb-0 rt-table">
+                <thead>
+                  <tr>
+                    <th>Location</th>
+                    <th class="text-end">Qty</th>
+                  </tr>
+                </thead>
+                <tbody id="realtime-stock-rows"></tbody>
+              </table>
+            </div>
+            <div class="d-none text-center py-4" id="realtime-stock-error">
+              <p class="rt-error-text mb-0" id="realtime-error-msg">Unable to load data.</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <span class="rt-fetch-time me-auto" id="realtime-fetch-time"></span>
+            <button type="button" class="btn rt-close-btn" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Modal -->
@@ -513,6 +575,7 @@
       
       if(res['count'] == 0){
         $('#product-image-container').addClass('d-none');
+        $('#btn-realtime-stock').prop('disabled', true);
 
         $('.text-input').html('');
         $(':checkbox').prop('checked', false);
@@ -741,6 +804,7 @@
                     <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS5']+' </p></td>\
                     <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS6']+' </p></td></tr>';
       $('#stk_table').append(tbody);
+      $('#btn-realtime-stock').prop('disabled', false);
     }).fail(function(jqXHR, textStatus, errorThrown) {
       if (jqXHR.status == '419') {
         const currentPath = window.location.pathname + window.location.search;
@@ -863,6 +927,68 @@
       $("#errorModal").modal('hide');
       $('#item_code').focus();
     } );
+
+    $(document).on('click', '#realtimeStockModal .rt-close-btn, #realtimeStockModal .rt-close-x', function() {
+      $('#realtimeStockModal').modal('hide');
+    });
+  });
+
+  $('#btn-realtime-stock').on('click', function() {
+    const itemCode = $('#item_code').val();
+    if (!itemCode) return;
+
+    $('#realtime-item-label').text(itemCode);
+    $('#realtime-loading').removeClass('d-none');
+    $('#realtime-stock-content').addClass('d-none');
+    $('#realtime-stock-error').addClass('d-none');
+    $('#realtime-stock-rows').html('');
+    $('#realtime-fetch-time').text('');
+
+    $('#realtimeStockModal').modal('show');
+
+    $.ajax({
+      method: 'GET',
+      url: '{{ route("sales-usi.realtime-stock") }}',
+      data: { item_code: itemCode }
+    }).done(function(res) {
+      $('#realtime-loading').addClass('d-none');
+
+      if (!res.status) {
+        $('#realtime-stock-error').removeClass('d-none');
+        $('#realtime-error-msg').text(res.message || 'No data found.');
+        return;
+      }
+
+      const articles = res.data ? res.data : [];
+      let rows = '';
+
+      if (articles.length > 0) {
+        $.each(articles, function(i, art) {
+          const locLabel = art.LocationName || '-';
+          const qty = art.Atpquantity != null ? art.Atpquantity : 0;
+          rows += '<tr>' +
+            '<td class="ps-3 py-2 rt-row-loc">' + locLabel + '</td>' +
+            '<td class="text-end pe-3 py-2 rt-row-qty">' + addCommas(qty) + '</td>' +
+            '</tr>';
+        });
+      } else {
+        rows = '<tr><td colspan="2" class="text-center text-secondary py-3 rt-empty">No stock data available.</td></tr>';
+      }
+
+      $('#realtime-stock-rows').html(rows);
+      $('#realtime-stock-content').removeClass('d-none');
+
+      const now = new Date();
+      $('#realtime-fetch-time').text('Fetched at ' + now.toLocaleTimeString());
+
+    }).fail(function(jqXHR) {
+      $('#realtime-loading').addClass('d-none');
+      $('#realtime-stock-error').removeClass('d-none');
+      const msg = (jqXHR.responseJSON && jqXHR.responseJSON.message)
+        ? jqXHR.responseJSON.message
+        : 'Unable to connect to realtime service.';
+      $('#realtime-error-msg').text(msg);
+    });
   });
 
 </script>

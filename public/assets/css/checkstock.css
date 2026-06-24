@@ -580,3 +580,218 @@ span.relative.inline-flex.items-center.px-2.py-2.-ml-px.text-sm.font-medium.text
     color: #fff;
     z-index: 3;
 }
+
+/* ── Realtime stock button (sales_usi) ── */
+#btn-realtime-stock {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    line-height: 1.4;
+}
+#btn-realtime-stock svg {
+    vertical-align: -1px;
+    margin-right: 3px;
+}
+
+/* ── Realtime stock modal (sales_usi) ── */
+#realtimeStockModal .modal-dialog   { max-width: 580px; }
+
+#realtimeStockModal .modal-content {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08);
+}
+
+/* Header – brand primary */
+#realtimeStockModal .modal-header {
+    background: #C8102E;
+    border-bottom: none;
+    padding: 20px 22px 18px;
+    align-items: flex-start;
+}
+#realtimeStockModal .rt-header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    gap: 12px;
+}
+#realtimeStockModal .rt-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin: 0 0 5px;
+}
+#realtimeStockModal .rt-item-code {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #F8FAFC;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    margin: 0;
+}
+#realtimeStockModal .rt-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    padding-top: 2px;
+}
+#realtimeStockModal .rt-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 100px;
+    padding: 3px 9px;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.9);
+    text-transform: uppercase;
+}
+#realtimeStockModal .rt-live-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ffffff;
+    flex-shrink: 0;
+    animation: rt-live-pulse 1.8s ease-in-out infinite;
+}
+@keyframes rt-live-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.25; }
+}
+@media (prefers-reduced-motion: reduce) {
+    #realtimeStockModal .rt-live-dot { animation: none; }
+}
+#realtimeStockModal .rt-close-x {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.55);
+    font-size: 1.35rem;
+    font-weight: 300;
+    line-height: 1;
+    opacity: 1;
+    padding: 0;
+    transition: color 0.15s;
+}
+#realtimeStockModal .rt-close-x:hover { color: #ffffff; opacity: 1; }
+
+/* Body */
+#realtimeStockModal .modal-body {
+    padding: 0;
+    min-height: 120px;
+    background: #fff;
+}
+
+/* Loading */
+#realtimeStockModal .rt-spinner {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-width: 2px;
+    border-color: #E2E8F0;
+    border-top-color: #C8102E;
+}
+#realtimeStockModal .rt-loading-text {
+    font-size: 0.7rem;
+    color: #94A3B8;
+    margin-top: 10px;
+}
+
+/* Table */
+#realtimeStockModal .rt-table { margin: 0; }
+#realtimeStockModal .rt-table thead th {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #94A3B8;
+    background: #F8FAFC;
+    padding: 10px 22px;
+    border-top: none;
+    border-bottom: 1px solid #E2E8F0;
+}
+#realtimeStockModal .rt-table tbody tr {
+    border-bottom: 1px solid #F1F5F9;
+    transition: background 0.12s ease;
+}
+#realtimeStockModal .rt-table tbody tr:last-child { border-bottom: none; }
+#realtimeStockModal .rt-table tbody tr:hover     { background: #F8FAFC; }
+#realtimeStockModal .rt-row-loc {
+    color: #334155;
+    padding: 13px 22px;
+    border: none;
+    vertical-align: middle;
+}
+#realtimeStockModal .rt-row-qty {
+    font-weight: 700;
+    color: #0F172A;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+    padding: 13px 22px;
+    text-align: right;
+    border: none;
+    vertical-align: middle;
+}
+#realtimeStockModal .rt-empty      { font-size: 0.75rem; color: #94A3B8; }
+#realtimeStockModal .rt-error-text { font-size: 0.75rem; color: #94A3B8; }
+
+/* Footer */
+#realtimeStockModal .modal-footer {
+    background: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+    padding: 9px 22px;
+    display: flex;
+    align-items: center;
+}
+#realtimeStockModal .rt-fetch-time {
+    font-size: 0.6rem;
+    color: #94A3B8;
+    letter-spacing: 0.03em;
+}
+#realtimeStockModal .rt-close-btn {
+    font-size: 0.72rem;
+    padding: 4px 14px;
+    border: 1px solid #CBD5E1;
+    color: #475569;
+    border-radius: 6px;
+    background: #fff;
+    line-height: 1.5;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+#realtimeStockModal .rt-close-btn:hover {
+    background: #C8102E;
+    border-color: #C8102E;
+    color: #fff;
+}
+
+/* ── Realtime trigger button ─────────────────────────── */
+#btn-realtime-stock {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 5px 13px;
+    border-radius: 7px;
+    border: 1.5px solid #C8102E;
+    color: #C8102E;
+    background: transparent;
+    line-height: 1.4;
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+#btn-realtime-stock:not([disabled]):hover {
+    background: #C8102E;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(200,16,46,0.25);
+}
+#btn-realtime-stock[disabled] {
+    border-color: #CBD5E1;
+    color: #94A3B8;
+    opacity: 1;
+    cursor: not-allowed;
+}
