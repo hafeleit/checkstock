@@ -23,9 +23,16 @@ class ProductSeriesImport implements ToModel, WithHeadingRow, WithValidation, Sk
     public function rules(): array
     {
         return [
-            'series_name' => 'required',
+            'series_name' => ['required', 'regex:/^[A-Z]+-\d{8}-\d{4}-\d{2}$/'],
             'item_code' => 'required',
             'item_base' => 'nullable|boolean',
+        ];
+    }
+
+    public function customValidationMessages(): array
+    {
+        return [
+            'series_name.regex' => 'Series name must follow the format: ProductCat-ZZZZZZZZ-YYYY-XX (e.g., FF-93513000-2026-01)',
         ];
     }
 

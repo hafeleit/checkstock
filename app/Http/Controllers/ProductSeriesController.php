@@ -45,10 +45,12 @@ class ProductSeriesController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'series_name' => 'required|string|max:255',
+            'series_name' => ['required', 'string', 'max:255', 'regex:/^[A-Z]+-\d{8}-\d{4}-\d{2}$/'],
             'items'       => 'required|array|min:1',
             'items.*'     => 'required|string|max:255',
             'item_base'   => 'required|string|max:255',
+        ], [
+            'series_name.regex' => 'Series name must follow the format: ProductCat-ZZZZZZZZ-YYYY-XX (e.g., FF-93513000-2026-01)',
         ]);
 
         if (!in_array(request()->input('item_base'), request()->input('items'))) {
@@ -108,10 +110,12 @@ class ProductSeriesController extends Controller
     public function update(Request $request, ProductSeries $productSeries)
     {
         $validated = $request->validate([
-            'series_name' => 'required|string|max:255',
+            'series_name' => ['required', 'string', 'max:255', 'regex:/^[A-Z]+-\d{8}-\d{4}-\d{2}$/'],
             'items'       => 'required|array|min:1',
             'items.*'     => 'required|string|max:255',
             'item_base'   => 'required|string|max:255',
+        ], [
+            'series_name.regex' => 'Series name must follow the format: ProductCat-ZZZZZZZZ-YYYY-XX (e.g., FF-93513000-2026-01)',
         ]);
 
         if (! in_array($validated['item_base'], $validated['items'], true)) {

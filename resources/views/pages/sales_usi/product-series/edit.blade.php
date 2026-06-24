@@ -50,10 +50,9 @@
                                     type="text"
                                     class="form-control"
                                     id="series_name_edit_input"
-                                    placeholder="e.g. SERIES A"
+                                    placeholder="e.g. FF-93513000-2026-01"
                                     autocomplete="off"
                                 >
-                                <div class="series-name-edit-error" id="series_name_edit_error">Series name is required.</div>
                             </div>
                             <button type="button" class="btn-name-confirm" id="btnNameConfirm" title="Confirm">
                                 <i class="fas fa-check fa-sm"></i>
@@ -62,6 +61,7 @@
                                 <i class="fas fa-times fa-sm"></i>
                             </button>
                         </div>
+                        <div class="series-name-edit-error" id="series_name_edit_error">Series name is required.</div>
                     </div>
                 </div>
 
@@ -180,18 +180,30 @@
             }
 
             function confirmNameEdit() {
-                const input = document.getElementById('series_name_edit_input');
-                const name  = input.value.trim();
+                const input   = document.getElementById('series_name_edit_input');
+                const errorEl = document.getElementById('series_name_edit_error');
+                const name    = input.value.trim();
+
                 if (!name) {
+                    errorEl.textContent = 'Series name is required.';
                     input.classList.add('is-invalid');
-                    document.getElementById('series_name_edit_error').style.display = 'block';
+                    errorEl.style.display = 'block';
                     input.focus();
                     return;
                 }
+
+                if (!/^[A-Z]+-\d{8}-\d{4}-\d{2}$/.test(name)) {
+                    errorEl.textContent = 'Invalid format. Expected: ProductCat-ZZZZZZZZ-YYYY-XX (e.g. FF-93513000-2026-01)';
+                    input.classList.add('is-invalid');
+                    errorEl.style.display = 'block';
+                    input.focus();
+                    return;
+                }
+                
                 document.getElementById('series_name_hidden').value       = name;
                 document.getElementById('series_name_text').textContent   = name;
                 input.classList.remove('is-invalid');
-                document.getElementById('series_name_edit_error').style.display = 'none';
+                errorEl.style.display = 'none';
                 document.getElementById('series-name-edit').classList.remove('active');
                 document.getElementById('series-name-display').style.display = '';
             }
