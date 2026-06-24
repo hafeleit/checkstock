@@ -79,12 +79,12 @@
                                 autocomplete="off"
                             >
                             <div id="item_code_dropdown" class="ac-dropdown d-none"></div>
-                            <div class="text-danger field-error mt-1 d-none" id="item_code_error"></div>
                         </div>
                         <button type="button" class="btn-eu-primary btn-add-item" id="btnAddItem">
                             <i class="fas fa-plus fa-xs"></i> Add
                         </button>
                     </div>
+                    <div class="text-danger field-error mt-1 d-none" id="item_code_error"></div>
 
                     <div class="items-list-wrap">
                         <label class="form-label-eu mt-3">Items in Series</label>
