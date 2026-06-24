@@ -13,6 +13,14 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ProductSeriesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:salesusi productseries view')->only('index', 'materialSearch');
+        $this->middleware('permission:salesusi productseries create')->only('create', 'store');
+        $this->middleware('permission:salesusi productseries edit')->only('edit', 'update');
+        $this->middleware('permission:salesusi productseries delete')->only('destroy');
+        $this->middleware('permission:salesusi productseries import')->only('import', 'exportTemplate');
+    }
     public function index(Request $request)
     {
         $search = $request->query('search');
