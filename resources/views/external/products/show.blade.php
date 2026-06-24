@@ -91,8 +91,7 @@
                                     @if ($catalogueFiles && !$catalogueFiles->isEmpty())
                                         <thead class="bg-dark text-white text-sm text-left">
                                             <tr>
-                                                <th class="p-2 w-3/5">File Name</th>
-                                                <th class="p-2 w-1/5">Base Item Code</th>
+                                                <th class="p-2 w-4/5">File Name</th>
                                                 <th class="p-2 w-1/5 whitespace-nowrap text-center">Creation Date</th>
                                             </tr>
                                         </thead>
@@ -107,7 +106,6 @@
                                                             <u class="truncate text-sm">{{ $catalogue->file_name }}</u>
                                                         </a>
                                                     </td>
-                                                    <td class="px-2 py-1 text-gray-600">{{ $catalogue->item_code }}</td>
                                                     <td class="px-2 py-1 text-gray-600 whitespace-nowrap text-center">{{ $catalogue->created_at ? $catalogue->created_at->format('d-m-Y') : 'N/A' }}</td>
                                                 </tr>
                                             @endforeach
@@ -128,8 +126,7 @@
                                     @if ($manualFiles && !$manualFiles->isEmpty())
                                         <thead class="bg-dark text-white text-sm text-left">
                                             <tr>
-                                                <th class="p-2 w-3/5">File Name</th>
-                                                <th class="p-2 w-1/5">Base Item Code</th>
+                                                <th class="p-2 w-4/5">File Name</th>
                                                 <th class="p-2 w-1/5 whitespace-nowrap text-center">Creation Date</th>
                                             </tr>
                                         </thead>
@@ -144,7 +141,6 @@
                                                             <u class="truncate text-sm">{{ $manual->file_name }}</u>
                                                         </a>
                                                     </td>
-                                                    <td class="px-2 py-1 text-gray-600">{{ $manual->item_code }}</td>
                                                     <td class="px-2 py-1 text-gray-600 whitespace-nowrap text-center">{{ $manual->created_at ? $manual->created_at->format('d-m-Y') : 'N/A' }}</td>
                                                 </tr>
                                             @endforeach
