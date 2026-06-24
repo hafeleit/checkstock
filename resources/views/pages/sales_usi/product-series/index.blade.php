@@ -8,14 +8,18 @@
             <div class="eu-card-header">
                 <p class="eu-card-title">Product Series</p>
                 <div class="eu-card-actions">
+                    @can('salesusi productseries import')
                     <button type="button" class="btn-eu-dark" data-bs-toggle="modal" data-bs-target="#importProductSeriesModal">
                         <i class="fa-solid fa-upload fa-xs"></i> Import
                     </button>
+                    @endcan
+                    @can('salesusi productseries create')
                     <div class="eu-card-actions">
                         <a href="{{ route('product-series.create') }}" class="btn-eu-primary">
                             <i class="fas fa-plus fa-xs"></i> Add New
                         </a>
                     </div>
+                    @endcan
                 </div>
             </div>
 
@@ -40,7 +44,9 @@
                             <th>Item Codes</th>
                             <th>Updated By</th>
                             <th>Updated At</th>
+                            @canany(['salesusi productseries edit', 'salesusi productseries delete'])
                             <th class="text-center">Action</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -56,11 +62,15 @@
                                 </td>
                                 <td class="muted">{{ $series->updatedBy?->username ?? '—' }}</td>
                                 <td class="muted">{{ $series->updated_at?->format('d/m/Y H:i') ?? '—' }}</td>
+                                @canany(['salesusi productseries edit', 'salesusi productseries delete'])
                                 <td class="text-center">
                                     <div class="d-flex gap-2 flex-nowrap justify-content-center">
+                                        @can('salesusi productseries edit')
                                         <a href="{{ route('product-series.edit', $series->id) }}" class="btn-action btn-action-edit">
                                             <i class="fas fa-pen fa-xs"></i> Edit
                                         </a>
+                                        @endcan
+                                        @can('salesusi productseries delete')
                                         <form id="delete-form-{{ $series->id }}" action="{{ route('product-series.destroy', $series->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
@@ -70,12 +80,14 @@
                                                 <i class="fas fa-trash fa-xs"></i> Delete
                                             </button>
                                         </form>
+                                        @endcan
                                     </div>
                                 </td>
+                                @endcanany
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center muted py-5">No product series found</td>
+                                <td colspan="{{ auth()->user()->canAny(['salesusi productseries edit', 'salesusi productseries delete']) ? 7 : 6 }}" class="text-center muted py-5">No product series found</td>
                             </tr>
                         @endforelse
                     </tbody>
