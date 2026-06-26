@@ -779,8 +779,8 @@ span.relative.inline-flex.items-center.px-2.py-2.-ml-px.text-sm.font-medium.text
     padding: 5px 13px;
     border-radius: 7px;
     border: 1.5px solid #C8102E;
-    color: #C8102E;
-    background: transparent;
+    color: #fff;
+    background: #C8102E;
     line-height: 1.4;
     transition: background 0.15s, color 0.15s, box-shadow 0.15s, opacity 0.15s;
 }
@@ -790,8 +790,9 @@ span.relative.inline-flex.items-center.px-2.py-2.-ml-px.text-sm.font-medium.text
     box-shadow: 0 2px 8px rgba(200,16,46,0.25);
 }
 #btn-realtime-stock[disabled] {
+    background: #CBD5E1;
     border-color: #CBD5E1;
-    color: #94A3B8;
+    color: #fff;
     opacity: 1;
     cursor: not-allowed;
 }

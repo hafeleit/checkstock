@@ -68,17 +68,15 @@
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.03em;
-    color: #5e72e4;
-    background: rgba(94, 114, 228, 0.08);
-    border: 1.5px solid rgba(94, 114, 228, 0.3);
+    color: #fff;
+    background: #5e72e4;
+    border: 1.5px solid #5e72e4;
     border-radius: 20px;
     text-decoration: none;
     transition: all 0.2s ease;
   }
   .btn-faq:hover {
     color: #fff;
-    background: #5e72e4;
-    border-color: #5e72e4;
     box-shadow: 0 4px 12px rgba(94, 114, 228, 0.35);
     text-decoration: none;
   }
@@ -104,7 +102,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
                                 </svg>
-                                Manual FAQ
+                                คู่มือ - FAQ
                             </a>
                         </div>
                         @php
@@ -241,12 +239,11 @@
                         </div>
                     </div>
 
-                    <p class="text-xs text-blue-600 d-flex align-items-center gap-2 px-4 mt-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
-                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                    <p class="text-sm fw-bold text-danger d-flex align-items-center gap-2 px-4 mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                         </svg>
-                        ข้อมูล ณ วันที่ {{ $yesterday }} เวลา 20:00 น.
+                        ถ้าคุณต้องการดูข้อมูล Stock realtime ให้กดปุ่ม Realtime Stock by Location ด้านล่าง
                     </p>
                 </div>
             </div>
@@ -275,14 +272,14 @@
           </div>
           <div class="col-lg-8 mb-lg-0 mt-4">
               <div class="card h-100">
-                  <div class="card-header pb-0 d-flex align-items-center justify-content-between py-2">
+                  <div class="card-header pb-0 d-flex align-items-center gap-3 py-2">
                       <span class="text-uppercase text-secondary text-xxs font-weight-bolder">Stock by Location</span>
-                      <button id="btn-realtime-stock" class="btn" disabled>
+                      <button id="btn-realtime-stock" class="btn btn-primary mb-0" disabled>
                           <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
                               <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
                               <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
                           </svg>
-                          Realtime
+                          Realtime Stock by Location
                       </button>
                   </div>
                   <div class="table-responsive">
