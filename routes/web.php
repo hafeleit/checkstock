@@ -25,6 +25,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductInformationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PageManualFaqController;
 use Illuminate\Support\Facades\Redirect;
 
 // public routes
@@ -144,6 +145,9 @@ Route::middleware(['auth', 'check.status', 'force.password.change', 'check.passw
     Route::get('/audit-logs/details', [AuditLogController::class, 'details'])->name('audit-logs.details');
     Route::get('/audit-logs/errors', [AuditLogController::class, 'errorLog'])->name('audit-logs.errors');
   });
+
+  // Page Manual FAQ
+  Route::resource('page-manual-faqs', PageManualFaqController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy', 'show');
 
   // QR Code Customer
   Route::get('/qr-code-customers', [CustomerQrCodeController::class, 'index'])->name('qr-code-customers.index');

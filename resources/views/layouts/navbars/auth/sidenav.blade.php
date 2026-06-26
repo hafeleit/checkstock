@@ -1,3 +1,14 @@
+<style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
+  .icon-faq { 
+    width: 38px; 
+    height: 38px; 
+  }
+  .icon-faq svg { 
+    width: 22px; 
+    height: 22px; 
+  }
+</style>
+
 <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -294,7 +305,7 @@
       @can('aftersales user dashboard view')
       <li class="nav-item">
         <a href="{{ route('after-sales.user-dashboard') }}" class="nav-link">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+          <div class="icon icon-shape icon-faq border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="{{ Request::segment(1) == 'after-sales' ? 'text-primary' : 'text-dark' }} text-sm opacity-10" viewBox="0 0 640 640">
               <path d="M96 96C113.7 96 128 110.3 128 128L128 464C128 472.8 135.2 480 144 480L544 480C561.7 480 576 494.3 576 512C576 529.7 561.7 544 544 544L144 544C99.8 544 64 508.2 64 464L64 128C64 110.3 78.3 96 96 96zM304 160C310.7 160 317.1 162.8 321.7 167.8L392.8 245.3L439 199C448.4 189.6 463.6 189.6 472.9 199L536.9 263C541.4 267.5 543.9 273.6 543.9 280L543.9 392C543.9 405.3 533.2 416 519.9 416L215.9 416C202.6 416 191.9 405.3 191.9 392L191.9 280C191.9 274 194.2 268.2 198.2 263.8L286.2 167.8C290.7 162.8 297.2 160 303.9 160z"/>
             </svg>
@@ -303,4 +314,20 @@
         </a>
       </li>
       @endcan
+
+      {{-- FAQ --}}
+      @can('faq view')
+      <li class="nav-item">
+        <a class="nav-link {{ Request::segment(1) == 'page-manual-faqs' ? 'active' : '' }}" href="{{ route('page-manual-faqs.index') }}">
+          <div class="icon icon-shape icon-faq border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"  fill="currentColor" class="{{ Request::segment(1) == 'page-manual-faqs' ? 'text-primary' : 'text-dark' }} opacity-10" viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+              <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+            </svg>
+          </div>
+          <span class="nav-link-text ms-1">Page Manual FAQ</span>
+        </a>
+      </li>
+      @endcan
+
 </aside>
