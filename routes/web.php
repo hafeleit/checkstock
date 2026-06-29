@@ -9,6 +9,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\WarrantyController;
+use App\Http\Controllers\WarrantyLogController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\SoStatusController;
 use App\Http\Controllers\SalesUSIController;
@@ -42,8 +43,6 @@ Route::get('warranty', function () {
   return Redirect::to(route('register-warranty.index'));
 });
 Route::resource('register-warranty', warrantycontroller::class);
-Route::get('check-warranty', [warrantycontroller::class, 'check_warranty'])->name('check_warranty');
-Route::get('warranty-search-ajax', [warrantycontroller::class, 'search_warranty'])->name('warranty.search_warranty');
 
 // testing routes
 Route::get('send-mail', [mailcontroller::class, 'index']);
@@ -166,4 +165,10 @@ Route::middleware(['auth', 'check.status', 'force.password.change', 'check.passw
   Route::delete('/qr-code-customers/{id}', [CustomerQrCodeController::class, 'destroy'])->name('qr-code-customers.destroy');
   Route::get('/qr-code-customers/export-template', [CustomerQrCodeController::class, 'exportTemplate'])->name('qr-code-customers.export-template');
   Route::post('/qr-code-customers/import', [CustomerQrCodeController::class, 'import'])->name('qr-code-customers.import');
+
+  // warranty routes
+  Route::get('warranty/list', [WarrantyController::class, 'warrantyList'])->name('warranty.list');
+  // Route::get('warranty/export', [WarrantyController::class, 'warrantyExport'])->name('warranty.export');
+  Route::get('warranty/{warranty}/edit', [WarrantyController::class, 'warrantyEdit'])->name('warranty.edit');
+  Route::put('warranty/{warranty}', [WarrantyController::class, 'update'])->name('warranty.update');
 });

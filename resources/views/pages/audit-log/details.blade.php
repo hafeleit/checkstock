@@ -131,7 +131,7 @@
 
                         @if ($logs && count($logs) > 0)
                             <div class="py-4">
-                                {{ $logs->links() }}
+                                {{ $logs->withQueryString()->links('pagination::bootstrap-5') }}
                             </div>
                         @endif
                     </div>
