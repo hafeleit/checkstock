@@ -174,6 +174,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
+        App\Providers\CookiesServiceProvider::class,
     ])->toArray(),
 
     /*
