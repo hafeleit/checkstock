@@ -95,6 +95,7 @@
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Order No.</th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Address</th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Consent Marketing</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Attached file</th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 px-2">Date</th>
                                     @can('warranty edit')
                                     <th class="text-secondary opacity-7"></th>
@@ -144,6 +145,31 @@
                                         @endif
                                     </td>
                                     <td>
+                                        @php
+                                            $rowImages = collect([
+                                                $item->file_name,
+                                                $item->file_name2,
+                                                $item->file_name3,
+                                                $item->file_name4,
+                                                $item->file_name5,
+                                            ])->filter()->map(function ($f) {
+                                                $path = "/storage/img/warranty/{$f}";
+                                                return file_exists(public_path($path)) ? $path : null;
+                                            })->filter()->values();
+                                        @endphp
+                                        @if($rowImages->count() > 0)
+                                            @foreach($rowImages as $idx => $src)
+                                            <img src="{{ $src }}" class="wc-thumb" data-group="{{ $item->id }}" data-index="{{ $idx }}" alt="File {{ $idx + 1 }}" style="display:none">
+                                            @endforeach
+                                            <button type="button" class="wl-file-btn" data-open-group="{{ $item->id }}">
+                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                                                {{ $rowImages->count() }} file{{ $rowImages->count() > 1 ? 's' : '' }}
+                                            </button>
+                                        @else
+                                            <span class="text-xs text-secondary">-</span>
+                                        @endif
+                                    </td>
+                                    <td>
                                         <p class="text-xs mb-0 text-nowrap">{{ $item->created_at->format('d/m/Y') ?? '-' }}</p>
                                     </td>
                                     @can('warranty edit')
@@ -181,4 +207,40 @@
     </div>
 
 </div>
+
+{{-- Lightbox --}}
+<div id="lb" class="lb-overlay">
+    <button class="lb-close" id="lbClose">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="lb-img-wrap">
+        <button class="lb-nav lb-prev" id="lbPrev">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <img id="lbImg" class="lb-img" src="" alt="">
+        <button class="lb-nav lb-next" id="lbNext">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+    </div>
+    <div class="lb-toolbar">
+        <span class="lb-counter" id="lbCounter"></span>
+        <button class="lb-btn" id="lbDownload">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+        </button>
+    </div>
+</div>
+
 @endsection
+
+@push('js')
+<script src="{{ asset('assets/js/warranty-check.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
+<script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
+document.querySelectorAll('.wl-file-btn[data-open-group]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        var thumb = document.querySelector('.wc-thumb[data-group="' + this.dataset.openGroup + '"]');
+        if (thumb) thumb.click();
+    });
+});
+</script>
+@endpush
