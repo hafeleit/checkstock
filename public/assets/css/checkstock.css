@@ -638,6 +638,19 @@ span.relative.inline-flex.items-center.px-2.py-2.-ml-px.text-sm.font-medium.text
     flex-shrink: 0;
     padding-top: 2px;
 }
+#realtimeStockModal .rt-qty-block {
+    text-align: right;
+    flex-shrink: 0;
+}
+#realtimeStockModal .rt-total-qty {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+}
 #realtimeStockModal .rt-live-badge {
     display: inline-flex;
     align-items: center;

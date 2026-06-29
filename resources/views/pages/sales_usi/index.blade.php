@@ -419,6 +419,10 @@
                 <p class="rt-eyebrow">Realtime Stock</p>
                 <h6 class="rt-item-code" id="realtime-item-label">—</h6>
               </div>
+              <div class="rt-qty-block">
+                <p class="rt-eyebrow">Total QTY</p>
+                <h6 class="rt-total-qty" id="realtime-total-qty">—</h6>
+              </div>
             </div>
           </div>
           <div class="modal-body">
@@ -969,6 +973,7 @@
     $('#realtime-stock-error').addClass('d-none');
     $('#realtime-stock-rows').html('');
     $('#realtime-fetch-time').text('');
+    $('#realtime-total-qty').text('—');
 
     $('#realtimeStockModal').modal('show');
 
@@ -987,11 +992,13 @@
 
       const articles = res.data ? res.data : [];
       let rows = '';
+      let totalQty = 0;
 
       if (articles.length > 0) {
         $.each(articles, function(i, art) {
           const locLabel = art.LocationName || '-';
           const qty = art.Atpquantity != null ? art.Atpquantity : 0;
+          totalQty += qty;
           rows += '<tr>' +
             '<td class="ps-3 py-2 rt-row-loc">' + locLabel + '</td>' +
             '<td class="text-end pe-3 py-2 rt-row-qty">' + addCommas(qty) + '</td>' +
@@ -1002,6 +1009,7 @@
       }
 
       $('#realtime-stock-rows').html(rows);
+      $('#realtime-total-qty').text(addCommas(totalQty));
       $('#realtime-stock-content').removeClass('d-none');
 
       const now = new Date();
