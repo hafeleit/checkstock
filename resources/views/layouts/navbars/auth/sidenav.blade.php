@@ -1,11 +1,11 @@
 <style nonce="{{ request()->attributes->get('csp_style_nonce') }}">
-  .icon-faq { 
-    width: 38px; 
-    height: 38px; 
+  .icon-faq {
+    width: 38px;
+    height: 38px;
   }
-  .icon-faq svg { 
-    width: 22px; 
-    height: 22px; 
+  .icon-faq svg {
+    width: 22px;
+    height: 22px;
   }
 </style>
 
@@ -313,13 +313,8 @@
       @can('aftersales user dashboard view')
       <li class="nav-item">
         <a href="{{ route('after-sales.user-dashboard') }}" class="nav-link">
-<<<<<<< HEAD
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center p-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="{{ Request::segment(1) == 'after-sales' ? 'text-primary' : 'text-dark' }} text-sm opacity-10" viewBox="0 0 640 640">
-=======
           <div class="icon icon-shape icon-faq border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="{{ Request::segment(1) == 'after-sales' ? 'text-primary' : 'text-dark' }} text-sm opacity-10" viewBox="0 0 640 640">
->>>>>>> feat/product360-realtime-stock
               <path d="M96 96C113.7 96 128 110.3 128 128L128 464C128 472.8 135.2 480 144 480L544 480C561.7 480 576 494.3 576 512C576 529.7 561.7 544 544 544L144 544C99.8 544 64 508.2 64 464L64 128C64 110.3 78.3 96 96 96zM304 160C310.7 160 317.1 162.8 321.7 167.8L392.8 245.3L439 199C448.4 189.6 463.6 189.6 472.9 199L536.9 263C541.4 267.5 543.9 273.6 543.9 280L543.9 392C543.9 405.3 533.2 416 519.9 416L215.9 416C202.6 416 191.9 405.3 191.9 392L191.9 280C191.9 274 194.2 268.2 198.2 263.8L286.2 167.8C290.7 162.8 297.2 160 303.9 160z"/>
             </svg>
           </div>
@@ -328,21 +323,7 @@
       </li>
       @endcan
 
-<<<<<<< HEAD
-      {{-- Warranty --}}
-      @can('warranty view')
-      <li class="nav-item">
-        <a href="{{ route('warranty.list') }}" class="nav-link">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center p-0">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="{{ in_array(Route::currentRouteName(), ['warranty.list','warranty.edit']) ? 'text-primary' : 'text-dark' }}" width="20" height="20">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-            </svg>
-          </div>
-          <span class="nav-link-text ms-1">Warranty</span>
-        </a>
-      </li>
-      @endcan
-=======
+
       {{-- FAQ --}}
       @can('faq view')
       <li class="nav-item">
@@ -358,5 +339,4 @@
       </li>
       @endcan
 
->>>>>>> feat/product360-realtime-stock
 </aside>
