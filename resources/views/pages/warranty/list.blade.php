@@ -71,13 +71,24 @@
     {{-- Table --}}
     <div class="row">
         <div class="col-12">
+            @if($warranties === null)
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <div class="wc-empty">
+                        <div class="wc-empty-icon mx-auto">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        </div>
+                        <p class="wc-empty-title">Please search to view data</p>
+                        <p class="text-sm mb-0 text-muted">Enter at least one filter above and click Search</p>
+                    </div>
+                </div>
+            </div>
+            @else
             <div class="card">
                 <div class="card-header pb-2">
                     <p class="mb-0 font-weight-bold text-sm">
                         Total <strong>{{ $warranties->total() }}</strong> records
-                        @if(request()->anyFilled(['name', 'tel', 'serial_no', 'order_number']))
                         <span class="text-muted ms-1">(Filtered)</span>
-                        @endif
                     </p>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
@@ -170,7 +181,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <p class="text-xs mb-0 text-nowrap">{{ $item->created_at->format('d/m/Y') ?? '-' }}</p>
+                                        <p class="text-xs mb-0 text-nowrap">{{ $item->created_at->format('d/m/Y H:i:s') ?? '-' }}</p>
                                     </td>
                                     @can('warranty edit')
                                     <td class="pe-3">
@@ -203,6 +214,7 @@
                 </div>
                 @endif
             </div>
+            @endif
         </div>
     </div>
 

@@ -11,7 +11,7 @@
                 <div class="card-header d-flex align-items-center justify-content-between pb-0">
                     <div>
                         <h6 class="mb-0 font-weight-bold">Edit Warranty Information</h6>
-                        <p class="text-xs text-muted mb-0">Registered on {{ $warranty->created_at->format('d/m/Y') }}</p>
+                        <p class="text-xs text-muted mb-0">Registered on {{ $warranty->created_at->format('d/m/Y H:i:s') }}</p>
                     </div>
                     <a href="{{ route('warranty.list') }}" class="btn btn-sm btn-outline-secondary">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
