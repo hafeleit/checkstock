@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="text-sm">หมายเลขใบเสร็จ หรือ หมายเลขคำสั่งซื้อ<span class="text-danger">*</span></label>
+                                    <label class="text-sm">หมายเลขใบเสร็จ หรือ หมายเลขคำสั่งซื้อ (Order number)<span class="text-danger">*</span></label>
                                     <input name="order_number" type="text" class="form-control" placeholder="กรุณากรอกหมายเลขใบเสร็จหรือหมายเลขคำสั่งซื้อ (Please fill in)" value="{{ old('order_number') }}" required>
                                 </div>
                                 <div class="mb-3">
