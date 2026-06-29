@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\TemplateExport;
 use App\Models\ProductInfo;
 use App\Models\ProductInfoFile;
+use App\Services\ExternalProductApiService;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -401,6 +402,47 @@ class SalesUSIController extends Controller
             'data' => $outbound,
             'sql' => $data->toSql(),
         ]);
+    }
+
+    public function getRealtimeStock()
+    {
+        $itemCode = request()->item_code;
+
+
+        if (!$itemCode) {
+            return response()->json(['status' => false, 'message' => 'item_code is required'], 422);
+        }
+
+        $allowedStorloc = ['TH02', 'THS2', 'THS3', 'THS4', 'THS5', 'THS6'];
+
+        $storlocNames = [
+            'TH02' => 'TH02-DC',
+            'THS2' => 'THS2-BKK DIY',
+            'THS3' => 'THS3-Pattaya S/R',
+            'THS4' => 'THS4-Phuket S/R',
+            'THS5' => 'THS5-HuaHin S/R',
+            'THS6' => 'THS6-ChiangMai S/R',
+        ];
+
+        try {
+            $api = new ExternalProductApiService();
+            $product = $api->getProductData($itemCode);
+            $productInfos = $product['productInformations'][0] ?? null;
+            $storloc = collect($productInfos['AvailablePackagesStorloc'] ?? [])
+                ->filter(fn($item) => \in_array($item['Storagelocation'] ?? '', $allowedStorloc))
+                ->map(fn($item) => array_merge($item, [
+                    'LocationName' => $storlocNames[$item['Storagelocation']] ?? $item['Storagelocation'],
+                ]))
+                ->values();
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Unable to connect to realtime service.'], 500);
+        }
+
+        if ($product === null) {
+            return response()->json(['status' => false, 'message' => 'Product not found.'], 404);
+        }
+
+        return response()->json(['status' => true, 'data' => $storloc]);
     }
 
     private function getPgrMapping(): array

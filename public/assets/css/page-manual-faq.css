@@ -1,0 +1,450 @@
+/* index – action buttons */
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.action-btn:hover {
+    background-color: #f8f9fa;
+}
+
+.action-btn.edit:hover {
+    color: #cb0c9f !important;
+}
+
+.action-btn.delete:hover {
+    color: #ea0606 !important;
+}
+
+/* show – public FAQ viewer */
+.faq-show-hero {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #fff;
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.faq-show-hero-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5e72e4 0%, #825ee4 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.faq-show-hero-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.faq-show-hero-text h5 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #344767;
+}
+
+.faq-show-hero-text p {
+    font-size: 0.8125rem;
+    color: #8392ab;
+    margin-top: 0.125rem;
+}
+
+.faq-show-count {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #5e72e4;
+    background: #eef0fd;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+}
+
+.faq-show-search-wrap {
+    position: relative;
+}
+
+.faq-show-search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #adb5bd;
+    font-size: 0.875rem;
+    pointer-events: none;
+}
+
+.faq-show-search-input {
+    width: 100%;
+    padding: 0.7rem 1rem 0.7rem 2.5rem;
+    border: 1.5px solid #e9ecef;
+    border-radius: 0.625rem;
+    font-size: 0.875rem;
+    color: #344767;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    font-family: inherit;
+}
+
+.faq-show-search-input:focus {
+    border-color: #5e72e4;
+    box-shadow: 0 0 0 3px rgba(94, 114, 228, 0.1);
+}
+
+.faq-show-search-input::placeholder {
+    color: #adb5bd;
+}
+
+.faq-show-item {
+    background: #fff;
+    border-radius: 0.625rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: box-shadow 0.15s ease;
+}
+
+.faq-show-item:hover {
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.09);
+}
+
+.faq-show-question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 1rem 1.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s ease;
+}
+
+.faq-show-question:hover {
+    background: #fafbff;
+}
+
+.faq-show-question:not(.collapsed) {
+    background: #fafbff;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.faq-show-num {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #f0f2f5;
+    color: #8392ab;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+}
+
+.faq-show-question:not(.collapsed) .faq-show-num {
+    background: #5e72e4;
+    color: #fff;
+}
+
+.faq-show-q-text {
+    flex: 1;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #344767;
+    line-height: 1.45;
+}
+
+.faq-show-chevron {
+    flex-shrink: 0;
+    color: #adb5bd;
+    font-size: 0.75rem;
+    transition: transform 0.25s ease, color 0.15s;
+}
+
+.faq-show-question:not(.collapsed) .faq-show-chevron {
+    transform: rotate(180deg);
+    color: #5e72e4;
+}
+
+.faq-show-answer-body {
+    padding: 1rem 1.25rem 1rem 3.625rem;
+}
+
+.faq-show-answer-text {
+    font-size: 0.875rem;
+    color: #67748e;
+    line-height: 1.7;
+    margin-bottom: 0;
+    white-space: pre-wrap;
+}
+
+.faq-show-pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.75rem;
+    padding: 0;
+    border: none;
+    background: none;
+    color: #ea0606;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 0.15s;
+}
+
+.faq-show-pdf-btn:hover {
+    color: #c00;
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+.faq-show-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #adb5bd;
+}
+
+.faq-show-empty i {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.faq-show-empty p {
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* create – sortable FAQ item */
+.faq-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: 0.5rem;
+    background: #fff;
+    margin-bottom: 0.625rem;
+    transition: box-shadow 0.15s ease;
+}
+
+.faq-item.ui-sortable-helper {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.faq-item.ui-sortable-placeholder {
+    visibility: visible !important;
+    border: 2px dashed #dee2e6;
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+}
+
+.drag-handle {
+    cursor: grab;
+    color: #ced4da;
+    flex-shrink: 0;
+    padding-top: 0.2rem;
+    transition: color 0.15s;
+}
+
+.drag-handle:hover {
+    color: #8392ab;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.faq-number {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #f0f2f5;
+    color: #8392ab;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.2rem;
+}
+
+.faq-fields {
+    flex: 1;
+    min-width: 0;
+}
+
+.faq-fields .field-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #8392ab;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.faq-fields textarea {
+    width: 100%;
+    border: 1px solid #e9ecef;
+    border-radius: 0.375rem;
+    padding: 0.45rem 0.65rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 52px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    color: #344767;
+}
+
+.faq-fields textarea:focus {
+    border-color: #5e72e4;
+    box-shadow: 0 0 0 2px rgba(94, 114, 228, 0.12);
+}
+
+.faq-fields textarea::placeholder {
+    color: #adb5bd;
+}
+
+.faq-pdf-area {
+    margin-top: 0.125rem;
+}
+
+.faq-pdf-existing {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.faq-pdf-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: #5e72e4;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.faq-pdf-link:hover {
+    text-decoration: underline;
+    color: #4357d8;
+}
+
+.faq-pdf-link .fa-file-pdf {
+    color: #ea0606;
+    flex-shrink: 0;
+}
+
+.faq-pdf-delete-btn {
+    background: none;
+    border: none;
+    color: #ced4da;
+    font-size: 0.7rem;
+    cursor: pointer;
+    padding: 0.1rem 0.25rem;
+    line-height: 1;
+    border-radius: 0.25rem;
+    transition: color 0.15s, background 0.15s;
+}
+
+.faq-pdf-delete-btn:hover {
+    color: #ea0606;
+    background: #fff5f5;
+}
+
+.faq-pdf-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: #adb5bd;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    transition: background 0.15s, color 0.15s;
+    margin-top: 0.125rem;
+}
+
+.faq-pdf-label:hover {
+    background: #f0f2f5;
+    color: #5e72e4;
+}
+
+.faq-pdf-input {
+    display: none;
+}
+
+.faq-pdf-filename {
+    font-size: 0.7rem;
+    color: #5e72e4;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.faq-remove-btn {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: #ced4da;
+    font-size: 0.875rem;
+    cursor: pointer;
+    padding: 0.2rem 0.3rem;
+    line-height: 1;
+    border-radius: 0.25rem;
+    transition: color 0.15s, background 0.15s;
+    margin-top: 0.05rem;
+}
+
+.faq-remove-btn:hover {
+    color: #ea0606;
+    background: #fff5f5;
+}
+
+.add-question-btn {
+    width: 100%;
+    padding: 0.65rem;
+    border: 2px dashed #dee2e6;
+    border-radius: 0.5rem;
+    background: transparent;
+    color: #adb5bd;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+}
+
+.add-question-btn:hover {
+    border-color: #5e72e4;
+    color: #5e72e4;
+    background: #f5f7ff;
+}

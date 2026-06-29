@@ -27,6 +27,7 @@ use App\Http\Controllers\ProductInformationController;
 use App\Http\Controllers\ProductSeriesController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PageManualFaqController;
 use Illuminate\Support\Facades\Redirect;
 
 // public routes
@@ -112,6 +113,7 @@ Route::middleware(['auth', 'check.status', 'force.password.change', 'check.passw
   // so status & sales usi
   Route::resource('sales-usi', SalesUSIController::class)->only('index');
   Route::get('/sales-usi/pc', [SalesUSIController::class, 'indexPC'])->name('sales-usi.pc');
+  Route::get('/sales-usi/realtime-stock', [SalesUSIController::class, 'getRealtimeStock'])->name('sales-usi.realtime-stock');
   Route::post('search-usi', [SalesUSIController::class, 'search_usi'])->name('search_usi');
   Route::post('search-usi-inbound', [SalesUSIController::class, 'inbound'])->name('search_inbound');
   Route::post('search-usi-outbound', [SalesUSIController::class, 'outbound'])->name('search_outbound');
@@ -154,6 +156,9 @@ Route::middleware(['auth', 'check.status', 'force.password.change', 'check.passw
     Route::get('/audit-logs/details', [AuditLogController::class, 'details'])->name('audit-logs.details');
     Route::get('/audit-logs/errors', [AuditLogController::class, 'errorLog'])->name('audit-logs.errors');
   });
+
+  // Page Manual FAQ
+  Route::resource('page-manual-faqs', PageManualFaqController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy', 'show');
 
   // QR Code Customer
   Route::get('/qr-code-customers', [CustomerQrCodeController::class, 'index'])->name('qr-code-customers.index');

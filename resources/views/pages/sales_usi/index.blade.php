@@ -56,6 +56,31 @@
       color: #0d47a1;
   }
 
+  .text-blue-600 {
+    color: #3182ce;
+  }
+
+  .btn-faq {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: #fff;
+    background: #5e72e4;
+    border: 1.5px solid #5e72e4;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .btn-faq:hover {
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(94, 114, 228, 0.35);
+    text-decoration: none;
+  }
+
   @media (min-width: 768px) {
     #product-image-container {
       max-width: 250px;
@@ -73,6 +98,12 @@
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
                             <h6 class="mb-0 h3">Products 360°</h6>
+                            <a href="{{ route('page-manual-faqs.show', 'product360') }}" target="_blank" class="btn-faq ms-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                </svg>
+                                คู่มือ - FAQ
+                            </a>
                         </div>
                         @php
                             $yesterday = date('d/m/Y', strtotime('-1 day'));
@@ -207,12 +238,19 @@
                           </div>
                         </div>
                     </div>
+
+                    <p class="text-sm fw-bold text-danger d-flex align-items-center gap-2 px-4 mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                        </svg>
+                        ข้อมูล ณ วันที่ {{ $yesterday }} เวลา 20:00 น. ถ้าคุณต้องการดูข้อมูล Stock realtime ให้กดปุ่ม Realtime Stock by Location ด้านล่าง
+                    </p>
                 </div>
             </div>
         </div>
         <div class="row">
           <div class="col-lg-4 mb-lg-0 mt-4">
-              <div class="card ">
+              <div class="card h-100">
                   <div class="table-responsive">
                       <table id="uom_table" class="table align-items-center ">
                           <thead>
@@ -233,7 +271,17 @@
               </div>
           </div>
           <div class="col-lg-8 mb-lg-0 mt-4">
-              <div class="card ">
+              <div class="card h-100">
+                  <div class="card-header pb-0 d-flex align-items-center gap-3 py-2">
+                      <span class="text-uppercase text-secondary text-xxs font-weight-bolder">Stock by Location</span>
+                      <button id="btn-realtime-stock" class="btn btn-primary mb-0" disabled>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                              <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                          </svg>
+                          Realtime Stock by Location
+                      </button>
+                  </div>
                   <div class="table-responsive">
                       <table id="stk_table" class="table align-items-center ">
                           <thead>
@@ -359,6 +407,50 @@
               </div>
         </div>
         @endcan
+    </div>
+
+    <!-- Realtime Stock Modal -->
+    <div class="modal fade" id="realtimeStockModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="rt-header-inner">
+              <div>
+                <p class="rt-eyebrow">Realtime Stock</p>
+                <h6 class="rt-item-code" id="realtime-item-label">—</h6>
+              </div>
+              <div class="rt-qty-block">
+                <p class="rt-eyebrow">Total QTY</p>
+                <h6 class="rt-total-qty" id="realtime-total-qty">—</h6>
+              </div>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex flex-column align-items-center justify-content-center py-5" id="realtime-loading">
+              <div class="spinner-border rt-spinner" role="status"></div>
+              <p class="rt-loading-text mb-0">Fetching live data...</p>
+            </div>
+            <div id="realtime-stock-content" class="d-none">
+              <table class="table mb-0 rt-table">
+                <thead>
+                  <tr>
+                    <th>Location</th>
+                    <th class="text-end">Qty</th>
+                  </tr>
+                </thead>
+                <tbody id="realtime-stock-rows"></tbody>
+              </table>
+            </div>
+            <div class="d-none text-center py-4" id="realtime-stock-error">
+              <p class="rt-error-text mb-0" id="realtime-error-msg">Unable to load data.</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <span class="rt-fetch-time me-auto" id="realtime-fetch-time"></span>
+            <button type="button" class="btn rt-close-btn" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Modal -->
@@ -513,6 +605,7 @@
       
       if(res['count'] == 0){
         $('#product-image-container').addClass('d-none');
+        $('#btn-realtime-stock').prop('disabled', true);
 
         $('.text-input').html('');
         $(':checkbox').prop('checked', false);
@@ -741,6 +834,7 @@
                     <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS5']+' </p></td>\
                     <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS6']+' </p></td></tr>';
       $('#stk_table').append(tbody);
+      $('#btn-realtime-stock').prop('disabled', false);
     }).fail(function(jqXHR, textStatus, errorThrown) {
       if (jqXHR.status == '419') {
         const currentPath = window.location.pathname + window.location.search;
@@ -863,6 +957,72 @@
       $("#errorModal").modal('hide');
       $('#item_code').focus();
     } );
+
+    $(document).on('click', '#realtimeStockModal .rt-close-btn, #realtimeStockModal .rt-close-x', function() {
+      $('#realtimeStockModal').modal('hide');
+    });
+  });
+
+  $('#btn-realtime-stock').on('click', function() {
+    const itemCode = $('#item_code').val();
+    if (!itemCode) return;
+
+    $('#realtime-item-label').text(itemCode);
+    $('#realtime-loading').removeClass('d-none');
+    $('#realtime-stock-content').addClass('d-none');
+    $('#realtime-stock-error').addClass('d-none');
+    $('#realtime-stock-rows').html('');
+    $('#realtime-fetch-time').text('');
+    $('#realtime-total-qty').text('—');
+
+    $('#realtimeStockModal').modal('show');
+
+    $.ajax({
+      method: 'GET',
+      url: '{{ route("sales-usi.realtime-stock") }}',
+      data: { item_code: itemCode }
+    }).done(function(res) {
+      $('#realtime-loading').addClass('d-none');
+
+      if (!res.status) {
+        $('#realtime-stock-error').removeClass('d-none');
+        $('#realtime-error-msg').text(res.message || 'No data found.');
+        return;
+      }
+
+      const articles = res.data ? res.data : [];
+      let rows = '';
+      let totalQty = 0;
+
+      if (articles.length > 0) {
+        $.each(articles, function(i, art) {
+          const locLabel = art.LocationName || '-';
+          const qty = art.Atpquantity != null ? art.Atpquantity : 0;
+          totalQty += qty;
+          rows += '<tr>' +
+            '<td class="ps-3 py-2 rt-row-loc">' + locLabel + '</td>' +
+            '<td class="text-end pe-3 py-2 rt-row-qty">' + addCommas(qty) + '</td>' +
+            '</tr>';
+        });
+      } else {
+        rows = '<tr><td colspan="2" class="text-center text-secondary py-3 rt-empty">No stock data available.</td></tr>';
+      }
+
+      $('#realtime-stock-rows').html(rows);
+      $('#realtime-total-qty').text(addCommas(totalQty));
+      $('#realtime-stock-content').removeClass('d-none');
+
+      const now = new Date();
+      $('#realtime-fetch-time').text('Fetched at ' + now.toLocaleTimeString());
+
+    }).fail(function(jqXHR) {
+      $('#realtime-loading').addClass('d-none');
+      $('#realtime-stock-error').removeClass('d-none');
+      const msg = (jqXHR.responseJSON && jqXHR.responseJSON.message)
+        ? jqXHR.responseJSON.message
+        : 'Unable to connect to realtime service.';
+      $('#realtime-error-msg').text(msg);
+    });
   });
 
 </script>
