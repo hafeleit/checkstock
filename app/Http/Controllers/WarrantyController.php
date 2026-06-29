@@ -65,26 +65,31 @@ class WarrantyController extends Controller
 
   public function warrantyList(Request $request)
   {
-    $warranties = Warranty::query()
-      ->when($request->filled('name'), function ($query) use ($request) {
-        $query->where('name', 'like', '%' . trim($request->name) . '%');
-      })
-      ->when($request->filled('tel'), function ($query) use ($request) {
-        $query->where('tel', trim($request->tel));
-      })
-      ->when($request->filled('serial_no'), function ($query) use ($request) {
-        $query->where('serial_no', trim($request->serial_no));
-      })
-      ->when($request->filled('order_number'), function ($query) use ($request) {
-        $query->where('order_number', trim($request->order_number));
-      })
-      ->latest()
-      ->paginate(10)
-      ->withQueryString();
+    $filters = $request->only(['name', 'tel', 'serial_no', 'order_number']);
+    $hasSearch = $request->hasAny(['name', 'tel', 'serial_no', 'order_number']) && collect($filters)->filter()->isNotEmpty();
+
+    $warranties = $hasSearch
+      ? Warranty::query()
+          ->when($request->filled('name'), function ($query) use ($request) {
+            $query->where('name', 'like', '%' . trim($request->name) . '%');
+          })
+          ->when($request->filled('tel'), function ($query) use ($request) {
+            $query->where('tel', trim($request->tel));
+          })
+          ->when($request->filled('serial_no'), function ($query) use ($request) {
+            $query->where('serial_no', trim($request->serial_no));
+          })
+          ->when($request->filled('order_number'), function ($query) use ($request) {
+            $query->where('order_number', trim($request->order_number));
+          })
+          ->latest()
+          ->paginate(10)
+          ->withQueryString()
+      : null;
 
     return view('pages.warranty.list', [
       'warranties' => $warranties,
-      'filters' => $request->only(['name', 'tel', 'serial_no', 'order_number']),
+      'filters' => $filters,
     ]);
   }
 

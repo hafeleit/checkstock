@@ -59,10 +59,8 @@
                                     <input name="name" type="text" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล (Please fill in)" value="{{ old('name') }}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="text-sm required">ที่อยู่จัดส่งสินค้า (Delivery address)</label>
-                                    <textarea name="addr" class="form-control" rows="3" placeholder="กรุณากรอกที่อยู่จัดส่งสินค้า (Please fill in)" required>
-                                        {{ old('addr') }}
-                                    </textarea>
+                                    <label class="text-sm required">ที่อยู่ (Address)</label>
+                                    <textarea name="addr" class="form-control" rows="3" placeholder="กรุณากรอกที่อยู่จัดส่งสินค้า (Please fill in)" required>{{ old('addr') }}</textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label class="text-sm">เบอร์โทรศัพท์ที่ติดต่อได้ (Contact number)<span class="text-danger">*</span></label>
@@ -95,8 +93,8 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="text-sm">หมายเลขคำสั่งซื้อ (Order number)<span class="text-danger">*</span></label>
-                                    <input name="order_number" type="text" class="form-control" placeholder="กรุณากรอกหมายเลขคำสั่งซื้อ (Please fill in)" value="{{ old('order_number') }}" required>
+                                    <label class="text-sm">หมายเลขใบเสร็จ หรือ หมายเลขคำสั่งซื้อ<span class="text-danger">*</span></label>
+                                    <input name="order_number" type="text" class="form-control" placeholder="กรุณากรอกหมายเลขใบเสร็จหรือหมายเลขคำสั่งซื้อ (Please fill in)" value="{{ old('order_number') }}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="text-sm">อีเมล (Email)</label>
