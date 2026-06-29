@@ -349,6 +349,46 @@ textarea.wl-input { height: auto; resize: vertical; }
     color: #6b7280;
     border: 1px solid #e5e7eb;
 }
+.wl-file-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: .7rem;
+    font-weight: 600;
+    color: #6b7280;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    padding: 2px 7px;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+    white-space: nowrap;
+}
+.wl-file-btn:hover {
+    background: #e0e7ff;
+    color: #4f46e5;
+    border-color: #c7d2fe;
+}
+.wl-file-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: .7rem;
+    font-weight: 600;
+    color: #6b7280;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 1px 5px;
+    text-decoration: none;
+    transition: background .15s, color .15s;
+}
+.wl-file-link:hover {
+    background: #e0e7ff;
+    color: #4f46e5;
+    border-color: #c7d2fe;
+    text-decoration: none;
+}
 .wl-diff { display: flex; flex-direction: column; gap: 4px; }
 .wl-diff-row {
     display: flex;
