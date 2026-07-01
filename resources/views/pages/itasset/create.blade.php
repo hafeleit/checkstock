@@ -3,6 +3,9 @@
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'New Asset'])
 
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}">
+
     <style media="screen" nonce="{{ request()->attributes->get('csp_style_nonce') }}">
         .z-1 {
             z-index: 1;
@@ -42,6 +45,59 @@
             border-bottom: 2px solid #f0f2f5;
             padding-bottom: 0.5rem;
             margin-bottom: 1rem;
+        }
+
+        .owner-block {
+            background: #f8f9fa;
+            border-radius: 0.5rem;
+            padding: 0.875rem 1rem;
+        }
+
+        .owner-block-current {
+            border-left: 3px solid #5e72e4;
+        }
+
+        .owner-block-old {
+            border-left: 3px solid #adb5bd;
+        }
+
+        .owner-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .owner-label-current {
+            color: #5e72e4;
+        }
+
+        .owner-label-old {
+            color: #8392ab;
+        }
+
+        .auto-field-wrapper {
+            position: relative;
+        }
+
+        .auto-badge {
+            position: absolute;
+            top: 50%;
+            right: 0.5rem;
+            transform: translateY(-50%);
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #8392ab;
+            background: #e9ecef;
+            border-radius: 3px;
+            padding: 1px 5px;
+            pointer-events: none;
+        }
+
+        .auto-field-wrapper .form-control {
+            padding-right: 2.5rem;
         }
     </style>
 
@@ -179,17 +235,23 @@
 
                             <h6 class="text-sm text-primary mb-0 mt-3">Current Owner</h6>
                             <div class="row">
-                                <div class="col-md-3 form-group mt-2">
+                                <div class="col-md-8 form-group mt-2">
                                     <label>User</label>
-                                    <input class="form-control" name="user[]" type="text" placeholder="ex.7213" value="{{ old('user[0]') }}">
-                                </div>
-                                <div class="col-md-5 form-group mt-2">
-                                    <label>Name</label>
-                                    <input class="form-control bg-light" type="text" placeholder="Auto" readonly>
+                                    <select class="form-control select2-user" name="user[]" id="user-select">
+                                        <option value=""></option>
+                                        @foreach($userMasters as $u)
+                                            <option value="{{ $u->employee_code }}"
+                                                data-name="{{ $u->name_en }}"
+                                                data-dept="{{ $u->dept }}"
+                                                {{ old('user.0') == $u->employee_code ? 'selected' : '' }}>
+                                                {{ $u->employee_code }} - {{ $u->name_en }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-4 form-group mt-2">
                                     <label>Department</label>
-                                    <input class="form-control bg-light" type="text" placeholder="Auto" readonly>
+                                    <input class="form-control bg-light" id="user-dept" type="text" placeholder="Auto" readonly>
                                 </div>
                             </div>
 
@@ -197,17 +259,27 @@
 
                             <h6 class="text-sm text-secondary mb-0">Old Owner</h6>
                             <div class="row">
-                                <div class="col-md-3 form-group mt-2">
+                                <div class="col-md-8 form-group mt-2">
                                     <label>User</label>
-                                    <input class="form-control" name="old_user" type="text" placeholder="ex.7213" value="{{ old('old_user') }}">
+                                    <select class="form-control" name="old_user" id="old-user-select">
+                                        <option value=""></option>
+                                        @foreach($userMasters as $u)
+                                            <option value="{{ $u->employee_code }}"
+                                                data-name="{{ $u->name_en }}"
+                                                data-dept="{{ $u->dept }}"
+                                                {{ old('old_user') == $u->employee_code ? 'selected' : '' }}>
+                                                {{ $u->employee_code }} - {{ $u->name_en }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="col-md-5 form-group mt-2">
+                                <div class="col-md-5 form-group mt-2 d-none">
                                     <label>Name</label>
-                                    <input class="form-control" name="old_name" type="text" value="{{ old('old_name') }}">
+                                    <input class="form-control" id="old-user-name" name="old_name" type="text" value="{{ old('old_name') }}">
                                 </div>
                                 <div class="col-md-4 form-group mt-2">
                                     <label>Department</label>
-                                    <input class="form-control" name="old_department" type="text" value="{{ old('old_department') }}">
+                                    <input class="form-control bg-light" id="old-user-dept" name="old_department" type="text" value="{{ old('old_department') }}" placeholder="Auto" readonly>
                                 </div>
                             </div>
                         </div>
@@ -344,12 +416,43 @@
         </form>
     </div>
 
+    <script src="{{ asset('js/select2.min.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
+
     <script type="text/javascript" nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         $(function() {
             $(".datepicker").flatpickr({
                 disableMobile: "true",
                 allowInput: true,
                 dateFormat: "Y-m-d",
+            });
+
+            $('#user-select').select2({
+                theme: 'bootstrap-5',
+                width: '100%',
+                placeholder: 'Search by code or name...',
+                allowClear: true,
+            });
+
+            function fillUserInfo() {
+                let $opt = $('#user-select').find(':selected');
+                $('#user-name').val($opt.data('name') || '');
+                $('#user-dept').val($opt.data('dept') || '');
+            }
+
+            fillUserInfo();
+            $('#user-select').on('change', fillUserInfo);
+
+            $('#old-user-select').select2({
+                theme: 'bootstrap-5',
+                width: '100%',
+                placeholder: 'Search by code or name...',
+                allowClear: true,
+            });
+
+            $('#old-user-select').on('change', function() {
+                let $opt = $(this).find(':selected');
+                $('#old-user-name').val($opt.data('name') || '');
+                $('#old-user-dept').val($opt.data('dept') || '');
             });
 
             function toggleTelField() {

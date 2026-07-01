@@ -13,6 +13,7 @@ use Auth;
 use DB;
 use Carbon\Carbon;
 use App\Exports\ITAssetExport;
+use App\Models\UserMaster;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ITAssetController extends Controller
@@ -33,18 +34,14 @@ class ITAssetController extends Controller
     $itassets = ITAsset::where('i_t_assets.delete', '0')
       ->leftjoin('i_t_asset_owns', 'i_t_assets.computer_name', 'i_t_asset_owns.computer_name')
       ->leftJoin('user_masters', function ($join) {
-        $join->on('i_t_asset_owns.user', '=', 'user_masters.job_code')
-          ->where('user_masters.status', '=', 'Current');
+        $join->on(function ($j) {
+          $j->on('i_t_asset_owns.user', '=', 'user_masters.employee_code')
+            ->orOn('i_t_asset_owns.user', '=', 'user_masters.job_code');
+        })->where('user_masters.status', '=', 'Current');
       })
       ->leftjoin('softwares', 'softwares.computer_name', 'i_t_assets.computer_name')
       ->leftjoin('i_t_asset_types', 'i_t_asset_types.type_code', 'i_t_assets.type')
-      ->select(DB::raw("
-                      i_t_assets.*,
-                      i_t_asset_owns.user,
-                      user_masters.name_en,
-                      GROUP_CONCAT(softwares.software_name ORDER BY softwares.software_name ASC SEPARATOR ', ') AS software_name,
-                      i_t_asset_types.type_desc
-                      "))
+      ->select(DB::raw("i_t_assets.*, i_t_asset_owns.user, user_masters.name_en, GROUP_CONCAT(softwares.software_name ORDER BY softwares.software_name ASC SEPARATOR ', ') AS software_name, i_t_asset_types.type_desc"))
       ->groupBy('i_t_assets.computer_name')
       ->orderBy('i_t_assets.id', 'desc')
       ->get();
@@ -78,7 +75,13 @@ class ITAssetController extends Controller
    */
   public function create()
   {
-    return view('pages.itasset.create', ['types' => ITAssetType::where('type_status', 'Active')->get()]);
+    $userMasters = UserMaster::get();
+    $types = ITAssetType::where('type_status', 'Active')->get();
+
+    return view('pages.itasset.create', [
+      'types' => $types,
+      'userMasters' => $userMasters
+    ]);
   }
 
   /**
@@ -86,6 +89,7 @@ class ITAssetController extends Controller
    */
   public function store(Request $request)
   {
+    // dd($request->all());
     DB::beginTransaction();
 
     try {
@@ -149,9 +153,7 @@ class ITAssetController extends Controller
       ->select('i_t_assets.*', 'i_t_asset_types.type_desc', 'i_t_asset_types.type_code')->first();
 
     $itassetspec = ITAssetSpec::where('computer_name', $itasset->computer_name)->first();
-    $itassetown = ITAssetOwn::with('owner')
-      ->where('computer_name', $itasset->computer_name)
-      ->first();
+    $itassetown = ITAssetOwn::where('computer_name', $itasset->computer_name)->first();
 
     $softwares = Softwares::where('computer_name', $itasset->computer_name)->get();
 
@@ -164,13 +166,13 @@ class ITAssetController extends Controller
   public function edit(ITAsset $itasset)
   {
     $itassetspec = ITAssetSpec::where('computer_name', $itasset->computer_name)->first();
-    $itassetown = ITAssetOwn::with('owner')
-      ->where('computer_name', $itasset->computer_name)
-      ->first();
+    $itassetown = ITAssetOwn::where('computer_name', $itasset->computer_name)->first();
+
     $softwares = Softwares::where('computer_name', $itasset->computer_name)->get();
     $types = ITAssetType::where('type_status', 'Active')->get();
+    $userMasters = UserMaster::get();
 
-    return view('pages.itasset.edit', compact('itasset', 'itassetspec', 'itassetown', 'softwares', 'types'));
+    return view('pages.itasset.edit', compact('itasset', 'itassetspec', 'itassetown', 'softwares', 'types', 'userMasters'));
   }
 
   /**
