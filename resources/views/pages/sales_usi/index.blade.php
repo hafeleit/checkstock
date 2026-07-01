@@ -827,12 +827,13 @@
         }
       }
 
-      let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+res['stocks']['TH02']+'</p></td>\
-                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS2']+' </p></td>\
-                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS3']+' </p></td>\
-                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS4']+' </p></td>\
-                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS5']+' </p></td>\
-                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+res['stocks']['THS6']+' </p></td></tr>';
+      
+      let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+addCommas(res['stocks']['TH02'])+'</p></td>\
+                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(res['stocks']['THS2'])+' </p></td>\
+                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(res['stocks']['THS3'])+' </p></td>\
+                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(res['stocks']['THS4'])+' </p></td>\
+                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(res['stocks']['THS5'])+' </p></td>\
+                    <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(res['stocks']['THS6'])+' </p></td></tr>';
       $('#stk_table').append(tbody);
       $('#btn-realtime-stock').prop('disabled', false);
     }).fail(function(jqXHR, textStatus, errorThrown) {
