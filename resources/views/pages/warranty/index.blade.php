@@ -181,7 +181,7 @@
         </div>
     </main>
 
-    <script src="{{ asset('js/jquery.mask.js') }}"></script>
+    <script src="{{ asset('js/jquery.mask.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
     <script nonce="{{ request()->attributes->get('csp_script_nonce') }}">
         $('#article_no').mask('000.00.000');
 

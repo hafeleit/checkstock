@@ -65,6 +65,13 @@ class WarrantyController extends Controller
 
   public function warrantyList(Request $request)
   {
+    $request->validate([
+      'name' => 'nullable|string|max:255',
+      'tel' => 'nullable|string|max:50',
+      'serial_no' => 'nullable|string|max:100',
+      'order_number' => 'nullable|string|max:100',
+    ]);
+
     $filters = $request->only(['name', 'tel', 'serial_no', 'order_number']);
     $hasSearch = $request->hasAny(['name', 'tel', 'serial_no', 'order_number']) && collect($filters)->filter()->isNotEmpty();
 
