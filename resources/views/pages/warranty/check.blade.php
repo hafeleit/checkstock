@@ -145,5 +145,5 @@
 @endsection
 
 @push('js')
-<script src="{{ asset('assets/js/warranty-check.js') }}"></script>
+<script src="{{ asset('assets/js/warranty-check.js') }}" nonce="{{ request()->attributes->get('csp_script_nonce') }}"></script>
 @endpush
