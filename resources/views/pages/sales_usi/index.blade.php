@@ -420,6 +420,7 @@
               <div>
                 <p class="rt-eyebrow">Realtime Stock</p>
                 <h6 class="rt-item-code" id="realtime-item-label">—</h6>
+                <p class="rt-as-of" id="realtime-fetch-time"></p>
               </div>
               <div class="rt-qty-block">
                 <p class="rt-eyebrow">Total QTY</p>
@@ -448,8 +449,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <span class="rt-fetch-time me-auto" id="realtime-fetch-time"></span>
-            <button type="button" class="btn rt-close-btn" data-dismiss="modal">Close</button>
+            <button type="button" class="btn rt-close-btn ms-auto" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -1016,7 +1016,9 @@
       $('#realtime-stock-content').removeClass('d-none');
 
       const now = new Date();
-      $('#realtime-fetch-time').text('Fetched at ' + now.toLocaleTimeString());
+      const pad = n => String(n).padStart(2, '0');
+      const asOf = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+      $('#realtime-fetch-time').text('as of ' + asOf);
 
     }).fail(function(jqXHR) {
       $('#realtime-loading').addClass('d-none');
