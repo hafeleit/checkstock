@@ -1018,7 +1018,7 @@
       const now = new Date();
       const pad = n => String(n).padStart(2, '0');
       const asOf = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
-      $('#realtime-fetch-time').text('As of Time' + asOf);
+      $('#realtime-fetch-time').text('As of Time ' + asOf);
 
     }).fail(function(jqXHR) {
       $('#realtime-loading').addClass('d-none');
