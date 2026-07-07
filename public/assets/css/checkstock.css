@@ -651,6 +651,13 @@ span.relative.inline-flex.items-center.px-2.py-2.-ml-px.text-sm.font-medium.text
     margin: 0;
     font-variant-numeric: tabular-nums;
 }
+#realtimeStockModal .rt-as-of {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.03em;
+    margin: 4px 0 0;
+}
 #realtimeStockModal .rt-live-badge {
     display: inline-flex;
     align-items: center;

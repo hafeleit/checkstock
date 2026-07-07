@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\TemplateExport;
+use App\Models\PageManualFaq;
 use App\Models\ProductInfo;
 use App\Models\ProductInfoFile;
 use App\Services\ExternalProductApiService;
@@ -22,24 +23,34 @@ class SalesUSIController extends Controller
     }
     public function index()
     {
+        $manualFaq = PageManualFaq::where('page_identifier', 'product360')->exists();
+
         $query = DB::table('ZHWWMM_OPEN_ORDERS')
             ->select('created_at')
             ->first();
 
         $created_at = $query->created_at;
 
-        return view('pages.sales_usi.index', ['created_at' => $created_at]);
+        return view('pages.sales_usi.index', [
+            'created_at' => $created_at,
+            'manualFaq' => $manualFaq
+        ]);
     }
 
     public function indexPC()
     {
+        $manualFaq = PageManualFaq::where('page_identifier', 'product360')->exists();
+
         $query = DB::table('ZHWWMM_OPEN_ORDERS')
             ->select('created_at')
             ->first();
 
         $created_at = $query->created_at;
 
-        return view('pages.sales_usi.index-pc', ['created_at' => $created_at]);
+        return view('pages.sales_usi.index-pc', [
+            'created_at' => $created_at,
+            'manualFaq' => $manualFaq
+        ]);
     }
 
     public function search_usi(Request $request)
