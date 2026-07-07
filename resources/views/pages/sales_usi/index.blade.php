@@ -498,7 +498,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const itemCodeParam = urlParams.get('item_code');
     if (itemCodeParam) {
-        $('#item_code').val(itemCodeParam).trigger('input'); 
+        $('#item_code').val(itemCodeParam).trigger('input');
         search_usi();
     }
   });
@@ -604,7 +604,7 @@
           url.searchParams.delete('item_code');
           window.history.replaceState({}, document.title, url.pathname);
       }
-      
+
       if(res['count'] == 0){
         $('#product-image-container').addClass('d-none');
         $('#btn-realtime-stock').prop('disabled', true);
@@ -829,7 +829,7 @@
         }
       }
 
-      
+
       let tbody = '<tr><td><p class="text-xs font-weight-bold mb-0 px-3">'+addCommas(res['stocks']['TH02'])+'</p></td>\
                     <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(res['stocks']['THS2'])+' </p></td>\
                     <td><p class="text-end text-xs font-weight-bold mb-0 px-3">'+addCommas(res['stocks']['THS3'])+' </p></td>\
@@ -1018,7 +1018,7 @@
       const now = new Date();
       const pad = n => String(n).padStart(2, '0');
       const asOf = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
-      $('#realtime-fetch-time').text('as of ' + asOf);
+      $('#realtime-fetch-time').text('As of Time' + asOf);
 
     }).fail(function(jqXHR) {
       $('#realtime-loading').addClass('d-none');
