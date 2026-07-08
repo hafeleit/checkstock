@@ -23,7 +23,7 @@ class ITAssetOwn extends Model
 
     public function getOwnerAttribute()
     {
-      return UserMaster::where('status', 'Current')
+      return UserMaster::whereIn('status', ['Current', 'Probation'])
         ->where(function ($q) {
           $q->where('employee_code', $this->user)
             ->orWhere('job_code', $this->user);
