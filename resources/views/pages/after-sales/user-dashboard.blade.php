@@ -212,7 +212,7 @@
                         <p class="text-md text-gray-400 mt-0.5">{{ $kpi['sub'] }}</p>
                     @endisset
 
-                    <a href="{{ route('after-sales.detail', ['chart' => $kpi['id']]) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                    <a href="{{ route('ass_dashboard.detail', ['chart' => $kpi['id']]) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                         View Detail
                     </a>
                 </div>
@@ -225,7 +225,7 @@
     {{-- SECTION 2 — Ticket Stats + Aging (dashboard-2) --}}
     <div class="flex gap-4 items-center justify-between mb-2">
         <p class="text-md font-bold uppercase tracking-widest text-gray-800">Ticket Statistics</p>
-        <a href="{{ route('after-sales.detail', ['chart' => 'ud-ticket-by-status-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+        <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-ticket-by-status-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
             View Detail
         </a>
     </div>
@@ -278,7 +278,7 @@
         <div class="flex items-center justify-between mb-2">
             <div class="space-x-4">
                 <span class="text-sm font-semibold text-gray-600 uppercase tracking-widest">Overall Aging</span>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-aging-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-aging-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>
@@ -312,7 +312,7 @@
     {{-- SECTION 3 — CSI Details (dashboard-1) --}}
     <div class="ud-card-header">
         <p class="text-md font-bold uppercase tracking-widest text-gray-800">Customer Satisfaction Index</p>
-        <a href="{{ route('after-sales.detail', ['chart' => 'ud-csi-response-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+        <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-csi-response-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
             View Detail
         </a>
     </div>
@@ -372,7 +372,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Pending Overview (ASC vs Hafele)</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-overview-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-pending-overview-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>
@@ -390,7 +390,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Pending Reason (by Aging)</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-reason-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-pending-reason-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>
@@ -408,7 +408,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Status Overview (by Aging)</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-status-overview-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-status-overview-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>
@@ -421,7 +421,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Pending by Region</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-by-region-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-pending-by-region-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>
@@ -438,7 +438,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">In-House Pending by Team</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-inhouse-pending-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-inhouse-pending-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>
@@ -450,7 +450,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">ASC Pending by Region</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-asc-pending-by-region-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-asc-pending-by-region-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>
@@ -467,7 +467,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Pending by Type</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-by-type-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-pending-by-type-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>
@@ -479,7 +479,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Pending Product Group</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-pending-product-group-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-pending-product-group-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>
@@ -498,7 +498,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Ticket Open vs Close</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-ticket-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-ticket-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>
@@ -511,7 +511,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Contact Center Trend</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-contact-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-contact-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>
@@ -524,7 +524,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 ud-card">
             <div class="ud-card-header">
                 <p class="text-md font-semibold text-gray-600">Daily Performance ({{ now()->format('F') }})</p>
-                <a href="{{ route('after-sales.detail', ['chart' => 'ud-daily-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
+                <a href="{{ route('ass_dashboard.detail', ['chart' => 'ud-daily-chart']) }}" class="text-sm font-semibold text-blue-500 hover:text-blue-700" target="_blank">
                     View Detail
                 </a>
             </div>

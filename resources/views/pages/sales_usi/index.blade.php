@@ -245,7 +245,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                         </svg>
-                        ข้อมูล ณ วันที่ {{ $yesterday }} เวลา 20:00 น. ถ้าคุณต้องการดูข้อมูล Stock realtime ให้กดปุ่ม Realtime Stock by Location ด้านล่าง
+                        ข้อมูล ณ วันที่ {{ $yesterday }} เวลา 20:00 น. ถ้าคุณต้องการดูข้อมูล Stock realtime ให้กดปุ่ม Realtime ATP Stock by Location ด้านล่าง
                     </p>
                 </div>
             </div>
@@ -281,7 +281,7 @@
                               <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
                               <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
                           </svg>
-                          Realtime Stock by Location
+                          Realtime ATP Stock by Location
                       </button>
                   </div>
                   <div class="table-responsive">
@@ -411,14 +411,14 @@
         @endcan
     </div>
 
-    <!-- Realtime Stock Modal -->
+    <!-- Realtime ATP Stock Modal -->
     <div class="modal fade" id="realtimeStockModal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <div class="rt-header-inner">
               <div>
-                <p class="rt-eyebrow">Realtime Stock</p>
+                <p class="rt-eyebrow">Realtime ATP Stock</p>
                 <h6 class="rt-item-code" id="realtime-item-label">—</h6>
                 <p class="rt-as-of" id="realtime-fetch-time"></p>
               </div>

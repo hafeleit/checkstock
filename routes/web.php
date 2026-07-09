@@ -51,7 +51,7 @@ Route::get('picking', [logincontroller::class, 'picking']);
 Route::get('test_db_crm', [homecontroller::class, 'test_db']);
 
 // After Sales Dashboards - PUBLIC
-Route::get('/after-sales/dashboard', [AfterSalesDashboardController::class, 'index'])->name('after-sales.dashboard');
+Route::get('/ass_dashboard', [AfterSalesDashboardController::class, 'index'])->name('ass_dashboard.dashboard');
 
 // protected routes (requires authentication and status check)
 Route::middleware(['auth', 'check.status', 'force.password.change', 'check.password.expired'])->group(function () {
@@ -64,8 +64,8 @@ Route::middleware(['auth', 'check.status', 'force.password.change', 'check.passw
   Route::post('/logout', [logincontroller::class, 'logout'])->name('logout');
 
   // after sales dashboards - USER
-  Route::get('/after-sales/user-dashboard', [AfterSalesDashboardController::class, 'userDashboard'])->name('after-sales.user-dashboard');
-  Route::get('/after-sales/detail/{chart}', [AfterSalesDashboardController::class, 'detail'])->name('after-sales.detail');
+  Route::get('/ass_dashboard/user', [AfterSalesDashboardController::class, 'userDashboard'])->name('ass_dashboard.user');
+  Route::get('/ass_dashboard/detail/{chart}', [AfterSalesDashboardController::class, 'detail'])->name('ass_dashboard.detail');
 
   // commissions
   Route::resource('commissions', CommissionController::class);
