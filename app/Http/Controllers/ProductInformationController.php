@@ -32,29 +32,35 @@ class ProductInformationController extends Controller
 
     public function index()
     {
-        $query = ZHWWBCQUERYDIR::query()
-            ->leftJoin('product_series', 'product_series.item_code', '=', 'ZHWWBCQUERYDIR.material')
-            ->select('ZHWWBCQUERYDIR.material', 'product_series.series_name')
-            ->whereNotNull('ZHWWBCQUERYDIR.material')
-            ->groupBy('ZHWWBCQUERYDIR.material');
+        request()->validate([
+            'item_code' => 'nullable|string',
+        ]);
 
-        if ($itemCode = request('item_code')) {
-            $query->where('material', 'LIKE', '%' . trim($itemCode) . '%');
+        if (request('item_code')) {
+            $query = ZHWWBCQUERYDIR::query()
+                ->leftJoin('product_series', 'product_series.item_code', '=', 'ZHWWBCQUERYDIR.material')
+                ->select('ZHWWBCQUERYDIR.material', 'product_series.series_name')
+                ->whereNotNull('ZHWWBCQUERYDIR.material')
+                ->groupBy('ZHWWBCQUERYDIR.material');
+
+            $query->where('material', 'LIKE', '%' . trim(request('item_code')) . '%');
+
+            $productInformations = $query->paginate(20);
+
+            if ($productInformations->isNotEmpty()) {
+                $productInformations->getCollection()->load([
+                    'product_info',
+                    'imageFile',
+                    'catalogueFiles',
+                    'manualFiles',
+                    'specsheetFiles',
+                ]);
+            }
+
+            session(['product_info_return_url' => request()->fullUrl()]);
+        } else {
+            $productInformations = collect();
         }
-
-        $productInformations = $query->paginate(20);
-
-        if ($productInformations->isNotEmpty()) {
-            $productInformations->getCollection()->load([
-                'product_info',
-                'imageFile',
-                'catalogueFiles',
-                'manualFiles',
-                'specsheetFiles',
-            ]);
-        }
-
-        session(['product_info_return_url' => request()->fullUrl()]);
 
         return view('pages.sales_usi.product-info.index', [
             'productInformations' => $productInformations,
@@ -152,12 +158,12 @@ class ProductInformationController extends Controller
             ->groupBy('type');
 
         return view('pages.sales_usi.product-info.edit', [
-            'imageProduct'  => $product->imageFile ?? null,
-            'product'       => $product->product_info,
-            'seriesName'    => $product->series_name ?? null,
-            'catalogues'    => $filesByType->get('catalogue', collect()),
-            'manuals'       => $filesByType->get('manual', collect()),
-            'specSheets'    => $filesByType->get('specsheet', collect()),
+            'imageProduct' => $product->imageFile ?? null,
+            'product' => $product->product_info,
+            'seriesName' => $product->series_name ?? null,
+            'catalogues' => $filesByType->get('catalogue', collect()),
+            'manuals' => $filesByType->get('manual', collect()),
+            'specSheets' => $filesByType->get('specsheet', collect()),
         ]);
     }
 
@@ -190,13 +196,13 @@ class ProductInformationController extends Controller
             DB::commit();
 
             return response()->json([
-                'status'  => 'success',
+                'status' => 'success',
                 'message' => 'Product updated successfully'
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
-                'status'  => 'error',
+                'status' => 'error',
                 'message' => $th->getMessage()
             ], 500);
         }
@@ -294,7 +300,7 @@ class ProductInformationController extends Controller
                         'version' => null,
                         'path' => $path,
                         'file_name' => $fileName,
-                        'updated_by' =>  auth()->id(),
+                        'updated_by' => auth()->id(),
                         'updated_at' => now(),
                     ]);
                     continue;
@@ -339,11 +345,11 @@ class ProductInformationController extends Controller
         try {
 
             $fileImportLog = FileImportLog::create([
-                'file_name'     => $fileName,
-                'file_size'     => $fileSize,
-                'type'          => $fileType,
-                'status'        => 'pending',
-                'created_by'    => auth()->id()
+                'file_name' => $fileName,
+                'file_size' => $fileSize,
+                'type' => $fileType,
+                'status' => 'pending',
+                'created_by' => auth()->id()
             ]);
 
             Excel::import(new ProductInfoImport($fileImportLog->id, request()->type), request()->file('file'));

@@ -36,10 +36,35 @@
         .swal2-html-container {
             line-height: 1.6 !important;
         }
+
+        .wc-empty {
+            text-align: center;
+            padding: 52px 20px;
+            color: #9ca3af;
+        }
+
+        .wc-empty-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 16px;
+            background: #f3f4f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wc-empty-title {
+            font-weight: 700;
+            color: #374151;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
     </style>
 
     <div class="container-fluid">
         <div class="row">
+
             <div class="col-12 mt-3 mt-md-4 px-0">
                 <div class="card">
                     <div class="card-header pb-0">
@@ -70,7 +95,21 @@
                                 </div>
                             </div>
                         </div>
-
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-3 mt-md-4 px-0">
+                <div class="card">
+                    <div class="card-body">
+                        @if ($productInformations->isEmpty())
+                        <div class="wc-empty">
+                            <div class="wc-empty-icon mx-auto">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            </div>
+                            <p class="wc-empty-title">Please search to view data</p>
+                            <p class="text-sm mb-0 text-muted">Enter at least one filter above and click Search</p>
+                        </div>
+                        @else
                         <div class="table-responsive">
                             <table class="table table-hover text-sm">
                                 <thead>
@@ -221,6 +260,7 @@
                         <div class="mt-4">
                             {{ $productInformations->withQueryString()->links('pagination::bootstrap-5') }}
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
