@@ -20,11 +20,13 @@
                                 <h5 class="mb-0"><i class="fas fa-question-circle me-2 text-primary"></i>Page Manual FAQ</h5>
                                 <p class="text-sm text-muted mb-0 mt-1">Manage FAQ items for each page in the system</p>
                             </div>
+                            @can('faq create')
                             <div class="d-flex align-items-center gap-2">
                                 <a href="{{ route('page-manual-faqs.create') }}" class="btn btn-primary btn-sm mb-0 shadow-sm">
                                     <i class="fas fa-plus me-1"></i> Add New
                                 </a>
                             </div>
+                            @endcan
                         </div>
                     </div>
 
@@ -37,7 +39,9 @@
                                         <th class="text-uppercase text-secondary font-weight-bolder opacity-7 ps-2 w-70">Page</th>
                                         <th class="text-uppercase text-secondary font-weight-bolder opacity-7 ps-2">Updated By</th>
                                         <th class="text-uppercase text-secondary font-weight-bolder opacity-7 ps-2">Updated At</th>
+                                        @canany(['faq edit', 'faq delete'])
                                         <th class="text-uppercase text-secondary font-weight-bolder opacity-7 text-center">Action</th>
+                                        @endcanany
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,10 +51,14 @@
                                             <td><p class="text-sm font-weight-bold mb-0">{{ $pageLabels[$faq->page_identifier] ?? $faq->page_identifier }}</p></td>
                                             <td><p class="text-sm text-secondary mb-0">{{ $faq->updatedBy->username }}</p></td>
                                             <td><p class="text-sm text-secondary mb-0">{{ $faq->updated_at->format('d/m/Y H:i') }}</p></td>
+                                            @canany(['faq edit', 'faq delete'])
                                             <td class="text-center align-middle">
+                                                @can('faq edit')
                                                 <a href="{{ route('page-manual-faqs.edit', $faq->id) }}" class="action-btn edit text-secondary" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
+                                                @endcan
+                                                @can('faq delete')
                                                 <button type="button" class="action-btn delete text-secondary ms-1 border-0 bg-transparent"
                                                     title="Delete" data-faq-id="{{ $faq->id }}">
                                                     <i class="fas fa-trash"></i>
@@ -59,11 +67,13 @@
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
+                                                @endcan
                                             </td>
+                                            @endcanany
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="4" class="text-center py-4 text-secondary text-sm">No FAQ items found.</td>
+                                            <td colspan="{{ auth()->user()->canany(['faq edit', 'faq delete']) ? 5 : 4 }}" class="text-center py-4 text-secondary text-sm">No FAQ items found.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
