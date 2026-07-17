@@ -993,32 +993,19 @@
         return;
       }
 
-      const articles = res.data ? res.data : [];
+      const articles = res.data?.storloc ?? [];
       let rows = '';
-      let totalQty = 0;
-
-      // sum Storagelocation not equal to TH02
-      let totalQtyOther = articles.reduce((sum, art) => {
-        if (art.Storagelocation !== 'TH02') {
-          return sum + (art.Atpquantity != null ? art.Atpquantity : 0);
-        }
-        return sum;
-      }, 0);
+      let totalQty = res.data?.totalQty != null ? res.data.totalQty : 0;
 
       if (articles.length > 0) {
         $.each(articles, function(i, art) {
           const locLabel = art.LocationName || '-';
           const qty = art.Atpquantity != null ? art.Atpquantity : 0;
-          const displayQty = art.Storagelocation === 'TH02' ? qty - totalQtyOther : qty;
-
-          if (art.Storagelocation === 'TH02') {
-            totalQty = qty;
-          }
 
           rows += '<tr>' +
             '<td class="ps-3 py-2 rt-row-loc">' + locLabel + '</td>' +
-            '<td class="text-end pe-3 py-2 rt-row-qty">' + addCommas(displayQty) + '</td>' +
-          '</tr>';
+            '<td class="text-end pe-3 py-2 rt-row-qty">' + addCommas(qty) + '</td>' +
+            '</tr>';
         });
       } else {
         rows = '<tr><td colspan="2" class="text-center text-secondary py-3 rt-empty">No stock data available.</td></tr>';
