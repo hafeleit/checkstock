@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class AfterSalesDashboardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:aftersales user dashboard view')->only(['userDashboard', 'detail']);
+    }
+    
     public function index()
     {
         $month = now()->month;
