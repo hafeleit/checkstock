@@ -439,11 +439,28 @@ class SalesUSIController extends Controller
             $api = new ExternalProductApiService();
             $product = $api->getProductData($itemCode);
             $productInfos = $product['productInformations'][0] ?? null;
+
+            // Calculate total quantity for TH02 and other storage locations
+            $totalOtherQty = collect($productInfos['AvailablePackagesStorloc'] ?? [])
+                ->filter(fn($item) => $item['Storagelocation'] !== 'TH02')
+                ->sum(fn($item) => $item['Atpquantity'] ?? 0);
+
+            $totalQty = collect($productInfos['AvailablePackagesStorloc'] ?? [])
+                ->filter(fn($item) => $item['Storagelocation'] === 'TH02')
+                ->sum(fn($item) => $item['Atpquantity'] ?? 0);
+
+            // Map and filter the storage locations
             $storloc = collect($productInfos['AvailablePackagesStorloc'] ?? [])
                 ->filter(fn($item) => \in_array($item['Storagelocation'] ?? '', $allowedStorloc))
-                ->map(fn($item) => array_merge($item, [
-                    'LocationName' => $storlocNames[$item['Storagelocation']] ?? $item['Storagelocation'],
-                ]))
+                ->map(function ($item) use ($storlocNames, $totalOtherQty) {
+                    if (($item['Storagelocation'] ?? null) === 'TH02') {
+                        $item['Atpquantity'] = ($item['Atpquantity'] ?? 0) - $totalOtherQty;
+                    }
+
+                    return array_merge($item, [
+                        'LocationName' => $storlocNames[$item['Storagelocation']] ?? $item['Storagelocation'],
+                    ]);
+                })
                 ->values();
         } catch (\Exception $e) {
             return response()->json(['status' => false, 'message' => 'Unable to connect to realtime service.'], 500);
@@ -453,7 +470,13 @@ class SalesUSIController extends Controller
             return response()->json(['status' => false, 'message' => 'Product not found.'], 404);
         }
 
-        return response()->json(['status' => true, 'data' => $storloc]);
+        return response()->json([
+            'status' => true, 
+            'data' => [
+                'totalQty' => $totalQty,
+                'storloc' => $storloc,
+            ]
+        ]);
     }
 
     private function getPgrMapping(): array
