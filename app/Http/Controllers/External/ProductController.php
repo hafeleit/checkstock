@@ -42,6 +42,18 @@ class ProductController extends Controller
 
         $api = new ExternalProductApiService();
         $product = $api->getProductData($item_code);
+        $productInfos = $product['productInformations'][0] ?? null;
+
+        // Calculate total quantity for TH02 and other storage locations
+        $totalOtherQty = collect($productInfos['AvailablePackagesStorloc'] ?? [])
+            ->filter(fn($item) => $item['Storagelocation'] !== 'TH02')
+            ->sum(fn($item) => $item['Atpquantity'] ?? 0);
+
+        $totalQty = collect($productInfos['AvailablePackagesStorloc'] ?? [])
+            ->filter(fn($item) => $item['Storagelocation'] === 'TH02')
+            ->sum(fn($item) => $item['Atpquantity'] ?? 0);
+
+        $stock = $totalQty - $totalOtherQty ?? 0;
 
         $stMapping = $this->getStMapping();
         $dmMapping = $this->getDmMapping();
@@ -70,12 +82,13 @@ class ProductController extends Controller
             ->first();
 
         return view('external.products.index', [
-            'product'           => $product,
-            'product_external'    => $productExternal,
-            'product_internal'    => $productInternal,
-            'searched'          => true,
-            'item_code'         => $item_code,
-            'user'              => auth()->user(),
+            'product' => $product,
+            'product_external' => $productExternal,
+            'product_internal' => $productInternal,
+            'searched' => true,
+            'item_code' => $item_code,
+            'stock' => $stock,
+            'user' => auth()->user(),
         ]);
     }
 
@@ -92,7 +105,7 @@ class ProductController extends Controller
             ->value('item_code');
 
         // pdf files
-         $catalogueFiles = ProductInfoFile::where('item_code', $baseItemCode ? $baseItemCode : $itemCode)
+        $catalogueFiles = ProductInfoFile::where('item_code', $baseItemCode ? $baseItemCode : $itemCode)
             ->where('type', 'catalogue')
             ->where('is_active', true)
             ->get();
