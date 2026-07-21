@@ -91,10 +91,6 @@
                             </div>
 
                             <div class="bg-gray-50 p-3 rounded-md">
-                                @php
-                                    $storloc = collect($product['productInformations'][0]['AvailablePackagesStorloc'] ?? [])->firstWhere('Storagelocation', 'TH02');
-                                    $stock = $storloc['Atpquantity'] ?? 0;
-                                @endphp
                                 <label class="block text-xs font-medium text-gray-500">Stock Quantity</label>
                                 <span class="inline-flex items-center px-2.5 py-0.5 mt-1 rounded-full text-sm font-semibold {{ $stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                     {{ number_format($stock, 0) }} {{ $product['productInformations'][0]['QuantityUnit'] }}
