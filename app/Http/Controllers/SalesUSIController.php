@@ -82,7 +82,26 @@ class SalesUSIController extends Controller
         $lageMapping = $this->getLageMapping();
         $dmMapping = $this->getDmMapping();
 
-        // Part 1: USI Query
+        // Part 1: Stock Aggregate (MB52)
+        $stocks = DB::table('MB52')
+            ->selectRaw("
+                COALESCE(SUM(CASE WHEN storage_location = 'TH02' THEN unrestricted ELSE 0 END), 0) AS TH02,
+                COALESCE(SUM(CASE WHEN storage_location = 'THS2' THEN unrestricted ELSE 0 END), 0) AS THS2,
+                COALESCE(SUM(CASE WHEN storage_location = 'THS3' THEN unrestricted ELSE 0 END), 0) AS THS3,
+                COALESCE(SUM(CASE WHEN storage_location = 'THS4' THEN unrestricted ELSE 0 END), 0) AS THS4,
+                COALESCE(SUM(CASE WHEN storage_location = 'THS5' THEN unrestricted ELSE 0 END), 0) AS THS5,
+                COALESCE(SUM(CASE WHEN storage_location = 'THS6' THEN unrestricted ELSE 0 END), 0) AS THS6,
+                SUM(CASE WHEN storage_location = 'TH02' AND special_stock IS NULL THEN unrestricted ELSE NULL END) AS free_stk_qty_raw
+            ")
+            ->where('material', $item_code)
+            ->whereIn('storage_location', ['TH02', 'THS2', 'THS3', 'THS4', 'THS5', 'THS6'])
+            ->first();
+
+        $freeStkQty = ($stocks->free_stk_qty_raw === null || $stocks->free_stk_qty_raw === '')
+            ? '0'
+            : number_format($stocks->free_stk_qty_raw, 0);
+
+        // Part 2: USI Query
         $usiQuery = DB::table('ZHWWBCQUERYDIR as m')
             ->select([
                 DB::raw("CASE WHEN m.material IS NULL OR m.material = '' THEN 'N/A' ELSE m.material END AS NSU_ITEM_CODE"),
@@ -101,7 +120,7 @@ class SalesUSIController extends Controller
                 DB::raw("CASE WHEN p.minimum_order_qty IS NULL OR p.minimum_order_qty = '' THEN 'N/A' ELSE p.minimum_order_qty END AS NSU_PURC_MOQ"),
                 DB::raw("CASE WHEN p.vendor_material_number IS NULL OR p.vendor_material_number = '' THEN 'N/A' ELSE p.vendor_material_number END AS NSU_SUPP_ITEM_CODE"),
                 DB::raw("CASE WHEN p.ean_upc IS NULL OR p.ean_upc = '' THEN 'N/A' ELSE p.ean_upc END AS ean_upc"),
-                DB::raw("CASE WHEN i.unrestricted IS NULL OR i.unrestricted = '' THEN '0' ELSE FORMAT(i.unrestricted,0) END AS NSU_FREE_STK_QTY")
+                DB::raw("'{$freeStkQty}' AS NSU_FREE_STK_QTY")
             ])
             ->selectRaw($this->generateCaseStatement('m.pgr', $pgrMapping, 'NSU_PURCHASER'))
             ->selectRaw($this->generateCaseStatement('m.st', $stMapping, 'NSU_ITEM_STATUS', 'Active'))
@@ -126,31 +145,25 @@ class SalesUSIController extends Controller
                 $join->on(DB::raw("m.product_group_manager"), '=', DB::raw("CONCAT('HTH', um.job_code)"))
                     ->where(DB::raw('LOWER(um.status)'), 'current');
             })
-            ->leftJoin('MB52 as i', function ($join) {
-                $join->on('i.material', '=', 'm.material')
-                    ->where('i.storage_location', 'TH02')
-                    ->whereNull('i.special_stock');
-            })
             ->leftJoin('FIS_MPM_OUT as mf', 'mf.MATNR', '=', 'm.material')
             ->leftJoin('ZMM_MATZERT as pm', 'pm.material', '=', 'm.material')
             ->leftJoin('UOM_Mapping as u', 'u.uom', '=', 'm.aun')
             ->leftJoin('ZORDPOSKONV_ZPL as zpl', 'zpl.material', '=', 'm.material')
             ->leftJoin('zplv', 'zplv.material', '=', 'm.material')
-            ->leftJoin('ZHAASD_ORD as od', 'od.material', '=', 'm.material')
             ->where('m.material', $item_code)
             ->orderBy('m.numer', 'asc');
 
         $usis = $usiQuery->get();
         $count = $usis->count();
 
-        // Part 2: Monthly Stock (MSS)
+        // Part 3: Monthly Stock (MSS)
         $monthwise = DB::table('OW_MONTHWISE_STK_SUM_WEB_HAFL')
             ->where('MSS_ITEM_CODE', $item_code)
             ->first();
 
         $mss = $this->processMonthwiseData($monthwise);
 
-        // Part 3: Weekly Stock (WSS)
+        // Part 4: Weekly Stock (WSS)
         $material = $item_code;
         $poQuery = $this->buildPoQuery($material);
         $soQuery = $this->buildSoQuery($material);
@@ -158,23 +171,9 @@ class SalesUSIController extends Controller
 
         $wss = $this->buildWssQuery($poQuery, $soQuery, $stockQuery);
 
-        // Part 4: UOM
+        // Part 5: UOM
         $uomQuery = $this->buildUomQuery($item_code);
         $uom = $uomQuery->get();
-
-        // Part 5: Stocks
-        $stocks = DB::table('MB52')
-            ->selectRaw("
-                COALESCE(SUM(CASE WHEN storage_location = 'TH02' THEN unrestricted ELSE 0 END), 0) AS TH02,
-                COALESCE(SUM(CASE WHEN storage_location = 'THS2' THEN unrestricted ELSE 0 END), 0) AS THS2,
-                COALESCE(SUM(CASE WHEN storage_location = 'THS3' THEN unrestricted ELSE 0 END), 0) AS THS3,
-                COALESCE(SUM(CASE WHEN storage_location = 'THS4' THEN unrestricted ELSE 0 END), 0) AS THS4,
-                COALESCE(SUM(CASE WHEN storage_location = 'THS5' THEN unrestricted ELSE 0 END), 0) AS THS5,
-                COALESCE(SUM(CASE WHEN storage_location = 'THS6' THEN unrestricted ELSE 0 END), 0) AS THS6
-            ")
-            ->where('material', $item_code)
-            ->whereIn('storage_location', ['TH02', 'THS2', 'THS3', 'THS4', 'THS5', 'THS6'])
-            ->first();
 
         // Part 6: BOM
         $flg = DB::table('zhwwmm_bom_vko')->where('material', $item_code)->exists() ? 'material' : 'component';
@@ -186,6 +185,8 @@ class SalesUSIController extends Controller
         });
 
         $productInfo = ProductInfo::where('item_code', $item_code)->first();
+
+        unset($stocks->free_stk_qty_raw);
 
         return response()->json([
             'status' => true,
@@ -404,8 +405,8 @@ class SalesUSIController extends Controller
                 END AS ISD_DEL_DT
             ");
 
-        $count = $data->count();
         $outbound = $data->get();
+        $count = $outbound->count();
 
         return response()->json([
             'status' => true,
