@@ -28,6 +28,7 @@ use App\Http\Controllers\ProductSeriesController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PageManualFaqController;
+use App\Http\Controllers\Auth\AzureController;
 use Illuminate\Support\Facades\Redirect;
 
 // public routes
@@ -38,6 +39,11 @@ Route::get('/', function () {
 // authentication
 Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'login'])->middleware(['guest', 'throttle:5,5'])->name('login.perform');
+
+Route::prefix('auth/microsoft')->middleware('guest')->name('microsoft.')->group(function () {
+  Route::get('/redirect', [AzureController::class, 'redirectToAzure'])->name('redirect');
+  Route::get('/callback', [AzureController::class, 'handleAzureCallback'])->name('callback');
+});
 
 // warranty routes
 Route::get('warranty', function () {

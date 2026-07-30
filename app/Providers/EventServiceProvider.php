@@ -118,6 +118,9 @@ class EventServiceProvider extends ServiceProvider
         UserUpdated::class => [
             LogUserUpdate::class
         ],
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            \SocialiteProviders\Azure\AzureExtendSocialite::class . '@handle',
+        ],
     ];
 
     /**

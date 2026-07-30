@@ -40,11 +40,18 @@ return [
     ],
 
     'external_product_api' => [
-        'base_url'    => env('EXTERNAL_PRODUCT_API_BASE_URL'),
-        'username'    => env('EXTERNAL_PRODUCT_API_USERNAME'),
+        'base_url' => env('EXTERNAL_PRODUCT_API_BASE_URL'),
+        'username' => env('EXTERNAL_PRODUCT_API_USERNAME'),
         'license_key' => env('EXTERNAL_PRODUCT_API_LICENSE_KEY'),
-        'password'    => env('EXTERNAL_PRODUCT_API_PASSWORD'),
-        'api_key'     => env('EXTERNAL_PRODUCT_API_KEY'),
+        'password' => env('EXTERNAL_PRODUCT_API_PASSWORD'),
+        'api_key' => env('EXTERNAL_PRODUCT_API_KEY'),
+    ],
+
+    'azure' => [
+        'client_id' => env('AZURE_CLIENT_ID'),
+        'client_secret' => env('AZURE_CLIENT_SECRET'),
+        'redirect' => env('AZURE_REDIRECT_URI'),
+        'tenant' => env('AZURE_TENANT_ID'),
     ],
 
 ];
