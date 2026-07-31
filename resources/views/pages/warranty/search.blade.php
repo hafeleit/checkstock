@@ -14,44 +14,29 @@
                 <span class="mb-2 text-xs">Order number: <span class="text-dark ms-sm-2 font-weight-bold text-lg">{{ $value->order_number }}</span></span>
 
                 <span>
-                    @if($value->file_name)
-                    <?php
-                    $image = '/storage/img/warranty/' . $value->file_name;
-                    $image2 = $value->file_name;
-                    ?>
-                    @if (file_exists(public_path() . $image))
+                    @if($value->file_name && file_exists(storage_path('app/warranty/' . $value->file_name)))
+                    <?php $image = route('warranty.image', $value->file_name); ?>
                     <a href="{{ $image }}" target="_blank"><img src="{{ $image }}" class="img shadow mx-1" alt="" width="50"></a>
-                    @elseif (file_exists(public_path() . $image2))
-                    <a href="{{ $image2 }}" target="_blank"><img src="{{ $image2 }}" class="img shadow mx-1" alt="" width="50"></a>
-                    @endif
                     @endif
 
-                    @if($value->file_name2)
-                    <?php $image = '/storage/img/warranty/' . $value->file_name2; ?>
-                    @if (file_exists(public_path() . $image))
+                    @if($value->file_name2 && file_exists(storage_path('app/warranty/' . $value->file_name2)))
+                    <?php $image = route('warranty.image', $value->file_name2); ?>
                     <a href="{{ $image }}" target="_blank"><img src="{{ $image }}" class="img shadow mx-1" alt="" width="50"></a>
-                    @endif
                     @endif
 
-                    @if($value->file_name3)
-                    <?php $image = '/storage/img/warranty/' . $value->file_name3; ?>
-                    @if (file_exists(public_path() . $image))
+                    @if($value->file_name3 && file_exists(storage_path('app/warranty/' . $value->file_name3)))
+                    <?php $image = route('warranty.image', $value->file_name3); ?>
                     <a href="{{ $image }}" target="_blank"><img src="{{ $image }}" class="img shadow mx-1" alt="" width="50"></a>
-                    @endif
                     @endif
 
-                    @if($value->file_name4)
-                    <?php $image = '/storage/img/warranty/' . $value->file_name4; ?>
-                    @if (file_exists(public_path() . $image))
+                    @if($value->file_name4 && file_exists(storage_path('app/warranty/' . $value->file_name4)))
+                    <?php $image = route('warranty.image', $value->file_name4); ?>
                     <a href="{{ $image }}" target="_blank"><img src="{{ $image }}" class="img shadow mx-1" alt="" width="50"></a>
-                    @endif
                     @endif
 
-                    @if($value->file_name5)
-                    <?php $image = '/storage/img/warranty/' . $value->file_name5; ?>
-                    @if (file_exists(public_path() . $image))
+                    @if($value->file_name5 && file_exists(storage_path('app/warranty/' . $value->file_name5)))
+                    <?php $image = route('warranty.image', $value->file_name5); ?>
                     <a href="{{ $image }}" target="_blank"><img src="{{ $image }}" class="img shadow mx-1" alt="" width="50"></a>
-                    @endif
                     @endif
                 </span>
             </div>

@@ -17,6 +17,7 @@ class WarrantyController extends Controller
     $this->middleware('permission:warranty view list', ['only' => ['warrantyList']]);
     $this->middleware('permission:warranty export', ['only' => ['warrantyExport']]);
     $this->middleware('permission:warranty edit', ['only' => ['warrantyEdit', 'update']]);
+    $this->middleware('permission:warranty view list|warranty edit', ['only' => ['showImage']]);
   }
 
   public function index()
@@ -175,6 +176,16 @@ class WarrantyController extends Controller
     }
   }
 
+  public function showImage(string $filename)
+  {
+    $filename = basename($filename);
+    $path = storage_path('app/warranty/' . $filename);
+
+    abort_unless(File::exists($path), 404);
+
+    return response()->file($path);
+  }
+
   public function store(Request $request)
   {
     $validatedData = $request->validate([
@@ -211,8 +222,8 @@ class WarrantyController extends Controller
     // หาก serial_no ว่างเปล่า จะใช้ชื่อไฟล์ที่สร้างจาก uniqid() แทน
     $baseFilename = $validatedData['serial_no'] ?? 'warranty-' . uniqid();
 
-    // สร้าง dir สำหรับเก็บไฟล์ (ถ้ายังไม่มี)
-    $path = 'storage/img/warranty/';
+    // สร้าง dir สำหรับเก็บไฟล์ (ถ้ายังไม่มี) - เก็บนอก public webroot เพื่อป้องกันการเข้าถึงไฟล์โดยตรง
+    $path = storage_path('app/warranty/');
     if (!File::isDirectory($path)) {
       File::makeDirectory($path, 0775, true);
     }

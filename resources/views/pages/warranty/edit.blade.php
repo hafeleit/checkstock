@@ -106,8 +106,7 @@
                                 $warranty->file_name4,
                                 $warranty->file_name5,
                             ])->filter()->map(function ($f) {
-                                $path = "/storage/img/warranty/{$f}";
-                                return file_exists(public_path($path)) ? $path : null;
+                                return file_exists(storage_path('app/warranty/' . $f)) ? route('warranty.image', $f) : null;
                             })->filter()->values();
                         @endphp
 
