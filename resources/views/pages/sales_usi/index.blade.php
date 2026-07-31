@@ -97,7 +97,7 @@
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
-                            <h6 class="mb-0 h3">Products 360°</h6>
+                            <h6 class="mb-0 h3">Products 360° – Check Stock Online</h6>
                             @if($manualFaq)
                             <a href="{{ route('page-manual-faqs.show', 'product360') }}" target="_blank" class="btn-faq ms-auto">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
