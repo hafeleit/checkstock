@@ -411,6 +411,16 @@
                         </div>
                     </div>
 
+                    {{-- remark --}}
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body">
+                            <h5 class="section-title"><i class="fas fa-sticky-note me-2"></i>Remark</h5>
+                            <div class="form-group">
+                                <textarea class="form-control" name="remark" rows="3" placeholder="Note (optional)">{{ old('remark') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </form>

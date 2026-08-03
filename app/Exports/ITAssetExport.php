@@ -52,6 +52,7 @@ class ITAssetExport implements FromCollection, WithHeadings
                 'user_masters.position',
                 'user_masters.status as user_status',
                 'i_t_asset_types.type_desc',
+                'i_t_assets.remark'
             )
             ->groupBy('i_t_assets.computer_name')
             ->where('i_t_assets.delete', '0')
@@ -91,6 +92,7 @@ class ITAssetExport implements FromCollection, WithHeadings
             "position",
             "user_status",
             "type_desc",
+            "remark"
         ];
     }
 }

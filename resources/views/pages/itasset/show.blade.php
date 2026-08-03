@@ -352,6 +352,16 @@
                     </div>
                 </div>
 
+                {{-- Remark --}}
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="section-title"><i class="fas fa-sticky-note me-2"></i>Remark</h5>
+                        <div class="mt-3">
+                            <div class="detail-value" style="white-space: pre-wrap;">{{ $itasset->remark ?? 'n/a' }}</div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

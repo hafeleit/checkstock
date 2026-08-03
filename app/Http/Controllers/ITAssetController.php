@@ -70,9 +70,6 @@ class ITAssetController extends Controller
     }
   }
 
-  /**
-   * Show the form for creating a new resource.
-   */
   public function create()
   {
     $userMasters = UserMaster::get();
@@ -84,16 +81,11 @@ class ITAssetController extends Controller
     ]);
   }
 
-  /**
-   * Store a newly created resource in storage.
-   */
   public function store(Request $request)
   {
-    // dd($request->all());
     DB::beginTransaction();
 
     try {
-
       $validatedData = $request->validate([
         'computer_name' => 'required|unique:i_t_assets',
         'type' => 'required',
@@ -135,7 +127,6 @@ class ITAssetController extends Controller
         ITAssetSpec::create($spec);
       }
 
-
       DB::commit();
       return redirect()->route('itasset.create')->with('success', 'Asset created successfully.');
     } catch (Exception $e) {
@@ -149,25 +140,22 @@ class ITAssetController extends Controller
    */
   public function show(int $id)
   {
-    $itasset = ITAsset::where('i_t_assets.id', $id)->leftJoin('i_t_asset_types', 'i_t_asset_types.type_code', 'i_t_assets.type')
-      ->select('i_t_assets.*', 'i_t_asset_types.type_desc', 'i_t_asset_types.type_code')->first();
+    $itasset = ITAsset::where('i_t_assets.id', $id)
+      ->leftJoin('i_t_asset_types', 'i_t_asset_types.type_code', 'i_t_assets.type')
+      ->select('i_t_assets.*', 'i_t_asset_types.type_desc', 'i_t_asset_types.type_code')
+      ->first();
 
     $itassetspec = ITAssetSpec::where('computer_name', $itasset->computer_name)->first();
     $itassetown = ITAssetOwn::where('computer_name', $itasset->computer_name)->first();
-
     $softwares = Softwares::where('computer_name', $itasset->computer_name)->get();
 
     return view('pages.itasset.show', compact('itasset', 'itassetspec', 'itassetown', 'softwares'));
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   */
   public function edit(ITAsset $itasset)
   {
     $itassetspec = ITAssetSpec::where('computer_name', $itasset->computer_name)->first();
     $itassetown = ITAssetOwn::where('computer_name', $itasset->computer_name)->first();
-
     $softwares = Softwares::where('computer_name', $itasset->computer_name)->get();
     $types = ITAssetType::where('type_status', 'Active')->get();
     $userMasters = UserMaster::get();
@@ -175,16 +163,11 @@ class ITAssetController extends Controller
     return view('pages.itasset.edit', compact('itasset', 'itassetspec', 'itassetown', 'softwares', 'types', 'userMasters'));
   }
 
-  /**
-   * Update the specified resource in storage.
-   */
   public function update(Request $request, ITAsset $itasset)
   {
-
     DB::beginTransaction();
 
     try {
-
       $request->validate([
         'computer_name' => 'required|unique:i_t_assets,computer_name,' . $itasset->id,
         'type' => 'required',
@@ -235,7 +218,6 @@ class ITAssetController extends Controller
         }
       }
 
-
       DB::commit();
       return redirect()->route('itasset.show', $itasset->id)->with('success', 'Asset updated successfully');
     } catch (Exception $e) {
@@ -244,14 +226,10 @@ class ITAssetController extends Controller
     }
   }
 
-  /**
-   * Remove the specified resource from storage.
-   */
   public function destroy(ITAsset $itasset)
   {
     $itasset->delete();
 
-    return redirect()->route('itasset.index')
-      ->with('success', 'Asset deleted successfully');
+    return redirect()->route('itasset.index')->with('success', 'Asset deleted successfully');
   }
 }
