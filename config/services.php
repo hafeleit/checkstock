@@ -47,4 +47,15 @@ return [
         'api_key'     => env('EXTERNAL_PRODUCT_API_KEY'),
     ],
 
+    'zort' => [
+        'store_name' => env('ZORT_STORE_NAME'),
+        'api_key'    => env('ZORT_API_KEY'),
+        'api_secret' => env('ZORT_API_SECRET'),
+    ],
+
+    'line' => [
+        'access_token' => env('LINE_ACCESS_TOKEN'),
+        'group_id'     => env('LINE_GROUP_ID'),
+    ],
+
 ];

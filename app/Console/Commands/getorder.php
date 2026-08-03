@@ -30,16 +30,14 @@ class getorder extends Command
 
     public function handle()
     {
-
       $this->onlineorder_manual_get();
-
     }
 
   	public function get_order_api($page = 1)
   	{
-  		$storename = "hthecommerce@hafele.co.th";
-  		$apikey = "by3oFDNKYKNb8PHSRTM/k5IxHuuHT2RKTaPqyqWwuE=";
-  		$apisecret = "NOnFem169tqnU1VzMbFcd0YqrStaIb65ofmyHN3IQDs=";
+  		$storename = config('services.zort.store_name');
+  		$apikey = config('services.zort.api_key');
+  		$apisecret = config('services.zort.api_secret');
 
   		$order_status = 0;
   		$start_date = date('Y-m-d', strtotime('-1 days')); // ลบ 1 วันจากวันนี้
@@ -92,11 +90,11 @@ class getorder extends Command
   		throw new \Exception("API call failed after {$maxRetries} retries.");
   	}
 
-    public function get_order_api_backup($page = 1){
-
-      $storename = "hthecommerce@hafele.co.th";
-      $apikey = "by3oFDNKYKNb8PHSRTM/k5IxHuuHT2RKTaPqyqWwuE=";
-      $apisecret = "NOnFem169tqnU1VzMbFcd0YqrStaIb65ofmyHN3IQDs=";
+    public function get_order_api_backup($page = 1)
+    {
+      $storename = config('services.zort.store_name');
+      $apikey = config('services.zort.api_key');
+      $apisecret = config('services.zort.api_secret');
 
       $order_status = 0;
       $start_date = '2023-07-01';
@@ -137,10 +135,8 @@ class getorder extends Command
     }
 
    // Convert a string to an array with multibyte string
-    public function getMBStrSplit($string){
-
-      //$string = 'บริษัท ริช 58 จำกัด บริษัท ริช 58 จำกัด บริษัท ริช 58 จำกัด บริษัท ริช 58 จำกัด บริษัท ริช 58 จำกัด บริษัท ริช 58 จำกัด บริษัท ริช 58 จำกัด บริษัท ริช 58 จำกัด บริษัท ริช 58 จำกัด บริษัท ริช 58 จำกัด บริษัท ริช 58 จำกัด บริษัท ริช 58 จำกัด ';
-
+    public function getMBStrSplit($string)
+    {
       $cnt_addr = 0;
       $run_addrs = 0;
       $addr[0] = [];
@@ -207,8 +203,8 @@ class getorder extends Command
 
     }
 
-    public function generate_excel_sap($new_order, $file_name){
-
+    public function generate_excel_sap($new_order, $file_name)
+    {
       $l = 0;
       $data_excel = [];
       $data_excel_exp = [];
@@ -425,8 +421,8 @@ class getorder extends Command
       return $excel;
     }
 
-    public function generate_excel_orion($new_order, $file_name){
-
+    public function generate_excel_orion($new_order, $file_name)
+    {
       $l = 0;
       $data_excel = [];
 
@@ -633,8 +629,8 @@ class getorder extends Command
 
     }
 
-    public function onlineorder_manual_get(){
-
+    public function onlineorder_manual_get()
+    {
       $new_order = [];
       $insert_order = [];
       $page = 1;
@@ -689,10 +685,10 @@ class getorder extends Command
 
     }
 
-    public function sendLine($messages = 'Hi Apirak'){
-
-      $to = 'C62baaa9fee015c1bd510b1933b0c0ba9'; //groupid from web hook
-      $line_access_token = 'XukptniGPQZgjcusCfxa7FUMhwiBKnyiBjFsISFTe8+y3mgI/xdE9xcl/aNNrNzTcBn3fm4EsmdPHX0EM4EWwdTWGefp47HwH0mW7bWE41hKSnKw2h4imQDmcB1H87Sng8/5CYQafuFbknsRta4b/gdB04t89/1O/w1cDnyilFU=';
+    public function sendLine($messages = 'Hi Apirak')
+    {
+      $to = config('services.line.group_id'); //groupid from web hook
+      $line_access_token = config('services.line.access_token');
       $curl = curl_init();
       $postfields = '{
           "to": "'.$to.'",
@@ -727,8 +723,8 @@ class getorder extends Command
     }
 
     //header orion excel
-    public function exportExcel($data_excel, $file_name){
-
+    public function exportExcel($data_excel, $file_name)
+    {
       $header[] = [
         'Company Code','SO Date','Doc Src Locn Code','Sales Location Code','Transaction Code','LPO Number',
         'Res Location','Customer Code','Ship To Address','Ship Contact Person','Ship Address1','Ship Address2',
@@ -746,8 +742,8 @@ class getorder extends Command
 
     }
     //header sap excel
-    public function exportExcelSAP($data_excel, $file_name){
-
+    public function exportExcelSAP($data_excel, $file_name)
+    {
       $header[] = [
         'SO Date',
         'Doc Src Locn Code',
@@ -793,6 +789,5 @@ class getorder extends Command
       $export = new ExportOrdersSAP($data_export);
 
       return Excel::store($export, $file_name, 'path_export');
-
     }
 }

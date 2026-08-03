@@ -12,16 +12,10 @@ use App\Models\Order;
 
 class GetOrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function sendLine($messages = 'Hi Apirak'){
-
-      //web hook https://webhook.site/#!/4711aed3-29c3-4283-b2da-31280d3d295b/d440c9e9-7cc4-4ce6-955e-e19b451f3d85/1
-      //$to = 'U69527e0c55f3d0c39ea5903b8e11094c'; //userid
-
-      $to = 'C62baaa9fee015c1bd510b1933b0c0ba9'; //groupid from web hook
-      $line_access_token = 'XukptniGPQZgjcusCfxa7FUMhwiBKnyiBjFsISFTe8+y3mgI/xdE9xcl/aNNrNzTcBn3fm4EsmdPHX0EM4EWwdTWGefp47HwH0mW7bWE41hKSnKw2h4imQDmcB1H87Sng8/5CYQafuFbknsRta4b/gdB04t89/1O/w1cDnyilFU=';
+    public function sendLine($messages = 'Hi Apirak')
+    {
+      $to = config('services.line.group_id'); //groupid from web hook
+      $line_access_token = config('services.line.access_token');
       $curl = curl_init();
       $postfields = '{
           "to": "'.$to.'",
@@ -76,12 +70,10 @@ class GetOrderController extends Controller
 
     public function index()
     {
-
       try {
-
-        $storename = "hthecommerce@hafele.co.th";
-        $apikey = "by3oFDNKYKNb8PHSRTM/k5IxHuuHT2RKTaPqyqWwuE=";
-        $apisecret = "NOnFem169tqnU1VzMbFcd0YqrStaIb65ofmyHN3IQDs=";
+        $storename = config('services.zort.store_name');
+        $apikey = config('services.zort.api_key');
+        $apisecret = config('services.zort.api_secret');
 
         $order_status = 0;
         $start_date = '2023-07-01';
@@ -329,53 +321,5 @@ class GetOrderController extends Controller
       }
 
 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

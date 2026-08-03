@@ -55,9 +55,9 @@ class OrderController extends Controller
   }
   public function get_order_api($page = 1)
   {
-    $storename = "hthecommerce@hafele.co.th";
-    $apikey = "by3oFDNKYKNb8PHSRTM/k5IxHuuHT2RKTaPqyqWwuE=";
-    $apisecret = "NOnFem169tqnU1VzMbFcd0YqrStaIb65ofmyHN3IQDs=";
+    $storename = config('services.zort.store_name');
+    $apikey = config('services.zort.api_key');
+    $apisecret = config('services.zort.api_secret');
 
     $order_status = 0;
     $start_date = date('Y-m-d', strtotime('-1 days')); // ลบ 1 วันจากวันนี้
@@ -113,9 +113,9 @@ class OrderController extends Controller
   public function get_order_api_backup($page = 1)
   {
 
-    $storename = "hthecommerce@hafele.co.th";
-    $apikey = "by3oFDNKYKNb8PHSRTM/k5IxHuuHT2RKTaPqyqWwuE=";
-    $apisecret = "NOnFem169tqnU1VzMbFcd0YqrStaIb65ofmyHN3IQDs=";
+    $storename = config('services.zort.store_name');
+    $apikey = config('services.zort.api_key');
+    $apisecret = config('services.zort.api_secret');
 
     $order_status = 0;
     $start_date = '2023-07-01';
@@ -720,9 +720,8 @@ class OrderController extends Controller
 
   public function sendLine($messages = 'Hi Apirak')
   {
-
-    $to = 'C62baaa9fee015c1bd510b1933b0c0ba9'; //groupid from web hook
-    $line_access_token = 'XukptniGPQZgjcusCfxa7FUMhwiBKnyiBjFsISFTe8+y3mgI/xdE9xcl/aNNrNzTcBn3fm4EsmdPHX0EM4EWwdTWGefp47HwH0mW7bWE41hKSnKw2h4imQDmcB1H87Sng8/5CYQafuFbknsRta4b/gdB04t89/1O/w1cDnyilFU=';
+    $to = config('services.line.group_id'); //groupid from web hook
+    $line_access_token = config('services.line.access_token');
     $curl = curl_init();
     $postfields = '{
           "to": "' . $to . '",
