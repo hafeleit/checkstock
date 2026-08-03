@@ -30,5 +30,6 @@ class ITAsset extends Model
       'tel',
       'create_by',
       'update_by',
+      'remark'
     ];
 }

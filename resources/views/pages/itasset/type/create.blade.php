@@ -67,7 +67,6 @@
                                     <input class="form-control" type="text" name="type_desc" placeholder="e.g. Notebook, Printer, Mobile Phone" value="{{ old('type_desc') }}" required>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
