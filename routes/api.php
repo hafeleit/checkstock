@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('sync_products', [ProductController::class, 'sync_products']);
-Route::resource('products', APIProductController::class);
+/*Route::resource('products', APIProductController::class);*/
 Route::resource('getorder', GetOrderController::class);
 Route::get('hafeleline', [GetOrderController::class,'sendLine']);
 Route::get('survey-mail', [MailController::class, 'survey']);
