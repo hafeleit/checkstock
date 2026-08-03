@@ -108,9 +108,11 @@
                                                 <a href="{{ route('asset_types.show', $assetType->id) }}" class="action-btn view text-secondary" data-bs-toggle="tooltip" data-bs-original-title="View Type">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
+                                                @can('itasset_type update')
                                                 <a href="{{ route('asset_types.edit', $assetType->id) }}" class="action-btn edit text-secondary ms-1" data-bs-toggle="tooltip" data-bs-original-title="Edit Type">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

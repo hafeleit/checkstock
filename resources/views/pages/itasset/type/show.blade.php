@@ -50,7 +50,7 @@
                 <a href="{{ route('asset_types.index') }}" class="btn btn-secondary mb-0 me-2">
                     <i class="fas fa-arrow-left me-1"></i> Back
                 </a>
-                @can('itasset update')
+                @can('itasset_type update')
                     <a href="{{ route('asset_types.edit', $assetType->id) }}" class="btn btn-primary mb-0">
                         <i class="fas fa-edit me-1"></i> Edit
                     </a>
