@@ -14,7 +14,7 @@ class ITAssetTypeController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:itasset_type view', ['only' => ['index']]);
+        $this->middleware('permission:itasset_type view', ['only' => ['index', 'show']]);
         $this->middleware('permission:itasset_type create', ['only' => ['create', 'store']]);
         $this->middleware('permission:itasset_type update', ['only' => ['update', 'edit']]);
         $this->middleware('permission:itasset_type delete', ['only' => ['destroy']]);
