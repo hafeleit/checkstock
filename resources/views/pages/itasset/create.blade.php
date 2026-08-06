@@ -340,6 +340,7 @@
                                     <option value="HTH Warehouse Hunhin">HTH Warehouse Hunhin</option>
                                     <option value="HTH Warehouse Pattaya">HTH Warehouse Pattaya</option>
                                     <option value="HTH Warehouse Phuket">HTH Warehouse Phuket</option>
+                                    <option value="HTH64">HTH64</option>
                                     <option value="HTH64_Admin">HTH64_Admin</option>
                                     <option value="HTH64_Bangkok Showroom">HTH64_Bangkok Showroom</option>
                                     <option value="HTH64_BKK Warehouse">HTH64_BKK Warehouse</option>
@@ -360,6 +361,8 @@
                                     <option value="HTH64_Spare">HTH64_Spare</option>
                                     <option value="HTH64_Supply Chain">HTH64_Supply Chain</option>
                                     <option value="HTH64_Maintenance">HTH64_Maintenance</option>
+                                    <option value="HTH64_Server Room">HTH64_Server Room</option>
+                                    <option value="HTHDC">HTHDC</option>
                                     <option value="HTHDC_Site Management">HTHDC_Site Management</option>
                                     <option value="HTHDC_Delivery">HTHDC_Delivery</option>
                                     <option value="HTHDC_Despatch">HTHDC_Despatch</option>
@@ -374,6 +377,7 @@
                                     <option value="HTHDC_Maintenance">HTHDC_Maintenance</option>
                                     <option value="HTHDC_E-Commerce Warehouse">HTHDC_E-Commerce Warehouse</option>
                                     <option value="HTHDC_IG">HTHDC_IG</option>
+                                    <option value="HTHDC_Server Room">HTHDC_Server Room</option>
                                     <option value="HTHHA">HTHHA</option>
                                 </select>
                             </div>
