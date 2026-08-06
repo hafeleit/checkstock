@@ -368,6 +368,7 @@
                                     <option value="HTH Warehouse Hunhin" {{ $itasset->location == 'HTH Warehouse Hunhin' ? 'selected' : '' }}>HTH Warehouse Hunhin</option>
                                     <option value="HTH Warehouse Pattaya" {{ $itasset->location == 'HTH Warehouse Pattaya' ? 'selected' : '' }}>HTH Warehouse Pattaya</option>
                                     <option value="HTH Warehouse Phuket" {{ $itasset->location == 'HTH Warehouse Phuket' ? 'selected' : '' }}>HTH Warehouse Phuket</option>
+                                    <option value="HTH64" {{ $itasset->location == 'HTH64' ? 'selected' : '' }}>HTH64</option>
                                     <option value="HTH64_Admin" {{ $itasset->location == 'HTH64_Admin' ? 'selected' : '' }}>HTH64_Admin</option>
                                     <option value="HTH64_Bangkok Showroom" {{ $itasset->location == 'HTH64_Bangkok Showroom' ? 'selected' : '' }}> HTH64_Bangkok Showroom</option>
                                     <option value="HTH64_BKK Warehouse" {{ $itasset->location == 'HTH64_BKK Warehouse' ? 'selected' : '' }}>HTH64_BKK Warehouse</option>
@@ -388,6 +389,8 @@
                                     <option value="HTH64_Spare" {{ $itasset->location == 'HTH64_Spare' ? 'selected' : '' }}>HTH64_Spare</option>
                                     <option value="HTH64_Supply Chain" {{ $itasset->location == 'HTH64_Supply Chain' ? 'selected' : '' }}>HTH64_Supply Chain</option>
                                     <option value="HTH64_Maintenance" {{ $itasset->location == 'HTH64_Maintenance' ? 'selected' : '' }}>HTH64_Maintenance</option>
+                                    <option value="HTH64_Server Room" {{ $itasset->location == 'HTH64_Server Room' ? 'selected' : '' }}>HTH64_Server Room</option>
+                                    <option value="HTHDC" {{ $itasset->location == 'HTHDC' ? 'selected' : '' }}>HTHDC</option>
                                     <option value="HTHDC_Site Management" {{ $itasset->location == 'HTHDC_Site Management' ? 'selected' : '' }}>HTHDC_Site Management</option>
                                     <option value="HTHDC_Delivery" {{ $itasset->location == 'HTHDC_Delivery' ? 'selected' : '' }}>HTHDC_Delivery</option>
                                     <option value="HTHDC_Despatch" {{ $itasset->location == 'HTHDC_Despatch' ? 'selected' : '' }}>HTHDC_Despatch</option>
@@ -402,6 +405,7 @@
                                     <option value="HTHDC_Maintenance" {{ $itasset->location == 'HTHDC_Maintenance' ? 'selected' : '' }}>HTHDC_Maintenance</option>
                                     <option value="HTHDC_E-Commerce Warehouse" {{ $itasset->location == 'HTHDC_E-Commerce Warehouse' ? 'selected' : '' }}>HTHDC_E-Commerce Warehouse</option>
                                     <option value="HTHDC_IG" {{ $itasset->location == 'HTHDC_IG' ? 'selected' : '' }}>HTHDC_IG</option>
+                                    <option value="HTHDC_Server Room" {{ $itasset->location == 'HTHDC_Server Room' ? 'selected' : '' }}>HTHDC_Server Room</option>
                                     <option value="HTHHA" {{ $itasset->location == 'HTHHA' ? 'selected' : '' }}>HTHHA</option>
                                 </select>
                             </div>
